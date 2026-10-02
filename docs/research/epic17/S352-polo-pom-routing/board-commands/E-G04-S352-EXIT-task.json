@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "S352 closes without a safe label-rail route. All 51 exact Polo POM blockers and all 34 face holds remain. Next separate slice implements only the maintainer-approved cap-to-armhole view convention.",
+    "kind": "exit-report",
+    "id": "E-G04-S352-EXIT",
+    "uri": "docs/research/epic17/G04-V02-POLO-ROUTED-POM-LAYOUT-EXPERIMENT-S352.md",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

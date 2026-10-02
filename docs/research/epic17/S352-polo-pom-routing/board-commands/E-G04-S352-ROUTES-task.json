@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "Browser-measured bounded rail trial for the exact 51 blocked Polo POM instances. Twenty route placements per target were rejected on source-stroke intersection; all 17 back bicep labels also crossed an existing label.",
+    "kind": "document",
+    "id": "E-G04-S352-ROUTES",
+    "uri": "docs/research/epic17/S352-polo-pom-routing/external-rail-route-matrix.json",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

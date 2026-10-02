@@ -5749,15 +5749,34 @@ coverage/build/Control Center/export-identity gate and fresh independent S254
 audits are pending. See the S254 report and S253 machine-readable record for
 evidence. No merge or G03 exit is claimed yet.
 
-## EPIC-17 / G04 current handoff — refreshed 2026-09-30
+## EPIC-17 / G04 current handoff — refreshed 2026-10-02
 
 The earlier status log below ended at Slice 270 and is a historical snapshot.
-Slices 271–296 are recorded in Git, the canonical board and
-`docs/planning/EPIC-17-ADMISSION.md`; the most recent output reviews are S291's
-73-configuration/146-face integrated matrix, S295's exact Woven back/yoke
-fold-axis metadata, and S296's Woven sleeve-source hold. V01 is Done; V02 is
-In Progress; V03 remains Backlog until V02 passes. The canonical board was
-refreshed at revision 526 before S297 admission.
+Slices 271–351 are recorded in Git, the canonical board and their linked
+packets. V01 is Done; V02 is In Progress; V03 remains Backlog until V02 passes.
+The current integrated tally remains 56 accepted / 90 held across 73
+configurations / 146 requested faces.
+
+S351 freshly redrafted all 17 Polo option configurations and 34 faces against
+current source. Every Polo face remains held: each configuration has a 0.68 cm
+cap assembly residual (above the unchanged 0.25 cm gate) and three recurring
+POM label failures. The maintainer approved the view-only normalized-arclength
+cap-to-armhole seam projection on 2026-10-02; it is recorded in
+`docs/PROJECT-DECISIONS.md` and does not waive those gates.
+
+Slice 352 closed from
+`docs/research/epic17/G04-V02-POLO-ROUTED-POM-LAYOUT-EXPERIMENT-S352.md`.
+Its bounded external rail test tried 20 paths for each of the 51 recurring
+Polo label blockers against exact browser-rendered source strokes and existing
+label boxes. No route passed; the back bicep label also intersects an existing
+label in all 17 configurations. Diagnostic SVG/PNG output is in
+`docs/research/epic17/S352-polo-pom-routing/`. All 34 Polo faces remain held.
+Board revision 1392 links S352's exit, route matrix and 34-view render manifest
+to G04-V02 and EPIC-17. Control Center tests pass 33/33; `git diff --check`
+passes. The approved cap-to-armhole view-only mapping remains unimplemented
+and is the next bounded
+production slice. Preserve every unresolved hold and keep V03 gated until the
+all-seven V02 matrix passes.
 
 S295 maps only source-declared Woven back/yoke center folds. S296 confirms the
 Fairfield attachment/ease tutorial does not identify the exact current-pattern

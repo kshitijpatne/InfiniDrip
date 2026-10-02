@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "34 source-revision-bound Polo diagnostic SVGs and rendered candidate overlays. No leader route is accepted; blocked source anchors remain visibly marked in red.",
+    "kind": "rendered-output",
+    "id": "E-G04-S352-OUTPUT",
+    "uri": "docs/research/epic17/S352-polo-pom-routing/candidate-render-manifest.json",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

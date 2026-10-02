@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1380,
-  "updatedAt": "2026-10-02T02:34:44.002Z",
+  "revision": 1392,
+  "updatedAt": "2026-10-02T03:00:25.688Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -359,7 +359,12 @@
         "E-G04-S351-RENDER-MATRIX",
         "E-G04-S351-LABEL-SEARCH",
         "E-G04-S351-FRONT-OVERLAY",
-        "E-G04-S351-BACK-OVERLAY"
+        "E-G04-S351-BACK-OVERLAY",
+        "E-G04-S351-COMMIT",
+        "E-G04-S352-START",
+        "E-G04-S352-ROUTES",
+        "E-G04-S352-OUTPUT",
+        "E-G04-S352-EXIT"
       ]
     },
     {
@@ -7239,6 +7244,16 @@
           "at": "2026-10-02T02:34:44.002Z",
           "actor": "Codex",
           "text": "Slice 351 current-source Polo diagnosis is complete. All 17 options / 34 faces remain held; the 0.68 cm sleeve-cap residual is distinct from exact POM anchors and the 51 recurring label-placement failures. See E-G04-S351-EXIT and linked source/render evidence. Keep V03 gated."
+        },
+        {
+          "at": "2026-10-02T02:42:05.729Z",
+          "actor": "Codex",
+          "text": "Slice 352 is active: diagnostic-only routed leaders/external label rail for the 51 recurring Polo POM label blockers. The maintainer has approved the separate view-only cap-to-armhole normalized-arclength projection; it is not implemented or accepted by this slice. Preserve all 34 Polo holds and keep V03 gated."
+        },
+        {
+          "at": "2026-10-02T03:00:25.688Z",
+          "actor": "Codex",
+          "text": "Slice 352 closes with no safe external-rail leader candidate: all 51 POM blockers fail the rendered-stroke test, and the 17 Back bicep labels also collide with existing text. See S352 route matrix and 34 rendered diagnostics. Preserve all 34 Polo holds. Next bounded slice implements the already approved view-only cap-to-armhole projection; V03 stays gated."
         }
       ],
       "evidenceRefs": [
@@ -7501,7 +7516,12 @@
         "E-G04-S351-RENDER-MATRIX",
         "E-G04-S351-LABEL-SEARCH",
         "E-G04-S351-FRONT-OVERLAY",
-        "E-G04-S351-BACK-OVERLAY"
+        "E-G04-S351-BACK-OVERLAY",
+        "E-G04-S351-COMMIT",
+        "E-G04-S352-START",
+        "E-G04-S352-ROUTES",
+        "E-G04-S352-OUTPUT",
+        "E-G04-S352-EXIT"
       ],
       "flagKey": null
     },
@@ -10719,6 +10739,51 @@
       "sha256": null,
       "verified": true,
       "note": "Manually reviewed current-source Polo back diagnostic crop annotating the bicep POM anchor coincident with body-chest and sleeve-length anchors."
+    },
+    {
+      "id": "E-G04-S351-COMMIT",
+      "kind": "commit",
+      "uri": "4b988e94ff87a5144259248f9e3db44212e88ed4",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Landed S351 diagnosis commit 4b988e94ff87a5144259248f9e3db44212e88ed4; Polo remains held across all 17 supported options / 34 faces."
+    },
+    {
+      "id": "E-G04-S352-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-ROUTED-POM-LAYOUT-EXPERIMENT-S352.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S352 start packet for diagnostic-only bounded routed-leader and external-label-rail feasibility across all 17 Polo options / 34 faces; all face holds remain."
+    },
+    {
+      "id": "E-G04-S352-ROUTES",
+      "kind": "document",
+      "uri": "docs/research/epic17/S352-polo-pom-routing/external-rail-route-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Browser-measured bounded rail trial for the exact 51 blocked Polo POM instances. Twenty route placements per target were rejected on source-stroke intersection; all 17 back bicep labels also crossed an existing label."
+    },
+    {
+      "id": "E-G04-S352-OUTPUT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S352-polo-pom-routing/candidate-render-manifest.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "34 source-revision-bound Polo diagnostic SVGs and rendered candidate overlays. No leader route is accepted; blocked source anchors remain visibly marked in red."
+    },
+    {
+      "id": "E-G04-S352-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-ROUTED-POM-LAYOUT-EXPERIMENT-S352.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S352 closes without a safe label-rail route. All 51 exact Polo POM blockers and all 34 face holds remain. Next separate slice implements only the maintainer-approved cap-to-armhole view convention."
     }
   ]
 }

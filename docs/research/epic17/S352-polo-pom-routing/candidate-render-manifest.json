@@ -1,0 +1,397 @@
+{
+  "basis": "Diagnostic overlay only; blue labels/routes are bounded rail candidates, red X marks are unresolved held source anchors; underlying source SVG geometry and revision are unchanged.",
+  "renderedViews": 34,
+  "outputs": [
+    {
+      "caseId": "polo-default",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-default-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-default-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-default",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-default-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-default-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketLength-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-placketWidth-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standHeight-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarLeafDepth-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-standFrontRise-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-collarPointExtension-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-sideVentDepth-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-min-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-min-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-min-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-min-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "face": "FRONT_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-max-front_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-max-front_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "pageErrors": 0
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "face": "BACK_FLAT",
+      "svg": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-max-back_flat-rail-candidate.svg",
+      "screenshot": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S352-polo-pom-routing\\rendered\\polo-backHemDrop-max-back_flat-rail-candidate.png",
+      "candidateRoutes": 0,
+      "unresolved": [
+        "pom:polo:sleeve-bicep-width"
+      ],
+      "pageErrors": 0
+    }
+  ]
+}

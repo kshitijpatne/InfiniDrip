@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "Landed S351 diagnosis commit 4b988e94ff87a5144259248f9e3db44212e88ed4; Polo remains held across all 17 supported options / 34 faces.",
+    "kind": "commit",
+    "id": "E-G04-S351-COMMIT",
+    "uri": "4b988e94ff87a5144259248f9e3db44212e88ed4",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

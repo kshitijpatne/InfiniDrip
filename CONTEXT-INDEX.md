@@ -323,6 +323,16 @@ only through an explicitly admitted, linked Epic packet.
   S345 exit record: exact approved Woven body-edge projection, duplicate
   cap-stroke suppression and back-facing seam-layer correction. Source geometry
   and stitch graph remain unchanged. `docs/research/epic17/S345-woven-sleeve/`
+- `docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md`
+  and `docs/research/epic17/G04-V02-POLO-ROUTED-POM-LAYOUT-EXPERIMENT-S352.md`
+  — S351's current-source 17-option diagnosis retains all 34 Polo holds for
+  the 0.68 cm cap residual and 51 recurring label failures. On 2026-10-02 the
+  maintainer approved S351's view-only normalized-arclength mapping from the
+  two sleeve-cap halves to their receiving armholes. S352 independently tests
+  routed POM label layout; none of the 51 tested leader candidates passed the
+  rendered-stroke/label checks. Its 34 source SVGs and candidate overlays are
+  under `docs/research/epic17/S352-polo-pom-routing/`. Neither the decision nor
+  the experiment accepts a Polo face.
   contains the 28-option production replay and `manual-review.md`; 28 front
   candidates emitted but none passed review, while all 28 backs remain held on
   open collar contours. No Woven face is accepted.
