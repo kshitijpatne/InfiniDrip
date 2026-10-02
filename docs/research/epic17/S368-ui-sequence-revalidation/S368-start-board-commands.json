@@ -1,0 +1,31 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S368-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md",
+      "verified": true,
+      "note": "S368 revalidates the approved UI sequence against the current G04 packet/state and board without adding G04 scope or changing holds."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S368-START",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S368-START"
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Slice 368 starts at clean S367 commit 684efc25f1d1a6fec9dfc7f3e083fe3c54ccf281; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; board revision 1694. Revalidate S354's approved UI reconciliation and 29 additive commands against current state. Preserve all G04 holds, all-seven V02, V02-before-V03, protected exports and the maintainer-confirmed Polo 0.25 cm gate. UIQ stays Backlog and outside G04. Packet: docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md."
+  }
+]

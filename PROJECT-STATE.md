@@ -1,6 +1,22 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current handoff — Slice 367 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 368 complete; V02 remains open
+
+S368 starts from clean S367 commit `684efc25f1d1a6fec9dfc7f3e083fe3c54ccf281` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice is 367; S368 is the fresh UI-sequence revalidation slice. Canonical board revision was 1694 at entry and 1698 after validated S368 start evidence/comments. The goal record was inspected at this normal boundary: active, objective aligned to admitted G04, and still needed through safe merge/deployment. Ordinary usage was allowed. The maintainer reaffirmed Polo's fixed 0.25 cm residual gate; all 34 Polo faces remain held.
+
+S368 revalidated the approved UI sequence, Epic17 note, recommendation research, S354 disposition, latest G04 packet/state and board. The recommendation dispositions are unchanged: source-bound construction and same-piece/revision identity, exact anchored POMs, applicable artwork/colorway overlays, topology checks, actual rendered readability and honest holds already belong to V01/V02; outstanding output defects remain held. Native visual/accessibility and catalog presentation remain separate UIQ work; thumbnails, packs, assembled views and optional shader work remain under their later/conditional owners. The one technical-flat renderer remains authoritative. No cosmetic scope, duplicate renderer, new Epic17 dependency, hold release, or V02/V03 gate change was introduced.
+
+The 29 additive UIQ commands were preflighted through `applyBoardCommand` on a disposable clone (29 applied; revision 1698→1727). Against canonical revision 1698, all 29 command identities were already exact and skipped; zero commands were missing and zero canonical replay mutations occurred. All 14 UIQ cards remain Backlog with their approved dependencies; EPIC-17 retains only EPIC-14/15/16 dependencies. The current board remains EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. `ops/control-center/app/board.test.mjs` retains S354 UIQ backlog/dependency and G04 reconciliation regressions. `npm run control-center:test` passes 42/42. This is planning/documentation/board work only; no production renderer, geometry, export, accepted output or G04 gate changed.
+
+Packet/evidence: `docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md` and `docs/research/epic17/S368-ui-sequence-revalidation/`. S368 start records are linked at board revisions 1695–1698; validated exit evidence/comments end at revision 1709 and bind the packet, 29-command audit and Control Center log to G04-V02 and EPIC-17. All existing G04 holds remain, integrated status 56 accepted / 90 held across 73 configurations / 146 requests; preserve all-seven V02, Polo's 0.25 cm gate, legacy DXF behavior, protected byte identities, MQF checkpoints and post-G17 deferrals. V03 remains gated.
+
+**Next action:** reserve S369 from refreshed Git/history/board and continue a source-faithful V02 correction or bounded diagnostic against the held recipe faces. Do not start V03 or UIQ implementation; do not treat S368's planning audit as output acceptance.
+
+**Elapsed:** 2026-10-02 12:15:48–12:27:25 UTC (11m37s): production implementation 0m; context/output reconciliation 1m50s; clone command preflight and Control Center verification 2m00s; rendered output not applicable; packet/context/state/roadmap/validated-board closeout and review 7m47s; external-agent waits 0m; maintainer-decision time 0m.
+
+_Last updated: S368 confirms the UI queue and G04 boundary without changing gates or holds; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 367 complete; V02 remains open
 
 S367 starts from landed S366 commit `3b0d3489084fef937306e4295b94a08478743fe1` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice is 366; S367 is reserved. Canonical board revision is 1659 before S367 start commands. The goal is active, still matches the admitted EPIC-17/G04 objective, and remains needed through the required merge/deployment exit. The maintainer reaffirmed the Polo assembly residual limit at 0.25 cm; it remains a hard gate.
 

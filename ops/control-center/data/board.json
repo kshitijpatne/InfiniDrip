@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1694,
-  "updatedAt": "2026-10-02T12:07:12.588Z",
+  "revision": 1709,
+  "updatedAt": "2026-10-02T12:22:33.200Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -416,7 +416,11 @@
         "E-G04-S367-RENDER-DEFAULT",
         "E-G04-S367-RENDER-EXTREMES",
         "E-G04-S367-TEST",
-        "E-G04-S367-VERIFY-NOTES"
+        "E-G04-S367-VERIFY-NOTES",
+        "E-G04-S368-START",
+        "E-G04-S368-EXIT",
+        "E-G04-S368-UIQ-AUDIT",
+        "E-G04-S368-TEST"
       ]
     },
     {
@@ -3768,6 +3772,11 @@
           "at": "2026-10-02T12:07:12.588Z",
           "actor": "Codex",
           "text": "S367 corrects S366’s full-hem scope description. The half-band crop is unapproved and fails rendered/topology checks; the approved S321 uncut-band view remains held. All-seven V02 and V02-before-V03 stay unchanged."
+        },
+        {
+          "at": "2026-10-02T12:22:33.200Z",
+          "actor": "Codex",
+          "text": "Slice 368 closes as a UI-sequence revalidation. S354 remains the original reconciliation; S368 confirms all 29 additive UIQ commands are identical on the current board and skips them, keeping every UIQ card Backlog and outside G04. All G04 scope, face holds, the all-seven V02 gate, V02-before-V03, and Polo's 0.25 cm residual gate remain unchanged. Evidence: docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md."
         }
       ],
       "evidenceRefs": [
@@ -4005,7 +4014,11 @@
         "E-G04-S367-RENDER-DEFAULT",
         "E-G04-S367-RENDER-EXTREMES",
         "E-G04-S367-TEST",
-        "E-G04-S367-VERIFY-NOTES"
+        "E-G04-S367-VERIFY-NOTES",
+        "E-G04-S368-START",
+        "E-G04-S368-EXIT",
+        "E-G04-S368-UIQ-AUDIT",
+        "E-G04-S368-TEST"
       ],
       "flagKey": null
     },
@@ -7698,6 +7711,16 @@
           "at": "2026-10-02T12:07:12.562Z",
           "actor": "Codex",
           "text": "Slice 367 exit: S321 specifies one uncut band view instance. S367 tested a half-band crop only as a diagnostic; its half-top endpoints align to the BACK hem half, but the crop still crosses the mirrored seam in all 28 options, the band pair in 27, and the opposite sleeve in 27. Five Chromium views show the central X/fold overlap. No production changes or face acceptance; keep all 56 Woven/34 Polo holds and Polo’s 0.25 cm residual gate."
+        },
+        {
+          "at": "2026-10-02T12:17:37.403Z",
+          "actor": "Codex",
+          "text": "Slice 368 starts at clean S367 commit 684efc25f1d1a6fec9dfc7f3e083fe3c54ccf281; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; board revision 1694. Revalidate S354's approved UI reconciliation and 29 additive commands against current state. Preserve all G04 holds, all-seven V02, V02-before-V03, protected exports and the maintainer-confirmed Polo 0.25 cm gate. UIQ stays Backlog and outside G04. Packet: docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md."
+        },
+        {
+          "at": "2026-10-02T12:22:33.169Z",
+          "actor": "Codex",
+          "text": "S368 exit: current-state audit confirms source-bound construction, piece/revision identity, exact POMs, applicable overlays, rendered readability and truthful holds remain existing G04 requirements. All 29 UIQ commands are exact duplicates on the current board; clone preflight passed and canonical replay was skipped without mutation. All UIQ work remains Backlog outside G04. Preserve all holds, all-seven V02, V02-before-V03 and Polo's 0.25 cm residual gate. Control Center passes 42/42; no product gate changed."
         }
       ],
       "evidenceRefs": [
@@ -8027,7 +8050,11 @@
         "E-G04-S367-RENDER-DEFAULT",
         "E-G04-S367-RENDER-EXTREMES",
         "E-G04-S367-TEST",
-        "E-G04-S367-VERIFY-NOTES"
+        "E-G04-S367-VERIFY-NOTES",
+        "E-G04-S368-START",
+        "E-G04-S368-EXIT",
+        "E-G04-S368-UIQ-AUDIT",
+        "E-G04-S368-TEST"
       ],
       "flagKey": null
     },
@@ -12541,6 +12568,42 @@
       "sha256": null,
       "verified": true,
       "note": "Retains diagnostic/test setup failures, diagnoses and fixes; no production code changed."
+    },
+    {
+      "id": "E-G04-S368-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S368 revalidates the approved UI sequence against the current G04 packet/state and board without adding G04 scope or changing holds."
+    },
+    {
+      "id": "E-G04-S368-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S368 revalidates S354 UI dispositions against current G04 state; all 29 additive commands match and are skipped, with no G04 gate or hold change."
+    },
+    {
+      "id": "E-G04-S368-UIQ-AUDIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S368-ui-sequence-revalidation/uiq-command-audit.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 29 approved UIQ commands replay on a disposable clone through applyBoardCommand; canonical identity comparison skips all 29 and records zero canonical mutations."
+    },
+    {
+      "id": "E-G04-S368-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S368-ui-sequence-revalidation/control-center-test.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "npm run control-center:test passes 42/42 with existing UIQ backlog/dependency/reconciliation and current G04 regression assertions."
     }
   ]
 }

@@ -137,6 +137,12 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md` — Slice
   354's exact reconciliation, additive command replay, preserved gates and
   slice exit evidence.
+- `docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md` and
+  `docs/research/epic17/S368-ui-sequence-revalidation/` — Slice 368 rechecks
+  the S354 dispositions against current G04 output holds and board revision
+  1698. All 29 additive UIQ commands remain identical and are skipped after
+  clone preflight; all UIQ work remains Backlog and outside G04's critical
+  path. No renderer, acceptance gate or hold changes.
 - `docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md` —
   Slice 355's 28-option measurement of the complete mirrored sleeve-band
   silhouette against the body/yoke fills. Seam-only occlusion cannot remove

@@ -1,0 +1,83 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S368-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md",
+      "verified": true,
+      "note": "S368 revalidates S354 UI dispositions against current G04 state; all 29 additive commands match and are skipped, with no G04 gate or hold change."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S368-EXIT",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S368-EXIT"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S368-UIQ-AUDIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S368-ui-sequence-revalidation/uiq-command-audit.json",
+      "verified": true,
+      "note": "All 29 approved UIQ commands replay on a disposable clone through applyBoardCommand; canonical identity comparison skips all 29 and records zero canonical mutations."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S368-UIQ-AUDIT",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S368-UIQ-AUDIT"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S368-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S368-ui-sequence-revalidation/control-center-test.log",
+      "verified": true,
+      "note": "npm run control-center:test passes 42/42 with existing UIQ backlog/dependency/reconciliation and current G04 regression assertions."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S368-TEST",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S368-TEST"
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S368 exit: current-state audit confirms source-bound construction, piece/revision identity, exact POMs, applicable overlays, rendered readability and truthful holds remain existing G04 requirements. All 29 UIQ commands are exact duplicates on the current board; clone preflight passed and canonical replay was skipped without mutation. All UIQ work remains Backlog outside G04. Preserve all holds, all-seven V02, V02-before-V03 and Polo's 0.25 cm residual gate. Control Center passes 42/42; no product gate changed."
+  },
+  {
+    "type": "addComment",
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "Slice 368 closes as a UI-sequence revalidation. S354 remains the original reconciliation; S368 confirms all 29 additive UIQ commands are identical on the current board and skips them, keeping every UIQ card Backlog and outside G04. All G04 scope, face holds, the all-seven V02 gate, V02-before-V03, and Polo's 0.25 cm residual gate remain unchanged. Evidence: docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md."
+  }
+]

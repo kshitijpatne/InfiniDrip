@@ -1,0 +1,116 @@
+{
+  "canonicalBoardRevision": 1698,
+  "commands": 29,
+  "canonicalIdentitySkipped": 29,
+  "missingCommands": 0,
+  "disposableClonePreflight": {
+    "applied": 29,
+    "startRevision": 1698,
+    "endRevision": 1727,
+    "layer": "applyBoardCommand"
+  },
+  "uiqItems": [
+    {
+      "id": "UIQ-01",
+      "status": "Backlog",
+      "dependencies": []
+    },
+    {
+      "id": "UIQ-02",
+      "status": "Backlog",
+      "dependencies": []
+    },
+    {
+      "id": "UIQ-03",
+      "status": "Backlog",
+      "dependencies": [
+        "UIQ-02"
+      ]
+    },
+    {
+      "id": "UIQ-04",
+      "status": "Backlog",
+      "dependencies": [
+        "UIQ-02"
+      ]
+    },
+    {
+      "id": "UIQ-05",
+      "status": "Backlog",
+      "dependencies": []
+    },
+    {
+      "id": "UIQ-GATE",
+      "status": "Backlog",
+      "dependencies": [
+        "EPIC-17"
+      ]
+    },
+    {
+      "id": "UIQ-06",
+      "status": "Backlog",
+      "dependencies": [
+        "UIQ-GATE"
+      ]
+    },
+    {
+      "id": "UIQ-07",
+      "status": "Backlog",
+      "dependencies": [
+        "UIQ-02"
+      ]
+    },
+    {
+      "id": "UIQ-08",
+      "status": "Backlog",
+      "dependencies": [
+        "UIQ-02",
+        "UIQ-GATE"
+      ]
+    },
+    {
+      "id": "UIQ-09",
+      "status": "Backlog",
+      "dependencies": [
+        "EPIC-17"
+      ]
+    },
+    {
+      "id": "UIQ-10",
+      "status": "Backlog",
+      "dependencies": [
+        "EPIC-17"
+      ]
+    },
+    {
+      "id": "UIQ-11",
+      "status": "Backlog",
+      "dependencies": [
+        "EPIC-17"
+      ]
+    },
+    {
+      "id": "UIQ-12",
+      "status": "Backlog",
+      "dependencies": [
+        "UIQ-11",
+        "EPIC-16",
+        "EPIC-17"
+      ]
+    },
+    {
+      "id": "UIQ-13",
+      "status": "Backlog",
+      "dependencies": [
+        "UIQ-07",
+        "UIQ-GATE"
+      ]
+    }
+  ],
+  "epic17Dependencies": [
+    "EPIC-14",
+    "EPIC-15",
+    "EPIC-16"
+  ],
+  "canonicalReplayMutations": 0
+}
