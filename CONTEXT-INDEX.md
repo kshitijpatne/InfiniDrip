@@ -134,6 +134,7 @@ only through an explicitly admitted, linked Epic packet.
   renderer duplication or gate change is authorized. UIQ packages are Backlog
   registrations only, outside G04's critical path. Research and the visual
   atlas are retained at `docs/research/ui-repo-review-2026-10-01/`.
+- `docs/research/epic17/S381-woven-crossing-evidence-review/G04-V02-WOVEN-CROSSING-EVIDENCE-REVIEW-S381.md` — current source/output evidence review confirming that Woven's continuous sleeve hem crossing does not support an artificial view gap; all holds remain.
 - `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md` — Slice
   354's exact reconciliation, additive command replay, preserved gates and
   slice exit evidence.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1950,
-  "updatedAt": "2026-10-02T21:10:57.343Z",
+  "revision": 1960,
+  "updatedAt": "2026-10-02T21:25:28.113Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -491,7 +491,9 @@
         "E-G04-S380-MATRIX",
         "E-G04-S380-DEFAULT-DETAIL",
         "E-G04-S380-FAILURE-SCHEDULE",
-        "E-G04-S380-MIN-WHOLE"
+        "E-G04-S380-MIN-WHOLE",
+        "E-G04-S381-EXIT",
+        "E-G04-S381-SOURCE-TRACE"
       ]
     },
     {
@@ -3873,6 +3875,11 @@
           "at": "2026-10-02T21:10:57.343Z",
           "actor": "Codex",
           "text": "S380 landed the approved view-only Polo C callout presentation with 100% changed-module coverage and 17/17 keyed diagnostics. The two local C collisions clear; remaining crossings and the fixed residual gate keep all 34 Polo faces held. V02 remains in progress and V03 remains gated."
+        },
+        {
+          "at": "2026-10-02T21:25:28.113Z",
+          "actor": "Codex",
+          "text": "S381 closes the Woven crossing evidence review without changing mapping or output: current source and the 28-option trace do not support a truthful display gap. All V02 holds remain. Next is the consolidated 17-option Polo blocker attribution."
         }
       ],
       "evidenceRefs": [
@@ -4185,7 +4192,9 @@
         "E-G04-S380-MATRIX",
         "E-G04-S380-DEFAULT-DETAIL",
         "E-G04-S380-FAILURE-SCHEDULE",
-        "E-G04-S380-MIN-WHOLE"
+        "E-G04-S380-MIN-WHOLE",
+        "E-G04-S381-EXIT",
+        "E-G04-S381-SOURCE-TRACE"
       ],
       "flagKey": null
     },
@@ -8003,6 +8012,16 @@
           "at": "2026-10-02T21:10:57.304Z",
           "actor": "Codex",
           "text": "S380 implements the maintainer-approved view-only C marker and full-text schedule for Polo Collar point extension. The key binds to same-revision `upperCollar.frontTip:end` and preserves the original POM words/value/tolerance. The 17-option Chromium replay clears the two S378 base C collisions, confirms paired back no-op, colorway-on/off diagnostics and unchanged source path primitives; zero browser errors. Other source POM crossings remain, the 0.68 cm residual still exceeds the unchanged 0.25 cm gate, and all 34 Polo faces remain held. G04 acceptance and V03 status do not advance."
+        },
+        {
+          "at": "2026-10-02T21:24:16.020Z",
+          "actor": "Codex",
+          "text": "S381 is active for a bounded Woven back hem-crossing evidence review. It rechecks the current continuous sleeve hem and S373 exact 28-option rendered trace. No gap or mapping change is authorized by the existing source evidence; all Woven/Polo holds and V02/V03 gates remain."
+        },
+        {
+          "at": "2026-10-02T21:25:28.080Z",
+          "actor": "Codex",
+          "text": "S381 rechecked S373 against current Woven pattern source and the exact 28-option rendered trace. `sleeve.hem` is continuous and stitch-joined to the band; there is no source-backed break or over/under order. Do not apply the proposed 0.60 cm view gap because it could falsely depict a disconnected hem. All 56 Woven and 34 Polo faces remain held; no V02/V03 gate or acceptance changed."
         }
       ],
       "evidenceRefs": [
@@ -8407,7 +8426,10 @@
         "E-G04-S380-MATRIX",
         "E-G04-S380-DEFAULT-DETAIL",
         "E-G04-S380-FAILURE-SCHEDULE",
-        "E-G04-S380-MIN-WHOLE"
+        "E-G04-S380-MIN-WHOLE",
+        "E-G04-S381-START",
+        "E-G04-S381-EXIT",
+        "E-G04-S381-SOURCE-TRACE"
       ],
       "flagKey": null
     },
@@ -13596,6 +13618,33 @@
       "sha256": null,
       "verified": true,
       "note": "Reviewed the second prior TEXT_COLLISION option. The keyed C schedule renders; unrelated callout congestion remains and the Polo face stays held."
+    },
+    {
+      "id": "E-G04-S381-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S381-woven-crossing-evidence-review/G04-V02-WOVEN-CROSSING-EVIDENCE-REVIEW-S381.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S381 reuses the exact S373 28-option source/output handoff; no 0.60 cm gap is supported by Woven source or stitch topology."
+    },
+    {
+      "id": "E-G04-S381-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S381-woven-crossing-evidence-review/G04-V02-WOVEN-CROSSING-EVIDENCE-REVIEW-S381.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source and retained 28-option production output do not support a truthful 0.60 cm hem gap; all Woven and Polo holds remain."
+    },
+    {
+      "id": "E-G04-S381-SOURCE-TRACE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S373-woven-sleeve-crossing/current-sleeve-crossing-trace.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Retained exact live-draft:woven-shirt:14:14 trace reconciles both continuous mirrored sleeve hem runs and one crossing in every one of 28 back configurations."
     }
   ]
 }

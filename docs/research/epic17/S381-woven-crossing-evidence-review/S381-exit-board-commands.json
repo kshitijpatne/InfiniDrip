@@ -1,0 +1,10 @@
+[
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S381-EXIT","kind":"document","uri":"docs/research/epic17/S381-woven-crossing-evidence-review/G04-V02-WOVEN-CROSSING-EVIDENCE-REVIEW-S381.md","verified":true,"note":"Source and retained 28-option production output do not support a truthful 0.60 cm hem gap; all Woven and Polo holds remain."}},
+  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S381-EXIT","actor":"Codex","role":"maintainer"},
+  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S381-EXIT"},
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S381-SOURCE-TRACE","kind":"document","uri":"docs/research/epic17/S373-woven-sleeve-crossing/current-sleeve-crossing-trace.json","verified":true,"note":"Retained exact live-draft:woven-shirt:14:14 trace reconciles both continuous mirrored sleeve hem runs and one crossing in every one of 28 back configurations."}},
+  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S381-SOURCE-TRACE","actor":"Codex","role":"maintainer"},
+  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S381-SOURCE-TRACE"},
+  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"S381 rechecked S373 against current Woven pattern source and the exact 28-option rendered trace. `sleeve.hem` is continuous and stitch-joined to the band; there is no source-backed break or over/under order. Do not apply the proposed 0.60 cm view gap because it could falsely depict a disconnected hem. All 56 Woven and 34 Polo faces remain held; no V02/V03 gate or acceptance changed."},
+  {"type":"addComment","itemId":"EPIC-17","actor":"Codex","text":"S381 closes the Woven crossing evidence review without changing mapping or output: current source and the 28-option trace do not support a truthful display gap. All V02 holds remain. Next is the consolidated 17-option Polo blocker attribution."}
+]
