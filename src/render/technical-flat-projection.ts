@@ -42,7 +42,7 @@ export interface FlatProjectionFoldAxisReflection {
   /** The authored boundary edge that lies on the local garment centre axis. */
   readonly edgeId: string;
   readonly axis: "LOCAL_Y";
-  readonly source: "Piece.onFold";
+  readonly source: "Piece.onFold" | "MAINTAINER_VIEW_DECISION";
   /** Use a sewn-to panel's center axis for a source-derived component segment. */
   readonly axisRoleId?: string;
   readonly viaStitchLabel?: string;
@@ -87,7 +87,7 @@ export interface FlatProjectionViewBoundary {
     readonly source: "MAINTAINER_VIEW_DECISION";
     readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
       | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" | "G04-S321-WOVEN-CLOSURE-A"
-      | "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH";
+      | "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH" | "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH";
   };
 }
 
@@ -122,6 +122,13 @@ export interface FlatProjectionViewSeamRepresentation {
   readonly suppressedTo: FlatProjectionLandmark;
 }
 
+/** Source marks that describe cutting/fold instructions or a face-specific
+ * closure station, rather than a visible mark on this assembled orthographic face. */
+export interface FlatProjectionFaceExcludedMark {
+  readonly markName: string;
+  readonly reason: string;
+}
+
 /** The approved Woven cap display replaces its eased cut edge with the exact
  * body-side stitched edge. This is a same-revision view convention only. */
 export interface FlatProjectionWovenSleeveCapRepresentation {
@@ -146,6 +153,23 @@ export interface FlatProjectionPoloSleeveCapRepresentation {
   readonly layer: "SEAM";
 }
 
+/** Approved, same-revision view mapping for Woven collar pieces. The map uses
+ * the live body neck arcs and carries signed source-normal offset; it never
+ * changes the drafted stitch graph or cut geometry. */
+export interface FlatProjectionWovenFullCollarRepresentation {
+  readonly decisionId: "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH";
+  readonly stitchLabel: "Outer stand ↔ woven neckline";
+  readonly sourceBaseEdgeId: "neckline" | "stand";
+  readonly receiverBackRoleId: "yoke" | "back";
+  readonly receiverBackEdgeId: "neckline";
+  readonly receiverFrontRoleId: "front";
+  readonly receiverFrontEdgeId: "neckline";
+  readonly stationDirection: "CENTER_BACK_TO_CENTER_FRONT";
+  readonly splitFraction: number;
+  readonly offsetTransfer: "SIGNED_SOURCE_NORMAL";
+  readonly layer: "SEAM";
+}
+
 export interface FlatProjectionRole {
   readonly roleId: string;
   /** A logical garment-component identity shared by its front/back projections. */
@@ -156,6 +180,7 @@ export interface FlatProjectionRole {
   readonly heldEdges: readonly FlatProjectionHeldEdge[];
   /** Source-authored contour belongs to the opposite orthographic face. */
   readonly faceExcludedEdges?: readonly FlatProjectionHeldEdge[];
+  readonly faceExcludedMarks?: readonly FlatProjectionFaceExcludedMark[];
   /** View-only reflection across a source-declared cut-on-fold boundary. */
   readonly foldAxisReflection?: FlatProjectionFoldAxisReflection;
   /** View-only second instance for an explicitly authored mirrored physical pair. */
@@ -167,6 +192,7 @@ export interface FlatProjectionRole {
   readonly viewSeamRepresentation?: FlatProjectionViewSeamRepresentation;
   readonly wovenSleeveCapRepresentation?: FlatProjectionWovenSleeveCapRepresentation;
   readonly poloSleeveCapRepresentation?: FlatProjectionPoloSleeveCapRepresentation;
+  readonly wovenFullCollarRepresentation?: FlatProjectionWovenFullCollarRepresentation;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -717,8 +743,23 @@ function wovenCollarRoleProjection(
     return heldProjectionRole(roleId, treatment, piece,
       `The approved Woven ${roleId} neckline-to-exterior transfer does not resolve on the exact current stitched neckline and center-back axis.`);
   }
+  const fullCollarRepresentation: FlatProjectionWovenFullCollarRepresentation = {
+    decisionId: "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH",
+    stitchLabel: "Outer stand ↔ woven neckline",
+    sourceBaseEdgeId: baseEdgeId,
+    receiverBackRoleId: block.roles.yoke ? "yoke" : "back",
+    receiverBackEdgeId: "neckline",
+    receiverFrontRoleId: "front",
+    receiverFrontEdgeId: "neckline",
+    stationDirection: "CENTER_BACK_TO_CENTER_FRONT",
+    splitFraction: basisFraction,
+    offsetTransfer: "SIGNED_SOURCE_NORMAL",
+    layer: "SEAM",
+  };
   const station = transferredLandmark(exteriorEdgeId, fraction, "WOVEN_NECKLINE");
   const front = kind === "FRONT_FLAT";
+  const mirrorRoleId = front ? "front" : (block.roles.yoke ? "yoke" : "back");
+  const mirrorEdgeId = front ? "centerFront" : "centerBack";
   const collarAreaClosure: FlatProjectionViewBoundary = {
     id: "approved-woven-collar-area-closure",
     from: station,
@@ -727,6 +768,17 @@ function wovenCollarRoleProjection(
       : { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction },
     fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" },
   };
+  const foldFillClosure: FlatProjectionViewBoundary | undefined = front ? undefined : {
+    id: "approved-woven-collar-center-back-fill-closure",
+    from: endpointLandmark("centerBack", "start"),
+    to: endpointLandmark("centerBack", "end"),
+    fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH" },
+  };
+  const collarBoundaries = [collarAreaClosure, ...(foldFillClosure ? [foldFillClosure] : [])];
+  const faceExcludedMarks: FlatProjectionFaceExcludedMark[] = [
+    { markName: "centerMatch", reason: "The source-authored PLACE ON FOLD instruction is a cutting instruction, not an exterior assembled-view mark; the approved fold reflection supplies the complete collar outline." },
+    ...(roleId === "outerStand" && !front ? [{ markName: "stand-button", reason: "The source-authored stand button lies on the front closure interval and is displayed only on FRONT_FLAT." }] : []),
+  ];
   if (roleId === "outerStand") {
     const seamRepresentation = wovenBaseSeamRepresentation(kind, block);
     const visibleNeckline = roleId === "outerStand" && seamRepresentation !== undefined;
@@ -747,11 +799,13 @@ function wovenCollarRoleProjection(
         { edgeId: "frontEnd", reason: "The stand front end belongs to FRONT_FLAT." },
         ...(visibleNeckline ? [{ edgeId: "neckline", reason: "The approved assembled view shows the source body neckline once as the base seam." }] : []),
       ],
-      foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
+      faceExcludedMarks,
+      foldAxisReflection: { edgeId: mirrorEdgeId, axis: "LOCAL_Y", source: "MAINTAINER_VIEW_DECISION", axisRoleId: mirrorRoleId },
       reversedStitchEdges: [{ stitchLabel: "Outer stand ↔ woven neckline",
         pieceId: block.roles.yoke ? "yoke" : "back", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" }],
       ...(seamRepresentation ? { viewSeamRepresentation: seamRepresentation } : {}),
-      viewBoundaries: [collarAreaClosure],
+      wovenFullCollarRepresentation: fullCollarRepresentation,
+      viewBoundaries: collarBoundaries,
     };
   }
   return {
@@ -771,8 +825,10 @@ function wovenCollarRoleProjection(
       { edgeId: "centerBack", reason: "The source-declared center-back fold is the reflection axis." },
       { edgeId: "frontTip", reason: "The collar front point belongs to FRONT_FLAT." },
     ],
-    foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
-    viewBoundaries: [collarAreaClosure],
+    faceExcludedMarks,
+    foldAxisReflection: { edgeId: mirrorEdgeId, axis: "LOCAL_Y", source: "MAINTAINER_VIEW_DECISION", axisRoleId: mirrorRoleId },
+    wovenFullCollarRepresentation: fullCollarRepresentation,
+    viewBoundaries: collarBoundaries,
   };
 }
 
@@ -948,7 +1004,8 @@ export type FlatProjectionIssueCode =
   | "LANDMARK_NOT_ON_EDGE" | "EMPTY_HOLD_REASON" | "RUN_ON_HIDDEN_ROLE" | "INVALID_FOLD_AXIS_REFLECTION"
   | "INVALID_PHYSICAL_PAIR_REFLECTION" | "INVALID_VIEW_PAIR_REFLECTION" | "INVALID_OPPOSITE_SIDE_REFLECTION"
   | "INVALID_COLLAR_TRANSFER" | "INVALID_WOVEN_SLEEVE_TRANSFER" | "INVALID_STITCH_BOUNDARY" | "INVALID_PAIRED_EDGE" | "INVALID_VIEW_BOUNDARY"
-  | "INVALID_STITCH_ENDPOINT_ORIENTATION" | "INVALID_LOCAL_Y_REFLECTION" | "INVALID_VIEW_SEAM_REPRESENTATION";
+  | "INVALID_STITCH_ENDPOINT_ORIENTATION" | "INVALID_LOCAL_Y_REFLECTION" | "INVALID_VIEW_SEAM_REPRESENTATION"
+  | "INVALID_WOVEN_COLLAR_REPRESENTATION" | "INVALID_FACE_EXCLUDED_MARK";
 
 export interface FlatProjectionIssue {
   readonly code: FlatProjectionIssueCode;
@@ -1602,10 +1659,27 @@ function validateRole(
     usedInstances.add(mappingRole.instanceId);
   }
   if (!Array.isArray(mappingRole.runs) || !Array.isArray(mappingRole.heldEdges)
-    || (mappingRole.faceExcludedEdges !== undefined && !Array.isArray(mappingRole.faceExcludedEdges))) {
+    || (mappingRole.faceExcludedEdges !== undefined && !Array.isArray(mappingRole.faceExcludedEdges))
+    || (mappingRole.faceExcludedMarks !== undefined && !Array.isArray(mappingRole.faceExcludedMarks))) {
     issues.push({ code: "MISSING_EDGE_ACCOUNTING", sourceId, message: `Role “${roleId}” must list projected runs and explicit held edges.` });
     return;
   }
+  const excludedMarks = Array.isArray(mappingRole.faceExcludedMarks) ? mappingRole.faceExcludedMarks : [];
+  const expectedWovenExcludedMarks: FlatProjectionFaceExcludedMark[] = recipeId === "woven-shirt" && mappingRole.runs.length > 0
+    && ["outerStand", "upperCollar", "underCollar"].includes(roleId)
+    ? [
+      { markName: "centerMatch", reason: "The source-authored PLACE ON FOLD instruction is a cutting instruction, not an exterior assembled-view mark; the approved fold reflection supplies the complete collar outline." },
+      ...(roleId === "outerStand" && faceKind === "BACK_FLAT"
+        ? [{ markName: "stand-button", reason: "The source-authored stand button lies on the front closure interval and is displayed only on FRONT_FLAT." }]
+        : []),
+    ] : [];
+  const validExcludedMarks = excludedMarks.length === expectedWovenExcludedMarks.length
+    && excludedMarks.every((entry, index) => isRecord(entry) && Object.keys(entry).length === 2
+      && entry.markName === expectedWovenExcludedMarks[index]?.markName
+      && entry.reason === expectedWovenExcludedMarks[index]?.reason
+      && piece.marks?.some((mark) => mark.name === entry.markName));
+  if (!validExcludedMarks) issues.push({ code: "INVALID_FACE_EXCLUDED_MARK", sourceId,
+    message: "Only the exact source-authored fold instruction and back-face Woven stand button may be excluded from these assembled collar faces." });
   if (expectedTreatment === "INTERIOR_HIDDEN" && mappingRole.runs.length > 0) {
     issues.push({ code: "RUN_ON_HIDDEN_ROLE", sourceId, message: `Hidden interior role “${roleId}” cannot emit exterior edge runs.` });
   }
@@ -1702,6 +1776,10 @@ function validateRole(
     const edge = isRecord(reflection) && typeof reflection.edgeId === "string" && axisPiece
       ? axisPiece.edges.find((candidate) => candidate.name === reflection.edgeId) : undefined;
     const externalAxis = axisRoleId !== roleId;
+    const wovenCollarAxis = isRecord(reflection) && recipeId === "woven-shirt" && reflection.source === "MAINTAINER_VIEW_DECISION"
+      && ["outerStand", "upperCollar", "underCollar"].includes(roleId)
+      && (faceKind === "FRONT_FLAT" ? axisRoleId === "front" && reflection.edgeId === "centerFront"
+        : axisRoleId === (block.roles.yoke ? "yoke" : "back") && reflection.edgeId === "centerBack");
     const axisStitches = isRecord(reflection) && typeof reflection.viaStitchLabel === "string"
       ? block.stitches.filter((stitch) => stitch.label === reflection.viaStitchLabel) : [];
     const sourceRoleForFace = faceKind === "FRONT_FLAT" ? "front" : "back";
@@ -1709,9 +1787,12 @@ function validateRole(
       side.edges.some((ref) => "edge" in ref && ref.piece === axisRoleId && ref.edge === "waist"))
       && [axisStitches[0]!.a, axisStitches[0]!.b].some((side) =>
         side.edges.some((ref) => "edge" in ref && ref.piece === roleId && ref.edge === "seam"));
-    if (!isRecord(reflection) || reflection.axis !== "LOCAL_Y" || reflection.source !== "Piece.onFold"
-      || !axisPiece || !axisPiece.onFold || !edge || foldAxisEdge(axisPiece)?.name !== edge.name
-      || (externalAxis && (roleId !== "waistband" || axisRoleId !== sourceRoleForFace
+    const exactViewAxis = wovenCollarAxis && !!edge && edge.kind === "line"
+      && edge.start.x === 0 && edge.end.x === 0;
+    if (!isRecord(reflection) || reflection.axis !== "LOCAL_Y"
+      || (reflection.source !== "Piece.onFold" && !wovenCollarAxis)
+      || !axisPiece || (!exactViewAxis && (!axisPiece.onFold || foldAxisEdge(axisPiece)?.name !== edge?.name)) || !edge
+      || (externalAxis && !wovenCollarAxis && (roleId !== "waistband" || axisRoleId !== sourceRoleForFace
         || typeof reflection.viaStitchLabel !== "string" || !attachedByNamedSeam))
       || (!externalAxis && reflection.viaStitchLabel !== undefined)) {
       issues.push({ code: "INVALID_FOLD_AXIS_REFLECTION", sourceId,
@@ -1806,7 +1887,14 @@ function validateRole(
             && fillOnly.decisionId === wovenExpected.fillOnlyColorway?.decisionId
             && boundary.id === wovenExpected.id && exactProjectionLandmark(boundary.from, wovenExpected.from)
             && exactProjectionLandmark(boundary.to, wovenExpected.to);
-          if (!teeSleeveBoundary && !poloSleeveBoundary && !poloCollarBoundary && !wovenBoundary) {
+          const wovenFoldBoundary = recipeId === "woven-shirt" && faceKind === "BACK_FLAT"
+            && ["outerStand", "upperCollar", "underCollar"].includes(roleId) && isRecord(fillOnly)
+            && Object.keys(fillOnly).length === 2 && fillOnly.source === "MAINTAINER_VIEW_DECISION"
+            && fillOnly.decisionId === "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH"
+            && boundary.id === "approved-woven-collar-center-back-fill-closure"
+            && exactProjectionLandmark(boundary.from, endpointLandmark("centerBack", "start"))
+            && exactProjectionLandmark(boundary.to, endpointLandmark("centerBack", "end"));
+          if (!teeSleeveBoundary && !poloSleeveBoundary && !poloCollarBoundary && !wovenBoundary && !wovenFoldBoundary) {
             issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId,
               message: "A colorway-only closure requires an admitted decision and its exact same-revision source landmarks." });
           }
@@ -1831,6 +1919,28 @@ function validateRole(
       issues.push({ code: "INVALID_VIEW_BOUNDARY", sourceId,
         message: "The approved Woven front colorway contour requires its one exact same-revision view-only closure." });
     }
+  }
+  const wovenFullCollarEligible = recipeId === "woven-shirt" && mappingRole.runs.length > 0
+    && ["outerStand", "upperCollar", "underCollar"].includes(roleId);
+  const expectedFullCollarFraction = wovenFullCollarEligible ? wovenNecklineFraction(block) : undefined;
+  if (wovenFullCollarEligible && expectedFullCollarFraction !== undefined) {
+    const actual = mappingRole.wovenFullCollarRepresentation;
+    const expectedBackRole = block.roles.yoke ? "yoke" : "back";
+    const expectedBaseEdge = roleId === "outerStand" ? "neckline" : "stand";
+    const exact = isRecord(actual) && Object.keys(actual).length === 11
+      && actual.decisionId === "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH"
+      && actual.stitchLabel === "Outer stand ↔ woven neckline"
+      && actual.sourceBaseEdgeId === expectedBaseEdge
+      && actual.receiverBackRoleId === expectedBackRole && actual.receiverBackEdgeId === "neckline"
+      && actual.receiverFrontRoleId === "front" && actual.receiverFrontEdgeId === "neckline"
+      && actual.stationDirection === "CENTER_BACK_TO_CENTER_FRONT"
+      && actual.splitFraction === expectedFullCollarFraction
+      && actual.offsetTransfer === "SIGNED_SOURCE_NORMAL" && actual.layer === "SEAM";
+    if (!exact) issues.push({ code: "INVALID_WOVEN_COLLAR_REPRESENTATION", sourceId,
+      message: "Woven collar projection must identify the exact same-revision source base edge, split neckline roles, signed-normal transfer, decision and seam layer." });
+  } else if (mappingRole.wovenFullCollarRepresentation !== undefined) {
+    issues.push({ code: "INVALID_WOVEN_COLLAR_REPRESENTATION", sourceId,
+      message: "The Woven full-collar projection metadata is valid only for the exact current collar-to-neckline topology." });
   }
   const expectedSeamRepresentation = recipeId === "woven-shirt" && roleId === "outerStand"
     ? wovenBaseSeamRepresentation(faceKind, block) : undefined;

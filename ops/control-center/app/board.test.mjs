@@ -145,7 +145,7 @@ test("S359 records the Woven rigid-fit decision boundary without releasing holds
   }
   assert.equal(g04.status, "In Progress");
   assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
-  assert.match(g04.description, /All 34 Polo and 56 Woven faces remain held/);
+  assert.match(g04.description, /All 56 Woven and 34 Polo faces remain held/);
   assert.ok(g04.comments.some((comment) => /Slice 359 exit: source arc\/chord incompatibility/.test(comment.text)));
   assert.ok(epic.comments.some((comment) => /Slice 359 retains the current 56 accepted \/ 90 held integrated tally/.test(comment.text)));
 });
@@ -186,10 +186,10 @@ test("S361 records the Woven sleeve/band diagnostic failure and retains all hold
   assert.equal(g04.status, "In Progress");
   assert.equal(board.workItems.find((item) => item.id === "G04-V01").status, "Done");
   assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
-  assert.match(g04.description, /candidate fails the conditional crossing gate in all 28 back configurations/);
-  assert.match(g04.description, /all-seven-recipe V02 criterion/);
+  assert.match(g04.description, /rejected S361 sleeve\/band view retains a back X/);
+  assert.match(g04.description, /all-seven V02/);
   assert.match(epicCard.description, /56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-  assert.match(epicCard.description, /approved the S359 full-collar arclength\/normal-offset projection/);
+  assert.match(epicCard.description, /S362 implements the approved Woven full-collar view projection/);
   assert.ok(g04.comments.some((comment) => /four mirrored band intersections in 26 backs and eight/.test(comment.text)));
 });
 
@@ -251,13 +251,17 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(epic.evidenceRefs.includes("E-EPIC15-G02-MERGE-S241"));
     }
     if (id === "EPIC-17") {
-      assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /Current (?:integrated )?output: 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-      assert.match(epic.description, /All 56 Woven and 34 Polo faces remain held/);
-      assert.match(epic.description, /approved S359's revision-bound full-collar arclength\/normal-offset view projection for a separate implementation slice/);
-      assert.match(card.description, /Current (?:integrated )?output: 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-      assert.match(card.description, /all-seven V02 acceptance.*unchanged/);
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
+      assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
+      assert.match(epic.description, /Current output remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(epic.description, /all 56 Woven faces remain held because the max-stand-height placket-width leader crosses collar contours/);
+      assert.match(epic.description, /All 34 Polo faces remain held at the confirmed 0\.25 cm residual gate/);
+      assert.match(card.description, /Current output remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(card.description, /Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03/);
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S362-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S362-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S362-EXIT"));
+      assert.ok(g04V02?.comments.some((comment) => /Slice 362 exit: the approved Woven full-collar view projection emits all 56 option\/face requests/.test(comment.text)));
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-EXIT"));
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-BROWSER"));
       assert.ok(g04V02?.comments.some((comment) => /S335 verified exit: all five Woven front colorway contours now close/.test(comment.text)));
@@ -449,9 +453,9 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S335 started 2026-10-01 15:24:44 UTC from clean S334 b27a444a/.test(comment.text)));
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
-      assert.match(admittedWork[1].description, /S359's full-collar arclength\/normal-offset view projection is approved for a separately bounded implementation/);
-      assert.match(admittedWork[1].description, /All 34 Polo and 56 Woven faces remain held/);
-      assert.match(admittedWork[1].description, /all-seven-recipe V02 criterion.*V02-before-V03 gate/);
+      assert.match(admittedWork[1].description, /S362's revision-bound Woven full-collar projection compiles for 28 configurations \/ 56 faces/);
+      assert.match(admittedWork[1].description, /All 56 Woven and 34 Polo faces remain held/);
+      assert.match(admittedWork[1].description, /all-seven V02 and V02-before-V03/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-OUTPUT-REPLAY"));
@@ -485,7 +489,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-RECONCILIATION"));
       assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-START"));
-      assert.match(admittedWork[1].description, /Current integrated matrix remains 73 configurations \/ 146 face requests, 56 accepted \/ 90 held/);
+      assert.match(admittedWork[1].description, /Integrated output remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
       assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));

@@ -266,6 +266,78 @@ describe("renderTechnicalFlatSvg", () => {
     expect(ambiguous.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
   });
 
+  it("cancels one exact shared fold edge from mirrored colorway contours", () => {
+    const sourceEdgeIds = ["bottom", "side", "top", "centerBack"].map((edge) =>
+      `pattern:tee:role:front:edge:${edge}`);
+    const halfCommands = [
+      { op: "move" as const, point: { x: 0, y: 0 } }, { op: "line" as const, point: { x: 2, y: 0 } },
+      { op: "move" as const, point: { x: 2, y: 0 } }, { op: "line" as const, point: { x: 2, y: 4 } },
+      { op: "move" as const, point: { x: 2, y: 4 } }, { op: "line" as const, point: { x: 0, y: 4 } },
+      { op: "move" as const, point: { x: 0, y: 4 } }, { op: "line" as const, point: { x: 0, y: 0 } },
+    ];
+    const reflectedCommands = [
+      { op: "move" as const, point: { x: 0, y: 0 } }, { op: "line" as const, point: { x: -2, y: 0 } },
+      { op: "move" as const, point: { x: -2, y: 0 } }, { op: "line" as const, point: { x: -2, y: 4 } },
+      { op: "move" as const, point: { x: -2, y: 4 } }, { op: "line" as const, point: { x: 0, y: 4 } },
+      { op: "move" as const, point: { x: 0, y: 4 } }, { op: "line" as const, point: { x: 0, y: 0 } },
+    ];
+    const half: TechnicalFlatPrimitive = { kind: "path", id: "folded-panel", layer: "GARMENT_SILHOUETTE",
+      feature: "silhouette", source, sourceEdgeIds, commands: halfCommands };
+    const reflected: TechnicalFlatPrimitive = { ...half, id: "folded-panel:attached-fold-reflection",
+      commands: reflectedCommands };
+    const rendered = renderTechnicalFlatSvg(makeView([half, reflected]), { measureText: measure, colorway: {
+      id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven", shine: 24,
+      targetRoleIds: ["front"], sourceId: "style:fabric-presentation",
+    } });
+    expect(rendered.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(rendered.svg!, "image/svg+xml");
+    const fill = parsed.querySelector('[data-colorway-fill-for="folded-panel"]');
+    expect(fill?.getAttribute("d")).toMatch(/Z$/u);
+    expect(fill?.getAttribute("d")).not.toContain("L0 0 L0 4");
+    expect(parsed.querySelectorAll('[data-entity-id="folded-panel"], [data-entity-id="folded-panel:attached-fold-reflection"]'))
+      .toHaveLength(2);
+  });
+
+  it("validates the paired Woven collar face halves as separate closed colorway contours", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const live = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind, placements: [],
+        colorHex: "#3669a4", texture: "woven", shine: 24 });
+      expect(live.issues).toEqual([]);
+      expect(live.view).not.toBeNull();
+      const view = { ...live.view!, primitives: live.view!.primitives.filter((primitive) => primitive.kind !== "callout") };
+      const rendered = renderTechnicalFlatSvg(view, { measureText: measure, colorway: live.colorway! });
+      expect(rendered.issues.map((issue) => issue.code)).not.toContain("COLORWAY_CONTOUR_UNCLOSED");
+      const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+        .parseFromString(rendered.svg!, "image/svg+xml");
+      for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
+        const fill = parsed.querySelector(`[data-colorway-fill-for="flat:woven-shirt:${kind}:component:${roleId}:outline"]`);
+        expect(fill).not.toBeNull();
+        expect(fill?.getAttribute("d")?.match(/M/g)).toHaveLength(2);
+        expect(fill?.getAttribute("d")?.match(/Z/g)).toHaveLength(2);
+      }
+    }
+
+    const front = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind: "FRONT_FLAT", placements: [],
+      colorHex: "#3669a4", texture: "woven", shine: 24 });
+    const reflectedOutlineId = "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection";
+    const malformed = { ...front.view!, primitives: front.view!.primitives.map((primitive) =>
+      primitive.id === reflectedOutlineId && primitive.kind === "path"
+        ? { ...primitive, commands: primitive.commands.slice(0, -1) } : primitive) };
+    const failedHalf = renderTechnicalFlatSvg(malformed, { measureText: measure, colorway: {
+      ...front.colorway!, targetRoleIds: ["upperCollar"],
+    } });
+    expect(failedHalf.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+    const missingFoldHalf = { ...front.view!, primitives: front.view!.primitives.filter((primitive) =>
+      primitive.id !== reflectedOutlineId) };
+    const failedPair = renderTechnicalFlatSvg(missingFoldHalf, { measureText: measure, colorway: {
+      ...front.colorway!, targetRoleIds: ["upperCollar"],
+    } });
+    expect(failedPair.issues.map((issue) => issue.code)).toContain("COLORWAY_CONTOUR_UNCLOSED");
+  });
+
   it("joins exact source view-boundary edges into a requested role contour", () => {
     const panel: TechnicalFlatPrimitive = { ...outline, commands: [
       { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 4, y: 0 } },

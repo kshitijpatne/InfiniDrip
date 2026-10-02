@@ -18,7 +18,7 @@ const PADDING_CM = 0.7;
 const NOTICE_WIDTH_CM = 30;
 const LABEL_GAP_CM = 0.08;
 const LABEL_SEARCH_STEP_CM = 0.25;
-const LABEL_SEARCH_RINGS = 48;
+const LABEL_SEARCH_RINGS = 96;
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 export interface TechnicalFlatTextMetrics {
@@ -181,6 +181,26 @@ function pointKey(point: FlatPoint): string {
   return `${fmt(point.x)},${fmt(point.y)}`;
 }
 
+function cancelSharedFoldContourEdges(edges: readonly ContourEdge[]): ContourEdge[] {
+  const reflectedSuffix = ":attached-fold-reflection";
+  const edgeKey = (edge: ContourEdge) => {
+    const owner = edge.ownerId.endsWith(reflectedSuffix)
+      ? edge.ownerId.slice(0, -reflectedSuffix.length) : edge.ownerId;
+    const endpoints = [pointKey(edge.from), pointKey(edge.to)].sort();
+    return `${owner}\u0000${edge.sourceEdgeId ?? ""}\u0000${endpoints[0]}\u0000${endpoints[1]}`;
+  };
+  const groups = new Map<string, { base: ContourEdge[]; reflected: ContourEdge[] }>();
+  for (const edge of edges) {
+    const reflected = edge.ownerId.endsWith(reflectedSuffix);
+    const key = edgeKey(edge);
+    const group = groups.get(key) ?? { base: [], reflected: [] };
+    group[reflected ? "reflected" : "base"].push(edge);
+    groups.set(key, group);
+  }
+  return [...groups.values()].flatMap(({ base, reflected }) =>
+    base.length === 1 && reflected.length === 1 ? [] : [...base, ...reflected]);
+}
+
 function closedContourData(primitives: readonly Extract<TechnicalFlatPrimitive, { kind: "path" }>[]): string | null {
   const edges: ContourEdge[] = [];
   for (const primitive of primitives) {
@@ -198,7 +218,8 @@ function closedContourData(primitives: readonly Extract<TechnicalFlatPrimitive, 
       if (!reflected.sourceEdgeIds.includes(sourceEdgeId)) excludedAxisEdges.add(`${primitive.id}\u0000${sourceEdgeId}`);
     }
   }
-  const contourEdges = edges.filter((edge) => !edge.sourceEdgeId || !excludedAxisEdges.has(`${edge.ownerId}\u0000${edge.sourceEdgeId}`));
+  const contourEdges = cancelSharedFoldContourEdges(edges.filter((edge) =>
+    !edge.sourceEdgeId || !excludedAxisEdges.has(`${edge.ownerId}\u0000${edge.sourceEdgeId}`)));
   if (contourEdges.length < 3) return null;
   const adjacency = new Map<string, number[]>();
   contourEdges.forEach((edge, index) => {
@@ -264,7 +285,20 @@ function colorwayFillPaths(view: TechnicalFlatView, colorway: TechnicalFlatColor
         if (seamPath) contourPaths.push(seamPath);
       }
     }
-    const contour = closedContourData(contourPaths);
+    let contour: string | null;
+    if (view.recipeId === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(roleId)) {
+      const reflectionSuffix = ":attached-fold-reflection";
+      const original = contourPaths.filter((primitive) => !primitive.id.endsWith(reflectionSuffix));
+      const reflected = contourPaths.filter((primitive) => primitive.id.endsWith(reflectionSuffix));
+      const exactFoldPair = original.length > 0 && original.length === reflected.length
+        && original.every((primitive) => reflected.some((candidate) => candidate.id === `${primitive.id}${reflectionSuffix}`
+          && candidate.source.sourceId === primitive.source.sourceId
+          && candidate.source.revisionId === primitive.source.revisionId));
+      if (exactFoldPair) {
+        const halves = [closedContourData(original), closedContourData(reflected)];
+        contour = halves.every((half): half is string => half !== null) ? halves.join(" ") : null;
+      } else contour = null;
+    } else contour = closedContourData(contourPaths);
     if (contour && outlines[0]) fills.set(outlines[0].id, { path: contour,
       sourceIds: [...new Set(contourPaths.flatMap((primitive) => primitive.sourceEdgeIds?.length
         ? primitive.sourceEdgeIds : [primitive.source.sourceId]))] });

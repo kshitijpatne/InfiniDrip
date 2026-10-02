@@ -31,7 +31,7 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
       roles: face.roles.map((role) => {
         const authoredRole = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId);
-        if (recipeId === "woven-shirt" && role.roleId === "outerStand" && authoredRole) return authoredRole;
+        if (recipeId === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(role.roleId) && authoredRole) return authoredRole;
         const piece = block.roles[role.roleId];
         const hidden = role.treatment === "INTERIOR_HIDDEN";
         const pairReflection = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
@@ -88,6 +88,37 @@ function draft(recipeId: string, options = {}) {
 }
 
 describe("validateTechnicalFlatProjectionMap", () => {
+  it("validates the exact Woven face-excluded marks and collar representation", () => {
+    const { block } = draft("woven-shirt");
+    const authored = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
+    const malformedMarks = structuredClone(authored) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; faceExcludedMarks?: Array<{ markName: string; reason: string }>;
+    }> }> };
+    const frontStand = malformedMarks.faces.find((face) => face.kind === "FRONT_FLAT")!.roles
+      .find((role) => role.roleId === "outerStand")!;
+    frontStand.faceExcludedMarks![0]!.reason = "unreviewed exclusion";
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, malformedMarks))
+      .toContainEqual(expect.objectContaining({ code: "INVALID_FACE_EXCLUDED_MARK", sourceId: "FRONT_FLAT:outerStand" }));
+
+    const malformedCollar = structuredClone(authored) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; wovenFullCollarRepresentation?: { sourceBaseEdgeId: string };
+    }> }> };
+    const backCollar = malformedCollar.faces.find((face) => face.kind === "BACK_FLAT")!.roles
+      .find((role) => role.roleId === "upperCollar")!;
+    backCollar.wovenFullCollarRepresentation!.sourceBaseEdgeId = "neckline";
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, malformedCollar))
+      .toContainEqual(expect.objectContaining({ code: "INVALID_WOVEN_COLLAR_REPRESENTATION", sourceId: "BACK_FLAT:upperCollar" }));
+
+    const heldCollar = structuredClone(authored) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; wovenFullCollarRepresentation?: { splitFraction: number };
+    }> }> };
+    const frontCollar = heldCollar.faces.find((face) => face.kind === "FRONT_FLAT")!.roles
+      .find((role) => role.roleId === "underCollar")!;
+    frontCollar.wovenFullCollarRepresentation!.splitFraction += 0.01;
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, heldCollar))
+      .toContainEqual(expect.objectContaining({ code: "INVALID_WOVEN_COLLAR_REPRESENTATION", sourceId: "FRONT_FLAT:underCollar" }));
+  });
+
   it("requires the exact front sleeve-cap endpoint-order rule for Tee and Fitted", () => {
     for (const recipeId of ["tee", "fitted"] as const) {
       const { block } = draft(recipeId);
@@ -372,7 +403,9 @@ describe("validateTechnicalFlatProjectionMap", () => {
       for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
         const role = face.roles.find((candidate) => candidate.roleId === roleId)!;
         if (roleId !== "outerStand") expect(role.treatment).toBe("VISIBLE_OVERLAY");
-        expect(role.foldAxisReflection).toMatchObject({ edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" });
+        expect(role.foldAxisReflection).toMatchObject({ edgeId: face.kind === "FRONT_FLAT" ? "centerFront" : "centerBack",
+          axis: "LOCAL_Y", source: "MAINTAINER_VIEW_DECISION",
+          axisRoleId: face.kind === "FRONT_FLAT" ? "front" : "yoke" });
         const boundaryRun = role.runs.find((run) => run.from.kind === "normalized-edge-transfer"
           || run.to.kind === "normalized-edge-transfer")!;
         const landmark = boundaryRun.from.kind === "normalized-edge-transfer" ? boundaryRun.from : boundaryRun.to;
@@ -929,6 +962,12 @@ describe("validateTechnicalFlatProjectionMap", () => {
             && !G04_NON_MIRRORED_ON_FOLD_ROLES[recipe.name]?.[role.roleId];
           expect(Boolean(role.foldAxisReflection)).toBe(expectedReflection);
           if (expectedReflection) {
+            if (recipe.name === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(role.roleId)) {
+              expect(role.foldAxisReflection).toMatchObject({ axis: "LOCAL_Y", source: "MAINTAINER_VIEW_DECISION",
+                edgeId: face.kind === "FRONT_FLAT" ? "centerFront" : "centerBack",
+                axisRoleId: face.kind === "FRONT_FLAT" ? "front" : "yoke" });
+              continue;
+            }
             expect(piece.onFold).toBe(true);
             expect(role.foldAxisReflection).toMatchObject({ axis: "LOCAL_Y", source: "Piece.onFold" });
             const edge = piece.edges.find((candidate) => candidate.name === role.foldAxisReflection?.edgeId);

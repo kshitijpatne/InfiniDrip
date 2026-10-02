@@ -130,6 +130,59 @@ describe("projectPoloSleeveFillClosures", () => {
 });
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("projects Woven collar POM mark and edge anchors onto the same displayed revision", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const markPomRecipe = { ...recipe, poms: [{ label: "Stand button source point", measure: () => 1,
+      frontMarkAnchor: { roleId: "outerStand", markName: "stand-button", point: "at" as const } }] };
+    const markResult = compileTechnicalFlatLiveView({ recipe: markPomRecipe, block, revisionId: "woven-pom-projection-1",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(markResult.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    const markCallout = markResult.view?.primitives.find((primitive): primitive is FlatCalloutPrimitive =>
+      primitive.kind === "callout");
+    expect(markCallout?.anchor).toMatchObject({
+      primitiveId: "flat:woven-shirt:FRONT_FLAT:mark:outerStand:stand-button",
+      sourceEntityId: "pattern:woven-shirt:mark:outerStand:stand-button",
+    });
+
+    const edgePomRecipe = { ...recipe, poms: [{ label: "Stand base source point", measure: () => 1,
+      anchor: (draft: typeof block) => edgeEnd(pieceEdge(draft.roles.outerStand!, "collar")),
+      anchorRoleId: "outerStand", anchorEdgeId: "collar" }] };
+    const edgeResult = compileTechnicalFlatLiveView({ recipe: edgePomRecipe, block, revisionId: "woven-pom-projection-1",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    const edgeCallout = edgeResult.view?.primitives.find((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout");
+    expect(edgeCallout?.anchor.sourceEntityId).toBe("pattern:woven-shirt:role:outerStand:edge:collar");
+
+    const hiddenEdgePomRecipe = { ...edgePomRecipe, poms: [{ ...edgePomRecipe.poms[0]!,
+      anchor: (draft: typeof block) => edgeStart(pieceEdge(draft.roles.outerStand!, "collar")) }] };
+    const hiddenResult = compileTechnicalFlatLiveView({ recipe: hiddenEdgePomRecipe, block, revisionId: "woven-pom-projection-1",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(hiddenResult.issues).toContainEqual(expect.objectContaining({ stage: "pom",
+      sourceId: "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+      message: expect.stringContaining("exact mapped same-revision source entity") }));
+  });
+
+  it("fails closed when a source mark falls outside its approved Woven collar face map", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const authored = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const stand = authored.roles.outerStand!;
+    const malformed = { ...authored, roles: { ...authored.roles, outerStand: { ...stand,
+      marks: stand.marks!.map((mark) => mark.name === "stand-button" && "at" in mark
+        ? { ...mark, at: { x: 0.1, y: mark.at.y } } : mark) } } };
+    const result = compileTechnicalFlatLiveView({ recipe, block: malformed, revisionId: "woven-outside-mark-1",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "transform",
+      sourceId: "pattern:woven-shirt:mark:outerStand:stand-button", message: expect.stringContaining("cannot map") }));
+    const markedPomRecipe = { ...recipe, poms: [{ label: "Fold-side stand button", measure: () => 1,
+      frontMarkAnchor: { roleId: "outerStand", markName: "stand-button", point: "at" as const } }] };
+    const pomResult = compileTechnicalFlatLiveView({ recipe: markedPomRecipe, block: malformed, revisionId: "woven-outside-mark-pom-1",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(pomResult.issues).toContainEqual(expect.objectContaining({ stage: "pom",
+      sourceId: "pattern:woven-shirt:mark:outerStand:stand-button",
+      message: expect.stringContaining("exact emitted mark entity") }));
+  });
+
   it("binds Woven front and back POM anchors to their transformed source geometry", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));

@@ -129,6 +129,9 @@ describe("technical-flat source geometry", () => {
         ?.includes("pattern:woven-shirt:role:outerStand:edge:neckline"))).toBe(false);
       expect(result.primitives.filter((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly === true
         && primitive.sourceEdgeIds?.some((id) => id.endsWith(":edge:neckline")))).toHaveLength(2);
+      expect(result.primitives.filter((primitive) => primitive.kind === "path"
+        && primitive.id.includes(":view-boundary:approved-woven-collar-area-closure"))
+        .every((primitive) => primitive.kind === "path" && primitive.projectionEndpointEdgeIds?.length === 2)).toBe(true);
     }
   });
 

@@ -1,0 +1,55 @@
+[
+  {
+    "type": "editEpic",
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Record the verified S362 projection result while preserving all current G04 holds and exit gates.",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implements the approved Woven full-collar view projection; all 56 Woven faces remain held because the max-stand-height placket-width leader crosses collar contours and the rejected S361 sleeve/band view still crosses on the back. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md."
+    }
+  },
+  {
+    "type": "editItem",
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implements the approved Woven full-collar view projection; all 56 Woven faces remain held because the max-stand-height placket-width leader crosses collar contours and the rejected S361 sleeve/band view still crosses on the back. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md."
+    }
+  },
+  {
+    "type": "editItem",
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces with zero renderer issues and no unintended collar-line crossings, but manual review still finds the max-stand-height finished-placket-width leader crossing collar contours. The rejected S361 sleeve/band view retains a back X. All 56 Woven and 34 Polo faces remain held; preserve Polo's 0.25 cm gate, all-seven V02 and V02-before-V03. UIQ work remains outside G04's critical path under the S354 reconciliation. Current packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S362-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md",
+      "verified": true,
+      "note": "S362 implements the approved view-only Woven full-collar projection and verifies all 28 configurations / 56 face requests. Renderer and collar intersection checks pass; the max-height POM leader crosses collar contours and the rejected sleeve/band back X remains, so all 56 Woven faces stay held. Polo remains 34/34 held at the confirmed 0.25 cm residual gate."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S362-EXIT",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S362-EXIT"
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Slice 362 exit: the approved Woven full-collar view projection emits all 56 option/face requests without renderer errors or unintended collar-outline crossings. Render review still finds the max-stand-height placket-width leader crossing collar contours; the rejected S361 sleeve/band candidate retains a back X. Keep all 56 Woven and 34 Polo faces held, including Polo's confirmed 0.25 cm gate. No new accepted faces; integrated output stays 56/146 accepted. S354 UI reconciliation remains planning-only; no UIQ work entered G04. Exit packet: docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md."
+  }
+]

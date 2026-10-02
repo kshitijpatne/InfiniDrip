@@ -495,6 +495,27 @@ contours. See `docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md`
 and `docs/research/epic17/S345-woven-sleeve/manual-review.md`; the projection
 does not establish physical fit or complete G04 acceptance.
 
+Slice 362 extends the same revision-bound, view-only projection contract to
+Woven `outerStand`, `innerStand`, `upperCollar` and `underCollar`. The map
+splits the source collar at its source-length shoulder station, transfers each
+side onto the exact same-revision body or reversed yoke neckline, and preserves
+signed source-normal offsets and stable source-edge identity. Straight and
+curved source paths are sampled before transfer so mapped paths follow the
+receiver contour instead of spanning it with endpoint chords. Shared source
+endpoints are canonicalized to retain exact joins. The renderer validates the
+approved fold-reflection pair and builds each mirrored colorway half as its
+own closed contour; one exact shared fold-boundary pair is cancelled only
+while assembling the fill path. No pattern coordinates, cut geometry, stitch
+graph, option values or export output change. Although all 56 Woven render
+requests compile cleanly, all remain held: the max-stand-height placket-width
+leader crosses unrelated collar lines, and the rejected S361 sleeve/band
+candidate still crosses on the back. The current rigid artwork primitive also
+cannot be projected as a complete collar area, so collar-targeted artwork now
+fails closed instead of moving only its origin; the S362 replay contains no
+collar artwork placement. See
+`docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md` and its
+retained matrix/render evidence.
+
 Slice 336 records an additional source-order rule in the versioned projection
 metadata: Woven's `Outer stand ↔ woven neckline` stitch lists the stand edge
 from CF to CB, while the `front.neckline` and `yoke.neckline` edges run from CF

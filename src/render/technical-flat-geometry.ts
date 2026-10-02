@@ -186,12 +186,20 @@ function projectionBoundaryPrimitives(
     const boundarySourceId = boundary.fillOnlyColorway
       ? `view:${recipeId}:role:${role.roleId}:decision:${boundary.fillOnlyColorway.decisionId}:boundary:${boundary.id}`
       : `view:${recipeId}:role:${role.roleId}:stitch:${sourceStitch}:boundary:${boundary.id}`;
+    const endpointEdgeIds = [boundary.from, boundary.to].map((landmark) =>
+      landmark.kind === "edge-endpoint" || landmark.kind === "edge-arclength"
+        || landmark.kind === "normalized-edge-transfer" ? `pattern:${recipeId}:role:${role.roleId}:edge:${landmark.edgeId}` : undefined);
+    const wovenCollarAreaBoundary = recipeId === "woven-shirt"
+      && ["outerStand", "upperCollar", "underCollar"].includes(role.roleId)
+      && boundary.id === "approved-woven-collar-area-closure";
     primitives.push({
       kind: "path",
       id: `flat:${recipeId}:${kind}:component:${role.roleId}:view-boundary:${boundary.id}`,
       layer: "GARMENT_SILHOUETTE",
       feature: "silhouette",
       source: source(revisionId, boundarySourceId),
+      ...(wovenCollarAreaBoundary && endpointEdgeIds.every((edgeId): edgeId is string => edgeId !== undefined)
+        ? { projectionEndpointEdgeIds: endpointEdgeIds as [string, string] } : {}),
       ...(boundary.fillOnlyColorway ? { colorwayBoundaryOnly: true } : {}),
       commands: [{ op: "move", point: { ...from! } }, { op: "line", point: { ...to! } }],
     });
@@ -392,6 +400,13 @@ export function compileTechnicalFlatSourceGeometry(
     issues.push(...dartGeometry.issues);
 
     for (const mark of piece.marks ?? []) {
+      const excludedMark = projectionRole?.faceExcludedMarks?.find((candidate) => candidate.markName === mark.name);
+      if (excludedMark) {
+        notices.push({ id: `notice:${recipeId}:${kind}:mark:${role.roleId}:${mark.name}`, feature: "annotation",
+          reason: "HIDDEN_BY_VIEW", sourceId: `pattern:${recipeId}:mark:${role.roleId}:${mark.name}`,
+          message: excludedMark.reason });
+        continue;
+      }
       const primitive = markPrimitive(recipeId, revisionId, kind, role.roleId, mark);
       if (!primitive) {
         issues.push({ code: "INVALID_SOURCE_EDGE", sourceId: `pattern:${recipeId}:mark:${role.roleId}:${mark.name}`,

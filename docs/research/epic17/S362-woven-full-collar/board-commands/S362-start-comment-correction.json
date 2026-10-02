@@ -1,0 +1,6 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V02",
+  "actor": "Codex",
+  "text": "Start-state correction: S362 began from S361 commit 4f7b584, with the post-commit S361 importFacts update in board.json and its command file as the only dirty items. The earlier start note's word 'clean' referred to the committed source tree and omitted those expected post-commit evidence changes; nothing was discarded."
+}

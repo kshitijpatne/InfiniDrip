@@ -86,6 +86,8 @@ export interface FlatPathPrimitive extends FlatPrimitiveBase {
   readonly commands: readonly FlatPathCommand[];
   /** Exact outline-edge sources for a projected multi-edge path, in subpath order. */
   readonly sourceEdgeIds?: readonly string[];
+  /** Source edges at the two endpoints of a view-only closure segment. */
+  readonly projectionEndpointEdgeIds?: readonly [string, string];
   /** Internal source-bound contour closure used only to paint the associated colorway area. */
   readonly colorwayBoundaryOnly?: boolean;
   readonly patternMark?: {

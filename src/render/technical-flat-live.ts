@@ -21,6 +21,7 @@ import { compileTechnicalFlatOverlays } from "./technical-flat-overlays";
 import { compileTechnicalFlatPomCallouts, type TechnicalFlatPomResolvedAnchor } from "./technical-flat-poms";
 import { transformFlatPoint, transformFlatPrimitive } from "./technical-flat-transform";
 import { compileTrouserWaistbandFragments } from "./technical-flat-fragment-compiler";
+import { createWovenCollarProjector, projectWovenCollarPrimitive, type WovenCollarRoleId } from "./woven-collar-view-projection";
 import type { Pom } from "../drafting/pom";
 
 export interface TechnicalFlatLiveIssue {
@@ -496,6 +497,12 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const projectionMap = createG04TechnicalFlatProjectionMap(recipe.name, block, revisionId);
   const geometry = compileTechnicalFlatSourceGeometry(recipe.name, block, revisionId, kind, projectionMap);
   const assembly = assembleTechnicalFlatRoles(recipe.name, block, kind, projectionMap);
+  const wovenCollarProjectors = recipe.name === "woven-shirt"
+    ? new Map(((["outerStand", "innerStand", "upperCollar", "underCollar"] as const).flatMap((roleId) => {
+      const projector = createWovenCollarProjector(block, revisionId, roleId, kind, assembly.transforms);
+      return projector ? [[roleId, projector] as const] : [];
+    })))
+    : new Map<WovenCollarRoleId, ReturnType<typeof createWovenCollarProjector> extends infer T ? Exclude<T, undefined> : never>();
   const waistbandFragments = recipe.name === "trouser"
     ? compileTrouserWaistbandFragments(block, revisionId, kind, assembly.sourceFragments, assembly.transforms)
     : { primitives: [], issues: [] };
@@ -549,14 +556,19 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
         : pom.backAnchorRoleId);
       const placement = assembly.transforms[roleId as string];
       if (!roleId || !placement) return undefined;
+      const collarProjector = wovenCollarProjectors.get(roleId as WovenCollarRoleId);
       if (markAnchor) {
         const entityId = `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`;
+        const anchorPoint = collarProjector ? collarProjector.projectSourcePoint(point) : placedPoint(point, placement);
+        if (!anchorPoint) return undefined;
         return { targetGeometryId: `flat:${recipe.name}:${kind}:mark:${markAnchor.roleId}:${markAnchor.markName}`,
-          point: placedPoint(point, placement), sourcePoint: point, sourceEntityId: entityId };
+          point: anchorPoint, sourcePoint: point, sourceEntityId: entityId };
       }
       const edgeId = kind === "FRONT_FLAT" ? pom.anchorEdgeId : pom.backAnchorEdgeId;
+      const anchorPoint = collarProjector ? collarProjector.projectSourcePoint(point) : placedPoint(point, placement);
+      if (!anchorPoint) return undefined;
       return { targetGeometryId: `flat:${recipe.name}:${kind}:component:${roleId}:outline`,
-        point: placedPoint(point, placement), sourcePoint: point,
+        point: anchorPoint, sourcePoint: point,
         ...(edgeId ? { sourceEntityId: `pattern:${recipe.name}:role:${roleId}:edge:${edgeId}` } : {}) };
     };
   }
@@ -585,8 +597,9 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     })));
   }
   if (recipe.name === "woven-shirt") {
+    const approvedWovenCollarProjection = wovenCollarProjectors.has("outerStand");
     issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
-      && (issue.sourceId.includes("Outer stand ↔ woven neckline")
+      && ((issue.sourceId.includes("Outer stand ↔ woven neckline") && !approvedWovenCollarProjection)
         || (issue.sourceId.includes("Woven sleeve-cap ease") && !approvedWovenSleeveCap))).map((issue) => ({ stage: "assembly" as const,
       sourceId: issue.sourceId,
       message: `${issue.message} Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.`,
@@ -622,11 +635,24 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     }
     const roleId = technicalFlatPrimitiveRole(primitive, combined, faceRoleIds);
     for (const { placed, placement } of placeTechnicalFlatPrimitive(primitive, roleId, assembly.transforms[roleId], issues)) {
+      const collarProjector = recipe.name === "woven-shirt"
+        ? wovenCollarProjectors.get(roleId as WovenCollarRoleId) : undefined;
+      // The center-back colorway closure is fill-only. Project its source
+      // endpoints with the contour so the fill closes exactly at the mapped
+      // collar edges; the visible fold and source seam remain unchanged.
+      const displayed = collarProjector
+        ? projectWovenCollarPrimitive(placed, collarProjector, placement)
+        : placed;
+      if (!displayed) {
+        issues.push({ stage: "transform", sourceId: primitive.source.sourceId,
+          message: `The Woven collar projection cannot map ${roleId} geometry from the exact source revision onto the split body neckline; this face is withheld.` });
+        continue;
+      }
       const projectionRole = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
         .find((candidate) => candidate.roleId === roleId);
       const oppositeSide = projectionRole?.oppositeSideReflection;
-      if (appendOppositeSideReflection(transformed, placed, oppositeSide, block, assembly.transforms, issues)) continue;
-      transformed.push(placed);
+      if (appendOppositeSideReflection(transformed, displayed, oppositeSide, block, assembly.transforms, issues)) continue;
+      transformed.push(displayed);
       const foldAxis = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
         .find((candidate) => candidate.roleId === roleId)?.foldAxisReflection;
       if (foldAxis) {
@@ -638,7 +664,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
           // assembly validation guarantees its placement whenever this segment is emitted.
           const axisStart = placedPoint(edgeStart(axisEdge!), axisPlacement!);
           const axisEnd = placedPoint(edgeEnd(axisEdge!), axisPlacement!);
-          const mirrored = reflectPrimitiveAcrossLine(placed, axisStart, axisEnd);
+          const mirrored = reflectPrimitiveAcrossLine(displayed, axisStart, axisEnd);
           if (mirrored) transformed.push(mirrored);
         } else {
           const mirrored = reflectFoldPrimitive(primitive, foldAxis.edgeId);
