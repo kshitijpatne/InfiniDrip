@@ -351,6 +351,11 @@ only through an explicitly admitted, linked Epic packet.
   sleeve-band pair intersections on every Woven back. Diagnostic only; preserve
   all holds until a source-backed or maintainer-approved mapping clears the
   crossing gate.
+- `docs/research/epic17/G04-V02-WOVEN-BACK-BODY-OCCLUSION-PROJECTION-S350.md`
+  — S350 tests the approved replay-only back body/yoke occlusion candidate
+  against all 28 Woven backs. No production mapping changes or face release
+  occur unless sleeve visibility, exact joins, silhouette, overlap and
+  readability pass.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

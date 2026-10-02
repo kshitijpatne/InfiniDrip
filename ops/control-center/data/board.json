@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1357,
-  "updatedAt": "2026-10-02T01:49:10.553Z",
+  "revision": 1365,
+  "updatedAt": "2026-10-02T02:03:05.246Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3714,7 +3714,8 @@
         "E-G04-S347-REVIEW",
         "E-G04-S347-TRANSFORMS",
         "E-G04-S348-EXIT",
-        "E-G04-S349-EXIT"
+        "E-G04-S349-EXIT",
+        "E-G04-S350-EXIT"
       ],
       "flagKey": null
     },
@@ -7212,6 +7213,16 @@
           "at": "2026-10-02T01:49:10.553Z",
           "actor": "Codex",
           "text": "Slice 349 complete: exact Woven sleeve-band source joins pass across all 28 options, but every back pair still has four contour crossings. All 56 Woven faces remain held and the 56 accepted / 90 held integrated tally is unchanged. Source crosswalk, annotated output, and exit report are linked; V02 remains all-seven and V03 remains gated."
+        },
+        {
+          "at": "2026-10-02T02:01:32.597Z",
+          "actor": "Codex",
+          "text": "Start Slice 350 from clean S349 4919ec3; refreshed origin/main remains an ancestor; board revision 1357, highest slice 349. Scope is a replay-only back-body occlusion candidate for Woven sleeve/band output. Preserve all source/cut/stitch geometry and all face holds unless the candidate passes the 28-option join, silhouette, overlap, cuff visibility, and readability checks. Packet: docs/research/epic17/G04-V02-WOVEN-BACK-BODY-OCCLUSION-PROJECTION-S350.md."
+        },
+        {
+          "at": "2026-10-02T02:03:05.246Z",
+          "actor": "Codex",
+          "text": "Slice 350 candidate rejected: masking Woven sleeve/band silhouettes behind the body removes both visible cuffs, and later sleeve-cap seam strokes still cross the back as an X. 28 exact-revision candidates were checked in Chromium with zero browser errors; no production mapping changed. All Woven faces stay held; integrated tally remains 56 accepted / 90 held, V02 all-seven, V03 gated. See linked exit, candidate matrix, and rendered views."
         }
       ],
       "evidenceRefs": [
@@ -7462,7 +7473,12 @@
         "E-G04-S348-OVERLAY",
         "E-G04-S349-EXIT",
         "E-G04-S349-CROSSWALK",
-        "E-G04-S349-OVERLAY"
+        "E-G04-S349-OVERLAY",
+        "E-G04-S350-START",
+        "E-G04-S350-EXIT",
+        "E-G04-S350-MATRIX",
+        "E-G04-S350-RENDERED",
+        "E-G04-S350-EXTREMES"
       ],
       "flagKey": null
     },
@@ -10572,6 +10588,51 @@
       "sha256": null,
       "verified": true,
       "note": "Annotated exact production-derived Woven default back shows the four mirrored full-band contour crossings; held output evidence."
+    },
+    {
+      "id": "E-G04-S350-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-BODY-OCCLUSION-PROJECTION-S350.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S350 start: replay-only test of the approved view-only Woven back body-occlusion projection; source geometry/stitches and production mapping stay unchanged unless every conditional output gate passes."
+    },
+    {
+      "id": "E-G04-S350-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-BODY-OCCLUSION-PROJECTION-S350.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S350 rejects the replay-only body mask: it hides both cuffs and leaves sleeve-cap seam X strokes; no production mapping changed and all Woven faces remain held."
+    },
+    {
+      "id": "E-G04-S350-MATRIX",
+      "kind": "test",
+      "uri": "docs/research/epic17/S350-woven-back-occlusion/body-mask-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "28 exact-revision Woven back candidates loaded in Chromium; 168 sleeve/band silhouette paths masked, zero browser errors. Candidate output fails visibility and seam-crossing checks."
+    },
+    {
+      "id": "E-G04-S350-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S350-woven-back-occlusion/candidate-rendered/woven-shirt-default-back_flat-body-mask.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Rejected diagnostic candidate visibly hides both Woven sleeve bands while the separate sleeve-cap seam strokes still cross the back torso."
+    },
+    {
+      "id": "E-G04-S350-EXTREMES",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S350-woven-back-occlusion/candidate-rendered/woven-shirt-yokeDepth-max-back_flat-body-mask.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Rejected exact-option yoke-depth extreme candidate; sleeve/band occlusion loses visible cuffs and leaves crossing cap-seam strokes."
     }
   ]
 }

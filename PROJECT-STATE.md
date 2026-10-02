@@ -1,8 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 349 confirms exact Woven sleeve-to-band joins but four band-pair crossings on every back; all Woven faces remain held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
+_Last updated: Slice 350 rejected a replay-only Woven back body-occlusion projection because it hides both cuffs and leaves the seam X; production remains unchanged. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 349 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 350 complete; V02 remains open
+
+S350 started 2026-10-02 01:56 UTC from clean S349 `4919ec3b95610a469a111accb32b8dcb753aff8f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 349; S350 was reserved. Board revision 1357 linked the S349 exit; validated S350 start evidence/comment are at revisions 1358–1359. Packet: `docs/research/epic17/G04-V02-WOVEN-BACK-BODY-OCCLUSION-PROJECTION-S350.md`.
+
+S350 tested a replay-only mask from exact back/yoke filled contours over the sleeve and band silhouettes on all 28 same-revision Woven back SVGs. Chromium loaded all 28 with zero errors. It removes band contours only by hiding both complete cuffs, while separate sleeve-cap seams continue to cross the body in an X; representative default, combined and yoke-depth extreme renders confirm the output is misleading. The conditional output gate fails, so the candidate is rejected and no production source or projection changes. Woven remains 0/56 accepted; integrated tally stays 56 accepted / 90 held. V02 retains all-seven acceptance; V03 remains gated.
+
+The canonical board links S350 start evidence/comment at revisions 1358–1359; exit, matrix, and rendered evidence at 1360–1363; EPIC summary evidence at 1364; and exit comment at 1365. Candidate generation, Chromium verification and manual review are complete. `npm run control-center:test` and `git diff --check` are required before commit. Elapsed at 02:04 UTC: candidate/source analysis 4m, Chromium verification 2m, visual review 1m, docs/board 1m, production implementation 0m, external-agent waits 0m, maintainer-decision wait 0m (approval was received before this slice). No safe independent delegation was identified. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable accepted-output exits; post-G17 deferrals are unchanged.
+
+**Next action:** after S350's Control Center verification and commit, refresh usage/Git/board and reserve S351 to diagnose the remaining 34 held Polo faces, beginning with the 0.68 cm sleeve-cap residual and POM collisions. Do not start V03 before all-seven acceptance.
+
+## EPIC-17 / G04 previous boundary — Slice 349 complete; V02 remains open
 
 S349 started 2026-10-02 01:28 UTC from clean S348 `02c467ae578b891558f8d8988d1cdf2b0a9e6ae7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 348; S349 was reserved. Board revision 1352 linked the start packet. Packet: `docs/research/epic17/G04-V02-WOVEN-BACK-BAND-PAIR-CROSSING-S349.md`.
 
