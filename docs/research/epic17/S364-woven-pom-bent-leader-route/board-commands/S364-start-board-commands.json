@@ -1,0 +1,37 @@
+[
+  {
+    "type": "importFacts",
+    "facts": [
+      { "evidenceId": "E-G04-S363-START", "uri": "docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md", "kind": "document", "commit": "b637f1d2952c497d836d3aceb520fb10cc7f4fe9", "sha256": null, "verified": true, "note": "S363 start packet landed in verified commit b637f1d2952c497d836d3aceb520fb10cc7f4fe9." },
+      { "evidenceId": "E-G04-S363-EXIT", "uri": "docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md", "kind": "document", "commit": "b637f1d2952c497d836d3aceb520fb10cc7f4fe9", "sha256": null, "verified": true, "note": "S363 exit packet landed in verified commit b637f1d2952c497d836d3aceb520fb10cc7f4fe9." },
+      { "evidenceId": "E-G04-S363-MATRIX", "uri": "docs/research/epic17/S363-woven-pom-leader-readability/production-replay/matrix.json", "kind": "document", "commit": "b637f1d2952c497d836d3aceb520fb10cc7f4fe9", "sha256": null, "verified": true, "note": "S363 28-configuration / 56-face replay matrix landed in verified commit b637f1d2952c497d836d3aceb520fb10cc7f4fe9." },
+      { "evidenceId": "E-G04-S363-MAX-HEIGHT-HOLD", "uri": "docs/research/epic17/S363-woven-pom-leader-readability/production-replay/woven-shirt-standHeight-max-front_flat.png", "kind": "rendered-output", "commit": "b637f1d2952c497d836d3aceb520fb10cc7f4fe9", "sha256": null, "verified": true, "note": "S363 max-height front hold screenshot landed in verified commit b637f1d2952c497d836d3aceb520fb10cc7f4fe9." },
+      { "evidenceId": "E-G04-S363-ANCHOR", "uri": "docs/research/epic17/S363-woven-pom-leader-readability/production-callout-anchor-comparison.json", "kind": "rendered-output", "commit": "b637f1d2952c497d836d3aceb520fb10cc7f4fe9", "sha256": null, "verified": true, "note": "S363 production SVG anchor comparison landed in verified commit b637f1d2952c497d836d3aceb520fb10cc7f4fe9." }
+    ]
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S364-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-POM-BENT-LEADER-ROUTE-S364.md",
+      "verified": true,
+      "note": "S364 investigates a same-anchor view-only bent leader around the four projected Woven collar outlines. S363 fail-closed behavior and all holds remain until option-wide source/revision, intersection and rendered checks pass."
+    }
+  },
+  { "type": "addEpicEvidence", "epicId": "EPIC-17", "evidenceId": "E-G04-S364-START", "actor": "Codex", "role": "maintainer" },
+  { "type": "addEvidence", "itemId": "EPIC-17", "evidenceId": "E-G04-S364-START" },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S364 at 2026-10-02 09:56:39 UTC from clean S363 b637f1d2952c497d836d3aceb520fb10cc7f4fe9. First close out the S363 commit on its linked evidence, then inspect a bounded source-anchored bent leader around projected Woven collar outlines. Preserve the 0.25 cm Polo gate, all 56 Woven/34 Polo holds, all-seven V02, and V02-before-V03. Packet: docs/research/epic17/G04-V02-WOVEN-POM-BENT-LEADER-ROUTE-S364.md."
+  },
+  {
+    "type": "addComment",
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S364 starts from verified S363 commit b637f1d2952c497d836d3aceb520fb10cc7f4fe9. It will investigate a bent Woven POM leader route while preserving S363's fail-closed behavior, all holds, the confirmed Polo 0.25 cm gate, and all-seven V02/V02-before-V03."
+  }
+]

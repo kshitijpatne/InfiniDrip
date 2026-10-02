@@ -1,0 +1,243 @@
+{
+  "source": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S362-woven-full-collar\\woven-shirt-default-front.svg",
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "callout": {
+    "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+    "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+    "leaderPath": "M2.5 8.2 L8.5632 10.7637",
+    "leaderSubpaths": [
+      {
+        "start": {
+          "x": 2.5,
+          "y": 8.2
+        },
+        "end": {
+          "x": 8.5632,
+          "y": 10.7637
+        }
+      }
+    ]
+  },
+  "collars": [
+    {
+      "role": "outerStand",
+      "id": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pattern:woven-shirt:role:outerStand",
+      "layer": "GARMENT_SILHOUETTE",
+      "stroke": "#19222b",
+      "subpaths": [
+        {
+          "start": {
+            "x": 12.75,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": 10.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 10.7
+          },
+          "end": {
+            "x": 0,
+            "y": 8.2
+          }
+        }
+      ]
+    },
+    {
+      "role": "outerStand",
+      "id": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:attached-fold-reflection",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pattern:woven-shirt:role:outerStand",
+      "layer": "GARMENT_SILHOUETTE",
+      "stroke": "#19222b",
+      "subpaths": [
+        {
+          "start": {
+            "x": -12.75,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": 10.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 10.7
+          },
+          "end": {
+            "x": 0,
+            "y": 8.2
+          }
+        }
+      ]
+    },
+    {
+      "role": "upperCollar",
+      "id": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pattern:woven-shirt:role:upperCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "stroke": "#19222b",
+      "subpaths": [
+        {
+          "start": {
+            "x": 12.75,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": 10.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 10.7
+          },
+          "end": {
+            "x": 0,
+            "y": 4.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 4.7
+          },
+          "end": {
+            "x": 6.75,
+            "y": 0
+          }
+        }
+      ]
+    },
+    {
+      "role": "upperCollar",
+      "id": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pattern:woven-shirt:role:upperCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "stroke": "#19222b",
+      "subpaths": [
+        {
+          "start": {
+            "x": -12.75,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": 10.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 10.7
+          },
+          "end": {
+            "x": 0,
+            "y": 4.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 4.7
+          },
+          "end": {
+            "x": -6.75,
+            "y": 0
+          }
+        }
+      ]
+    },
+    {
+      "role": "underCollar",
+      "id": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pattern:woven-shirt:role:underCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "stroke": "#19222b",
+      "subpaths": [
+        {
+          "start": {
+            "x": 12.75,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": 10.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 10.7
+          },
+          "end": {
+            "x": 0,
+            "y": 4.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 4.7
+          },
+          "end": {
+            "x": 6.75,
+            "y": 0
+          }
+        }
+      ]
+    },
+    {
+      "role": "underCollar",
+      "id": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceId": "pattern:woven-shirt:role:underCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "stroke": "#19222b",
+      "subpaths": [
+        {
+          "start": {
+            "x": -12.75,
+            "y": 0
+          },
+          "end": {
+            "x": 0,
+            "y": 10.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 10.7
+          },
+          "end": {
+            "x": 0,
+            "y": 4.7
+          }
+        },
+        {
+          "start": {
+            "x": 0,
+            "y": 4.7
+          },
+          "end": {
+            "x": -6.75,
+            "y": 0
+          }
+        }
+      ]
+    }
+  ]
+}

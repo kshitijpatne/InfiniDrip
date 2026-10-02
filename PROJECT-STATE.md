@@ -1,8 +1,16 @@
 # InfiniDrip — Project State
 
-_Last updated: S363 prevents the reviewed Woven callout crossing and retains all affected face holds; 2026-10-02._
+_Last updated: S364 completed a Woven POM leader route feasibility review; all holds remain; 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 363 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 364 complete; V02 remains open
+
+S364 started 2026-10-02 09:56:39 UTC from clean S363 commit `b637f1d2952c497d836d3aceb520fb10cc7f4fe9` on `codex/epic-17-g04`. Refreshed `origin/main` remains `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Highest assigned number at entry was 363; S364 is now complete. The canonical board was revision 1565 at implementation entry; validated exit commands advanced it to 1579 and board-regression wording corrections to 1588. `npm run control-center:test` passes 42/42 at rev 1588. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal record remains active and matches the admitted objective. Polo's 0.25 cm residual gate remains confirmed.
+
+S364 found a geometrically non-crossing candidate from the default option's exact `buttonPlacket.top` midpoint `(2.5, 8.2)` cm to the same-revision measured label endpoint `(8.5632, 10.7637)` cm. Across all six visible reflected collar paths it has zero intersections and 0.251 cm minimum clearance, but its route is 25.66 cm versus a 6.583 cm straight span (3.90×); rendered review shows it following the collar perimeter and reading as a duplicate collar edge. It is rejected for readability, so no production change or full option replay was made. S363's fail-closed guard remains. All 56 Woven and 34 Polo faces remain held; integrated acceptance remains 56 accepted / 90 held across 73 configurations / 146 faces. S364 evidence is in `docs/research/epic17/G04-V02-WOVEN-POM-BENT-LEADER-ROUTE-S364.md` and `docs/research/epic17/S364-woven-pom-bent-leader-route/`.
+
+**Next action:** reserve S365 after refreshing usage, Git, and board state. Diagnose the existing Woven back sleeve/band X against exact reflected instances, source joins, and assembly transforms; preserve all holds unless a source-supported view-only correction is proven and rendered across the option matrix. Keep all-seven V02 and V02-before-V03; Polo's 0.25 cm gate is unchanged.
+
+## EPIC-17 / G04 previous handoff — Slice 363 complete; V02 remains open
 
 S363 started 2026-10-02 09:30:41 UTC from clean S362 commit `24a0c00fa8cb5d11b9e0b4b0c132c5c7efe5684c` on `codex/epic-17-g04`. Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and remains an ancestor. Highest assigned slice was 362; S363 was reserved. The canonical board was revision 1536 at start; validated start evidence/comments are at 1537–1539. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal record is active and its objective matches the admitted G04 objective. The user retained Polo's 0.25 cm residual gate; no Polo threshold or acceptance change is authorized.
 
