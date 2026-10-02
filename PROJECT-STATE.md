@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current handoff — Slice 368 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 369 complete; V02 remains open
+
+S369 started from clean S368 commit `9ea4e8a7e528ca818b8627c299db75bfde90a2d6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 368; S369 is complete. Canonical board revision was 1709 at entry; validated S369 start evidence/comments end at revision 1713 and exit evidence/comments end at 1727. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Polo's 0.25 cm residual gate is reaffirmed and fixed.
+
+S369 tested the complete, uncut `sleeveBand.top[0,1]` mapped to exact BACK `sleeve.hem[0,0.5]` across all 28 same-revision configurations / 56 face identities. The full 37 cm band maps onto an 18.5 cm hem half, a 0.5 display-length ratio. All 28 views show four outline self-crossings per band and one crossing between mirrored instances. The five selected Chromium views (including sleeve-band-depth max) show a central X; browser errors are zero. Source full-join residual is ≤2.56e-14 cm and mapped residual is zero, but this does not clear the projection distortion/crossing/readability failure. Focused diagnostic regression passes 2/2. No production code or acceptance changed. Keep all 56 Woven / 34 Polo faces held; integrated baseline stays 56 accepted / 90 held.
+
+**Next action:** reserve S370 after refreshing branch history and board. Continue V02 diagnosis from the exact remaining Woven and Polo blockers; keep the 0.25 cm Polo threshold and all-seven criterion fixed. Do not begin V03 or UIQ implementation.
+
+**Elapsed:** 2026-10-02 12:29:44–12:55:15 UTC (25m31s): production implementation 0m; source/topology analysis and diagnostic script/run 11m; focused diagnostic regression, syntax and diff checks 2m; Chromium render inspection 3m; packet, context/state, validated board and closeout review 9m31s; external-agent waits 0m; maintainer-decision wait 0m (Polo's 0.25 cm reaffirmation arrived before this continuation and required no dependent pause).
+
+_Last updated: S369 rejects the tested uncut-band mapping on all Woven options; all holds remain; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 368 complete; V02 remains open
 
 S368 starts from clean S367 commit `684efc25f1d1a6fec9dfc7f3e083fe3c54ccf281` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice is 367; S368 is the fresh UI-sequence revalidation slice. Canonical board revision was 1694 at entry and 1698 after validated S368 start evidence/comments. The goal record was inspected at this normal boundary: active, objective aligned to admitted G04, and still needed through safe merge/deployment. Ordinary usage was allowed. The maintainer reaffirmed Polo's fixed 0.25 cm residual gate; all 34 Polo faces remain held.
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1709,
-  "updatedAt": "2026-10-02T12:22:33.200Z",
+  "revision": 1727,
+  "updatedAt": "2026-10-02T12:53:55.941Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -420,7 +420,12 @@
         "E-G04-S368-START",
         "E-G04-S368-EXIT",
         "E-G04-S368-UIQ-AUDIT",
-        "E-G04-S368-TEST"
+        "E-G04-S368-TEST",
+        "E-G04-S369-START",
+        "E-G04-S369-EXIT",
+        "E-G04-S369-MATRIX",
+        "E-G04-S369-RENDER",
+        "E-G04-S369-TEST"
       ]
     },
     {
@@ -3777,6 +3782,11 @@
           "at": "2026-10-02T12:22:33.200Z",
           "actor": "Codex",
           "text": "Slice 368 closes as a UI-sequence revalidation. S354 remains the original reconciliation; S368 confirms all 29 additive UIQ commands are identical on the current board and skips them, keeping every UIQ card Backlog and outside G04. All G04 scope, face holds, the all-seven V02 gate, V02-before-V03, and Polo's 0.25 cm residual gate remain unchanged. Evidence: docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md."
+        },
+        {
+          "at": "2026-10-02T12:53:55.941Z",
+          "actor": "Codex",
+          "text": "Slice 369 closes with the uncut Woven band-to-back-hem-half candidate rejected by proportionality, outline and mirrored-pair crossings, and rendered readability. All current holds, all-seven V02, V02-before-V03, and Polo's 0.25 cm gate remain. No production behavior changed. See docs/research/epic17/G04-V02-WOVEN-UNCUT-BAND-HEM-HALF-FEASIBILITY-S369.md."
         }
       ],
       "evidenceRefs": [
@@ -4018,7 +4028,12 @@
         "E-G04-S368-START",
         "E-G04-S368-EXIT",
         "E-G04-S368-UIQ-AUDIT",
-        "E-G04-S368-TEST"
+        "E-G04-S368-TEST",
+        "E-G04-S369-START",
+        "E-G04-S369-EXIT",
+        "E-G04-S369-MATRIX",
+        "E-G04-S369-RENDER",
+        "E-G04-S369-TEST"
       ],
       "flagKey": null
     },
@@ -7721,6 +7736,16 @@
           "at": "2026-10-02T12:22:33.169Z",
           "actor": "Codex",
           "text": "S368 exit: current-state audit confirms source-bound construction, piece/revision identity, exact POMs, applicable overlays, rendered readability and truthful holds remain existing G04 requirements. All 29 UIQ commands are exact duplicates on the current board; clone preflight passed and canonical replay was skipped without mutation. All UIQ work remains Backlog outside G04. Preserve all holds, all-seven V02, V02-before-V03 and Polo's 0.25 cm residual gate. Control Center passes 42/42; no product gate changed."
+        },
+        {
+          "at": "2026-10-02T12:35:32.543Z",
+          "actor": "Codex",
+          "text": "Slice 369 starts from clean S368 9ea4e8a7e528ca818b8627c299db75bfde90a2d6; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; board revision 1709. Test the approved S321 uncut-band view against the exact BACK sleeve hem half across 28 Woven options, diagnostic only. Keep all Woven/Polo holds, all-seven V02, V02-before-V03 and Polo's 0.25 cm gate. Packet: docs/research/epic17/G04-V02-WOVEN-UNCUT-BAND-HEM-HALF-FEASIBILITY-S369.md."
+        },
+        {
+          "at": "2026-10-02T12:53:55.908Z",
+          "actor": "Codex",
+          "text": "Slice 369 exit: the S321-approved full uncut-band mapping to the BACK hem half fails across all 28 exact-revision options. Compression is 0.5; each band outline self-crosses four times and each mirrored pair crosses once. Five Chromium overlays show the central X. Zero source/mapped join residual does not clear distortion or readability. Keep all 56 Woven and 34 Polo faces held, 56 accepted / 90 held, all-seven V02 and V02-before-V03. The maintainer reaffirmed Polo's 0.25 cm residual gate; unchanged. Focused diagnostic test 2/2; Control Center tests 42/42. No production code or acceptance change."
         }
       ],
       "evidenceRefs": [
@@ -8054,7 +8079,12 @@
         "E-G04-S368-START",
         "E-G04-S368-EXIT",
         "E-G04-S368-UIQ-AUDIT",
-        "E-G04-S368-TEST"
+        "E-G04-S368-TEST",
+        "E-G04-S369-START",
+        "E-G04-S369-EXIT",
+        "E-G04-S369-MATRIX",
+        "E-G04-S369-RENDER",
+        "E-G04-S369-TEST"
       ],
       "flagKey": null
     },
@@ -12604,6 +12634,51 @@
       "sha256": null,
       "verified": true,
       "note": "npm run control-center:test passes 42/42 with existing UIQ backlog/dependency/reconciliation and current G04 regression assertions."
+    },
+    {
+      "id": "E-G04-S369-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-UNCUT-BAND-HEM-HALF-FEASIBILITY-S369.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S369 tests the conditionally approved uncut Woven band convention on the exact back sleeve hem half; diagnostic only, no acceptance change."
+    },
+    {
+      "id": "E-G04-S369-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-UNCUT-BAND-HEM-HALF-FEASIBILITY-S369.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S369 rejects the full uncut Woven band mapped onto the exact BACK hem half: 0.5 length ratio, four self-crossings per outline, one mirrored-pair crossing in every option, and five inspected central-X renders. All holds remain."
+    },
+    {
+      "id": "E-G04-S369-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S369-woven-uncut-band-feasibility/uncut-band-hem-half-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact-revision Woven topology matrix covers 28 options / 56 face requests; source stitch residual ≤2.56e-14 cm, mapped residual 0, display ratio 0.5, 112 self-crossings and 28 mirrored-pair crossings."
+    },
+    {
+      "id": "E-G04-S369-RENDER",
+      "kind": "document",
+      "uri": "docs/research/epic17/S369-woven-uncut-band-feasibility/",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Five annotated Chromium SVG/PNG pairs were reviewed, including the sleeveBandDepth maximum. Each visibly shows the mirrored full-band central X; zero browser errors."
+    },
+    {
+      "id": "E-G04-S369-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S369-woven-uncut-band-feasibility/focused-test.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Focused diagnostic regression passes 2/2; syntax checks pass. Control Center tests pass 42/42."
     }
   ]
 }

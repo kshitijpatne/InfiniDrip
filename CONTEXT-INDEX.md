@@ -143,6 +143,12 @@ only through an explicitly admitted, linked Epic packet.
   1698. All 29 additive UIQ commands remain identical and are skipped after
   clone preflight; all UIQ work remains Backlog and outside G04's critical
   path. No renderer, acceptance gate or hold changes.
+- `docs/research/epic17/G04-V02-WOVEN-UNCUT-BAND-HEM-HALF-FEASIBILITY-S369.md`
+  and `docs/research/epic17/S369-woven-uncut-band-feasibility/` — S369 tests
+  the conditional uncut-band mapping against the exact BACK hem half across
+  28 options. Its 0.5 display-length ratio, four self-crossings per band, one
+  mirrored-pair crossing per option, and five reviewed central-X renders fail
+  the view gate; all 56 Woven faces remain held.
 - `docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md` —
   Slice 355's 28-option measurement of the complete mirrored sleeve-band
   silhouette against the body/yoke fills. Seam-only occlusion cannot remove
