@@ -152,9 +152,16 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md`
   and `docs/research/epic17/S370-woven-band-detail-feasibility/` — S370's
   two source-scale side-gutter band details fit all 28 Woven options without
-  band/body overlap. The independent sleeve-outline crossing remains. This
-  alternate view composition is documented but not implemented pending
-  maintainer approval; all 56 Woven faces remain held.
+  band/body overlap. The independent sleeve-outline crossing remains. The
+  maintainer approved this band-only view composition during S371; S372 is
+  reserved for implementation and validation. All Woven faces remain held
+  unless every other join and topology check also passes.
+- `docs/research/epic17/G04-V02-WOVEN-POM-RELOCATED-LEADER-FEASIBILITY-S371.md`
+  and `docs/research/epic17/S371-woven-pom-relocated-leader/` — S371 tested
+  280,637 source-bound direct and one-bend candidates across 28 Woven options;
+  no measured label placement passes. The closest default candidate crosses
+  the collar and front outline. Preserve the current `TEXT_COLLISION` guard
+  and all board holds; no production behavior changed.
 - `docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md` —
   Slice 355's 28-option measurement of the complete mirrored sleeve-band
   silhouette against the body/yoke fills. Seam-only occlusion cannot remove

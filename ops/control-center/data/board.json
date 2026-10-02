@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1749,
-  "updatedAt": "2026-10-02T13:23:40.115Z",
+  "revision": 1771,
+  "updatedAt": "2026-10-02T14:04:30.560Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -431,7 +431,13 @@
         "E-G04-S370-MATRIX",
         "E-G04-S370-RENDER",
         "E-G04-S370-TEST",
-        "E-G04-S370-CC-TEST"
+        "E-G04-S370-CC-TEST",
+        "E-G04-S371-START",
+        "E-G04-S371-EXIT",
+        "E-G04-S371-MATRIX",
+        "E-G04-S371-RENDER",
+        "E-G04-S371-TEST",
+        "E-G04-S371-CC-TEST"
       ]
     },
     {
@@ -3798,6 +3804,11 @@
           "at": "2026-10-02T13:22:33.223Z",
           "actor": "Codex",
           "text": "Slice 370 closes with a concrete, tested Woven band detail proposal. It is view-only in concept, changes the approved assembled-band composition, and addresses band overlap only. The main sleeve crossing and all other holds remain. No production mapping or acceptance changes pending maintainer decision. See docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md."
+        },
+        {
+          "at": "2026-10-02T14:03:39.735Z",
+          "actor": "Codex",
+          "text": "S371 completes a diagnostic-only no-go for direct/one-bend relocation of the Woven finished-placket-width leader; all existing board holds and acceptance criteria remain. The maintainer approved S370's exact detached source-scale left/right band details for the next implementation slice S372. See the S371 packet/matrix and the S370 approval recorded in docs/PROJECT-DECISIONS.md."
         }
       ],
       "evidenceRefs": [
@@ -4050,7 +4061,13 @@
         "E-G04-S370-MATRIX",
         "E-G04-S370-RENDER",
         "E-G04-S370-TEST",
-        "E-G04-S370-CC-TEST"
+        "E-G04-S370-CC-TEST",
+        "E-G04-S371-START",
+        "E-G04-S371-EXIT",
+        "E-G04-S371-MATRIX",
+        "E-G04-S371-RENDER",
+        "E-G04-S371-TEST",
+        "E-G04-S371-CC-TEST"
       ],
       "flagKey": null
     },
@@ -7778,6 +7795,21 @@
           "at": "2026-10-02T13:23:40.115Z",
           "actor": "Codex",
           "text": "S370 Control Center regression passes 42/42 after validated exit commands; G04 and EPIC-17 remain In Progress, with all holds and all-seven/V02-before-V03 gates unchanged."
+        },
+        {
+          "at": "2026-10-02T13:34:10.186Z",
+          "actor": "Codex",
+          "text": "Slice 371 starts from clean S370 27dde85888627158a1cc1d76b709d516ca96649e; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; board revision 1749. Diagnostic only: test alternate measured label positions for the exact Woven front placket-width POM after S363 direct leaders and S364 fixed-label bent routing failed. Do not alter POM source, output acceptance, production behavior, or holds. Preserve all-seven V02 and Polo's 0.25 cm gate. Packet: docs/research/epic17/G04-V02-WOVEN-POM-RELOCATED-LEADER-FEASIBILITY-S371.md."
+        },
+        {
+          "at": "2026-10-02T14:03:39.688Z",
+          "actor": "Codex",
+          "text": "Slice 371 exit: current Chromium source replay covers all 28 Woven options and paired same-revision backs. The exact buttonPlacket.top anchor, 3.0 cm value and ±0.2 cm tolerance remain. Across 280,637 direct and one-bend route checks, no label placement clears text/geometry/leader/frame/collar gates; the closest default line crosses collar and front outline and is retained only as rejected review evidence. Current renderer results are 3/28 front SVGs, 25 TEXT_COLLISION holds, and 28/28 back SVGs. No production change, face acceptance or board hold release. Preserve all Woven/Polo holds, all-seven V02, V02-before-V03 and Polo's 0.25 cm gate."
+        },
+        {
+          "at": "2026-10-02T14:04:30.560Z",
+          "actor": "Codex",
+          "text": "S371 Control Center validation passes 42/42 after the validated exit replay; board revision remains on G04/EPIC-17 In Progress and all Woven/Polo holds, 56 accepted / 90 held, all-seven acceptance, V02-before-V03 and Polo's 0.25 cm gate are unchanged."
         }
       ],
       "evidenceRefs": [
@@ -8122,7 +8154,13 @@
         "E-G04-S370-MATRIX",
         "E-G04-S370-RENDER",
         "E-G04-S370-TEST",
-        "E-G04-S370-CC-TEST"
+        "E-G04-S370-CC-TEST",
+        "E-G04-S371-START",
+        "E-G04-S371-EXIT",
+        "E-G04-S371-MATRIX",
+        "E-G04-S371-RENDER",
+        "E-G04-S371-TEST",
+        "E-G04-S371-CC-TEST"
       ],
       "flagKey": null
     },
@@ -12771,6 +12809,60 @@
       "sha256": null,
       "verified": true,
       "note": "npm run control-center:test passes 42/42 after the validated S370 board exit replay."
+    },
+    {
+      "id": "E-G04-S371-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-POM-RELOCATED-LEADER-FEASIBILITY-S371.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S371 tests alternate measured label boxes for the held Woven front placket-width POM; exact anchor/value and current output guard remain unchanged."
+    },
+    {
+      "id": "E-G04-S371-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-POM-RELOCATED-LEADER-FEASIBILITY-S371.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S371 full-source 28-option replay finds no readable direct or one-bend relocated POM leader; exact anchor/value and fail-closed behavior remain unchanged."
+    },
+    {
+      "id": "E-G04-S371-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S371-woven-pom-relocated-leader/relocated-label-feasibility.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "28 exact-revision configurations; 280,637 direct/one-bend route checks; zero candidates meet geometry, label, clearance, frame and collar-perimeter gates."
+    },
+    {
+      "id": "E-G04-S371-RENDER",
+      "kind": "document",
+      "uri": "docs/research/epic17/S371-woven-pom-relocated-leader/default-closest-crossing-overlay.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium review of the closest default candidate confirms the line visibly crosses collar and front geometry; rejected, not implemented."
+    },
+    {
+      "id": "E-G04-S371-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S371-woven-pom-relocated-leader/relocated-label-feasibility.test.mjs",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S371 focused diagnostic regression passes 2/2; current output remains 3/28 front SVGs, 25 TEXT_COLLISION holds, and 28/28 back SVGs."
+    },
+    {
+      "id": "E-G04-S371-CC-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S371-woven-pom-relocated-leader/control-center-test.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "npm run control-center:test passes 42/42 after S371 exit evidence and comments are recorded through the validated command layer."
     }
   ]
 }

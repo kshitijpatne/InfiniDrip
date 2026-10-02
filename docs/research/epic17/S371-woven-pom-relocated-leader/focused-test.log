@@ -1,0 +1,10 @@
+✔ S371 replay covers every current Woven option at one exact revision (1.2267ms)
+✔ S371 retains current fail-closed production output and finds no safe relocated label route (0.2767ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 168.7177
