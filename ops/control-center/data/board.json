@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1305,
-  "updatedAt": "2026-10-01T23:40:52.302Z",
+  "revision": 1326,
+  "updatedAt": "2026-10-02T00:39:17.557Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -342,7 +342,13 @@
         "E-G04-S344-RENDERED",
         "E-G04-S345-START",
         "E-G04-S345-DECISION",
-        "E-G04-S345-EXIT"
+        "E-G04-S345-EXIT",
+        "E-G04-S346-START",
+        "E-G04-S346-EXIT",
+        "E-G04-S346-REVIEW",
+        "E-G04-S346-RENDERED",
+        "E-G04-S346-COVERAGE",
+        "E-G04-S346-BUILD"
       ]
     },
     {
@@ -3509,6 +3515,11 @@
           "at": "2026-10-01T20:01:19.304Z",
           "actor": "Codex",
           "text": "S340 is admitted under the existing G04 V02 acceptance: implement only the two approved dimension references, preserve the 0.25 cm gate and all current Polo holds, and do not begin V03 before all-seven V02 acceptance."
+        },
+        {
+          "at": "2026-10-02T00:39:17.557Z",
+          "actor": "Codex",
+          "text": "S346 exit is recorded. No Woven face is accepted; integrated tally remains 56 accepted / 90 held. Preserve all-seven V02 and the V02-before-V03 gate. Next slice diagnoses exact Woven collar placement and crossing back strokes from source and emitted entity evidence."
         }
       ],
       "evidenceRefs": [
@@ -3676,7 +3687,13 @@
         "E-G04-S344-RENDERED",
         "E-G04-S345-START",
         "E-G04-S345-DECISION",
-        "E-G04-S345-EXIT"
+        "E-G04-S345-EXIT",
+        "E-G04-S346-START",
+        "E-G04-S346-EXIT",
+        "E-G04-S346-REVIEW",
+        "E-G04-S346-RENDERED",
+        "E-G04-S346-COVERAGE",
+        "E-G04-S346-BUILD"
       ],
       "flagKey": null
     },
@@ -7134,6 +7151,16 @@
           "at": "2026-10-01T23:40:52.302Z",
           "actor": "Codex",
           "text": "Slice 345 completed. The approved revision-bound Woven sleeve-cap projection is implemented and focused gates pass. Production replay covers all 28 configurations / 56 faces with zero browser errors; rendered review accepts no Woven face: all 28 front candidates fail collar/readability and POM anchoring review, while all 28 back faces remain held on open collar contours. Preserve all-seven V02 acceptance; V03 remains gated. See S345 exit, coverage, build, browser, rendered and export evidence."
+        },
+        {
+          "at": "2026-10-01T23:46:10.037Z",
+          "actor": "Codex",
+          "text": "Slice 346 started from verified S345 e080bfc on a clean branch; refreshed origin/main remains an ancestor. Scope is source-first Woven collar contour/placement and ten current front POM anchors after the S345 replay. Apply only approved or uniquely source-derived corrections; preserve all unresolved holds and keep V03 gated."
+        },
+        {
+          "at": "2026-10-02T00:39:17.534Z",
+          "actor": "Codex",
+          "text": "Slice 346 complete. The approved Woven collar fill closure and source-backed same-revision POM targets render across all 28 options. All 56 candidates remain held after manual review: front collar contours are detached/crossing and long back strokes cross the torso. V02 remains all-seven; V03 stays gated. See E-G04-S346-EXIT and linked replay/review evidence."
         }
       ],
       "evidenceRefs": [
@@ -7366,7 +7393,13 @@
         "E-G04-S345-BUILD",
         "E-G04-S345-BROWSER",
         "E-G04-S345-RENDERED",
-        "E-G04-S345-EXPORT"
+        "E-G04-S345-EXPORT",
+        "E-G04-S346-START",
+        "E-G04-S346-EXIT",
+        "E-G04-S346-REVIEW",
+        "E-G04-S346-RENDERED",
+        "E-G04-S346-COVERAGE",
+        "E-G04-S346-BUILD"
       ],
       "flagKey": null
     },
@@ -10314,6 +10347,60 @@
       "sha256": null,
       "verified": true,
       "note": "Protected legacy export regression passes 8/8; no legacy DXF behavior or protected export identity changed."
+    },
+    {
+      "id": "E-G04-S346-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-POM-REMAINING-HOLDS-S346.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S346 source-first boundary: diagnose S345 Woven collar contour/placement and same-revision anchored-POM holds; implement only previously approved or uniquely source-derived corrections and preserve all other holds."
+    },
+    {
+      "id": "E-G04-S346-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-POM-REMAINING-HOLDS-S346.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 346 exit: source-bound Woven collar fill closure and POM anchors; all 56 emitted candidates remain manually held."
+    },
+    {
+      "id": "E-G04-S346-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S346-woven-collar/manual-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manual rendered review, remaining Woven assembly failures, POM face limits, and MQF checkpoints."
+    },
+    {
+      "id": "E-G04-S346-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S346-woven-collar/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium replay matrix for all 28 Woven option configurations and 56 same-revision face requests."
+    },
+    {
+      "id": "E-G04-S346-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-POM-REMAINING-HOLDS-S346.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "113 focused tests pass; all changed production files have 100% statement, branch, function and line coverage."
+    },
+    {
+      "id": "E-G04-S346-BUILD",
+      "kind": "build",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-POM-REMAINING-HOLDS-S346.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production build and protected export identity regression pass; legacy DXF behavior and baselines unchanged."
     }
   ]
 }

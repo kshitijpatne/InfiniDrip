@@ -472,6 +472,25 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
         point: placedPoint(point, placement), sourcePoint: point,
         ...(anchorEdgeId ? { sourceEntityId: `pattern:${recipe.name}:role:${roleId}:edge:${anchorEdgeId}` } : {}) };
     };
+  } else if (recipe.name === "woven-shirt") {
+    resolvePomAnchor = (pom, point) => {
+      const markAnchor = kind === "FRONT_FLAT" ? pom.frontMarkAnchor
+        : pom.backMarkAnchor ? { ...pom.backMarkAnchor, point: "at" as const } : undefined;
+      const roleId = markAnchor?.roleId ?? (kind === "FRONT_FLAT"
+        ? pom.anchorRoleId ?? G04_TECHNICAL_FLAT_MAPPINGS[recipe.name]?.pomAnchorRole
+        : pom.backAnchorRoleId);
+      const placement = assembly.transforms[roleId as string];
+      if (!roleId || !placement) return undefined;
+      if (markAnchor) {
+        const entityId = `pattern:${recipe.name}:mark:${markAnchor.roleId}:${markAnchor.markName}`;
+        return { targetGeometryId: `flat:${recipe.name}:${kind}:mark:${markAnchor.roleId}:${markAnchor.markName}`,
+          point: placedPoint(point, placement), sourcePoint: point, sourceEntityId: entityId };
+      }
+      const edgeId = kind === "FRONT_FLAT" ? pom.anchorEdgeId : pom.backAnchorEdgeId;
+      return { targetGeometryId: `flat:${recipe.name}:${kind}:component:${roleId}:outline`,
+        point: placedPoint(point, placement), sourcePoint: point,
+        ...(edgeId ? { sourceEntityId: `pattern:${recipe.name}:role:${roleId}:edge:${edgeId}` } : {}) };
+    };
   }
   const poms = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, kind, recipe.poms,
     [...geometry.primitives, ...waistbandFragments.primitives], resolvePomAnchor);

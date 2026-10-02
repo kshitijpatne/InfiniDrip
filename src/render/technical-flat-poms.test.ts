@@ -87,6 +87,12 @@ describe("technical-flat POM callouts", () => {
           expect(back.callouts?.find((callout) => callout.source.sourceId === "pom:trouser:waistband-depth-finished")
             ?.anchor.primitiveId).toBe("live-flat:trouser:BACK_FLAT:waistband:mark:centerBack");
           expect(back.notices.some((notice) => notice.sourceId === "pom:trouser:waistband-depth-finished")).toBe(false);
+        } else if (recipe.name === "woven-shirt") {
+          expect(back.callouts?.map((callout) => callout.anchor.primitiveId)).toEqual([
+            "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          ]);
+          expect(back.notices.some((notice) => notice.sourceId === "pom:woven-shirt:back-yoke-depth"
+            && notice.reason === "SOURCE_NOT_REPRESENTED")).toBe(false);
         } else if (recipe.name !== "polo") {
           expect(back.callouts?.every((callout) => callout.anchor.primitiveId
             === `flat:${recipe.name}:BACK_FLAT:component:${mapping.backPomAnchorRole}:outline`)).toBe(true);
@@ -129,6 +135,21 @@ describe("technical-flat POM callouts", () => {
     const back = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "BACK_FLAT", poms, []);
     expect(back.notices).toHaveLength(2);
     expect(back.notices[0].sourceId).toBe("pom:tee:one-anchor");
+  });
+
+  it("keeps a collapsed Woven vent POM table-only when its zero-depth edge is omitted", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt");
+    if (!recipe) throw new Error("Woven recipe is missing.");
+    const options = { ...defaultGarmentOptions(recipe.options ?? []), sideVentDepth: 0 };
+    const block = recipe.draft(STANDARD_M, options);
+    const result = compileTechnicalFlatPomCallouts("woven-shirt", block, revisionId, "FRONT_FLAT", recipe.poms ?? [],
+      faceGeometry("woven-shirt", block, "FRONT_FLAT"));
+    expect(result.issues).toEqual([]);
+    expect(result.callouts?.some((callout) => callout.source.sourceId === "pom:woven-shirt:side-vent-depth")).toBe(false);
+    expect(result.notices).toContainEqual(expect.objectContaining({
+      sourceId: "pom:woven-shirt:side-vent-depth", reason: "SOURCE_NOT_REPRESENTED",
+      message: expect.stringContaining("no represented source anchor on this option"),
+    }));
   });
 
   it("keeps an authored but unprojected edge POM table-only on that face", () => {

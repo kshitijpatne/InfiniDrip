@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
-import { edgeEnd, edgeStart } from "../drafting/piece";
+import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
 import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
-import type { FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
+import type { FlatCalloutPrimitive, FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 import type { TechnicalFlatLiveIssue } from "./technical-flat-live";
 
 describe("projectWovenSleeveFillClosures", () => {
@@ -75,6 +75,81 @@ describe("projectWovenSleeveFillClosures", () => {
 });
 
 describe("compileTechnicalFlatLiveView", () => {
+  it("binds Woven front and back POM anchors to their transformed source geometry", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const revisionId = "woven-live-pom-1";
+    const front = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind: "FRONT_FLAT",
+      placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(front.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    const frontCalls = front.view!.primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout");
+    const chest = frontCalls.find((callout) => callout.source.sourceId === "pom:woven-shirt:body-chest-finished")!;
+    const frontAssembly = assembleTechnicalFlatRoles("woven-shirt", block, "FRONT_FLAT");
+    const chestPoint = recipe.poms!.find((pom) => pom.label === "Body chest (finished)")!.anchor!(block);
+    expect(chest.anchor).toMatchObject({
+      primitiveId: "flat:woven-shirt:FRONT_FLAT:component:front:outline",
+      sourceEntityId: "pattern:woven-shirt:role:front:edge:sideUpper",
+      point: transformFlatPoint(chestPoint, { ...frontAssembly.transforms.front!, mirrorX: frontAssembly.transforms.front!.mirrorX ?? false }),
+    });
+    const spacing = frontCalls.find((callout) => callout.source.sourceId === "pom:woven-shirt:front-button-spacing")!;
+    const button = block.roles.buttonPlacket!.marks!.find((mark) => mark.name === "button-1")!;
+    const buttonTransform = frontAssembly.transforms.buttonPlacket!;
+    if (!("at" in button)) throw new Error("Woven button POM requires its source point mark.");
+    expect(spacing.anchor).toMatchObject({
+      primitiveId: "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      sourceEntityId: "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      point: transformFlatPoint(button.at, { ...buttonTransform, mirrorX: buttonTransform.mirrorX ?? false }),
+    });
+
+    const back = compileTechnicalFlatLiveView({ recipe, block, revisionId, kind: "BACK_FLAT",
+      placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(back.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    const yokeDepth = back.view!.primitives.find((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout"
+      && primitive.source.sourceId === "pom:woven-shirt:back-yoke-depth")!;
+    const backAssembly = assembleTechnicalFlatRoles("woven-shirt", block, "BACK_FLAT");
+    const yokePoint = edgeStart(pieceEdge(block.roles.back, "yokeSeam"));
+    expect(yokeDepth.anchor).toMatchObject({
+      primitiveId: "flat:woven-shirt:BACK_FLAT:component:back:outline",
+      sourceEntityId: "pattern:woven-shirt:role:back:edge:yokeSeam",
+      point: transformFlatPoint(yokePoint, { ...backAssembly.transforms.back!, mirrorX: backAssembly.transforms.back!.mirrorX ?? false }),
+    });
+    expect(frontCalls.every((callout) => callout.source.revisionId === revisionId)).toBe(true);
+    expect(yokeDepth.source.revisionId).toBe(revisionId);
+
+    const chestPom = recipe.poms!.find((pom) => pom.label === "Body chest (finished)")!;
+    const fallbackRecipe = { ...recipe, poms: [{ ...chestPom, anchorRoleId: undefined }] };
+    const fallback = compileTechnicalFlatLiveView({ recipe: fallbackRecipe, block, revisionId,
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(fallback.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    expect(fallback.view!.primitives.find((primitive) => primitive.kind === "callout")?.anchor.sourceEntityId)
+      .toBe("pattern:woven-shirt:role:front:edge:sideUpper");
+
+    const yokePom = recipe.poms!.find((pom) => pom.label === "Back yoke depth")!;
+    const backFallbackRecipe = { ...recipe, poms: [{ ...yokePom, backAnchorRoleId: undefined }] };
+    const backFallback = compileTechnicalFlatLiveView({ recipe: backFallbackRecipe, block, revisionId,
+      kind: "BACK_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(backFallback.issues.filter((issue) => issue.stage === "pom")).toContainEqual(expect.objectContaining({
+      sourceId: "pom:woven-shirt:back-yoke-depth", message: expect.stringContaining("no mapped source role"),
+    }));
+
+    const pointOnlyRecipe = { ...recipe, poms: [{ label: "Point anchor fixture", measure: () => 1,
+      anchor: (source: typeof block) => edgeStart(pieceEdge(source.roles.front, "shoulder")), anchorRoleId: "front" }] };
+    const pointOnly = compileTechnicalFlatLiveView({ recipe: pointOnlyRecipe, block, revisionId,
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(pointOnly.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    expect(pointOnly.view!.primitives.find((primitive) => primitive.kind === "callout")?.anchor.sourceEntityId).toBeUndefined();
+
+    const markRecipe = { ...recipe, poms: [{ label: "Back mark fixture", measure: () => 1,
+      backAnchorRoleId: "back", backMarkAnchor: { roleId: "back", markName: "ventTop" } }] };
+    const backMark = compileTechnicalFlatLiveView({ recipe: markRecipe, block, revisionId,
+      kind: "BACK_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(backMark.issues.filter((issue) => issue.stage === "pom")).toEqual([]);
+    expect(backMark.view!.primitives.find((primitive) => primitive.kind === "callout")?.anchor).toMatchObject({
+      primitiveId: "flat:woven-shirt:BACK_FLAT:mark:back:ventTop",
+      sourceEntityId: "pattern:woven-shirt:mark:back:ventTop",
+    });
+  });
+
   it("maps the approved Polo dimensions to exact transformed sources across all 17 configurations", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const optionSets = [defaultGarmentOptions(recipe.options ?? []), ...(recipe.options ?? []).flatMap((option) => [

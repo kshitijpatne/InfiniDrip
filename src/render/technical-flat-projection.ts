@@ -575,7 +575,6 @@ function expectedWovenColorwayBoundary(
         basis: "WOVEN_SLEEVE_CAP", decisionId: "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH" },
       fillOnlyColorway: { ...decision, decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" } };
   }
-  if (faceKind !== "FRONT_FLAT") return undefined;
   if (roleId === "outerStand" || roleId === "upperCollar" || roleId === "underCollar") {
     const piece = block.roles[roleId];
     const basisFraction = wovenNecklineFraction(block);
@@ -590,6 +589,7 @@ function expectedWovenColorwayBoundary(
         : { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction },
       fillOnlyColorway: { ...decision, decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" } };
   }
+  if (faceKind !== "FRONT_FLAT") return undefined;
   if (roleId === "buttonholePlacket" && wovenPlacketSideProjection(block)) {
     const piece = block.roles.buttonholePlacket;
     const edge = piece?.edges.find((candidate) => candidate.name === "attachmentRaw");
@@ -668,14 +668,14 @@ function wovenCollarRoleProjection(
   }
   const station = transferredLandmark(exteriorEdgeId, fraction, "WOVEN_NECKLINE");
   const front = kind === "FRONT_FLAT";
-  const collarAreaClosure: FlatProjectionViewBoundary | undefined = front ? {
+  const collarAreaClosure: FlatProjectionViewBoundary = {
     id: "approved-woven-collar-area-closure",
     from: station,
     to: roleId === "outerStand"
       ? { kind: "edge-arclength", edgeId: "neckline", fraction: 1 - basisFraction }
       : { kind: "edge-arclength", edgeId: "stand", fraction: basisFraction },
     fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" },
-  } : undefined;
+  };
   if (roleId === "outerStand") {
     const seamRepresentation = wovenBaseSeamRepresentation(kind, block);
     const visibleNeckline = roleId === "outerStand" && seamRepresentation !== undefined;
@@ -700,7 +700,7 @@ function wovenCollarRoleProjection(
       reversedStitchEdges: [{ stitchLabel: "Outer stand ↔ woven neckline",
         pieceId: block.roles.yoke ? "yoke" : "back", edgeId: "neckline", source: "SOURCE_ENDPOINT_ORDER" }],
       ...(seamRepresentation ? { viewSeamRepresentation: seamRepresentation } : {}),
-      ...(collarAreaClosure ? { viewBoundaries: [collarAreaClosure] } : {}),
+      viewBoundaries: [collarAreaClosure],
     };
   }
   return {
@@ -721,7 +721,7 @@ function wovenCollarRoleProjection(
       { edgeId: "frontTip", reason: "The collar front point belongs to FRONT_FLAT." },
     ],
     foldAxisReflection: { edgeId: "centerBack", axis: "LOCAL_Y", source: "Piece.onFold" },
-    ...(collarAreaClosure ? { viewBoundaries: [collarAreaClosure] } : {}),
+    viewBoundaries: [collarAreaClosure],
   };
 }
 

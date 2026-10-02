@@ -326,6 +326,13 @@ only through an explicitly admitted, linked Epic packet.
   contains the 28-option production replay and `manual-review.md`; 28 front
   candidates emitted but none passed review, while all 28 backs remain held on
   open collar contours. No Woven face is accepted.
+- `docs/research/epic17/G04-V02-WOVEN-COLLAR-POM-REMAINING-HOLDS-S346.md` —
+  S346 exit for both-face approved Woven collar fill closure, same-revision
+  source-backed POM anchors and the retained 28-option replay. All 56 candidates
+  remain manually rejected for detached/crossing collar contours and crossing
+  back strokes. `docs/research/epic17/S346-woven-collar/` contains full replay,
+  preserved initial failure, source overlay and manual review. V02 remains
+  all-seven and V03 remains gated.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

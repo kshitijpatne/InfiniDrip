@@ -174,6 +174,16 @@ or residual tolerance elsewhere. All 56 Woven faces remain held because the
 independent sleeve-cap ease residual and solved-placement conflict persist;
 the display decision does not accept partial output.
 
+Slice 346 applies the approved normalized-arclength collar exterior closure to
+both Woven faces and resolves same-revision exterior POMs against their exact
+source roles, edges or button mark. A zero-length side-vent edge remains
+table-only rather than receiving a false visible anchor. The full 28-option
+production replay now emits 56 SVG candidates, but manual review still rejects
+every Woven face: front collar contours remain detached/crossing and long back
+strokes cross the torso. Emission and closed fill contours are not proof of a
+valid assembly; all Woven faces remain held pending a source-supported view
+correction.
+
 S306 adds a narrow assembly contract for the Trouser's single closed
 waistband source role. The exact ordered zero-ease waist interface yields
 front/back edge intervals and separate rigid placements relative to the sewn

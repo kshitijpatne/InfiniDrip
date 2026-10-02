@@ -121,40 +121,67 @@ describe("validateTechnicalFlatProjectionMap", () => {
   it("rejects Woven fill closures when their approved source transfer no longer resolves", () => {
     const { block } = draft("woven-shirt");
     const admitted = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
-    const front = admitted.faces.find((face) => face.kind === "FRONT_FLAT")!;
-    const boundaryFor = (roleId: string) => front.roles.find((role) => role.roleId === roleId)!.viewBoundaries![0]!;
-    const addBoundary = (map: TechnicalFlatProjectionMap, faceKind: "FRONT_FLAT" | "BACK_FLAT",
-      roleId: string, boundary: NonNullable<ReturnType<typeof boundaryFor>>): TechnicalFlatProjectionMap => ({
-      ...map,
-      faces: map.faces.map((face) => face.kind !== faceKind ? face : ({ ...face, roles: face.roles.map((role) =>
-        role.roleId === roleId ? { ...role, viewBoundaries: [boundary] } : role) })) as unknown as TechnicalFlatProjectionMap["faces"],
-    });
-    const assertInvalid = (candidateBlock: typeof block, map: TechnicalFlatProjectionMap) => {
+    const back = admitted.faces.find((face) => face.kind === "BACK_FLAT")!;
+    const assertInvalidBoundary = (candidateBlock: typeof block, map: TechnicalFlatProjectionMap) => {
       expect(validateTechnicalFlatProjectionMap("woven-shirt", candidateBlock, REVISION, map))
         .toContainEqual(expect.objectContaining({ code: "INVALID_VIEW_BOUNDARY" }));
     };
 
-    assertInvalid(block, addBoundary(admitted, "BACK_FLAT", "upperCollar", boundaryFor("upperCollar")));
+    for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
+      expect(back.roles.find((role) => role.roleId === roleId)?.viewBoundaries?.[0]?.fillOnlyColorway?.decisionId)
+        .toBe("G04-S321-COLLAR-EXTERIOR-ARCLENGTH");
+    }
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, admitted)).toEqual([]);
     const noSleeveJoin = { ...block, stitches: block.stitches.filter((stitch) => stitch.label !== "Woven sleeve-cap ease") };
     const noSleeveJoinMap = createG04TechnicalFlatProjectionMap("woven-shirt", noSleeveJoin, REVISION)!;
-    assertInvalid(noSleeveJoin, addBoundary(noSleeveJoinMap, "FRONT_FLAT", "sleeve", boundaryFor("sleeve")));
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", noSleeveJoin, REVISION, noSleeveJoinMap))
+      .toContainEqual(expect.objectContaining({ code: "INVALID_STITCH_ENDPOINT_ORIENTATION", sourceId: "FRONT_FLAT:sleeve" }));
+    assertInvalidBoundary(noSleeveJoin, admitted);
 
     const collar = block.roles.upperCollar!;
     const noExterior = { ...block, roles: { ...block.roles,
       upperCollar: { ...collar, edges: collar.edges.filter((edge) => edge.name !== "outer") } } };
     const noExteriorMap = createG04TechnicalFlatProjectionMap("woven-shirt", noExterior, REVISION)!;
-    assertInvalid(noExterior, addBoundary(noExteriorMap, "FRONT_FLAT", "upperCollar", boundaryFor("upperCollar")));
+    assertInvalidBoundary(noExterior, admitted);
+    for (const face of noExteriorMap.faces) {
+      const heldUpperCollar = face.roles.find((role) => role.roleId === "upperCollar")!;
+      expect(heldUpperCollar.runs).toEqual([]);
+      expect(heldUpperCollar.heldEdges.length).toBeGreaterThan(0);
+    }
 
     const noNecklineJoin = { ...block, stitches: block.stitches.filter((stitch) => stitch.label !== "Outer stand ↔ woven neckline") };
     const noNecklineMap = createG04TechnicalFlatProjectionMap("woven-shirt", noNecklineJoin, REVISION)!;
-    assertInvalid(noNecklineJoin, addBoundary(noNecklineMap, "FRONT_FLAT", "outerStand", boundaryFor("outerStand")));
+    for (const face of noNecklineMap.faces) {
+      for (const roleId of ["outerStand", "upperCollar", "underCollar"]) {
+        const heldRole = face.roles.find((role) => role.roleId === roleId)!;
+        expect(heldRole.runs).toEqual([]);
+        expect(heldRole.heldEdges.length).toBeGreaterThan(0);
+      }
+    }
+    assertInvalidBoundary(noNecklineJoin, admitted);
+
+    const missingFoldAxis = { ...block, roles: { ...block.roles,
+      upperCollar: { ...block.roles.upperCollar!, onFold: false } } };
+    assertInvalidBoundary(missingFoldAxis, admitted);
+
+    const backWithUnapprovedClosure = structuredClone(admitted) as unknown as {
+      faces: Array<{ kind: string; roles: Array<{ roleId: string; viewBoundaries?: unknown[] }> }>;
+    };
+    const backBody = backWithUnapprovedClosure.faces.find((face) => face.kind === "BACK_FLAT")!
+      .roles.find((role) => role.roleId === "back")!;
+    backBody.viewBoundaries = [{ id: "unapproved-back-closure",
+      from: { kind: "edge-endpoint", edgeId: "top", endpoint: "start" },
+      to: { kind: "edge-endpoint", edgeId: "top", endpoint: "end" },
+      fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S321-COLLAR-EXTERIOR-ARCLENGTH" } }];
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, backWithUnapprovedClosure as unknown as TechnicalFlatProjectionMap))
+      .toContainEqual(expect.objectContaining({ code: "INVALID_VIEW_BOUNDARY", sourceId: "BACK_FLAT:back" }));
 
     const buttonhole = block.roles.buttonholePlacket!;
     const zeroAttachment = { ...block, roles: { ...block.roles,
       buttonholePlacket: { ...buttonhole, edges: buttonhole.edges.map((edge) => edge.name === "attachmentRaw" && edge.kind === "line"
         ? { ...edge, end: { ...edge.start } } : edge) } } };
     const zeroAttachmentMap = createG04TechnicalFlatProjectionMap("woven-shirt", zeroAttachment, REVISION)!;
-    assertInvalid(zeroAttachment, addBoundary(zeroAttachmentMap, "FRONT_FLAT", "buttonholePlacket", boundaryFor("buttonholePlacket")));
+    assertInvalidBoundary(zeroAttachment, zeroAttachmentMap);
   });
 
   it("maps the Polo stand at its encoded junction and transfers both collar layers onto exact cubic arclength", () => {

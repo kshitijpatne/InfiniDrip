@@ -1,6 +1,20 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 345 implemented the approved Woven eased-seam view projection; rendered review found remaining collar and POM blockers, so no Woven face is accepted. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-01._
+_Last updated: Slice 346 implemented approved Woven view closures and same-revision POM targets; rendered assembly still fails, all 56 Woven faces remain held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
+
+## EPIC-17 / G04 current handoff — Slice 346 complete; V02 remains open
+
+S346 started 2026-10-01 23:45 UTC from S345 `e080bfcda7a7095c31e88d8df442e1eb04628b60` (`Slice 345: implement approved Woven eased-seam projection`) on `codex/epic-17-g04`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice at start was 345. Board revision was 1309; EPIC-14/15/16 Closed, EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. Usage at start: primary 68%, weekly 20% informational. Packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-POM-REMAINING-HOLDS-S346.md`.
+
+S346 implemented the already-approved both-face Woven collar fill-only closure and source-exact POM anchor resolution. The front anchors body chest, finished placket width, button spacing, pocket width/height, band depth and positive-length vent; the back anchors yoke depth. Body length and neck circumference remain table-only because their source edges are not drawn on either exterior face; front-only/back-only measures remain face-limited. A zero-depth vent stays table-only at 0 cm. No measurement value/formula/tolerance, option, source cut geometry or stitch graph changed.
+
+Production Chromium exercised 28 configurations / 56 faces. All 56 now emit same-revision SVG candidates with zero compiler/browser errors; rendered review rejects all 56. Front `outerStand`, `upperCollar` and `underCollar` remain detached/crossing. Back strokes cross the torso; the output alone does not identify an approved semantic mapping that may be changed. No Woven face is accepted; integrated tally remains 56 accepted / 90 held over 73 configurations / 146 faces. Evidence and review: `docs/research/epic17/S346-woven-collar/`. Focused tests passed 113/113 with 100% statement/branch/function/line coverage in each changed production file; build and protected export regression passed. `npm run control-center:test` passes 33/33; board revision 1326 links exit, review, matrix, coverage and build evidence to G04-V02 and EPIC-17. V02 remains all-seven and V03 is gated.
+
+At the applicable output exit, MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed**; preserve post-G17 deferrals. No fit, factory-acceptance or production-readiness claim is made.
+
+S346 elapsed approximately 46m (2026-10-01 23:45–2026-10-02 00:31 UTC): implementation ~18m; focused verification/coverage/build/export ~10m; replay/render inspection ~11m; durable packet/context/board closeout ~7m; external-agent waits 0m; maintainer-decision time 0m. No safe disjoint delegation was identified.
+
+**Next:** refresh usage/Git/board state and reserve the next unique slice for a source-and-entity diagnosis of the detached front collar and crossing back strokes. Do not invent another semantic map: derive a correction uniquely from existing source/approved mapping, or preserve holds and present a concrete decision. Re-run all 28 Woven configurations and rendered review after any view change. Do not begin V03 while any recipe/configuration is held.
 
 ## EPIC-17 / G04 current handoff — Slice 345 complete; V02 remains open
 

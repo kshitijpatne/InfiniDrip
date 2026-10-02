@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
-import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtGuidance, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
 
 describe("woven shirt body", () => {
+  it("applies the selected hem-turn allowance only to the two body hems", () => {
+    expect(wovenShirtAllowances(1.25).byPieceEdge).toMatchObject({
+      "woven front": { hem: 1.25 }, "woven back lower": { hem: 1.25 },
+    });
+    expect(() => wovenShirtAllowances(Number.NaN)).toThrow("Hem turn is outside its supported range.");
+    expect(() => wovenShirtAllowances(-0.1)).toThrow("Hem turn is outside its supported range.");
+    expect(() => wovenShirtAllowances(9)).toThrow("Hem turn is outside its supported range.");
+  });
+
   it("drafts separate front/back panels with the required named boundaries", () => {
     const block = draftWovenShirtBody(STANDARD_M);
     const front = rolePiece(block, "front");
