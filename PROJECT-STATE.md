@@ -1,8 +1,18 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 348 exact Woven source-role identity correction passed all 28 option-specific seam joins, while every back view still shows four mirrored-band crossings and remains held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
+_Last updated: Slice 349 confirms exact Woven sleeve-to-band joins but four band-pair crossings on every back; all Woven faces remain held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 348 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 349 complete; V02 remains open
+
+S349 started 2026-10-02 01:28 UTC from clean S348 `02c467ae578b891558f8d8988d1cdf2b0a9e6ae7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 348; S349 was reserved. Board revision 1352 linked the start packet. Packet: `docs/research/epic17/G04-V02-WOVEN-BACK-BAND-PAIR-CROSSING-S349.md`.
+
+S349 traced the exact source edges, source stitch topology, option-specific transforms, and current approved projection across all 28 Woven options / 56 faces. Source seam residual is at most `2.864289338439558e-14 cm`. The band pair has zero contour intersections on all 28 front faces and four proper intersections on all 28 backs; visual evidence is in `docs/research/epic17/S349-woven-back-band-pair/annotated-views/`. Source topology does not specify an alternate back cuff pose or spacing that preserves both full source-joined bands. Keep all 56 Woven faces held; the approved projection's rendered checks are not waived. Integrated tally remains 56 accepted / 90 held. G04-V02 retains all-seven acceptance; V03 remains gated.
+
+S349 changed no production mapping, pattern geometry, stitch graph, option, export, or accepted-face count. Focused source-crosswalk test passes 1/1. The validated board links its exit/crosswalk/overlay evidence at the S349 exit. `npm run control-center:test` passes 33/33 and `git diff --check` passes. Elapsed 19m at 01:47 UTC: implementation 0m, source analysis/test 9m, visual review 5m, records/board 5m, external-agent waits 0m, maintainer-decision time 0m. No safe independent delegation was identified. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable output exits; their post-G17 deferrals remain unchanged.
+
+**Next action:** after the S349 commit, refresh usage/Git/board and reserve S350 for one independently bounded source/output diagnosis of the next held V02 recipe. Keep Woven held until an explicitly approved concrete mapping passes all 28 options, both views, exact joins, crossings, overlap, and readability. Do not begin V03 until all seven recipes pass V02.
+
+## EPIC-17 / G04 prior boundary — Slice 348 complete; V02 remains open
 
 S348 started 2026-10-02 01:02 UTC from clean S347 `5daf9b3af61ae5d3f00baae7126396b3788f1560` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 347; reserve 348. Board revision at start 1342, linking the start comment. Usage: primary 7% used and weekly 22% informational. Packet: `docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md`.
 

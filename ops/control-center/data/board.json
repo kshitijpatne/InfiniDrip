@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1351,
-  "updatedAt": "2026-10-02T01:26:05.974Z",
+  "revision": 1357,
+  "updatedAt": "2026-10-02T01:49:10.553Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3713,7 +3713,8 @@
         "E-G04-S347-EXIT",
         "E-G04-S347-REVIEW",
         "E-G04-S347-TRANSFORMS",
-        "E-G04-S348-EXIT"
+        "E-G04-S348-EXIT",
+        "E-G04-S349-EXIT"
       ],
       "flagKey": null
     },
@@ -7201,6 +7202,16 @@
           "at": "2026-10-02T01:26:05.421Z",
           "actor": "Codex",
           "text": "Slice 348 complete: exact colon-token source role matching selects sleeveBand correctly. Focused module coverage is 100% (32/32 tests), build and 24 protected export checks pass. Production Chromium replay covered 28 Woven configurations / 56 faces with zero errors; all 112 band-top edges meet the exact option-specific source sleeve hem (max rendered residual 0.000063 cm). The conditional view gate fails on 28/28 back faces: each mirrored band pair has four proper contour intersections; front pairs have none. Keep all Woven faces held; tally stays 56 accepted / 90 held. Collar holds remain. V02 is still all-seven; V03 remains gated. See S348 exit, audit and overlays."
+        },
+        {
+          "at": "2026-10-02T01:29:39.575Z",
+          "actor": "Codex",
+          "text": "Start Slice 349 at 2026-10-02 01:28 UTC from clean S348 02c467a; refreshed origin/main a5af5e13 remains an ancestor, board revision 1351. Diagnose the 4 mirrored sleeve-band contour crossings in every Woven BACK_FLAT, tracing source stitch topology and exact 28-option transforms. No implementation or face acceptance in this slice. Packet: docs/research/epic17/G04-V02-WOVEN-BACK-BAND-PAIR-CROSSING-S349.md."
+        },
+        {
+          "at": "2026-10-02T01:49:10.553Z",
+          "actor": "Codex",
+          "text": "Slice 349 complete: exact Woven sleeve-band source joins pass across all 28 options, but every back pair still has four contour crossings. All 56 Woven faces remain held and the 56 accepted / 90 held integrated tally is unchanged. Source crosswalk, annotated output, and exit report are linked; V02 remains all-seven and V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -7448,7 +7459,10 @@
         "E-G04-S348-EXIT",
         "E-G04-S348-REPLAY",
         "E-G04-S348-JOIN-AUDIT",
-        "E-G04-S348-OVERLAY"
+        "E-G04-S348-OVERLAY",
+        "E-G04-S349-EXIT",
+        "E-G04-S349-CROSSWALK",
+        "E-G04-S349-OVERLAY"
       ],
       "flagKey": null
     },
@@ -10531,6 +10545,33 @@
       "sha256": null,
       "verified": true,
       "note": "Source-role-colored production SVG overlay shows exact band join edges and the still-held X-shaped back pair overlap."
+    },
+    {
+      "id": "E-G04-S349-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BACK-BAND-PAIR-CROSSING-S349.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S349 maps exact Woven source seams and transforms across 28 options; source joins pass, every back band pair still has four intersections, and all Woven faces remain held."
+    },
+    {
+      "id": "E-G04-S349-CROSSWALK",
+      "kind": "test",
+      "uri": "docs/research/epic17/S349-woven-back-band-pair/source-crossing-crosswalk.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source crosswalk covers 28 configurations / 56 faces, exact option-specific joins, same-revision transforms, source stitch identities, and all back-pair crossings."
+    },
+    {
+      "id": "E-G04-S349-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S349-woven-back-band-pair/annotated-views/woven-shirt-default-back_flat-crossings.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Annotated exact production-derived Woven default back shows the four mirrored full-band contour crossings; held output evidence."
     }
   ]
 }

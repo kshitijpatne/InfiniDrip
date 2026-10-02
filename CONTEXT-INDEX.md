@@ -346,6 +346,11 @@ only through an explicitly admitted, linked Epic packet.
   joins but finds four intersections between the mirrored band contours in
   every back view; all Woven faces remain held. The production replay and
   colored role overlays are retained in `S348-woven-role-token/`.
+- `docs/research/epic17/G04-V02-WOVEN-BACK-BAND-PAIR-CROSSING-S349.md` — S349
+  traces the source stitch graph and option-specific placement behind the four
+  sleeve-band pair intersections on every Woven back. Diagnostic only; preserve
+  all holds until a source-backed or maintainer-approved mapping clears the
+  crossing gate.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.
