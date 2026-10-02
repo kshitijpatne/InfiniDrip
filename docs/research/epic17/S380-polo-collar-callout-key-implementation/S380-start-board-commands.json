@@ -1,0 +1,5 @@
+[
+ {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S380-START","kind":"document","uri":"docs/research/epic17/S380-polo-collar-callout-key-implementation/G04-V02-POLO-COLLAR-CALLOUT-KEY-IMPLEMENTATION-S380.md","verified":true,"note":"S380 begins the explicitly approved view-only Polo C marker and unchanged full-text schedule for all 17 options. Scope is limited to Collar point extension; every other blocker, 0.25 cm gate and face hold remains."}},
+ {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S380-START","actor":"Codex","role":"maintainer"},
+ {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S380-START"}
+]

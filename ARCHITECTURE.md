@@ -80,6 +80,19 @@ source waist-edge fragments and mapped waistband side boundaries. This makes
 the tint visible on accepted roles; it does not release any previously held
 face or infer unfinished construction.
 
+Slice 380 adds the maintainer-approved keyed presentation for Polo's front
+`Collar point extension` POM. Its `C` ring is centered on the exact same-revision
+`upperCollar.frontTip:end` source anchor; the renderer places the unchanged full
+POM text and value in a measured `C` row below construction notices. The key and
+row carry the original POM, target outline and revision identity. This is a
+view-only callout convention and does not add a physical notch or change pattern
+geometry. The all-option diagnostic confirms the two previously recorded C
+label collisions clear, while other Polo callout crossings and the 0.68 cm
+sleeve residual above the fixed 0.25 cm gate continue to hold all Polo faces.
+The production compiler remains fail-closed on that residual. The colorway
+render check covers the mapped body/placket/stand/collar roles; the unresolved
+sleeve colorway contour is excluded and remains held.
+
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
 `TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled

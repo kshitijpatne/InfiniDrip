@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1930,
-  "updatedAt": "2026-10-02T20:37:11.517Z",
+  "revision": 1950,
+  "updatedAt": "2026-10-02T21:10:57.343Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -485,7 +485,13 @@
         "E-G04-S379-MATRIX",
         "E-G04-S379-PERPOM",
         "E-G04-S379-DEFAULT-RENDER",
-        "E-G04-S379-PLACKET-RENDER"
+        "E-G04-S379-PLACKET-RENDER",
+        "E-G04-S380-START",
+        "E-G04-S380-EXIT",
+        "E-G04-S380-MATRIX",
+        "E-G04-S380-DEFAULT-DETAIL",
+        "E-G04-S380-FAILURE-SCHEDULE",
+        "E-G04-S380-MIN-WHOLE"
       ]
     },
     {
@@ -3862,6 +3868,11 @@
           "at": "2026-10-02T20:37:11.517Z",
           "actor": "Codex",
           "text": "S379 records 17-option Polo front leader/path/label failures with exact source IDs, targets, options, clearances and rendered evidence. All G04 holds and gates remain. Maintainer approved the S378 C marker/schedule for separate S380 implementation only; it does not clear S379's crossings or release a face."
+        },
+        {
+          "at": "2026-10-02T21:10:57.343Z",
+          "actor": "Codex",
+          "text": "S380 landed the approved view-only Polo C callout presentation with 100% changed-module coverage and 17/17 keyed diagnostics. The two local C collisions clear; remaining crossings and the fixed residual gate keep all 34 Polo faces held. V02 remains in progress and V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -4168,7 +4179,13 @@
         "E-G04-S379-MATRIX",
         "E-G04-S379-PERPOM",
         "E-G04-S379-DEFAULT-RENDER",
-        "E-G04-S379-PLACKET-RENDER"
+        "E-G04-S379-PLACKET-RENDER",
+        "E-G04-S380-START",
+        "E-G04-S380-EXIT",
+        "E-G04-S380-MATRIX",
+        "E-G04-S380-DEFAULT-DETAIL",
+        "E-G04-S380-FAILURE-SCHEDULE",
+        "E-G04-S380-MIN-WHOLE"
       ],
       "flagKey": null
     },
@@ -7981,6 +7998,11 @@
           "at": "2026-10-02T20:37:11.489Z",
           "actor": "Codex",
           "text": "S379 exit: actual S378 same-revision FRONT_FLAT SVG leaders were compared against source-derived paths and Chromium glyph bounds for all 17 option rows. The renderer emits 12–13 POM leaders per row (220 total). Every row has at least 10 leaders under the unchanged 0.25 cm path-clearance gate; `standFrontRise-min` has 11. Across rows, 11 source POMs fail at least once: 10 fail all 17 rows, while front-body-length-hps-hem fails at standFrontRise-min. There are 141 segment/path crossings, 30 additional sub-0.25 cm path clearances, 51 leader-pair contacts under 0.25 cm (three recurring pairs), and three measured leader-to-text intersections. The C marker approval arrived during this slice and is recorded for S380; it fixes only the prior C TEXT_COLLISION, not these remaining crossings or any held face. No code, geometry, gate or acceptance changed. All 34 Polo faces stay held; V02 remains open and V03 gated. See S379 packet and matrices."
+        },
+        {
+          "at": "2026-10-02T21:10:57.304Z",
+          "actor": "Codex",
+          "text": "S380 implements the maintainer-approved view-only C marker and full-text schedule for Polo Collar point extension. The key binds to same-revision `upperCollar.frontTip:end` and preserves the original POM words/value/tolerance. The 17-option Chromium replay clears the two S378 base C collisions, confirms paired back no-op, colorway-on/off diagnostics and unchanged source path primitives; zero browser errors. Other source POM crossings remain, the 0.68 cm residual still exceeds the unchanged 0.25 cm gate, and all 34 Polo faces remain held. G04 acceptance and V03 status do not advance."
         }
       ],
       "evidenceRefs": [
@@ -8379,7 +8401,13 @@
         "E-G04-S379-MATRIX",
         "E-G04-S379-PERPOM",
         "E-G04-S379-DEFAULT-RENDER",
-        "E-G04-S379-PLACKET-RENDER"
+        "E-G04-S379-PLACKET-RENDER",
+        "E-G04-S380-START",
+        "E-G04-S380-EXIT",
+        "E-G04-S380-MATRIX",
+        "E-G04-S380-DEFAULT-DETAIL",
+        "E-G04-S380-FAILURE-SCHEDULE",
+        "E-G04-S380-MIN-WHOLE"
       ],
       "flagKey": null
     },
@@ -13514,6 +13542,60 @@
       "sha256": null,
       "verified": true,
       "note": "Manually reviewed minimum-placket-width option. The finished-placket-width leader crosses two measured CENTER FRONT text boxes, in addition to unrelated path/leader crossings."
+    },
+    {
+      "id": "E-G04-S380-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S380-polo-collar-callout-key-implementation/G04-V02-POLO-COLLAR-CALLOUT-KEY-IMPLEMENTATION-S380.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S380 begins the explicitly approved view-only Polo C marker and unchanged full-text schedule for all 17 options. Scope is limited to Collar point extension; every other blocker, 0.25 cm gate and face hold remains."
+    },
+    {
+      "id": "E-G04-S380-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S380-polo-collar-callout-key-implementation/G04-V02-POLO-COLLAR-CALLOUT-KEY-IMPLEMENTATION-S380.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S380 implements the approved Polo front C key/full-text schedule with 100% changed-module coverage, 17/17 keyed browser diagnostics, unchanged paired backs and preserved holds."
+    },
+    {
+      "id": "E-G04-S380-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S380-polo-collar-callout-key-implementation/collar-point-callout-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17-option source/revision-bound Chromium replay: both prior C collisions reproduce in unkeyed output and clear in keyed output; paired back unchanged, keyed colorway-on/off output passes, zero browser errors; all face holds retained."
+    },
+    {
+      "id": "E-G04-S380-DEFAULT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S380-polo-collar-callout-key-implementation/rendered/polo-default-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed default source-centered C marker at the exact upperCollar.frontTip endpoint. Unrelated crowded collar/placket callouts remain visible and keep the face held."
+    },
+    {
+      "id": "E-G04-S380-FAILURE-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S380-polo-collar-callout-key-implementation/rendered/polo-standFrontRise-max-collar-point-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed full unchanged Collar point extension text, value and ±0.2 cm tolerance in the C-keyed schedule for the first prior TEXT_COLLISION option."
+    },
+    {
+      "id": "E-G04-S380-MIN-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S380-polo-collar-callout-key-implementation/rendered/polo-collarPointExtension-min-collar-point-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed the second prior TEXT_COLLISION option. The keyed C schedule renders; unrelated callout congestion remains and the Polo face stays held."
     }
   ]
 }

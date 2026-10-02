@@ -285,6 +285,25 @@ export function mapPoloDimensionCallouts(block: Block, kind: TechnicalFlatViewKi
   return { callouts: mapped, issues };
 }
 
+/** Apply the approved Polo-only, view-bound C marker and unchanged POM schedule. */
+export function mapPoloCollarPointKeyedCallout(kind: TechnicalFlatViewKind, revisionId: string,
+  callouts: readonly FlatCalloutPrimitive[]) {
+  const sourceId = "pom:polo:collar-point-extension";
+  if (kind !== "FRONT_FLAT") return { callouts, issues: [] as TechnicalFlatLiveIssue[] };
+  const matches = callouts.filter((callout) => callout.source.sourceId === sourceId);
+  if (matches.length === 0) return { callouts, issues: [] as TechnicalFlatLiveIssue[] };
+  const callout = matches[0]!;
+  if (matches.length !== 1 || callout.source.revisionId !== revisionId
+    || callout.anchor.primitiveId !== "flat:polo:FRONT_FLAT:component:upperCollar:outline"
+    || callout.anchor.sourceEntityId !== "pattern:polo:role:upperCollar:edge:frontTip") {
+    return { callouts, issues: [{ stage: "pom" as const, sourceId,
+      message: "The approved Polo collar-point key requires one exact same-revision upperCollar.frontTip endpoint mapped to its front outline." }] };
+  }
+  return { callouts: callouts.map((candidate) => candidate.id === callout.id ? { ...candidate,
+    presentation: { kind: "keyed-marker-schedule" as const, key: "C", markerRadiusCm: 0.22 } } : candidate),
+  issues: [] as TechnicalFlatLiveIssue[] };
+}
+
 export function reflectFoldPrimitive(
   primitive: TechnicalFlatPrimitive,
   foldEdgeId: string,
@@ -577,7 +596,10 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     [...geometry.primitives, ...waistbandFragments.primitives], resolvePomAnchor);
   const poloDimensions = recipe.name === "polo"
     ? mapPoloDimensionCallouts(block, kind, recipe.poms!, poms.callouts ?? [], assembly.transforms) : undefined;
-  const mappedPomCallouts = poloDimensions ? poloDimensions.callouts : poms.callouts;
+  const mappedDimensionCallouts = poloDimensions ? poloDimensions.callouts : poms.callouts;
+  const poloCollarPointKeying = recipe.name === "polo" && mappedDimensionCallouts
+    ? mapPoloCollarPointKeyedCallout(kind, revisionId, mappedDimensionCallouts) : undefined;
+  const mappedPomCallouts = poloCollarPointKeying?.callouts ?? mappedDimensionCallouts;
   const approvedWovenSleeveCap = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
     .find((candidate) => candidate.roleId === "sleeve")?.wovenSleeveCapRepresentation?.decisionId
     === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION";
@@ -589,6 +611,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     ...overlays.issues.map((issue) => ({ stage: "overlay" as const, sourceId: issue.sourceId, message: issue.message })),
     ...poms.issues.map((issue) => ({ stage: "pom" as const, sourceId: issue.sourceId, message: issue.message })),
     ...(poloDimensions?.issues ?? []),
+    ...(poloCollarPointKeying?.issues ?? []),
   ];
   if (recipe.name === "polo") {
     issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"

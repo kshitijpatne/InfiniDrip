@@ -207,6 +207,13 @@ only through an explicitly admitted, linked Epic packet.
   leader-pair contacts under threshold, and three measured text-label
   intersections. No production behavior or held face changed. Matrices and
   annotated rendered evidence are in the same folder.
+- `docs/research/epic17/S380-polo-collar-callout-key-implementation/G04-V02-POLO-COLLAR-CALLOUT-KEY-IMPLEMENTATION-S380.md` —
+  completed implementation packet for the maintainer-approved Polo
+  `Collar point extension` source-centered C marker and unchanged full-text
+  schedule across 17 options. The production keyed renderer clears the two
+  prior base-render errors for that callout; paired backs remain unchanged.
+  Other S379 crossings, the 0.25 cm residual and all face holds remain. Its
+  17-option matrix, SVGs and reviewed PNGs are in the same folder.
 - `docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md`
   and `docs/research/epic17/S373-woven-sleeve-crossing/` — the exact S372
   post-change trace confirms one mirrored `sleeve.hem` half-run crossing in all

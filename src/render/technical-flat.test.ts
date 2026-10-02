@@ -264,6 +264,21 @@ describe("validateTechnicalFlat", () => {
     expect(validateTechnicalFlat(view([pointMark, markCallout]))).toEqual([]);
   });
 
+  it("validates keyed marker schedule metadata", () => {
+    const target = path();
+    const callout: TechnicalFlatPrimitive = { kind: "callout", id: "pom-c", layer: "CALLOUT", feature: "pom", source,
+      text: "Collar point extension: 6.2 cm (±0.2 cm)", anchor: { primitiveId: target.id, point: { x: 4, y: 2 } },
+      labelAt: { x: 8, y: 3 }, presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: 0.22 } };
+    expect(validateTechnicalFlat(view([target, callout]))).toEqual([]);
+    const invalid = [
+      { ...callout, id: "bad-kind", presentation: { kind: "unknown", key: "C", markerRadiusCm: 0.22 } },
+      { ...callout, id: "bad-key", presentation: { kind: "keyed-marker-schedule", key: " ", markerRadiusCm: 0.22 } },
+      { ...callout, id: "bad-radius-nan", presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: Number.NaN } },
+      { ...callout, id: "bad-radius-zero", presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: 0 } },
+    ] as unknown as TechnicalFlatPrimitive[];
+    expect(codes(view([target, ...invalid]))).toEqual(Array(invalid.length).fill("INVALID_GEOMETRY"));
+  });
+
   it("requires stable unique notice identities and actionable messages", () => {
     const candidate = { ...view(), notices: [
       { id: "gap", feature: "topstitch", reason: "SOURCE_NOT_REPRESENTED", message: " " },

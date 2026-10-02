@@ -106,8 +106,13 @@ function primitiveBounds(primitive: TechnicalFlatPrimitive): Bounds | null {
     case "mark": return pointBounds(primitive.at, MARK_RADIUS_CM);
     case "text": return pointBounds(primitive.at);
     case "artwork": return artworkBounds(primitive);
-    case "callout": return (primitive.dimensionReferences?.references ?? []).reduce((result, reference) =>
-      union(result, pointBounds(reference.point)), union(pointBounds(primitive.anchor.point), pointBounds(primitive.labelAt)));
+    case "callout": {
+      const base = primitive.presentation
+        ? pointBounds(primitive.anchor.point, primitive.presentation.markerRadiusCm)
+        : union(pointBounds(primitive.anchor.point), pointBounds(primitive.labelAt));
+      return (primitive.dimensionReferences?.references ?? []).reduce((result, reference) =>
+        union(result, pointBounds(reference.point)), base);
+    }
   }
 }
 
@@ -367,6 +372,7 @@ function styleFor(primitive: TechnicalFlatPrimitive, positions: ReadonlyMap<stri
       return `<g ${shared} data-layer="ARTWORK" data-artwork-kind="${primitive.artworkKind}" data-placement-id="${escapeXml(primitive.placementId)}" data-asset-id="${escapeXml(primitive.assetId ?? "")}" data-z-order="${primitive.zOrder}" transform="${transform}"><rect x="${fmt(x)}" y="${fmt(y)}" width="${fmt(width)}" height="${fmt(height)}" fill="none" stroke="#526677" stroke-dasharray="0.12 0.08" stroke-width="${EDGE_STROKE_CM}"/><title>Artwork placement: ${escapeXml(primitive.sourceName)}${primitive.assetId ? `; asset ${escapeXml(primitive.assetId)} is not embedded` : "; asset reference missing"}</title></g>`;
     }
     case "callout": {
+      if (primitive.presentation) return "";
       const labelAt = positions.get(primitive.id) ?? primitive.labelAt;
       const sourceEntity = primitive.anchor.sourceEntityId === undefined ? ""
         : ` data-callout-source-entity="${escapeXml(primitive.anchor.sourceEntityId)}"`;
@@ -494,9 +500,9 @@ function placeMeasuredLabel(item: TextItem, metric: TechnicalFlatTextMetrics,
   return null;
 }
 
-function metricFor(text: string, measureText: TechnicalFlatMeasureText): TechnicalFlatTextMetrics | null {
+function metricFor(text: string, measureText: TechnicalFlatMeasureText, fontSizeCm = FONT_SIZE_CM): TechnicalFlatTextMetrics | null {
   let metric: TechnicalFlatTextMetrics;
-  try { metric = measureText(text, FONT_SIZE_CM, FONT_FAMILY); }
+  try { metric = measureText(text, fontSizeCm, FONT_FAMILY); }
   catch { return null; }
   if (!metric || !finite(metric.widthCm) || !finite(metric.ascentCm) || !finite(metric.descentCm)
     || metric.widthCm < 0 || metric.ascentCm < 0 || metric.descentCm < 0) return null;
@@ -594,7 +600,7 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   };
   for (const primitive of view.primitives) {
     if (primitive.kind === "text") addText(primitive, primitive.text, primitive.at, "start");
-    else if (primitive.kind === "callout") {
+    else if (primitive.kind === "callout" && !primitive.presentation) {
       addText(primitive, primitive.text, primitive.labelAt, "middle");
       textItems[textItems.length - 1]!.callout = primitive;
     }
@@ -662,9 +668,38 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   const noticeTextOffset = noticeAscent + 0.12;
   const noticeHeight = noticeLines.length
     ? noticeTextOffset + Math.max(0, noticeLines.length - 1) * noticeLineHeight + noticeDescent + 0.12 : 0;
+  const keyedCallouts = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "callout" }> =>
+    primitive.kind === "callout" && primitive.presentation !== undefined);
+  const keyedHeaderMetrics = keyedCallouts.length ? metricFor("SOURCE POM", options.measureText, 0.28) : undefined;
+  if (keyedHeaderMetrics === null) issues.push({ code: "INVALID_FONT_METRICS",
+    message: "A keyed POM schedule heading could not be measured; keep the flat withheld." });
+  const keyedRows = keyedCallouts.flatMap((callout) => {
+    const key = callout.presentation!.key;
+    const text = `${key}  ${callout.text}`;
+    const metric = metricFor(text, options.measureText);
+    if (!metric) {
+      issues.push({ code: "INVALID_FONT_METRICS", entityId: callout.id,
+        message: "A keyed POM schedule row could not be measured; keep the flat withheld." });
+      return [];
+    }
+    const bounds = textBounds({ x: 0, y: 0 }, metric);
+    measured[`${callout.id}:schedule`] = bounds;
+    return [{ callout, key, text, metric }];
+  });
+  const keyedScheduleLineHeight = Math.max(0.44, ...keyedRows.map(({ metric }) =>
+    metric.ascentCm + metric.descentCm + 0.12));
+  const keyedScheduleHeight = keyedRows.length ? Math.max(2,
+    1.45 + Math.max(0, keyedRows.length - 1) * keyedScheduleLineHeight) : 0;
+  const keyedScheduleTop = keyedRows.length
+    ? (noticeLines.length ? noticeTop + noticeHeight : padBounds.maxY) + 0.45 : 0;
+  const keyedScheduleWidth = Math.max(keyedHeaderMetrics?.widthCm ?? 0, ...keyedRows.map(({ metric }) => metric.widthCm))
+    + (keyedRows.length ? 0.9 : 0);
   const width = Math.max(padBounds.maxX - padBounds.minX, NOTICE_WIDTH_CM + PADDING_CM * 2);
-  const height = padBounds.maxY - padBounds.minY + noticeHeight + (noticeLines.length ? 0.7 : 0);
-  const viewBox = `${fmt(padBounds.minX)} ${fmt(padBounds.minY)} ${fmt(width)} ${fmt(height)}`;
+  const baseHeight = padBounds.maxY - padBounds.minY + noticeHeight + (noticeLines.length ? 0.7 : 0);
+  const height = Math.max(baseHeight, keyedRows.length
+    ? keyedScheduleTop + keyedScheduleHeight + 0.3 - padBounds.minY : baseHeight);
+  const finalWidth = Math.max(width, keyedScheduleWidth + 1.2);
+  const viewBox = `${fmt(padBounds.minX)} ${fmt(padBounds.minY)} ${fmt(finalWidth)} ${fmt(height)}`;
 
   const ordered = [...view.primitives].sort((a, b) => {
     const layer = TECHNICAL_FLAT_LAYER_ORDER.indexOf(a.layer) - TECHNICAL_FLAT_LAYER_ORDER.indexOf(b.layer);
@@ -684,6 +719,11 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     const shapes = layerPrimitives.map((primitive) => styleFor(primitive, positions)).join("");
     return `<g data-layer-group="${layer}" aria-label="${layer.toLowerCase().replace(/_/g, " ")}">${areas}${shapes}</g>`;
   }).join("");
+  const keyedMarkers = keyedCallouts.map((callout) => {
+    const presentation = callout.presentation!;
+    const { anchor } = callout;
+    return `<g data-entity-id="${escapeXml(`${callout.id}:key-marker`)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(callout.source.sourceId)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(presentation.key)}" data-callout-target="${escapeXml(anchor.primitiveId)}"${anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(anchor.sourceEntityId)}"`}><circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/><text x="${fmt(anchor.point.x)}" y="${fmt(anchor.point.y + 0.07)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b">${escapeXml(presentation.key)}</text></g>`;
+  }).join("");
   const labels = textItems.map((item) => {
     const metric = metricFor(item.text, options.measureText);
     if (!metric) return "";
@@ -692,9 +732,15 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     return `<text data-label-for="${escapeXml(item.id)}" data-feature="${item.feature}" data-source-id="${escapeXml(item.source.sourceId)}" data-source-class="${item.source.sourceClass}" data-revision-id="${escapeXml(item.source.revisionId)}" data-source-layer="${item.layer}" x="${fmt(at.x)}" y="${fmt(at.y)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" text-anchor="${anchor}" fill="#19222b">${escapeXml(item.text)}</text>`;
   }).join("");
   const renderedNotices = noticeLines.map(({ notice, line }, lineIndex) => `<text data-notice-id="${escapeXml(notice.id)}" data-notice-reason="${notice.reason}" data-notice-source="${escapeXml(notice.sourceId ?? "")}" x="${fmt(padBounds.minX + 0.2)}" y="${fmt(noticeTop + noticeTextOffset + lineIndex * noticeLineHeight)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" fill="#713c16">${escapeXml(line)}</text>`).join("");
+  const keyedScheduleX = padBounds.minX + 0.6;
+  const keyedSchedule = keyedRows.length ? `<g data-layer-group="POM_SCHEDULE" data-revision-id="${escapeXml(view.revisionId)}"><rect x="${fmt(keyedScheduleX)}" y="${fmt(keyedScheduleTop)}" width="${fmt(keyedScheduleWidth)}" height="${fmt(keyedScheduleHeight)}" rx="0.12" fill="#fff" stroke="#64748b" stroke-width="0.06"/><text x="${fmt(keyedScheduleX + 0.35)}" y="${fmt(keyedScheduleTop + 0.6)}" font-family="${FONT_FAMILY}" font-size="0.28" font-weight="700" fill="#334155">SOURCE POM</text>${keyedRows.map(({ callout, key, text, metric }, index) => {
+    const baseline = keyedScheduleTop + 1.35 + index * keyedScheduleLineHeight;
+    measured[`${callout.id}:schedule`] = textBounds({ x: keyedScheduleX + 0.35, y: baseline }, metric);
+    return `<text data-schedule-for="${escapeXml(callout.id)}" data-pom-key="${escapeXml(key)}" data-source-id="${escapeXml(callout.source.sourceId)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-callout-target="${escapeXml(callout.anchor.primitiveId)}"${callout.anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(callout.anchor.sourceEntityId)}"`} x="${fmt(keyedScheduleX + 0.35)}" y="${fmt(baseline)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" fill="#111827">${escapeXml(text)}</text>`;
+  }).join("")}</g>` : "";
   const fabric = options.colorway ? ` data-colorway-id="${escapeXml(options.colorway.id)}" data-colorway-revision="${escapeXml(options.colorway.revisionId)}" data-color="${escapeXml(options.colorway.colorHex)}" data-texture="${options.colorway.texture}" data-shine="${fmt(options.colorway.shine)}"` : "";
   const title = escapeXml(options.title ?? `${view.recipeId} ${view.kind.replace("_", " ")}`);
-  const svg = `<svg xmlns="${SVG_NS}" role="img" aria-labelledby="flat-title" data-view-id="${escapeXml(view.viewId)}" data-revision-id="${escapeXml(view.revisionId)}" data-recipe-id="${escapeXml(view.recipeId)}" data-view-kind="${view.kind}" data-units="cm"${fabric} width="${fmt(width)}cm" height="${fmt(height)}cm" viewBox="${viewBox}"><title id="flat-title">${title}</title><desc>Pattern-derived technical flat in centimetres. Source and design revision are attached to every entity.</desc><rect data-technical-flat-paper="true" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(width)}" height="${fmt(height)}" fill="#fff"/>${body}<g data-layer-group="TEXT_LABELS">${labels}</g>${noticeLines.length ? `<g data-layer-group="SOURCE_NOTICES" role="note"><rect x="${fmt(padBounds.minX)}" y="${fmt(noticeTop)}" width="${fmt(width)}" height="${fmt(noticeHeight)}" fill="#fff7ed" stroke="#b45309" stroke-width="0.025"/>${renderedNotices}</g>` : ""}</svg>`;
+  const svg = `<svg xmlns="${SVG_NS}" role="img" aria-labelledby="flat-title" data-view-id="${escapeXml(view.viewId)}" data-revision-id="${escapeXml(view.revisionId)}" data-recipe-id="${escapeXml(view.recipeId)}" data-view-kind="${view.kind}" data-units="cm"${fabric} width="${fmt(finalWidth)}cm" height="${fmt(height)}cm" viewBox="${viewBox}"><title id="flat-title">${title}</title><desc>Pattern-derived technical flat in centimetres. Source and design revision are attached to every entity.</desc><rect data-technical-flat-paper="true" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}" fill="#fff"/>${body}${keyedMarkers.length ? `<g data-layer-group="POM_KEY_MARKERS">${keyedMarkers}</g>` : ""}<g data-layer-group="TEXT_LABELS">${labels}</g>${noticeLines.length ? `<g data-layer-group="SOURCE_NOTICES" role="note"><rect x="${fmt(padBounds.minX)}" y="${fmt(noticeTop)}" width="${fmt(width)}" height="${fmt(noticeHeight)}" fill="#fff7ed" stroke="#b45309" stroke-width="0.025"/>${renderedNotices}</g>` : ""}${keyedSchedule}</svg>`;
   return { svg: issues.length ? null : svg, issues, textBounds: measured };
 }
 

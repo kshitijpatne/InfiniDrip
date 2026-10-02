@@ -144,6 +144,12 @@ export interface FlatCalloutPrimitive extends FlatPrimitiveBase {
   readonly text: string;
   readonly anchor: { readonly primitiveId: string; readonly point: FlatPoint; readonly sourceEntityId?: string };
   readonly labelAt: FlatPoint;
+  /** View-only keyed marker and source-text schedule presentation. */
+  readonly presentation?: {
+    readonly kind: "keyed-marker-schedule";
+    readonly key: string;
+    readonly markerRadiusCm: number;
+  };
   /** Annotation-only evidence for a multi-point POM; these references never join garment contours. */
   readonly dimensionReferences?: {
     readonly kind: "edge-length" | "vertical-levels";
@@ -304,6 +310,14 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
     case "callout":
       if (!nonBlank(primitive.text) || !finitePoint(primitive.anchor.point) || !finitePoint(primitive.labelAt)) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Callout text and anchor/label positions must be valid." });
+      }
+      if (primitive.presentation !== undefined && (!primitive.presentation
+        || primitive.presentation.kind !== "keyed-marker-schedule"
+        || !nonBlank(primitive.presentation.key)
+        || !Number.isFinite(primitive.presentation.markerRadiusCm)
+        || primitive.presentation.markerRadiusCm <= 0)) {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id,
+          message: "Keyed callouts need a supported presentation, non-empty key and positive marker radius." });
       }
       if (primitive.dimensionReferences !== undefined && (!primitive.dimensionReferences
         || !["edge-length", "vertical-levels"].includes(primitive.dimensionReferences.kind)

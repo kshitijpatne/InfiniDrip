@@ -35,6 +35,75 @@ const measure: TechnicalFlatMeasureText = (text, fontSizeCm) => ({
 });
 
 describe("renderTechnicalFlatSvg", () => {
+  it("renders a revision-bound keyed POM marker and unchanged full-text schedule above and below the flat", () => {
+    const collarOutline: TechnicalFlatPrimitive = { ...outline,
+      source: { ...source, sourceId: "pattern:polo:role:upperCollar" },
+      sourceEdgeIds: ["pattern:polo:role:upperCollar:edge:frontTip"] };
+    const pom: TechnicalFlatPrimitive = { kind: "callout", id: "collar-point", layer: "CALLOUT", feature: "pom",
+      source: { ...source, sourceId: "pom:polo:collar-point-extension" },
+      text: "Collar point extension: 6.2 cm (±0.2 cm)",
+      anchor: { primitiveId: collarOutline.id, point: { x: 10, y: 4 }, sourceEntityId: "pattern:polo:role:upperCollar:edge:frontTip" },
+      labelAt: { x: 14, y: 5 }, presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: 0.22 } };
+    const ordinary: TechnicalFlatPrimitive = { ...pom, id: "ordinary-pom", source: { ...source, sourceId: "pom:polo:ordinary" },
+      text: "Ordinary dimension", presentation: undefined, anchor: { primitiveId: outline.id, point: { x: 5, y: 4 } },
+      labelAt: { x: 12, y: 6 } };
+    const notice = { id: "held-note", feature: "seam" as const, reason: "SOURCE_NOT_REPRESENTED" as const,
+      message: "Independent construction evidence remains held." };
+    const result = renderTechnicalFlatSvg({ ...makeView([collarOutline, pom, ordinary], [notice]), recipeId: "polo" }, { measureText: measure });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    expect(parsed.querySelector("parsererror")).toBeNull();
+    const marker = parsed.querySelector("[data-pom-key='C']");
+    expect(marker?.getAttribute("data-layer")).toBe("ANNOTATION");
+    expect(marker?.getAttribute("data-source-id")).toBe("pom:polo:collar-point-extension");
+    expect(marker?.getAttribute("data-revision-id")).toBe(revisionId);
+    expect(marker?.getAttribute("data-callout-target")).toBe(outline.id);
+    expect(marker?.getAttribute("data-callout-source-entity")).toBe("pattern:polo:role:upperCollar:edge:frontTip");
+    expect(marker?.querySelector("circle")?.getAttribute("r")).toBe("0.22");
+    expect(marker?.querySelector("circle")?.getAttribute("cx")).toBe("10");
+    expect(marker?.querySelector("circle")?.getAttribute("cy")).toBe("4");
+    expect(marker?.querySelector("text")?.textContent).toBe("C");
+    expect(parsed.querySelector(`[data-label-for='${pom.id}']`)).toBeNull();
+    expect(parsed.querySelector(`[data-entity-id='${pom.id}'] path`)).toBeNull();
+    expect(parsed.querySelector(`[data-label-for='${ordinary.id}']`)?.textContent).toBe(ordinary.text);
+    const schedule = parsed.querySelector("g[data-layer-group='POM_SCHEDULE']");
+    expect(schedule?.getAttribute("data-revision-id")).toBe(revisionId);
+    const row = schedule?.querySelector("[data-schedule-for='collar-point']");
+    expect(row?.textContent).toBe(`C  ${pom.text}`);
+    expect(row?.getAttribute("data-source-id")).toBe(pom.source.sourceId);
+    expect(row?.getAttribute("data-revision-id")).toBe(revisionId);
+    expect(row?.getAttribute("data-callout-target")).toBe(outline.id);
+    expect(result.textBounds[`${pom.id}:schedule`]).toBeDefined();
+    const groups = [...parsed.querySelectorAll("g[data-layer-group]")].map((group) => group.getAttribute("data-layer-group"));
+    expect(groups.indexOf("POM_KEY_MARKERS")).toBeLessThan(groups.indexOf("TEXT_LABELS"));
+    expect(groups.indexOf("SOURCE_NOTICES")).toBeLessThan(groups.indexOf("POM_SCHEDULE"));
+    const svg = parsed.documentElement;
+    const height = Number(svg.getAttribute("height")?.replace("cm", ""));
+    const paperHeight = Number(parsed.querySelector("[data-technical-flat-paper]")?.getAttribute("height"));
+    expect(height).toBeGreaterThan(0);
+    expect(paperHeight).toBe(height);
+  });
+
+  it("fails closed when keyed schedule text cannot be measured", () => {
+    const pom: TechnicalFlatPrimitive = { kind: "callout", id: "collar-point", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:polo:collar-point-extension" }, text: "Collar point extension: 6.2 cm (±0.2 cm)",
+      anchor: { primitiveId: outline.id, point: { x: 10, y: 4 } }, labelAt: { x: 14, y: 5 },
+      presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: 0.22 } };
+    const rowFailure = renderTechnicalFlatSvg(makeView([outline, pom]), { measureText: (text) => ({
+      widthCm: text.startsWith("C  Collar point") ? Number.NaN : 1, ascentCm: 0.2, descentCm: 0.1,
+    }) });
+    expect(rowFailure.svg).toBeNull();
+    expect(rowFailure.issues).toContainEqual(expect.objectContaining({ code: "INVALID_FONT_METRICS", entityId: pom.id }));
+    const headingFailure = renderTechnicalFlatSvg(makeView([outline, pom]), { measureText: (text) => ({
+      widthCm: text === "SOURCE POM" ? Number.NaN : 1, ascentCm: 0.2, descentCm: 0.1,
+    }) });
+    expect(headingFailure.svg).toBeNull();
+    expect(headingFailure.issues).toContainEqual(expect.objectContaining({
+      code: "INVALID_FONT_METRICS", message: expect.stringContaining("heading"),
+    }));
+  });
+
   it("renders two source-identified hem levels as annotation without a garment join", () => {
     const callout: TechnicalFlatPrimitive = { kind: "callout", id: "back-hem-drop", layer: "ANNOTATION", feature: "pom",
       source: { ...source, sourceId: "pom:polo:back-hem-drop" }, text: "Back hem drop: 1.5 cm (±0.2 cm)",

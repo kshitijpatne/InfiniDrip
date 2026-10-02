@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -398,6 +398,31 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(fallbackLevels.issues).toEqual([]);
     expect(fallbackLevels.callouts[0]?.dimensionReferences?.references.map((reference) => reference.point["y"]))
       .toEqual([70, 71.5]);
+  });
+
+  it("keys only the exact same-revision Polo front collar-point POM", () => {
+    const callout: FlatCalloutPrimitive = { kind: "callout", id: "pom-collar", layer: "ANNOTATION", feature: "pom",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: "pom:polo:collar-point-extension", revisionId: "polo-r1" },
+      text: "Collar point extension: 6.2 cm (±0.2 cm)",
+      anchor: { primitiveId: "flat:polo:FRONT_FLAT:component:upperCollar:outline", point: { x: 8, y: 4 },
+        sourceEntityId: "pattern:polo:role:upperCollar:edge:frontTip" }, labelAt: { x: 9, y: 5 } };
+    const other: FlatCalloutPrimitive = { ...callout, id: "other", source: { ...callout.source, sourceId: "pom:polo:other" } };
+    expect(mapPoloCollarPointKeyedCallout("BACK_FLAT", "polo-r1", [callout]).callouts).toEqual([callout]);
+    expect(mapPoloCollarPointKeyedCallout("FRONT_FLAT", "polo-r1", [other]).callouts).toEqual([other]);
+    const mapped = mapPoloCollarPointKeyedCallout("FRONT_FLAT", "polo-r1", [other, callout]);
+    expect(mapped.issues).toEqual([]);
+    expect(mapped.callouts[0]).toEqual(other);
+    expect(mapped.callouts[1]).toMatchObject({ ...callout,
+      presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: 0.22 } });
+    expect(mapped.callouts[1]?.text).toBe(callout.text);
+    for (const invalid of [
+      { ...callout, source: { ...callout.source, revisionId: "stale" } },
+      { ...callout, anchor: { ...callout.anchor, primitiveId: "wrong-target" } },
+      { ...callout, anchor: { ...callout.anchor, sourceEntityId: "wrong-source" } },
+    ]) {
+      expect(mapPoloCollarPointKeyedCallout("FRONT_FLAT", "polo-r1", [invalid]).issues).toHaveLength(1);
+    }
+    expect(mapPoloCollarPointKeyedCallout("FRONT_FLAT", "polo-r1", [callout, callout]).issues).toHaveLength(1);
   });
 
   it("resolves role ownership for geometry, marks, darts, artwork and anchored callouts", () => {
