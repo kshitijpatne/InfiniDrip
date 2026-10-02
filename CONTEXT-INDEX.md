@@ -340,6 +340,12 @@ only through an explicitly admitted, linked Epic packet.
   same-source assembly transforms are retained in
   `docs/research/epic17/S347-woven-crossings/`. S348 is limited to exact role
   token matching; the other sleeve and collar defects remain held.
+- `docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md` — S348
+  fixes and verifies exact colon-delimited source-role identification for the
+  Woven `sleeveBand` substring collision. Its 28-option audit confirms exact
+  joins but finds four intersections between the mirrored band contours in
+  every back view; all Woven faces remain held. The production replay and
+  colored role overlays are retained in `S348-woven-role-token/`.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

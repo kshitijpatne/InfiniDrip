@@ -1,8 +1,14 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 346 implemented approved Woven view closures and same-revision POM targets; rendered assembly still fails, all 56 Woven faces remain held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
+_Last updated: Slice 348 exact Woven source-role identity correction passed all 28 option-specific seam joins, while every back view still shows four mirrored-band crossings and remains held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 347 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 348 complete; V02 remains open
+
+S348 started 2026-10-02 01:02 UTC from clean S347 `5daf9b3af61ae5d3f00baae7126396b3788f1560` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 347; reserve 348. Board revision at start 1342, linking the start comment. Usage: primary 7% used and weekly 22% informational. Packet: `docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md`.
+
+S348 implements exact colon-token identity in `technicalFlatPrimitiveRole`, preserving role, mark, dart, artwork and anchored-callout behavior. The `sleeveBand` outline now uses its own approved transform. Every one of 56 same-revision Woven output faces was compared with its option-specific source assembly: 112 mirrored band top edges meet `sleeve.hem` with maximum output rounding residual 0.000063 cm. The separate visible gate fails: the two band contours have four proper boundary intersections in every BACK_FLAT (28/28); the front band pair has none. This X-shaped overlap preserves the current hold under the user's conditional projection approval. The collar remains detached/crossing on the front; no Woven face is newly accepted. Evidence, per-option join audit and colored overlays are in `docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md` and `docs/research/epic17/S348-woven-role-token/`. V02 remains all-seven and V03 gated. Next S349 diagnoses the source-supported cause/available mapping options for the back overlap, while preserving holds and without changing cut geometry or stitch graph absent authorization.
+
+## EPIC-17 / G04 prior boundary — Slice 347 complete; V02 remains open
 
 S347 started 2026-10-02 00:42 UTC at S346 `dacb77422a485244921a5b79e92caaf449e8df53` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice at entry was 346; reserve 347. Board revision at entry 1326 and exit 1341. Usage: primary 5% used; weekly 21% informational. Packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-BACK-CROSSING-DIAGNOSIS-S347.md`.
 

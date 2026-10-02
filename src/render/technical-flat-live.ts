@@ -80,8 +80,13 @@ export function technicalFlatPrimitiveRole(primitive: TechnicalFlatPrimitive, pr
   const sourceId = primitive.kind === "callout"
     ? primitives.find((candidate) => candidate.id === primitive.anchor.primitiveId)?.source.sourceId ?? ""
     : primitive.source.sourceId;
-  return roleIds.find((roleId) => sourceId.includes(`role:${roleId}`)
-    || sourceId.includes(`mark:${roleId}:`) || sourceId.includes(`dart:${roleId}:`)) ?? "";
+  const sourceTokens = sourceId.split(":");
+  const hasIdentifier = (marker: string, roleId: string, requireFollowingToken = false) =>
+    sourceTokens.some((token, index) => token === marker
+      && sourceTokens[index + 1] === roleId
+      && (!requireFollowingToken || sourceTokens[index + 2] !== undefined));
+  return roleIds.find((roleId) => hasIdentifier("role", roleId)
+    || hasIdentifier("mark", roleId, true) || hasIdentifier("dart", roleId, true)) ?? "";
 }
 
 /** Close only the approved Woven sleeve colorway fills from the exact assembled

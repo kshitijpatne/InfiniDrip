@@ -260,6 +260,18 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(technicalFlatPrimitiveRole(artwork, [artwork], ["front"])).toBe("front");
     expect(technicalFlatPrimitiveRole(callout, [outline, callout], ["front"])).toBe("front");
     expect(technicalFlatPrimitiveRole(callout, [callout], ["front"])).toBe("");
+    expect(technicalFlatPrimitiveRole({ ...outline, source: { ...base.source,
+      sourceId: "pattern:woven-shirt:role:sleeveBand" } }, [outline], ["sleeve", "sleeveBand"]))
+      .toBe("sleeveBand");
+    expect(technicalFlatPrimitiveRole({ ...outline, source: { ...base.source,
+      sourceId: "pattern:woven-shirt:role:sleeveBand:edge:top" } }, [outline], ["sleeve"]))
+      .toBe("");
+    expect(technicalFlatPrimitiveRole({ ...mark, source: { ...mark.source,
+      sourceId: "pattern:tee:mark:frontier:button" } }, [], ["front"]))
+      .toBe("");
+    expect(technicalFlatPrimitiveRole({ ...outline, source: { ...base.source,
+      sourceId: "pattern:tee:dart:front" } }, [outline], ["front"]))
+      .toBe("");
     expect(technicalFlatPrimitiveRole({ ...base, kind: "text", id: "free-note", at: { x: 0, y: 0 }, text: "note",
       source: { ...base.source, sourceId: "style:note" } }, [], ["front"])).toBe("");
   });

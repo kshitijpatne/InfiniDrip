@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1341,
-  "updatedAt": "2026-10-02T00:59:18.299Z",
+  "revision": 1351,
+  "updatedAt": "2026-10-02T01:26:05.974Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -352,7 +352,8 @@
         "E-G04-S347-START",
         "E-G04-S347-EXIT",
         "E-G04-S347-REVIEW",
-        "E-G04-S347-TRANSFORMS"
+        "E-G04-S347-TRANSFORMS",
+        "E-G04-S348-EXIT"
       ]
     },
     {
@@ -3529,6 +3530,11 @@
           "at": "2026-10-02T00:59:18.299Z",
           "actor": "Codex",
           "text": "S347 exit linked. V02 remains all-seven and V03 gated; integrated accepted/held total stays 56/90. S348 will correct only exact role-token source ownership, then inspect the remaining sleeve/collar holds."
+        },
+        {
+          "at": "2026-10-02T01:26:05.974Z",
+          "actor": "Codex",
+          "text": "S348 exit linked. Exact source-role identity and all option-specific band seam joins pass, but the approved two-instance projection creates four back-band contour crossings in every Woven BACK_FLAT. No face was accepted; integrated tally remains 56 accepted / 90 held. Keep V02 all-seven and V03 gated; see linked S348 rendered-output audit and overlays."
         }
       ],
       "evidenceRefs": [
@@ -3706,7 +3712,8 @@
         "E-G04-S347-START",
         "E-G04-S347-EXIT",
         "E-G04-S347-REVIEW",
-        "E-G04-S347-TRANSFORMS"
+        "E-G04-S347-TRANSFORMS",
+        "E-G04-S348-EXIT"
       ],
       "flagKey": null
     },
@@ -7184,6 +7191,16 @@
           "at": "2026-10-02T00:59:18.274Z",
           "actor": "Codex",
           "text": "Slice 347 complete. Exact source-token matching diagnosis proves role:sleeveBand is selected as earlier role:sleeve by substring matching, producing the misplaced Woven band path. The true band transform aligns top to the exact sleeve hem. The separate sleeve crossing and collar placement defects remain. All 56 Woven candidates remain held. S348 is reserved for the exact role identity fix and full 28-option replay."
+        },
+        {
+          "at": "2026-10-02T01:04:36.324Z",
+          "actor": "Codex",
+          "text": "Start Slice 348 at 2026-10-02 01:02 UTC from clean S347 5daf9b3; refreshed origin/main a5af5e13 remains an ancestor. Exact colon-delimited role identity fix for the Woven sleeveBand substring collision, with focused 100% coverage and 28-configuration / 56-face production replay. Preserve sleeve and collar holds. Packet: docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md."
+        },
+        {
+          "at": "2026-10-02T01:26:05.421Z",
+          "actor": "Codex",
+          "text": "Slice 348 complete: exact colon-token source role matching selects sleeveBand correctly. Focused module coverage is 100% (32/32 tests), build and 24 protected export checks pass. Production Chromium replay covered 28 Woven configurations / 56 faces with zero errors; all 112 band-top edges meet the exact option-specific source sleeve hem (max rendered residual 0.000063 cm). The conditional view gate fails on 28/28 back faces: each mirrored band pair has four proper contour intersections; front pairs have none. Keep all Woven faces held; tally stays 56 accepted / 90 held. Collar holds remain. V02 is still all-seven; V03 remains gated. See S348 exit, audit and overlays."
         }
       ],
       "evidenceRefs": [
@@ -7426,7 +7443,12 @@
         "E-G04-S347-START",
         "E-G04-S347-EXIT",
         "E-G04-S347-REVIEW",
-        "E-G04-S347-TRANSFORMS"
+        "E-G04-S347-TRANSFORMS",
+        "E-G04-S348-START",
+        "E-G04-S348-EXIT",
+        "E-G04-S348-REPLAY",
+        "E-G04-S348-JOIN-AUDIT",
+        "E-G04-S348-OVERLAY"
       ],
       "flagKey": null
     },
@@ -10464,6 +10486,51 @@
       "sha256": null,
       "verified": true,
       "note": "Exact source edge endpoints and same-draft FRONT/BACK sewn placement transforms for the standard default Woven draft."
+    },
+    {
+      "id": "E-G04-S348-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S348 start boundary, unique slice reservation, exact scope, holds and gates."
+    },
+    {
+      "id": "E-G04-S348-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S348 exact role-token implementation and verified hold outcome; see linked test, build, export, replay, audit and overlays."
+    },
+    {
+      "id": "E-G04-S348-REPLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S348-woven-role-token/production-replay/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Production Chromium replay: all 28 Woven configurations and 56 same-revision faces; zero browser/compiler errors; emission is not face acceptance."
+    },
+    {
+      "id": "E-G04-S348-JOIN-AUDIT",
+      "kind": "test",
+      "uri": "docs/research/epic17/S348-woven-role-token/band-join-audit.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 112 mirrored band top edges match their exact option source sleeve hem within 0.00011 cm output-rounding tolerance; four back contour crossings per configuration remain a hold."
+    },
+    {
+      "id": "E-G04-S348-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S348-woven-role-token/role-overlays/woven-shirt-default-back_flat-role-overlay.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source-role-colored production SVG overlay shows exact band join edges and the still-held X-shaped back pair overlap."
     }
   ]
 }

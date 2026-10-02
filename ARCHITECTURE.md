@@ -65,6 +65,11 @@ joins, back-view POMs without geometry anchors, and unreadable text remain
 visible as notices or block that drawing; the renderer does not fill gaps by
 guessing.
 
+Source-to-view identity reads complete colon-delimited `role`, `mark`, and
+`dart` tokens. This prevents a role whose name prefixes another role (for
+example, `sleeve` and `sleeveBand`) from inheriting the other role's placement
+or moving its geometry and anchored annotations.
+
 Slice 318 paints a requested colorway area only when emitted silhouette paths,
 source-declared reflected edges and mapped view boundaries form exact closed
 loops at the same four-decimal coordinates serialized to SVG. The area is
