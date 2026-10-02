@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1499,
-  "updatedAt": "2026-10-02T06:25:16.272Z",
+  "revision": 1523,
+  "updatedAt": "2026-10-02T06:59:55.640Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope remains G04 V01 → V02 → V03; all-seven V02 acceptance, protected export identities, legacy DXF behavior and V02-before-V03 gate are unchanged. S359: current integrated output is 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. Woven's straight stand base has a 0.68814–0.73975 cm front and 0.26283–0.28254 cm back rigid endpoint lower bound across all 28 options, above 0.25 cm. A full-collar arclength/normal-offset view projection is documented for maintainer decision but not implemented. Polo authored 1.5 cm ease and 0.25 cm gate remain. Conditional minimum is at least 13 additional slices; no upper bound while view decisions and CAD rights/receiver evidence remain unresolved. Details: docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md.",
+      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output: 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. The maintainer approved S359's revision-bound full-collar arclength/normal-offset view projection for a separate implementation slice, subject to full option/rendered gates. S361's non-production sleeve/band candidate failed the crossing gate in all 28 back options. Polo's authored ease and confirmed 0.25 cm gate remain. Preserve all-seven V02, legacy DXF, byte identities and V02-before-V03. Current state and holds: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -375,7 +375,12 @@
         "E-G04-S359-MATRIX",
         "E-G04-S359-OVERLAY",
         "E-G04-S360-START",
-        "E-G04-S360-EXIT"
+        "E-G04-S360-EXIT",
+        "E-G04-S361-START",
+        "E-G04-S361-EXIT",
+        "E-G04-S361-MATRIX",
+        "E-G04-S361-OVERLAY",
+        "E-G04-S361-TEST"
       ]
     },
     {
@@ -2904,7 +2909,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope remains G04 V01 → V02 → V03; all-seven V02 acceptance, protected export identities, legacy DXF behavior and V02-before-V03 gate are unchanged. S359: current integrated output is 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. Woven's straight stand base has a 0.68814–0.73975 cm front and 0.26283–0.28254 cm back rigid endpoint lower bound across all 28 options, above 0.25 cm. A full-collar arclength/normal-offset view projection is documented for maintainer decision but not implemented. Polo authored 1.5 cm ease and 0.25 cm gate remain. Conditional minimum is at least 13 additional slices; no upper bound while view decisions and CAD rights/receiver evidence remain unresolved. Details: docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md.",
+      "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope remains G04 V01 → V02 → V03; all-seven V02 acceptance, protected export identities, legacy DXF behavior and V02-before-V03 gate are unchanged. Current integrated output: 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces remain held. The maintainer approved the S359 full-collar arclength/normal-offset projection for a separate implementation slice, subject to complete output checks. S361's non-production Woven sleeve/band normal-offset candidate retains four crossings in 26 options and eight in two; it does not clear the hold. Polo authored 1.5 cm ease and confirmed 0.25 cm gate remain. Conditional minimum is at least 13 additional slices; no upper bound while other view holds and CAD rights/receiver evidence remain unresolved. Details: docs/planning/EPIC-17-ADMISSION.md and current PROJECT-STATE.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -3612,6 +3617,26 @@
           "at": "2026-10-02T06:25:16.272Z",
           "actor": "Codex",
           "text": "Slice 360 is a documentation/evidence closeout only. No V02 face was accepted and no production or export behavior changed."
+        },
+        {
+          "at": "2026-10-02T06:44:37.066Z",
+          "actor": "Codex",
+          "text": "Slice 361 investigates the previously measured Woven back sleeve/band crossing through diagnostic-only, source-bound view output. All 56 Woven and 34 Polo faces remain held. Polo retains the confirmed 0.25 cm residual gate. The user approved S359's full-collar projection convention for a later implementation slice; approval accepts no face and requires the complete option/rendered gates."
+        },
+        {
+          "at": "2026-10-02T06:57:41.018Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01 → V02 → V03. Current output: 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. The maintainer approved S359's revision-bound full-collar arclength/normal-offset view projection for a separate implementation slice, subject to full option/rendered gates. S361's non-production sleeve/band candidate failed the crossing gate in all 28 back options. Polo's authored ease and confirmed 0.25 cm gate remain. Preserve all-seven V02, legacy DXF, byte identities and V02-before-V03. Current state and holds: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md.). Record the S359 full-collar approval and S361 diagnostic failure without changing scope, status, acceptance or holds."
+        },
+        {
+          "at": "2026-10-02T06:58:37.452Z",
+          "actor": "Codex",
+          "text": "S361 closed as diagnostic-only: the candidate preserves the view seam but retains four band-pair crossings in 26 Woven back options and eight in two. All 56 Woven and 34 Polo faces remain held; 56 accepted / 90 held integrated tally and all-seven V02/V02-before-V03 gates remain unchanged. The approved S359 full-collar projection remains separately actionable subject to complete output checks."
+        },
+        {
+          "at": "2026-10-02T06:59:55.640Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output: 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. The maintainer approved S359's revision-bound full-collar arclength/normal-offset view projection for a separate implementation slice, subject to full option/rendered gates. S361's non-production sleeve/band candidate failed the crossing gate in all 28 back options. Polo's authored ease and confirmed 0.25 cm gate remain. Preserve all-seven V02, legacy DXF, byte identities and V02-before-V03. Current state and holds: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md.). Record the S359 full-collar approval and S361 diagnostic failure without changing scope, status, acceptance or holds."
         }
       ],
       "evidenceRefs": [
@@ -3808,7 +3833,12 @@
         "E-G04-S359-MATRIX",
         "E-G04-S359-OVERLAY",
         "E-G04-S360-START",
-        "E-G04-S360-EXIT"
+        "E-G04-S360-EXIT",
+        "E-G04-S361-START",
+        "E-G04-S361-EXIT",
+        "E-G04-S361-MATRIX",
+        "E-G04-S361-OVERLAY",
+        "E-G04-S361-TEST"
       ],
       "flagKey": null
     },
@@ -6506,7 +6536,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Current integrated matrix remains 73 configurations / 146 face requests, 56 accepted / 90 held. All 34 Polo and 56 Woven faces remain held. S359 measures unavoidable rigid Woven stand-to-neckline residual lower bounds above 0.25 cm in all 28 options and proposes, but does not implement, a full-collar view projection. Preserve the all-seven-recipe V02 criterion and keep V03 gated. See docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md and its linked diagnostics.",
+      "description": "Current integrated matrix remains 73 configurations / 146 face requests, 56 accepted / 90 held. All 34 Polo and 56 Woven faces remain held. S359's full-collar arclength/normal-offset view projection is approved for a separately bounded implementation, subject to every output gate. S361's diagnostic Woven sleeve/band normal-offset candidate fails the conditional crossing gate in all 28 back configurations; see docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md. Preserve the confirmed Polo 0.25 cm residual gate, all-seven-recipe V02 criterion, and V02-before-V03 gate.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -7421,6 +7451,16 @@
           "at": "2026-10-02T06:25:16.094Z",
           "actor": "Codex",
           "text": "Slice 360 exit: the four S359 start/exit/matrix/overlay records now reference landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1 through validated importFacts. The diagnostic EOF whitespace is corrected. Polo retains its 0.25 cm residual gate and all 34 holds; all 56 Woven holds and all-seven V02/V02-before-V03 gates remain."
+        },
+        {
+          "at": "2026-10-02T06:44:27.734Z",
+          "actor": "Codex",
+          "text": "Slice 361 is a non-production diagnostic of the approved Woven two-instance sleeve/band view after the S349 back crossing. It tests a source-bound normal-offset candidate across all 28 options / 56 faces. No production mapping, source geometry, stitch graph, threshold or accepted status may change in this slice; preserve all 56 Woven and 34 Polo holds, all-seven V02 and V02-before-V03. The user confirmed Polo's 0.25 cm residual gate and approved the separate S359 full-collar projection proposal for a later implementation slice, subject to its complete output checks."
+        },
+        {
+          "at": "2026-10-02T06:58:36.081Z",
+          "actor": "Codex",
+          "text": "S361 diagnostic result: the source-bound normal-offset mapping preserves the mapped band-to-sleeve join, but not the crossing gate. The 28-option matrix retains four mirrored band intersections in 26 backs and eight in the yokeDepth=max and sleeveBandDepth=max backs. Chromium overlays for default and three option extremes were manually reviewed. All 56 Woven and 34 Polo faces remain held; no production mapping or source geometry changed."
         }
       ],
       "evidenceRefs": [
@@ -7709,7 +7749,12 @@
         "E-G04-S359-MATRIX",
         "E-G04-S359-OVERLAY",
         "E-G04-S360-START",
-        "E-G04-S360-EXIT"
+        "E-G04-S360-EXIT",
+        "E-G04-S361-START",
+        "E-G04-S361-EXIT",
+        "E-G04-S361-MATRIX",
+        "E-G04-S361-OVERLAY",
+        "E-G04-S361-TEST"
       ],
       "flagKey": null
     },
@@ -11841,19 +11886,64 @@
       "id": "E-G04-S360-START",
       "kind": "document",
       "uri": "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md",
-      "commit": null,
+      "commit": "6203ba23d0c10dc7f8dada35510945725d0ff3d4",
       "sha256": null,
       "verified": true,
-      "note": "Slice 360 starts the validated S359 commit-evidence closeout; no production behavior or acceptance changes."
+      "note": "Slice 360 landed commit verified at the S361 start boundary."
     },
     {
       "id": "E-G04-S360-EXIT",
       "kind": "document",
       "uri": "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md",
+      "commit": "6203ba23d0c10dc7f8dada35510945725d0ff3d4",
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 360 landed commit verified at the S361 start boundary."
+    },
+    {
+      "id": "E-G04-S361-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md",
       "commit": null,
       "sha256": null,
       "verified": true,
-      "note": "Slice 360 links all S359 records to landed commit d519a8ac7b440ea310f660e80799bef9c0479ee1, corrects diagnostic EOF whitespace, and leaves all G04 holds and gates unchanged."
+      "note": "Slice 361 diagnostic-only S349-crossing follow-up; all option and face holds and G04 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S361-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S361 diagnostic-only candidate retains crossing failures; all Woven/Polo holds and V02/V03 gates remain."
+    },
+    {
+      "id": "E-G04-S361-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S361-woven-sleeve-band-normal-offset/normal-offset-candidate-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 28 source configurations / 56 face requests; every back candidate retains four or eight band-pair crossings."
+    },
+    {
+      "id": "E-G04-S361-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S361-woven-sleeve-band-normal-offset/normal-offset-woven-shirt-default-back.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium-rendered held diagnostic overlay; default and option extremes are linked and manually reviewed in the S361 packet."
+    },
+    {
+      "id": "E-G04-S361-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S361-woven-sleeve-band-normal-offset/normal-offset-candidate.test.ts",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Focused evidence regression passed 1/1 against all 28 configurations and preserved crossing holds."
     }
   ]
 }

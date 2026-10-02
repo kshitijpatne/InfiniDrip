@@ -1,0 +1,6 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V02",
+  "actor": "Codex",
+  "text": "S361 diagnostic result: the source-bound normal-offset mapping preserves the mapped band-to-sleeve join, but not the crossing gate. The 28-option matrix retains four mirrored band intersections in 26 backs and eight in the yokeDepth=max and sleeveBandDepth=max backs. Chromium overlays for default and three option extremes were manually reviewed. All 56 Woven and 34 Polo faces remain held; no production mapping or source geometry changed."
+}

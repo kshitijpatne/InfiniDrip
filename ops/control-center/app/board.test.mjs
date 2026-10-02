@@ -173,6 +173,26 @@ test("S360 binds the landed S359 commit without changing Polo or Woven holds", (
   assert.match(board.workItems.find((item) => item.id === "G04-V02").description, /0\.25 cm/);
 });
 
+test("S361 records the Woven sleeve/band diagnostic failure and retains all holds", () => {
+  const epicCard = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  const heldEvidence = ["E-G04-S361-EXIT", "E-G04-S361-MATRIX", "E-G04-S361-OVERLAY", "E-G04-S361-TEST"];
+  for (const id of ["E-G04-S361-START", ...heldEvidence]) {
+    assert.ok(epicCard.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V01").status, "Done");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.match(g04.description, /candidate fails the conditional crossing gate in all 28 back configurations/);
+  assert.match(g04.description, /all-seven-recipe V02 criterion/);
+  assert.match(epicCard.description, /56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+  assert.match(epicCard.description, /approved the S359 full-collar arclength\/normal-offset projection/);
+  assert.ok(g04.comments.some((comment) => /four mirrored band intersections in 26 backs and eight/.test(comment.text)));
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];
@@ -232,10 +252,10 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /S359: current integrated output is 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(epic.description, /Current (?:integrated )?output: 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
       assert.match(epic.description, /All 56 Woven and 34 Polo faces remain held/);
-      assert.match(epic.description, /full-collar arclength\/normal-offset view projection is documented for maintainer decision but not implemented/);
-      assert.match(card.description, /S359: current integrated output is 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(epic.description, /approved S359's revision-bound full-collar arclength\/normal-offset view projection for a separate implementation slice/);
+      assert.match(card.description, /Current (?:integrated )?output: 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
       assert.match(card.description, /all-seven V02 acceptance.*unchanged/);
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-EXIT"));
@@ -429,9 +449,9 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S335 started 2026-10-01 15:24:44 UTC from clean S334 b27a444a/.test(comment.text)));
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
-      assert.match(admittedWork[1].description, /S359 measures unavoidable rigid Woven stand-to-neckline residual lower bounds above 0\.25 cm in all 28 options/);
+      assert.match(admittedWork[1].description, /S359's full-collar arclength\/normal-offset view projection is approved for a separately bounded implementation/);
       assert.match(admittedWork[1].description, /All 34 Polo and 56 Woven faces remain held/);
-      assert.match(admittedWork[1].description, /Preserve the all-seven-recipe V02 criterion and keep V03 gated/);
+      assert.match(admittedWork[1].description, /all-seven-recipe V02 criterion.*V02-before-V03 gate/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-OUTPUT-REPLAY"));

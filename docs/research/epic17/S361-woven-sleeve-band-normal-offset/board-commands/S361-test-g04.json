@@ -1,0 +1,5 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V02",
+  "evidence": { "id": "E-G04-S361-TEST", "kind": "test", "uri": "docs/research/epic17/S361-woven-sleeve-band-normal-offset/normal-offset-candidate.test.ts", "verified": true, "note": "Focused evidence regression passed 1/1 against all 28 configurations and preserved crossing holds." }
+}

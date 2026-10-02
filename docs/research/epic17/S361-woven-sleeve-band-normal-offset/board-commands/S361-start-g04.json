@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "id": "E-G04-S361-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md",
+    "verified": true,
+    "note": "Slice 361 diagnostic-only S349-crossing follow-up; all option and face holds and G04 gates remain unchanged."
+  },
+  "itemId": "G04-V02"
+}

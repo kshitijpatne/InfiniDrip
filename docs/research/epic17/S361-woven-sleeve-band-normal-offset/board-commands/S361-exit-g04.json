@@ -1,0 +1,5 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V02",
+  "evidence": { "id": "E-G04-S361-EXIT", "kind": "document", "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md", "verified": true, "note": "S361 diagnostic-only candidate retains crossing failures; all Woven/Polo holds and V02/V03 gates remain." }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "editEpic",
+  "epicId": "EPIC-17",
+  "role": "maintainer",
+  "actor": "Codex",
+  "reason": "Record the S359 full-collar approval and S361 diagnostic failure without changing scope, status, acceptance or holds.",
+  "patch": {
+    "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output: 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. The maintainer approved S359's revision-bound full-collar arclength/normal-offset view projection for a separate implementation slice, subject to full option/rendered gates. S361's non-production sleeve/band candidate failed the crossing gate in all 28 back options. Polo's authored ease and confirmed 0.25 cm gate remain. Preserve all-seven V02, legacy DXF, byte identities and V02-before-V03. Current state and holds: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md."
+  }
+}

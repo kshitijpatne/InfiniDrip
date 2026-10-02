@@ -1,0 +1,5 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V02",
+  "evidence": { "id": "E-G04-S361-OVERLAY", "kind": "rendered-output", "uri": "docs/research/epic17/S361-woven-sleeve-band-normal-offset/normal-offset-woven-shirt-default-back.png", "verified": true, "note": "Chromium-rendered held diagnostic overlay; default and option extremes are linked and manually reviewed in the S361 packet." }
+}
