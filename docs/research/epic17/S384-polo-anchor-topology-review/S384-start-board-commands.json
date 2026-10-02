@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S384-START","kind":"document","uri":"docs/research/epic17/S384-polo-anchor-topology-review/G04-V02-POLO-ANCHOR-TOPOLOGY-REVIEW-S384.md","verified":true,"note":"S384 audits whether S383 source-marker/path contacts are source-encoded joins or only coordinate coincidences, across all 17 current Polo options; no acceptance or hold changes."}},
+  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"S384 is a diagnostic-only source topology audit of S383's specific Polo marker contacts. It preserves exact options/revisions, source geometry, POM anchors, the 0.25 cm gate and all 34 holds; no production mapping or renderer change is authorized."}
+]

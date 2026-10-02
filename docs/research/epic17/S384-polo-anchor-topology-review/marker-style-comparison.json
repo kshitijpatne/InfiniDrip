@@ -1,0 +1,38 @@
+{
+  "cases": [
+    {
+      "caseId": "polo-default",
+      "inputRevision": "live-draft:polo:S380:polo-default",
+      "openRings": 7,
+      "sourcePathsPreserved": true,
+      "screenshot": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-default-open-marker.png",
+      "svg": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-default-open-marker.svg"
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "inputRevision": "live-draft:polo:S380:polo-placketWidth-min",
+      "openRings": 7,
+      "sourcePathsPreserved": true,
+      "screenshot": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-placketWidth-min-open-marker.png",
+      "svg": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-placketWidth-min-open-marker.svg"
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "inputRevision": "live-draft:polo:S380:polo-standFrontRise-min",
+      "openRings": 7,
+      "sourcePathsPreserved": true,
+      "screenshot": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-standFrontRise-min-open-marker.png",
+      "svg": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-standFrontRise-min-open-marker.svg"
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "inputRevision": "live-draft:polo:S380:polo-collarPointExtension-max",
+      "openRings": 7,
+      "sourcePathsPreserved": true,
+      "screenshot": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-collarPointExtension-max-open-marker.png",
+      "svg": "docs\\research\\epic17\\S384-polo-anchor-topology-review\\rendered\\polo-collarPointExtension-max-open-marker.svg"
+    }
+  ],
+  "browserErrors": 0,
+  "method": "Diagnostic only: compared S383 white-filled marker disks with open red rings and a white key-glyph halo; retained exact S380 source paths and unchanged S383 key coordinates."
+}
