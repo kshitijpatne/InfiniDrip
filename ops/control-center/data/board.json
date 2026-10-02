@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1444,
-  "updatedAt": "2026-10-02T04:06:35.991Z",
+  "revision": 1451,
+  "updatedAt": "2026-10-02T04:50:29.926Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3554,6 +3554,11 @@
           "at": "2026-10-02T03:49:42.176Z",
           "actor": "Maintainer (via Codex)",
           "text": "Approved UI sequence: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. At the next normal slice boundary reconcile existing G04 geometry/identity/construction/POM/artwork/readability scope; do not interrupt current work, duplicate renderer, relax V02/V03 gates or add a new Epic17 closure dependency. Independent native UI/catalog candidates remain outside G04's critical path; reserve active shared UI/render/persistence files. Replay additive UIQ commands, never replace the newer active board with a stale checkout."
+        },
+        {
+          "at": "2026-10-02T04:50:29.926Z",
+          "actor": "Codex",
+          "text": "S356 rejected the diagnostic Woven sleeve/band chord-reflection convention after exact-revision 56-face candidate generation and six representative rendered reviews. Holds, all-seven V02 acceptance and V02-before-V03 gate remain unchanged; see linked S356 exit report."
         }
       ],
       "evidenceRefs": [
@@ -3738,7 +3743,9 @@
         "E-G04-S354-START",
         "E-G04-S354-EXIT",
         "E-G04-S355-START",
-        "E-G04-S355-EXIT"
+        "E-G04-S355-EXIT",
+        "E-G04-S356-START",
+        "E-G04-S356-EXIT"
       ],
       "flagKey": null
     },
@@ -7301,6 +7308,16 @@
           "at": "2026-10-02T04:06:35.991Z",
           "actor": "Codex",
           "text": "Slice 355 rejected Woven back seam-layer occlusion after 28-option exact-revision Chromium analysis: the compound mirrored band silhouette lies 100% inside body/yoke fills, so seam-only clipping leaves crossings and body-over-band clipping hides both cuffs. No production mapping changed; all 56 Woven faces remain held. S356 will investigate source-preserving transforms and require maintainer approval for any new semantic mapping."
+        },
+        {
+          "at": "2026-10-02T04:12:55.474Z",
+          "actor": "Codex",
+          "text": "Slice 356 is active for a diagnostic-only Woven sleeve/band reflection candidate across exact cap-half endpoint chords. Candidate transforms must preserve the source sleeve-hem/band-top join; do not alter production mapping or release any view without full option/render validation and maintainer approval."
+        },
+        {
+          "at": "2026-10-02T04:50:29.203Z",
+          "actor": "Codex",
+          "text": "Slice 356 rejected the Woven sleeve/band chord-reflection candidate: default and combined front renders retain the crossing X, while back band/cuff outlines are not clearly visible in the existing composition. The source join is preserved by the common transform, but orientation alone fails the rendered gates. No production mapping changed; all 56 Woven and 34 Polo faces remain held."
         }
       ],
       "evidenceRefs": [
@@ -7577,7 +7594,9 @@
         "E-G04-S354-START",
         "E-G04-S354-EXIT",
         "E-G04-S355-START",
-        "E-G04-S355-EXIT"
+        "E-G04-S355-EXIT",
+        "E-G04-S356-START",
+        "E-G04-S356-EXIT"
       ],
       "flagKey": null
     },
@@ -11614,6 +11633,24 @@
       "sha256": null,
       "verified": true,
       "note": "S355 measured compound sleeve-band containment in all 28 exact-revision Woven backs. All 28 are 100% inside body/yoke fill; no safe seam-only occlusion candidate. Keep all 56 Woven faces held."
+    },
+    {
+      "id": "E-G04-S356-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-CHORD-REFLECTION-CANDIDATE-S356.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S356 diagnostic-only transform candidate from exact cap-half endpoints; no production semantic mapping or hold release without maintainer approval."
+    },
+    {
+      "id": "E-G04-S356-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-CHORD-REFLECTION-CANDIDATE-S356.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S356 generated 56 exact-revision diagnostic candidates and rendered six representative overlays. Common sleeve/band reflection preserves source joins but front candidates retain torso crossings and back pair visibility fails; reject mapping and retain all Woven/Polo holds."
     }
   ]
 }

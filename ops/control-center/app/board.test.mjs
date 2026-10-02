@@ -86,6 +86,19 @@ test("S355 Woven diagnosis is linked while every G04 acceptance hold remains", (
   assert.ok(g04.comments.some((comment) => /Slice 355 rejected Woven back seam-layer occlusion/.test(comment.text)));
 });
 
+test("S356 rejects the Woven chord-reflection candidate and retains every hold", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S356-START", "E-G04-S356-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-CHORD-REFLECTION-CANDIDATE-S356.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.ok(g04.comments.some((comment) => /Slice 356 rejected the Woven sleeve\/band chord-reflection candidate/.test(comment.text)));
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];

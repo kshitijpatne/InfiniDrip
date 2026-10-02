@@ -1,0 +1,88 @@
+{
+  "results": [
+    {
+      "caseId": "woven-shirt-default",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "check": {
+        "revisionIds": 1,
+        "transformedSleeve": 6,
+        "transformedBand": 10,
+        "visibleBandFolds": 2
+      },
+      "errors": [],
+      "svg": "review-overlays/woven-shirt-default-front_flat-reflected-sleeve-band.svg",
+      "png": "review-overlays/woven-shirt-default-front_flat-reflected-sleeve-band.png"
+    },
+    {
+      "caseId": "woven-shirt-default",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "check": {
+        "revisionIds": 1,
+        "transformedSleeve": 6,
+        "transformedBand": 10,
+        "visibleBandFolds": 2
+      },
+      "errors": [],
+      "svg": "review-overlays/woven-shirt-default-back_flat-reflected-sleeve-band.svg",
+      "png": "review-overlays/woven-shirt-default-back_flat-reflected-sleeve-band.png"
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "check": {
+        "revisionIds": 1,
+        "transformedSleeve": 6,
+        "transformedBand": 10,
+        "visibleBandFolds": 2
+      },
+      "errors": [],
+      "svg": "review-overlays/woven-shirt-combined-supported-front_flat-reflected-sleeve-band.svg",
+      "png": "review-overlays/woven-shirt-combined-supported-front_flat-reflected-sleeve-band.png"
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "check": {
+        "revisionIds": 1,
+        "transformedSleeve": 6,
+        "transformedBand": 10,
+        "visibleBandFolds": 2
+      },
+      "errors": [],
+      "svg": "review-overlays/woven-shirt-combined-supported-back_flat-reflected-sleeve-band.svg",
+      "png": "review-overlays/woven-shirt-combined-supported-back_flat-reflected-sleeve-band.png"
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "check": {
+        "revisionIds": 1,
+        "transformedSleeve": 6,
+        "transformedBand": 10,
+        "visibleBandFolds": 2
+      },
+      "errors": [],
+      "svg": "review-overlays/woven-shirt-yokeDepth-min-back_flat-reflected-sleeve-band.svg",
+      "png": "review-overlays/woven-shirt-yokeDepth-min-back_flat-reflected-sleeve-band.png"
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "check": {
+        "revisionIds": 1,
+        "transformedSleeve": 6,
+        "transformedBand": 10,
+        "visibleBandFolds": 2
+      },
+      "errors": [],
+      "svg": "review-overlays/woven-shirt-yokeDepth-max-back_flat-reflected-sleeve-band.svg",
+      "png": "review-overlays/woven-shirt-yokeDepth-max-back_flat-reflected-sleeve-band.png"
+    }
+  ]
+}

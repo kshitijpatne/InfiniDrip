@@ -142,6 +142,12 @@ only through an explicitly admitted, linked Epic packet.
   silhouette against the body/yoke fills. Seam-only occlusion cannot remove
   the crossing silhouette, while body-over-band clipping hides the entire
   band pair. All Woven views remain held pending a source-preserving mapping.
+- `docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-CHORD-REFLECTION-CANDIDATE-S356.md` —
+  Slice 356 tests a diagnostic-only reflection across exact armhole/cap-half
+  endpoint chords, applying the same instance transform to the source-joined
+  bands. The candidate is rejected: front renders retain torso crossings and
+  back band/cuff outlines fail visibility in the current composition. No
+  production mapping changed and all Woven/Polo face holds remain.
 - `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` — Slice
   311's source-backed mark-target POM mapping, production-rendered verification,
   held-face limits and current G04 boundary. Use `PROJECT-STATE.md` and the

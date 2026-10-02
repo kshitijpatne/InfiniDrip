@@ -1,0 +1,4040 @@
+{
+  "candidate": "view-only reflection of each complete sleeve and its joined band across the exact receiving cap-half endpoint chord",
+  "configurations": 28,
+  "faces": 56,
+  "errors": [],
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-default-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-default-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-default",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-default-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-default-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-neckEase-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-neckEase-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-neckEase-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-neckEase-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-neckEase-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-neckEase-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-neckEase-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-neckEase-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-standHeight-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-standHeight-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-standHeight-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-standHeight-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-standHeight-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-standHeight-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-standHeight-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-standHeight-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-collarLeafDepth-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-collarLeafDepth-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-collarLeafDepth-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-collarLeafDepth-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-collarLeafDepth-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-collarLeafDepth-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-collarLeafDepth-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-collarLeafDepth-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonCount-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonCount-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonCount-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonCount-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonCount-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonCount-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonCount-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonCount-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonSpacing-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonSpacing-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonSpacing-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonSpacing-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonSpacing-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonSpacing-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-buttonSpacing-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-buttonSpacing-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-frontOverlap-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-frontOverlap-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-frontOverlap-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-frontOverlap-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-frontOverlap-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-frontOverlap-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-frontOverlap-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-frontOverlap-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-placketWidth-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-placketWidth-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-placketWidth-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-placketWidth-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-placketWidth-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-placketWidth-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-placketWidth-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-placketWidth-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-yokeDepth-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-yokeDepth-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-yokeDepth-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-yokeDepth-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-yokeDepth-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-yokeDepth-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-yokeDepth-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-yokeDepth-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketWidth-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketWidth-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketWidth-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketWidth-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketWidth-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketWidth-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketWidth-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketWidth-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketHeight-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketHeight-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketHeight-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketHeight-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketHeight-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketHeight-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-pocketHeight-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-pocketHeight-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sleeveBandDepth-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sleeveBandDepth-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sleeveBandDepth-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sleeveBandDepth-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sleeveBandDepth-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sleeveBandDepth-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sleeveBandDepth-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sleeveBandDepth-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sideVentDepth-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sideVentDepth-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sideVentDepth-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sideVentDepth-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sideVentDepth-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sideVentDepth-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-sideVentDepth-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-sideVentDepth-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-hemTurn-min-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-hemTurn-min-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-hemTurn-min-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-hemTurn-min-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-hemTurn-max-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-hemTurn-max-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-hemTurn-max-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-hemTurn-max-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-combined-supported-front_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-combined-supported-front_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole"
+          },
+          {
+            "source": "pattern:woven-shirt:role:front:edge:armhole",
+            "entity": "flat:woven-shirt:FRONT_FLAT:view-seam:woven-sleeve-cap:front:armhole:physical-pair-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "../S348-woven-role-token/production-replay/woven-shirt-combined-supported-back_flat.svg",
+      "candidateSvg": "candidate-svg/woven-shirt-combined-supported-back_flat.svg",
+      "endpoints": {
+        "right": {
+          "shoulder": {
+            "x": 22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": 27.5,
+            "y": 24
+          }
+        },
+        "left": {
+          "shoulder": {
+            "x": -22.5,
+            "y": 2.5
+          },
+          "underarm": {
+            "x": -27.5,
+            "y": 24
+          },
+          "mirroredFromRight": true
+        },
+        "sourceEdgeIds": [
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower"
+          },
+          {
+            "source": "pattern:woven-shirt:role:back:edge:armholeLower",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:back:armholeLower:fold-reflection"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper"
+          },
+          {
+            "source": "pattern:woven-shirt:role:yoke:edge:armholeUpper",
+            "entity": "flat:woven-shirt:BACK_FLAT:view-seam:woven-sleeve-cap:yoke:armholeUpper:fold-reflection"
+          }
+        ]
+      },
+      "matrices": {
+        "right": {
+          "a": -0.8973832734735762,
+          "b": 0.44125192406362235,
+          "c": 0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": 41.58799384299641,
+          "f": -9.671626475115442
+        },
+        "left": {
+          "a": -0.8973832734735762,
+          "b": -0.44125192406362235,
+          "c": -0.44125192406362235,
+          "d": 0.897383273473576,
+          "e": -41.58799384299641,
+          "f": -9.671626475115442
+        }
+      },
+      "transformedSubpaths": 18,
+      "sourceStitchJoinEvidence": "S349 exact source audit: sleeveBand.top ↔ sleeve.hem, max endpoint residual 2.864289338439558e-14 cm; one common isometry is applied to both joined roles on each side.",
+      "browserCheck": {
+        "roots": 1,
+        "revisionCount": 1,
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "transformedRolePaths": 18,
+        "sleeveFillPaths": 2,
+        "bandFillPaths": 2
+      }
+    }
+  ]
+}
