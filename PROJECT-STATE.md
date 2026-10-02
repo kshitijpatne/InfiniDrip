@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current handoff — Slice 369 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 370 complete; V02 remains open
+
+S370 started from clean S369 commit `56015e7a3d3fb427c3ebb8432aa810b7a3d9599b` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 369; S370 is complete. Canonical board revision was 1727 at entry, S370 start evidence/comments end at 1731, and exit plus supplemental test evidence/comments end at 1749. Goal remains active and matches the admitted EPIC-17/G04 V01→V02→V03 objective through safe merge/deployment. Polo's 0.25 cm residual gate remains fixed.
+
+S370 found a feasible band-only detail composition: two full uncut pieces at 1:1 scale, reflected about `back.centerBack`, rotated in separate left/right side gutters, labeled as details rather than assembly locations, with exact full-band/top and receiver-half identity. Across all 28 options / 56 face identities, bounds fit the frame, source geometry stays closed, no band/pair/body overlaps appear, and minimum body clearance is 1 cm. Rendered main garments still have the independent sleeve-outline crossing. The proposal changes the previously approved assembled-band display convention and has not been approved or implemented. Keep all 56 Woven / 34 Polo holds; integrated acceptance remains 56 accepted / 90 held.
+
+**Next action:** obtain maintainer decision on the exact S370 band-detail proposal. If approved, implement only that view composition and rerun the complete Woven option/output checks; keep the independent sleeve crossing and all other holds. If rejected, keep current production mapping and holds. Continue independent V02 work; do not begin V03 or UIQ implementation.
+
+**Elapsed:** 2026-10-02 13:01:54–13:26:18 UTC (24m24s): production implementation 0m; source geometry/layout diagnostic and rendered candidate 11m; focused diagnostic test/syntax review 2m; five Chromium inspections 3m; durable packet/context/state/board closeout and verification 8m24s; external-agent waits 0m; maintainer-decision wait 0m.
+
+_Last updated: S370 records an unscaled detached Woven band proposal; it remains unimplemented pending approval; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 369 complete; V02 remains open
 
 S369 started from clean S368 commit `9ea4e8a7e528ca818b8627c299db75bfde90a2d6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 368; S369 is complete. Canonical board revision was 1709 at entry; validated S369 start evidence/comments end at revision 1713 and exit evidence/comments end at 1727. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Polo's 0.25 cm residual gate is reaffirmed and fixed.
 

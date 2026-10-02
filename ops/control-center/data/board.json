@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1727,
-  "updatedAt": "2026-10-02T12:53:55.941Z",
+  "revision": 1749,
+  "updatedAt": "2026-10-02T13:23:40.115Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -425,7 +425,13 @@
         "E-G04-S369-EXIT",
         "E-G04-S369-MATRIX",
         "E-G04-S369-RENDER",
-        "E-G04-S369-TEST"
+        "E-G04-S369-TEST",
+        "E-G04-S370-START",
+        "E-G04-S370-EXIT",
+        "E-G04-S370-MATRIX",
+        "E-G04-S370-RENDER",
+        "E-G04-S370-TEST",
+        "E-G04-S370-CC-TEST"
       ]
     },
     {
@@ -3787,6 +3793,11 @@
           "at": "2026-10-02T12:53:55.941Z",
           "actor": "Codex",
           "text": "Slice 369 closes with the uncut Woven band-to-back-hem-half candidate rejected by proportionality, outline and mirrored-pair crossings, and rendered readability. All current holds, all-seven V02, V02-before-V03, and Polo's 0.25 cm gate remain. No production behavior changed. See docs/research/epic17/G04-V02-WOVEN-UNCUT-BAND-HEM-HALF-FEASIBILITY-S369.md."
+        },
+        {
+          "at": "2026-10-02T13:22:33.223Z",
+          "actor": "Codex",
+          "text": "Slice 370 closes with a concrete, tested Woven band detail proposal. It is view-only in concept, changes the approved assembled-band composition, and addresses band overlap only. The main sleeve crossing and all other holds remain. No production mapping or acceptance changes pending maintainer decision. See docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md."
         }
       ],
       "evidenceRefs": [
@@ -4033,7 +4044,13 @@
         "E-G04-S369-EXIT",
         "E-G04-S369-MATRIX",
         "E-G04-S369-RENDER",
-        "E-G04-S369-TEST"
+        "E-G04-S369-TEST",
+        "E-G04-S370-START",
+        "E-G04-S370-EXIT",
+        "E-G04-S370-MATRIX",
+        "E-G04-S370-RENDER",
+        "E-G04-S370-TEST",
+        "E-G04-S370-CC-TEST"
       ],
       "flagKey": null
     },
@@ -7746,6 +7763,21 @@
           "at": "2026-10-02T12:53:55.908Z",
           "actor": "Codex",
           "text": "Slice 369 exit: the S321-approved full uncut-band mapping to the BACK hem half fails across all 28 exact-revision options. Compression is 0.5; each band outline self-crosses four times and each mirrored pair crosses once. Five Chromium overlays show the central X. Zero source/mapped join residual does not clear distortion or readability. Keep all 56 Woven and 34 Polo faces held, 56 accepted / 90 held, all-seven V02 and V02-before-V03. The maintainer reaffirmed Polo's 0.25 cm residual gate; unchanged. Focused diagnostic test 2/2; Control Center tests 42/42. No production code or acceptance change."
+        },
+        {
+          "at": "2026-10-02T13:04:23.917Z",
+          "actor": "Codex",
+          "text": "Slice 370 starts at clean S369 56015e7a3d3fb427c3ebb8432aa810b7a3d9599b; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; board revision 1727. Diagnostic only: test an unscaled detached Woven band-pair detail and explicit non-seam relationship callouts after the assembled half-hem candidate failed. Keep all holds, all-seven V02, V02-before-V03 and Polo's 0.25 cm gate. Do not implement without maintainer approval. Packet: docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md."
+        },
+        {
+          "at": "2026-10-02T13:22:33.165Z",
+          "actor": "Codex",
+          "text": "Slice 370 exit: the detached band-only proposal preserves two full source outlines at 1:1 scale with zero band self/pair/body crossings and ≥1 cm body clearance in all 28 exact-revision options. Five renders show the detail as explicitly not at its assembly location. The main garment sleeve outlines still cross, so this proposal does not pass or accept any face. Keep all 56 Woven and 34 Polo holds, 56 accepted / 90 held, all-seven V02, V02-before-V03 and Polo's 0.25 cm gate. No production changes. Approval is required before implementing this alternate view composition."
+        },
+        {
+          "at": "2026-10-02T13:23:40.115Z",
+          "actor": "Codex",
+          "text": "S370 Control Center regression passes 42/42 after validated exit commands; G04 and EPIC-17 remain In Progress, with all holds and all-seven/V02-before-V03 gates unchanged."
         }
       ],
       "evidenceRefs": [
@@ -8084,7 +8116,13 @@
         "E-G04-S369-EXIT",
         "E-G04-S369-MATRIX",
         "E-G04-S369-RENDER",
-        "E-G04-S369-TEST"
+        "E-G04-S369-TEST",
+        "E-G04-S370-START",
+        "E-G04-S370-EXIT",
+        "E-G04-S370-MATRIX",
+        "E-G04-S370-RENDER",
+        "E-G04-S370-TEST",
+        "E-G04-S370-CC-TEST"
       ],
       "flagKey": null
     },
@@ -12679,6 +12717,60 @@
       "sha256": null,
       "verified": true,
       "note": "Focused diagnostic regression passes 2/2; syntax checks pass. Control Center tests pass 42/42."
+    },
+    {
+      "id": "E-G04-S370-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S370 bounded diagnostic tests a full-scale detached Woven sleeve-band detail after S369 rejected assembled half-hem projection; no implementation or acceptance change authorized."
+    },
+    {
+      "id": "E-G04-S370-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S370 finds a source-scale detached band-pair detail fits with at least 1 cm body clearance and no band crossing, but existing sleeve outlines still cross; all Woven and Polo faces remain held. Candidate requires approval before implementation."
+    },
+    {
+      "id": "E-G04-S370-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S370-woven-band-detail-feasibility/detached-band-layout-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 28 exact-revision Woven options / 56 requests retain two reflected uncut bands at source scale 1.0, zero band self/pair/body crossings, ≥1 cm clearance and in-frame extents. No holds released."
+    },
+    {
+      "id": "E-G04-S370-RENDER",
+      "kind": "document",
+      "uri": "docs/research/epic17/S370-woven-band-detail-feasibility/",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Five zero-browser-error Chromium detail renders were manually reviewed. The side-gutter pair is distinct and source-scale; the main sleeve outline crossing remains visible."
+    },
+    {
+      "id": "E-G04-S370-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S370-woven-band-detail-feasibility/focused-test.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S370 diagnostic regression passes 2/2; Control Center test result will be recorded after this replay."
+    },
+    {
+      "id": "E-G04-S370-CC-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S370-woven-band-detail-feasibility/control-center-test.log",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "npm run control-center:test passes 42/42 after the validated S370 board exit replay."
     }
   ]
 }

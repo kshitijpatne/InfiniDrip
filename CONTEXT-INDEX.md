@@ -149,6 +149,12 @@ only through an explicitly admitted, linked Epic packet.
   28 options. Its 0.5 display-length ratio, four self-crossings per band, one
   mirrored-pair crossing per option, and five reviewed central-X renders fail
   the view gate; all 56 Woven faces remain held.
+- `docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md`
+  and `docs/research/epic17/S370-woven-band-detail-feasibility/` — S370's
+  two source-scale side-gutter band details fit all 28 Woven options without
+  band/body overlap. The independent sleeve-outline crossing remains. This
+  alternate view composition is documented but not implemented pending
+  maintainer approval; all 56 Woven faces remain held.
 - `docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md` —
   Slice 355's 28-option measurement of the complete mirrored sleeve-band
   silhouette against the body/yoke fills. Seam-only occlusion cannot remove

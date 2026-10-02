@@ -1,0 +1,31 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S370-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md",
+      "verified": true,
+      "note": "S370 bounded diagnostic tests a full-scale detached Woven sleeve-band detail after S369 rejected assembled half-hem projection; no implementation or acceptance change authorized."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S370-START",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S370-START"
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Slice 370 starts at clean S369 56015e7a3d3fb427c3ebb8432aa810b7a3d9599b; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; board revision 1727. Diagnostic only: test an unscaled detached Woven band-pair detail and explicit non-seam relationship callouts after the assembled half-hem candidate failed. Keep all holds, all-seven V02, V02-before-V03 and Polo's 0.25 cm gate. Do not implement without maintainer approval. Packet: docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-FEASIBILITY-S370.md."
+  }
+]

@@ -1,0 +1,10 @@
+✔ S370 detached detail covers all exact-revision Woven options without changing holds (2.2903ms)
+✔ S370 detached bands preserve source scale, closure, clearance, and render-frame bounds (0.236ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.7964

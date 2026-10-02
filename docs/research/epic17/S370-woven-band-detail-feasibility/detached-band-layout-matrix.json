@@ -1,0 +1,2181 @@
+{
+  "candidate": "two full uncut sleeveBand outlines at source scale in detached left/right side-gutter detail positions; reflect second copy about back.centerBack; text explicitly says detail only, not at assembly location; no production mapping changed",
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurationCount": 28,
+  "faceRequests": 56,
+  "selectedRenderedCases": [
+    "woven-shirt-default",
+    "woven-shirt-yokeDepth-min",
+    "woven-shirt-yokeDepth-max",
+    "woven-shirt-sleeveBandDepth-max",
+    "woven-shirt-combined-supported"
+  ],
+  "browserErrors": [],
+  "counts": {
+    "allFramesFit": true,
+    "minBodyClearanceCm": 1,
+    "minScale": 1,
+    "maxScale": 1,
+    "totalBandSelfCrossings": 0,
+    "optionsWithBandSelfCrossing": 0,
+    "faceHoldsReleased": 0
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 2,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -30.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 30.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 5,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -33.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 33.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "source": {
+        "bandPiece": "sleeveBand",
+        "fullOutline": [
+          "top",
+          "sideRight",
+          "bottom",
+          "sideLeft"
+        ],
+        "top": "sleeveBand.top[0,1]",
+        "receiver": "sleeve.hem[0,0.5]",
+        "sourceJoin": "Folded sleeve band ↔ sleeve hem",
+        "mirrorAxis": "back.centerBack",
+        "instances": 2,
+        "foldMark": "bandFold"
+      },
+      "bandDimensionsCm": {
+        "topLength": 37,
+        "boundingBoxWidth": 37,
+        "boundingBoxHeight": 3,
+        "displayScale": 1
+      },
+      "detailPlacementCm": {
+        "leftBandBox": {
+          "minX": -31.5,
+          "maxX": -28.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "rightBandBox": {
+          "minX": 28.5,
+          "maxX": 31.5,
+          "minY": 17,
+          "maxY": 54
+        },
+        "bodyTop": 0,
+        "bodyBottom": 71,
+        "bodyLeft": -27.5,
+        "bodyRight": 27.5,
+        "bodyGapCm": 1,
+        "frame": {
+          "minX": -40,
+          "maxX": 40,
+          "minY": -6,
+          "maxY": 76
+        },
+        "frameFits": true
+      },
+      "checks": {
+        "sourceOutlineClosed": true,
+        "sourceOutlineClosingGapCm": 0,
+        "sourceScalePreserved": 1,
+        "instances": 2,
+        "selfCrossingsPerBand": 0,
+        "insetPairCrossings": 0,
+        "insetBodyCrossings": 0,
+        "explicitNonSeamCallout": true,
+        "faceHoldsReleased": 0
+      }
+    }
+  ]
+}

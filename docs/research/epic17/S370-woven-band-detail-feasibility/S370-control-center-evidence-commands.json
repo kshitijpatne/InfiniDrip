@@ -1,0 +1,31 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S370-CC-TEST",
+      "kind": "test",
+      "uri": "docs/research/epic17/S370-woven-band-detail-feasibility/control-center-test.log",
+      "verified": true,
+      "note": "npm run control-center:test passes 42/42 after the validated S370 board exit replay."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S370-CC-TEST",
+    "actor": "Codex",
+    "role": "maintainer"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S370-CC-TEST"
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S370 Control Center regression passes 42/42 after validated exit commands; G04 and EPIC-17 remain In Progress, with all holds and all-seven/V02-before-V03 gates unchanged."
+  }
+]
