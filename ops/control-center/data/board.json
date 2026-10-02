@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1402,
-  "updatedAt": "2026-10-02T03:36:03.070Z",
+  "revision": 1438,
+  "updatedAt": "2026-10-02T03:52:38.770Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3549,6 +3549,11 @@
           "at": "2026-10-02T01:26:05.974Z",
           "actor": "Codex",
           "text": "S348 exit linked. Exact source-role identity and all option-specific band seam joins pass, but the approved two-instance projection creates four back-band contour crossings in every Woven BACK_FLAT. No face was accepted; integrated tally remains 56 accepted / 90 held. Keep V02 all-seven and V03 gated; see linked S348 rendered-output audit and overlays."
+        },
+        {
+          "at": "2026-10-02T03:49:42.176Z",
+          "actor": "Maintainer (via Codex)",
+          "text": "Approved UI sequence: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. At the next normal slice boundary reconcile existing G04 geometry/identity/construction/POM/artwork/readability scope; do not interrupt current work, duplicate renderer, relax V02/V03 gates or add a new Epic17 closure dependency. Independent native UI/catalog candidates remain outside G04's critical path; reserve active shared UI/render/persistence files. Replay additive UIQ commands, never replace the newer active board with a stale checkout."
         }
       ],
       "evidenceRefs": [
@@ -3729,7 +3734,9 @@
         "E-G04-S347-TRANSFORMS",
         "E-G04-S348-EXIT",
         "E-G04-S349-EXIT",
-        "E-G04-S350-EXIT"
+        "E-G04-S350-EXIT",
+        "E-G04-S354-START",
+        "E-G04-S354-EXIT"
       ],
       "flagKey": null
     },
@@ -7267,6 +7274,21 @@
           "at": "2026-10-02T03:36:03.070Z",
           "actor": "Codex",
           "text": "Slice 353 implements and verifies the approved Polo cap-to-armhole view projection across all 17 options. All 34 production faces remain held on the unchanged 0.68 cm assembly residual; front collar-stand-height and stand-front-rise label blockers remain. The former back bicep label issue is absent in the current replay, but that does not release the faces. Keep all-seven V02 acceptance and the V02-before-V03 gate unchanged."
+        },
+        {
+          "at": "2026-10-02T03:51:32.636Z",
+          "actor": "Codex",
+          "text": "Slice 354 is active for the approved UI recommendation reconciliation at the normal boundary. Preserve source-bound G04 construction/geometry, piece/revision identity, exact POMs, applicable overlays, readability and every hold. UIQ packages remain backlog planning only; no G04 scope or V02/V03 gate changes."
+        },
+        {
+          "at": "2026-10-02T03:51:32.675Z",
+          "actor": "Codex",
+          "text": "Slice 354 reconciles the approved UI sequence against G04 without adding closure dependencies or changing holds. Board registration is planning only; UIQ implementation is not admitted. See the S354 packet for clone preflight, validated replay, scope dispositions and 34/34 Control Center verification."
+        },
+        {
+          "at": "2026-10-02T03:52:38.770Z",
+          "actor": "Codex",
+          "text": "S354 verification correction: after adding the packet-link regression, npm run control-center:test passes 35/35 (not 34/34); git diff --check passes. Board remains revision 1438 after this note."
         }
       ],
       "evidenceRefs": [
@@ -7539,7 +7561,9 @@
         "E-G04-S353-START",
         "E-G04-S353-EXIT",
         "E-G04-S353-LIVE",
-        "E-G04-S353-DIAGNOSTIC"
+        "E-G04-S353-DIAGNOSTIC",
+        "E-G04-S354-START",
+        "E-G04-S354-EXIT"
       ],
       "flagKey": null
     },
@@ -7586,6 +7610,690 @@
       ],
       "comments": [],
       "evidenceRefs": [],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-01",
+      "type": "task",
+      "title": "G04 approved UI review checkpoint",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Reconcile approved recommendations against existing G04 work at a normal boundary; do not duplicate its renderer or add a new Epic17 closure dependency.",
+      "expectation": "Existing technical-flat identities, source-backed construction, POM/callout readability, overlays and holds are reviewed within G04.",
+      "acceptanceCriteria": [
+        "Record satisfied/in-scope/out-of-scope dispositions; retain all-seven V02 and V03 gates.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.340Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-02",
+      "type": "task",
+      "title": "Native visual foundation candidate",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "dependencies": [],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Isolated native typography/spacing/contrast/focus/panel/opaque/reduced-motion package.",
+      "expectation": "Reusable scoped presentation without global styling or app wiring.",
+      "acceptanceCriteria": [
+        "Rendered desktop/narrow/keyboard/contrast/reduced-motion evidence; production wiring waits for UIQ-GATE.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.382Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-03",
+      "type": "task",
+      "title": "Actionable guidance and journey presentation candidate",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-02"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Read-only guidance, fit-intent versus validity and current/completed/blocked stage presentation.",
+      "expectation": "Warnings retain actual reason and correction action; no success inferred from selection.",
+      "acceptanceCriteria": [
+        "Fixtures cover invalid/stale/blocked states; Codex alone integrates journey/validation through UIQ-GATE.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.417Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-04",
+      "type": "task",
+      "title": "Material versus appearance candidate",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-02"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Separate native material presets/limits from illustrative swatches and shine.",
+      "expectation": "No pattern, saved color, stretch or physical-response change.",
+      "acceptanceCriteria": [
+        "Clearly label illustrative cues; existing material numeric behavior unchanged; integration through UIQ-GATE.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.446Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-05",
+      "type": "task",
+      "title": "Existing artwork-library presentation candidate",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "OpenCode",
+      "reviewer": "Codex",
+      "dependencies": [],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Existing local catalog preview/search/filter/rights/suitability/resolution/no-match polish, independent of UIQ-02 prototype.",
+      "expectation": "Only existing catalog and local fixtures; no new production-art acquisition or storage schema.",
+      "acceptanceCriteria": [
+        "Adopt accepted UIQ-02 visual contract at integration; runtime import/asset store remains untouched; integration through UIQ-GATE.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.474Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-GATE",
+      "type": "task",
+      "title": "Shared UI integration readiness gate",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-17"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Verify settled merged G04 base and freeze shared host/props/style ownership before new app wiring.",
+      "expectation": "No concurrent edits to active G04 UI/persistence/renderer; integrate small reviewed candidates individually.",
+      "acceptanceCriteria": [
+        "Merged base verified; exact production handoff/file boundaries; full integrated coverage/build/output gates retained.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.503Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-06",
+      "type": "task",
+      "title": "Operational controls and critical-state readability",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Claude Code / OpenCode",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-GATE"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Presentation-only measurement/history, grade exceptions, nesting/Check, project/recovery/import/export-scope readability.",
+      "expectation": "Preserve validation, persistence, approvals, semantic edits and export contracts.",
+      "acceptanceCriteria": [
+        "Bounded subpackages, no wholesale rewrite; invalid/stale/conflict/error states tested; Codex controls critical logic.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.529Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-07",
+      "type": "task",
+      "title": "Static native entry and original wordmark",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-02"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Native welcome background and independently authored metal-inspired wordmark; reusable later under G08.",
+      "expectation": "No login, cloud, upload, analytics, React or Shield copied implementation.",
+      "acceptanceCriteria": [
+        "Clear local-first/physical limitations and solid contrast fallback; entry wiring through UIQ-GATE.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.555Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-08",
+      "type": "task",
+      "title": "Native inspection-toolbar glass candidate",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-02",
+        "UIQ-GATE"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Bounded CSS translucency, solid native controls and opaque fallback on settled inspection surface.",
+      "expectation": "Zoom, keyboard, pointer and data stay unchanged; no page sampling.",
+      "acceptanceCriteria": [
+        "Readable on dense artwork, reduced-motion/high-contrast/narrow checks; original CSS only.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.589Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-09",
+      "type": "task",
+      "title": "Truthful recipe and starter thumbnails",
+      "epicId": "EPIC-19",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Claude Code / OpenCode",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-17"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. G06 L02 thumbnails/construction summaries from accepted source contracts and separately admitted starter scope.",
+      "expectation": "No generic invented sewn thumbnail or unearned vetted/fit claim.",
+      "acceptanceCriteria": [
+        "Epic19 admission, accepted relevant G04 maps and per-recipe/revision identity; Codex source binding.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.618Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-10",
+      "type": "task",
+      "title": "Production-pack presentation",
+      "epicId": "EPIC-18",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P1",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Claude Code / OpenCode",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-17"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. G05 T01-T05 form/document readability, POM/construction/revision/approval and selected-page clarity.",
+      "expectation": "Existing core contracts govern forms and packs; no cosmetic proof of numerical or manufacturing correctness.",
+      "acceptanceCriteria": [
+        "Epic18 admission/data contract; Codex schema/POM/freeze/export ownership; parsed and rendered pack review.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.646Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-11",
+      "type": "task",
+      "title": "Bounded spatial-renderer proof",
+      "epicId": "EPIC-22",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "dependencies": [
+        "EPIC-17"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Compare bounded R3F island against direct Three with stable read-only snapshot host and local assets.",
+      "expectation": "Lazy mount/disposal, identity rejection, SVG fallback and device/offline checks; not Epic22 completion.",
+      "acceptanceCriteria": [
+        "Separate Epic22 admission, exact notices, repeated mount/context-loss/idle/performance evidence; Codex state bridge.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.672Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-12",
+      "type": "task",
+      "title": "Pattern-linked 3D and later materials",
+      "epicId": "EPIC-22",
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "critical",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-11",
+        "EPIC-16",
+        "EPIC-17"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. G09 D02-D06 source-linked avatars, all-recipe assembled views and separately qualified materials/cloth stages.",
+      "expectation": "Keep geometric, fitting and solver dependencies; no polished mannequin-only exit.",
+      "acceptanceCriteria": [
+        "G09 stage gates/all-recipe options, provenance, numeric/performance checks; physical validation remains separately held.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.701Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ-13",
+      "type": "task",
+      "title": "Conditional ShaderGradient welcome pilot",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-02",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P3",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-07",
+        "UIQ-GATE"
+      ],
+      "protectedSurfaces": [
+        "active Epic17 file ownership",
+        "local-first/no-cost boundary",
+        "100% coverage",
+        "export byte identity",
+        "source/revision identity"
+      ],
+      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Optional real shader hero only if exact-version notice/asset and user-benefit/cost gates pass.",
+      "expectation": "Native CSS remains default if no worthwhile advantage; no silent network/stack migration.",
+      "acceptanceCriteria": [
+        "Offline assets, motion/visibility/fallback/context-loss/actual-device evidence; Codex conditional adoption decision.",
+        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
+        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
+        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-02T03:49:41.728Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ-APPROVAL"
+      ],
       "flagKey": null
     }
   ],
@@ -10847,6 +11555,33 @@
       "sha256": null,
       "verified": true,
       "note": "Held-only diagnostic replay of all 17 Polo options / 34 faces. Each revision-bound render has two receiving armhole seam paths, no sleeve-cap edge references, valid projected colorway closures, and zero mapping/transform/SVG errors; SVG/PNG artifacts carry a diagnostic hold banner."
+    },
+    {
+      "id": "E-UIQ-APPROVAL",
+      "kind": "decision",
+      "uri": "docs/planning/UI-ENHANCEMENT-SEQUENCE.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Direct maintainer approval of research recommendations and proposed order, 2026-10-01 America/New_York. Verifies planning authority only, not implementation/acceptance of runtime libraries or shipped features."
+    },
+    {
+      "id": "E-G04-S354-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S354 start packet; reconciles approved UI recommendations at the normal boundary without changing G04 scope, face holds or V02/V03 gates."
+    },
+    {
+      "id": "E-G04-S354-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S354 reconciliation exit; 29 commands preflighted and replayed through the validated command layer, 14 UIQ backlog cards, no G04 acceptance/gate changes, Control Center 34/34 and diff check pass."
     }
   ]
 }

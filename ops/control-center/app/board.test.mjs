@@ -32,6 +32,46 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 
+test("approved UI packages remain planning backlog without adding G04 closure dependencies", () => {
+  const ids = [...Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`), "UIQ-GATE"];
+  const cards = ids.map((id) => board.workItems.find((item) => item.id === id));
+  const approval = board.evidence.find((entry) => entry.id === "E-UIQ-APPROVAL");
+  assert.equal(approval?.kind, "decision");
+  assert.equal(approval?.verified, true);
+  assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
+  for (const card of cards) {
+    assert.ok(card);
+    assert.equal(card.status, "Backlog");
+    assert.equal(card.owner, "Codex");
+    assert.equal(card.reviewer, "Codex");
+    assert.equal(card.targetAt, null);
+    assert.equal(card.deliveredAt, null);
+    assert.equal(card.releaseId, null);
+    assert.notEqual(card.epicId, "EPIC-17");
+    assert.ok(card.evidenceRefs.includes(approval.id));
+    assert.ok(card.acceptanceCriteria.length >= 4);
+  }
+  assert.deepEqual(cards.at(-1).dependencies, ["EPIC-17"]);
+  assert.deepEqual(cards[2].dependencies, ["UIQ-02"]);
+  assert.deepEqual(cards[3].dependencies, ["UIQ-02"]);
+  assert.deepEqual(cards[4].dependencies, []);
+  assert.deepEqual(cards[12].dependencies, ["UIQ-07", "UIQ-GATE"]);
+  assert.equal(board.workItems.find((item) => item.id === "EPIC-17").dependencies.some((id) => ids.includes(id)), false);
+});
+
+test("S354 reconciliation evidence is linked without changing G04 acceptance status", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S354-START", "E-G04-S354-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.ok(g04.comments.some((comment) => /Slice 354 reconciles/.test(comment.text)));
+  assert.equal(epic.dependencies.includes("UIQ-GATE"), false);
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];

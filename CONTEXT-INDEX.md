@@ -126,6 +126,17 @@ only through an explicitly admitted, linked Epic packet.
   current conditional 39–44-slice estimate, rights/receiver gate, acceptance evidence and
   merge exit. V01 and its contracts are complete; consult `PROJECT-STATE.md`
   for the current V02 rendering and interchange gates.
+- `docs/planning/UI-ENHANCEMENT-SEQUENCE.md` and
+  `docs/planning/UI-ENHANCEMENT-EPIC17-NOTE.md` — maintainer-approved future UI
+  candidate sequence and the boundary-specific G04 reconciliation instruction.
+  Slice 354 records that source-bound construction, piece/revision identity,
+  exact POMs, overlays and readable output are already G04 V01/V02 scope; no
+  renderer duplication or gate change is authorized. UIQ packages are Backlog
+  registrations only, outside G04's critical path. Research and the visual
+  atlas are retained at `docs/research/ui-repo-review-2026-10-01/`.
+- `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md` — Slice
+  354's exact reconciliation, additive command replay, preserved gates and
+  slice exit evidence.
 - `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` — Slice
   311's source-backed mark-target POM mapping, production-rendered verification,
   held-face limits and current G04 boundary. Use `PROJECT-STATE.md` and the

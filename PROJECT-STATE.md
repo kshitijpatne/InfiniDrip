@@ -1,6 +1,20 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 353 implemented and rendered the approved Polo cap-to-armhole view projection. The full 17-option set remains held on the 0.68 cm assembly residual; G04-V02 remains In Progress and V03 remains gated, 2026-10-02._
+_Last updated: Slice 354 reconciled the approved UI recommendations without changing G04 scope or gates. All 14 UIQ cards are registered Backlog; G04-V02 remains In Progress and V03 remains gated, 2026-10-02._
+
+## EPIC-17 / G04 current handoff — Slice 354 complete; V02 remains open
+
+S354 started 2026-10-02 03:39:28 UTC from clean S353 `6ea5967b1c2e76402323a730a35bc25972993e3a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 353; S354 is reserved for this reconciliation. Board started at revision 1402 with EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog and no UIQ identities.
+
+Read the approved `UI-ENHANCEMENT-SEQUENCE.md`, the Epic17-specific note, all 29 additive commands, and the relevant G04 UI repository recommendations and manual-quality finding dispositions. S354 records the reconciliation in `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md`, selectively retains the approved planning/research and visual atlas, updates this context index and the G04 roadmap note, and adds the UIQ board regression assertion without replacing current tests.
+
+Source-bound construction geometry, piece/revision identity, exact source-method POM anchors, applicable artwork/colorway overlays and rendered readability were already required by G04 V01/V02. The existing technical-flat path remains the only renderer. Keep exact topology, option matrices, same-revision traceability and legibility holds. UIQ-02..08 and UIQ-GATE are independent future UI candidates; UIQ-09..13 belong to later goals or conditional UI admission. UIQ-01 records a G04 review checkpoint. All 14 cards are Backlog only. UIQ-GATE depends on EPIC-17; EPIC-17 gained no UIQ dependency. No G04 acceptance criterion, hold or V02→V03 gate changed.
+
+The 29 commands passed preflight against a clone via `executeBoardCommand` (29 applied, 0 skipped; cloned revision 1402→1431), then were replayed on the canonical board through the same validated command layer with a fresh expected revision per mutation (29 applied, 0 skipped; revision 1402→1431). A second identity check skips all 29. Validated revisions 1432–1438 link S354 start/exit evidence and comments to G04-V02 and EPIC-17; board is now revision 1438. Board assertions confirm all UIQ items Backlog, G04-V02 still In Progress, and EPIC-17 dependencies unchanged. `npm run control-center:test` passes 35/35; `git diff --check` passes. No production code, exports, pattern/stitch geometry or rendered output changed; no full Epic gate is due. MQF-004–007, MQF-011, MQF-012 and MQF-015 keep their existing G04 exit dispositions; post-G17 deferrals remain unchanged.
+
+S354 elapsed approximately 14 minutes: reconciliation/context/board work 9m; focused Control Center verification and diff review 4m; external-agent waits 0m; maintainer-decision time 0m. One initial scratch-preflight helper attempt did not recognize link-only `addEvidence` commands; it failed before touching either board, was corrected to distinguish evidence creation from evidence linking, and the full clone preflight and canonical replay then passed. The packet-link regression initially assumed the exit comment was last; after a validated verification note was appended, it was changed to check comment history. Final focused checks pass. No safe disjoint delegation was appropriate.
+
+**Next action:** reserve S355 after refreshing usage, Git history, `origin/main`, branch cleanliness and canonical board. Continue G04-V02 on the remaining held views/options; retain every face hold unless source mapping, topology, rendered joins/overlap and callout readability pass. Keep all-seven V02 acceptance and V03 gated. Do not start UIQ candidate implementation.
 
 ## EPIC-17 / G04 current handoff — Slice 353 complete; V02 remains open
 
@@ -12,7 +26,7 @@ The rebuilt production UI replay emitted 0/34 SVGs and visibly held all 34 faces
 
 Focused suites pass 92/92 with 100% statement, branch, function and line coverage for all three changed production modules; `npx tsc --noEmit` and `npm run build` pass (existing Vite chunk advisory). Validated board revisions 1398–1402 link the packet and rendered matrices to G04-V02 and EPIC-17. No export/DXF code, protected identity, baseline, solver threshold, pattern geometry, or stitch graph changed. MQF-004–007, MQF-011 and MQF-012 remain **To be reviewed** at the G04 rendered-output exit; MQF-015 remains applicable to V03. Post-G17 deferrals are unchanged. S353 elapsed wall time was about 30 minutes: implementation 11m, focused tests/type/build 7m, browser replay/visual review 11m, docs/board 1m, external-agent waits 0m, maintainer-decision wait 0m. No safe independent delegation was used.
 
-**Next action:** S354 refreshes Git, unique slice and board state; reads `docs/planning/UI-ENHANCEMENT-SEQUENCE.md` and `UI-ENHANCEMENT-EPIC17-NOTE.md` alongside the current admission packet, state and board; reconciles recommendations against G04 without duplicating renderers or changing gates; preflights/replays the supplied board commands through the validated command layer while skipping identical entries; and queues independent UI packages outside EPIC-17's critical path without authorizing implementation. Keep every current G04 hold and the V02-before-V03 gate.
+**Historical next action at S353:** S354 was to reconcile the approved UI recommendations at the next normal boundary. That work is complete in the S354 handoff above.
 
 ## EPIC-17 / G04 previous handoff — Slice 351 complete; V02 remains open
 
