@@ -333,6 +333,13 @@ only through an explicitly admitted, linked Epic packet.
   back strokes. `docs/research/epic17/S346-woven-collar/` contains full replay,
   preserved initial failure, source overlay and manual review. V02 remains
   all-seven and V03 remains gated.
+- `docs/research/epic17/G04-V02-WOVEN-COLLAR-BACK-CROSSING-DIAGNOSIS-S347.md` —
+  S347 source/entity diagnosis of the detached Woven collar contours and
+  crossing back strokes. It identifies a source-ID substring collision that
+  places `sleeveBand` with the earlier `sleeve` role; exact overlays and
+  same-source assembly transforms are retained in
+  `docs/research/epic17/S347-woven-crossings/`. S348 is limited to exact role
+  token matching; the other sleeve and collar defects remain held.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

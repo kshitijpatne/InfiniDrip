@@ -1,0 +1,87 @@
+{
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "face": "BACK_FLAT",
+  "sourceFile": "woven-shirt-default-back_flat.json",
+  "roles": [
+    "sleeve",
+    "sleeveBand",
+    "outerStand",
+    "upperCollar",
+    "underCollar",
+    "yoke"
+  ],
+  "entities": [
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+      "roleId": "sleeve",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+      "roleId": "sleeve",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+      "roleId": "sleeveBand",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M8.0841 -15.0725 L29.9249 14.7935 M29.9249 14.7935 L27.5033 16.5644 M27.5033 16.5644 L5.6625 -13.3016 M5.6625 -13.3016 L8.0841 -15.0725"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+      "roleId": "sleeveBand",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-8.0841 -15.0725 L-29.9249 14.7935 M-29.9249 14.7935 L-27.5033 16.5644 M-27.5033 16.5644 L-5.6625 -13.3016 M-5.6625 -13.3016 L-8.0841 -15.0725"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+      "roleId": "outerStand",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-0.9764 0.7578 L9.7897 -2.472"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+      "roleId": "outerStand",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-0.9764 0.7578 L-11.7425 3.9877"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+      "roleId": "upperCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+      "roleId": "upperCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+      "roleId": "underCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+      "roleId": "underCollar",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+      "roleId": "yoke",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M10.25 0 L22.5 2.5 M23.7731 13.7912 L0 10"
+    },
+    {
+      "entityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+      "roleId": "yoke",
+      "layer": "GARMENT_SILHOUETTE",
+      "d": "M-10.25 0 L-22.5 2.5 M-23.7731 13.7912 L0 10"
+    }
+  ]
+}

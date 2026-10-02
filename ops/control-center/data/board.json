@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1326,
-  "updatedAt": "2026-10-02T00:39:17.557Z",
+  "revision": 1341,
+  "updatedAt": "2026-10-02T00:59:18.299Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -348,7 +348,11 @@
         "E-G04-S346-REVIEW",
         "E-G04-S346-RENDERED",
         "E-G04-S346-COVERAGE",
-        "E-G04-S346-BUILD"
+        "E-G04-S346-BUILD",
+        "E-G04-S347-START",
+        "E-G04-S347-EXIT",
+        "E-G04-S347-REVIEW",
+        "E-G04-S347-TRANSFORMS"
       ]
     },
     {
@@ -3520,6 +3524,11 @@
           "at": "2026-10-02T00:39:17.557Z",
           "actor": "Codex",
           "text": "S346 exit is recorded. No Woven face is accepted; integrated tally remains 56 accepted / 90 held. Preserve all-seven V02 and the V02-before-V03 gate. Next slice diagnoses exact Woven collar placement and crossing back strokes from source and emitted entity evidence."
+        },
+        {
+          "at": "2026-10-02T00:59:18.299Z",
+          "actor": "Codex",
+          "text": "S347 exit linked. V02 remains all-seven and V03 gated; integrated accepted/held total stays 56/90. S348 will correct only exact role-token source ownership, then inspect the remaining sleeve/collar holds."
         }
       ],
       "evidenceRefs": [
@@ -3693,7 +3702,11 @@
         "E-G04-S346-REVIEW",
         "E-G04-S346-RENDERED",
         "E-G04-S346-COVERAGE",
-        "E-G04-S346-BUILD"
+        "E-G04-S346-BUILD",
+        "E-G04-S347-START",
+        "E-G04-S347-EXIT",
+        "E-G04-S347-REVIEW",
+        "E-G04-S347-TRANSFORMS"
       ],
       "flagKey": null
     },
@@ -7161,6 +7174,16 @@
           "at": "2026-10-02T00:39:17.534Z",
           "actor": "Codex",
           "text": "Slice 346 complete. The approved Woven collar fill closure and source-backed same-revision POM targets render across all 28 options. All 56 candidates remain held after manual review: front collar contours are detached/crossing and long back strokes cross the torso. V02 remains all-seven; V03 stays gated. See E-G04-S346-EXIT and linked replay/review evidence."
+        },
+        {
+          "at": "2026-10-02T00:43:40.409Z",
+          "actor": "Codex",
+          "text": "Slice 347 started from S346 dacb774. Scope is a diagnosis-only entity/source trace for detached Woven front collar contours and crossing back strokes. All 56 Woven faces remain held; do not change a semantic projection unless source uniquely supports it or a recorded maintainer decision authorizes it."
+        },
+        {
+          "at": "2026-10-02T00:59:18.274Z",
+          "actor": "Codex",
+          "text": "Slice 347 complete. Exact source-token matching diagnosis proves role:sleeveBand is selected as earlier role:sleeve by substring matching, producing the misplaced Woven band path. The true band transform aligns top to the exact sleeve hem. The separate sleeve crossing and collar placement defects remain. All 56 Woven candidates remain held. S348 is reserved for the exact role identity fix and full 28-option replay."
         }
       ],
       "evidenceRefs": [
@@ -7399,7 +7422,11 @@
         "E-G04-S346-REVIEW",
         "E-G04-S346-RENDERED",
         "E-G04-S346-COVERAGE",
-        "E-G04-S346-BUILD"
+        "E-G04-S346-BUILD",
+        "E-G04-S347-START",
+        "E-G04-S347-EXIT",
+        "E-G04-S347-REVIEW",
+        "E-G04-S347-TRANSFORMS"
       ],
       "flagKey": null
     },
@@ -10401,6 +10428,42 @@
       "sha256": null,
       "verified": true,
       "note": "Production build and protected export identity regression pass; legacy DXF behavior and baselines unchanged."
+    },
+    {
+      "id": "E-G04-S347-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-BACK-CROSSING-DIAGNOSIS-S347.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 347 diagnosis-only source/entity trace of Woven collar separation and back crossings; all 56 faces remain held."
+    },
+    {
+      "id": "E-G04-S347-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-BACK-CROSSING-DIAGNOSIS-S347.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 347 source/entity diagnosis: exact sleeveBand-to-sleeve source ID prefix collision; separate sleeve and collar holds preserved."
+    },
+    {
+      "id": "E-G04-S347-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S347-woven-crossings/default-back_flat-source-overlay.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source-ID and colored overlay inventory for exact production revision live-draft:woven-shirt:14:14."
+    },
+    {
+      "id": "E-G04-S347-TRANSFORMS",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S347-woven-crossings/role-transforms-standard-default.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact source edge endpoints and same-draft FRONT/BACK sewn placement transforms for the standard default Woven draft."
     }
   ]
 }
