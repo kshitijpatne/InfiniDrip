@@ -187,13 +187,19 @@ only through an explicitly admitted, linked Epic packet.
   legal boxes and 36,022 leader routes fail the clearance gate; the result is
   bounded to the tested lattice, not sub-centimeter placements. It changes no
   POM identity, colorway, gates or holds.
-- `docs/research/epic17/G04-V02-POLO-KEYED-CALLOUT-FEASIBILITY-S377.md` —
+ - `docs/research/epic17/G04-V02-POLO-KEYED-CALLOUT-FEASIBILITY-S377.md` —
   completed diagnostic-only study of exact source-centered A/B markers with
   unchanged full-text Polo POM rows in a same-view schedule across 17 options.
   Fifteen rows render and two retain an independent fail-closed POM collision;
   other collar/placket leader crossings remain. It does not authorize a
-  production layout or release any held face. Matrix and rendered evidence are
-  in `docs/research/epic17/S377-polo-keyed-callout-study/`.
+   production layout or release any held face. Matrix and rendered evidence are
+   in `docs/research/epic17/S377-polo-keyed-callout-study/`.
+- `docs/research/epic17/S378-polo-collar-point-callout-diagnosis/G04-V02-POLO-COLLAR-POINT-CALLOUT-DIAGNOSIS-S378.md` —
+  completed exact-source diagnosis of the two Polo front `Collar point
+  extension` callout collisions from S377. A keyed C marker/unchanged POM row
+  renders 17/17 diagnostics, but other callout crossings remain and this is
+  only a proposal. All holds and thresholds remain fixed; no production layout
+  is authorized. Matrix and rendered evidence share the folder.
 - `docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md`
   and `docs/research/epic17/S373-woven-sleeve-crossing/` — the exact S372
   post-change trace confirms one mirrored `sleeve.hem` half-run crossing in all

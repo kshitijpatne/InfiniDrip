@@ -1,0 +1,712 @@
+{
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-default",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-placketLength-min",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-placketLength-max",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-placketWidth-min",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-placketWidth-max",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-standHeight-min",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -3.905217905218607,
+        "y": 9.623547399480122
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-standHeight-max",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -1.9068300908410007,
+        "y": 9.543259521521557
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-collarLeafDepth-min",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -1.9068300908410007,
+        "y": 9.543259521521557
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-collarLeafDepth-max",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -4.904411812407411,
+        "y": 9.663691338459403
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-standFrontRise-min",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.7743362831858445,
+        "y": 9.884955752212388
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-standFrontRise-max",
+      "status": "rendered",
+      "originalBaseIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -3.0733921058360094,
+        "y": 9.09817451537689
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-collarPointExtension-min",
+      "status": "rendered",
+      "originalBaseIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 0.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.9461679370090863,
+        "y": 8.584209553312037
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 0.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-collarPointExtension-max",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 3.0 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.8458080895608813,
+        "y": 11.082194321284044
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 3.0 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-sideVentDepth-min",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.568,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S378:polo-sideVentDepth-max",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "revisionId": "live-draft:polo:S378:polo-backHemDrop-min",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "revisionId": "live-draft:polo:S378:polo-backHemDrop-max",
+      "status": "rendered",
+      "originalBaseIssues": [],
+      "keyedRenderIssues": [],
+      "originalTargetCalloutCount": 1,
+      "sourceId": "pom:polo:collar-point-extension",
+      "text": "Collar point extension: 1.5 cm (±0.2 cm)",
+      "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+      "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+      "anchor": {
+        "x": -2.906023998029805,
+        "y": 9.583403460500838
+      },
+      "targetEdge": "upperCollar.frontTip:end",
+      "markerRadiusCm": 0.22,
+      "sourceCenteredMarker": true,
+      "scheduleText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 6.871334457397461,
+        "heightCm": 2,
+        "measuredTextWidthCm": 5.971334457397461
+      },
+      "otherSourcePomsPreserved": true,
+      "colorwayFillRendered": false
+    }
+  ],
+  "summary": {
+    "configurations": 17,
+    "keyedRendered": 17,
+    "originalBaseFailures": [
+      {
+        "caseId": "polo-standFrontRise-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+            "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "polo-collarPointExtension-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+            "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      }
+    ],
+    "keyedBaseFailures": [],
+    "sourceEdge": "upperCollar.frontTip:end",
+    "exactSourceIdentityCount": 17,
+    "browserErrors": 0,
+    "colorwayFillRendered": false,
+    "productionHoldsReleased": 0,
+    "productionChanges": 0
+  }
+}

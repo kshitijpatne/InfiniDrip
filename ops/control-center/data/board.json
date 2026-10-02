@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1891,
-  "updatedAt": "2026-10-02T20:09:32.141Z",
+  "revision": 1910,
+  "updatedAt": "2026-10-02T20:22:08.796Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -473,7 +473,13 @@
         "E-G04-S377-WHOLE",
         "E-G04-S377-DETAIL",
         "E-G04-S377-SCHEDULE",
-        "E-G04-S377-EXTREMES"
+        "E-G04-S377-EXTREMES",
+        "E-G04-S378-START",
+        "E-G04-S378-EXIT",
+        "E-G04-S378-MATRIX",
+        "E-G04-S378-DEFAULT",
+        "E-G04-S378-FAILURE-DETAIL",
+        "E-G04-S378-FAILURE-SCHEDULE"
       ]
     },
     {
@@ -4139,7 +4145,13 @@
         "E-G04-S377-WHOLE",
         "E-G04-S377-DETAIL",
         "E-G04-S377-SCHEDULE",
-        "E-G04-S377-EXTREMES"
+        "E-G04-S377-EXTREMES",
+        "E-G04-S378-START",
+        "E-G04-S378-EXIT",
+        "E-G04-S378-MATRIX",
+        "E-G04-S378-DEFAULT",
+        "E-G04-S378-FAILURE-DETAIL",
+        "E-G04-S378-FAILURE-SCHEDULE"
       ],
       "flagKey": null
     },
@@ -7942,6 +7954,11 @@
           "at": "2026-10-02T20:09:32.141Z",
           "actor": "Codex",
           "text": "Slice 377 exit: source-centered A/B marker plus unchanged full-text bottom schedule was evaluated across the exact 17-option Polo matrix. Fifteen rows render with minimum marker edge clearance 0.56 cm (1.00 cm center spacing); two remain fail-closed on the separate Collar point extension collision. Manually reviewed default whole/detail/schedule and stand-height min/max details. The keyed texts are readable in the schedule, but other collar/placket callout crossings remain; the view is a feasibility diagnostic only. Colorway fill is omitted. No production change, face acceptance or hold release; all 34 Polo faces remain held, the 0.25 cm gate and all-seven V02 stay fixed, integrated tally remains 56 accepted / 90 held, and S373's Woven sleeve-overlap decision remains pending. See S377 packet and matrix/render evidence."
+        },
+        {
+          "at": "2026-10-02T20:22:08.796Z",
+          "actor": "Codex",
+          "text": "Slice 378 exit: source code defines Collar point extension as the horizontal delta of upperCollar.frontTip with its POM anchor at that edge's end. Exact-source replay of all 17 Polo options reproduces two measured base-render TEXT_COLLISION rows: standFrontRise max (1.5 cm extension) and collarPointExtension min (0.5 cm). A diagnostic C marker at the exact same-revision source endpoint with the unchanged full POM in a bottom keyed row renders 17/17 and clears those two local renderer errors. Manually reviewed default and both failure whole/detail/schedule views; other crowded collar/placket crossings remain, so this is not an overall readability pass or V02 acceptance. Colorway fill is omitted. No production source, geometry, POM, export or board acceptance changed; retain all 34 Polo holds and the fixed 0.25 cm residual gate. Integrated tally remains 56 accepted / 90 held. S373 Woven overlap decision remains pending. See S378 packet and option/output matrix."
         }
       ],
       "evidenceRefs": [
@@ -8328,7 +8345,13 @@
         "E-G04-S377-WHOLE",
         "E-G04-S377-DETAIL",
         "E-G04-S377-SCHEDULE",
-        "E-G04-S377-EXTREMES"
+        "E-G04-S377-EXTREMES",
+        "E-G04-S378-START",
+        "E-G04-S378-EXIT",
+        "E-G04-S378-MATRIX",
+        "E-G04-S378-DEFAULT",
+        "E-G04-S378-FAILURE-DETAIL",
+        "E-G04-S378-FAILURE-SCHEDULE"
       ],
       "flagKey": null
     },
@@ -13355,6 +13378,60 @@
       "sha256": null,
       "verified": true,
       "note": "Manually reviewed source detail at Polo stand-height maximum; the A/B anchors remain distinct and keyed schedule output exists. This view does not clear the separate remaining callout crossings or residual gate."
+    },
+    {
+      "id": "E-G04-S378-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S378-polo-collar-point-callout-diagnosis/G04-V02-POLO-COLLAR-POINT-CALLOUT-DIAGNOSIS-S378.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 378 starts diagnostic-only analysis of the exact Polo Collar point extension callout TEXT_COLLISION in two current configurations. It preserves the source POM/geometry, all holds, the 0.25 cm gate and all-seven requirement."
+    },
+    {
+      "id": "E-G04-S378-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S378-polo-collar-point-callout-diagnosis/G04-V02-POLO-COLLAR-POINT-CALLOUT-DIAGNOSIS-S378.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S378 traces the Polo Collar point extension callout to the exact upperCollar.frontTip end and compares current measured output with a diagnostic source-centered C marker and exact keyed POM text across all 17 supported option rows. The two original TEXT_COLLISION rows render in the proposal; remaining overlaps, all holds and gates remain."
+    },
+    {
+      "id": "E-G04-S378-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S378-polo-collar-point-callout-diagnosis/collar-point-callout-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17 Polo option rows preserve same-revision upperCollar.frontTip endpoint identity and exact POM values/tolerance. Original measured renderer fails exactly two rows; C-marker/schedule diagnostic renders 17/17 with zero browser errors. Colorway fill is omitted and no face is released."
+    },
+    {
+      "id": "E-G04-S378-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S378-polo-collar-point-callout-diagnosis/rendered/polo-default-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed exact default upperCollar.frontTip marker over the source outline and the unchanged crowded neighboring callouts. Diagnostic only; remaining overlaps block acceptance."
+    },
+    {
+      "id": "E-G04-S378-FAILURE-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S378-polo-collar-point-callout-diagnosis/rendered/polo-standFrontRise-max-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed one of two exact base-render-failing option rows: same-revision C marker identifies upperCollar.frontTip and the keyed diagnostic output renders. Existing unrelated crossings remain."
+    },
+    {
+      "id": "E-G04-S378-FAILURE-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S378-polo-collar-point-callout-diagnosis/rendered/polo-collarPointExtension-min-collar-point-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed keyed C schedule preserves exact Collar point extension text, 0.5 cm value, and ±0.2 cm tolerance for the second failed option. Diagnostic only."
     }
   ]
 }

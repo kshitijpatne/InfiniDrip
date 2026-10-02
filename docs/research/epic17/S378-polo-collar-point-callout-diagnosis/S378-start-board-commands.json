@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S378-START","kind":"document","uri":"docs/research/epic17/S378-polo-collar-point-callout-diagnosis/G04-V02-POLO-COLLAR-POINT-CALLOUT-DIAGNOSIS-S378.md","verified":true,"note":"Slice 378 starts diagnostic-only analysis of the exact Polo Collar point extension callout TEXT_COLLISION in two current configurations. It preserves the source POM/geometry, all holds, the 0.25 cm gate and all-seven requirement."}},
+  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S378-START","actor":"Codex","role":"maintainer"},
+  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S378-START"}
+]
