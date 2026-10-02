@@ -1,0 +1,1109 @@
+{
+  "generatedFrom": "C:\\Users\\kshit\\.codex\\worktrees\\epic-17-g04\\designApp\\docs\\research\\epic17\\S342-woven-collar\\source-assembly-matrix-s336.json",
+  "configurations": 28,
+  "method": "For a straight rigid source edge with the same length as a curved receiver, the minimum equalized endpoint gap after orienting to the receiver chord is (receiver arc length - endpoint chord length) / 2. This is a geometric lower bound; it does not alter the source or the existing residual gate.",
+  "frontResidualCm": [
+    0.688143101018257,
+    0.7397538335946292
+  ],
+  "backResidualCm": [
+    0.26282517853303133,
+    0.28253706692300984
+  ],
+  "frontFacesAbove025": 28,
+  "backFacesAbove025": 28,
+  "cases": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-default",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-neckEase-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.182534676902211,
+        "endpointChordCm": 12.806248474865697,
+        "straightStandEdgeCm": 14.182534676902211,
+        "minimumSymmetricEndpointResidualCm": 0.688143101018257,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 10.965956865976613,
+        "endpointChordCm": 10.44030650891055,
+        "straightStandEdgeCm": 10.965956865976613,
+        "minimumSymmetricEndpointResidualCm": 0.26282517853303133,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-neckEase-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 15.246224777669884,
+        "endpointChordCm": 13.766717110480625,
+        "straightStandEdgeCm": 15.246224777669884,
+        "minimumSymmetricEndpointResidualCm": 0.7397538335946292,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.788403630924861,
+        "endpointChordCm": 11.223329497078842,
+        "straightStandEdgeCm": 11.788403630924861,
+        "minimumSymmetricEndpointResidualCm": 0.28253706692300984,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-standHeight-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-standHeight-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-collarLeafDepth-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-collarLeafDepth-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-buttonCount-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-buttonCount-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-buttonSpacing-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-buttonSpacing-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-frontOverlap-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-frontOverlap-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-placketWidth-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-placketWidth-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-yokeDepth-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-yokeDepth-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-pocketWidth-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-pocketWidth-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-pocketHeight-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-pocketHeight-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-sleeveBandDepth-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-sleeveBandDepth-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-sideVentDepth-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-sideVentDepth-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revision": "s336-diagnostic:woven-shirt-hemTurn-min",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revision": "s336-diagnostic:woven-shirt-hemTurn-max",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revision": "s336-diagnostic:woven-shirt-combined-supported",
+      "front": {
+        "edge": "front.neckline",
+        "from": "front.centerFront.end",
+        "to": "front.shoulder.start",
+        "arcCm": 14.537098043824779,
+        "endpointChordCm": 13.12640468673734,
+        "straightStandEdgeCm": 14.537098043824779,
+        "minimumSymmetricEndpointResidualCm": 0.7053466785437195,
+        "residualOver025": true
+      },
+      "back": {
+        "edge": "yoke.neckline",
+        "from": "yoke.centerBack.end",
+        "to": "yoke.shoulder.start",
+        "arcCm": 11.24010578762603,
+        "endpointChordCm": 10.701314171633314,
+        "straightStandEdgeCm": 11.24010578762603,
+        "minimumSymmetricEndpointResidualCm": 0.2693958079963581,
+        "residualOver025": true
+      }
+    }
+  ]
+}

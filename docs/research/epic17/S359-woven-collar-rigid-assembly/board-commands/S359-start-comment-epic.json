@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 1472,
+  "itemId": "EPIC-17",
+  "actor": "Codex",
+  "text": "Slice 359 is active for exact-source Woven collar/stand rigid-placement feasibility. S358's output review retains all Woven and Polo holds; V02 acceptance and V03 dependency remain unchanged. See G04-V02 and the linked packet."
+}

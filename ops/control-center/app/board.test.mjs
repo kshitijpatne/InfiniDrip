@@ -128,6 +128,28 @@ test("S358 retains the Woven collar hold and records the maintainer's Polo resid
   assert.ok(epic.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
 });
 
+test("S359 records the Woven rigid-fit decision boundary without releasing holds", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const [id, uri] of [
+    ["E-G04-S359-START", "docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md"],
+    ["E-G04-S359-EXIT", "docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md"],
+    ["E-G04-S359-MATRIX", "docs/research/epic17/S359-woven-collar-rigid-assembly/rigid-endpoint-feasibility-matrix.json"],
+    ["E-G04-S359-OVERLAY", "docs/research/epic17/S359-woven-collar-rigid-assembly/rigid-endpoint-feasibility-overlay.png"],
+  ]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === uri));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.match(g04.description, /All 34 Polo and 56 Woven faces remain held/);
+  assert.ok(g04.comments.some((comment) => /Slice 359 exit: source arc\/chord incompatibility/.test(comment.text)));
+  assert.ok(epic.comments.some((comment) => /Slice 359 retains the current 56 accepted \/ 90 held integrated tally/.test(comment.text)));
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];
@@ -187,25 +209,11 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2/);
-      assert.match(epic.description, /S331 closes the source-bound, fill-only Polo outerStand and collar color areas/);
-      assert.match(epic.description, /S333 implements the maintainer-approved Polo sleeve view map/);
-      assert.match(epic.description, /0\.68 cm sleeve-cap residual vs 0\.25 cm limit/);
-      assert.match(epic.description, /S336 verified source-order correction: production replay emits 0\/56 Woven faces/);
-      assert.match(epic.description, /S337 completed exact Polo source\/POM and 17-option hold diagnosis/);
-      assert.match(epic.description, /Two source-exact Polo POM references await approval for dimension-only display/);
-      assert.match(epic.description, /Integrated baseline remains 73 configurations \/ 146 faces \/ 32 option fields, 56 accepted and 90 held/);
-      assert.match(card.description, /S330 landed at 558564bab25ab0e717ee825f4c4ab54f9eba4ea2/);
-      assert.match(card.description, /S331 closes Polo color fills, but all 34 Polo front\/back faces stay held/);
-      assert.match(card.description, /73 configurations \/ 146 faces \/ 32 option fields, 56 accepted and 90 held/);
-      assert.match(card.description, /S333 implements the approved exact Polo sleeve view map/);
-      assert.match(card.description, /17 supported options; production replay withheld all 34 faces/);
-      assert.match(card.description, /S336 verified source-order correction: production replay emits 0\/56 Woven faces/);
-      assert.match(card.description, /S337 completed exact Polo source\/POM and 17-option hold diagnosis/);
-      assert.match(card.description, /0\.68 cm.*0\.25 cm/);
-      assert.match(epic.description, /S334 corrects source-encoded Woven view traversal only/);
-      assert.match(card.description, /S334 corrects source-encoded Woven view traversal only/);
-      assert.match(card.description, /Production replay: 0\/56 Woven faces emitted/);
+      assert.match(epic.description, /S359: current integrated output is 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(epic.description, /All 56 Woven and 34 Polo faces remain held/);
+      assert.match(epic.description, /full-collar arclength\/normal-offset view projection is documented for maintainer decision but not implemented/);
+      assert.match(card.description, /S359: current integrated output is 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(card.description, /all-seven V02 acceptance.*unchanged/);
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-EXIT"));
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-BROWSER"));
@@ -398,11 +406,9 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S335 started 2026-10-01 15:24:44 UTC from clean S334 b27a444a/.test(comment.text)));
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
-      assert.match(admittedWork[1].description, /S331 verified: Polo outerStand, upperCollar and underCollar color areas use revision-bound approved fill-only closures/);
-      assert.match(admittedWork[1].description, /S333 implements the approved exact Polo sleeve view map/);
-      assert.match(admittedWork[1].description, /17 supported options; production replay withheld all 34 faces/);
-      assert.match(admittedWork[1].description, /0\.68 cm.*0\.25 cm/);
-      assert.match(admittedWork[1].description, /73 configurations \/ 146 faces \/ 32 option fields, 56 accepted \/ 90 held/);
+      assert.match(admittedWork[1].description, /S359 measures unavoidable rigid Woven stand-to-neckline residual lower bounds above 0\.25 cm in all 28 options/);
+      assert.match(admittedWork[1].description, /All 34 Polo and 56 Woven faces remain held/);
+      assert.match(admittedWork[1].description, /Preserve the all-seven-recipe V02 criterion and keep V03 gated/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-OUTPUT-REPLAY"));
@@ -436,7 +442,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-RECONCILIATION"));
       assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-START"));
-      assert.match(admittedWork[1].description, /Current integrated baseline remains 73 configurations \/ 146 faces \/ 32 option fields, 56 accepted \/ 90 held/);
+      assert.match(admittedWork[1].description, /Current integrated matrix remains 73 configurations \/ 146 face requests, 56 accepted \/ 90 held/);
       assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));

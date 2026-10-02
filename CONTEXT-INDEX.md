@@ -154,6 +154,7 @@ only through an explicitly admitted, linked Epic packet.
   residual; the modeled width/ease change alters POMs and breaks sleeve
   colorway closure. The maintainer reaffirmed the 0.25 cm gate and authored
   ease; preserve all 34 Polo holds.
+- `docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md` and `docs/research/epic17/S359-woven-collar-rigid-assembly/` — S359 calculates the unavoidable rigid endpoint mismatch between the straight stand base and source neckline curves across 28 options, reviews exact-revision role overlays, and records an unapproved view-only full-collar projection proposal; all Woven faces remain held pending decision and full output checks.
 - `docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md` —
   Slice 358 proves exact upper/under collar path coincidence across all 28
   Woven configurations/56 faces, but current rendered collar placement still
