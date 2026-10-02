@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1910,
-  "updatedAt": "2026-10-02T20:22:08.796Z",
+  "revision": 1930,
+  "updatedAt": "2026-10-02T20:37:11.517Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -479,7 +479,13 @@
         "E-G04-S378-MATRIX",
         "E-G04-S378-DEFAULT",
         "E-G04-S378-FAILURE-DETAIL",
-        "E-G04-S378-FAILURE-SCHEDULE"
+        "E-G04-S378-FAILURE-SCHEDULE",
+        "E-G04-S379-START",
+        "E-G04-S379-EXIT",
+        "E-G04-S379-MATRIX",
+        "E-G04-S379-PERPOM",
+        "E-G04-S379-DEFAULT-RENDER",
+        "E-G04-S379-PLACKET-RENDER"
       ]
     },
     {
@@ -3851,6 +3857,11 @@
           "at": "2026-10-02T14:03:39.735Z",
           "actor": "Codex",
           "text": "S371 completes a diagnostic-only no-go for direct/one-bend relocation of the Woven finished-placket-width leader; all existing board holds and acceptance criteria remain. The maintainer approved S370's exact detached source-scale left/right band details for the next implementation slice S372. See the S371 packet/matrix and the S370 approval recorded in docs/PROJECT-DECISIONS.md."
+        },
+        {
+          "at": "2026-10-02T20:37:11.517Z",
+          "actor": "Codex",
+          "text": "S379 records 17-option Polo front leader/path/label failures with exact source IDs, targets, options, clearances and rendered evidence. All G04 holds and gates remain. Maintainer approved the S378 C marker/schedule for separate S380 implementation only; it does not clear S379's crossings or release a face."
         }
       ],
       "evidenceRefs": [
@@ -4151,7 +4162,13 @@
         "E-G04-S378-MATRIX",
         "E-G04-S378-DEFAULT",
         "E-G04-S378-FAILURE-DETAIL",
-        "E-G04-S378-FAILURE-SCHEDULE"
+        "E-G04-S378-FAILURE-SCHEDULE",
+        "E-G04-S379-START",
+        "E-G04-S379-EXIT",
+        "E-G04-S379-MATRIX",
+        "E-G04-S379-PERPOM",
+        "E-G04-S379-DEFAULT-RENDER",
+        "E-G04-S379-PLACKET-RENDER"
       ],
       "flagKey": null
     },
@@ -7959,6 +7976,11 @@
           "at": "2026-10-02T20:22:08.796Z",
           "actor": "Codex",
           "text": "Slice 378 exit: source code defines Collar point extension as the horizontal delta of upperCollar.frontTip with its POM anchor at that edge's end. Exact-source replay of all 17 Polo options reproduces two measured base-render TEXT_COLLISION rows: standFrontRise max (1.5 cm extension) and collarPointExtension min (0.5 cm). A diagnostic C marker at the exact same-revision source endpoint with the unchanged full POM in a bottom keyed row renders 17/17 and clears those two local renderer errors. Manually reviewed default and both failure whole/detail/schedule views; other crowded collar/placket crossings remain, so this is not an overall readability pass or V02 acceptance. Colorway fill is omitted. No production source, geometry, POM, export or board acceptance changed; retain all 34 Polo holds and the fixed 0.25 cm residual gate. Integrated tally remains 56 accepted / 90 held. S373 Woven overlap decision remains pending. See S378 packet and option/output matrix."
+        },
+        {
+          "at": "2026-10-02T20:37:11.489Z",
+          "actor": "Codex",
+          "text": "S379 exit: actual S378 same-revision FRONT_FLAT SVG leaders were compared against source-derived paths and Chromium glyph bounds for all 17 option rows. The renderer emits 12–13 POM leaders per row (220 total). Every row has at least 10 leaders under the unchanged 0.25 cm path-clearance gate; `standFrontRise-min` has 11. Across rows, 11 source POMs fail at least once: 10 fail all 17 rows, while front-body-length-hps-hem fails at standFrontRise-min. There are 141 segment/path crossings, 30 additional sub-0.25 cm path clearances, 51 leader-pair contacts under 0.25 cm (three recurring pairs), and three measured leader-to-text intersections. The C marker approval arrived during this slice and is recorded for S380; it fixes only the prior C TEXT_COLLISION, not these remaining crossings or any held face. No code, geometry, gate or acceptance changed. All 34 Polo faces stay held; V02 remains open and V03 gated. See S379 packet and matrices."
         }
       ],
       "evidenceRefs": [
@@ -8351,7 +8373,13 @@
         "E-G04-S378-MATRIX",
         "E-G04-S378-DEFAULT",
         "E-G04-S378-FAILURE-DETAIL",
-        "E-G04-S378-FAILURE-SCHEDULE"
+        "E-G04-S378-FAILURE-SCHEDULE",
+        "E-G04-S379-START",
+        "E-G04-S379-EXIT",
+        "E-G04-S379-MATRIX",
+        "E-G04-S379-PERPOM",
+        "E-G04-S379-DEFAULT-RENDER",
+        "E-G04-S379-PLACKET-RENDER"
       ],
       "flagKey": null
     },
@@ -13432,6 +13460,60 @@
       "sha256": null,
       "verified": true,
       "note": "Manually reviewed keyed C schedule preserves exact Collar point extension text, 0.5 cm value, and ±0.2 cm tolerance for the second failed option. Diagnostic only."
+    },
+    {
+      "id": "E-G04-S379-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S379-polo-front-callout-crossing-audit/G04-V02-POLO-FRONT-CALLOUT-CROSSING-AUDIT-S379.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 379 begins an exact-source, 17-option audit of Polo FRONT_FLAT POM leader crossings and clearance against unrelated pattern paths/labels. It makes no production or acceptance change and retains every hold and gate."
+    },
+    {
+      "id": "E-G04-S379-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S379-polo-front-callout-crossing-audit/G04-V02-POLO-FRONT-CALLOUT-CROSSING-AUDIT-S379.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S379 measured actual same-revision Polo FRONT_FLAT POM leaders across 17 options. All rows fail the 0.25 cm non-target-path clearance; 11 source POMs fail at least once, with repeated leader crossings and three measured label intersections. No implementation or hold release."
+    },
+    {
+      "id": "E-G04-S379-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S379-polo-front-callout-crossing-audit/leader-crossing-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reproducible 17-row same-revision matrix: 220 emitted POM leaders, exact option overrides, targets, non-target path clearances, pair contacts and Chromium text-box intersections."
+    },
+    {
+      "id": "E-G04-S379-PERPOM",
+      "kind": "document",
+      "uri": "docs/research/epic17/S379-polo-front-callout-crossing-audit/per-pom-summary.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Indexes each failing Polo POM's exact emitted text, source edge/mark, mapped target, nearest non-target path IDs, option frequency and clearance range."
+    },
+    {
+      "id": "E-G04-S379-DEFAULT-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S379-polo-front-callout-crossing-audit/annotated/polo-default-leader-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed annotated whole/detail default Polo output. Red dashed source-bound leaders visibly cross unrelated piece paths and neighboring callout leaders."
+    },
+    {
+      "id": "E-G04-S379-PLACKET-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S379-polo-front-callout-crossing-audit/annotated/polo-placketWidth-min-leader-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed minimum-placket-width option. The finished-placket-width leader crosses two measured CENTER FRONT text boxes, in addition to unrelated path/leader crossings."
     }
   ]
 }
