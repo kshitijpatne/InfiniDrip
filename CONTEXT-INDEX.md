@@ -356,6 +356,12 @@ only through an explicitly admitted, linked Epic packet.
   against all 28 Woven backs. No production mapping changes or face release
   occur unless sleeve visibility, exact joins, silhouette, overlap and
   readability pass.
+- `docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md`
+  — S351 re-drafts current Polo source across all 17 options / 34 faces,
+  confirms the 0.68 cm sleeve-cap residual and exact anchors for its 51 blocked
+  POM callouts, and retains diagnostic Chromium overlays. See
+  `S351-polo-residual-labels/`; all Polo faces remain held pending a cap-ease
+  view decision and routed-label verification.
 - `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md` — Slice 277's
   current projection-mapping contract boundary, source-reference rules,
   fail-closed semantics, and focused acceptance gates.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1365,
-  "updatedAt": "2026-10-02T02:03:05.246Z",
+  "revision": 1380,
+  "updatedAt": "2026-10-02T02:34:44.002Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -353,7 +353,13 @@
         "E-G04-S347-EXIT",
         "E-G04-S347-REVIEW",
         "E-G04-S347-TRANSFORMS",
-        "E-G04-S348-EXIT"
+        "E-G04-S348-EXIT",
+        "E-G04-S351-EXIT",
+        "E-G04-S351-SOURCE",
+        "E-G04-S351-RENDER-MATRIX",
+        "E-G04-S351-LABEL-SEARCH",
+        "E-G04-S351-FRONT-OVERLAY",
+        "E-G04-S351-BACK-OVERLAY"
       ]
     },
     {
@@ -7223,6 +7229,16 @@
           "at": "2026-10-02T02:03:05.246Z",
           "actor": "Codex",
           "text": "Slice 350 candidate rejected: masking Woven sleeve/band silhouettes behind the body removes both visible cuffs, and later sleeve-cap seam strokes still cross the back as an X. 28 exact-revision candidates were checked in Chromium with zero browser errors; no production mapping changed. All Woven faces stay held; integrated tally remains 56 accepted / 90 held, V02 all-seven, V03 gated. See linked exit, candidate matrix, and rendered views."
+        },
+        {
+          "at": "2026-10-02T02:07:29.358Z",
+          "actor": "Codex",
+          "text": "Start Slice 351 from clean S350 aaa12c3; refreshed origin/main remains an ancestor; board revision 1365, highest slice 350. Diagnose the source/view cause of the Polo 0.68 cm sleeve-cap residual and, separately, its front stand-height/stand-rise and back bicep-width POM label holds across 17 options / 34 faces. Preserve the 0.25 cm gate and all holds; no source change absent a uniquely supported correction. Packet: docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md."
+        },
+        {
+          "at": "2026-10-02T02:34:44.002Z",
+          "actor": "Codex",
+          "text": "Slice 351 current-source Polo diagnosis is complete. All 17 options / 34 faces remain held; the 0.68 cm sleeve-cap residual is distinct from exact POM anchors and the 51 recurring label-placement failures. See E-G04-S351-EXIT and linked source/render evidence. Keep V03 gated."
         }
       ],
       "evidenceRefs": [
@@ -7478,7 +7494,14 @@
         "E-G04-S350-EXIT",
         "E-G04-S350-MATRIX",
         "E-G04-S350-RENDERED",
-        "E-G04-S350-EXTREMES"
+        "E-G04-S350-EXTREMES",
+        "E-G04-S351-START",
+        "E-G04-S351-EXIT",
+        "E-G04-S351-SOURCE",
+        "E-G04-S351-RENDER-MATRIX",
+        "E-G04-S351-LABEL-SEARCH",
+        "E-G04-S351-FRONT-OVERLAY",
+        "E-G04-S351-BACK-OVERLAY"
       ],
       "flagKey": null
     },
@@ -10633,6 +10656,69 @@
       "sha256": null,
       "verified": true,
       "note": "Rejected exact-option yoke-depth extreme candidate; sleeve/band occlusion loses visible cuffs and leaves crossing cap-seam strokes."
+    },
+    {
+      "id": "E-G04-S351-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S351 start: source-first diagnosis of the exact 17-option / 34-face Polo sleeve-cap residual and three recurring POM label holds. No threshold, source graph, or face acceptance changes."
+    },
+    {
+      "id": "E-G04-S351-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S351 current-source Polo diagnosis: all 34 faces remain held on 0.68 cm ease residual and 51 recurring callout failures; all-seven V02 remains open."
+    },
+    {
+      "id": "E-G04-S351-SOURCE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S351-polo-residual-labels/current-source-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh S351 source replay of 17 Polo options / 34 face revisions with cap/armhole geometry, assembly issues, source-anchored blocked POMs and successful diagnostic callouts."
+    },
+    {
+      "id": "E-G04-S351-RENDER-MATRIX",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S351-polo-residual-labels/current-render-diagnostic-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic render/compiler matrix for current S351 source across 17 Polo options / 34 faces. Blocked POMs are omitted only in this non-production diagnostic."
+    },
+    {
+      "id": "E-G04-S351-LABEL-SEARCH",
+      "kind": "document",
+      "uri": "docs/research/epic17/S351-polo-residual-labels/label-ring-expansion-analysis.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Replay-only expanded straight-leader search using current anchors and production collision predicates; no free candidate through 60.75 cm for all 51 blocked POM instances."
+    },
+    {
+      "id": "E-G04-S351-FRONT-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S351-polo-residual-labels/polo-default-front_flat-blocked-anchor-overlay.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed current-source Polo front diagnostic crop annotating the two blocked stand POM source anchors."
+    },
+    {
+      "id": "E-G04-S351-BACK-OVERLAY",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S351-polo-residual-labels/polo-default-back_flat-blocked-anchor-overlay.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed current-source Polo back diagnostic crop annotating the bicep POM anchor coincident with body-chest and sleeve-length anchors."
     }
   ]
 }

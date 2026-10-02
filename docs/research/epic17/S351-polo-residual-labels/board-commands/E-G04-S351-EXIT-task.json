@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "S351 current-source Polo diagnosis: all 34 faces remain held on 0.68 cm ease residual and 51 recurring callout failures; all-seven V02 remains open.",
+    "kind": "exit-report",
+    "id": "E-G04-S351-EXIT",
+    "uri": "docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

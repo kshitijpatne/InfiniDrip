@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "Manually reviewed current-source Polo back diagnostic crop annotating the bicep POM anchor coincident with body-chest and sleeve-length anchors.",
+    "kind": "rendered-output",
+    "id": "E-G04-S351-BACK-OVERLAY",
+    "uri": "docs/research/epic17/S351-polo-residual-labels/polo-default-back_flat-blocked-anchor-overlay.png",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

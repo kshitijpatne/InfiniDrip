@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "Fresh S351 source replay of 17 Polo options / 34 face revisions with cap/armhole geometry, assembly issues, source-anchored blocked POMs and successful diagnostic callouts.",
+    "kind": "document",
+    "id": "E-G04-S351-SOURCE",
+    "uri": "docs/research/epic17/S351-polo-residual-labels/current-source-matrix.json",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

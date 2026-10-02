@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "Diagnostic render/compiler matrix for current S351 source across 17 Polo options / 34 faces. Blocked POMs are omitted only in this non-production diagnostic.",
+    "kind": "rendered-output",
+    "id": "E-G04-S351-RENDER-MATRIX",
+    "uri": "docs/research/epic17/S351-polo-residual-labels/current-render-diagnostic-matrix.json",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

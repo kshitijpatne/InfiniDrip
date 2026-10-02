@@ -1,8 +1,20 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 350 rejected a replay-only Woven back body-occlusion projection because it hides both cuffs and leaves the seam X; production remains unchanged. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
+_Last updated: Slice 351 confirmed current-source Polo sleeve-cap and callout blockers across all options; all 34 Polo faces stay held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 350 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 351 complete; V02 remains open
+
+S351 started 2026-10-02 02:05 UTC from S350 `aaa12c32f901cbcf1b2255cd6069f31ca3a9aa23` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 350; S351 is reserved. Board revision 1365 linked S350 exit; validated S351 start evidence/comment are at revisions 1366–1367. Usage at start: primary 12%, weekly 22% informational. Packet: `docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md`.
+
+S351 freshly re-drafted the exact 17 supported Polo configurations through current source and current source-to-view assembly. In 34/34 faces the selected sleeve cap half is 21.595729 cm against its armhole at 20.845729 cm: +0.75 cm source ease per half, 0 cm underarm residual and 0.958604 cm shoulder-station distance. The distinct assembly solver warning remains 0.68 cm against the 0.25 cm gate. All 34 Polo faces stay held. It also confirms 51 recurring POM holds: front `Finished collar stand height` on `outerStand.frontEnd.start`, front `Stand front rise` on `outerStand.frontNeckline.start`, and back `Sleeve bicep width` on `sleeve.sideRight.start`. Current label placement tries eight straight directions through 6.75 cm; replay-only extension to 60.75 cm still finds no free ray under existing box/leader constraints. Current source matrices, diagnostic Chromium SVGs and exact-anchor overlays are in `docs/research/epic17/S351-polo-residual-labels/`. No production source, geometry, stitch graph, threshold, export or accepted-face count changed. Integrated tally remains 56 accepted / 90 held; V02 all-seven, V03 gated.
+
+S351's view-only normalized-arclength seam correspondence is a concrete proposal for representing the authored eased sleeve cap while leaving both cut edges and the stitch graph unchanged; it needs an explicit design decision because source does not specify ease distribution. POM anchors and values are source-defined; the renderer needs a routed-leader/outer-rail solution rather than more straight search rings. No POM values, label anchors or source geometry need changing. S350's user-approved Woven occlusion projection failed rendered checks and Woven remains held. All other recipe holds remain. No safe independent delegation is identified. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable output exits; post-G17 deferrals remain unchanged.
+
+S351 verification: current-source and render diagnostic scripts completed for all 17 configurations / 34 faces. Chromium-rendered default anchor crops were manually inspected; the front labels crowd the neckline/placket; the back bicep anchor is exactly coincident with `Body chest (finished)` and `Sleeve length (cap–hem)`. Straight-ray expansion did not yield a placement. No production coverage/build/export gate applies because production files did not change. After S351 evidence links are validated, `npm run control-center:test` and `git diff --check` close this evidence-only slice.
+
+**Next action:** start S352 to design and test a bounded routed POM leader layout on all 17 Polo options, with the current exact anchors/values and no pattern changes. Keep all 34 Polo views held. The separate cap-ease projection decision remains blocking for those faces. Do not begin V03 until all seven recipes pass V02.
+
+## EPIC-17 / G04 prior boundary — Slice 350 complete; V02 remains open
 
 S350 started 2026-10-02 01:56 UTC from clean S349 `4919ec3b95610a469a111accb32b8dcb753aff8f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 349; S350 was reserved. Board revision 1357 linked the S349 exit; validated S350 start evidence/comment are at revisions 1358–1359. Packet: `docs/research/epic17/G04-V02-WOVEN-BACK-BODY-OCCLUSION-PROJECTION-S350.md`.
 
