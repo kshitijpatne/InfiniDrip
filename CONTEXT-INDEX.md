@@ -136,6 +136,7 @@ only through an explicitly admitted, linked Epic packet.
   atlas are retained at `docs/research/ui-repo-review-2026-10-01/`.
 - `docs/research/epic17/S381-woven-crossing-evidence-review/G04-V02-WOVEN-CROSSING-EVIDENCE-REVIEW-S381.md` — current source/output evidence review confirming that Woven's continuous sleeve hem crossing does not support an artificial view gap; all holds remain.
 - `docs/research/epic17/S382-polo-blocker-consolidation/G04-V02-POLO-BLOCKER-CONSOLIDATION-S382.md` — current 17-option Polo POM/path diagnosis, corrected S379 cubic sampling result, unchanged source ease/residual hold, and unapproved candidate presentation for S383 feasibility testing.
+- `docs/research/epic17/S383-polo-keyed-callout-layout/G04-V02-POLO-KEYED-CALLOUT-LAYOUT-FEASIBILITY-S383.md` — source-coordinate-corrected Polo marker grouping, 17-option colorway-on/off output, measured marker/source-path contacts and pending exact presentation decision; all holds and gates remain.
 - `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md` — Slice
   354's exact reconciliation, additive command replay, preserved gates and
   slice exit evidence.

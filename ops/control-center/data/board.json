@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1971,
-  "updatedAt": "2026-10-02T21:51:13.857Z",
+  "revision": 1983,
+  "updatedAt": "2026-10-02T22:17:54.414Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -495,7 +495,9 @@
         "E-G04-S381-EXIT",
         "E-G04-S381-SOURCE-TRACE",
         "E-G04-S382-EXIT",
-        "E-G04-S382-MATRIX"
+        "E-G04-S382-MATRIX",
+        "E-G04-S383-EXIT",
+        "E-G04-S383-MATRIX"
       ]
     },
     {
@@ -3887,6 +3889,11 @@
           "at": "2026-10-02T21:51:13.857Z",
           "actor": "Codex",
           "text": "S382 provides the consolidated Polo blocker matrix and corrects the S379 cubic path sampler. All seven-recipe V02 and 0.25 cm gates remain unchanged; no face is accepted. A diagnostic-only source-centered marker/full-text schedule candidate is proposed for S383; no production implementation is authorized before maintainer approval."
+        },
+        {
+          "at": "2026-10-02T22:17:54.414Z",
+          "actor": "Codex",
+          "text": "S383 completed diagnostic callout-layout evidence only. G04 all-seven coverage, V02 acceptance, 0.25 cm gate, all holds and V03 rights/round-trip gates remain unchanged. No production code, pattern, cut geometry, stitch graph or export behavior changed."
         }
       ],
       "evidenceRefs": [
@@ -4203,7 +4210,9 @@
         "E-G04-S381-EXIT",
         "E-G04-S381-SOURCE-TRACE",
         "E-G04-S382-EXIT",
-        "E-G04-S382-MATRIX"
+        "E-G04-S382-MATRIX",
+        "E-G04-S383-EXIT",
+        "E-G04-S383-MATRIX"
       ],
       "flagKey": null
     },
@@ -8041,6 +8050,16 @@
           "at": "2026-10-02T21:51:13.826Z",
           "actor": "Codex",
           "text": "S382 consolidates the 17 current Polo options. Approved C key clears only the two prior C TEXT_COLLISION rows. Ten other POMs still fail the 0.25 cm path-clearance check in every front, plus 51 leader pairs/three glyph intersections; all 34 faces also retain the independent 0.68 cm sleeve-cap residual. S379 cubic path sampling extrapolated to t=5; its one extra front-body-length finding and totals are corrected by the S382 current-output replay. Preserve the authored ease and all holds."
+        },
+        {
+          "at": "2026-10-02T21:56:54.298Z",
+          "actor": "Codex",
+          "text": "S383 is a bounded diagnostic feasibility study of the proposed A/B/D–I source-centered keyed POM markers and complete full-text schedule across all 17 current Polo options. It preserves exact source POMs, anchors, geometry, the 0.25 cm gate, residual and all 34 holds; production implementation requires a later explicit approval."
+        },
+        {
+          "at": "2026-10-02T22:17:53.873Z",
+          "actor": "Codex",
+          "text": "S383 found seven source stations for the ten remaining blocked Polo POMs: B, FG and H share exact co-located stations across distinct source entities, confirmed from current S380 coordinates. The 17-option colorway-on/off candidate carries eight rings including approved C and eleven separate full-text rows. It removes the crossed inline leaders diagnostically, but the new rings contact co-located seam/mark paths at A/B/E/FG/H/I. No V02 gate or 0.25 cm rule is waived; all 34 Polo faces remain held, independently also by the 0.68 cm residual. Packet awaits a concrete presentation decision before any production change."
         }
       ],
       "evidenceRefs": [
@@ -8452,7 +8471,12 @@
         "E-G04-S382-START",
         "E-G04-S382-EXIT",
         "E-G04-S382-MATRIX",
-        "E-G04-S382-RENDERED"
+        "E-G04-S382-RENDERED",
+        "E-G04-S383-START",
+        "E-G04-S383-EXIT",
+        "E-G04-S383-MATRIX",
+        "E-G04-S383-RENDERED",
+        "E-G04-S383-SCHEDULE"
       ],
       "flagKey": null
     },
@@ -13704,6 +13728,51 @@
       "sha256": null,
       "verified": true,
       "note": "Current S380 renderer detail inspected with approved C key and all remaining POM leader/geometry collisions highlighted. All Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S383-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S383-polo-keyed-callout-layout/G04-V02-POLO-KEYED-CALLOUT-LAYOUT-FEASIBILITY-S383.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S383 tests the specific unapproved source-centered marker/full-text schedule candidate against actual S380 Polo rendering for all 17 options; no production change or face release."
+    },
+    {
+      "id": "E-G04-S383-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S383-polo-keyed-callout-layout/G04-V02-POLO-KEYED-CALLOUT-LAYOUT-FEASIBILITY-S383.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S383 reconciles exact S380 source stations and rendered keyed-callout candidate across 17 Polo options; no production change or view release. The precise marker/source-line contacts remain a maintainer presentation decision."
+    },
+    {
+      "id": "E-G04-S383-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S383-polo-keyed-callout-layout/candidate-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "34 actual-browser candidate renders over the exact 17 S380 option/revision rows, colorway on/off; unchanged source path data; zero marker pair, schedule row/overflow, or marker-key/text-label conflicts. Source-centered A/B/E/FG/H/I disks contact named non-target seam/mark paths; no gate is claimed passed."
+    },
+    {
+      "id": "E-G04-S383-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S383-polo-keyed-callout-layout/rendered/detail/polo-default-garment.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium source-bound candidate close-up: exact coordinates, B/FG/H shared keys, existing source seam/mark overlays visible; no source path changes. Full-text schedule close-up is in the same packet."
+    },
+    {
+      "id": "E-G04-S383-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S383-polo-keyed-callout-layout/rendered/detail/polo-default-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 11 complete per-POM text/value/tolerance rows fit the candidate measured schedule without overlap; this is diagnostic evidence only."
     }
   ]
 }

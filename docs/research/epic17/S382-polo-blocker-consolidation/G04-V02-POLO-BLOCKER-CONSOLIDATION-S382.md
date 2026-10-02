@@ -65,6 +65,8 @@ The source and topology settle each target and anchor; they do not prescribe how
 
 This candidate changes only annotation presentation and preserves all source POM IDs, measurements, tolerances, exact target geometry, same-revision anchors and pattern topology. Its risks are marker overlap with the button/center-match/shoulder construction marks and the taller full-text schedule. S383 must render all 17 options and inspect whole/detail views, exact mark visibility, crossings, overlaps, text metrics, colorway-on/off output and fail-closed behavior before asking for approval. No production or semantic mapping change is authorized by S382. Keep all 34 faces held unless a later approved implementation passes every gate; the residual alone keeps them held regardless of callout outcome.
 
+**S383 correction to this provisional candidate:** exact S380 source coordinates show that edge-role equality does not imply one marker station. Across-shoulder begins at `(22.5, 4)`; neck-width/shoulder-seam share `(7, 0)`. Also width/front-neck-drop co-locate at `(0, 8)`. The tested S383 candidate therefore uses seven new stations, visible groups B/FG/H for exact co-located distinct POMs, and eight visible rings including existing C. See S383’s source-coordinate table, output and hold disposition.
+
 ## S382 exit and next action
 
 - S382 makes no production change, no acceptance change and no hold release. Keep all 34 Polo faces held, all-seven V02 unchanged, and V03 gated.
