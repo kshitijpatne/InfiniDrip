@@ -152,8 +152,16 @@ only through an explicitly admitted, linked Epic packet.
   Slice 357's diagnostic-only source-geometry study of the recurring Polo
   sleeve-cap assembly residual. Reducing cap ease alone cannot clear the
   residual; the modeled width/ease change alters POMs and breaks sleeve
-  colorway closure. Keep the 0.25 cm gate and all 34 Polo holds pending a
-  separate maintainer design decision.
+  colorway closure. The maintainer reaffirmed the 0.25 cm gate and authored
+  ease; preserve all 34 Polo holds.
+- `docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md` —
+  Slice 358 proves exact upper/under collar path coincidence across all 28
+  Woven configurations/56 faces, but current rendered collar placement still
+  detaches/crosses against front and back body geometry. No new visibility
+  convention is source-supported; all Woven and Polo holds remain.
+- `docs/research/epic17/S358-woven-collar-layer/` — exact-revision parsed role
+  paths, source-ID/layer inventory, 14 rendered annotated collar crops, and
+  validated Control Center start/exit command history for S358.
 - `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` — Slice
   311's source-backed mark-target POM mapping, production-rendered verification,
   held-face limits and current G04 boundary. Use `PROJECT-STATE.md` and the

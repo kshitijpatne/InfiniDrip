@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 1463,
+  "itemId": "G04-V02",
+  "evidence": {
+    "id": "E-G04-S358-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md",
+    "verified": true,
+    "note": "S358 exact-revision diagnostic proves upper/under collar paths coincide across 56 Woven faces but the assembled collar remains detached/crossed against body geometry. No production mapping change; all 56 Woven/34 Polo holds and all-seven V02 gate retained."
+  }
+}

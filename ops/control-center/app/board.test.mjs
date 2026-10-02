@@ -112,6 +112,22 @@ test("S357 Polo residual study retains the source ease, threshold, and all holds
   assert.ok(g04.comments.some((comment) => /Slice 357 found no viable Polo source repair/.test(comment.text)));
 });
 
+test("S358 retains the Woven collar hold and records the maintainer's Polo residual decision", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S358-START", "E-G04-S358-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.ok(g04.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
+  assert.ok(epic.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];

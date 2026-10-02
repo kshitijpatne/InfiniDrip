@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1459,
-  "updatedAt": "2026-10-02T05:08:35.604Z",
+  "revision": 1469,
+  "updatedAt": "2026-10-02T05:37:44.758Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -367,7 +367,9 @@
         "E-G04-S352-EXIT",
         "E-G04-S352-COMMIT",
         "E-G04-S353-START",
-        "E-G04-S353-EXIT"
+        "E-G04-S353-EXIT",
+        "E-G04-S358-START",
+        "E-G04-S358-EXIT"
       ]
     },
     {
@@ -3569,6 +3571,16 @@
           "at": "2026-10-02T05:08:35.604Z",
           "actor": "Codex",
           "text": "S357 source/ease diagnostic retained in the linked exit report. All 34 Polo and 56 Woven holds remain; all-seven V02 and V02-before-V03 gates are unchanged. The Polo source-change proposal requires explicit maintainer decision before dependent implementation; independent Woven work may continue."
+        },
+        {
+          "at": "2026-10-02T05:23:50.337Z",
+          "actor": "Codex",
+          "text": "Slice 358 starts diagnostic-only Woven collar exterior/layer audit from verified S357 and board revision 1459. Exact source edges, same-revision assembly, duplicate stroke identity and current rendered joins will be checked. All 56 Woven and 34 Polo faces remain held; maintainer has reaffirmed Polo's 0.25 cm residual gate. Packet: docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md."
+        },
+        {
+          "at": "2026-10-02T05:35:33.247Z",
+          "actor": "Codex",
+          "text": "Slice 358 exit: exact upperCollar/underCollar path arrays coincide on all 56 current Woven faces, but annotated front/back output still shows detached/crossed collar assembly and unreadable overlaps. Duplicate suppression cannot fix placement, and no additional layer convention is source-authorized. Preserve all Woven holds. Maintainer chose to keep Polo's 0.25 cm gate; all 34 Polo faces remain held. See S358 exit packet and rendered artifacts. Integrated tally remains 56 accepted / 90 held; V02 all-seven criterion and V03 gate unchanged."
         }
       ],
       "evidenceRefs": [
@@ -3757,7 +3769,9 @@
         "E-G04-S356-START",
         "E-G04-S356-EXIT",
         "E-G04-S357-START",
-        "E-G04-S357-EXIT"
+        "E-G04-S357-EXIT",
+        "E-G04-S358-START",
+        "E-G04-S358-EXIT"
       ],
       "flagKey": null
     },
@@ -7340,6 +7354,16 @@
           "at": "2026-10-02T05:08:34.541Z",
           "actor": "Codex",
           "text": "Slice 357 found no viable Polo source repair: removing cap ease alone leaves at least 0.63 cm residual because the 43 cm sleeve-width floor exceeds the 41.691458 cm body armhole; a residual-clearing in-memory variant changes bicep/hem POMs by 1.5 cm and fails sleeve colorway closure. No production source or threshold changed; all 34 Polo faces remain held pending explicit design direction."
+        },
+        {
+          "at": "2026-10-02T05:23:23.040Z",
+          "actor": "Codex",
+          "text": "Slice 358 starts diagnostic-only Woven collar exterior/layer audit from verified S357 and board revision 1459. Exact source edges, same-revision assembly, duplicate stroke identity and current rendered joins will be checked. All 56 Woven and 34 Polo faces remain held; maintainer has reaffirmed Polo's 0.25 cm residual gate. Packet: docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md."
+        },
+        {
+          "at": "2026-10-02T05:35:31.031Z",
+          "actor": "Codex",
+          "text": "Slice 358 exit: exact upperCollar/underCollar path arrays coincide on all 56 current Woven faces, but annotated front/back output still shows detached/crossed collar assembly and unreadable overlaps. Duplicate suppression cannot fix placement, and no additional layer convention is source-authorized. Preserve all Woven holds. Maintainer chose to keep Polo's 0.25 cm gate; all 34 Polo faces remain held. See S358 exit packet and rendered artifacts. Integrated tally remains 56 accepted / 90 held; V02 all-seven criterion and V03 gate unchanged."
         }
       ],
       "evidenceRefs": [
@@ -7620,7 +7644,9 @@
         "E-G04-S356-START",
         "E-G04-S356-EXIT",
         "E-G04-S357-START",
-        "E-G04-S357-EXIT"
+        "E-G04-S357-EXIT",
+        "E-G04-S358-START",
+        "E-G04-S358-EXIT"
       ],
       "flagKey": null
     },
@@ -11693,6 +11719,24 @@
       "sha256": null,
       "verified": true,
       "note": "S357 tested 10 in-memory CAP_EASE/sleeve-width variants across 17 exact Polo configurations / 34 faces. Easing alone cannot clear the 0.25 cm gate; the residual-clearing candidate changes POMs and fails sleeve colorway closure. No production change; retain all holds pending a separate design decision."
+    },
+    {
+      "id": "E-G04-S358-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 358 starts diagnostic-only exact-source Woven collar layer review. Preserve all Woven/Polo holds, the all-seven V02 criterion, protected exports, and the V02-before-V03 gate; no production mapping change is authorized."
+    },
+    {
+      "id": "E-G04-S358-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S358 exact-revision diagnostic proves upper/under collar paths coincide across 56 Woven faces but the assembled collar remains detached/crossed against body geometry. No production mapping change; all 56 Woven/34 Polo holds and all-seven V02 gate retained."
     }
   ]
 }

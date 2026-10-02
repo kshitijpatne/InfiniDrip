@@ -1010,6 +1010,12 @@ pass, and preserve any other Woven hold.
 - Trouser front: the maintainer approved the exact S325 source-repair proposal. S326 adds `flyUnderlap` (3.5 cm × live `flyLength`), routes `frontRight.flyEdge` through it to `flyShield.right`, and retains `frontLeft.flyEdge` on `flyShield.left`; both front panels and exact waistband center joins are preserved. The view map records the approved underlap-behind-`frontLeft` relation. All 24 fronts remain held until the full option and rendered-output checks pass; approval alone accepts no face.
 - These approvals settle design choices only. Each affected view remains held until its exact configuration passes same-revision topology and rendered-output checks. G04 MQF findings remain review checks; post-G17 deferrals remain unchanged.
 
+## EPIC-17 / G04 — Polo residual gate retained (S357)
+
+- On 2026-10-02, the maintainer selected the option to retain the existing 0.25 cm Polo sleeve-cap residual gate after reviewing S357's source/ease trade-off study.
+- Preserve Polo's source-authored 1.5 cm cap ease and existing pattern/POM values. The tested candidate that narrows width and removes ease is not authorized. Keep all 34 Polo faces held until the source revision passes the existing residual, topology, colorway, callout and rendered-output gates.
+- This decision changes no V02 acceptance criterion and approves no face; all seven recipes remain required before V03.
+
 ## EPIC-17 / G04 — Trouser fly-underlap source repair (S326)
 
 - The maintainer approved the exact Slice 325 proposal on 2026-10-01: add a physical `flyUnderlap` interior role sized 3.5 cm × current `flyLength`; route `frontRight.flyEdge` to `flyUnderlap.frontEdge`, then `flyUnderlap.shieldEdge` to `flyShield.right`; retain `frontLeft.flyEdge` to `flyShield.left`; place the underlap behind the exterior `frontLeft` layer.

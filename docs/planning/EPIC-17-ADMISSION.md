@@ -1,5 +1,8 @@
 # EPIC-17 / G04 admission — professional flats and CAD interchange
 
+- **Verified current status at S358:** Slice 358 is complete as a diagnostic-only source/render audit. The Polo decision from S357 is resolved: preserve authored ease and the 0.25 cm residual gate. The exact Woven upper/under collar contours coincide, but rendered placement still crosses/detaches from body topology. All 56 Woven and 34 Polo faces remain held; integrated tally 56 accepted / 90 held across 73 configurations / 146 faces. Board revision 1469 links S358 start/exit evidence and comments to G04-V02, the EPIC-17 summary card and Epic record. Re-estimate remaining work from the refreshed full hold matrix before assigning the next slice; prior estimate bounds are stale and must not be treated as current.
+- **S358 exit:** `docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md` plus `docs/research/epic17/S358-woven-collar-layer/` contain exact-revision 28-option/56-face path identity, source role/layer trace, annotated Chromium crops and reviewed holds. `outerStand`, `innerStand`, `upperCollar`, `underCollar` source joins are recorded; exact upper/under output arrays coincide on every face. No production mapping, cut geometry or stitch graph changed. All seven-recipe V02 and V02-before-V03 gates remain.
+
 - **Status:** Admitted by explicit maintainer instruction on 2026-09-29. The canonical board was Backlog before this admission; the status transition is recorded through the validated Control Center command layer after this packet was written.
 - **Admission slice:** 261 (reserved after refreshing `origin/main` and inspecting reachable slice history; highest existing slice was 260).
 - **Goal start:** 2026-09-29 14:19:53 UTC.
