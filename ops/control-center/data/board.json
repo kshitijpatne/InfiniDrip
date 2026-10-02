@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1851,
-  "updatedAt": "2026-10-02T16:56:13.259Z",
+  "revision": 1868,
+  "updatedAt": "2026-10-02T17:12:19.717Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -461,7 +461,12 @@
         "E-G04-S375-EXIT",
         "E-G04-S375-SEARCH",
         "E-G04-S375-DETAIL",
-        "E-G04-S375-WHOLE"
+        "E-G04-S375-WHOLE",
+        "E-G04-S376-START",
+        "E-G04-S376-EXIT",
+        "E-G04-S376-SEARCH",
+        "E-G04-S376-DETAIL",
+        "E-G04-S376-WHOLE"
       ]
     },
     {
@@ -4115,7 +4120,12 @@
         "E-G04-S375-EXIT",
         "E-G04-S375-SEARCH",
         "E-G04-S375-DETAIL",
-        "E-G04-S375-WHOLE"
+        "E-G04-S375-WHOLE",
+        "E-G04-S376-START",
+        "E-G04-S376-EXIT",
+        "E-G04-S376-SEARCH",
+        "E-G04-S376-DETAIL",
+        "E-G04-S376-WHOLE"
       ],
       "flagKey": null
     },
@@ -7898,6 +7908,16 @@
           "at": "2026-10-02T16:56:13.259Z",
           "actor": "Codex",
           "text": "Slice 375 exit: exact-source Chromium study across all 17 Polo option rows tested three wrap variants per target POM and seven leader shapes from the 48 nearest legal boxes on a full 1 cm, ±18 cm X/Y lattice. Fifteen base-renderable rows produced 30,240 route attempts; none met 0.25 cm geometry clearance, and 29,527 also tracked the collar contour. Two rows fail closed before routing on a separate Collar point extension TEXT_COLLISION. The bounded sample does not prove no other placement exists. Diagnostic anchor views were manually reviewed; colorway fill is omitted and no wrapped-layout candidate passed. All 34 Polo faces remain held for the 0.68 cm sleeve-cap residual, callout readability and base-render blockers; the integrated tally remains 56 accepted / 90 held. No production mapping/behavior or acceptance gate changed. Preserve all-seven V02, V02-before-V03, legacy DXF, protected identities and the pending S373 Woven overlap decision. See S375 packet and search artifacts."
+        },
+        {
+          "at": "2026-10-02T17:07:34.573Z",
+          "actor": "Codex",
+          "text": "Slice 376 starts from S375 commit bbb8bc6 at board revision 1851. It expands the exact Polo default front callout study to every legal label box on the bounded 1 cm lattice (±18 cm X/Y), testing both exact POMs jointly with their source text/anchors and the fixed 0.25 cm clearance gate. This diagnostic does not authorize a production mapping; all 34 Polo face holds and all existing G04 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-02T17:12:19.717Z",
+          "actor": "Codex",
+          "text": "Slice 376 exit: full integer-centimeter placement search for the mandatory polo-default view evaluates all 5,146 legal boxes across six exact-text wrap variants and 36,022 seven-shape leader routes. No individual route or joint pair meets 0.25 cm geometry clearance; 35,792 additionally track the collar contour. The result rules out candidates only in this bounded 1 cm lattice and ±18 cm X/Y square, not sub-centimeter placements or other layout models. Manually reviewed whole and detail source-anchor renders show the exact two anchors about 2.001 cm apart at the crowded outer-stand/neckline/placket region; colorway fill is omitted. No implementation or gate change. Preserve all 34 Polo holds, 56 accepted / 90 held integrated tally, all-seven V02, V02-before-V03, and S373's pending Woven overlap decision. See S376 packet and search data."
         }
       ],
       "evidenceRefs": [
@@ -8272,7 +8292,12 @@
         "E-G04-S375-EXIT",
         "E-G04-S375-SEARCH",
         "E-G04-S375-DETAIL",
-        "E-G04-S375-WHOLE"
+        "E-G04-S375-WHOLE",
+        "E-G04-S376-START",
+        "E-G04-S376-EXIT",
+        "E-G04-S376-SEARCH",
+        "E-G04-S376-DETAIL",
+        "E-G04-S376-WHOLE"
       ],
       "flagKey": null
     },
@@ -13191,6 +13216,51 @@
       "sha256": null,
       "verified": true,
       "note": "Manually inspected whole default Polo front anchor view with all current piece paths and unaffected callouts. The diagnostic target labels remain held; colorway fill is omitted from these study views."
+    },
+    {
+      "id": "E-G04-S376-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-FULL-DEFAULT-ROUTE-SEARCH-S376.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S376 starts an exact-source diagnostic search over every legal 1 cm text box in the bounded default Polo front placement square, extending S375's nearest-48 sample. No implementation or hold release is authorized."
+    },
+    {
+      "id": "E-G04-S376-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-FULL-DEFAULT-ROUTE-SEARCH-S376.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S376 completes a full legal-box search for the mandatory Polo default front within the stated 1 cm/±18 cm bounded candidate space. No joint route passed; all Polo holds and the 0.25 cm gate remain. The conclusion is limited to this candidate set."
+    },
+    {
+      "id": "E-G04-S376-SEARCH",
+      "kind": "document",
+      "uri": "docs/research/epic17/S376-polo-full-default-route-search/wrapped-polo-feasibility.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact-source default Polo front search evaluates all legal label boxes across six wrap variants and all seven leaders. Records 5,146 legal boxes, 36,022 routes, zero accepted routes, unchanged exact anchors, zero browser errors and residual hold. It does not claim sub-centimeter exhaustive proof."
+    },
+    {
+      "id": "E-G04-S376-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S376-polo-full-default-route-search/source-anchor-views/polo-default-source-anchors-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed exact-source detail view for the Polo default front. A/B mark the two authored outerStand anchors in the crowded center-front stand/neckline/placket region. This is a diagnostic source-anchor render, not an accepted candidate."
+    },
+    {
+      "id": "E-G04-S376-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S376-polo-full-default-route-search/source-anchor-views/polo-default-source-anchors-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed whole default Polo front source-anchor render. Geometry and unaffected POMs are visible; blocked target callouts remain omitted. Colorway fill is not drawn."
     }
   ]
 }

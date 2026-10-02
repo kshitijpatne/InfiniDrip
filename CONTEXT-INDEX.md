@@ -181,6 +181,12 @@ only through an explicitly admitted, linked Epic packet.
   approved cap projection but preserves the 0.68 cm residual gate and all 34
   Polo face holds. Linked search JSON and 15 whole/detail anchor-view pairs are
   in `docs/research/epic17/S375-polo-wrapped-pom-feasibility/`.
+- `docs/research/epic17/G04-V02-POLO-FULL-DEFAULT-ROUTE-SEARCH-S376.md` —
+  completed exact-source diagnostic that searches every legal text box on the
+  bounded 1 cm lattice for the mandatory default Polo front layout. All 5,146
+  legal boxes and 36,022 leader routes fail the clearance gate; the result is
+  bounded to the tested lattice, not sub-centimeter placements. It changes no
+  POM identity, colorway, gates or holds.
 - `docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md`
   and `docs/research/epic17/S373-woven-sleeve-crossing/` — the exact S372
   post-change trace confirms one mirrored `sleeve.hem` half-run crossing in all

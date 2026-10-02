@@ -1,0 +1,11 @@
+{
+  "configurations": 1,
+  "configurationsWithJointCandidate": 0,
+  "configurationsWithoutJointCandidate": [
+    "polo-default"
+  ],
+  "defaultCandidate": null,
+  "defaultJointLayoutPass": false,
+  "browserErrors": 0,
+  "productionFaceHoldsUnchanged": 34
+}
