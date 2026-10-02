@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1868,
-  "updatedAt": "2026-10-02T17:12:19.717Z",
+  "revision": 1891,
+  "updatedAt": "2026-10-02T20:09:32.141Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -466,7 +466,14 @@
         "E-G04-S376-EXIT",
         "E-G04-S376-SEARCH",
         "E-G04-S376-DETAIL",
-        "E-G04-S376-WHOLE"
+        "E-G04-S376-WHOLE",
+        "E-G04-S377-START",
+        "E-G04-S377-EXIT",
+        "E-G04-S377-MATRIX",
+        "E-G04-S377-WHOLE",
+        "E-G04-S377-DETAIL",
+        "E-G04-S377-SCHEDULE",
+        "E-G04-S377-EXTREMES"
       ]
     },
     {
@@ -4125,7 +4132,14 @@
         "E-G04-S376-EXIT",
         "E-G04-S376-SEARCH",
         "E-G04-S376-DETAIL",
-        "E-G04-S376-WHOLE"
+        "E-G04-S376-WHOLE",
+        "E-G04-S377-START",
+        "E-G04-S377-EXIT",
+        "E-G04-S377-MATRIX",
+        "E-G04-S377-WHOLE",
+        "E-G04-S377-DETAIL",
+        "E-G04-S377-SCHEDULE",
+        "E-G04-S377-EXTREMES"
       ],
       "flagKey": null
     },
@@ -7918,6 +7932,16 @@
           "at": "2026-10-02T17:12:19.717Z",
           "actor": "Codex",
           "text": "Slice 376 exit: full integer-centimeter placement search for the mandatory polo-default view evaluates all 5,146 legal boxes across six exact-text wrap variants and 36,022 seven-shape leader routes. No individual route or joint pair meets 0.25 cm geometry clearance; 35,792 additionally track the collar contour. The result rules out candidates only in this bounded 1 cm lattice and ±18 cm X/Y square, not sub-centimeter placements or other layout models. Manually reviewed whole and detail source-anchor renders show the exact two anchors about 2.001 cm apart at the crowded outer-stand/neckline/placket region; colorway fill is omitted. No implementation or gate change. Preserve all 34 Polo holds, 56 accepted / 90 held integrated tally, all-seven V02, V02-before-V03, and S373's pending Woven overlap decision. See S376 packet and search data."
+        },
+        {
+          "at": "2026-10-02T17:19:54.477Z",
+          "actor": "Codex",
+          "text": "Slice 377 starts from S376 commit 901a7a1 at board revision 1868. It tests a diagnostic keyed A/B schedule for the two exact blocked Polo front POMs, with each small marker centered on its existing exact source anchor and the complete unchanged POM text in a separate view schedule. This is proposal evidence only: no production layout, source mapping, gate, or face-hold change is authorized."
+        },
+        {
+          "at": "2026-10-02T20:09:32.141Z",
+          "actor": "Codex",
+          "text": "Slice 377 exit: source-centered A/B marker plus unchanged full-text bottom schedule was evaluated across the exact 17-option Polo matrix. Fifteen rows render with minimum marker edge clearance 0.56 cm (1.00 cm center spacing); two remain fail-closed on the separate Collar point extension collision. Manually reviewed default whole/detail/schedule and stand-height min/max details. The keyed texts are readable in the schedule, but other collar/placket callout crossings remain; the view is a feasibility diagnostic only. Colorway fill is omitted. No production change, face acceptance or hold release; all 34 Polo faces remain held, the 0.25 cm gate and all-seven V02 stay fixed, integrated tally remains 56 accepted / 90 held, and S373's Woven sleeve-overlap decision remains pending. See S377 packet and matrix/render evidence."
         }
       ],
       "evidenceRefs": [
@@ -8297,7 +8321,14 @@
         "E-G04-S376-EXIT",
         "E-G04-S376-SEARCH",
         "E-G04-S376-DETAIL",
-        "E-G04-S376-WHOLE"
+        "E-G04-S376-WHOLE",
+        "E-G04-S377-START",
+        "E-G04-S377-EXIT",
+        "E-G04-S377-MATRIX",
+        "E-G04-S377-WHOLE",
+        "E-G04-S377-DETAIL",
+        "E-G04-S377-SCHEDULE",
+        "E-G04-S377-EXTREMES"
       ],
       "flagKey": null
     },
@@ -13261,6 +13292,69 @@
       "sha256": null,
       "verified": true,
       "note": "Manually reviewed whole default Polo front source-anchor render. Geometry and unaffected POMs are visible; blocked target callouts remain omitted. Colorway fill is not drawn."
+    },
+    {
+      "id": "E-G04-S377-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-KEYED-CALLOUT-FEASIBILITY-S377.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S377 starts a diagnostic-only exact-source A/B anchor-marker and keyed-schedule proposal for the two blocked Polo front POMs. No production implementation or face release is authorized."
+    },
+    {
+      "id": "E-G04-S377-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-KEYED-CALLOUT-FEASIBILITY-S377.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S377 is a diagnostic-only keyed A/B marker and full-text schedule study for the two exact blocked Polo front POMs. Across the exact 17-option matrix, 15 rows render; two fail closed on the separate Collar point extension collision. Marker clearance, source identity, same-revision targets, render limitations and all unchanged holds are recorded. No production mapping, callout, threshold or face status changed."
+    },
+    {
+      "id": "E-G04-S377-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S377-polo-keyed-callout-study/keyed-pom-layout-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17 exact Polo supported options retain each draft's unique S377 revision and exact source POM IDs, outerStand edge targets, source-resolved anchors, A/B text, marker clearances and statuses. 15 render; two retain independent fail-closed text collisions."
+    },
+    {
+      "id": "E-G04-S377-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S377-polo-keyed-callout-study/rendered/polo-default-keyed-poms-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed whole default front diagnostic with exact A/B source anchors and keyed schedule. Existing unrelated callout clutter remains; not production or accepted output."
+    },
+    {
+      "id": "E-G04-S377-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S377-polo-keyed-callout-study/rendered/polo-default-keyed-poms-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed exact source detail for the keyed default anchors. Marker centers sit on the outerStand frontEnd/frontNeckline anchors; unrelated crowded leaders remain visible and block acceptance."
+    },
+    {
+      "id": "E-G04-S377-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S377-polo-keyed-callout-study/rendered/polo-default-keyed-poms-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed close-up shows both unchanged full-text target POMs with readable A/B keys and distinct rows. Diagnostic-only schedule; no face release."
+    },
+    {
+      "id": "E-G04-S377-EXTREMES",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S377-polo-keyed-callout-study/rendered/polo-standHeight-max-keyed-poms-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually reviewed source detail at Polo stand-height maximum; the A/B anchors remain distinct and keyed schedule output exists. This view does not clear the separate remaining callout crossings or residual gate."
     }
   ]
 }

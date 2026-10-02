@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S377-START","kind":"document","uri":"docs/research/epic17/G04-V02-POLO-KEYED-CALLOUT-FEASIBILITY-S377.md","verified":true,"note":"S377 starts a diagnostic-only exact-source A/B anchor-marker and keyed-schedule proposal for the two blocked Polo front POMs. No production implementation or face release is authorized."}},
+  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S377-START","actor":"Codex","role":"maintainer"},
+  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S377-START"},
+  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"Slice 377 starts from S376 commit 901a7a1 at board revision 1868. It tests a diagnostic keyed A/B schedule for the two exact blocked Polo front POMs, with each small marker centered on its existing exact source anchor and the complete unchanged POM text in a separate view schedule. This is proposal evidence only: no production layout, source mapping, gate, or face-hold change is authorized."}
+]

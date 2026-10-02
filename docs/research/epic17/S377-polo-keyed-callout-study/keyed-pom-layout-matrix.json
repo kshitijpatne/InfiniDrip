@@ -1,0 +1,1174 @@
+{
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-default",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-placketLength-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-placketLength-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-placketWidth-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-placketWidth-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-standHeight-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 1.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 1.0305357222564875,
+            "y": 7.924036843800506
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 0.9999999999999999,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 0.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-standHeight-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 3.0289235366340947,
+            "y": 7.843748965841943
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 2.9999999999999996,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 2.5599999999999996,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-collarLeafDepth-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-collarLeafDepth-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-standFrontRise-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 1.98230088495575,
+            "y": 7.734513274336283
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": -1.7763568394002505e-15,
+            "y": 8
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999996,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999996,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-standFrontRise-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "base-render-failed",
+      "baseRenderIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.056762504196283,
+            "y": 8.13302495330663
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.0678819615711923,
+            "y": 7.922420615347208
+          }
+        }
+      ],
+      "markerDistanceCm": 2.000000000000001,
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-collarPointExtension-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "base-render-failed",
+      "baseRenderIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-collarPointExtension-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-sideVentDepth-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.568,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          76.018,
+          76.818
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S377:polo-sideVentDepth-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "revisionId": "live-draft:polo:S377:polo-backHemDrop-min",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "revisionId": "live-draft:polo:S377:polo-backHemDrop-max",
+      "outputFace": "FRONT_FLAT",
+      "status": "rendered",
+      "sourceRows": [
+        {
+          "key": "A",
+          "label": "Finished collar stand height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          }
+        },
+        {
+          "key": "B",
+          "label": "Stand front rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "sourceId": "pom:polo:stand-front-rise",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          }
+        }
+      ],
+      "markerDistanceCm": 1.9999999999999998,
+      "markerRadiusCm": 0.22,
+      "markerClearanceCm": 1.5599999999999998,
+      "markerPairPass": true,
+      "textFontCm": 0.32,
+      "schedulePanel": {
+        "x": -48.8277,
+        "y": 74.16,
+        "widthCm": 7.75392484664917,
+        "heightCm": 3.1,
+        "rowTextWidthsCm": [
+          6.75392484664917,
+          5.046943187713623
+        ],
+        "rowYs": [
+          75.61,
+          76.41
+        ],
+        "withinExtendedFrame": true
+      },
+      "originalTextCollisions": [
+        "pom:polo:finished-collar-stand-height",
+        "pom:polo:stand-front-rise"
+      ],
+      "renderIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    }
+  ],
+  "summary": {
+    "configurations": 17,
+    "renderedConfigurations": 15,
+    "baseRenderFailures": [
+      {
+        "caseId": "polo-standFrontRise-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+            "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "polo-collarPointExtension-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+            "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      }
+    ],
+    "markerPairPassCount": 15,
+    "minimumMarkerClearanceCm": 0.5599999999999998,
+    "colorwayFillRendered": false,
+    "browserErrors": 0,
+    "productionFaceHoldsUnchanged": 34
+  }
+}
