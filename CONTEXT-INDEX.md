@@ -173,6 +173,14 @@ only through an explicitly admitted, linked Epic packet.
   current diagnostic for two-/three-line wrapping of the exact Woven
   finished-placket-width callout; it preserves the source anchor/value and all
   held faces while testing the remaining label-readability space.
+- `docs/research/epic17/G04-V02-POLO-WRAPPED-POM-LABEL-FEASIBILITY-S375.md` —
+  completed diagnostic-only study of two-/three-line layouts for Polo's exact
+  front collar-stand-height and stand-front-rise POMs across 17 options. The
+  bounded search found no accepted route for its 15 renderable rows; two
+  further rows fail on a separate existing text collision. It follows S353's
+  approved cap projection but preserves the 0.68 cm residual gate and all 34
+  Polo face holds. Linked search JSON and 15 whole/detail anchor-view pairs are
+  in `docs/research/epic17/S375-polo-wrapped-pom-feasibility/`.
 - `docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md`
   and `docs/research/epic17/S373-woven-sleeve-crossing/` — the exact S372
   post-change trace confirms one mirrored `sleeve.hem` half-run crossing in all

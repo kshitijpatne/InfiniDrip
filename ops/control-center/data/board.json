@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1834,
-  "updatedAt": "2026-10-02T15:53:39.312Z",
+  "revision": 1851,
+  "updatedAt": "2026-10-02T16:56:13.259Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -456,7 +456,12 @@
         "E-G04-S374-EXIT",
         "E-G04-S374-SEARCH",
         "E-G04-S374-RENDER",
-        "E-G04-S374-WHOLE"
+        "E-G04-S374-WHOLE",
+        "E-G04-S375-START",
+        "E-G04-S375-EXIT",
+        "E-G04-S375-SEARCH",
+        "E-G04-S375-DETAIL",
+        "E-G04-S375-WHOLE"
       ]
     },
     {
@@ -4105,7 +4110,12 @@
         "E-G04-S374-EXIT",
         "E-G04-S374-SEARCH",
         "E-G04-S374-RENDER",
-        "E-G04-S374-WHOLE"
+        "E-G04-S374-WHOLE",
+        "E-G04-S375-START",
+        "E-G04-S375-EXIT",
+        "E-G04-S375-SEARCH",
+        "E-G04-S375-DETAIL",
+        "E-G04-S375-WHOLE"
       ],
       "flagKey": null
     },
@@ -7878,6 +7888,16 @@
           "at": "2026-10-02T15:51:08.532Z",
           "actor": "Codex",
           "text": "Slice 374 exit: Chromium measured two-/three-line wrapped layouts for the exact Woven finished-placket-width POM at live-draft:woven-shirt:14:14. Search covered 28 option rows with the unchanged source anchor/target/value/tolerance. Only woven-shirt-combined-supported produced local candidates; default and 27 others produced none under the bounded 1 cm placement/path scan. The best three-line candidate has a 3.3135 cm leader and 0.2724 cm minimum clearance; rendered close-up confirms no text crossing. It is option-specific, so no stable mapping is proposed or implemented. A center-ending diagnostic route initially crossed its own text; corrected edge-termination was used for the final rerun. The bounded scan does not prove mathematical nonexistence. All 56 Woven and 34 Polo holds remain; 56 accepted / 90 held. All-seven V02, V02-before-V03, Polo 0.25 cm, DXF and protected export gates are unchanged. See S374 packet, search artifacts and rendered close-up."
+        },
+        {
+          "at": "2026-10-02T16:09:07.207Z",
+          "actor": "Codex",
+          "text": "Slice 375 starts from S374 commit 9883858 at board revision 1834. It evaluates exact-source wrapped label candidates jointly for Polo's blocked front collar-stand-height and stand-front-rise POMs over all 17 options. S353's approved cap projection is already implemented. Preserve the 0.68 cm residual, 0.25 cm threshold, all 34 Polo holds and all existing G04 gates."
+        },
+        {
+          "at": "2026-10-02T16:56:13.259Z",
+          "actor": "Codex",
+          "text": "Slice 375 exit: exact-source Chromium study across all 17 Polo option rows tested three wrap variants per target POM and seven leader shapes from the 48 nearest legal boxes on a full 1 cm, ±18 cm X/Y lattice. Fifteen base-renderable rows produced 30,240 route attempts; none met 0.25 cm geometry clearance, and 29,527 also tracked the collar contour. Two rows fail closed before routing on a separate Collar point extension TEXT_COLLISION. The bounded sample does not prove no other placement exists. Diagnostic anchor views were manually reviewed; colorway fill is omitted and no wrapped-layout candidate passed. All 34 Polo faces remain held for the 0.68 cm sleeve-cap residual, callout readability and base-render blockers; the integrated tally remains 56 accepted / 90 held. No production mapping/behavior or acceptance gate changed. Preserve all-seven V02, V02-before-V03, legacy DXF, protected identities and the pending S373 Woven overlap decision. See S375 packet and search artifacts."
         }
       ],
       "evidenceRefs": [
@@ -8247,7 +8267,12 @@
         "E-G04-S374-EXIT",
         "E-G04-S374-SEARCH",
         "E-G04-S374-RENDER",
-        "E-G04-S374-WHOLE"
+        "E-G04-S374-WHOLE",
+        "E-G04-S375-START",
+        "E-G04-S375-EXIT",
+        "E-G04-S375-SEARCH",
+        "E-G04-S375-DETAIL",
+        "E-G04-S375-WHOLE"
       ],
       "flagKey": null
     },
@@ -13121,6 +13146,51 @@
       "sha256": null,
       "verified": true,
       "note": "Manually reviewed whole front-flat candidate render. The wrapped POM remains locally legible at whole-view scale but exists only in one combined option row; it is not an all-option solution and remains diagnostic only."
+    },
+    {
+      "id": "E-G04-S375-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-WRAPPED-POM-LABEL-FEASIBILITY-S375.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S375 starts a diagnostic-only 17-option study of joint two-/three-line wrapping for Polo's exact blocked front POMs. Keep all 34 face holds, the 0.68 cm residual and 0.25 cm gate unchanged; no production label mapping is authorized."
+    },
+    {
+      "id": "E-G04-S375-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/G04-V02-POLO-WRAPPED-POM-LABEL-FEASIBILITY-S375.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S375 closes a diagnostic-only study of two-/three-line Polo callout wrapping. No joint layout passed the bounded route sampler; two configurations failed base rendering on another label collision. All Polo face holds and the 0.25 cm gate remain."
+    },
+    {
+      "id": "E-G04-S375-SEARCH",
+      "kind": "document",
+      "uri": "docs/research/epic17/S375-polo-wrapped-pom-feasibility/wrapped-polo-feasibility.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact-source Chromium search matrix for 17 Polo options: 15 renderable rows, 30,240 bounded route attempts, zero accepted; two fail-closed base render rows. JSON records source identity, lattice/legal boxes, route rejection counts and residuals. Bounded candidate sample is not proof of nonexistence."
+    },
+    {
+      "id": "E-G04-S375-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S375-polo-wrapped-pom-feasibility/source-anchor-views/polo-default-source-anchors-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually inspected default Polo front source-geometry close-up. A/B markers identify the two exact authored stand-edge anchors; the view shows their crowded center-front stand/neckline/placket region. This is anchor evidence, not an accepted wrapped-label candidate."
+    },
+    {
+      "id": "E-G04-S375-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S375-polo-wrapped-pom-feasibility/source-anchor-views/polo-default-source-anchors-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Manually inspected whole default Polo front anchor view with all current piece paths and unaffected callouts. The diagnostic target labels remain held; colorway fill is omitted from these study views."
     }
   ]
 }
