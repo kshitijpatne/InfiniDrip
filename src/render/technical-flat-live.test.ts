@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -71,6 +71,61 @@ describe("projectWovenSleeveFillClosures", () => {
     expect(projectWovenSleeveFillClosures(closed)).toContainEqual(expect.objectContaining({
       message: expect.stringContaining("must end at one exact line station"),
     }));
+  });
+});
+
+describe("projectPoloSleeveFillClosures", () => {
+  const revisionId = "polo-s353-r1";
+  const path = (id: string, sourceId: string, start: { x: number; y: number }, end: { x: number; y: number }, colorwayBoundaryOnly = false) => ({
+    kind: "path" as const, id, layer: colorwayBoundaryOnly ? "GARMENT_SILHOUETTE" as const : "SEAM" as const,
+    feature: colorwayBoundaryOnly ? "silhouette" as const : "seam" as const, colorwayBoundaryOnly,
+    source: { sourceClass: "PATTERN_DERIVED" as const, sourceId, revisionId },
+    commands: [{ op: "move" as const, point: start }, { op: "line" as const, point: end }],
+  });
+  const create = () => [
+    path("flat:polo:FRONT_FLAT:component:sleeve:outline", "pattern:polo:role:sleeve", { x: 0, y: 0 }, { x: 4, y: 0 }),
+    path("flat:polo:BACK_FLAT:component:sleeve:outline:fold-reflection", "pattern:polo:role:sleeve", { x: 10, y: 0 }, { x: 14, y: 0 }),
+    path("flat:polo:FRONT_FLAT:view-seam:polo-sleeve-cap:front:armhole", "pattern:polo:role:front:edge:armhole", { x: 4.5, y: 2 }, { x: 0, y: -2 }),
+    path("flat:polo:BACK_FLAT:view-seam:polo-sleeve-cap:back:armhole", "pattern:polo:role:back:edge:armhole", { x: 14.5, y: 2 }, { x: 10, y: -2 }),
+    path("flat:polo:FRONT_FLAT:component:sleeve:view-boundary:approved-sleeve-area-closure",
+      "view:polo:role:sleeve:decision:G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH:boundary", { x: 4, y: 0 }, { x: 4.4, y: 1.8 }, true),
+    path("flat:polo:BACK_FLAT:component:sleeve:view-boundary:approved-sleeve-area-closure:fold-reflection",
+      "view:polo:role:sleeve:decision:G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH:boundary", { x: 14, y: 0 }, { x: 14.4, y: 1.8 }, true),
+  ];
+
+  it("moves both reflected sleeve closures to the exact receiving shoulder endpoints", () => {
+    const primitives = create();
+    expect(projectPoloSleeveFillClosures(primitives, revisionId)).toEqual([]);
+    const closures = primitives.filter((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly);
+    expect(closures.map((closure) => closure.commands[closure.commands.length - 1])).toEqual([
+      { op: "line", point: { x: 4.5, y: 2 } }, { op: "line", point: { x: 14.5, y: 2 } },
+    ]);
+  });
+
+  it("fails closed for stale revisions, missing contours, ambiguous shoulders, and malformed closures", () => {
+    const stale = create();
+    stale[4] = { ...stale[4]!, source: { ...stale[4]!.source, revisionId: "stale" } } as typeof stale[number];
+    expect(projectPoloSleeveFillClosures(stale, revisionId).length).toBeGreaterThan(0);
+
+    const missing = create().filter((primitive) => !primitive.id.includes("view-seam:polo-sleeve-cap"));
+    expect(projectPoloSleeveFillClosures(missing, revisionId).some((issue) => issue.message.includes("unique receiving"))).toBe(true);
+
+    const ambiguous = create();
+    ambiguous.push(path("flat:polo:BACK_FLAT:view-seam:polo-sleeve-cap:duplicate", "pattern:polo:role:back:edge:armhole",
+      { x: 4.5, y: 2 }, { x: 0, y: -2 }));
+    expect(projectPoloSleeveFillClosures(ambiguous, revisionId).some((issue) => issue.message.includes("unique receiving"))).toBe(true);
+
+    const malformed = create();
+    malformed[4] = { ...malformed[4]!, commands: [{ op: "move", point: { x: 4, y: 0 } }, { op: "close" }] } as typeof malformed[number];
+    expect(projectPoloSleeveFillClosures(malformed, revisionId).some((issue) => issue.message.includes("hem and shoulder"))).toBe(true);
+
+    const closedSeam = create();
+    closedSeam[2] = { ...closedSeam[2]!, commands: [{ op: "move", point: { x: 4.5, y: 2 } }, { op: "close" }] } as typeof closedSeam[number];
+    expect(projectPoloSleeveFillClosures(closedSeam, revisionId).some((issue) => issue.message.includes("unique receiving"))).toBe(true);
+
+    const staleSeam = create();
+    staleSeam[2] = { ...staleSeam[2]!, source: { ...staleSeam[2]!.source, revisionId: "stale" } } as typeof staleSeam[number];
+    expect(projectPoloSleeveFillClosures(staleSeam, revisionId).some((issue) => issue.message.includes("unique receiving"))).toBe(true);
   });
 });
 
@@ -743,7 +798,9 @@ describe("compileTechnicalFlatLiveView", () => {
               "pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise",
             ]);
           } else {
-            expect(pomIssues.map((issue) => issue.sourceId)).toEqual(["pom:polo:sleeve-bicep-width"]);
+            // S351's current browser-rendered callout issue remains a separate
+            // all-option gate; this source-only compiler check adds no POM error.
+            expect(pomIssues).toEqual([]);
           }
           expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
             sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));

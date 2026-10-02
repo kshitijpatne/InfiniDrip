@@ -333,6 +333,13 @@ only through an explicitly admitted, linked Epic packet.
   rendered-stroke/label checks. Its 34 source SVGs and candidate overlays are
   under `docs/research/epic17/S352-polo-pom-routing/`. Neither the decision nor
   the experiment accepts a Polo face.
+ - `docs/research/epic17/G04-V02-POLO-CAP-ARMHOLE-VIEW-PROJECTION-S353.md` —
+   completed production slice implementing the maintainer-approved
+   `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH` view-only convention across all 17
+   Polo options. The mapping and colorway closures pass 34/34 diagnostic
+   renders, but the production UI emits 0/34 faces: every option remains held
+   on the 0.68 cm assembly residual, with front POM label holds. All seven
+   recipes remain required before V02 can pass; V03 stays gated.
   contains the 28-option production replay and `manual-review.md`; 28 front
   candidates emitted but none passed review, while all 28 backs remain held on
   open collar contours. No Woven face is accepted.

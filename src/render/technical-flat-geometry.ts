@@ -294,6 +294,8 @@ export function compileTechnicalFlatSourceGeometry(
     .find((candidate) => candidate.roleId === "outerStand")?.viewSeamRepresentation;
   const wovenSleeveCapRepresentation = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
     .find((candidate) => candidate.roleId === "sleeve")?.wovenSleeveCapRepresentation;
+  const poloSleeveCapRepresentation = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+    .find((candidate) => candidate.roleId === "sleeve")?.poloSleeveCapRepresentation;
 
   for (const role of face.roles) {
     const piece = block.roles[role.roleId];
@@ -318,8 +320,11 @@ export function compileTechnicalFlatSourceGeometry(
     const silhouetteRole = projectionRole ? { ...projectionRole, runs: projectionRole.runs.filter((run) => {
       if (viewSeamRepresentation?.visibleRoleId === role.roleId && run.edgeId === viewSeamRepresentation.visibleEdgeId) return false;
       if (role.roleId === "sleeve" && wovenSleeveCapRepresentation?.capEdgeIds.includes(run.edgeId as "capLeft" | "capRight")) return false;
+      if (role.roleId === "sleeve" && poloSleeveCapRepresentation?.capEdgeId === run.edgeId) return false;
       if (wovenSleeveCapRepresentation?.visibleBodyEdges.some((segment) => segment.roleId === role.roleId
         && segment.edgeId === run.edgeId)) return false;
+      if (poloSleeveCapRepresentation?.visibleBodyRole === role.roleId
+        && poloSleeveCapRepresentation.visibleBodyEdge === run.edgeId) return false;
       return true;
     }) } : projectionRole;
     const projected = silhouetteRole ? projectedCommands(recipeId, block, kind, piece, silhouetteRole) : undefined;
@@ -341,6 +346,17 @@ export function compileTechnicalFlatSourceGeometry(
       primitives.push({ kind: "path", id: `flat:${recipeId}:${kind}:view-seam:woven-sleeve-cap:${role.roleId}:${edge.name}`,
         layer: "SEAM", feature: "seam", source: sourceRef, sourceEdgeIds: [sourceEdgeId], commands });
       primitives.push({ kind: "path", id: `flat:${recipeId}:${kind}:view-seam-boundary:woven-sleeve-cap:${role.roleId}:${edge.name}`,
+        layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: sourceRef, sourceEdgeIds: [sourceEdgeId],
+        colorwayBoundaryOnly: true, commands });
+    }
+    if (poloSleeveCapRepresentation?.visibleBodyRole === role.roleId) {
+      const edge = piece.edges.find((candidate) => candidate.name === poloSleeveCapRepresentation.visibleBodyEdge)!;
+      const commands = edgeCommand(edge)!;
+      const sourceEdgeId = `pattern:polo:role:${role.roleId}:edge:${edge.name}`;
+      const sourceRef = source(revisionId, sourceEdgeId);
+      primitives.push({ kind: "path", id: `flat:polo:${kind}:view-seam:polo-sleeve-cap:${role.roleId}:${edge.name}`,
+        layer: "SEAM", feature: "seam", source: sourceRef, sourceEdgeIds: [sourceEdgeId], commands });
+      primitives.push({ kind: "path", id: `flat:polo:${kind}:view-seam-boundary:polo-sleeve-cap:${role.roleId}:${edge.name}`,
         layer: "GARMENT_SILHOUETTE", feature: "silhouette", source: sourceRef, sourceEdgeIds: [sourceEdgeId],
         colorwayBoundaryOnly: true, commands });
     }

@@ -48,6 +48,8 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           .find((candidate) => candidate.roleId === role.roleId)?.localYReflection;
         const wovenSleeveCapRepresentation = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
           .find((candidate) => candidate.roleId === role.roleId)?.wovenSleeveCapRepresentation;
+        const poloSleeveCapRepresentation = authored?.faces.find((candidate) => candidate.kind === face.kind)?.roles
+          .find((candidate) => candidate.roleId === role.roleId)?.poloSleeveCapRepresentation;
         const zeroLength = (edge: (typeof piece.edges)[number]) => {
           const start = edge.kind === "line" ? edge.start : edge.curve.start;
           const end = edge.kind === "line" ? edge.end : edge.curve.end;
@@ -71,6 +73,7 @@ function validMap(recipeId: string, block: ReturnType<(typeof GARMENTS)[number][
           ...(reversedStitchEdges ? { reversedStitchEdges } : {}),
           ...(localYReflection ? { localYReflection } : {}),
           ...(wovenSleeveCapRepresentation ? { wovenSleeveCapRepresentation } : {}),
+          ...(poloSleeveCapRepresentation ? { poloSleeveCapRepresentation } : {}),
           ...(oppositeSideReflection ? { oppositeSideReflection } : {}),
         };
       }),
@@ -793,8 +796,13 @@ describe("validateTechnicalFlatProjectionMap", () => {
           id: "approved-sleeve-area-closure",
           from: { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 },
           to: { kind: "edge-endpoint", edgeId: isFront ? "capLeft" : "capRight", endpoint: isFront ? "end" : "start" },
-          fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S333-POLO-SLEEVE-VIEW-MAP" },
+          fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION", decisionId: "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH" },
         }]);
+        expect(sleeve.poloSleeveCapRepresentation).toEqual({
+          decisionId: "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH", stitchLabel: "Sleeve-cap ease",
+          capEdgeId: isFront ? "capLeft" : "capRight", visibleBodyRole: isFront ? "front" : "back",
+          visibleBodyEdge: "armhole", transfer: "NORMALIZED_ARCLENGTH", stations: ["UNDERARM", "SHOULDER"], layer: "SEAM",
+        });
         expect(sleeve.viewPairReflection).toMatchObject({
           axisRoleId: isFront ? "front" : "back", edgeId: isFront ? "centerFront" : "centerBack",
           axis: "ASSEMBLED_BODY_CENTER", source: "MAINTAINER_VIEW_DECISION",
@@ -811,6 +819,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
     const map = createG04TechnicalFlatProjectionMap("polo", block, REVISION)!;
     const malformed = structuredClone(map) as unknown as { faces: Array<{ kind: string; roles: Array<{
       roleId: string; viewPairReflection?: { decisionId: string }; runs: Array<{ edgeId: string }>;
+      poloSleeveCapRepresentation?: { decisionId: string };
     }> }> };
     const front = malformed.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "sleeve")!;
     front.viewPairReflection!.decisionId = "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR";
@@ -824,6 +833,36 @@ describe("validateTechnicalFlatProjectionMap", () => {
     front.viewPairReflection = undefined;
     expect(validateTechnicalFlatProjectionMap("polo", block, REVISION, malformed).map((issue) => issue.code))
       .toContain("INVALID_VIEW_PAIR_REFLECTION");
+    front.viewPairReflection = { decisionId: "G04-S333-POLO-SLEEVE-VIEW-MAP" };
+    front.poloSleeveCapRepresentation!.decisionId = "unapproved";
+    expect(validateTechnicalFlatProjectionMap("polo", block, REVISION, malformed).map((issue) => issue.code))
+      .toContain("INVALID_VIEW_SEAM_REPRESENTATION");
+  });
+
+  it("fails closed when Polo cap-to-side source endpoints no longer join", () => {
+    const { block } = draft("polo");
+    const malformedBlock = structuredClone(block) as typeof block;
+    const capRight = malformedBlock.roles.sleeve!.edges.find((edge) => edge.name === "capRight")!;
+    if (capRight.kind !== "curve") throw new Error("Expected authored Polo capRight curve.");
+    Object.assign(capRight.curve, { end: { ...capRight.curve.end, x: capRight.curve.end.x + 0.1 } });
+    const map = createG04TechnicalFlatProjectionMap("polo", malformedBlock, REVISION)!;
+    expect(validateTechnicalFlatProjectionMap("polo", malformedBlock, REVISION, map).map((issue) => issue.code))
+      .toContain("INVALID_VIEW_SEAM_REPRESENTATION");
+  });
+
+  it("rejects Polo seam metadata attached to a different recipe", () => {
+    const { block } = draft("tee");
+    const map = structuredClone(validMap("tee", block)) as unknown as {
+      faces: Array<{ kind: string; roles: Array<{ roleId: string; poloSleeveCapRepresentation?: unknown }> }>;
+    };
+    const sleeve = map.faces.find((face) => face.kind === "FRONT_FLAT")!.roles.find((role) => role.roleId === "sleeve")!;
+    sleeve.poloSleeveCapRepresentation = {
+      decisionId: "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH", stitchLabel: "Sleeve-cap ease",
+      capEdgeId: "capLeft", visibleBodyRole: "front", visibleBodyEdge: "armhole",
+      transfer: "NORMALIZED_ARCLENGTH", stations: ["UNDERARM", "SHOULDER"], layer: "SEAM",
+    };
+    expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, map).map((issue) => issue.code))
+      .toContain("INVALID_VIEW_SEAM_REPRESENTATION");
   });
 
   it("rejects a paired sleeve decision that names the wrong body axis or approval", () => {

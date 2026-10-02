@@ -1,8 +1,20 @@
 # InfiniDrip — Project State
 
-_Last updated: Slice 351 confirmed current-source Polo sleeve-cap and callout blockers across all options; all 34 Polo faces stay held. EPIC-17/G04 V02 remains In Progress and V03 remains gated, 2026-10-02._
+_Last updated: Slice 353 implemented and rendered the approved Polo cap-to-armhole view projection. The full 17-option set remains held on the 0.68 cm assembly residual; G04-V02 remains In Progress and V03 remains gated, 2026-10-02._
 
-## EPIC-17 / G04 current handoff — Slice 351 complete; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 353 complete; V02 remains open
+
+S353 started 2026-10-02 03:03:24 UTC from S352 commit `4f0e2d50a80de1ecad3b0c6ad0b1507ed083fc69` (`Slice 352: retain Polo POM label holds`) on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The board at S353 start was revision 1392; start packet/evidence was recorded at revisions 1393–1397. Packet: `docs/research/epic17/G04-V02-POLO-CAP-ARMHOLE-VIEW-PROJECTION-S353.md`.
+
+S353 implemented the maintainer-approved `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH` view-only normalized-arclength projection for Polo's sleeve cap: front `sleeve.capLeft` to `front.armhole`, back `sleeve.capRight` to `back.armhole`, underarm to shoulder. Cut geometry, source stitch/ease graph, source edge lengths, rigid assembly solver and 0.25 cm residual gate remain unchanged. All 17 exact configurations / 34 diagnostic face renders have two receiving-armhole seam paths, zero visible sleeve-cap edge references, two same-revision receiving-armhole source references, and zero mapping, fill-closure, transform or SVG-render errors. Direct diagnostic outputs are visibly labelled held and are not production acceptance evidence.
+
+The rebuilt production UI replay emitted 0/34 SVGs and visibly held all 34 faces on the recurring 0.68 cm `Sleeve-cap ease` endpoint residual above the 0.25 cm gate. Front faces retain 34 POM label blockers across the 17 options (17 each for `Finished collar stand height` and `Stand front rise`). The prior 17 back `Sleeve bicep width` label issues no longer appear in the current replay; this clears that label issue only and does not release any face. Browser/page/request errors: 0. Manual review covered default front/back, maximum stand-height front/back, and collar-leaf-depth minimum front / maximum back. The mapped armhole contour is represented once per mirrored body side; no wrong join, seam crossing, or fill-closure gap was visible at that boundary. Neck/shoulder annotations remain crowded, and front POM labels remain held. Integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+Focused suites pass 92/92 with 100% statement, branch, function and line coverage for all three changed production modules; `npx tsc --noEmit` and `npm run build` pass (existing Vite chunk advisory). Validated board revisions 1398–1402 link the packet and rendered matrices to G04-V02 and EPIC-17. No export/DXF code, protected identity, baseline, solver threshold, pattern geometry, or stitch graph changed. MQF-004–007, MQF-011 and MQF-012 remain **To be reviewed** at the G04 rendered-output exit; MQF-015 remains applicable to V03. Post-G17 deferrals are unchanged. S353 elapsed wall time was about 30 minutes: implementation 11m, focused tests/type/build 7m, browser replay/visual review 11m, docs/board 1m, external-agent waits 0m, maintainer-decision wait 0m. No safe independent delegation was used.
+
+**Next action:** S354 refreshes Git, unique slice and board state; reads `docs/planning/UI-ENHANCEMENT-SEQUENCE.md` and `UI-ENHANCEMENT-EPIC17-NOTE.md` alongside the current admission packet, state and board; reconciles recommendations against G04 without duplicating renderers or changing gates; preflights/replays the supplied board commands through the validated command layer while skipping identical entries; and queues independent UI packages outside EPIC-17's critical path without authorizing implementation. Keep every current G04 hold and the V02-before-V03 gate.
+
+## EPIC-17 / G04 previous handoff — Slice 351 complete; V02 remains open
 
 S351 started 2026-10-02 02:05 UTC from S350 `aaa12c32f901cbcf1b2255cd6069f31ca3a9aa23` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 350; S351 is reserved. Board revision 1365 linked S350 exit; validated S351 start evidence/comment are at revisions 1366–1367. Usage at start: primary 12%, weekly 22% informational. Packet: `docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md`.
 
@@ -5766,6 +5778,8 @@ cap-to-armhole seam projection on 2026-10-02; it is recorded in
 
 Slice 352 closed from
 `docs/research/epic17/G04-V02-POLO-ROUTED-POM-LAYOUT-EXPERIMENT-S352.md`.
+It landed as `4f0e2d50a80de1ecad3b0c6ad0b1507ed083fc69` (`Slice 352: retain
+Polo POM label holds`).
 Its bounded external rail test tried 20 paths for each of the 51 recurring
 Polo label blockers against exact browser-rendered source strokes and existing
 label boxes. No route passed; the back bicep label also intersects an existing
@@ -5773,10 +5787,15 @@ label in all 17 configurations. Diagnostic SVG/PNG output is in
 `docs/research/epic17/S352-polo-pom-routing/`. All 34 Polo faces remain held.
 Board revision 1392 links S352's exit, route matrix and 34-view render manifest
 to G04-V02 and EPIC-17. Control Center tests pass 33/33; `git diff --check`
-passes. The approved cap-to-armhole view-only mapping remains unimplemented
-and is the next bounded
-production slice. Preserve every unresolved hold and keep V03 gated until the
-all-seven V02 matrix passes.
+passes.
+
+Slice 353 is active from
+`docs/research/epic17/G04-V02-POLO-CAP-ARMHOLE-VIEW-PROJECTION-S353.md` to
+implement only the already approved view-only mapping. The exact decision ID
+is `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH`. Recheck all 17 Polo configurations
+and 34 faces; preserve all holds because the 0.68 cm residual and label
+blockers remain. Keep V03 gated until every all-seven V02 acceptance gate
+passes.
 
 S295 maps only source-declared Woven back/yoke center folds. S296 confirms the
 Fairfield attachment/ease tutorial does not identify the exact current-pattern

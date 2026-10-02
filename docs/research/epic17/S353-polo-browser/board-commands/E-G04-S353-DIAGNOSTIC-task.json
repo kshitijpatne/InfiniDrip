@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "Held-only diagnostic replay of all 17 Polo options / 34 faces. Each revision-bound render has two receiving armhole seam paths, no sleeve-cap edge references, valid projected colorway closures, and zero mapping/transform/SVG errors; SVG/PNG artifacts carry a diagnostic hold banner.",
+    "kind": "rendered-output",
+    "id": "E-G04-S353-DIAGNOSTIC",
+    "uri": "docs/research/epic17/S353-polo-browser/current-render-diagnostic-matrix.json",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

@@ -86,7 +86,8 @@ export interface FlatProjectionViewBoundary {
   readonly fillOnlyColorway?: {
     readonly source: "MAINTAINER_VIEW_DECISION";
     readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S321-COLLAR-EXTERIOR-ARCLENGTH"
-      | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" | "G04-S321-WOVEN-CLOSURE-A";
+      | "G04-S333-POLO-SLEEVE-VIEW-MAP" | "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR" | "G04-S321-WOVEN-CLOSURE-A"
+      | "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH";
   };
 }
 
@@ -131,6 +132,20 @@ export interface FlatProjectionWovenSleeveCapRepresentation {
   readonly layer: "SEAM";
 }
 
+/** The approved Polo eased-cap depiction replaces each displayed sleeve-cap
+ * half with its receiving body armhole contour. Normalized arclength is a
+ * view correspondence only; source lengths and stitch/ease data stay intact. */
+export interface FlatProjectionPoloSleeveCapRepresentation {
+  readonly decisionId: "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH";
+  readonly stitchLabel: "Sleeve-cap ease";
+  readonly capEdgeId: "capLeft" | "capRight";
+  readonly visibleBodyRole: "front" | "back";
+  readonly visibleBodyEdge: "armhole";
+  readonly transfer: "NORMALIZED_ARCLENGTH";
+  readonly stations: readonly ["UNDERARM", "SHOULDER"];
+  readonly layer: "SEAM";
+}
+
 export interface FlatProjectionRole {
   readonly roleId: string;
   /** A logical garment-component identity shared by its front/back projections. */
@@ -151,6 +166,7 @@ export interface FlatProjectionRole {
   readonly localYReflection?: FlatProjectionLocalYReflection;
   readonly viewSeamRepresentation?: FlatProjectionViewSeamRepresentation;
   readonly wovenSleeveCapRepresentation?: FlatProjectionWovenSleeveCapRepresentation;
+  readonly poloSleeveCapRepresentation?: FlatProjectionPoloSleeveCapRepresentation;
   /** View-only closure for a face segment; it is not a drafted cut or seam edge. */
   readonly viewBoundaries?: readonly FlatProjectionViewBoundary[];
 }
@@ -213,6 +229,36 @@ function wovenFrontPairAxis(piece: Piece): Edge | undefined {
   return points.every((point) => point.x >= 0) ? edge : undefined;
 }
 
+function poloSleeveCapRepresentation(
+  kind: TechnicalFlatViewKind, block: Block,
+): FlatProjectionPoloSleeveCapRepresentation | undefined {
+  const matches = block.stitches.filter((candidate) => candidate.label === "Sleeve-cap ease");
+  const stitch = matches[0];
+  const sleeve = block.roles.sleeve;
+  const bodyRole = kind === "FRONT_FLAT" ? "front" : "back";
+  const capEdgeId = kind === "FRONT_FLAT" ? "capLeft" : "capRight";
+  const capLeft = sleeve?.edges.find((edge) => edge.name === "capLeft");
+  const capRight = sleeve?.edges.find((edge) => edge.name === "capRight");
+  const sideLeft = sleeve?.edges.find((edge) => edge.name === "sideLeft");
+  const sideRight = sleeve?.edges.find((edge) => edge.name === "sideRight");
+  const bodyArmhole = block.roles[bodyRole]?.edges.find((edge) => edge.name === "armhole");
+  const exactRefs = (refs: readonly InterfaceRef[] | undefined, expected: readonly [string, string][]) =>
+    refs?.length === expected.length && refs.every((ref, index) => "edge" in ref
+      && ref.piece === expected[index]?.[0] && ref.edge === expected[index]?.[1] && !ref.reversed);
+  const cap = capEdgeId === "capLeft" ? capLeft : capRight;
+  if (matches.length !== 1 || !stitch
+    || !exactRefs(stitch.a.edges, [["sleeve", "capLeft"], ["sleeve", "capRight"]])
+    || !exactRefs(stitch.b.edges, [["front", "armhole"], ["back", "armhole"]])
+    || capLeft?.kind !== "curve" || capRight?.kind !== "curve" || sideLeft?.kind !== "line"
+    || sideRight?.kind !== "line" || bodyArmhole?.kind !== "curve" || !cap || cap.kind !== "curve"
+    || !(edgeLength(cap) > 0) || !(edgeLength(bodyArmhole) > 0)
+    || !samePoint(capLeft.curve.start, sideLeft.end) || !samePoint(capLeft.curve.end, capRight.curve.start)
+    || !samePoint(capRight.curve.end, sideRight.start)) return undefined;
+  return { decisionId: "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH", stitchLabel: "Sleeve-cap ease",
+    capEdgeId, visibleBodyRole: bodyRole, visibleBodyEdge: "armhole", transfer: "NORMALIZED_ARCLENGTH",
+    stations: ["UNDERARM", "SHOULDER"], layer: "SEAM" };
+}
+
 function pairedSleeveProjection(
   kind: TechnicalFlatViewKind, block: Block, treatment: FlatRoleTreatment,
   decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP",
@@ -226,6 +272,8 @@ function pairedSleeveProjection(
   const leftSide = piece.edges.find((edge) => edge.name === "sideLeft");
   const rightSide = piece.edges.find((edge) => edge.name === "sideRight");
   const hem = piece.edges.find((edge) => edge.name === "hem");
+  const poloCapRepresentation = decisionId === "G04-S333-POLO-SLEEVE-VIEW-MAP"
+    ? poloSleeveCapRepresentation(kind, block) : undefined;
   const stitch = block.stitches.filter((candidate) => candidate.label === "Sleeve-cap ease");
   const exactStitch = stitch.length === 1
     && stitch[0]!.a.edges.length === 2 && stitch[0]!.b.edges.length === 2
@@ -240,7 +288,8 @@ function pairedSleeveProjection(
     && samePoint(capLeft.curve.start, leftSide.end)
     && samePoint(leftSide.start, hem.end)
     && samePoint(hem.start, rightSide.end)
-    && samePoint(rightSide.start, capRight.curve.end);
+    && samePoint(rightSide.start, capRight.curve.end)
+    && (decisionId !== "G04-S333-POLO-SLEEVE-VIEW-MAP" || !!poloCapRepresentation);
   const reason = "The approved front/back sleeve projection requires the current ordered cap edges, straight hem and exact sewn-to on-fold body center axis.";
   const endpoint = (edgeId: string, value: "start" | "end"): FlatProjectionLandmark => ({ kind: "edge-endpoint", edgeId, endpoint: value });
   const midpoint: FlatProjectionLandmark = { kind: "edge-arclength", edgeId: "hem", fraction: 0.5 };
@@ -269,7 +318,8 @@ function pairedSleeveProjection(
       from: midpoint,
       to: endpoint(kind === "FRONT_FLAT" ? "capLeft" : "capRight", kind === "FRONT_FLAT" ? "end" : "start"),
       fillOnlyColorway: { source: "MAINTAINER_VIEW_DECISION" as const,
-        decisionId },
+        decisionId: decisionId === "G04-S333-POLO-SLEEVE-VIEW-MAP"
+          ? "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH" as const : decisionId },
     }] } : {}),
     ...(valid ? { viewPairReflection: {
       axisRoleId, edgeId: axis!.name as "centerFront" | "centerBack", axis: "ASSEMBLED_BODY_CENTER" as const,
@@ -283,6 +333,7 @@ function pairedSleeveProjection(
       axis: "LOCAL_Y" as const, basis: "APPROVED_VIEW_CONVENTION" as const,
       decisionId,
     } } : {}),
+    ...(valid && poloCapRepresentation ? { poloSleeveCapRepresentation: poloCapRepresentation } : {}),
   };
 }
 
@@ -1476,6 +1527,24 @@ function validateRole(
         message: "Woven sewn-edge traversal requires exact source endpoint ordering for sleeve-cap, neckline and yoke-seam placement." });
     }
   }
+  const requiresPoloSleeveCapRepresentation = recipeId === "polo" && roleId === "sleeve";
+  if (requiresPoloSleeveCapRepresentation || mappingRole.poloSleeveCapRepresentation !== undefined) {
+    const actual = mappingRole.poloSleeveCapRepresentation;
+    const expected = requiresPoloSleeveCapRepresentation ? poloSleeveCapRepresentation(faceKind, block) : undefined;
+    const expectedCap = faceKind === "FRONT_FLAT" ? "capLeft" : "capRight";
+    const expectedBody = faceKind === "FRONT_FLAT" ? "front" : "back";
+    const exact = isRecord(actual) && Object.keys(actual).length === 8
+      && actual.decisionId === "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH"
+      && actual.stitchLabel === "Sleeve-cap ease" && actual.capEdgeId === expectedCap
+      && actual.visibleBodyRole === expectedBody && actual.visibleBodyEdge === "armhole"
+      && actual.transfer === "NORMALIZED_ARCLENGTH" && actual.layer === "SEAM"
+      && Array.isArray(actual.stations) && actual.stations.length === 2
+      && actual.stations[0] === "UNDERARM" && actual.stations[1] === "SHOULDER";
+    if (!requiresPoloSleeveCapRepresentation || !exact || !expected) {
+      issues.push({ code: "INVALID_VIEW_SEAM_REPRESENTATION", sourceId,
+        message: "The approved Polo cap projection requires the exact same-revision Sleeve-cap ease stitch, cap half, receiving armhole, normalized underarm-to-shoulder transfer, and SEAM layer." });
+    }
+  }
   const requiresWovenSleeveCapRepresentation = recipeId === "woven-shirt" && roleId === "sleeve";
   if (requiresWovenSleeveCapRepresentation || mappingRole.wovenSleeveCapRepresentation !== undefined) {
     const actual = mappingRole.wovenSleeveCapRepresentation;
@@ -1719,7 +1788,7 @@ function validateRole(
           const poloSleeveBoundary = recipeId === "polo" && roleId === "sleeve"
             && boundary.id === "approved-sleeve-area-closure" && isRecord(fillOnly)
             && fillOnly.source === "MAINTAINER_VIEW_DECISION"
-            && fillOnly.decisionId === "G04-S333-POLO-SLEEVE-VIEW-MAP"
+            && fillOnly.decisionId === "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH"
             && isRecord(boundary.from) && boundary.from.kind === "edge-arclength"
             && boundary.from.edgeId === "hem" && boundary.from.fraction === 0.5
             && isRecord(boundary.to) && boundary.to.kind === "edge-endpoint"

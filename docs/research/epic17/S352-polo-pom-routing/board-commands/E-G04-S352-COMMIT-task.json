@@ -1,0 +1,11 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "note": "Landed S352 bounded external-rail investigation at 4f0e2d50a80de1ecad3b0c6ad0b1507ed083fc69; it preserves all 34 Polo holds.",
+    "kind": "commit",
+    "id": "E-G04-S352-COMMIT",
+    "uri": "4f0e2d50a80de1ecad3b0c6ad0b1507ed083fc69",
+    "verified": true
+  },
+  "itemId": "G04-V02"
+}

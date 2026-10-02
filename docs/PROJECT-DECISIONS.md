@@ -1045,6 +1045,6 @@ pass, and preserve any other Woven hold.
 
 ## EPIC-17 / G04 — Polo sleeve-cap view-only seam projection (S352)
 
-- On 2026-10-02, the maintainer approved the S351 proposal to map `sleeve.capLeft` to `front.armhole` and `sleeve.capRight` to `back.armhole` by normalized arclength, from underarm station to shoulder station, for the assembled seam depiction.
+- Decision ID: `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH`. On 2026-10-02, the maintainer approved the S351 proposal to map `sleeve.capLeft` to `front.armhole` and `sleeve.capRight` to `back.armhole` by normalized arclength, from underarm station to shoulder station, for the assembled seam depiction.
 - This is a view-only convention for displaying the eased seam on the receiving armhole contour. Preserve the sleeve and body cut outlines, source stitch graph, source ease, solver behavior, and the 0.25 cm assembly-residual gate. It does not assert that the projected contours are physically equal in length or that the source encodes an easing distribution.
 - Keep all 34 Polo faces held until exact revision and option-matrix checks validate joins, crossings, overlap, callout readability, and rendered output for all 17 supported configurations. The decision accepts no face and does not relax G04's all-seven-recipe V02 criterion or the V02-before-V03 dependency.

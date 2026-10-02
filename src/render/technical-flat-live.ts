@@ -176,6 +176,69 @@ export function projectWovenSleeveFillClosures(transformed: TechnicalFlatPrimiti
 
   return closureIssues;
 }
+
+/** Close the Polo reflected sleeve colorway contours on the exact receiving
+ * armhole shoulder stations chosen by its normalized-arclength view map. The
+ * pattern cap endpoint and receiving endpoint may differ because of ease. */
+export function projectPoloSleeveFillClosures(
+  transformed: TechnicalFlatPrimitive[], revisionId: string,
+): TechnicalFlatLiveIssue[] {
+  const issues: TechnicalFlatLiveIssue[] = [];
+  const seamPaths = transformed.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+    primitive.kind === "path" && primitive.id.includes(":view-seam:polo-sleeve-cap:"));
+  const closures = transformed.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+    primitive.kind === "path" && primitive.colorwayBoundaryOnly === true
+      && primitive.id.includes(":view-boundary:approved-sleeve-area-closure")
+      && primitive.source.sourceId.includes("G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH"));
+  const sleeveOutlines = transformed.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+    primitive.kind === "path" && primitive.id.includes(":component:sleeve:outline"));
+  const endpoints = (primitive: Extract<TechnicalFlatPrimitive, { kind: "path" }>) => {
+    const first = primitive.commands.find((command) => command.op === "move");
+    const last = primitive.commands[primitive.commands.length - 1];
+    return first?.op === "move" && last && last.op !== "close"
+      ? [first.point, last.point] as const : undefined;
+  };
+  const usedSeams = new Set<string>();
+  for (const closure of closures) {
+    const start = closure.commands.find((command) => command.op === "move");
+    const last = closure.commands[closure.commands.length - 1];
+    if (start?.op !== "move" || last?.op !== "line") {
+      issues.push({ stage: "transform", sourceId: closure.source.sourceId,
+        message: "The approved Polo sleeve colorway closure must have exact hem and shoulder endpoints." });
+      continue;
+    }
+    const outline = sleeveOutlines.find((candidate) => {
+      const ends = endpoints(candidate);
+      return !!ends && ends.some((point) => Math.hypot(point.x - start.point.x, point.y - start.point.y) <= 1e-6);
+    });
+    if (!outline || closure.source.revisionId !== revisionId) {
+      issues.push({ stage: "transform", sourceId: closure.source.sourceId,
+        message: "The approved Polo sleeve colorway closure has no exact same-revision reflected sleeve contour." });
+      continue;
+    }
+    const candidates = seamPaths.flatMap((seam) => {
+      const ends = endpoints(seam);
+      return seam.source.revisionId === revisionId && ends
+        ? [{ seam, shoulder: ends[0], distance: Math.hypot(ends[0].x - last.point.x, ends[0].y - last.point.y) }] : [];
+    }).sort((a, b) => a.distance - b.distance);
+    const nearest = candidates[0];
+    if (!nearest || usedSeams.has(nearest.seam.id)
+      || (candidates[1] && Math.abs(candidates[1].distance - nearest.distance) <= 1e-7)) {
+      issues.push({ stage: "transform", sourceId: closure.source.sourceId,
+        message: "The approved Polo sleeve colorway closure does not resolve one unique receiving armhole shoulder station." });
+      continue;
+    }
+    usedSeams.add(nearest.seam.id);
+    transformed[transformed.indexOf(closure)] = { ...closure,
+      commands: [...closure.commands.slice(0, -1), { op: "line", point: nearest.shoulder }] };
+  }
+  if (closures.length !== 2 || seamPaths.length !== 2 || usedSeams.size !== seamPaths.length) {
+    issues.push({ stage: "transform", sourceId: "view:polo:sleeve:cap-armhole-closure",
+      message: "The approved Polo sleeve colorway projection requires two exact reflected sleeve closures and receiving armhole contours." });
+  }
+  return issues;
+}
+
 /** Add approved Polo dimension references after same-face assembly transforms are known. */
 export function mapPoloDimensionCallouts(block: Block, kind: TechnicalFlatViewKind,
   poms: readonly Pom[], callouts: readonly FlatCalloutPrimitive[], transforms: Readonly<Record<string, FlatRoleTransform>>) {
@@ -593,6 +656,10 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     }
   }
   if (recipe.name === "woven-shirt" && approvedWovenSleeveCap) issues.push(...projectWovenSleeveFillClosures(transformed));
+  const approvedPoloSleeveCap = recipe.name === "polo"
+    && projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .some((role) => role.roleId === "sleeve" && role.poloSleeveCapRepresentation !== undefined);
+  if (approvedPoloSleeveCap) issues.push(...projectPoloSleeveFillClosures(transformed, input.revisionId));
   if (!mapping || !face) issues.push({ stage: "geometry", sourceId: recipe.name,
     message: `Recipe “${recipe.label}” has no admitted ${kind === "FRONT_FLAT" ? "front" : "back"} flat mapping.` });
   if (issues.length > 0 || !overlayFace || poms.callouts === null) return { view: null, colorway: null, issues };

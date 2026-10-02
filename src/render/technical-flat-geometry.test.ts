@@ -71,6 +71,39 @@ function projectionMap(recipeId: string, block: Block): TechnicalFlatProjectionM
 }
 
 describe("technical-flat source geometry", () => {
+  it("replaces Polo cap strokes with the exact receiving armhole seam across all supported option endpoints", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const endpointOptions = [undefined, ...(recipe.options ?? []).flatMap((option) => [option.min, option.max]
+      .map((value) => ({ [option.id]: value })))];
+    expect(endpointOptions).toHaveLength(17);
+    for (const options of endpointOptions) {
+      const block = recipe.draft(STANDARD_M, { ...defaultGarmentOptions(recipe.options ?? []), ...options });
+      const original = structuredClone(block);
+      const mapping = createG04TechnicalFlatProjectionMap("polo", block, revisionId)!;
+      for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+        const result = compileTechnicalFlatSourceGeometry("polo", block, revisionId, kind, mapping);
+        expect(result.issues, JSON.stringify(options)).toEqual([]);
+        const cap = kind === "FRONT_FLAT" ? "capLeft" : "capRight";
+        const bodyRole = kind === "FRONT_FLAT" ? "front" : "back";
+        const seamId = `flat:polo:${kind}:view-seam:polo-sleeve-cap:${bodyRole}:armhole`;
+        const seam = result.primitives.filter((primitive) => primitive.kind === "path" && primitive.id === seamId);
+        expect(seam).toHaveLength(1);
+        expect(seam[0]).toMatchObject({ layer: "SEAM", feature: "seam", source: {
+          revisionId, sourceId: `pattern:polo:role:${bodyRole}:edge:armhole`,
+        } });
+        const sleeveOutline = result.primitives.find((primitive) => primitive.kind === "path"
+          && primitive.id === `flat:polo:${kind}:component:sleeve:outline`);
+        expect(sleeveOutline?.kind === "path" && sleeveOutline.sourceEdgeIds?.some((id) => id.endsWith(`:edge:${cap}`))).toBe(false);
+        const bodyOutline = result.primitives.find((primitive) => primitive.kind === "path"
+          && primitive.id === `flat:polo:${kind}:component:${bodyRole}:outline`);
+        expect(bodyOutline?.kind === "path" && bodyOutline.sourceEdgeIds?.some((id) => id.endsWith(":edge:armhole"))).toBe(false);
+        expect(result.primitives.filter((primitive) => primitive.kind === "path" && primitive.layer === "SEAM"
+          && primitive.id.includes(":view-seam:polo-sleeve-cap:"))).toHaveLength(1);
+      }
+      expect(block).toEqual(original);
+    }
+  });
+
   it("emits the approved Woven base seam once from the body edge and retains both source fill boundaries", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const source = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
