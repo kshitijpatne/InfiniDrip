@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 1995,
-  "updatedAt": "2026-10-02T22:37:03.998Z",
+  "revision": 2007,
+  "updatedAt": "2026-10-02T22:47:47.960Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -500,7 +500,10 @@
         "E-G04-S383-MATRIX",
         "E-G04-S384-EXIT",
         "E-G04-S384-MATRIX",
-        "E-G04-S384-RENDERED"
+        "E-G04-S384-RENDERED",
+        "E-G04-S385-EXIT",
+        "E-G04-S385-MATRIX",
+        "E-G04-S385-UI-RECONCILIATION"
       ]
     },
     {
@@ -4218,7 +4221,10 @@
         "E-G04-S383-MATRIX",
         "E-G04-S384-EXIT",
         "E-G04-S384-MATRIX",
-        "E-G04-S384-RENDERED"
+        "E-G04-S384-RENDERED",
+        "E-G04-S385-EXIT",
+        "E-G04-S385-MATRIX",
+        "E-G04-S385-UI-RECONCILIATION"
       ],
       "flagKey": null
     },
@@ -8076,6 +8082,16 @@
           "at": "2026-10-02T22:37:03.998Z",
           "actor": "Codex",
           "text": "S384 traced each proposed Polo key against exact S380 source paths and source topology. Source-authored attachmentLine/front-slit relations are separated from E's unrelated reinforcement-fold coincidence and I's distinct on-fold marks. Open rings preserve source strokes but leave E/H/I overlay/crowding questions and the independent 0.68 cm residual. No production change, V02 pass or hold release; all 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-02T22:41:42.618Z",
+          "actor": "Codex",
+          "text": "S385 starts from the verified S384 boundary. Scope is one source-bound 17-option Polo blocker consolidation using S380 actual output and S382/S384 evidence, plus a duplicate-aware check of the already approved UI planning. No production mapping, gate, UI dependency, or hold change is authorized."
+        },
+        {
+          "at": "2026-10-02T22:47:47.960Z",
+          "actor": "Codex",
+          "text": "S385 consolidates the exact 17 current Polo options against S378/S380 actual renderer evidence. The approved C marker clears only its two original local text collisions; ten other POMs still fail path clearance in all options, and the 0.68 cm sleeve-cap residual still exceeds the fixed 0.25 cm gate. The open keyed candidate contacts named geometry at source stations; no marker implementation or face acceptance is approved. UIQ backlog/dependency structure is unchanged (29 exact duplicate commands skipped). Preserve all holds and all-seven V02."
         }
       ],
       "evidenceRefs": [
@@ -8496,7 +8512,11 @@
         "E-G04-S384-START",
         "E-G04-S384-EXIT",
         "E-G04-S384-MATRIX",
-        "E-G04-S384-RENDERED"
+        "E-G04-S384-RENDERED",
+        "E-G04-S385-START",
+        "E-G04-S385-EXIT",
+        "E-G04-S385-MATRIX",
+        "E-G04-S385-UI-RECONCILIATION"
       ],
       "flagKey": null
     },
@@ -13829,6 +13849,42 @@
       "sha256": null,
       "verified": true,
       "note": "Actual-renderer open-ring comparison; all four S380 configurations preserve source paths and show no browser errors."
+    },
+    {
+      "id": "E-G04-S385-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S385-polo-blocker-decision-consolidation/G04-V02-POLO-BLOCKER-DECISION-CONSOLIDATION-S385.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S385 consolidates source/POM/path identities from the exact 17 current S380 Polo option outputs and selectively revalidates approved UI planning with identity-aware command skipping; all holds and gates remain."
+    },
+    {
+      "id": "E-G04-S385-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S385-polo-blocker-decision-consolidation/G04-V02-POLO-BLOCKER-DECISION-CONSOLIDATION-S385.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S385 consolidates current 17-option Polo callout path failures, keyed-station source topology and the independent unchanged sleeve residual; UI command replay skipped exact duplicates; all holds remain."
+    },
+    {
+      "id": "E-G04-S385-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S385-polo-blocker-decision-consolidation/consolidated-polo-blockers.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Joined per-option POM/target/leader/path identities, S378/S380 actual-renderer comparison, S384 anchor incidence and current residual; asserts 10 path blockers in every Polo option."
+    },
+    {
+      "id": "E-G04-S385-UI-RECONCILIATION",
+      "kind": "document",
+      "uri": "docs/research/epic17/S385-polo-blocker-decision-consolidation/ui-board-reconciliation.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 29 additive UI commands match existing canonical identities/content and are skipped; no UI implementation or G04 dependency added."
     }
   ]
 }

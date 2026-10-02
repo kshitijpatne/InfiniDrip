@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":1995,"itemId":"G04-V02","evidence":{"id":"E-G04-S385-START","kind":"document","uri":"docs/research/epic17/S385-polo-blocker-decision-consolidation/G04-V02-POLO-BLOCKER-DECISION-CONSOLIDATION-S385.md","verified":true,"note":"S385 consolidates source/POM/path identities from the exact 17 current S380 Polo option outputs and selectively revalidates approved UI planning with identity-aware command skipping; all holds and gates remain."}},
+  {"type":"addComment","expectedRevision":1996,"itemId":"G04-V02","actor":"Codex","text":"S385 starts from the verified S384 boundary. Scope is one source-bound 17-option Polo blocker consolidation using S380 actual output and S382/S384 evidence, plus a duplicate-aware check of the already approved UI planning. No production mapping, gate, UI dependency, or hold change is authorized."}
+]
