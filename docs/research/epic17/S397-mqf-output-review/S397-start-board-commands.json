@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2202,"itemId":"G04-V02","evidence":{"id":"E-G04-S397-START","kind":"document","uri":"docs/research/epic17/S397-mqf-output-review/G04-V02-MANUAL-FINDINGS-OUTPUT-REVIEW-S397.md","verified":true,"note":"Starts a bounded evidence-only MQF-004–007/011/012/015 review against S394 production Polo output and S396 diagnostic Woven output. No finding status, hold or G04 gate changes."}},
+  {"type":"addEvidence","expectedRevision":2203,"itemId":"EPIC-17","evidenceId":"E-G04-S397-START"}
+]

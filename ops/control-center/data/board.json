@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2202,
-  "updatedAt": "2026-10-03T05:29:59.362Z",
+  "revision": 2209,
+  "updatedAt": "2026-10-03T05:41:26.414Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -551,7 +551,8 @@
         "E-G04-S395-EXIT",
         "E-G04-S396-START",
         "E-G04-S396-MATRIX",
-        "E-G04-S396-EXIT"
+        "E-G04-S396-EXIT",
+        "E-G04-S397-EXIT"
       ]
     },
     {
@@ -3993,6 +3994,11 @@
           "at": "2026-10-03T04:01:16.405Z",
           "actor": "Codex",
           "text": "S392 read-only reconciliation is complete. G04 V02 remains open with all-seven recipe acceptance and V02-before-V03 unchanged; no source, POM, view mapping, threshold, export identity or face acceptance changed."
+        },
+        {
+          "at": "2026-10-03T05:41:26.414Z",
+          "actor": "Codex",
+          "text": "G04 manual findings were reviewed at S397 against actual retained output. No finding was closed and no acceptance/hold changed; MQF-015 remains gated for V03."
         }
       ],
       "evidenceRefs": [
@@ -4365,7 +4371,9 @@
         "E-G04-S395-EXIT",
         "E-G04-S396-START",
         "E-G04-S396-MATRIX",
-        "E-G04-S396-EXIT"
+        "E-G04-S396-EXIT",
+        "E-G04-S397-START",
+        "E-G04-S397-EXIT"
       ],
       "flagKey": null
     },
@@ -8343,6 +8351,11 @@
           "at": "2026-10-03T05:29:59.362Z",
           "actor": "Codex",
           "text": "S396 finds a common source-line-preserving W marker candidate across all 28 Woven options: exact anchored 0.22 cm open ring painted beneath source strokes, with only the W glyph moved (+0.2121,+0.2121 cm). Minimum measured clearances are 0.07939 cm to source paths and 0.02914 cm to an existing label; all 28 schedules and colorways remain. The exact production presentation is proposed for maintainer approval; all 56 Woven/34 Polo faces remain held and V02 stays open."
+        },
+        {
+          "at": "2026-10-03T05:41:26.377Z",
+          "actor": "Codex",
+          "text": "S397 reviewed MQF-004–007, MQF-011/012 and MQF-015 against S394 production H output and S396 diagnostic W output. The evidence is partial for keyed POM anchoring/readability and does not establish accepted construction/artwork/CAD coverage; all findings remain To be reviewed at their applicable exits. MQF-011/012 post-G17 deferrals, MQF-015 V03 rights/round-trip gate, all 56 Woven/34 Polo holds, all-seven V02 and V02-before-V03 remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -8835,7 +8848,9 @@
         "E-G04-S396-W-DEFAULT",
         "E-G04-S396-W-LIMIT",
         "E-G04-S396-W-SCHEDULE",
-        "E-G04-S396-EXIT"
+        "E-G04-S396-EXIT",
+        "E-G04-S397-START",
+        "E-G04-S397-EXIT"
       ],
       "flagKey": null
     },
@@ -14816,6 +14831,24 @@
       "sha256": null,
       "verified": true,
       "note": "S396 exact-option line-preserving W marker diagnosis, nine-offset measurements, selected southeast glyph placement and output review. The production view convention is proposed for maintainer approval; no production change or V02 acceptance."
+    },
+    {
+      "id": "E-G04-S397-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S397-mqf-output-review/G04-V02-MANUAL-FINDINGS-OUTPUT-REVIEW-S397.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded evidence-only MQF-004–007/011/012/015 review against S394 production Polo output and S396 diagnostic Woven output. No finding status, hold or G04 gate changes."
+    },
+    {
+      "id": "E-G04-S397-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S397-mqf-output-review/G04-V02-MANUAL-FINDINGS-OUTPUT-REVIEW-S397.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Finding-by-finding evidence review of MQF-004–007, MQF-011/012 and MQF-015 against S394/S396 actual output. Findings remain To be reviewed at applicable exits; MQF-011/012 post-G17 deferrals, MQF-015 V03 gate, all face holds and G04 gates are unchanged."
     }
   ]
 }

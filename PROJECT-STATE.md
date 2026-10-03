@@ -1,6 +1,6 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 396 complete; Woven W marker approval pending; V02 remains open
+## EPIC-17 / G04 current work — Slice 397 complete; Woven W marker approval pending; V02 remains open
 
 S395 closed at `dbaf54d5b07a9ef0fce4cb9415b74fd834aa59f8` (`Slice 395: diagnose Woven placket marker feasibility`). S396 began from that clean commit on `codex/epic-17-g04`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revision 2188 recorded S395 exit; validated S396 start and exit replays advanced it through 2192 to 2202. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal check at the S395 boundary returned `active`, with an objective matching admitted EPIC-17; it remains needed and unchanged.
 
@@ -8,7 +8,11 @@ S395 rejected its source-centered 0.22 cm W ring when painted above paths becaus
 
 All 56 Woven and 34 Polo views remain held, including the continuous Woven back-hem crossing and Polo's 0.68 cm residual against 0.25 cm. Preserve all-seven V02, V02-before-V03, DXF and protected export identity gates. S395 packet/evidence: `docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/`. S396 packet and rendered evidence: `docs/research/epic17/S396-woven-marker-line-preservation/`.
 
-**Next action:** obtain a decision on the exact source-line-preserving W marker presentation before implementation; meanwhile, maintain all holds and continue independent G04 blocker work.
+S397 started from clean S396 `bcd9764041f4ccb4b96cffa211f81eac3466e3f2`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S397 uniquely follows highest assigned S396. Validated board start/exit replays advanced revision 2202 to 2204 and 2209. It reviewed MQF-004–007, MQF-011/012 and MQF-015 against S394 production Polo H output and S396 diagnostic Woven output. Exact POM anchoring/readability is partially evidenced; accepted construction views, broad key/annotation, artwork, collar and CAD coverage are not established. Every finding remains **To be reviewed** at the applicable exit. MQF-011/012 post-G17 deferrals and MQF-015's V03 review gate are preserved. Full evidence-by-finding: `docs/research/epic17/S397-mqf-output-review/G04-V02-MANUAL-FINDINGS-OUTPUT-REVIEW-S397.md`. Landed commit: `faeffbed58f0ce2e6480866dfe143ab687cb1b90`.
+
+The S396 W presentation remains a diagnostic proposal awaiting exact maintainer approval; it is not production output. S394's separately approved Polo H glyph offset `(+0.45,+0.45 cm)` is implemented and verified across all 17 options. All 56 Woven and 34 Polo views remain held, including the continuous Woven back-hem crossing and Polo's 0.68 cm residual against 0.25 cm. Preserve all-seven V02, V02-before-V03, DXF and protected export identity gates. `npm run control-center:test` passes 42/42; `git diff --check` passes. No production code changed, so global/production gates remain due at the settled candidate.
+
+**Next action:** continue repeated cross-option V02 callout/topology blockers in a fresh uniquely numbered slice. Implement the W presentation only after exact approval, and retain every hold.
 
 ## Prior boundary — Slice 394 exit; Polo H offset verified; V02 remains open
 
