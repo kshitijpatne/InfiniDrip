@@ -751,6 +751,45 @@ describe("renderTechnicalFlatSvg", () => {
     expect(leader.svg).toContain('data-label-for="leader-callout"');
   });
 
+  it("reflows a source mark label around a keyed marker without changing either source identity", () => {
+    const buttonSource = { ...source, sourceId: "pattern:polo:mark:buttonPlacket:button-1" };
+    const button: TechnicalFlatPrimitive = { kind: "mark", id: "button-1", layer: "CLOSURE", feature: "closure",
+      source: buttonSource, markKind: "button", markName: "button-1", at: { x: 5, y: 5 }, label: "BUTTON" };
+    const fold: TechnicalFlatPrimitive = { kind: "path", id: "placket-fold", layer: "ANNOTATION", feature: "annotation",
+      source: { ...source, sourceId: "pattern:polo:mark:buttonPlacket:placketFold" },
+      commands: [{ op: "move", point: { x: 6.1, y: 4 } }, { op: "line", point: { x: 6.1, y: 8 } }],
+      patternMark: { kind: "foldLine", name: "placket fold" } };
+    const spacing: TechnicalFlatPrimitive = { kind: "callout", id: "button-spacing", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:polo:button-spacing" }, text: "Button spacing: 3.5 cm (±0.1 cm)",
+      anchor: { primitiveId: "button-1", point: { x: 5, y: 5 }, sourceEntityId: buttonSource.sourceId },
+      labelAt: { x: 12, y: 6 }, presentation: { kind: "keyed-marker-schedule", key: "D", markerRadiusCm: 0.22,
+        markerStyle: "open-halo" } };
+    const result = renderTechnicalFlatSvg({ ...makeView([outline, button, fold, spacing]), recipeId: "polo" }, {
+      measureText: (text, size) => text === "BUTTON"
+        ? { widthCm: 1.31, ascentCm: size * 0.91, descentCm: size * 0.25 } : measure(text, size),
+    });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    const sourceLabel = parsed.querySelector("[data-label-for='button-1']")!;
+    const sourceBounds = result.textBounds["button-1"]!;
+    const padded = { minX: sourceBounds.minX - 0.08, minY: sourceBounds.minY - 0.08,
+      maxX: sourceBounds.maxX + 0.08, maxY: sourceBounds.maxY + 0.08 };
+    expect(sourceLabel.textContent).toBe("BUTTON");
+    expect(sourceLabel.getAttribute("data-source-id")).toBe(buttonSource.sourceId);
+    expect(sourceLabel.getAttribute("data-revision-id")).toBe(revisionId);
+    expect(sourceLabel.getAttribute("x")).not.toBe("5.165");
+    expect(padded.maxX < 4.7625 || padded.minX > 5.2375 || padded.maxY < 4.7625 || padded.minY > 5.2375).toBe(true);
+    expect(padded.maxX < 6.0825 || padded.minX > 6.1175).toBe(true);
+    const marker = parsed.querySelector("g[data-pom-key='D']")!;
+    expect(marker.getAttribute("data-source-id")).toBe("pom:polo:button-spacing");
+    expect(marker.querySelector("circle")?.getAttribute("cx")).toBe("5");
+    expect(marker.querySelector("circle")?.getAttribute("cy")).toBe("5");
+    expect(marker.querySelector("circle")?.getAttribute("r")).toBe("0.22");
+    expect(parsed.querySelector("[data-schedule-for='button-spacing']")?.textContent)
+      .toBe("D  Button spacing: 3.5 cm (±0.1 cm)");
+  });
+
   it("keeps an unsatisfiable measured label blocked", () => {
     const artwork: TechnicalFlatPrimitive = {
       kind: "artwork", id: "large-print", layer: "ARTWORK", feature: "artwork",

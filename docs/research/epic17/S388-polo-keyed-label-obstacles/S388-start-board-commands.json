@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2044,"itemId":"G04-V02","evidence":{"id":"E-G04-S388-START","kind":"document","uri":"docs/research/epic17/S388-polo-keyed-label-obstacles/G04-V02-POLO-KEYED-LABEL-OBSTACLES-S388.md","verified":true,"note":"Implement only source-preserving keyed-marker obstacles in existing measured Polo source-label placement, with 100% changed-module coverage and exact 17-option rendered review. E/I glyph offsets remain pending approval."}},
+  {"type":"addEvidence","expectedRevision":2045,"itemId":"EPIC-17","evidenceId":"E-G04-S388-START"},
+  {"type":"addEpicEvidence","expectedRevision":2046,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S388-START"},
+  {"type":"addComment","expectedRevision":2047,"itemId":"G04-V02","actor":"Codex","text":"S388 is a bounded renderer-only fix: source labels must treat existing keyed POM ring/glyph bounds as layout obstacles. Preserve marker centers/styles, source words/IDs, marks, paths, schedule rows and all holds. Do not implement the pending E/I glyph offsets."}
+]

@@ -435,9 +435,13 @@ function pathSegments(commands: readonly FlatPathCommand[]): Array<readonly [Fla
 function primitiveBlocksText(primitive: TechnicalFlatPrimitive, box: Bounds): boolean {
   if (primitive.kind === "artwork") return intersects(artworkBounds(primitive), box);
   if (primitive.kind === "path") return primitive.colorwayBoundaryOnly !== true && pathSegments(primitive.commands)
-    .some(([start, end]) => technicalFlatLeaderCrossesBox(start, end, box));
+    .some(([start, end]) => technicalFlatLeaderCrossesBox(start, end, padded(box, EDGE_STROKE_CM / 2)));
   if (primitive.kind === "circle") return intersects(pointBounds(primitive.center, primitive.radius + EDGE_STROKE_CM / 2), box);
   if (primitive.kind === "mark") return intersects(pointBounds(primitive.at, MARK_RADIUS_CM + EDGE_STROKE_CM / 2), box);
+  if (primitive.kind === "callout" && primitive.presentation) {
+    return intersects(pointBounds(primitive.anchor.point,
+      primitive.presentation.markerRadiusCm + EDGE_STROKE_CM / 2), box);
+  }
   return false;
 }
 

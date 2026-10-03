@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2044,
-  "updatedAt": "2026-10-03T01:40:25.857Z",
+  "revision": 2068,
+  "updatedAt": "2026-10-03T02:08:41.420Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -513,7 +513,14 @@
         "E-G04-S387-OVERLAP-MATRIX",
         "E-G04-S387-ANNOTATED-DEFAULT",
         "E-G04-S387-E-GLYPH-CANDIDATE",
-        "E-G04-S387-I-GLYPH-CANDIDATE"
+        "E-G04-S387-I-GLYPH-CANDIDATE",
+        "E-G04-S388-START",
+        "E-G04-S388-EXIT",
+        "E-G04-S388-MATRIX",
+        "E-G04-S388-DEFAULT-DETAIL",
+        "E-G04-S388-EXTREMES",
+        "E-G04-S388-COLLAR-MIN",
+        "E-G04-S388-SCHEDULE"
       ]
     },
     {
@@ -3920,6 +3927,11 @@
           "at": "2026-10-03T01:40:25.857Z",
           "actor": "Codex",
           "text": "S387 source-specific Polo overlap diagnosis completed from exact S386 rendered outputs. No production mapping or pattern source changed; all-seven V02 acceptance and every held view remain unchanged."
+        },
+        {
+          "at": "2026-10-03T02:08:41.420Z",
+          "actor": "Codex",
+          "text": "S388 verified the Polo source-label marker/path-stroke placement change across the exact 17-option matrix with 100% focused changed-module coverage and rendered evidence. It changes no source geometry, POM, acceptance, export identity, legacy DXF behavior or held-face status. All-seven V02 remains open; V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -4254,7 +4266,14 @@
         "E-G04-S387-OVERLAP-MATRIX",
         "E-G04-S387-ANNOTATED-DEFAULT",
         "E-G04-S387-E-GLYPH-CANDIDATE",
-        "E-G04-S387-I-GLYPH-CANDIDATE"
+        "E-G04-S387-I-GLYPH-CANDIDATE",
+        "E-G04-S388-START",
+        "E-G04-S388-EXIT",
+        "E-G04-S388-MATRIX",
+        "E-G04-S388-DEFAULT-DETAIL",
+        "E-G04-S388-EXTREMES",
+        "E-G04-S388-COLLAR-MIN",
+        "E-G04-S388-SCHEDULE"
       ],
       "flagKey": null
     },
@@ -8142,6 +8161,16 @@
           "at": "2026-10-03T01:40:25.834Z",
           "actor": "Codex",
           "text": "S387 traces the current S386 renderer output and exact Polo source labels across all 17 options. D's key and BUTTON label overlap 17/17 because keyed callouts are emitted after source-label placement; H and FG also have option-dependent source-label proximity. E and I overlap distinct source marks, not a source-declared join. The packet proposes preserving all words/IDs with keyed-marker-aware label reflow, and asks approval only for shown E/I glyph-offset presentation trials. Preserve all 34 Polo holds, the 0.25 cm gate, and the separate 0.68 cm residual."
+        },
+        {
+          "at": "2026-10-03T01:44:07.842Z",
+          "actor": "Codex",
+          "text": "S388 is a bounded renderer-only fix: source labels must treat existing keyed POM ring/glyph bounds as layout obstacles. Preserve marker centers/styles, source words/IDs, marks, paths, schedule rows and all holds. Do not implement the pending E/I glyph offsets."
+        },
+        {
+          "at": "2026-10-03T02:08:41.392Z",
+          "actor": "Codex",
+          "text": "S388 makes the existing measured source-label placer reserve keyed ring/glyph footprints and visible path stroke. The corrected Chromium inventory measures labeled marks and paths; across all 17 Polo options, all three BUTTON labels clear the D marker and dashed placket fold. Three baseline-only C text failures are preserved, and E/I glyph offsets remain unimplemented pending the maintainer's response. All 34 faces remain held by remaining path/mark checks and the 0.68 cm residual against the unchanged 0.25 cm gate."
         }
       ],
       "evidenceRefs": [
@@ -8577,7 +8606,14 @@
         "E-G04-S387-OVERLAP-MATRIX",
         "E-G04-S387-ANNOTATED-DEFAULT",
         "E-G04-S387-E-GLYPH-CANDIDATE",
-        "E-G04-S387-I-GLYPH-CANDIDATE"
+        "E-G04-S387-I-GLYPH-CANDIDATE",
+        "E-G04-S388-START",
+        "E-G04-S388-EXIT",
+        "E-G04-S388-MATRIX",
+        "E-G04-S388-DEFAULT-DETAIL",
+        "E-G04-S388-EXTREMES",
+        "E-G04-S388-COLLAR-MIN",
+        "E-G04-S388-SCHEDULE"
       ],
       "flagKey": null
     },
@@ -14045,6 +14081,69 @@
       "sha256": null,
       "verified": true,
       "note": "Unapproved browser-only display candidate: I glyph offset relative to exact upper-collar centerBack ring; all distinct fold marks remain visible. Requires maintainer decision and all-option verification."
+    },
+    {
+      "id": "E-G04-S388-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S388-polo-keyed-label-obstacles/G04-V02-POLO-KEYED-LABEL-OBSTACLES-S388.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implement only source-preserving keyed-marker obstacles in existing measured Polo source-label placement, with 100% changed-module coverage and exact 17-option rendered review. E/I glyph offsets remain pending approval."
+    },
+    {
+      "id": "E-G04-S388-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S388-polo-keyed-label-obstacles/G04-V02-POLO-KEYED-LABEL-OBSTACLES-S388.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Measured source-label placement reserves keyed marker footprints and rendered path stroke; all 17 Polo options reviewed. Holds, acceptance and residual gate remain unchanged."
+    },
+    {
+      "id": "E-G04-S388-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S388-polo-keyed-label-obstacles/polo-keyed-marker-trial-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact 17-option Chromium matrix: 8 unchanged marker stations, 11 complete POM rows, source path and paired-back invariance, zero keyed renderer/browser errors, and 0/17 button-label/placket-fold contacts at 0.0975 cm box expansion. Three baseline-only C failures and the 0.68 cm residual stay held."
+    },
+    {
+      "id": "E-G04-S388-DEFAULT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S388-polo-keyed-label-obstacles/rendered/polo-default-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual default Polo output after source labels use Chromium font metrics; button labels clear the D ring and dashed placket-fold stroke. Source paths and marks remain visible."
+    },
+    {
+      "id": "E-G04-S388-EXTREMES",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S388-polo-keyed-label-obstacles/rendered/polo-standFrontRise-max-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual maximum stand-front-rise output; marker/source labels remain readable around the placket fold. The underlying collar-point C source text remains separately held in the non-keyed baseline."
+    },
+    {
+      "id": "E-G04-S388-COLLAR-MIN",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S388-polo-keyed-label-obstacles/rendered/polo-collarPointExtension-min-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual minimum collar-point-extension output reviewed with unchanged marker centers and source geometry; the keyed render clears while the non-keyed baseline C text collision remains recorded."
+    },
+    {
+      "id": "E-G04-S388-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S388-polo-keyed-label-obstacles/rendered/polo-default-collar-point-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Browser-rendered source POM schedule retains eleven exact full-text rows, identifiers, values and tolerances."
     }
   ]
 }
