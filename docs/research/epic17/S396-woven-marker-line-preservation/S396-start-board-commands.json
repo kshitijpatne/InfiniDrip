@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2188,"itemId":"G04-V02","evidence":{"id":"E-G04-S396-START","kind":"document","uri":"docs/research/epic17/S396-woven-marker-line-preservation/G04-V02-WOVEN-MARKER-LINE-PRESERVATION-S396.md","verified":true,"note":"Diagnostic-only follow-up to S395's failed 0.22 cm W ring: test source-line-preserving paint order and a bounded W glyph offset, preserving the exact source anchor/revision/target, all 28 options, all geometry and all holds. No production change or acceptance relaxation."}},
+  {"type":"addEvidence","expectedRevision":2189,"itemId":"EPIC-17","evidenceId":"E-G04-S396-START"},
+  {"type":"addEpicEvidence","expectedRevision":2190,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S396-START"},
+  {"type":"addComment","expectedRevision":2191,"itemId":"G04-V02","actor":"Codex","text":"S396 is a diagnostic-only Woven keyed-marker line-preservation trial prompted by S395's measured neckline overlap. It keeps the exact buttonPlacket.top POM anchor and all source geometry; no production presentation, face release, or V02 status change."}
+]

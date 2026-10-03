@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2188,
-  "updatedAt": "2026-10-03T05:05:57.410Z",
+  "revision": 2202,
+  "updatedAt": "2026-10-03T05:29:59.362Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -548,7 +548,10 @@
         "E-G04-S394-EXIT",
         "E-G04-S395-START",
         "E-G04-S395-MATRIX",
-        "E-G04-S395-EXIT"
+        "E-G04-S395-EXIT",
+        "E-G04-S396-START",
+        "E-G04-S396-MATRIX",
+        "E-G04-S396-EXIT"
       ]
     },
     {
@@ -4359,7 +4362,10 @@
         "E-G04-S394-EXIT",
         "E-G04-S395-START",
         "E-G04-S395-MATRIX",
-        "E-G04-S395-EXIT"
+        "E-G04-S395-EXIT",
+        "E-G04-S396-START",
+        "E-G04-S396-MATRIX",
+        "E-G04-S396-EXIT"
       ],
       "flagKey": null
     },
@@ -8327,6 +8333,16 @@
           "at": "2026-10-03T05:05:57.410Z",
           "actor": "Codex",
           "text": "S395's 0.22 cm source-centered W marker clears the renderer's recurring placket-width label collision in all 28 exact Woven options, with source paths, anchor/target/revision, colorway, and full POM schedule preserved. Visual review rejects this candidate: its ring overlaps front:neckline in two options and is within 0.01 cm in 24 more. No production presentation, acceptance, geometry, or hold changed. All Woven and Polo faces remain held; next investigate a line-preserving keyed-marker variant."
+        },
+        {
+          "at": "2026-10-03T05:12:55.548Z",
+          "actor": "Codex",
+          "text": "S396 is a diagnostic-only Woven keyed-marker line-preservation trial prompted by S395's measured neckline overlap. It keeps the exact buttonPlacket.top POM anchor and all source geometry; no production presentation, face release, or V02 status change."
+        },
+        {
+          "at": "2026-10-03T05:29:59.362Z",
+          "actor": "Codex",
+          "text": "S396 finds a common source-line-preserving W marker candidate across all 28 Woven options: exact anchored 0.22 cm open ring painted beneath source strokes, with only the W glyph moved (+0.2121,+0.2121 cm). Minimum measured clearances are 0.07939 cm to source paths and 0.02914 cm to an existing label; all 28 schedules and colorways remain. The exact production presentation is proposed for maintainer approval; all 56 Woven/34 Polo faces remain held and V02 stays open."
         }
       ],
       "evidenceRefs": [
@@ -8813,7 +8829,13 @@
         "E-G04-S395-MATRIX",
         "E-G04-S395-W-MIN",
         "E-G04-S395-W-SCHEDULE",
-        "E-G04-S395-EXIT"
+        "E-G04-S395-EXIT",
+        "E-G04-S396-START",
+        "E-G04-S396-MATRIX",
+        "E-G04-S396-W-DEFAULT",
+        "E-G04-S396-W-LIMIT",
+        "E-G04-S396-W-SCHEDULE",
+        "E-G04-S396-EXIT"
       ],
       "flagKey": null
     },
@@ -14740,6 +14762,60 @@
       "sha256": null,
       "verified": true,
       "note": "S395 diagnostic closeout: source-bound anchor and measurement facts, exact 28-option renderer results, refined path clearances, manually reviewed outputs, no-go disposition for the 0.22 cm marker, preserved all holds and next action."
+    },
+    {
+      "id": "E-G04-S396-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S396-woven-marker-line-preservation/G04-V02-WOVEN-MARKER-LINE-PRESERVATION-S396.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only follow-up to S395's failed 0.22 cm W ring: test source-line-preserving paint order and a bounded W glyph offset, preserving the exact source anchor/revision/target, all 28 options, all geometry and all holds. No production change or acceptance relaxation."
+    },
+    {
+      "id": "E-G04-S396-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S396-woven-marker-line-preservation/line-preserved-marker-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reuses S395's exact 28 Woven renderer SVGs; nine W-glyph offsets are measured against source paths and labels. The diagnostic ring is placed beneath all source strokes; southeast glyph offset has positive clearances in all 28. Production approval remains pending; all faces remain held."
+    },
+    {
+      "id": "E-G04-S396-W-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S396-woven-marker-line-preservation/rendered/woven-shirt-default-line-preserved-W-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium detail of diagnostic source-line-preserving W marker; ring remains at the exact placket-top midpoint, source strokes remain visible, and W uses the tested southeast glyph offset. This is evidence for an approval decision, not a face release."
+    },
+    {
+      "id": "E-G04-S396-W-LIMIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S396-woven-marker-line-preservation/rendered/woven-shirt-placketWidth-min-line-preserved-W-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium limiting placketWidth-min detail: neckline and placket-top source strokes remain continuous across the ring; W stays separated from source geometry. All other Woven/Polo holds remain."
+    },
+    {
+      "id": "E-G04-S396-W-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S396-woven-marker-line-preservation/rendered/woven-shirt-default-line-preserved-W-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium schedule crop retains the exact full-text Finished placket width source POM row with key W."
+    },
+    {
+      "id": "E-G04-S396-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S396-woven-marker-line-preservation/G04-V02-WOVEN-MARKER-LINE-PRESERVATION-S396.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S396 exact-option line-preserving W marker diagnosis, nine-offset measurements, selected southeast glyph placement and output review. The production view convention is proposed for maintainer approval; no production change or V02 acceptance."
     }
   ]
 }
