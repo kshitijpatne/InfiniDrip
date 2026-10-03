@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2147,
-  "updatedAt": "2026-10-03T04:01:16.405Z",
+  "revision": 2161,
+  "updatedAt": "2026-10-03T04:19:59.090Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -539,7 +539,10 @@
         "E-G04-S391-MATRIX",
         "E-G04-S392-START",
         "E-G04-S392-MATRIX",
-        "E-G04-S392-EXIT"
+        "E-G04-S392-EXIT",
+        "E-G04-S393-START",
+        "E-G04-S393-MATRIX",
+        "E-G04-S393-EXIT"
       ]
     },
     {
@@ -4341,7 +4344,10 @@
         "E-G04-S391-MATRIX",
         "E-G04-S392-START",
         "E-G04-S392-MATRIX",
-        "E-G04-S392-EXIT"
+        "E-G04-S392-EXIT",
+        "E-G04-S393-START",
+        "E-G04-S393-MATRIX",
+        "E-G04-S393-EXIT"
       ],
       "flagKey": null
     },
@@ -8279,6 +8285,16 @@
           "at": "2026-10-03T04:01:16.374Z",
           "actor": "Codex",
           "text": "S392 confirms the approved keyed C marker has zero failures across all 17 Polo options; the three C text collisions are unkeyed-baseline-only. S385 inline leaders are not current emitted paths. H remains crowded, and the separate Sleeve-cap ease assembly residual is 0.68 cm on all 34 faces against 0.25 cm. All Polo views remain held; no gate or acceptance changed."
+        },
+        {
+          "at": "2026-10-03T04:05:39.757Z",
+          "actor": "Codex",
+          "text": "S393 diagnoses the repeated Polo H shoulder-station readability hold on exact current revisions and renders a bounded view-only letter-placement trial if source geometry permits. Preserve both authored shoulder marks, distinct POM schedule rows, all 34 Polo holds, and the 0.25 cm assembly gate."
+        },
+        {
+          "at": "2026-10-03T04:19:59.090Z",
+          "actor": "Codex",
+          "text": "S393's source/output diagnosis proposes a diagnostic-only H glyph offset of (+0.45,+0.45 cm) while preserving its fixed (7,0) cm ring, both source shoulder marks, both POM rows and source geometry. All 17 candidates have positive measured path/mark/label clearance; the letter sits outside the ring with no leader, so approval remains requested. All 34 Polo views stay held, including the independent 0.68 cm residual against 0.25 cm."
         }
       ],
       "evidenceRefs": [
@@ -8748,7 +8764,13 @@
         "E-G04-S392-START",
         "E-G04-S392-MATRIX",
         "E-G04-S392-SCRIPT",
-        "E-G04-S392-EXIT"
+        "E-G04-S392-EXIT",
+        "E-G04-S393-START",
+        "E-G04-S393-MATRIX",
+        "E-G04-S393-H-DEFAULT",
+        "E-G04-S393-H-LIMIT",
+        "E-G04-S393-WHOLE",
+        "E-G04-S393-EXIT"
       ],
       "flagKey": null
     },
@@ -14522,6 +14544,60 @@
       "sha256": null,
       "verified": true,
       "note": "Verified reconciliation corrects S391's baseline-only C hold wording; preserves H/readability and 34-face 0.68 cm residual holds, with all-seven/V02/V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S393-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S393-polo-h-shoulder-readability/G04-V02-POLO-H-SHOULDER-READABILITY-S393.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded read-only diagnosis of H shoulder marker readability against exact Polo source marks, option revisions and actual rendered output. Preserve all source geometry, 34 Polo holds and every G04 gate."
+    },
+    {
+      "id": "E-G04-S393-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S393-polo-h-shoulder-readability/h-glyph-placement-candidates.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only 20-offset scan on 17 exact current Polo revisions binds H's two source POMs and fixed ring to sampled path, source-mark and rendered-text clearances. No production mapping changed."
+    },
+    {
+      "id": "E-G04-S393-H-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S393-polo-h-shoulder-readability/rendered/polo-default-H-down-right-0.45-S393-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual S390-source default H crop with a diagnostic-only (+0.45,+0.45 cm) letter translation; both source-centered rings/marks and all source paths remain unchanged. View decision pending; all faces held."
+    },
+    {
+      "id": "E-G04-S393-H-LIMIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S393-polo-h-shoulder-readability/rendered/polo-standFrontRise-max-H-down-right-0.45-S393-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual limiting standFrontRise=max H crop for the same diagnostic glyph-only candidate; the nearest source label clearance is 0.144421 cm. No implementation or acceptance."
+    },
+    {
+      "id": "E-G04-S393-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S393-polo-h-shoulder-readability/rendered/polo-default-H-down-right-0.45-S393-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual S390-source full default front with only the H letter diagnostically translated; all source geometry, marks and schedule remain, with every Polo view held."
+    },
+    {
+      "id": "E-G04-S393-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S393-polo-h-shoulder-readability/G04-V02-POLO-H-SHOULDER-READABILITY-S393.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Completed source/output diagnosis recommends one exact H glyph-only trial for maintainer approval; no production change. All 34 Polo faces and G04 acceptance gates remain held."
     }
   ]
 }

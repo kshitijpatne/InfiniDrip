@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2147,"itemId":"G04-V02","evidence":{"id":"E-G04-S393-START","kind":"document","uri":"docs/research/epic17/S393-polo-h-shoulder-readability/G04-V02-POLO-H-SHOULDER-READABILITY-S393.md","verified":true,"note":"Bounded read-only diagnosis of H shoulder marker readability against exact Polo source marks, option revisions and actual rendered output. Preserve all source geometry, 34 Polo holds and every G04 gate."}},
+  {"type":"addEvidence","expectedRevision":2148,"itemId":"EPIC-17","evidenceId":"E-G04-S393-START"},
+  {"type":"addEpicEvidence","expectedRevision":2149,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S393-START"},
+  {"type":"addComment","expectedRevision":2150,"itemId":"G04-V02","actor":"Codex","text":"S393 diagnoses the repeated Polo H shoulder-station readability hold on exact current revisions and renders a bounded view-only letter-placement trial if source geometry permits. Preserve both authored shoulder marks, distinct POM schedule rows, all 34 Polo holds, and the 0.25 cm assembly gate."}
+]

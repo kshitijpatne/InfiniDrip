@@ -1,6 +1,16 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 392 exit; V02 remains open
+## EPIC-17 / G04 current work — Slice 393 exit; maintainer decision pending; V02 remains open
+
+S393 started 2026-10-03 04:04:09 UTC from clean S392 `d05c70a` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor. S392 exit board revision was 2147; validated S393 start replay advanced it to 2151 and exit replay to 2161. Highest assigned slice is 392; S393 is unique. Primary usage at start was 30%; weekly 98% informational. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+
+S393 confirms the two H POM rows target the same `front.edge.shoulder` at `(7,0)` cm, with a fixed 0.22 cm ring; separate authored `front:shoulder` and `outerStand:shoulder` marks share that point and S384 records no stitch join. The current letter halo contacts both marks and the outerStand outline. A diagnostic-only H glyph offset `(+0.45,+0.45 cm)` leaves ring/source identities/geometry fixed and produces positive path, mark and source-label clearances in all 17 options; the candidate crops are in `docs/research/epic17/S393-polo-h-shoulder-readability/rendered/`. This puts the H letter 0.186 cm beyond its ring stroke without a leader, reducing direct letter-to-ring association. No production change or view acceptance occurred. **Maintainer decision is pending for this exact view-only glyph trial.** All 34 Polo views remain held, including the separate 0.68 cm sleeve assembly residual against 0.25 cm; all-seven acceptance and V02-before-V03 are unchanged.
+
+S393 verification: final 17-option Chromium replay has zero browser errors; node syntax checks pass; `npm run control-center:test` passes 42/42; validated board exit closes at revision 2161; `git diff --check` passes. No production module changed; full integrated gates remain for the settled candidate. Elapsed 04:04:09–04:20:03 UTC (15m54s): diagnostic script/evidence work about 5m; focused 17-option geometry/rendered review about 7m; board/state/packet closeout about 3m54s; external-agent waits 0m; maintainer-decision time 0m. Initial failed diagnostic runs and corrections are documented in the S393 packet.
+
+**Next action:** obtain a decision on the exact H glyph-only offset in the S393 packet. Do not implement it before approval or release any Polo view. After approval, reserve a new unique slice for implementation and full option/rendered verification; otherwise retain the H hold and develop another evidence-backed display proposal.
+
+## EPIC-17 / G04 previous handoff — Slice 392 exit; V02 remains open
 
 S392 started 2026-10-03 03:48:31 UTC from clean S391 `5cc84f1` on `codex/epic-17-g04`; freshly refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board revision 2134 recorded the S391 exit; validated S392 start replay advanced it to 2138. Highest assigned slice is 391; S392 is unique. Ordinary usage is allowed (primary 28%, weekly 98%). The EPIC-17 goal is active, aligned and still required through merge/deployment verification.
 
