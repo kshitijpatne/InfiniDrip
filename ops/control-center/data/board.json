@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2161,
-  "updatedAt": "2026-10-03T04:19:59.090Z",
+  "revision": 2175,
+  "updatedAt": "2026-10-03T04:35:41.808Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -542,7 +542,10 @@
         "E-G04-S392-EXIT",
         "E-G04-S393-START",
         "E-G04-S393-MATRIX",
-        "E-G04-S393-EXIT"
+        "E-G04-S393-EXIT",
+        "E-G04-S394-START",
+        "E-G04-S394-MATRIX",
+        "E-G04-S394-EXIT"
       ]
     },
     {
@@ -4347,7 +4350,10 @@
         "E-G04-S392-EXIT",
         "E-G04-S393-START",
         "E-G04-S393-MATRIX",
-        "E-G04-S393-EXIT"
+        "E-G04-S393-EXIT",
+        "E-G04-S394-START",
+        "E-G04-S394-MATRIX",
+        "E-G04-S394-EXIT"
       ],
       "flagKey": null
     },
@@ -8295,6 +8301,16 @@
           "at": "2026-10-03T04:19:59.090Z",
           "actor": "Codex",
           "text": "S393's source/output diagnosis proposes a diagnostic-only H glyph offset of (+0.45,+0.45 cm) while preserving its fixed (7,0) cm ring, both source shoulder marks, both POM rows and source geometry. All 17 candidates have positive measured path/mark/label clearance; the letter sits outside the ring with no leader, so approval remains requested. All 34 Polo views stay held, including the independent 0.68 cm residual against 0.25 cm."
+        },
+        {
+          "at": "2026-10-03T04:27:04.767Z",
+          "actor": "Codex",
+          "text": "S394 implements only the maintainer-approved Polo H glyph translation (+0.45,+0.45 cm) from S393. The keyed rings stay source-centered at (7,0) cm; both distinct shoulder marks, source geometry, POM identities and full schedule rows remain. Verify all 17 supported options and rendered output; all 34 Polo views stay held, including the 0.68 cm residual."
+        },
+        {
+          "at": "2026-10-03T04:35:41.808Z",
+          "actor": "Codex",
+          "text": "S394 implements the approved Polo H glyph-only offset and verifies all 17 exact option rows in actual renderer output. SVG comparison confines the change to the approved glyph plus revision/title identity; both source marks, fixed ring, complete schedule, colorway output and paired backs remain. All 34 Polo views remain held for other blockers including the 0.68 cm residual against 0.25 cm; no face acceptance."
         }
       ],
       "evidenceRefs": [
@@ -8770,7 +8786,13 @@
         "E-G04-S393-H-DEFAULT",
         "E-G04-S393-H-LIMIT",
         "E-G04-S393-WHOLE",
-        "E-G04-S393-EXIT"
+        "E-G04-S393-EXIT",
+        "E-G04-S394-START",
+        "E-G04-S394-MATRIX",
+        "E-G04-S394-H-DEFAULT",
+        "E-G04-S394-H-LIMIT",
+        "E-G04-S394-DIFF",
+        "E-G04-S394-EXIT"
       ],
       "flagKey": null
     },
@@ -14598,6 +14620,60 @@
       "sha256": null,
       "verified": true,
       "note": "Completed source/output diagnosis recommends one exact H glyph-only trial for maintainer approval; no production change. All 34 Polo faces and G04 acceptance gates remain held."
+    },
+    {
+      "id": "E-G04-S394-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S394-polo-h-glyph-offset/G04-V02-POLO-H-GLYPH-OFFSET-S394.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Approved implementation scope: move only Polo H's glyph by (+0.45,+0.45 cm), preserve fixed source-centered rings, both shoulder marks and schedule identities, then verify 17 exact options. All 34 Polo views remain held."
+    },
+    {
+      "id": "E-G04-S394-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S394-polo-h-glyph-offset/polo-keyed-marker-trial-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual renderer and Chromium review of all 17 exact Polo options verifies the approved H glyph at (7.45,0.52) cm; fixed ring, both POMs/source marks, 11-row schedule, colorway overlays and paired backs are preserved. All 34 faces remain held."
+    },
+    {
+      "id": "E-G04-S394-H-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S394-polo-h-glyph-offset/rendered/polo-default-H-S394-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual S394 production-renderer Chromium detail: approved H glyph is clear beside the fixed source-centered ring; both authored shoulder marks remain present. Polo face remains held."
+    },
+    {
+      "id": "E-G04-S394-H-LIMIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S394-polo-h-glyph-offset/rendered/polo-standFrontRise-max-H-S394-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual limiting standFrontRise=max S394 H detail confirms legibility with both source marks retained; no face release or acceptance change."
+    },
+    {
+      "id": "E-G04-S394-DIFF",
+      "kind": "document",
+      "uri": "docs/research/epic17/S394-polo-h-glyph-offset/h-output-diff-verification.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "After restoring only H glyph coordinates and normalizing revision/title tokens, each S394 actual renderer SVG is byte-identical to S390 across the same 17 options."
+    },
+    {
+      "id": "E-G04-S394-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S394-polo-h-glyph-offset/G04-V02-POLO-H-GLYPH-OFFSET-S394.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S394 implementation, focused coverage/build/export/DXF verification, 17-option actual output review and preserved Polo/G04 holds."
     }
   ]
 }

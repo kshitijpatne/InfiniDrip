@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2161,"itemId":"G04-V02","evidence":{"id":"E-G04-S394-START","kind":"document","uri":"docs/research/epic17/S394-polo-h-glyph-offset/G04-V02-POLO-H-GLYPH-OFFSET-S394.md","verified":true,"note":"Approved implementation scope: move only Polo H's glyph by (+0.45,+0.45 cm), preserve fixed source-centered rings, both shoulder marks and schedule identities, then verify 17 exact options. All 34 Polo views remain held."}},
+  {"type":"addEvidence","expectedRevision":2162,"itemId":"EPIC-17","evidenceId":"E-G04-S394-START"},
+  {"type":"addEpicEvidence","expectedRevision":2163,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S394-START"},
+  {"type":"addComment","expectedRevision":2164,"itemId":"G04-V02","actor":"Codex","text":"S394 implements only the maintainer-approved Polo H glyph translation (+0.45,+0.45 cm) from S393. The keyed rings stay source-centered at (7,0) cm; both distinct shoulder marks, source geometry, POM identities and full schedule rows remain. Verify all 17 supported options and rendered output; all 34 Polo views stay held, including the 0.68 cm residual."}
+]

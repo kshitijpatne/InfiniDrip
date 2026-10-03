@@ -61,10 +61,11 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("[data-schedule-for='pom-sleeve']")?.textContent).toContain("Measurement 2");
   });
 
-  it("applies approved Polo E/I glyph-only offsets while keeping every keyed ring on its source anchor", () => {
+  it("applies approved Polo E/H/I glyph-only offsets while keeping every keyed ring on its source anchor", () => {
     const keys = [
       { key: "E", x: 7, y: 2, style: "open-halo" as const },
       { key: "I", x: 8, y: 3, style: "open-halo" as const },
+      { key: "H", x: 7, y: 2, style: "open-halo" as const },
       { key: "D", x: 9, y: 4, style: "open-halo" as const },
       { key: "C", x: 10, y: 5, style: undefined },
     ];
@@ -96,15 +97,18 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("g[data-pom-key='E'] text")?.getAttribute("y")).toBe("1.73");
     expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("x")).toBe("8.34");
     expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("y")).toBe("2.75");
+    expect(parsed.querySelector("g[data-pom-key='H'] text")?.getAttribute("x")).toBe("7.45");
+    expect(parsed.querySelector("g[data-pom-key='H'] text")?.getAttribute("y")).toBe("2.52");
     expect(parsed.querySelector("g[data-pom-key='D'] text")?.getAttribute("x")).toBe("9");
     expect(parsed.querySelector("g[data-pom-key='D'] text")?.getAttribute("y")).toBe("4.07");
     expect(parsed.querySelector("g[data-pom-key='C'] text")?.getAttribute("x")).toBe("10");
     expect(parsed.querySelector("g[data-pom-key='C'] text")?.getAttribute("y")).toBe("5.07");
-    expect(parsed.querySelectorAll("g[data-layer-group='POM_SCHEDULE'] [data-schedule-for]")).toHaveLength(4);
+    expect(parsed.querySelectorAll("g[data-layer-group='POM_SCHEDULE'] [data-schedule-for]")).toHaveLength(5);
+    expect(parsed.querySelector("[data-schedule-for='pom-H']")?.textContent).toBe("H  POM H: 10 cm (±0.2 cm)");
   });
 
   it("keeps E/I keyed glyphs unchanged for recipes outside the Polo approval", () => {
-    const callouts: TechnicalFlatPrimitive[] = (["E", "I"] as const).map((key, index) => ({
+    const callouts: TechnicalFlatPrimitive[] = (["E", "I", "H"] as const).map((key, index) => ({
       kind: "callout", id: `pom-${key}`, layer: "ANNOTATION", feature: "pom",
       source: { ...source, sourceId: `pom:tee:${key.toLowerCase()}` }, text: `POM ${key}: 10 cm`,
       anchor: { primitiveId: outline.id, point: { x: 4 + index, y: 3 + index } }, labelAt: { x: 9, y: 8 },
@@ -118,6 +122,8 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("g[data-pom-key='E'] text")?.getAttribute("y")).toBe("3.07");
     expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("x")).toBe("5");
     expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("y")).toBe("4.07");
+    expect(parsed.querySelector("g[data-pom-key='H'] text")?.getAttribute("x")).toBe("6");
+    expect(parsed.querySelector("g[data-pom-key='H'] text")?.getAttribute("y")).toBe("5.07");
   });
 
   it("fails closed when one shared keyed station is not exactly co-located", () => {

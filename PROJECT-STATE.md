@@ -1,6 +1,51 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 393 exit; maintainer decision pending; V02 remains open
+## EPIC-17 / G04 current work — Slice 394 exit; Polo H offset verified; V02 remains open
+
+S394 started 2026-10-03 04:26:06 UTC from clean S393 commit `3ec8bbf` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+remains an ancestor. S393 was the highest assigned slice; S394 is uniquely
+reserved. Board revision 2161 recorded S393; validated S394 start replay
+advanced it to 2165. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+Primary usage was 32%; weekly 98% informational. The current active goal is
+needed and its objective/status match these EPIC records.
+
+The maintainer approved S393's exact Polo H glyph-only offset `(+0.45,+0.45 cm)`.
+S394 implemented and verified only this renderer presentation change across
+all 17 supported Polo options. H text is `(7.45,0.52)` cm while both
+source-centered radius-0.22 cm rings remain at `(7,0)`, distinct authored
+shoulder marks, source paths, exact POM identities, revision bindings and
+eleven full schedule rows stay unchanged. A baseline-normalized actual-renderer
+comparison is byte-identical to S390 in every other SVG byte; all 17 paired
+backs are unchanged. Chromium confirmed H readability in default,
+`standFrontRise=max`, and `collarPointExtension=min` detail views. No
+source/cut/stitch/POM mapping change or new join occurred. The separate 0.68 cm
+sleeve-cap residual against the fixed 0.25 cm gate remains; all 34 Polo views
+remain held and no V02 acceptance or V03 start is implied.
+
+S394 verification: focused renderer tests 38/38 with 100% statement, branch,
+function and line coverage for `technical-flat-svg.ts`; production build passes
+(existing large-chunk advisory); protected export identity checks 9/9; legacy
+export regression including DXF hashes 8/8. Actual production-renderer and
+Chromium review passes all 17 keyed fronts with zero keyed render issues and
+zero browser errors; 170 POM entries, 8 keyed stations, 7 open rings, 11 full
+schedule rows and 17 colorway outputs are retained, with 17/17 paired backs
+unchanged. Existing three unkeyed C baseline `TEXT_COLLISION` rows are preserved
+and do not count as S394 keyed errors. All other Polo issues remain held.
+Validated board closes at revision 2175; Control Center tests pass 42/42 and
+`git diff --check` passes. S394 took about 9m47s (04:26:06–04:35:53 UTC):
+implementation/source review 1m, focused verification 3m, browser/render review
+3m, durable/board/control-center closeout 2m47s, agent waits 0m, maintainer
+decision time 0m. The landed commit ID is recorded at the next verified
+boundary.
+
+S394 packet and validated board start evidence:
+`docs/research/epic17/S394-polo-h-glyph-offset/G04-V02-POLO-H-GLYPH-OFFSET-S394.md`.
+**Next action:** refresh Git, usage and the canonical board at this verified
+S394 boundary; reserve S395 for the highest-priority repeated unresolved G04
+V02 output blocker. Preserve every remaining hold and acceptance gate.
+
+## Prior boundary — Slice 393 exit; H decision subsequently approved
 
 S393 started 2026-10-03 04:04:09 UTC from clean S392 `d05c70a` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor. S392 exit board revision was 2147; validated S393 start replay advanced it to 2151 and exit replay to 2161. Highest assigned slice is 392; S393 is unique. Primary usage at start was 30%; weekly 98% informational. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
 

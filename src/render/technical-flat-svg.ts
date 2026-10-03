@@ -756,7 +756,8 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
       : ` data-callout-targets="${escapeXml(targets)}" data-callout-source-entities="${escapeXml(sourceEntities)}"`}`;
     const title = group.length > 1 ? `<title>${escapeXml(group.map((item) => item.text).join("; "))}</title>` : "";
     const glyphOffset = view.recipeId === "polo" && key === "E" ? { x: -0.38, y: -0.34 }
-      : view.recipeId === "polo" && key === "I" ? { x: 0.34, y: -0.32 } : { x: 0, y: 0 };
+      : view.recipeId === "polo" && key === "I" ? { x: 0.34, y: -0.32 }
+        : view.recipeId === "polo" && key === "H" ? { x: 0.45, y: 0.45 } : { x: 0, y: 0 };
     return `<g data-entity-id="${escapeXml(entityId)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(sourceIds)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(key)}" ${targetMetadata}>${title}${marker}<text x="${fmt(anchor.point.x + glyphOffset.x)}" y="${fmt(anchor.point.y + 0.07 + glyphOffset.y)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b"${halo}>${escapeXml(key)}</text></g>`;
   }).join("");
   const labels = textItems.map((item) => {
