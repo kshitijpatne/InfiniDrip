@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2134,
-  "updatedAt": "2026-10-03T03:41:40.645Z",
+  "revision": 2147,
+  "updatedAt": "2026-10-03T04:01:16.405Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -536,7 +536,10 @@
         "E-G04-S390-OUTPUT-REVIEW",
         "E-G04-S391-START",
         "E-G04-S391-EXIT",
-        "E-G04-S391-MATRIX"
+        "E-G04-S391-MATRIX",
+        "E-G04-S392-START",
+        "E-G04-S392-MATRIX",
+        "E-G04-S392-EXIT"
       ]
     },
     {
@@ -3973,6 +3976,11 @@
           "at": "2026-10-03T03:41:40.645Z",
           "actor": "Codex",
           "text": "S391 closes without changing construction, POMs, source geometry, callout acceptance, holds or thresholds. G04 V02 remains open; all-seven acceptance and V02-before-V03 remain unchanged."
+        },
+        {
+          "at": "2026-10-03T04:01:16.405Z",
+          "actor": "Codex",
+          "text": "S392 read-only reconciliation is complete. G04 V02 remains open with all-seven recipe acceptance and V02-before-V03 unchanged; no source, POM, view mapping, threshold, export identity or face acceptance changed."
         }
       ],
       "evidenceRefs": [
@@ -4330,7 +4338,10 @@
         "E-G04-S390-OUTPUT-REVIEW",
         "E-G04-S391-START",
         "E-G04-S391-EXIT",
-        "E-G04-S391-MATRIX"
+        "E-G04-S391-MATRIX",
+        "E-G04-S392-START",
+        "E-G04-S392-MATRIX",
+        "E-G04-S392-EXIT"
       ],
       "flagKey": null
     },
@@ -8258,6 +8269,16 @@
           "at": "2026-10-03T03:41:40.612Z",
           "actor": "Codex",
           "text": "S391 completes a read-only review of all eight Polo keyed stations on all 17 exact S390 revisions. It separates source-backed A/B/C/FG interfaces, clear D, approved E/I glyph trials and H's crowded distinct shoulder geometry; conservative box contacts are not reported as confirmed intersections. All 34 views remain held for the three C schedule failures, H/output review and the 0.68 cm residual against 0.25 cm."
+        },
+        {
+          "at": "2026-10-03T03:49:42.568Z",
+          "actor": "Codex",
+          "text": "S392 reconciles current 17-option Polo keyed output against baseline-only C collision rows, S385 inline leader counts, and a fresh current-source 34-face sleeve assembly check. It makes no source, mapping, gate or acceptance change; all 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-03T04:01:16.374Z",
+          "actor": "Codex",
+          "text": "S392 confirms the approved keyed C marker has zero failures across all 17 Polo options; the three C text collisions are unkeyed-baseline-only. S385 inline leaders are not current emitted paths. H remains crowded, and the separate Sleeve-cap ease assembly residual is 0.68 cm on all 34 faces against 0.25 cm. All Polo views remain held; no gate or acceptance changed."
         }
       ],
       "evidenceRefs": [
@@ -8723,7 +8744,11 @@
         "E-G04-S391-MATRIX",
         "E-G04-S391-DEFAULT-WHOLE",
         "E-G04-S391-H-SHOULDER",
-        "E-G04-S391-I-LIMIT"
+        "E-G04-S391-I-LIMIT",
+        "E-G04-S392-START",
+        "E-G04-S392-MATRIX",
+        "E-G04-S392-SCRIPT",
+        "E-G04-S392-EXIT"
       ],
       "flagKey": null
     },
@@ -14461,6 +14486,42 @@
       "sha256": null,
       "verified": true,
       "note": "Actual limiting S390-revision I crop at standFrontRise minimum; approved glyph offset remains legible and the separate center-back source mark remains visible at the recorded 0.027219 cm vector gap."
+    },
+    {
+      "id": "E-G04-S392-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S392-polo-current-blocker-reconciliation/G04-V02-POLO-CURRENT-BLOCKER-RECONCILIATION-S392.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only reconciliation of current keyed Polo output, three C baseline-only collision rows, historical inline leader counts and current 17-option rigid assembly residual. Preserve all holds and gates."
+    },
+    {
+      "id": "E-G04-S392-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S392-polo-current-blocker-reconciliation/polo-current-blocker-reconciliation.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh current-source 17-option/34-face assembly matrix reconciles three unkeyed-only C baseline rows, zero keyed failures, prior leader findings and the 0.68 cm residual against the 0.25 cm gate."
+    },
+    {
+      "id": "E-G04-S392-SCRIPT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S392-polo-current-blocker-reconciliation/reconcile-current-polo-blockers.ts",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reproducible read-only check joins exact S331 options to current draft/assembly and S390/S391 same-revision keyed-output evidence."
+    },
+    {
+      "id": "E-G04-S392-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S392-polo-current-blocker-reconciliation/G04-V02-POLO-CURRENT-BLOCKER-RECONCILIATION-S392.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified reconciliation corrects S391's baseline-only C hold wording; preserves H/readability and 34-face 0.68 cm residual holds, with all-seven/V02/V03 gates unchanged."
     }
   ]
 }

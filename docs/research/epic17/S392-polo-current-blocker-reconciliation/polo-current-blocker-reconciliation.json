@@ -1,0 +1,3624 @@
+{
+  "generatedAt": "2026-10-03T04:02:27.985Z",
+  "source": "Current draftPolo(STANDARD_M, S331 supported option values) and current rigid assembly/projection code, compared with exact S390 actual-renderer and S391 current keyed-output artifacts.",
+  "configurations": 17,
+  "faceRows": 34,
+  "keyedStations": 136,
+  "acceptanceThresholdCm": 0.25,
+  "cCollisionReconciliation": {
+    "earlierS378BaseRows": 2,
+    "correctedS380KeyedRows": 0,
+    "currentS390BaseRows": [
+      {
+        "caseId": "polo-collarLeafDepth-max",
+        "issueIds": [
+          "flat:polo:FRONT_FLAT:callout:collar-point-extension"
+        ],
+        "currentKeyedIssues": []
+      },
+      {
+        "caseId": "polo-standFrontRise-max",
+        "issueIds": [
+          "flat:polo:FRONT_FLAT:callout:collar-point-extension"
+        ],
+        "currentKeyedIssues": []
+      },
+      {
+        "caseId": "polo-collarPointExtension-min",
+        "issueIds": [
+          "flat:polo:FRONT_FLAT:callout:collar-point-extension"
+        ],
+        "currentKeyedIssues": []
+      }
+    ],
+    "currentS390KeyedOutputFailures": [],
+    "explanation": "S378/S380's two original C base collisions remain reproducible. The complete S390 Chromium measurement also exposes collarLeafDepth=max as a third unkeyed-baseline collision. All three rows fail only with the inline C callout; the approved source-centered C plus complete keyed schedule has zero keyed renderer failures across all 17 rows. They remain baseline comparator evidence, not current keyed-output blockers."
+  },
+  "priorInlineLeaderReconciliation": {
+    "priorS385PomCount": 10,
+    "priorS385BlockerInstances": 170,
+    "priorS385Crossings": 139,
+    "currentSourcePomIds": [
+      "pom:polo:across-shoulder",
+      "pom:polo:body-chest-finished",
+      "pom:polo:button-spacing",
+      "pom:polo:finished-placket-length",
+      "pom:polo:finished-placket-width",
+      "pom:polo:finished-pointed-collar-leaf",
+      "pom:polo:front-neck-drop",
+      "pom:polo:neck-width",
+      "pom:polo:shoulder-seam",
+      "pom:polo:sleeve-bicep-width"
+    ],
+    "sameTenSourcePomIds": true,
+    "currentRowsWithKeyedRendererIssues": 0,
+    "currentKeyedIssueCount": 0,
+    "note": "S385 counts describe the prior inline-leader rendering. S390 confirms ten source POMs are represented by eight source-centered stations (including co-located/shared-key POMs) with full schedule rows; those old leader crossings are not emitted leader paths in the keyed output. Current key-to-source geometry contacts are separately reviewed in S391 and are not accepted by this reconciliation.",
+    "historicalSourceCrosswalk": [
+      {
+        "sourcePomId": "pom:polo:across-shoulder",
+        "fullText": "Across shoulder: 45.0 cm (±0.6 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:front:outline",
+        "oldSourceEntityId": "pattern:polo:role:front:edge:shoulder",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:view-seam:polo-sleeve-cap:front:armhole": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:front:edge:armhole": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:body-chest-finished",
+        "fullText": "Body chest (finished): 110.0 cm (±1.3 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:front:outline",
+        "oldSourceEntityId": "pattern:polo:role:front:edge:side",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:component:sleeve:outline": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:sleeve": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:button-spacing",
+        "fullText": "Button spacing: 3.5 cm (±0.1 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-1",
+        "oldSourceEntityId": "pattern:polo:mark:buttonPlacket:button-1",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:component:buttonPlacket:outline": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:buttonPlacket": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:finished-placket-length",
+        "fullText": "Finished placket length: 14.0 cm (±0.3 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "oldSourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection": 16,
+          "flat:polo:FRONT_FLAT:mark:front:placketBaseClipRight:fold-reflection": 1
+        },
+        "oldInterferingSources": {
+          "pattern:polo:mark:front:placketBaseReinforcement": 16,
+          "pattern:polo:mark:front:placketBaseClipRight": 1
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:finished-placket-width",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+        "oldSourceEntityId": "pattern:polo:mark:buttonPlacket:attachmentLine",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:component:buttonPlacket:outline": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:buttonPlacket": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:front-neck-drop",
+        "fullText": "Front neck drop: 8.0 cm (±0.3 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:front:outline",
+        "oldSourceEntityId": "pattern:polo:role:front:edge:neckline",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:component:buttonPlacket:outline": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:buttonPlacket": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:neck-width",
+        "fullText": "Neck width: 14.0 cm (±0.6 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:front:outline",
+        "oldSourceEntityId": "pattern:polo:role:front:edge:shoulder",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:component:outerStand:outline": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:outerStand": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0.04755,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:shoulder-seam",
+        "fullText": "Shoulder seam: 16.0 cm (±0.3 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:front:outline",
+        "oldSourceEntityId": "pattern:polo:role:front:edge:shoulder",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:component:outerStand:outline": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:outerStand": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0.09799,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:sleeve-bicep-width",
+        "fullText": "Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:sleeve:outline",
+        "oldSourceEntityId": "pattern:polo:role:sleeve:edge:sideLeft",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:component:front:outline": 17
+        },
+        "oldInterferingSources": {
+          "pattern:polo:role:front": 17
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      },
+      {
+        "sourcePomId": "pom:polo:finished-pointed-collar-leaf",
+        "fullText": "Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "oldTargetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "oldSourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "oldInterferingPaths": {
+          "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch": 15,
+          "flat:polo:FRONT_FLAT:mark:outerStand:centerMatch": 2
+        },
+        "oldInterferingSources": {
+          "pattern:polo:mark:underCollar:centerMatch": 15,
+          "pattern:polo:mark:outerStand:centerMatch": 2
+        },
+        "historicalMinimumClearanceCm": 0,
+        "historicalMaximumClearanceCm": 0.00005,
+        "classification": "historical inline-leader finding; not a current keyed-output failure"
+      }
+    ]
+  },
+  "currentKeyStationObservations": {
+    "evidenceFile": "../S391-polo-keyed-marker-current-state/polo-keyed-marker-current-state-matrix.json",
+    "candidateCounts": {
+      "conservativePathOrMarkBboxCandidates": 211,
+      "pathCandidates": 142,
+      "independentMarkCandidates": 69
+    },
+    "caveat": "S391 uses conservative glyph-box/path-sample tests; counts flag contact candidates, not confirmed glyph intersections. The actual default whole view, eight marker crops and limiting I crop are reviewed in its packet.",
+    "byKey": [
+      {
+        "key": "A",
+        "affectedOptionRows": [
+          "polo-backHemDrop-max",
+          "polo-backHemDrop-min",
+          "polo-collarLeafDepth-max",
+          "polo-collarLeafDepth-min",
+          "polo-collarPointExtension-max",
+          "polo-collarPointExtension-min",
+          "polo-default",
+          "polo-placketLength-max",
+          "polo-placketLength-min",
+          "polo-placketWidth-max",
+          "polo-placketWidth-min",
+          "polo-sideVentDepth-max",
+          "polo-sideVentDepth-min",
+          "polo-standFrontRise-max",
+          "polo-standFrontRise-min",
+          "polo-standHeight-max",
+          "polo-standHeight-min"
+        ],
+        "candidateCount": 17,
+        "sourceEntities": [
+          "pattern:polo:role:front:edge:armhole"
+        ],
+        "targetEntities": [
+          "flat:polo:FRONT_FLAT:view-seam:polo-sleeve-cap:front:armhole"
+        ],
+        "classification": "source-backed armhole/shoulder interface; keep separately keyed POM rows"
+      },
+      {
+        "key": "B",
+        "affectedOptionRows": [
+          "polo-backHemDrop-max",
+          "polo-backHemDrop-min",
+          "polo-collarLeafDepth-max",
+          "polo-collarLeafDepth-min",
+          "polo-collarPointExtension-max",
+          "polo-collarPointExtension-min",
+          "polo-default",
+          "polo-placketLength-max",
+          "polo-placketLength-min",
+          "polo-placketWidth-max",
+          "polo-placketWidth-min",
+          "polo-sideVentDepth-max",
+          "polo-sideVentDepth-min",
+          "polo-standFrontRise-max",
+          "polo-standFrontRise-min",
+          "polo-standHeight-max",
+          "polo-standHeight-min"
+        ],
+        "candidateCount": 17,
+        "sourceEntities": [
+          "pattern:polo:role:front:edge:armhole"
+        ],
+        "targetEntities": [
+          "flat:polo:FRONT_FLAT:view-seam:polo-sleeve-cap:front:armhole"
+        ],
+        "classification": "source-backed armhole/shoulder interface; keep separately keyed POM rows"
+      },
+      {
+        "key": "C",
+        "affectedOptionRows": [
+          "polo-backHemDrop-max",
+          "polo-backHemDrop-min",
+          "polo-collarLeafDepth-max",
+          "polo-collarLeafDepth-min",
+          "polo-collarPointExtension-max",
+          "polo-collarPointExtension-min",
+          "polo-default",
+          "polo-placketLength-max",
+          "polo-placketLength-min",
+          "polo-placketWidth-max",
+          "polo-placketWidth-min",
+          "polo-sideVentDepth-max",
+          "polo-sideVentDepth-min",
+          "polo-standFrontRise-max",
+          "polo-standFrontRise-min",
+          "polo-standHeight-max",
+          "polo-standHeight-min"
+        ],
+        "candidateCount": 17,
+        "sourceEntities": [
+          "pattern:polo:role:underCollar"
+        ],
+        "targetEntities": [
+          "flat:polo:FRONT_FLAT:component:underCollar:outline"
+        ],
+        "classification": "source-backed collar/neckline interface; keyed C output passes renderer collision check"
+      },
+      {
+        "key": "D",
+        "affectedOptionRows": [],
+        "candidateCount": 0,
+        "sourceEntities": [],
+        "targetEntities": [],
+        "classification": "no S391 path/mark candidates"
+      },
+      {
+        "key": "E",
+        "affectedOptionRows": [],
+        "candidateCount": 0,
+        "sourceEntities": [],
+        "targetEntities": [],
+        "classification": "approved glyph offsets retain fixed source-centered rings; inspect rendered spacing against marks and paths"
+      },
+      {
+        "key": "FG",
+        "affectedOptionRows": [
+          "polo-backHemDrop-max",
+          "polo-backHemDrop-min",
+          "polo-collarLeafDepth-max",
+          "polo-collarLeafDepth-min",
+          "polo-collarPointExtension-max",
+          "polo-collarPointExtension-min",
+          "polo-default",
+          "polo-placketLength-max",
+          "polo-placketLength-min",
+          "polo-placketWidth-max",
+          "polo-placketWidth-min",
+          "polo-sideVentDepth-max",
+          "polo-sideVentDepth-min",
+          "polo-standFrontRise-max",
+          "polo-standFrontRise-min",
+          "polo-standHeight-max",
+          "polo-standHeight-min"
+        ],
+        "candidateCount": 104,
+        "sourceEntities": [
+          "pattern:polo:mark:front:centerFront",
+          "pattern:polo:mark:front:placketOpening",
+          "pattern:polo:mark:outerStand:centerFront",
+          "pattern:polo:role:buttonPlacket",
+          "pattern:polo:role:front",
+          "pattern:polo:role:outerStand",
+          "pattern:polo:role:underCollar",
+          "pattern:polo:role:upperCollar"
+        ],
+        "targetEntities": [
+          "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+          "flat:polo:FRONT_FLAT:component:front:outline:fold-reflection",
+          "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "flat:polo:FRONT_FLAT:component:underCollar:outline",
+          "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+          "flat:polo:FRONT_FLAT:mark:front:centerFront",
+          "flat:polo:FRONT_FLAT:mark:front:placketOpening",
+          "flat:polo:FRONT_FLAT:mark:outerStand:centerFront"
+        ],
+        "classification": "source-backed neckline/placket/collar station; inspect rendered readability"
+      },
+      {
+        "key": "H",
+        "affectedOptionRows": [
+          "polo-backHemDrop-max",
+          "polo-backHemDrop-min",
+          "polo-collarLeafDepth-max",
+          "polo-collarLeafDepth-min",
+          "polo-collarPointExtension-max",
+          "polo-collarPointExtension-min",
+          "polo-default",
+          "polo-placketLength-max",
+          "polo-placketLength-min",
+          "polo-placketWidth-max",
+          "polo-placketWidth-min",
+          "polo-sideVentDepth-max",
+          "polo-sideVentDepth-min",
+          "polo-standFrontRise-max",
+          "polo-standFrontRise-min",
+          "polo-standHeight-max",
+          "polo-standHeight-min"
+        ],
+        "candidateCount": 55,
+        "sourceEntities": [
+          "pattern:polo:mark:front:shoulder",
+          "pattern:polo:mark:outerStand:shoulder",
+          "pattern:polo:role:outerStand",
+          "pattern:polo:role:underCollar",
+          "pattern:polo:role:upperCollar"
+        ],
+        "targetEntities": [
+          "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "flat:polo:FRONT_FLAT:component:underCollar:outline",
+          "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+          "flat:polo:FRONT_FLAT:mark:front:shoulder",
+          "flat:polo:FRONT_FLAT:mark:outerStand:shoulder"
+        ],
+        "classification": "remaining crowded independent shoulder marks and outerStand outline; source marks are distinct and no stitch-graph join is encoded"
+      },
+      {
+        "key": "I",
+        "affectedOptionRows": [
+          "polo-standFrontRise-min"
+        ],
+        "candidateCount": 1,
+        "sourceEntities": [
+          "pattern:polo:mark:outerStand:centerBack"
+        ],
+        "targetEntities": [
+          "flat:polo:FRONT_FLAT:mark:outerStand:centerBack"
+        ],
+        "classification": "approved glyph offsets retain fixed source-centered rings; inspect rendered spacing against marks and paths"
+      }
+    ]
+  },
+  "residualSource": {
+    "stitchId": "stitch:Sleeve-cap ease",
+    "sourceLabel": "Sleeve-cap ease",
+    "authoredEaseCm": 1.5,
+    "sourcePOM": null,
+    "targetRoleEdges": [
+      "sleeve.capLeft → front.armhole",
+      "sleeve.capRight → back.armhole"
+    ],
+    "assemblyResidualsCm": [
+      0.68
+    ],
+    "faceCountAboveGate": 34,
+    "reason": "This is an assembly stitch endpoint residual, not a POM annotation failure. Keep the source-encoded +1.5 cm ease, approved view-only projection and 0.25 cm gate distinct."
+  },
+  "poms": [
+    {
+      "id": "pom:polo:body-chest-finished",
+      "label": "Body chest (finished)",
+      "anchorRole": "front",
+      "anchorEdge": "side",
+      "backAnchorRole": "back",
+      "backAnchorEdge": "side"
+    },
+    {
+      "id": "pom:polo:across-shoulder",
+      "label": "Across shoulder",
+      "anchorRole": "front",
+      "anchorEdge": "shoulder",
+      "backAnchorRole": "back",
+      "backAnchorEdge": "shoulder"
+    },
+    {
+      "id": "pom:polo:shoulder-seam",
+      "label": "Shoulder seam",
+      "anchorRole": "front",
+      "anchorEdge": "shoulder",
+      "backAnchorRole": "back",
+      "backAnchorEdge": "shoulder"
+    },
+    {
+      "id": "pom:polo:armhole-front-back",
+      "label": "Armhole (front + back)",
+      "anchorRole": "front",
+      "anchorEdge": "armhole",
+      "backAnchorRole": "back",
+      "backAnchorEdge": "armhole"
+    },
+    {
+      "id": "pom:polo:neck-width",
+      "label": "Neck width",
+      "anchorRole": "front",
+      "anchorEdge": "shoulder",
+      "backAnchorRole": "back",
+      "backAnchorEdge": "shoulder"
+    },
+    {
+      "id": "pom:polo:front-neck-drop",
+      "label": "Front neck drop",
+      "anchorRole": "front",
+      "anchorEdge": "neckline",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:sleeve-length-cap-hem",
+      "label": "Sleeve length (cap–hem)",
+      "anchorRole": "sleeve",
+      "anchorEdge": "capLeft",
+      "backAnchorRole": "sleeve",
+      "backAnchorEdge": "capRight"
+    },
+    {
+      "id": "pom:polo:sleeve-bicep-width",
+      "label": "Sleeve bicep width",
+      "anchorRole": "sleeve",
+      "anchorEdge": "sideLeft",
+      "backAnchorRole": "sleeve",
+      "backAnchorEdge": "sideRight"
+    },
+    {
+      "id": "pom:polo:sleeve-hem",
+      "label": "Sleeve hem",
+      "anchorRole": "sleeve",
+      "anchorEdge": "hem",
+      "backAnchorRole": "sleeve",
+      "backAnchorEdge": "hem"
+    },
+    {
+      "id": "pom:polo:finished-placket-length",
+      "label": "Finished placket length",
+      "anchorRole": "buttonPlacket",
+      "anchorEdge": "attachmentRaw",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:finished-placket-width",
+      "label": "Finished placket width",
+      "anchorRole": null,
+      "anchorEdge": null,
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:button-spacing",
+      "label": "Button spacing",
+      "anchorRole": null,
+      "anchorEdge": null,
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:finished-collar-stand-height",
+      "label": "Finished collar stand height",
+      "anchorRole": "outerStand",
+      "anchorEdge": "frontEnd",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:finished-pointed-collar-leaf",
+      "label": "Finished pointed collar leaf",
+      "anchorRole": "upperCollar",
+      "anchorEdge": "centerBack",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:stand-front-rise",
+      "label": "Stand front rise",
+      "anchorRole": "outerStand",
+      "anchorEdge": "frontNeckline",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:collar-point-extension",
+      "label": "Collar point extension",
+      "anchorRole": "upperCollar",
+      "anchorEdge": "frontTip",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:front-side-vent-depth",
+      "label": "Front side-vent depth",
+      "anchorRole": "front",
+      "anchorEdge": "vent",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:back-side-vent-depth",
+      "label": "Back side-vent depth",
+      "anchorRole": null,
+      "anchorEdge": null,
+      "backAnchorRole": "back",
+      "backAnchorEdge": "vent"
+    },
+    {
+      "id": "pom:polo:front-body-length-hps-hem",
+      "label": "Front body length (HPS–hem)",
+      "anchorRole": "front",
+      "anchorEdge": "hem",
+      "backAnchorRole": null,
+      "backAnchorEdge": null
+    },
+    {
+      "id": "pom:polo:back-body-length-hps-hem",
+      "label": "Back body length (HPS–hem)",
+      "anchorRole": null,
+      "anchorEdge": null,
+      "backAnchorRole": "back",
+      "backAnchorEdge": "hem"
+    },
+    {
+      "id": "pom:polo:back-hem-drop",
+      "label": "Back hem drop",
+      "anchorRole": null,
+      "anchorEdge": null,
+      "backAnchorRole": "back",
+      "backAnchorEdge": "hem"
+    }
+  ],
+  "cases": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-default",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-default",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-default",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-placketLength-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketLength-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketLength-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-placketLength-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketLength-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketLength-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-placketWidth-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketWidth-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketWidth-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-placketWidth-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketWidth-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-placketWidth-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-standHeight-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standHeight-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standHeight-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-standHeight-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standHeight-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standHeight-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-collarLeafDepth-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarLeafDepth-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarLeafDepth-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-collarLeafDepth-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarLeafDepth-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarLeafDepth-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-standFrontRise-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standFrontRise-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standFrontRise-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-standFrontRise-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standFrontRise-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-standFrontRise-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-collarPointExtension-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarPointExtension-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarPointExtension-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-collarPointExtension-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarPointExtension-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-collarPointExtension-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-sideVentDepth-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-sideVentDepth-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-sideVentDepth-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-sideVentDepth-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-sideVentDepth-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-sideVentDepth-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-backHemDrop-min",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-backHemDrop-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-backHemDrop-min",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "currentKeyedRevision": "live-draft:polo:S390:polo-backHemDrop-max",
+      "keyedIssueCount": 0,
+      "baseIssues": [],
+      "keyedPomCount": 10,
+      "keyedScheduleRows": 11,
+      "markerStations": 8,
+      "pairedBackUnchanged": true,
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-backHemDrop-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capLeft",
+          "armholeSourceId": "pattern:polo:role:front:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 0,
+              "y": 1.7869438924826682
+            },
+            "end": {
+              "x": 21.5,
+              "y": 0
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              20.615528128088304,
+              21.57413192865199
+            ],
+            "reversed": [
+              0,
+              0.9586038005636853
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 25.736469171951565,
+                "y": 24.28831838894513
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": false
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:polo:S392:polo-backHemDrop-max",
+          "capSourceId": "pattern:polo:role:sleeve:edge:capRight",
+          "armholeSourceId": "pattern:polo:role:back:edge:armhole",
+          "capLengthCm": 21.59572903238069,
+          "armholeLengthCm": 20.845729033384988,
+          "edgeExcessCm": 0.7499999989957011,
+          "sourceCapEndpoints": {
+            "start": {
+              "x": 21.5,
+              "y": 0
+            },
+            "end": {
+              "x": 43,
+              "y": 1.7869438924826682
+            }
+          },
+          "sourceArmholeEndpoints": {
+            "start": {
+              "x": 22.5,
+              "y": 4
+            },
+            "end": {
+              "x": 27.5,
+              "y": 24
+            }
+          },
+          "transformedEndpointGapsCm": {
+            "direct": [
+              0.9586038005636853,
+              0
+            ],
+            "reversed": [
+              21.57413192865199,
+              20.615528128088304
+            ]
+          },
+          "assemblyIssue": {
+            "code": "STITCH_ENDPOINT_RESIDUAL",
+            "sourceId": "stitch:Sleeve-cap ease",
+            "message": "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release.",
+            "residualCm": 0.68
+          },
+          "rigidTransforms": {
+            "sleeve": {
+              "offset": {
+                "x": 18.798539684184604,
+                "y": -18.148282964400472
+              },
+              "rotationDegrees": -99.28510102077226,
+              "mirrorX": true
+            },
+            "body": {
+              "offset": {
+                "x": 0,
+                "y": 0
+              },
+              "rotationDegrees": 0,
+              "mirrorX": false
+            }
+          },
+          "sleevePoms": [
+            {
+              "label": "Sleeve length (cap–hem)",
+              "valueCm": 23.786943892482668
+            },
+            {
+              "label": "Sleeve bicep width",
+              "valueCm": 43
+            },
+            {
+              "label": "Sleeve hem",
+              "valueCm": 37
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

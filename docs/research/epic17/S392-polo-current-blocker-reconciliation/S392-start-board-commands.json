@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2134,"itemId":"G04-V02","evidence":{"id":"E-G04-S392-START","kind":"document","uri":"docs/research/epic17/S392-polo-current-blocker-reconciliation/G04-V02-POLO-CURRENT-BLOCKER-RECONCILIATION-S392.md","verified":true,"note":"Read-only reconciliation of current keyed Polo output, three C baseline-only collision rows, historical inline leader counts and current 17-option rigid assembly residual. Preserve all holds and gates."}},
+  {"type":"addEvidence","expectedRevision":2135,"itemId":"EPIC-17","evidenceId":"E-G04-S392-START"},
+  {"type":"addEpicEvidence","expectedRevision":2136,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S392-START"},
+  {"type":"addComment","expectedRevision":2137,"itemId":"G04-V02","actor":"Codex","text":"S392 reconciles current 17-option Polo keyed output against baseline-only C collision rows, S385 inline leader counts, and a fresh current-source 34-face sleeve assembly check. It makes no source, mapping, gate or acceptance change; all 34 Polo faces remain held."}
+]
