@@ -106,6 +106,18 @@ center-back I station. This display trial therefore does not pass Polo
 readability or release any face; the 0.68 cm sleeve residual and fixed 0.25 cm
 gate remain independent holds.
 
+Slice 390 applies the maintainer-approved Polo E/I glyph-only display offsets:
+E `(-0.38,-0.34 cm)` and I `(+0.34,-0.32 cm)` relative to their former
+source-centered text positions. The renderer scopes these offsets to Polo;
+other recipes retain their existing keyed-letter positions. The 0.22 cm keyed
+rings remain centered on the exact same-revision POM anchors, and the key/source/target metadata, source
+marks and paths, complete schedule rows, other key positions and paired backs
+remain fixed. These translations change annotation glyph placement only; they
+do not assert pattern construction or erase a nearby mark. The approval permits
+17-option verification, not view release. All Polo faces remain held for the
+remaining V02 checks and independent 0.68 cm sleeve residual above the fixed
+0.25 cm gate.
+
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
 `TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled

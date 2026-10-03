@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2102,
-  "updatedAt": "2026-10-03T02:38:12.138Z",
+  "revision": 2119,
+  "updatedAt": "2026-10-03T03:12:04.390Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -530,7 +530,10 @@
         "E-G04-S389-I-DEFAULT",
         "E-G04-S389-I-STANDFRONT-MIN",
         "E-G04-S389-I-COLLAR-MIN",
-        "E-G04-S389-I-COLLAR-MAX"
+        "E-G04-S389-I-COLLAR-MAX",
+        "E-G04-S390-START",
+        "E-G04-S390-EXIT",
+        "E-G04-S390-OUTPUT-REVIEW"
       ]
     },
     {
@@ -3952,6 +3955,16 @@
           "at": "2026-10-03T02:38:12.138Z",
           "actor": "Codex",
           "text": "S389 is a diagnostic-only exit. The source-centered open-ring trial approval remains in force; the separate E/I glyph-offset choice remains unresolved. No recipe acceptance, all-seven criterion, geometry, interchange gate, legacy DXF behavior or protected export identity changed."
+        },
+        {
+          "at": "2026-10-03T02:50:01.649Z",
+          "actor": "Codex",
+          "text": "S390 implements only approved E/I annotation glyph translations and verifies the all-option rendered output. Pattern geometry, source stitch graph, POMs, acceptance, all-seven criterion, 0.25 cm gate, all holds, legacy DXF, protected exports and V03 dependency remain unchanged."
+        },
+        {
+          "at": "2026-10-03T03:12:04.390Z",
+          "actor": "Codex",
+          "text": "S390 closes the approved Polo annotation-placement trial only. No face acceptance, all-seven acceptance, V02 completion, or V03 entry is claimed; legacy DXF, protected exports and all remaining holds stay unchanged."
         }
       ],
       "evidenceRefs": [
@@ -4303,7 +4316,10 @@
         "E-G04-S389-I-DEFAULT",
         "E-G04-S389-I-STANDFRONT-MIN",
         "E-G04-S389-I-COLLAR-MIN",
-        "E-G04-S389-I-COLLAR-MAX"
+        "E-G04-S389-I-COLLAR-MAX",
+        "E-G04-S390-START",
+        "E-G04-S390-EXIT",
+        "E-G04-S390-OUTPUT-REVIEW"
       ],
       "flagKey": null
     },
@@ -8211,6 +8227,16 @@
           "at": "2026-10-03T02:38:12.115Z",
           "actor": "Codex",
           "text": "S389 option-wide diagnostic: the proposed E glyph offset clears all 17 options; I has no computed intersections but approaches the authored outerStand:centerBack mark to 0.009080 cm at standFrontRise minimum. No production offset is implemented or accepted. Preserve all 34 Polo holds, the 0.68 cm residual and fixed 0.25 cm gate."
+        },
+        {
+          "at": "2026-10-03T02:50:01.615Z",
+          "actor": "Codex",
+          "text": "The maintainer approved the exact S389 E/I glyph-only offsets for implementation and 17-option verification. S390 keeps the rings at their same-revision source anchors and preserves all marks, source paths and full schedule rows. The approval does not release any Polo face or clear the independent 0.68 cm residual."
+        },
+        {
+          "at": "2026-10-03T03:12:04.347Z",
+          "actor": "Codex",
+          "text": "S390 implements the exact user-approved Polo-only E/I glyph offsets and confirms them on all 17 current option outputs. Full SVG comparison shows only approved glyph coordinates/revision tags differ; paired backs and source geometry are unchanged. Keep all 34 Polo holds, the three unkeyed C baseline failures, the 0.68 cm residual and 0.25 cm gate."
         }
       ],
       "evidenceRefs": [
@@ -8663,7 +8689,14 @@
         "E-G04-S389-I-DEFAULT",
         "E-G04-S389-I-STANDFRONT-MIN",
         "E-G04-S389-I-COLLAR-MIN",
-        "E-G04-S389-I-COLLAR-MAX"
+        "E-G04-S389-I-COLLAR-MAX",
+        "E-G04-S390-START",
+        "E-G04-S390-EXIT",
+        "E-G04-S390-MATRIX",
+        "E-G04-S390-OUTPUT-REVIEW",
+        "E-G04-S390-DEFAULT-WHOLE",
+        "E-G04-S390-I-STANDFRONT-MIN",
+        "E-G04-S390-E-DEFAULT"
       ],
       "flagKey": null
     },
@@ -14284,6 +14317,69 @@
       "sha256": null,
       "verified": true,
       "note": "Actual Chromium collar-leaf-depth maximum crop reviewed for candidate I; mark/path/revision identity retained."
+    },
+    {
+      "id": "E-G04-S390-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S390-polo-centerback-glyph-candidates/G04-V02-POLO-CENTERBACK-GLYPH-CANDIDATES-S390.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implement only the maintainer-approved E (-0.38,-0.34 cm) and I (+0.34,-0.32 cm) glyph offsets with exact ring anchors fixed; verify the current 17-option output. User authorized verification, not Polo view release; all faces remain held."
+    },
+    {
+      "id": "E-G04-S390-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S390-polo-centerback-glyph-candidates/G04-V02-POLO-CENTERBACK-GLYPH-CANDIDATES-S390.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implemented only the approved Polo E/I glyph translations; exact 17-option renderer, SVG equivalence, schedule, source-geometry and paired-back evidence passes. All Polo faces and independent blockers remain held."
+    },
+    {
+      "id": "E-G04-S390-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S390-polo-centerback-glyph-candidates/polo-keyed-marker-trial-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current production-renderer matrix for all 17 exact Polo options: 17 keyed front outputs, 170 keyed POM entries, 11 full schedule rows per option, zero keyed renderer/browser issues, three retained unkeyed C baseline collisions, and no hold release."
+    },
+    {
+      "id": "E-G04-S390-OUTPUT-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S390-polo-centerback-glyph-candidates/polo-glyph-offset-output-review.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium compares every S390 SVG to its S388 baseline after reverting only E/I glyph coordinates and revision tags; records actual glyph/ring/path/mark/text clearances for all 17 revisions."
+    },
+    {
+      "id": "E-G04-S390-DEFAULT-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S390-polo-centerback-glyph-candidates/rendered/polo-default-S390-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual S390 production-rendered Polo default whole front; approved glyph positions, source construction, full face and complete schedule inspected."
+    },
+    {
+      "id": "E-G04-S390-I-STANDFRONT-MIN",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S390-polo-centerback-glyph-candidates/rendered/polo-standFrontRise-min-I-S390-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual S390 close view at limiting standFrontRise minimum; approved I glyph is distinct and source mark remains visible, with measured 0.027219 cm mark clearance. Other V02 blockers still hold all Polo faces."
+    },
+    {
+      "id": "E-G04-S390-E-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S390-polo-centerback-glyph-candidates/rendered/polo-default-E-S390-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual S390 close view confirms approved E glyph remains legible beside its unchanged source-centered ring and construction paths."
     }
   ]
 }

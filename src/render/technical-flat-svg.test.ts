@@ -61,6 +61,65 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("[data-schedule-for='pom-sleeve']")?.textContent).toContain("Measurement 2");
   });
 
+  it("applies approved Polo E/I glyph-only offsets while keeping every keyed ring on its source anchor", () => {
+    const keys = [
+      { key: "E", x: 7, y: 2, style: "open-halo" as const },
+      { key: "I", x: 8, y: 3, style: "open-halo" as const },
+      { key: "D", x: 9, y: 4, style: "open-halo" as const },
+      { key: "C", x: 10, y: 5, style: undefined },
+    ];
+    const targets: TechnicalFlatPrimitive[] = keys.map(({ key }) => ({ ...outline,
+      id: `outline-${key}`, source: { ...source, sourceId: `pattern:polo:${key}` } }));
+    const callouts: TechnicalFlatPrimitive[] = keys.map(({ key, x, y, style }) => ({
+      kind: "callout", id: `pom-${key}`, layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: `pom:polo:${key}` }, text: `POM ${key}: 10 cm (±0.2 cm)`,
+      anchor: { primitiveId: `outline-${key}`, point: { x, y }, sourceEntityId: `pattern:polo:${key}` },
+      labelAt: { x: x + 2, y: y + 1 },
+      presentation: { kind: "keyed-marker-schedule", key, markerRadiusCm: 0.22,
+        ...(style ? { markerStyle: style } : {}) },
+    }));
+    const result = renderTechnicalFlatSvg({ ...makeView([...targets, ...callouts]), recipeId: "polo" }, { measureText: measure });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    for (const { key, x, y } of keys) {
+      const marker = parsed.querySelector(`g[data-pom-key='${key}']`)!;
+      const circle = marker.querySelector("circle")!;
+      expect(Number(circle.getAttribute("cx"))).toBe(x);
+      expect(Number(circle.getAttribute("cy"))).toBe(y);
+      expect(Number(circle.getAttribute("r"))).toBe(0.22);
+      expect(marker.getAttribute("data-source-id")).toBe(`pom:polo:${key}`);
+      expect(marker.getAttribute("data-callout-target")).toBe(`outline-${key}`);
+      expect(marker.getAttribute("data-callout-source-entity")).toBe(`pattern:polo:${key}`);
+    }
+    expect(parsed.querySelector("g[data-pom-key='E'] text")?.getAttribute("x")).toBe("6.62");
+    expect(parsed.querySelector("g[data-pom-key='E'] text")?.getAttribute("y")).toBe("1.73");
+    expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("x")).toBe("8.34");
+    expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("y")).toBe("2.75");
+    expect(parsed.querySelector("g[data-pom-key='D'] text")?.getAttribute("x")).toBe("9");
+    expect(parsed.querySelector("g[data-pom-key='D'] text")?.getAttribute("y")).toBe("4.07");
+    expect(parsed.querySelector("g[data-pom-key='C'] text")?.getAttribute("x")).toBe("10");
+    expect(parsed.querySelector("g[data-pom-key='C'] text")?.getAttribute("y")).toBe("5.07");
+    expect(parsed.querySelectorAll("g[data-layer-group='POM_SCHEDULE'] [data-schedule-for]")).toHaveLength(4);
+  });
+
+  it("keeps E/I keyed glyphs unchanged for recipes outside the Polo approval", () => {
+    const callouts: TechnicalFlatPrimitive[] = (["E", "I"] as const).map((key, index) => ({
+      kind: "callout", id: `pom-${key}`, layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: `pom:tee:${key.toLowerCase()}` }, text: `POM ${key}: 10 cm`,
+      anchor: { primitiveId: outline.id, point: { x: 4 + index, y: 3 + index } }, labelAt: { x: 9, y: 8 },
+      presentation: { kind: "keyed-marker-schedule", key, markerRadiusCm: 0.22 },
+    }));
+    const result = renderTechnicalFlatSvg(makeView([outline, ...callouts]), { measureText: measure });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    expect(parsed.querySelector("g[data-pom-key='E'] text")?.getAttribute("x")).toBe("4");
+    expect(parsed.querySelector("g[data-pom-key='E'] text")?.getAttribute("y")).toBe("3.07");
+    expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("x")).toBe("5");
+    expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("y")).toBe("4.07");
+  });
+
   it("fails closed when one shared keyed station is not exactly co-located", () => {
     const first: TechnicalFlatPrimitive = { kind: "callout", id: "pom-a", layer: "ANNOTATION", feature: "pom", source,
       text: "First: 1 cm", anchor: { primitiveId: outline.id, point: { x: 2, y: 2 } }, labelAt: { x: 3, y: 3 },
@@ -766,7 +825,7 @@ describe("renderTechnicalFlatSvg", () => {
         markerStyle: "open-halo" } };
     const result = renderTechnicalFlatSvg({ ...makeView([outline, button, fold, spacing]), recipeId: "polo" }, {
       measureText: (text, size) => text === "BUTTON"
-        ? { widthCm: 1.31, ascentCm: size * 0.91, descentCm: size * 0.25 } : measure(text, size),
+        ? { widthCm: 1.31, ascentCm: size * 0.91, descentCm: size * 0.25 } : measure(text, size, "Arial, sans-serif"),
     });
     expect(result.issues).toEqual([]);
     const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
