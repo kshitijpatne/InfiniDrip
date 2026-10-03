@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2119,
-  "updatedAt": "2026-10-03T03:12:04.390Z",
+  "revision": 2134,
+  "updatedAt": "2026-10-03T03:41:40.645Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -533,7 +533,10 @@
         "E-G04-S389-I-COLLAR-MAX",
         "E-G04-S390-START",
         "E-G04-S390-EXIT",
-        "E-G04-S390-OUTPUT-REVIEW"
+        "E-G04-S390-OUTPUT-REVIEW",
+        "E-G04-S391-START",
+        "E-G04-S391-EXIT",
+        "E-G04-S391-MATRIX"
       ]
     },
     {
@@ -3965,6 +3968,11 @@
           "at": "2026-10-03T03:12:04.390Z",
           "actor": "Codex",
           "text": "S390 closes the approved Polo annotation-placement trial only. No face acceptance, all-seven acceptance, V02 completion, or V03 entry is claimed; legacy DXF, protected exports and all remaining holds stay unchanged."
+        },
+        {
+          "at": "2026-10-03T03:41:40.645Z",
+          "actor": "Codex",
+          "text": "S391 closes without changing construction, POMs, source geometry, callout acceptance, holds or thresholds. G04 V02 remains open; all-seven acceptance and V02-before-V03 remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -4319,7 +4327,10 @@
         "E-G04-S389-I-COLLAR-MAX",
         "E-G04-S390-START",
         "E-G04-S390-EXIT",
-        "E-G04-S390-OUTPUT-REVIEW"
+        "E-G04-S390-OUTPUT-REVIEW",
+        "E-G04-S391-START",
+        "E-G04-S391-EXIT",
+        "E-G04-S391-MATRIX"
       ],
       "flagKey": null
     },
@@ -8237,6 +8248,16 @@
           "at": "2026-10-03T03:12:04.347Z",
           "actor": "Codex",
           "text": "S390 implements the exact user-approved Polo-only E/I glyph offsets and confirms them on all 17 current option outputs. Full SVG comparison shows only approved glyph coordinates/revision tags differ; paired backs and source geometry are unchanged. Keep all 34 Polo holds, the three unkeyed C baseline failures, the 0.68 cm residual and 0.25 cm gate."
+        },
+        {
+          "at": "2026-10-03T03:19:05.660Z",
+          "actor": "Codex",
+          "text": "S391 diagnoses the complete current keyed-marker set against the exact S390 17-option production output. It is read-only: no marker, POM, geometry, threshold or acceptance changes. All 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-03T03:41:40.612Z",
+          "actor": "Codex",
+          "text": "S391 completes a read-only review of all eight Polo keyed stations on all 17 exact S390 revisions. It separates source-backed A/B/C/FG interfaces, clear D, approved E/I glyph trials and H's crowded distinct shoulder geometry; conservative box contacts are not reported as confirmed intersections. All 34 views remain held for the three C schedule failures, H/output review and the 0.68 cm residual against 0.25 cm."
         }
       ],
       "evidenceRefs": [
@@ -8696,7 +8717,13 @@
         "E-G04-S390-OUTPUT-REVIEW",
         "E-G04-S390-DEFAULT-WHOLE",
         "E-G04-S390-I-STANDFRONT-MIN",
-        "E-G04-S390-E-DEFAULT"
+        "E-G04-S390-E-DEFAULT",
+        "E-G04-S391-START",
+        "E-G04-S391-EXIT",
+        "E-G04-S391-MATRIX",
+        "E-G04-S391-DEFAULT-WHOLE",
+        "E-G04-S391-H-SHOULDER",
+        "E-G04-S391-I-LIMIT"
       ],
       "flagKey": null
     },
@@ -14380,6 +14407,60 @@
       "sha256": null,
       "verified": true,
       "note": "Actual S390 close view confirms approved E glyph remains legible beside its unchanged source-centered ring and construction paths."
+    },
+    {
+      "id": "E-G04-S391-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S391-polo-keyed-marker-current-state/G04-V02-POLO-KEYED-MARKER-CURRENT-STATE-S391.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only current-output diagnosis of all eight Polo keyed stations on the exact 17 S390 production-renderer revisions. Reuse existing matrices; retain all 34 holds and the fixed residual gate."
+    },
+    {
+      "id": "E-G04-S391-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S391-polo-keyed-marker-current-state/G04-V02-POLO-KEYED-MARKER-CURRENT-STATE-S391.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only all-option current-state review classifies 211 conservative text-box candidates against exact S384 topology and rendered crops; no acceptance changes. All 34 Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S391-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S391-polo-keyed-marker-current-state/polo-keyed-marker-current-state-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Compact 17-option, 136-key-station matrix binds source and target IDs, same-revision schedules, glyph/ring/text/path/mark clearances and conservative contact classifications; browser errors 0."
+    },
+    {
+      "id": "E-G04-S391-DEFAULT-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S391-polo-keyed-marker-current-state/rendered/polo-default-S391-keyed-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual S390-revision default Polo whole front inspected alongside eight keyed-station detail crops; all source geometry remains present and all faces stay held."
+    },
+    {
+      "id": "E-G04-S391-H-SHOULDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S391-polo-keyed-marker-current-state/rendered/polo-default-H-S391-keyed-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact default H shoulder crop shows the key and crowded distinct front/outer-stand shoulder marks; no stitch join is inferred and the display remains held."
+    },
+    {
+      "id": "E-G04-S391-I-LIMIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S391-polo-keyed-marker-current-state/rendered/polo-standFrontRise-min-I-S391-keyed-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual limiting S390-revision I crop at standFrontRise minimum; approved glyph offset remains legible and the separate center-back source mark remains visible at the recorded 0.027219 cm vector gap."
     }
   ]
 }

@@ -1,6 +1,16 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current handoff — Slice 390 exit; V02 remains open
+## EPIC-17 / G04 current handoff — Slice 391 exit; V02 remains open
+
+S391 started 2026-10-03 03:17:27 UTC from clean S390 `45ca3cd` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Start board revision 2119; validated start replay advanced to 2123. S391 is a read-only review of all eight current Polo keyed stations across all 17 exact S390 production-renderer revisions. The compact matrix contains 136 source/target/revision-bound station rows and 11 same-revision POM schedule rows per case; browser errors are zero.
+
+The 211 text-box candidates are conservative bounding-box/path-sample contacts, not 211 confirmed glyph intersections. A/B/C contacts occur at source-backed armhole or collar interfaces; FG is at the source-backed neckline/placket interface and retains distinct POM schedule rows; D has no path or independent-mark contact. Approved E/I glyph offsets leave source rings, geometry and marks fixed; E has no measured independent-mark contact and I's limiting crop retains the separate mark at the verified 0.027219 cm vector gap. H remains crowded: front and outer-stand shoulder marks are distinct authored entities at the displayed station and S384 does not establish a stitch join there. All 34 Polo views stay held, including the three unkeyed C schedule collisions and 0.68 cm sleeve residual against the unchanged 0.25 cm gate. S391 packet, compact matrix and rendered crops: `docs/research/epic17/S391-polo-keyed-marker-current-state/`.
+
+S391 is closed diagnostically without changing implementation, view acceptance, geometry, marks, POMs, thresholds, exports or holds. Validated exit replay advanced the board to revision 2134; Control Center tests and `git diff --check` pass. The admitted EPIC-17 goal remains active, aligned and needed until the complete admitted objective, merge ancestry and required deployment are verified.
+
+**Next action:** refresh Git, board, usage and the goal context at S392 start; reserve the next unique slice. Consolidate the repeated Polo output blockers using exact source POM, target, path and same-revision renderer evidence, prioritizing the 0.68 cm sleeve residual and three C schedule failures. Keep all 34 Polo views held and do not relax the fixed 0.25 cm gate, all-seven acceptance, or V02-before-V03.
+
+## EPIC-17 / G04 previous handoff — Slice 390 exit; V02 remains open
 
 Started S390 at 2026-10-03 02:44:16 UTC from clean S389 `3220ee2f894ad104f6c81e7648125dcd9f4acc26` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board revision 2102 records the S389 verified exit. Highest committed slice is 389; S390 is unique. Primary usage at start was 22%, weekly 97%; ordinary work allowed. The admitted goal is active and still required through final merge/deployment.
 
