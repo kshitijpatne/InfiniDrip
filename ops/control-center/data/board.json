@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2068,
-  "updatedAt": "2026-10-03T02:08:41.420Z",
+  "revision": 2102,
+  "updatedAt": "2026-10-03T02:38:12.138Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -520,7 +520,17 @@
         "E-G04-S388-DEFAULT-DETAIL",
         "E-G04-S388-EXTREMES",
         "E-G04-S388-COLLAR-MIN",
-        "E-G04-S388-SCHEDULE"
+        "E-G04-S388-SCHEDULE",
+        "E-G04-S389-START",
+        "E-G04-S389-EXIT",
+        "E-G04-S389-MATRIX",
+        "E-G04-S389-E-DEFAULT",
+        "E-G04-S389-E-PLACKET-MIN",
+        "E-G04-S389-E-PLACKET-MAX",
+        "E-G04-S389-I-DEFAULT",
+        "E-G04-S389-I-STANDFRONT-MIN",
+        "E-G04-S389-I-COLLAR-MIN",
+        "E-G04-S389-I-COLLAR-MAX"
       ]
     },
     {
@@ -3932,6 +3942,16 @@
           "at": "2026-10-03T02:08:41.420Z",
           "actor": "Codex",
           "text": "S388 verified the Polo source-label marker/path-stroke placement change across the exact 17-option matrix with 100% focused changed-module coverage and rendered evidence. It changes no source geometry, POM, acceptance, export identity, legacy DXF behavior or held-face status. All-seven V02 remains open; V03 remains gated."
+        },
+        {
+          "at": "2026-10-03T02:15:01.162Z",
+          "actor": "Codex",
+          "text": "S389 isolates the open E/I display decision through option-wide evidence while continuing admitted G04 V02 work. It changes no Epic scope, all-seven acceptance, geometry, CAD, export identity, legacy DXF, or V03 dependency."
+        },
+        {
+          "at": "2026-10-03T02:38:12.138Z",
+          "actor": "Codex",
+          "text": "S389 is a diagnostic-only exit. The source-centered open-ring trial approval remains in force; the separate E/I glyph-offset choice remains unresolved. No recipe acceptance, all-seven criterion, geometry, interchange gate, legacy DXF behavior or protected export identity changed."
         }
       ],
       "evidenceRefs": [
@@ -4273,7 +4293,17 @@
         "E-G04-S388-DEFAULT-DETAIL",
         "E-G04-S388-EXTREMES",
         "E-G04-S388-COLLAR-MIN",
-        "E-G04-S388-SCHEDULE"
+        "E-G04-S388-SCHEDULE",
+        "E-G04-S389-START",
+        "E-G04-S389-EXIT",
+        "E-G04-S389-MATRIX",
+        "E-G04-S389-E-DEFAULT",
+        "E-G04-S389-E-PLACKET-MIN",
+        "E-G04-S389-E-PLACKET-MAX",
+        "E-G04-S389-I-DEFAULT",
+        "E-G04-S389-I-STANDFRONT-MIN",
+        "E-G04-S389-I-COLLAR-MIN",
+        "E-G04-S389-I-COLLAR-MAX"
       ],
       "flagKey": null
     },
@@ -8171,6 +8201,16 @@
           "at": "2026-10-03T02:08:41.392Z",
           "actor": "Codex",
           "text": "S388 makes the existing measured source-label placer reserve keyed ring/glyph footprints and visible path stroke. The corrected Chromium inventory measures labeled marks and paths; across all 17 Polo options, all three BUTTON labels clear the D marker and dashed placket fold. Three baseline-only C text failures are preserved, and E/I glyph offsets remain unimplemented pending the maintainer's response. All 34 faces remain held by remaining path/mark checks and the 0.68 cm residual against the unchanged 0.25 cm gate."
+        },
+        {
+          "at": "2026-10-03T02:15:01.133Z",
+          "actor": "Codex",
+          "text": "S389 is diagnostic only: replay the pending S387 E/I glyph-offset candidates against all 17 current S388 Polo renders, keeping source paths, marks, marker centers and POM identities fixed. No production typography change is authorized without the pending maintainer decision. Preserve all 34 holds and the 0.25 cm gate."
+        },
+        {
+          "at": "2026-10-03T02:38:12.115Z",
+          "actor": "Codex",
+          "text": "S389 option-wide diagnostic: the proposed E glyph offset clears all 17 options; I has no computed intersections but approaches the authored outerStand:centerBack mark to 0.009080 cm at standFrontRise minimum. No production offset is implemented or accepted. Preserve all 34 Polo holds, the 0.68 cm residual and fixed 0.25 cm gate."
         }
       ],
       "evidenceRefs": [
@@ -8613,7 +8653,17 @@
         "E-G04-S388-DEFAULT-DETAIL",
         "E-G04-S388-EXTREMES",
         "E-G04-S388-COLLAR-MIN",
-        "E-G04-S388-SCHEDULE"
+        "E-G04-S388-SCHEDULE",
+        "E-G04-S389-START",
+        "E-G04-S389-EXIT",
+        "E-G04-S389-MATRIX",
+        "E-G04-S389-E-DEFAULT",
+        "E-G04-S389-E-PLACKET-MIN",
+        "E-G04-S389-E-PLACKET-MAX",
+        "E-G04-S389-I-DEFAULT",
+        "E-G04-S389-I-STANDFRONT-MIN",
+        "E-G04-S389-I-COLLAR-MIN",
+        "E-G04-S389-I-COLLAR-MAX"
       ],
       "flagKey": null
     },
@@ -14144,6 +14194,96 @@
       "sha256": null,
       "verified": true,
       "note": "Browser-rendered source POM schedule retains eleven exact full-text rows, identifiers, values and tolerances."
+    },
+    {
+      "id": "E-G04-S389-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/G04-V02-POLO-GLYPH-OFFSET-OPTION-REVIEW-S389.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only all-17-option review of S387's E/I key-letter offset candidates against current S388 actual-renderer output. No production offset or approval is assumed; all 34 Polo holds remain."
+    },
+    {
+      "id": "E-G04-S389-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/G04-V02-POLO-GLYPH-OFFSET-OPTION-REVIEW-S389.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only Chromium review of the E/I glyph offsets against all 17 current S388 Polo revisions. E clears all reviewed content; I has a 0.009080 cm minimum gap to the authored center-back mark, so no production offset or face acceptance is claimed."
+    },
+    {
+      "id": "E-G04-S389-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/polo-glyph-offset-option-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17 exact option/revision rows; source paths, labels, marks, POM identities, marker centers/radii and 11 schedule rows retained. Both offset candidates have zero computed intersections; I's near-mark clearance is explicitly reported."
+    },
+    {
+      "id": "E-G04-S389-E-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/rendered/polo-default-E-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium crop: E's diagnostic glyph offset clears its unchanged keyed ring, reinforcement fold/path and nearby labels."
+    },
+    {
+      "id": "E-G04-S389-E-PLACKET-MIN",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/rendered/polo-placketLength-min-E-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium crop at minimum placket length; diagnostic E remains legible and source construction remains visible."
+    },
+    {
+      "id": "E-G04-S389-E-PLACKET-MAX",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/rendered/polo-placketLength-max-E-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium crop at maximum placket length; diagnostic E remains legible and source construction remains visible."
+    },
+    {
+      "id": "E-G04-S389-I-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/rendered/polo-default-I-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium crop for candidate I; unchanged source center and keyed anchor remain clear, with a separate extreme-option center-back-mark proximity review recorded."
+    },
+    {
+      "id": "E-G04-S389-I-STANDFRONT-MIN",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/rendered/polo-standFrontRise-min-I-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium crop at the limiting stand-front-rise minimum: candidate I is only 0.009080 cm from authored outerStand:centerBack mark; this remains an unreadability/design hold, despite no geometric intersection."
+    },
+    {
+      "id": "E-G04-S389-I-COLLAR-MIN",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/rendered/polo-collarLeafDepth-min-I-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium collar-leaf-depth minimum crop reviewed for candidate I; mark/path/revision identity retained."
+    },
+    {
+      "id": "E-G04-S389-I-COLLAR-MAX",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S389-polo-glyph-offset-option-review/rendered/polo-collarLeafDepth-max-I-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium collar-leaf-depth maximum crop reviewed for candidate I; mark/path/revision identity retained."
     }
   ]
 }

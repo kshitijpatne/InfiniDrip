@@ -1,0 +1,3465 @@
+{
+  "source": "S388 current-production renderer SVGs; diagnostic-only text-coordinate substitutions",
+  "options": 17,
+  "sourceRevisionMatches": true,
+  "browserErrors": [],
+  "sourcePathAndMarkContentChanged": false,
+  "markerCentersOrRadiiChanged": false,
+  "scheduleRowsPerOption": 11,
+  "offsets": {
+    "E": {
+      "dx": -0.38,
+      "dy": -0.34
+    },
+    "I": {
+      "dx": 0.34,
+      "dy": -0.32
+    }
+  },
+  "perKeySummary": {
+    "E": {
+      "options": 17,
+      "optionPasses": 17,
+      "sourceLabelContactOptions": [],
+      "sourcePathContactOptions": [],
+      "sourceShapeContactOptions": [],
+      "otherKeyContactOptions": []
+    },
+    "I": {
+      "options": 17,
+      "optionPasses": 17,
+      "sourceLabelContactOptions": [],
+      "sourcePathContactOptions": [],
+      "sourceShapeContactOptions": [],
+      "otherKeyContactOptions": []
+    }
+  },
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "revisionId": "live-draft:polo:S388:polo-default",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "revisionId": "live-draft:polo:S388:polo-placketLength-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "revisionId": "live-draft:polo:S388:polo-placketLength-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "revisionId": "live-draft:polo:S388:polo-placketWidth-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "revisionId": "live-draft:polo:S388:polo-placketWidth-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "revisionId": "live-draft:polo:S388:polo-standHeight-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "revisionId": "live-draft:polo:S388:polo-standHeight-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "revisionId": "live-draft:polo:S388:polo-standFrontRise-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "revisionId": "live-draft:polo:S388:polo-standFrontRise-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "revisionId": "live-draft:polo:S388:polo-collarPointExtension-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "revisionId": "live-draft:polo:S388:polo-collarPointExtension-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "revisionId": "live-draft:polo:S388:polo-sideVentDepth-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "revisionId": "live-draft:polo:S388:polo-sideVentDepth-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "revisionId": "live-draft:polo:S388:polo-backHemDrop-min",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "revisionId": "live-draft:polo:S388:polo-backHemDrop-max",
+      "pathAndSourceIdentityRestoredExactly": true,
+      "scheduleRows": 11,
+      "browserErrors": []
+    }
+  ],
+  "keys": {
+    "E": [
+      {
+        "caseId": "polo-default",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-default",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketLength-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketLength-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketLength-max",
+        "options": {
+          "placketLength": 30,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketLength-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 38
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 37.83979232788086,
+          "maxX": -0.863015638589859,
+          "maxY": 38.1679180842638
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 37.4997883605957,
+          "maxX": -1.2430156338214875,
+          "maxY": 37.82791411697865
+        },
+        "glyphToRingClearanceCm": 0.07777533379529286,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 39.76075744628906,
+            "maxX": 1.2143549919128418,
+            "maxY": 40.13117530941963
+          },
+          "clearanceCm": 1.9328433293104155
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 19.0867729713829
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 25.964992604802855
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketWidth-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 2,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketWidth-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.635645576562357
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.059080135047639
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketWidth-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 4,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketWidth-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 4.3076794873399455
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.316823301221087
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standHeight-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 1,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standHeight-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standHeight-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 3,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standHeight-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarLeafDepth-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 4,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarLeafDepth-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 7,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.8630155938863754,
+          "maxY": 22.167916251420976
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.243015589118004,
+          "maxY": 21.827916098833086
+        },
+        "glyphToRingClearanceCm": 0.07777415199307472,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.9417998790740967,
+            "minY": 23.76075553894043,
+            "maxX": 1.2143566608428955,
+            "maxY": 24.131173491477966
+          },
+          "clearanceCm": 1.9328394401073439
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551564872264868
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548340893322984
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.17649086224801
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standFrontRise-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standFrontRise-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standFrontRise-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 2,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standFrontRise-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117662620544433,
+          "minY": 21.839792327880858,
+          "maxX": -0.8630156832933426,
+          "maxY": 22.16791818857193
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430155593156815,
+          "maxY": 21.827916128635408
+        },
+        "glyphToRingClearanceCm": 0.07777411044840501,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143573760986328,
+            "maxY": 24.131175458431244
+          },
+          "clearanceCm": 1.9328413176536543
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.2255156189203263
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548340692212105
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176489935145833
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarPointExtension-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 0.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarPointExtension-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarPointExtension-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 3,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarPointExtension-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-sideVentDepth-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 0,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-sideVentDepth-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-sideVentDepth-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 15,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-sideVentDepth-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-backHemDrop-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 0
+        },
+        "revisionId": "live-draft:polo:S388:polo-backHemDrop-min",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-backHemDrop-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 5
+        },
+        "revisionId": "live-draft:polo:S388:polo-backHemDrop-max",
+        "sourceId": "pom:polo:finished-placket-length",
+        "targetId": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:polo:role:buttonPlacket:edge:attachmentRaw",
+        "center": {
+          "x": -1,
+          "y": 22
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": -1.1117661428451537,
+          "minY": 21.839790420532225,
+          "maxX": -0.863015638589859,
+          "maxY": 22.16791617691517
+        },
+        "candidateGlyphBox": {
+          "minX": -1.4917661380767822,
+          "minY": 21.499790267944334,
+          "maxX": -1.2430156338214875,
+          "maxY": 21.82791602432728
+        },
+        "glyphToRingClearanceCm": 0.07777423153286558,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "text": "REINFORCE PLACKET BASE BOX",
+          "box": {
+            "minX": -3.941800117492676,
+            "minY": 23.760757446289062,
+            "maxX": 1.2143549919128418,
+            "maxY": 24.131175309419632
+          },
+          "clearanceCm": 1.9328414219617827
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+          "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.22551569342613226
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:polo:mark:buttonPlacket:button-3",
+          "clearanceCm": 3.9548341194989303
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "D",
+          "clearanceCm": 10.176490976525729
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      }
+    ],
+    "I": [
+      {
+        "caseId": "polo-default",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-default",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketLength-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketLength-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketLength-max",
+        "options": {
+          "placketLength": 30,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketLength-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketWidth-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 2,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketWidth-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-placketWidth-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 4,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-placketWidth-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standHeight-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 1,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standHeight-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 2.6909,
+          "y": -6.798
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 2.6179948616027833,
+          "minY": -6.9582094383239745,
+          "maxX": 2.7638055887818336,
+          "maxY": -6.6300836819410325
+        },
+        "candidateGlyphBox": {
+          "minX": 2.957994775772095,
+          "minY": -7.278209133148193,
+          "maxX": 3.103805502951145,
+          "maxY": -6.950083376765251
+        },
+        "glyphToRingClearanceCm": 0.0873580529822944,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 4.071800231933594,
+            "minY": -7.720442295074463,
+            "maxX": 6.3716654777526855,
+            "maxY": -7.350024431943893
+          },
+          "clearanceCm": 0.9706550532907765
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11793786047013068
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.9797749371529753
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.770691264982609
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standHeight-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 3,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standHeight-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 4.6893,
+          "y": -6.8783
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 4.616394596099854,
+          "minY": -7.038508815765381,
+          "maxX": 4.762205323278904,
+          "maxY": -6.710383059382439
+        },
+        "candidateGlyphBox": {
+          "minX": 4.956394748687744,
+          "minY": -7.358509464263916,
+          "maxX": 5.1022054758667945,
+          "maxY": -7.030383707880974
+        },
+        "glyphToRingClearanceCm": 0.08735819328495933,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.63670015335083,
+            "minY": -6.618142127990723,
+            "maxX": 7.936565399169922,
+            "maxY": -6.247724264860153
+          },
+          "clearanceCm": 0.6750019855149861
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11793532984865938
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.675791363483338
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.0971846268471515
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarLeafDepth-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 4,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 4.1897,
+          "y": -6.8582
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 4.116794662475586,
+          "minY": -7.0184086990356445,
+          "maxX": 4.262605389654636,
+          "maxY": -6.690282942652702
+        },
+        "candidateGlyphBox": {
+          "minX": 4.456794338226318,
+          "minY": -7.338408870697021,
+          "maxX": 4.602605065405369,
+          "maxY": -7.010283114314079
+        },
+        "glyphToRingClearanceCm": 0.08735754289105088,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.4712414098555425
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerMatch",
+          "sourceId": "pattern:polo:mark:outerStand:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11788469428575794
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.1973575428910509
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.219631279961478
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarLeafDepth-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 7,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 2.6909,
+          "y": -6.798
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 2.617994623184204,
+          "minY": -6.958208961486816,
+          "maxX": 2.7638053652644157,
+          "maxY": -6.630083130598068
+        },
+        "candidateGlyphBox": {
+          "minX": 2.9579945373535157,
+          "minY": -7.278208656311035,
+          "maxX": 3.103805279433727,
+          "maxY": -6.950082825422287
+        },
+        "glyphToRingClearanceCm": 0.08735757298709004,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542392730713,
+            "maxX": 7.370866060256958,
+            "maxY": -7.390124440193176
+          },
+          "clearanceCm": 1.9703757513547766
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11803528666496284
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.9797751133886691
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.7706908398501495
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standFrontRise-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standFrontRise-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.0973,
+          "y": -6.5398
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.024394588470459,
+          "minY": -6.700008792877197,
+          "maxX": 3.1702053156495094,
+          "maxY": -6.371883036494255
+        },
+        "candidateGlyphBox": {
+          "minX": 3.3643945026397706,
+          "minY": -7.020008964538574,
+          "maxX": 3.510205229818821,
+          "maxY": -6.691883208155632
+        },
+        "glyphToRingClearanceCm": 0.08735773220027468,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 4.458099842071533,
+            "minY": -7.693742752075195,
+            "maxX": 6.757965087890625,
+            "maxY": -7.323324888944626
+          },
+          "clearanceCm": 0.9952410491614668
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.07850232694933264
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.009079961266198741
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.35102472288993
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-standFrontRise-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 2,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-standFrontRise-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 4.6859,
+          "y": -7.1994
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 4.612994747161865,
+          "minY": -7.359609050750732,
+          "maxX": 4.758805496692657,
+          "maxY": -7.031483190059662
+        },
+        "candidateGlyphBox": {
+          "minX": 4.952994899749756,
+          "minY": -7.679609222412109,
+          "maxX": 5.098805649280548,
+          "maxY": -7.351483361721039
+        },
+        "glyphToRingClearanceCm": 0.08735815327514004,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "text": "PLACE ON FOLD",
+          "box": {
+            "minX": 5.752099990844727,
+            "minY": -7.753742694854736,
+            "maxX": 8.318899154663086,
+            "maxY": -7.383324682712555
+          },
+          "clearanceCm": 0.6532943415641785
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.16187973670979677
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.11136127965079988
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.409269593422413
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarPointExtension-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 0.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarPointExtension-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-collarPointExtension-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 3,
+          "sideVentDepth": 6,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-collarPointExtension-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-sideVentDepth-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 0,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-sideVentDepth-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-sideVentDepth-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 15,
+          "backHemDrop": 1.5
+        },
+        "revisionId": "live-draft:polo:S388:polo-sideVentDepth-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-backHemDrop-min",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 0
+        },
+        "revisionId": "live-draft:polo:S388:polo-backHemDrop-min",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      },
+      {
+        "caseId": "polo-backHemDrop-max",
+        "options": {
+          "placketLength": 14,
+          "placketWidth": 3,
+          "standHeight": 2,
+          "collarLeafDepth": 5,
+          "standFrontRise": 0.75,
+          "collarPointExtension": 1.5,
+          "sideVentDepth": 6,
+          "backHemDrop": 5
+        },
+        "revisionId": "live-draft:polo:S388:polo-backHemDrop-max",
+        "sourceId": "pom:polo:finished-pointed-collar-leaf",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:centerBack",
+        "center": {
+          "x": 3.6901,
+          "y": -6.8381
+        },
+        "radiusCm": 0.22,
+        "baselineGlyphBox": {
+          "minX": 3.6171944904327393,
+          "minY": -6.998309059143066,
+          "maxX": 3.7630052176117896,
+          "maxY": -6.670183302760124
+        },
+        "candidateGlyphBox": {
+          "minX": 3.957194404602051,
+          "minY": -7.318309230804443,
+          "maxX": 4.103005131781101,
+          "maxY": -6.990183474421501
+        },
+        "glyphToRingClearanceCm": 0.08735777875602793,
+        "nearestSourceLabel": {
+          "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+          "sourceId": "pattern:polo:mark:underCollar:centerBack",
+          "text": "CENTER BACK",
+          "box": {
+            "minX": 5.071000099182129,
+            "minY": -7.760542869567871,
+            "maxX": 7.370865821838379,
+            "maxY": -7.390125006437302
+          },
+          "clearanceCm": 0.9706553263354947
+        },
+        "sourceLabelContacts": [],
+        "nearestSourcePath": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+          "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+          "layer": "ANNOTATION",
+          "clearanceCm": 0.11787926559219648
+        },
+        "sourcePathContacts": [],
+        "nearestSourceShape": {
+          "entityId": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+          "sourceId": "pattern:polo:mark:outerStand:centerBack",
+          "clearanceCm": 0.04791022036544475
+        },
+        "sourceShapeContacts": [],
+        "nearestOtherKey": {
+          "key": "H",
+          "clearanceCm": 7.374018008772203
+        },
+        "otherKeyContacts": [],
+        "candidatePass": true
+      }
+    ]
+  },
+  "combinedReview": [
+    {
+      "caseId": "polo-default",
+      "revisionId": "live-draft:polo:S388:polo-default",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "revisionId": "live-draft:polo:S388:polo-placketLength-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "revisionId": "live-draft:polo:S388:polo-placketLength-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 37.83979232788086,
+            "maxX": -0.863015638589859,
+            "maxY": 38.1679180842638
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 37.4997883605957,
+            "maxX": -1.2430156338214875,
+            "maxY": 37.82791411697865
+          },
+          "glyphToOwnRingClearanceCm": 0.07777533379529286,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "revisionId": "live-draft:polo:S388:polo-placketWidth-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "revisionId": "live-draft:polo:S388:polo-placketWidth-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "revisionId": "live-draft:polo:S388:polo-standHeight-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 2.6179948616027833,
+            "minY": -6.9582094383239745,
+            "maxX": 2.7638055887818336,
+            "maxY": -6.6300836819410325
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 2.957994775772095,
+            "minY": -7.278209133148193,
+            "maxX": 3.103805502951145,
+            "maxY": -6.950083376765251
+          },
+          "glyphToOwnRingClearanceCm": 0.0873580529822944,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "revisionId": "live-draft:polo:S388:polo-standHeight-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 4.616394596099854,
+            "minY": -7.038508815765381,
+            "maxX": 4.762205323278904,
+            "maxY": -6.710383059382439
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 3,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 4.956394748687744,
+            "minY": -7.358509464263916,
+            "maxX": 5.1022054758667945,
+            "maxY": -7.030383707880974
+          },
+          "glyphToOwnRingClearanceCm": 0.08735819328495933,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 4.116794662475586,
+            "minY": -7.0184086990356445,
+            "maxX": 4.262605389654636,
+            "maxY": -6.690282942652702
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 3,
+          "sourceShapeContacts": 1
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 4.456794338226318,
+            "minY": -7.338408870697021,
+            "maxX": 4.602605065405369,
+            "maxY": -7.010283114314079
+          },
+          "glyphToOwnRingClearanceCm": 0.08735754289105088,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "revisionId": "live-draft:polo:S388:polo-collarLeafDepth-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.8630155938863754,
+            "maxY": 22.167916251420976
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 2.617994623184204,
+            "minY": -6.958208961486816,
+            "maxX": 2.7638053652644157,
+            "maxY": -6.630083130598068
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.243015589118004,
+            "maxY": 21.827916098833086
+          },
+          "glyphToOwnRingClearanceCm": 0.07777415199307472,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 2.9579945373535157,
+            "minY": -7.278208656311035,
+            "maxX": 3.103805279433727,
+            "maxY": -6.950082825422287
+          },
+          "glyphToOwnRingClearanceCm": 0.08735757298709004,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "revisionId": "live-draft:polo:S388:polo-standFrontRise-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.024394588470459,
+            "minY": -6.700008792877197,
+            "maxX": 3.1702053156495094,
+            "maxY": -6.371883036494255
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.3643945026397706,
+            "minY": -7.020008964538574,
+            "maxX": 3.510205229818821,
+            "maxY": -6.691883208155632
+          },
+          "glyphToOwnRingClearanceCm": 0.08735773220027468,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "revisionId": "live-draft:polo:S388:polo-standFrontRise-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117662620544433,
+            "minY": 21.839792327880858,
+            "maxX": -0.8630156832933426,
+            "maxY": 22.16791818857193
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 4.612994747161865,
+            "minY": -7.359609050750732,
+            "maxX": 4.758805496692657,
+            "maxY": -7.031483190059662
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430155593156815,
+            "maxY": 21.827916128635408
+          },
+          "glyphToOwnRingClearanceCm": 0.07777411044840501,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 4.952994899749756,
+            "minY": -7.679609222412109,
+            "maxX": 5.098805649280548,
+            "maxY": -7.351483361721039
+          },
+          "glyphToOwnRingClearanceCm": 0.08735815327514004,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "revisionId": "live-draft:polo:S388:polo-collarPointExtension-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "revisionId": "live-draft:polo:S388:polo-collarPointExtension-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "revisionId": "live-draft:polo:S388:polo-sideVentDepth-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "revisionId": "live-draft:polo:S388:polo-sideVentDepth-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "revisionId": "live-draft:polo:S388:polo-backHemDrop-min",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "revisionId": "live-draft:polo:S388:polo-backHemDrop-max",
+      "baseline": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.1117661428451537,
+            "minY": 21.839790420532225,
+            "maxX": -0.863015638589859,
+            "maxY": 22.16791617691517
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.6171944904327393,
+            "minY": -6.998309059143066,
+            "maxX": 3.7630052176117896,
+            "maxY": -6.670183302760124
+          },
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 2,
+          "sourceShapeContacts": 0
+        }
+      ],
+      "combined": [
+        {
+          "key": "E",
+          "glyphBox": {
+            "minX": -1.4917661380767822,
+            "minY": 21.499790267944334,
+            "maxX": -1.2430156338214875,
+            "maxY": 21.82791602432728
+          },
+          "glyphToOwnRingClearanceCm": 0.07777423153286558,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        },
+        {
+          "key": "I",
+          "glyphBox": {
+            "minX": 3.957194404602051,
+            "minY": -7.318309230804443,
+            "maxX": 4.103005131781101,
+            "maxY": -6.990183474421501
+          },
+          "glyphToOwnRingClearanceCm": 0.08735777875602793,
+          "sourceLabelContacts": 0,
+          "sourcePathContacts": 0,
+          "sourceShapeContacts": 0,
+          "otherKeyContacts": 0
+        }
+      ]
+    }
+  ],
+  "disposition": "Diagnostic only. Candidate options are measured against source labels, path strokes, authored shapes and peer keys; no production offsets or face acceptance."
+}
