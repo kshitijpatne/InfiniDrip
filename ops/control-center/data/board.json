@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2175,
-  "updatedAt": "2026-10-03T04:35:41.808Z",
+  "revision": 2188,
+  "updatedAt": "2026-10-03T05:05:57.410Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -545,7 +545,10 @@
         "E-G04-S393-EXIT",
         "E-G04-S394-START",
         "E-G04-S394-MATRIX",
-        "E-G04-S394-EXIT"
+        "E-G04-S394-EXIT",
+        "E-G04-S395-START",
+        "E-G04-S395-MATRIX",
+        "E-G04-S395-EXIT"
       ]
     },
     {
@@ -4353,7 +4356,10 @@
         "E-G04-S393-EXIT",
         "E-G04-S394-START",
         "E-G04-S394-MATRIX",
-        "E-G04-S394-EXIT"
+        "E-G04-S394-EXIT",
+        "E-G04-S395-START",
+        "E-G04-S395-MATRIX",
+        "E-G04-S395-EXIT"
       ],
       "flagKey": null
     },
@@ -8311,6 +8317,16 @@
           "at": "2026-10-03T04:35:41.808Z",
           "actor": "Codex",
           "text": "S394 implements the approved Polo H glyph-only offset and verifies all 17 exact option rows in actual renderer output. SVG comparison confines the change to the approved glyph plus revision/title identity; both source marks, fixed ring, complete schedule, colorway output and paired backs remain. All 34 Polo views remain held for other blockers including the 0.68 cm residual against 0.25 cm; no face acceptance."
+        },
+        {
+          "at": "2026-10-03T04:41:27.509Z",
+          "actor": "Codex",
+          "text": "S395 tests only whether one source-centered keyed marker and unchanged full-text schedule can clear Woven's recurring finished-placket-width front callout in all 28 exact options. It is a diagnostic display candidate, not an implementation approval. Preserve source anchor/target, all pattern/stitch geometry, colorway, all 56 Woven holds, the continuous-back-hem crossing, all 34 Polo holds, and every G04 gate."
+        },
+        {
+          "at": "2026-10-03T05:05:57.410Z",
+          "actor": "Codex",
+          "text": "S395's 0.22 cm source-centered W marker clears the renderer's recurring placket-width label collision in all 28 exact Woven options, with source paths, anchor/target/revision, colorway, and full POM schedule preserved. Visual review rejects this candidate: its ring overlaps front:neckline in two options and is within 0.01 cm in 24 more. No production presentation, acceptance, geometry, or hold changed. All Woven and Polo faces remain held; next investigate a line-preserving keyed-marker variant."
         }
       ],
       "evidenceRefs": [
@@ -8792,7 +8808,12 @@
         "E-G04-S394-H-DEFAULT",
         "E-G04-S394-H-LIMIT",
         "E-G04-S394-DIFF",
-        "E-G04-S394-EXIT"
+        "E-G04-S394-EXIT",
+        "E-G04-S395-START",
+        "E-G04-S395-MATRIX",
+        "E-G04-S395-W-MIN",
+        "E-G04-S395-W-SCHEDULE",
+        "E-G04-S395-EXIT"
       ],
       "flagKey": null
     },
@@ -14674,6 +14695,51 @@
       "sha256": null,
       "verified": true,
       "note": "S394 implementation, focused coverage/build/export/DXF verification, 17-option actual output review and preserved Polo/G04 holds."
+    },
+    {
+      "id": "E-G04-S395-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/G04-V02-WOVEN-PLACKET-KEYED-MARKER-FEASIBILITY-S395.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only, 28-option test of a source-centered W marker and unchanged full-text schedule for the exact recurring Woven finished-placket-width POM. No production presentation, geometry, acceptance, or hold change."
+    },
+    {
+      "id": "E-G04-S395-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/woven-keyed-marker-feasibility.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact current-revision actual-renderer replay of all 28 Woven options. Existing finished-placket-width label fails 25/28 rows; a diagnostic 0.22 cm keyed W candidate renders 28/28 but visually fails no-concealment: the ring overlaps or nearly contacts the independent front neckline. No production change or face release."
+    },
+    {
+      "id": "E-G04-S395-W-MIN",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/rendered/woven-shirt-placketWidth-min-keyed-W-candidate-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium detail for placketWidth-min shows the diagnostic ring across the button-placket top and intersecting the independent front neckline; this is a visual-safety fail, despite clean renderer status."
+    },
+    {
+      "id": "E-G04-S395-W-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/rendered/woven-shirt-default-keyed-W-candidate-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium schedule crop confirms complete unchanged source POM text and one keyed W row; schedule readability does not cure marker/path overlap."
+    },
+    {
+      "id": "E-G04-S395-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/G04-V02-WOVEN-PLACKET-KEYED-MARKER-FEASIBILITY-S395.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S395 diagnostic closeout: source-bound anchor and measurement facts, exact 28-option renderer results, refined path clearances, manually reviewed outputs, no-go disposition for the 0.22 cm marker, preserved all holds and next action."
     }
   ]
 }

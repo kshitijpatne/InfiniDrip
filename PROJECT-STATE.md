@@ -1,6 +1,16 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 394 exit; Polo H offset verified; V02 remains open
+## EPIC-17 / G04 current work — Slice 395 complete; Woven W-marker trial rejected; V02 remains open
+
+S394 landed as `2cb0094c5ccdb3b4954311157291c9a6b8822fab` (`Slice 394: implement Polo H glyph offset`). S395 began from this clean commit on `codex/epic-17-g04`, with refreshed `origin/main` still an ancestor. Board revision 2175 at S394 exit advanced to 2179 through validated S395 start commands and to 2188 through validated S395 exit commands. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal remains active and needed through G04's admitted V01→V02→V03, final gates, PR, safe merge and any required deployment.
+
+S395's diagnostic-only source-centered `W` marker and unchanged full-text schedule resolve the existing Woven `Finished placket width` renderer collision in all 28 exact options. However, the 0.22 cm open ring intersects the unrelated front neckline in `placketWidth-min` and `neckEase-max`, and comes within 0.01 cm of that neckline in 24 other options. Its renderer-clean status is not a visual-safety pass. The tested candidate is rejected for production; no user decision was needed. Source POM identity/anchor/target/revision, all pattern paths, stitch graph, colorway and full schedule are preserved in the diagnostic derivative. No production code, POM, source/cut/stitch geometry, acceptance or hold changed.
+
+All 56 Woven and 34 Polo views remain held, including the continuous Woven back-hem crossing and Polo's 0.68 cm residual against 0.25 cm. Preserve all-seven V02, V02-before-V03, DXF and protected export identity gates. Packet and per-option/rendered evidence: `docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/`.
+
+**Next action:** reserve Slice 396 for a diagnostic-only, source-line-preserving W-marker rendering trial. Keep the exact POM anchor fixed; no production mapping or face release until readable, non-concealing evidence and any required maintainer design approval.
+
+## Prior boundary — Slice 394 exit; Polo H offset verified; V02 remains open
 
 S394 started 2026-10-03 04:26:06 UTC from clean S393 commit `3ec8bbf` on
 `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
@@ -41,9 +51,8 @@ boundary.
 
 S394 packet and validated board start evidence:
 `docs/research/epic17/S394-polo-h-glyph-offset/G04-V02-POLO-H-GLYPH-OFFSET-S394.md`.
-**Next action:** refresh Git, usage and the canonical board at this verified
-S394 boundary; reserve S395 for the highest-priority repeated unresolved G04
-V02 output blocker. Preserve every remaining hold and acceptance gate.
+S394 landed commit is `2cb0094c5ccdb3b4954311157291c9a6b8822fab`; S395 is active
+at the new verified boundary above.
 
 ## Prior boundary — Slice 393 exit; H decision subsequently approved
 
