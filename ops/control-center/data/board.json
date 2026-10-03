@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2023,
-  "updatedAt": "2026-10-03T01:18:06.069Z",
+  "revision": 2044,
+  "updatedAt": "2026-10-03T01:40:25.857Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -507,7 +507,13 @@
         "E-G04-S386-EXIT",
         "E-G04-S386-MATRIX",
         "E-G04-S386-DEFAULT-DETAIL",
-        "E-G04-S386-DEFAULT-SCHEDULE"
+        "E-G04-S386-DEFAULT-SCHEDULE",
+        "E-G04-S387-START",
+        "E-G04-S387-EXIT",
+        "E-G04-S387-OVERLAP-MATRIX",
+        "E-G04-S387-ANNOTATED-DEFAULT",
+        "E-G04-S387-E-GLYPH-CANDIDATE",
+        "E-G04-S387-I-GLYPH-CANDIDATE"
       ]
     },
     {
@@ -3909,6 +3915,11 @@
           "at": "2026-10-03T01:18:06.069Z",
           "actor": "Codex",
           "text": "S386's approved Polo callout trial completed. The full-text schedule is readable and the source paths are preserved, but exact rendered output still has source-label/fold-mark crowding at keyed stations. This does not pass V02 or release faces; the 0.68 cm residual and all-seven criterion remain."
+        },
+        {
+          "at": "2026-10-03T01:40:25.857Z",
+          "actor": "Codex",
+          "text": "S387 source-specific Polo overlap diagnosis completed from exact S386 rendered outputs. No production mapping or pattern source changed; all-seven V02 acceptance and every held view remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -4237,7 +4248,13 @@
         "E-G04-S386-EXIT",
         "E-G04-S386-MATRIX",
         "E-G04-S386-DEFAULT-DETAIL",
-        "E-G04-S386-DEFAULT-SCHEDULE"
+        "E-G04-S386-DEFAULT-SCHEDULE",
+        "E-G04-S387-START",
+        "E-G04-S387-EXIT",
+        "E-G04-S387-OVERLAP-MATRIX",
+        "E-G04-S387-ANNOTATED-DEFAULT",
+        "E-G04-S387-E-GLYPH-CANDIDATE",
+        "E-G04-S387-I-GLYPH-CANDIDATE"
       ],
       "flagKey": null
     },
@@ -8115,6 +8132,16 @@
           "at": "2026-10-03T01:18:06.038Z",
           "actor": "Codex",
           "text": "S386 implements the approved A/B/D/E/FG/H/I open keyed-marker trial with individual full-text rows and leaves C unchanged. All 17 options render with same-revision source/target identities, unchanged paths and paired backs; the two prior C collisions clear. Actual output still crowds source labels at D/FG/H and fold marks at I. All 34 Polo faces remain held; the 0.68 cm sleeve residual remains above the unchanged 0.25 cm gate. All-seven V02 and V03 gates are unchanged."
+        },
+        {
+          "at": "2026-10-03T01:23:32.505Z",
+          "actor": "Codex",
+          "text": "S387 is a read-only, source-specific follow-up to S386's failed marker readability trial. Trace D/E/FG/H/I source labels and marks across the exact 17 current Polo options; propose only source-preserving display treatments supported by that evidence. Preserve all 34 holds and every V02 gate."
+        },
+        {
+          "at": "2026-10-03T01:40:25.834Z",
+          "actor": "Codex",
+          "text": "S387 traces the current S386 renderer output and exact Polo source labels across all 17 options. D's key and BUTTON label overlap 17/17 because keyed callouts are emitted after source-label placement; H and FG also have option-dependent source-label proximity. E and I overlap distinct source marks, not a source-declared join. The packet proposes preserving all words/IDs with keyed-marker-aware label reflow, and asks approval only for shown E/I glyph-offset presentation trials. Preserve all 34 Polo holds, the 0.25 cm gate, and the separate 0.68 cm residual."
         }
       ],
       "evidenceRefs": [
@@ -8544,7 +8571,13 @@
         "E-G04-S386-EXIT",
         "E-G04-S386-MATRIX",
         "E-G04-S386-DEFAULT-DETAIL",
-        "E-G04-S386-DEFAULT-SCHEDULE"
+        "E-G04-S386-DEFAULT-SCHEDULE",
+        "E-G04-S387-START",
+        "E-G04-S387-EXIT",
+        "E-G04-S387-OVERLAP-MATRIX",
+        "E-G04-S387-ANNOTATED-DEFAULT",
+        "E-G04-S387-E-GLYPH-CANDIDATE",
+        "E-G04-S387-I-GLYPH-CANDIDATE"
       ],
       "flagKey": null
     },
@@ -13958,6 +13991,60 @@
       "sha256": null,
       "verified": true,
       "note": "Reviewed browser-measured 11-row full-text POM schedule; source words, values and tolerances remain readable and frame padding contains the final row."
+    },
+    {
+      "id": "E-G04-S387-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/G04-V02-POLO-KEYED-MARKER-OVERLAP-DIAGNOSIS-S387.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only next slice: classify exact S386 Polo keyed-marker/source-label overlaps using current pattern source and rendered option evidence. No implementation or gate/hold change authorized."
+    },
+    {
+      "id": "E-G04-S387-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/G04-V02-POLO-KEYED-MARKER-OVERLAP-DIAGNOSIS-S387.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source and exact S386 renderer review traces Polo D/E/FG/H/I labels and path contacts across all 17 options. All 34 Polo faces remain held; two glyph-offsets are diagnostic-only approval candidates."
+    },
+    {
+      "id": "E-G04-S387-OVERLAP-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/keyed-marker-overlap-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium DOM measurements from all 17 committed S386 actual-renderer SVG/revision rows, including exact source text IDs/boxes, marker coordinates and clearances; zero browser errors."
+    },
+    {
+      "id": "E-G04-S387-ANNOTATED-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/rendered/polo-polo-default-source-label-overlaps.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Annotated actual S386 default renderer output showing exact D/E/FG/H/I keyed stations against retained source marks and labels; diagnostic overlay only, no source or pattern change."
+    },
+    {
+      "id": "E-G04-S387-E-GLYPH-CANDIDATE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/rendered/polo-default-E-glyph-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Unapproved browser-only display candidate: E glyph offset relative to exact source-centered ring; source marks and paths are preserved. Requires maintainer decision and all-option verification."
+    },
+    {
+      "id": "E-G04-S387-I-GLYPH-CANDIDATE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/rendered/polo-default-I-glyph-offset-candidate.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Unapproved browser-only display candidate: I glyph offset relative to exact upper-collar centerBack ring; all distinct fold marks remain visible. Requires maintainer decision and all-option verification."
     }
   ]
 }
