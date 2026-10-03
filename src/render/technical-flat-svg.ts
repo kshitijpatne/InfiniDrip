@@ -670,6 +670,22 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     ? noticeTextOffset + Math.max(0, noticeLines.length - 1) * noticeLineHeight + noticeDescent + 0.12 : 0;
   const keyedCallouts = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "callout" }> =>
     primitive.kind === "callout" && primitive.presentation !== undefined);
+  const keyedMarkerGroups = new Map<string, typeof keyedCallouts>();
+  for (const callout of keyedCallouts) {
+    const group = keyedMarkerGroups.get(callout.presentation!.key) ?? [];
+    group.push(callout);
+    keyedMarkerGroups.set(callout.presentation!.key, group);
+  }
+  for (const [key, group] of keyedMarkerGroups) {
+    const first = group[0]!;
+    if (group.some((callout) => callout.source.revisionId !== view.revisionId
+      || callout.anchor.point.x !== first.anchor.point.x || callout.anchor.point.y !== first.anchor.point.y
+      || callout.presentation!.markerRadiusCm !== first.presentation!.markerRadiusCm
+      || (callout.presentation!.markerStyle ?? "filled") !== (first.presentation!.markerStyle ?? "filled"))) {
+      issues.push({ code: "TEXT_COLLISION", entityId: key,
+        message: "A shared keyed marker requires exact same-revision co-location and one marker presentation; keep the flat withheld." });
+    }
+  }
   const keyedHeaderMetrics = keyedCallouts.length ? metricFor("SOURCE POM", options.measureText, 0.28) : undefined;
   if (keyedHeaderMetrics === null) issues.push({ code: "INVALID_FONT_METRICS",
     message: "A keyed POM schedule heading could not be measured; keep the flat withheld." });
@@ -689,7 +705,7 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   const keyedScheduleLineHeight = Math.max(0.44, ...keyedRows.map(({ metric }) =>
     metric.ascentCm + metric.descentCm + 0.12));
   const keyedScheduleHeight = keyedRows.length ? Math.max(2,
-    1.45 + Math.max(0, keyedRows.length - 1) * keyedScheduleLineHeight) : 0;
+    1.45 + (keyedRows.length > 1 ? 0.35 : 0) + Math.max(0, keyedRows.length - 1) * keyedScheduleLineHeight) : 0;
   const keyedScheduleTop = keyedRows.length
     ? (noticeLines.length ? noticeTop + noticeHeight : padBounds.maxY) + 0.45 : 0;
   const keyedScheduleWidth = Math.max(keyedHeaderMetrics?.widthCm ?? 0, ...keyedRows.map(({ metric }) => metric.widthCm))
@@ -719,10 +735,23 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     const shapes = layerPrimitives.map((primitive) => styleFor(primitive, positions)).join("");
     return `<g data-layer-group="${layer}" aria-label="${layer.toLowerCase().replace(/_/g, " ")}">${areas}${shapes}</g>`;
   }).join("");
-  const keyedMarkers = keyedCallouts.map((callout) => {
+  const keyedMarkers = [...keyedMarkerGroups.entries()].map(([key, group]) => {
+    const callout = group[0]!;
     const presentation = callout.presentation!;
     const { anchor } = callout;
-    return `<g data-entity-id="${escapeXml(`${callout.id}:key-marker`)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(callout.source.sourceId)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(presentation.key)}" data-callout-target="${escapeXml(anchor.primitiveId)}"${anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(anchor.sourceEntityId)}"`}><circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/><text x="${fmt(anchor.point.x)}" y="${fmt(anchor.point.y + 0.07)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b">${escapeXml(presentation.key)}</text></g>`;
+    const sourceIds = group.map((item) => item.source.sourceId).join("|");
+    const targets = group.map((item) => item.anchor.primitiveId).join("|");
+    const sourceEntities = group.map((item) => item.anchor.sourceEntityId ?? "").join("|");
+    const marker = presentation.markerStyle === "open-halo"
+      ? `<circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/>`
+      : `<circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/>`;
+    const halo = presentation.markerStyle === "open-halo" ? ` stroke="#fff" stroke-width="0.09" stroke-linejoin="round" paint-order="stroke"` : "";
+    const entityId = group.length === 1 ? `${callout.id}:key-marker` : `${key}:key-marker`;
+    const targetMetadata = `data-callout-target="${escapeXml(targets)}"${group.length === 1
+      ? (anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(anchor.sourceEntityId)}"`)
+      : ` data-callout-targets="${escapeXml(targets)}" data-callout-source-entities="${escapeXml(sourceEntities)}"`}`;
+    const title = group.length > 1 ? `<title>${escapeXml(group.map((item) => item.text).join("; "))}</title>` : "";
+    return `<g data-entity-id="${escapeXml(entityId)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(sourceIds)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(key)}" ${targetMetadata}>${title}${marker}<text x="${fmt(anchor.point.x)}" y="${fmt(anchor.point.y + 0.07)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b"${halo}>${escapeXml(key)}</text></g>`;
   }).join("");
   const labels = textItems.map((item) => {
     const metric = metricFor(item.text, options.measureText);

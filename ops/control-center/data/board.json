@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2007,
-  "updatedAt": "2026-10-02T22:47:47.960Z",
+  "revision": 2023,
+  "updatedAt": "2026-10-03T01:18:06.069Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -503,7 +503,11 @@
         "E-G04-S384-RENDERED",
         "E-G04-S385-EXIT",
         "E-G04-S385-MATRIX",
-        "E-G04-S385-UI-RECONCILIATION"
+        "E-G04-S385-UI-RECONCILIATION",
+        "E-G04-S386-EXIT",
+        "E-G04-S386-MATRIX",
+        "E-G04-S386-DEFAULT-DETAIL",
+        "E-G04-S386-DEFAULT-SCHEDULE"
       ]
     },
     {
@@ -3900,6 +3904,11 @@
           "at": "2026-10-02T22:17:54.414Z",
           "actor": "Codex",
           "text": "S383 completed diagnostic callout-layout evidence only. G04 all-seven coverage, V02 acceptance, 0.25 cm gate, all holds and V03 rights/round-trip gates remain unchanged. No production code, pattern, cut geometry, stitch graph or export behavior changed."
+        },
+        {
+          "at": "2026-10-03T01:18:06.069Z",
+          "actor": "Codex",
+          "text": "S386's approved Polo callout trial completed. The full-text schedule is readable and the source paths are preserved, but exact rendered output still has source-label/fold-mark crowding at keyed stations. This does not pass V02 or release faces; the 0.68 cm residual and all-seven criterion remain."
         }
       ],
       "evidenceRefs": [
@@ -4224,7 +4233,11 @@
         "E-G04-S384-RENDERED",
         "E-G04-S385-EXIT",
         "E-G04-S385-MATRIX",
-        "E-G04-S385-UI-RECONCILIATION"
+        "E-G04-S385-UI-RECONCILIATION",
+        "E-G04-S386-EXIT",
+        "E-G04-S386-MATRIX",
+        "E-G04-S386-DEFAULT-DETAIL",
+        "E-G04-S386-DEFAULT-SCHEDULE"
       ],
       "flagKey": null
     },
@@ -8092,6 +8105,16 @@
           "at": "2026-10-02T22:47:47.960Z",
           "actor": "Codex",
           "text": "S385 consolidates the exact 17 current Polo options against S378/S380 actual renderer evidence. The approved C marker clears only its two original local text collisions; ten other POMs still fail path clearance in all options, and the 0.68 cm sleeve-cap residual still exceeds the fixed 0.25 cm gate. The open keyed candidate contacts named geometry at source stations; no marker implementation or face acceptance is approved. UIQ backlog/dependency structure is unchanged (29 exact duplicate commands skipped). Preserve all holds and all-seven V02."
+        },
+        {
+          "at": "2026-10-02T22:54:13.707Z",
+          "actor": "Codex",
+          "text": "S386 implements the explicitly approved Polo keyed-callout trial only: preserve exact source POM anchors/targets/revisions, use open 0.22 cm keyed rings and individual complete schedule rows for A/B/D/E/FG/H/I, leave C unchanged. This is a render/readability trial, not face acceptance; all 34 Polo faces and every G04 gate remain."
+        },
+        {
+          "at": "2026-10-03T01:18:06.038Z",
+          "actor": "Codex",
+          "text": "S386 implements the approved A/B/D/E/FG/H/I open keyed-marker trial with individual full-text rows and leaves C unchanged. All 17 options render with same-revision source/target identities, unchanged paths and paired backs; the two prior C collisions clear. Actual output still crowds source labels at D/FG/H and fold marks at I. All 34 Polo faces remain held; the 0.68 cm sleeve residual remains above the unchanged 0.25 cm gate. All-seven V02 and V03 gates are unchanged."
         }
       ],
       "evidenceRefs": [
@@ -8516,7 +8539,12 @@
         "E-G04-S385-START",
         "E-G04-S385-EXIT",
         "E-G04-S385-MATRIX",
-        "E-G04-S385-UI-RECONCILIATION"
+        "E-G04-S385-UI-RECONCILIATION",
+        "E-G04-S386-START",
+        "E-G04-S386-EXIT",
+        "E-G04-S386-MATRIX",
+        "E-G04-S386-DEFAULT-DETAIL",
+        "E-G04-S386-DEFAULT-SCHEDULE"
       ],
       "flagKey": null
     },
@@ -13885,6 +13913,51 @@
       "sha256": null,
       "verified": true,
       "note": "All 29 additive UI commands match existing canonical identities/content and are skipped; no UI implementation or G04 dependency added."
+    },
+    {
+      "id": "E-G04-S386-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S386-polo-keyed-callout-trial/G04-V02-POLO-KEYED-CALLOUT-TRIAL-S386.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Maintainer-approved view-only trial for source-centered open keyed markers/full-text POM schedule in Polo front views; all 34 faces remain held and all thresholds unchanged."
+    },
+    {
+      "id": "E-G04-S386-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S386-polo-keyed-callout-trial/G04-V02-POLO-KEYED-CALLOUT-TRIAL-S386.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implements only the approved Polo source-centered callout trial. All 17 options render, but D/FG/H label contacts and crowded I fold marks fail readability; all 34 Polo faces and every V02 gate remain held."
+    },
+    {
+      "id": "E-G04-S386-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S386-polo-keyed-callout-trial/polo-keyed-marker-trial-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual renderer, 17 option/revision rows, 170 source-centered POM entries, 8 stations/11 full rows, colorway-on/off diagnostics, paired-back no-op and unchanged source path comparison; 0 browser errors."
+    },
+    {
+      "id": "E-G04-S386-DEFAULT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S386-polo-keyed-callout-trial/rendered/polo-default-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed production-renderer default Polo keyed-marker detail. Open rings preserve source strokes; D/FG/H labels still overlap the keyed stations and keep all Polo faces held."
+    },
+    {
+      "id": "E-G04-S386-DEFAULT-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S386-polo-keyed-callout-trial/rendered/polo-default-collar-point-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed browser-measured 11-row full-text POM schedule; source words, values and tolerances remain readable and frame padding contains the final row."
     }
   ]
 }

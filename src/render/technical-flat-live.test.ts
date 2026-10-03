@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -423,6 +423,46 @@ describe("compileTechnicalFlatLiveView", () => {
       expect(mapPoloCollarPointKeyedCallout("FRONT_FLAT", "polo-r1", [invalid]).issues).toHaveLength(1);
     }
     expect(mapPoloCollarPointKeyedCallout("FRONT_FLAT", "polo-r1", [callout, callout]).issues).toHaveLength(1);
+  });
+
+  it("maps the ten approved Polo source POMs to exact source-centered keys and preserves distinct schedule rows", () => {
+    const identities = [
+      ["across-shoulder", "A", "front:outline", "pattern:polo:role:front:edge:shoulder"],
+      ["body-chest-finished", "B", "front:outline", "pattern:polo:role:front:edge:side"],
+      ["sleeve-bicep-width", "B", "sleeve:outline", "pattern:polo:role:sleeve:edge:sideLeft"],
+      ["button-spacing", "D", "buttonPlacket:button-1", "pattern:polo:mark:buttonPlacket:button-1"],
+      ["finished-placket-length", "E", "buttonPlacket:outline", "pattern:polo:role:buttonPlacket:edge:attachmentRaw"],
+      ["finished-placket-width", "FG", "buttonPlacket:attachmentLine", "pattern:polo:mark:buttonPlacket:attachmentLine"],
+      ["front-neck-drop", "FG", "front:outline", "pattern:polo:role:front:edge:neckline"],
+      ["neck-width", "H", "front:outline", "pattern:polo:role:front:edge:shoulder"],
+      ["shoulder-seam", "H", "front:outline", "pattern:polo:role:front:edge:shoulder"],
+      ["finished-pointed-collar-leaf", "I", "upperCollar:outline", "pattern:polo:role:upperCollar:edge:centerBack"],
+    ] as const;
+    const callouts: FlatCalloutPrimitive[] = identities.map(([pom, , target, entity]) => ({
+      kind: "callout", id: `pom-${pom}`, layer: "CALLOUT", feature: "pom",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: `pom:polo:${pom}`, revisionId: "polo-r1" },
+      text: `${pom}: 10.0 cm (±0.2 cm)`,
+      anchor: { primitiveId: `flat:polo:FRONT_FLAT:${target.includes(":button-1") || target.includes(":attachmentLine") ? "mark" : "component"}:${target}`,
+        point: { x: 1, y: 2 }, sourceEntityId: entity },
+      labelAt: { x: 5, y: 6 },
+    }));
+    const result = mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts);
+    expect(result.issues).toEqual([]);
+    expect(result.callouts).toHaveLength(10);
+    expect(result.callouts.map((callout) => callout.presentation?.key)).toEqual(identities.map(([, key]) => key));
+    expect(result.callouts.every((callout) => callout.presentation?.markerStyle === "open-halo"
+      && callout.presentation.markerRadiusCm === 0.22)).toBe(true);
+    expect(mapPoloSourceCenteredKeyedCallouts("BACK_FLAT", "polo-r1", callouts).callouts).toEqual(callouts);
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts.slice(1)).issues).toEqual([]);
+    const required = identities.map(([pom]) => `pom:polo:${pom}`);
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts.slice(1), required).issues)
+      .toContainEqual(expect.objectContaining({ sourceId: "pom:polo:across-shoulder" }));
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts, required).issues).toEqual([]);
+    const stale = { ...callouts[0]!, source: { ...callouts[0]!.source, revisionId: "stale" } };
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", [stale, ...callouts.slice(1)]).issues).toHaveLength(1);
+    const moved = { ...callouts[0]!, anchor: { ...callouts[0]!.anchor, sourceEntityId: "wrong-edge" } };
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", [moved, ...callouts.slice(1)]).issues).toHaveLength(1);
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", [...callouts, callouts[0]!]).issues).toHaveLength(2);
   });
 
   it("resolves role ownership for geometry, marks, darts, artwork and anchored callouts", () => {

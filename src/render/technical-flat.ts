@@ -149,6 +149,8 @@ export interface FlatCalloutPrimitive extends FlatPrimitiveBase {
     readonly kind: "keyed-marker-schedule";
     readonly key: string;
     readonly markerRadiusCm: number;
+    /** Open source-centered marker approved for the Polo V02 trial. */
+    readonly markerStyle?: "filled" | "open-halo";
   };
   /** Annotation-only evidence for a multi-point POM; these references never join garment contours. */
   readonly dimensionReferences?: {
@@ -315,7 +317,9 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
         || primitive.presentation.kind !== "keyed-marker-schedule"
         || !nonBlank(primitive.presentation.key)
         || !Number.isFinite(primitive.presentation.markerRadiusCm)
-        || primitive.presentation.markerRadiusCm <= 0)) {
+        || primitive.presentation.markerRadiusCm <= 0
+        || (primitive.presentation.markerStyle !== undefined
+          && !["filled", "open-halo"].includes(primitive.presentation.markerStyle)))) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id,
           message: "Keyed callouts need a supported presentation, non-empty key and positive marker radius." });
       }

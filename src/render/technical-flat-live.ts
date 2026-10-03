@@ -304,6 +304,47 @@ export function mapPoloCollarPointKeyedCallout(kind: TechnicalFlatViewKind, revi
   issues: [] as TechnicalFlatLiveIssue[] };
 }
 
+/** Apply the approved source-centered Polo keys while retaining one full POM
+ * schedule row per source measurement. These are display anchors, not joins. */
+export function mapPoloSourceCenteredKeyedCallouts(kind: TechnicalFlatViewKind, revisionId: string,
+  callouts: readonly FlatCalloutPrimitive[], requiredPomSourceIds: readonly string[] = []) {
+  const keyed = [
+    ["pom:polo:across-shoulder", "A", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:shoulder"],
+    ["pom:polo:body-chest-finished", "B", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:side"],
+    ["pom:polo:sleeve-bicep-width", "B", "flat:polo:FRONT_FLAT:component:sleeve:outline", "pattern:polo:role:sleeve:edge:sideLeft"],
+    ["pom:polo:button-spacing", "D", "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-1", "pattern:polo:mark:buttonPlacket:button-1"],
+    ["pom:polo:finished-placket-length", "E", "flat:polo:FRONT_FLAT:component:buttonPlacket:outline", "pattern:polo:role:buttonPlacket:edge:attachmentRaw"],
+    ["pom:polo:finished-placket-width", "FG", "flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine", "pattern:polo:mark:buttonPlacket:attachmentLine"],
+    ["pom:polo:front-neck-drop", "FG", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:neckline"],
+    ["pom:polo:neck-width", "H", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:shoulder"],
+    ["pom:polo:shoulder-seam", "H", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:shoulder"],
+    ["pom:polo:finished-pointed-collar-leaf", "I", "flat:polo:FRONT_FLAT:component:upperCollar:outline", "pattern:polo:role:upperCollar:edge:centerBack"],
+  ] as const;
+  if (kind !== "FRONT_FLAT") return { callouts, issues: [] as TechnicalFlatLiveIssue[] };
+  const issues: TechnicalFlatLiveIssue[] = [];
+  const mapped = callouts.map((callout) => {
+    const row = keyed.find(([sourceId]) => sourceId === callout.source.sourceId);
+    if (!row) return callout;
+    const [sourceId, key, targetId, sourceEntityId] = row;
+    const matches = callouts.filter((candidate) => candidate.source.sourceId === sourceId);
+    if (matches.length !== 1 || callout.source.revisionId !== revisionId
+      || callout.anchor.primitiveId !== targetId || callout.anchor.sourceEntityId !== sourceEntityId) {
+      issues.push({ stage: "pom", sourceId,
+        message: `Polo ${key} key requires one exact same-revision source POM and its approved target and source entity.` });
+      return callout;
+    }
+    return { ...callout, layer: "ANNOTATION" as const,
+      presentation: { kind: "keyed-marker-schedule" as const, key, markerRadiusCm: 0.22, markerStyle: "open-halo" as const } };
+  });
+  for (const [sourceId, key] of keyed) {
+    if (requiredPomSourceIds.includes(sourceId) && !callouts.some((callout) => callout.source.sourceId === sourceId)) {
+      issues.push({ stage: "pom", sourceId,
+        message: `Polo ${key} keyed schedule is missing a required source POM for this recipe revision.` });
+    }
+  }
+  return { callouts: mapped, issues };
+}
+
 export function reflectFoldPrimitive(
   primitive: TechnicalFlatPrimitive,
   foldEdgeId: string,
@@ -599,7 +640,13 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
   const mappedDimensionCallouts = poloDimensions ? poloDimensions.callouts : poms.callouts;
   const poloCollarPointKeying = recipe.name === "polo" && mappedDimensionCallouts
     ? mapPoloCollarPointKeyedCallout(kind, revisionId, mappedDimensionCallouts) : undefined;
-  const mappedPomCallouts = poloCollarPointKeying?.callouts ?? mappedDimensionCallouts;
+  const poloSourceCenterKeying = poloCollarPointKeying
+    ? mapPoloSourceCenteredKeyedCallouts(kind, revisionId, poloCollarPointKeying.callouts,
+      poms.issues.length === 0 ? recipe.poms!.map((pom) => `pom:polo:${pom.label.toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`) : []) : undefined;
+  let mappedPomCallouts = mappedDimensionCallouts;
+  if (poloCollarPointKeying) mappedPomCallouts = poloCollarPointKeying.callouts;
+  if (poloSourceCenterKeying) mappedPomCallouts = poloSourceCenterKeying.callouts;
   const approvedWovenSleeveCap = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
     .find((candidate) => candidate.roleId === "sleeve")?.wovenSleeveCapRepresentation?.decisionId
     === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION";
@@ -612,6 +659,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     ...poms.issues.map((issue) => ({ stage: "pom" as const, sourceId: issue.sourceId, message: issue.message })),
     ...(poloDimensions?.issues ?? []),
     ...(poloCollarPointKeying?.issues ?? []),
+    ...(poloSourceCenterKeying?.issues ?? []),
   ];
   if (recipe.name === "polo") {
     issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"

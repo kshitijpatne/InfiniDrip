@@ -275,6 +275,8 @@ describe("validateTechnicalFlat", () => {
       { ...callout, id: "bad-key", presentation: { kind: "keyed-marker-schedule", key: " ", markerRadiusCm: 0.22 } },
       { ...callout, id: "bad-radius-nan", presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: Number.NaN } },
       { ...callout, id: "bad-radius-zero", presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: 0 } },
+      { ...callout, id: "bad-marker-style", presentation: { kind: "keyed-marker-schedule", key: "C", markerRadiusCm: 0.22,
+        markerStyle: "masked" } },
     ] as unknown as TechnicalFlatPrimitive[];
     expect(codes(view([target, ...invalid]))).toEqual(Array(invalid.length).fill("INVALID_GEOMETRY"));
   });

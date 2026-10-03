@@ -93,6 +93,19 @@ The production compiler remains fail-closed on that residual. The colorway
 render check covers the mapped body/placket/stand/collar roles; the unresolved
 sleeve colorway contour is excluded and remains held.
 
+Slice 386 extends the Polo front schedule with approved source-centered open
+keys A/B/D/E/FG/H/I for ten current POMs. Distinct POMs that share a key retain
+their own full text/value/tolerance schedule rows; one ring is drawn only when
+the keyed anchors have exact same-revision coordinates. Each mapping validates
+the current source POM, target geometry and source entity. Open rings keep
+underlying source strokes visible, and the existing C marker stays filled with
+its prior single-row layout. The 17-option browser replay renders all eight
+stations and eleven POM rows with unchanged pattern paths and paired-back
+output, but source labels and construction marks still crowd H/FG/D and the
+center-back I station. This display trial therefore does not pass Polo
+readability or release any face; the 0.68 cm sleeve residual and fixed 0.25 cm
+gate remain independent holds.
+
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
 `TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled

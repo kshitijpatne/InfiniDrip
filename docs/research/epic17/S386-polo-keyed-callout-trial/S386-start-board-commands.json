@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2007,"itemId":"G04-V02","evidence":{"id":"E-G04-S386-START","kind":"document","uri":"docs/research/epic17/S386-polo-keyed-callout-trial/G04-V02-POLO-KEYED-CALLOUT-TRIAL-S386.md","verified":true,"note":"Maintainer-approved view-only trial for source-centered open keyed markers/full-text POM schedule in Polo front views; all 34 faces remain held and all thresholds unchanged."}},
+  {"type":"addComment","expectedRevision":2008,"itemId":"G04-V02","actor":"Codex","text":"S386 implements the explicitly approved Polo keyed-callout trial only: preserve exact source POM anchors/targets/revisions, use open 0.22 cm keyed rings and individual complete schedule rows for A/B/D/E/FG/H/I, leave C unchanged. This is a render/readability trial, not face acceptance; all 34 Polo faces and every G04 gate remain."}
+]

@@ -35,6 +35,43 @@ const measure: TechnicalFlatMeasureText = (text, fontSizeCm) => ({
 });
 
 describe("renderTechnicalFlatSvg", () => {
+  it("draws one open haloed marker per exact shared key while retaining one schedule row per POM", () => {
+    const targets = ["front", "sleeve", "third"];
+    const paths: TechnicalFlatPrimitive[] = targets.map((id) => ({ ...outline, id }));
+    const shared: TechnicalFlatPrimitive[] = targets.map((id, index) => ({ kind: "callout", id: `pom-${id}`,
+      layer: "ANNOTATION", feature: "pom", source: { ...source, sourceId: `pom:polo:${id}` },
+      text: `Measurement ${index + 1}: 10 cm (±0.2 cm)`,
+      anchor: { primitiveId: id, point: { x: 5, y: 4 } }, labelAt: { x: 8, y: 5 },
+      presentation: { kind: "keyed-marker-schedule", key: "B", markerRadiusCm: 0.22, markerStyle: "open-halo" } }));
+    const collar = { ...shared[0]!, id: "pom-collar", source: { ...source, sourceId: "pom:polo:collar" },
+      text: "Collar point: 6 cm (±0.2 cm)", presentation: { kind: "keyed-marker-schedule" as const,
+        key: "C", markerRadiusCm: 0.22 } };
+    const result = renderTechnicalFlatSvg({ ...makeView([...paths, ...shared, collar]), recipeId: "polo" }, { measureText: measure });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    expect(parsed.querySelectorAll("g[data-layer-group='POM_KEY_MARKERS'] > g")).toHaveLength(2);
+    const marker = parsed.querySelector("g[data-pom-key='B']")!;
+    expect(marker.getAttribute("data-source-id")).toBe("pom:polo:front|pom:polo:sleeve|pom:polo:third");
+    expect(marker.querySelector("circle")?.getAttribute("fill")).toBe("none");
+    expect(marker.querySelector("text")?.getAttribute("stroke")).toBe("#fff");
+    expect(parsed.querySelector("g[data-pom-key='C'] circle")?.getAttribute("fill")).toBe("#fff");
+    expect(parsed.querySelectorAll("g[data-layer-group='POM_SCHEDULE'] [data-schedule-for]")).toHaveLength(4);
+    expect(parsed.querySelector("[data-schedule-for='pom-front']")?.textContent).toContain("Measurement 1");
+    expect(parsed.querySelector("[data-schedule-for='pom-sleeve']")?.textContent).toContain("Measurement 2");
+  });
+
+  it("fails closed when one shared keyed station is not exactly co-located", () => {
+    const first: TechnicalFlatPrimitive = { kind: "callout", id: "pom-a", layer: "ANNOTATION", feature: "pom", source,
+      text: "First: 1 cm", anchor: { primitiveId: outline.id, point: { x: 2, y: 2 } }, labelAt: { x: 3, y: 3 },
+      presentation: { kind: "keyed-marker-schedule", key: "B", markerRadiusCm: 0.22, markerStyle: "open-halo" } };
+    const second = { ...first, id: "pom-b", source: { ...source, sourceId: "pom:polo:second" },
+      anchor: { ...first.anchor, point: { x: 2.00001, y: 2 } } };
+    const result = renderTechnicalFlatSvg({ ...makeView([outline, first, second]), recipeId: "polo" }, { measureText: measure });
+    expect(result.svg).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ code: "TEXT_COLLISION", entityId: "B" }));
+  });
+
   it("renders a revision-bound keyed POM marker and unchanged full-text schedule above and below the flat", () => {
     const collarOutline: TechnicalFlatPrimitive = { ...outline,
       source: { ...source, sourceId: "pattern:polo:role:upperCollar" },
