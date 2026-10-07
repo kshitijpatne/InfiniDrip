@@ -1,0 +1,42 @@
+{
+  "findings": {
+    "MQF-004": {
+      "present": true,
+      "toBeReviewed": true
+    },
+    "MQF-005": {
+      "present": true,
+      "toBeReviewed": true
+    },
+    "MQF-006": {
+      "present": true,
+      "toBeReviewed": true
+    },
+    "MQF-007": {
+      "present": true,
+      "toBeReviewed": true
+    },
+    "MQF-011": {
+      "present": true,
+      "toBeReviewed": true
+    },
+    "MQF-012": {
+      "present": true,
+      "toBeReviewed": true
+    },
+    "MQF-015": {
+      "present": true,
+      "toBeReviewed": true
+    }
+  },
+  "allToBeReviewed": true,
+  "outputEvidence": {
+    "revision": "live-draft:woven-shirt:14:14",
+    "configurations": 28,
+    "faces": 56,
+    "exactBoundCallouts": 223,
+    "textOverlapCount": 0,
+    "unrelatedMarkerOverlapCount": 0,
+    "allHeld": true
+  }
+}

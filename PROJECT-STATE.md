@@ -1,5 +1,21 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 latest completed work — Slice 430 current Woven output manual-finding review
+
+S430 started 2026-10-07 16:51:34 UTC from clean S429 `86434ae78c4d7959724aea82f98ada8b6cf687bb` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 430 is complete; next unique number is 431. Board start/exit revision advances 2538→2544 through validated commands. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; the admitted goal remains active.
+
+S430 reviews the exact S429 Woven revision 14:14 evidence against MQF-004–007/011/012/015 and the prior S397/S408 finding reviews. MQF-004–007 remain partial; MQF-011 is not covered by POM/colorway output; MQF-012 is not addressed by this Woven-only review; MQF-015 remains assigned to V03. All seven entries remain **To be reviewed** in the durable register. MQF-011/012 post-G17 deferrals and MQF-015's rights/profile/import/round-trip gate remain unchanged. No corrective scope was added.
+
+All holds/gates remain unchanged: 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces held; Woven neckline/collar and sleeve-hem holds persist; Polo's 0.68 cm residual remains above 0.25 cm; all-seven V02 and V02-before-V03 remain. Packet and register-check result: `docs/research/epic17/S430-current-woven-output-mqf-review/`.
+
+Focused checks: register consistency verified all seven findings as To be reviewed and bound the S429 evidence; validated start/exit preflight/replay preserved statuses; `npm run control-center:test` 42/42; `readBoardFile()` verifies board revision 2544; script syntax and `git diff --check` pass. No production source/output changed, so changed-code coverage and global gate remain due only at the settled integrated Epic candidate.
+
+Elapsed 2026-10-07 16:51:34–16:54:01 UTC: finding review/packet authoring ~1m; focused register and board/Control Center verification ~1m; durable context/board closeout ~0.5m; implementation 0m; external-agent waits 0m; blocking maintainer-decision wait 0m. No delegation was appropriate.
+
+**Next action:** select the next independently evidenced V02 blocker without reopening accepted view decisions; preserve all 90 holds and keep V03 gated.
+
+## EPIC-17 / G04 latest completed work — Slice 429 Woven POM output readability audit
+
 ## EPIC-17 / G04 latest completed work — Slice 429 Woven POM output readability audit
 
 S429 started 2026-10-07 16:39:35 UTC from clean S428 commit `c481a1a38c61c3af0477dffbfa79ddddfa8c3a42` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Slice 429 is complete; next unique number is 430. Board start/exit revision advances 2529→2538 through validated commands. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. `get_goal` confirms the admitted EPIC-17 objective remains active.
@@ -12,7 +28,7 @@ Focused checks: exact-revision 28-option audit passes; actual default front/back
 
 Elapsed 2026-10-07 16:39:35–16:50:23 UTC: audit/packet authoring ~3m; focused matrix, Chromium and Control Center verification ~4m; visual review ~1m; durable state/context/board closeout ~3m; external-agent waits 0m; blocking maintainer-decision wait 0m. (The maintainer confirmed the existing S425/S428 recommendations; no dependent work waited on that confirmation.)
 
-**Next action:** start S430 from the fresh boundary by prioritizing the remaining repeated Woven/Polo blockers without reopening settled mappings or changing thresholds. Preserve all 90 holds and V02-before-V03.
+S429's current POM output evidence also becomes the input for S430's required manual-finding review. Preserve all 90 holds and V02-before-V03.
 
 ## EPIC-17 / G04 latest completed work — Slice 428 Woven current-hold reconciliation
 

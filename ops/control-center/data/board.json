@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2538,
-  "updatedAt": "2026-10-07T16:50:21.724Z",
+  "revision": 2544,
+  "updatedAt": "2026-10-07T16:53:57.138Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -624,7 +624,8 @@
         "E-G04-S426-EXIT",
         "E-G04-S427-EXIT",
         "E-G04-S428-EXIT",
-        "E-G04-S429-EXIT"
+        "E-G04-S429-EXIT",
+        "E-G04-S430-EXIT"
       ]
     },
     {
@@ -4231,6 +4232,11 @@
           "at": "2026-10-07T16:36:35.216Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S425 implements the approved Polo H display; S426's corrected full-label replay reports zero label/marker overlaps across 17 Polo options. S427 proves the production Polo sleeve uses one 43 cm cap/bicep span and anchors its ±0.6 cm Sleeve bicep width POM at those cap endpoints; the 0.25 cm residual threshold requires a diagnostic 35.730905 cm span, changing that POM by −7.269095 cm and the cap height from 1.786944 to 10.978524 cm. This exceeds tolerance; no production source/geometry edit is made or recommended. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. S428 confirms the approved single Woven body-neckline base seam is visible in 28/28 options with no duplicate stand-base stroke; the 28-front collar contact and 28-back sleeve-hem crossing remain unresolved. The maintainer confirms preserving all holds, rejecting the unsupported Polo cap change and retaining the implemented segmented H. The 0.68 cm residual and all 34 Polo/56 Woven holds persist. Preserve all-seven V02, V02-before-V03, legacy DXF, protected export identities, V03 rights/round-trip evidence and claim limits. See the S428 packet.). Preserve the exact S406 historical summary assertion while retaining S428 current status."
+        },
+        {
+          "at": "2026-10-07T16:53:57.138Z",
+          "actor": "Codex",
+          "text": "S430 provides a current Woven-output review of the durable G04 manual findings without closing any finding or expanding scope. All 90 held views remain; V02 stays In Progress and V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -8893,6 +8899,16 @@
           "at": "2026-10-07T16:50:21.724Z",
           "actor": "Codex",
           "text": "S429 exit: exact Woven revision 14:14, 28 options/56 faces. All ten recipe POM definitions were accounted for by exact same-revision callouts on represented faces or explicit table-only/no-inference notices; 223 emitted callouts have exact source/target bindings. Keyed W/D rows remain complete. Actual Chromium text-box checks report zero overlaps, zero renderer/compile/browser errors; enlarged schedule and markers were reviewed. No source/render behavior, acceptance or status changed. Woven 56 and Polo 34 views remain held; 56 accepted/90 held overall. See the S429 packet and matrix."
+        },
+        {
+          "at": "2026-10-07T16:52:26.626Z",
+          "actor": "Codex",
+          "text": "Start S430 from clean S429 86434ae. Review the exact current Woven 14:14 output and S429 POM/readability evidence against the durable G04 manual-finding register, reusing S397/S408 prior dispositions. Preserve all findings as To be reviewed, all 56 Woven/34 Polo holds and every G04 gate; no implementation or scope expansion."
+        },
+        {
+          "at": "2026-10-07T16:53:57.088Z",
+          "actor": "Codex",
+          "text": "S430 reviewed MQF-004–007/011/012/015 against S429's current Woven output. MQF-004–007 are partial; MQF-011 is not covered; MQF-012 is not addressed by this Woven audit; MQF-015 remains a V03 review. All remain To be reviewed. Post-G17 deferrals, all 56 Woven/34 Polo holds, all-seven V02 and V02-before-V03 are preserved; no remediation scope or status change."
         }
       ],
       "evidenceRefs": [
@@ -9512,7 +9528,9 @@
         "E-G04-S429-MATRIX",
         "E-G04-S429-FRONT-RENDERED",
         "E-G04-S429-MARKER-RENDERED",
-        "E-G04-S429-SCHEDULE-RENDERED"
+        "E-G04-S429-SCHEDULE-RENDERED",
+        "E-G04-S430-START",
+        "E-G04-S430-EXIT"
       ],
       "flagKey": null
     },
@@ -16668,6 +16686,24 @@
       "sha256": null,
       "verified": true,
       "note": "Reviewed enlarged full keyed W/D schedule text, values and tolerances in actual Chromium output."
+    },
+    {
+      "id": "E-G04-S430-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S430-current-woven-output-mqf-review/G04-V02-CURRENT-WOVEN-OUTPUT-MQF-REVIEW-S430.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded review of MQF-004–007/011/012/015 against the latest Woven POM output; keeps every finding To be reviewed and all V02 holds/gates unchanged."
+    },
+    {
+      "id": "E-G04-S430-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S430-current-woven-output-mqf-review/G04-V02-CURRENT-WOVEN-OUTPUT-MQF-REVIEW-S430.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles all seven mapped manual findings against S429 current Woven output; findings stay To be reviewed, post-G17/V03 deferrals and every V02 hold/gate remain intact."
     }
   ]
 }

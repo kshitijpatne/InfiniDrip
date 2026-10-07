@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2540,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S430-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S430-current-woven-output-mqf-review/G04-V02-CURRENT-WOVEN-OUTPUT-MQF-REVIEW-S430.md",
+      "verified": true,
+      "note": "Reconciles all seven mapped manual findings against S429 current Woven output; findings stay To be reviewed, post-G17/V03 deferrals and every V02 hold/gate remain intact."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2541,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S430-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2542,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S430 reviewed MQF-004–007/011/012/015 against S429's current Woven output. MQF-004–007 are partial; MQF-011 is not covered; MQF-012 is not addressed by this Woven audit; MQF-015 remains a V03 review. All remain To be reviewed. Post-G17 deferrals, all 56 Woven/34 Polo holds, all-seven V02 and V02-before-V03 are preserved; no remediation scope or status change."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2543,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S430 provides a current Woven-output review of the durable G04 manual findings without closing any finding or expanding scope. All 90 held views remain; V02 stays In Progress and V03 remains gated."
+  }
+]

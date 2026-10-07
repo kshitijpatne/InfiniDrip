@@ -1,0 +1,12 @@
+{
+  "revision": 2544,
+  "epicStatus": "In Progress",
+  "v02Status": "In Progress",
+  "exitLinkedToEpic": true,
+  "exitLinkedToV02": true,
+  "statuses": {
+    "v01": "Done",
+    "v03": "Backlog"
+  },
+  "holds": "56 Woven and 34 Polo views remain held."
+}
