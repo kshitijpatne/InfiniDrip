@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 422 unresolved V02 display decisions; V02 remains open
+## EPIC-17 / G04 latest slice — Slice 423 Polo residual lower-bound diagnostic; V02 remains open
+
+S423 started 2026-10-07 09:38:09 UTC from clean S422 `2d6b018469823f0204d5d3bf31340f799d215712` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice 422; S423 is unique. Board revision 2464 advances to 2466 at start. V01 Done, V02 In Progress, V03 Backlog; goal active and unchanged. Usage at entry 50% primary / 8% weekly.
+
+S423 derives the exact production metric from the current 17-row option matrix. `stitchRelations` supplies only the two source endpoint stations per curve, so the 0.68 cm production RMS is endpoint-only rather than interior curve/ease deviation. For every option and both faces, the unchanged cap/armhole endpoint chords differ by 0.958604 cm; hard-anchored endpoint RMS is 0.677835 cm (production rounds to 0.68), and even the best unconstrained rigid two-endpoint fit is 0.479302 cm, still above the maintainer-fixed 0.25 cm gate. Authored arc lengths remain 21.595729 cm versus 20.845729 cm per half (0.75 cm ease per half). No source-supported rigid correspondence can meet the gate without source geometry repair or changing acceptance; neither is authorized by this slice. The production source, stitch graph, cut geometry, renderer, view state, gate and acceptance remain unchanged. All 34 Polo and 56 Woven faces remain held. Matrix and diagnostic: `docs/research/epic17/S423-polo-residual-lower-bound/endpoint-chord-matrix.json` and `measure-chord-lower-bound.ts`.
+
+Focused evidence: 17 option rows each reproduce both live 0.68 cm assembly issues; `npm run control-center:test` passes 42/42; start/exit script syntax, validated board replay and `git diff --check` pass. No production code/test changed, so global coverage/build/export/browser gates remain due on the settled integrated Epic/PR candidate. Validated board exit advances 2466→2469 with V01 Done, V02 In Progress and V03 Backlog; all Epic/item statuses and all holds are unchanged.
+
+Elapsed 5m55s from 09:38:09 to 09:44:04 UTC: source/metric trace and exact option replay ~3m; lower-bound derivation and rendered evidence review ~1m; packet/state/board closeout and focused verification ~2m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** investigate a bounded source-pattern repair proposal for the Polo residual without editing pattern source; retain the 0.25 cm gate and all 34 Polo holds until a separate approval and all-option verification.
+
+## EPIC-17 / G04 previous slice — Slice 422 unresolved V02 display decisions; V02 remains open
 
 S422 started 2026-10-07 09:35:06 UTC from clean S421 `9873ffb8fcfeb3d6f16c12c628744f905a878093` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 421; 422 is unique. Board revision 2459 advanced to 2461 at start. V01 Done, V02 In Progress, V03 Backlog; goal record is active and matches the full admitted objective.
 

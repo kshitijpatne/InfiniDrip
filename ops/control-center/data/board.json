@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2464,
-  "updatedAt": "2026-10-07T09:36:23.894Z",
+  "revision": 2469,
+  "updatedAt": "2026-10-07T09:45:02.027Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -617,7 +617,8 @@
         "E-G04-S420-EXIT",
         "E-G04-S421-START",
         "E-G04-S421-EXIT",
-        "E-G04-S422-EXIT"
+        "E-G04-S422-EXIT",
+        "E-G04-S423-EXIT"
       ]
     },
     {
@@ -8767,6 +8768,16 @@
           "at": "2026-10-07T09:36:23.894Z",
           "actor": "Codex",
           "text": "S422 manually reviewed exact S417 Woven and S419 Polo Chromium crops and consolidated two concrete pending display decisions. Woven clipping removes 0.8426–0.8433 cm/side of the continuous source base seam; keeping it continuous preserves source fidelity and retains the 28-front hold. Polo H segmentation retains 60.139–72.361% as 2–3 clear arcs with zero sampled source-stroke contact over 17 options; approval would permit implementation/review only, not release. No behavior, acceptance, gate or hold changed. See E-G04-S422-EXIT."
+        },
+        {
+          "at": "2026-10-07T09:38:37.256Z",
+          "actor": "Codex",
+          "text": "S423 starts a bounded exact-source diagnostic of Polo's repeated 0.68 cm production RMS versus the fixed 0.25 cm gate. It will separate endpoint and interior error under existing source-supported correspondences without changing geometry, metric or output. Preserve all 34 Polo holds and all G04 gates."
+        },
+        {
+          "at": "2026-10-07T09:45:02.027Z",
+          "actor": "Codex",
+          "text": "S423 reproduced both live 0.68 cm endpoint-only assembly residuals for all 17 Polo option rows. Exact source chords differ by 0.958604 cm; the hard-anchored RMS is 0.677835 cm and the best unconstrained rigid two-endpoint fit is still 0.479302 cm, above the fixed 0.25 cm gate. No source, stitch, cut geometry, renderer, threshold, status or acceptance changed. All 34 Polo and 56 Woven faces remain held. See E-G04-S423-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -9361,7 +9372,9 @@
         "E-G04-S420-START",
         "E-G04-S420-EXIT",
         "E-G04-S422-START",
-        "E-G04-S422-EXIT"
+        "E-G04-S422-EXIT",
+        "E-G04-S423-START",
+        "E-G04-S423-EXIT"
       ],
       "flagKey": null
     },
@@ -16292,6 +16305,24 @@
       "sha256": null,
       "verified": true,
       "note": "S422 reconciles the current exact-revision Woven neckline/collar and Polo H-locator display decisions. User direction is required before either semantic mapping changes; all faces and gates remain held."
+    },
+    {
+      "id": "E-G04-S423-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S423-polo-residual-lower-bound/G04-V02-POLO-RESIDUAL-LOWER-BOUND-S423.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a diagnostic of whether source-supported seam correspondences can meet Polo's fixed 0.25 cm gate; no production or geometry change and all faces remain held."
+    },
+    {
+      "id": "E-G04-S423-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S423-polo-residual-lower-bound/G04-V02-POLO-RESIDUAL-LOWER-BOUND-S423.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact source/compiler analysis proves the current endpoint-only Polo residual cannot meet 0.25 cm under any rigid source-supported correspondence; all faces and gates remain held."
     }
   ]
 }

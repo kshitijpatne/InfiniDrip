@@ -1,0 +1,29 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2466,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S423-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S423-polo-residual-lower-bound/G04-V02-POLO-RESIDUAL-LOWER-BOUND-S423.md",
+      "verified": true,
+      "note": "Exact source/compiler analysis proves the current endpoint-only Polo residual cannot meet 0.25 cm under any rigid source-supported correspondence; all faces and gates remain held."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2467,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S423-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2468,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S423 reproduced both live 0.68 cm endpoint-only assembly residuals for all 17 Polo option rows. Exact source chords differ by 0.958604 cm; the hard-anchored RMS is 0.677835 cm and the best unconstrained rigid two-endpoint fit is still 0.479302 cm, above the fixed 0.25 cm gate. No source, stitch, cut geometry, renderer, threshold, status or acceptance changed. All 34 Polo and 56 Woven faces remain held. See E-G04-S423-EXIT."
+  }
+]
