@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2675,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S447-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S447-woven-source-candidate-study/G04-WOVEN-SOURCE-CANDIDATE-STUDY-S447.md",
+      "verified": true,
+      "note": "Starts a diagnostic-only source-shaped Woven sleeve taper candidate study across 28 supported options; fixed S370 positions, approved collar/full-seam choices and all holds remain fixed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2676,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S447 explores only the existing source-owned 3 cm Woven sleeve taper within a bounded 0–6 cm in-memory candidate interval, preserving source joins, S370 positions, approved projection choices and all-seven V02. Production source/mapping/acceptance/status remain unchanged; all candidates must pass every option geometry and rendered gate before being proposed."
+  }
+]

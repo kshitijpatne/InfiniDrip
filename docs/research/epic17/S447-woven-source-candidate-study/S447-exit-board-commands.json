@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2677,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S447-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S447-woven-source-candidate-study/G04-WOVEN-SOURCE-CANDIDATE-STUDY-S447.md",
+      "verified": true,
+      "note": "The actual 28-option/13-taper source candidate matrix finds no viable sleeve taper: pair crossings and body/yoke fill penetration persist in all 28 backs while source cap/hem-band joins remain valid. Production source and all holds are unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2678,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S447's 13-value in-memory source taper matrix covers 28 Woven options / 728 SVG faces. Every taper value retains one back sleeve-pair crossing and body/yoke fill penetration in all 28 options; no compiler/renderer errors, and source joins stay exact. The 0–6 cm range changes sleeve opening 43–31 cm but does not solve the blocker. Keep all Woven/Polo holds, S370 positions, approved collar mapping, all-seven acceptance and V02-before-V03 unchanged."
+  }
+]

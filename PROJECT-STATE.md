@@ -1,5 +1,13 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 447 bounded Woven sleeve-source candidate closed no-go
+
+S447 started 2026-10-07 22:47:58 UTC from clean S446 commit `28b9859de91590419124df688e4479fdceea37db` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 446; S447 is unique. Board start validated 2675→2677. EPIC-17/G04-V02 remain In Progress, V03 Backlog; tally 56 accepted / 90 held across 73 configurations / 146 faces. Goal remains active and unchanged.
+
+The in-memory S447 study varied only source `wovenSleeve()` taper from 0 to 6 cm in 0.5 cm increments across all 28 current Woven options, using actual technical-flat compilation/rendering at revision `live-draft:woven-shirt:14:14`. All 728 SVG faces compile/render without issues; exact sleeve hem-to-band seams remain matched and cap geometry/receivers are unchanged. Every candidate still has the back sleeve-pair crossing and body/yoke fill penetration in all 28 backs. Fixed S370 details have zero collisions and the current frame remains valid. Actual Chromium review of 24 representative default/extreme/combined outputs confirms the central X persists at taper 0, 3 and 6. Opening circumference changes from 37 cm currently to 43/31 cm at endpoints, so a broader taper sweep would vary fit without addressing the blocker. No production source/output/test/hold/acceptance change.
+
+Evidence and scripts: `docs/research/epic17/S447-woven-source-candidate-study/`. Board revisions are 2675→2677→2679; Control Center tests pass 42/42. Next action: pursue only a distinct source-supported degree of freedom that could clear the fixed-band conflict; otherwise present the specific design authority required. All 56 Woven and 34 Polo faces remain held; all-seven V02 and V02-before-V03 are unchanged.
+
 ## EPIC-17 / G04 — Slice 446 Woven V02 resolution boundary completed
 
 S446 started 2026-10-07 22:45:15 UTC from clean S445 commit `f8747c9ef9edddb481e409cd4ff253f17296c62f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 445; S446 is unique. Validated board start advanced 2671→2673. The active goal exactly matches this Epic through safe merge.
