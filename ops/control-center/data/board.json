@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2420,
-  "updatedAt": "2026-10-07T08:45:37.011Z",
+  "revision": 2428,
+  "updatedAt": "2026-10-07T08:57:17.702Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -606,7 +606,9 @@
         "E-G04-S415-START",
         "E-G04-S415-EXIT",
         "E-G04-S416-START",
-        "E-G04-S416-EXIT"
+        "E-G04-S416-EXIT",
+        "E-G04-S417-START",
+        "E-G04-S417-EXIT"
       ]
     },
     {
@@ -8700,6 +8702,16 @@
           "at": "2026-10-07T08:45:37.011Z",
           "actor": "Codex",
           "text": "S416 tested five smaller H ring radii across 17 exact Polo outputs. None clears all source paths; 0.18 cm clears marks in 16/17 but still overlaps paths. No production change; all 34 faces remain held."
+        },
+        {
+          "at": "2026-10-07T08:49:16.669Z",
+          "actor": "Codex",
+          "text": "S417 traces all visible Woven front crossings after the approved S406 clips/order. It will clarify which current source/output holds remain; no semantic mapping or face status changes are authorized by this audit."
+        },
+        {
+          "at": "2026-10-07T08:57:17.702Z",
+          "actor": "Codex",
+          "text": "S417 resolves the broad Woven front-crossing note: source-joined shoulder/stand endpoints and S406-approved clipped collar/placket boundaries are not open design holds. The remaining visible Woven front issue is the mirrored body-neckline/projected-collar contact already isolated in S410; its base-seam occlusion decision remains pending. Latest maintainer collar-over-plackets approval reaffirms S406 and does not alter S410. All 56 Woven and 34 Polo views remain held; packet, all-28 matrix and rendered crops are linked."
         }
       ],
       "evidenceRefs": [
@@ -9279,7 +9291,11 @@
         "E-G04-S415-START",
         "E-G04-S415-EXIT",
         "E-G04-S416-START",
-        "E-G04-S416-EXIT"
+        "E-G04-S416-EXIT",
+        "E-G04-S417-START",
+        "E-G04-S417-EXIT",
+        "E-G04-S417-MATRIX",
+        "E-G04-S417-RENDER"
       ],
       "flagKey": null
     },
@@ -16043,6 +16059,42 @@
       "sha256": null,
       "verified": true,
       "note": "Five source-centered H ring radii tested against exact 17-option paths/marks and actual Chromium crops; no all-option path-clear candidate. All 34 Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S417-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S417-woven-front-post-clip-intersection-audit/G04-V02-WOVEN-FRONT-POST-CLIP-INTERSECTION-AUDIT-S417.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All-28 exact-revision audit of actual Woven FRONT_FLAT crossings after S406's four approved view-only clips/order; resolves the board's remaining broad front-crossing hold without releasing faces."
+    },
+    {
+      "id": "E-G04-S417-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S417-woven-front-post-clip-intersection-audit/G04-V02-WOVEN-FRONT-POST-CLIP-INTERSECTION-AUDIT-S417.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 28 exact-revision Woven front SVGs classified after S406 clips/order. Source-joined shoulder endpoints and approved closure/collar boundaries are distinguished from the still-visible mirrored neckline/collar contact; all holds remain."
+    },
+    {
+      "id": "E-G04-S417-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S417-woven-front-post-clip-intersection-audit/woven-collar-stack-crossings.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reproducible post-clip SVG trace includes entity/source IDs, clip provenance, painter order, coordinates and all 28 option rows at live-draft:woven-shirt:14:14."
+    },
+    {
+      "id": "E-G04-S417-RENDER",
+      "kind": "document",
+      "uri": "docs/research/epic17/S417-woven-front-post-clip-intersection-audit/woven-shirt-default-post-clip-overlay.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium crop of the exact S406 revision; red marks the unresolved neckline/collar contact, blue source-joined shoulder endpoints, and amber already-approved collar/placket boundaries. Neck-ease maximum crop is included in the packet."
     }
   ]
 }

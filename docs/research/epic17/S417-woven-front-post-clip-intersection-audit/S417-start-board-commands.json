@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2420,"itemId":"G04-V02","evidence":{"id":"E-G04-S417-START","kind":"document","uri":"docs/research/epic17/S417-woven-front-post-clip-intersection-audit/G04-V02-WOVEN-FRONT-POST-CLIP-INTERSECTION-AUDIT-S417.md","verified":true,"note":"All-28 exact-revision audit of actual Woven FRONT_FLAT crossings after S406's four approved view-only clips/order; resolves the board's remaining broad front-crossing hold without releasing faces."}},
+  {"type":"addEpicEvidence","expectedRevision":2421,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S417-START"},
+  {"type":"addComment","expectedRevision":2422,"itemId":"G04-V02","actor":"Codex","text":"S417 traces all visible Woven front crossings after the approved S406 clips/order. It will clarify which current source/output holds remain; no semantic mapping or face status changes are authorized by this audit."}
+]

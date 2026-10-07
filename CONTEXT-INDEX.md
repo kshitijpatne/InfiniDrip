@@ -6,6 +6,10 @@ Knowledge may add evidence, but must not silently override the documents below.
 The execution-time efficiency rules in `AGENTS.md` and their maintainer
 decision in `docs/PROJECT-DECISIONS.md` apply to every new or resumed task.
 
+## Latest EPIC-17/G04 slice evidence
+
+- `docs/research/epic17/S417-woven-front-post-clip-intersection-audit/G04-V02-WOVEN-FRONT-POST-CLIP-INTERSECTION-AUDIT-S417.md`, `woven-collar-stack-crossings.json`, and the Chromium post-clip overlays — classifies all 28 exact-revision Woven front contacts. The approved collar-over-plackets order is implemented; source-joined shoulder endpoints are not open defects; the mirrored neckline/collar contact remains the separate S410 hold. All Woven/Polo views remain held.
+
 ## Authority and reading order
 
 Read these before any implementation work, in order:
