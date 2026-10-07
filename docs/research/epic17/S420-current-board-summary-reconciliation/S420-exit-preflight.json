@@ -1,0 +1,25 @@
+{
+  "sourceRevision": 2443,
+  "commandCount": 10,
+  "resultingRevision": 2453,
+  "revisions": [
+    2444,
+    2445,
+    2446,
+    2447,
+    2448,
+    2449,
+    2450,
+    2451,
+    2452,
+    2453
+  ],
+  "epicStatus": "In Progress",
+  "epicDescriptionIncludesS419": true,
+  "summaryDescriptionIncludesS419": true,
+  "v02Status": "In Progress",
+  "v02DescriptionIncludesS420": true,
+  "allEpicStatusesUnchanged": true,
+  "allWorkItemStatusesUnchanged": true,
+  "canonicalBoardWritten": false
+}

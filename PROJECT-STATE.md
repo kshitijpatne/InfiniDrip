@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 419 Polo H segmented locator trial; V02 remains open
+## EPIC-17 / G04 current work — Slice 420 current board summary reconciliation; V02 remains open
+
+S420 started 2026-10-07 09:23:40 UTC from clean S419 `c90e89f0a677111762a47de6b8fa8692b720341c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 419; S420 is unique. Board revision 2443 advanced to 2446 at start and 2453 at validated exit. V01 Done, V02 In Progress, V03 Backlog; the active goal remains unchanged.
+
+S420 brought the canonical EPIC-17 Epic record, summary card and G04-V02 work item from S413/S407-era descriptions forward to verified S419 status, without changing scope, status, acceptance, or face holds. The maintainer's latest collar-over-plackets reply reaffirms S406 and is recorded as already implemented; it does not answer S410's separate Woven body-neckline clip choice. S419's diagnostic segmented Polo H-ring remains an unapproved proposal. The latest verified integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces remain held. Preserve the 0.68 cm versus 0.25 cm Polo residual gate, all-seven V02, V02-before-V03, legacy DXF, protected export identities, CAD rights/round-trip gates, and claim boundaries.
+
+Validated start replay preflighted on a clone at 2443→2446. Exit replay preflighted on a clone from committed S419 through the start and exit command sets, 2443→2453, with all Epic/item statuses unchanged. The canonical exit ran 2446→2452, then linked the verified exit evidence to the Epic summary card at 2453 through the validated command layer. `node --test ops/control-center/app/board.test.mjs` passes 18/18; `npm run control-center:test` passes 42/42; board schema validation and `git diff --check` pass. The first Control Center run exposed only stale prose assertions for the superseded board descriptions; those assertions now verify current S419 summaries and preserved S361 evidence links. No production code changed; the integrated global coverage/build/export/browser gate remains for the settled Epic candidate. Evidence: `docs/research/epic17/S420-current-board-summary-reconciliation/`.
+
+Elapsed 3m50s (board/current-state review and docs 1m30s; focused verification and failure diagnosis 2m20s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m).
+
+**Next action:** continue the remaining option-wide V02 diagnostics without implementing the unapproved Polo segmented H locator or Woven neckline clip; keep every hold and all G04 gates intact.
+
+## EPIC-17 / G04 previous slice — Slice 419 Polo H segmented locator trial; V02 remains open
 
 S419 started 2026-10-07 09:09:39 UTC from clean S418 `02d9bb8e763f37cc2e79d4f11a8f7854e69d1320` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 418; S419 is uniquely reserved. Board revision 2435 advanced to 2438 at slice start and 2443 at validated exit. G04-V01 Done, V02 In Progress and V03 Backlog. Goal remains active and matches the full admitted objective.
 
