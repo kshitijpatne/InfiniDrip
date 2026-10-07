@@ -152,7 +152,7 @@ export interface FlatCalloutPrimitive extends FlatPrimitiveBase {
     readonly key: string;
     readonly markerRadiusCm: number;
     /** Open source-centered marker approved for the Polo V02 trial. */
-    readonly markerStyle?: "filled" | "open-halo";
+    readonly markerStyle?: "filled" | "open-halo" | "segmented-open-halo";
     /** Alternate view-only marker station with explicit source provenance. */
     readonly markerPoint?: { readonly point: FlatPoint; readonly sourceEntityIds: readonly string[] };
   };
@@ -329,7 +329,7 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
         || !Number.isFinite(primitive.presentation.markerRadiusCm)
         || primitive.presentation.markerRadiusCm <= 0
         || (primitive.presentation.markerStyle !== undefined
-          && !["filled", "open-halo"].includes(primitive.presentation.markerStyle)))) {
+          && !["filled", "open-halo", "segmented-open-halo"].includes(primitive.presentation.markerStyle)))) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id,
           message: "Keyed callouts need a supported presentation, non-empty key and positive marker radius." });
       }

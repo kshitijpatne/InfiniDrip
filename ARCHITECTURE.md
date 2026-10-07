@@ -144,6 +144,20 @@ preserves all paired back SVGs, but other front intersections and the back
 sleeve/band crossing remain. The replay therefore releases none of the 56
 Woven or 34 Polo faces and does not satisfy all-seven V02 acceptance.
 
+Slice 425 implements the maintainer-approved Polo H locator as a view-only
+segmented ring. Only H changes from a continuous open ring; its same-revision
+source anchor, 0.22 cm radius, full POM schedule, glyph and targets stay fixed.
+The renderer samples source component paths, circles and point marks, keeps
+0.045 cm clearance, drops arcs shorter than 0.04 cm, and fails closed unless
+2–3 arcs covering at least half the ring remain. All 17 exact S399 output
+revisions replay with 60.28–72.22% ring coverage, preserved source paths and
+schedule, and zero sampled post-paint source-stroke contacts. This focused
+output test does not bypass the live compiler's independent Polo residual
+hold: 0.68 cm remains above 0.25 cm, and no Polo face is accepted. The
+maintainer rejected S424's 8.654851 cm bicep reduction and retained the
+continuous Woven neckline with its 28 front holds; see
+`docs/PROJECT-DECISIONS.md` and the S425 packet.
+
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
 `TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled

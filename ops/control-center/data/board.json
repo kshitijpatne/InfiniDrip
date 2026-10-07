@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2474,
-  "updatedAt": "2026-10-07T09:50:32.050Z",
+  "revision": 2491,
+  "updatedAt": "2026-10-07T15:47:33.283Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; no S414–S419 slice released a face. V01 is Done, V02 In Progress, and V03 remains gated behind all-seven V02 acceptance. All 56 Woven and 34 Polo faces remain held. Woven: S406's approved view-only collar-over-plackets order remains implemented and was reaffirmed by the maintainer; S417 distinguishes source-joined endpoints and approved closure contacts from the repeated body-neckline/collar contact. The separate S410 neckline clip decision is pending, and S381 found no support for a back-hem gap. Polo: S419's segmented H-ring diagnostic retains 60.1–72.4% of the ring as 2–3 arcs with no sampled path/mark contacts across 17 options, but production use awaits explicit approval. The independent 0.68 cm RMS remains above the fixed 0.25 cm gate, with other callout/readability checks outstanding. Preserve all-seven V02, V02-before-V03, legacy DXF, protected export byte identities, CAD rights/profile/round-trip gates, and physical/factory/production-readiness claim limits. S420 reconciles these summaries only; no acceptance or status change.",
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S419's segmented H-ring diagnostic retains 60.1–72.4% in its prior renderer baseline. The separate S410 neckline clip decision is pending; S406's approved view-only collar-over-plackets order remains implemented. S425 now implements and verifies the maintainer-approved source-centered Polo H segmented-ring display across all 17 exact S399 output revisions; it changes no pattern geometry, source paths or POM schedule and releases no face. The maintainer rejected S424's unsupported 8.654851 cm Polo bicep reduction, retains the 0.25 cm residual gate and all Polo holds, and keeps Woven's continuous neckline with its 28 front holds. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, V02-before-V03, generic legacy DXF, protected export byte identities, V03 rights/profile/round-trip evidence, and physical/factory/production-readiness claim limits. See PROJECT-STATE.md and the S425 packet.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -619,7 +619,8 @@
         "E-G04-S421-EXIT",
         "E-G04-S422-EXIT",
         "E-G04-S423-EXIT",
-        "E-G04-S424-EXIT"
+        "E-G04-S424-EXIT",
+        "E-G04-S425-EXIT"
       ]
     },
     {
@@ -3148,7 +3149,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "Admitted EPIC-17/G04 V01→V02→V03. Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S406's approved Woven collar-over-plackets display remains implemented and maintainer-reaffirmed. S417 confirms the distinct all-option neckline/collar contact; S410's seam-clipping decision remains pending. S381 provides no evidence for a Woven back-hem gap. S419's Polo segmented H-ring trial is diagnostic only and awaits approval. All 56 Woven and 34 Polo faces remain held; Polo's 0.68 cm residual still exceeds the fixed 0.25 cm gate, alongside callout/readability holds. Preserve all-seven V02, V02-before-V03, legacy DXF, protected exports, V03 rights/round-trip gates, and all claim boundaries. See PROJECT-STATE.md and the current G04-V02 packet.",
+      "description": "EPIC-17/G04 is In Progress through its admitted V01→V02→V03 sequence and safe merge. Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S419's Polo segmented H-ring trial is diagnostic only and awaits approval; S425 now implements the approved view-only treatment across 17 exact S399 SVG revisions, preserving source paths and all 11 schedule rows without releasing faces. S406's approved Woven collar-over-plackets display remains implemented; its order stays in place. The maintainer rejected the proposed Polo bicep reduction and retained all Polo holds and the 0.25 cm gate. Woven's continuous source neckline stays visible, so all 28 fronts remain held. Preserve all-seven V02, V02-before-V03, legacy DXF, protected exports, CAD-rights/round-trip gates and claim limits.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4181,6 +4182,21 @@
           "at": "2026-10-07T09:25:07.701Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; no S414–S419 slice released a face. V01 is Done, V02 In Progress, and V03 remains gated behind all-seven V02 acceptance. All 56 Woven and 34 Polo faces remain held. Woven: S406's approved view-only collar-over-plackets order remains implemented and was reaffirmed by the maintainer; S417 distinguishes source-joined endpoints and approved closure contacts from the repeated body-neckline/collar contact. The separate S410 neckline clip decision is pending, and S381 found no support for a back-hem gap. Polo: S419's segmented H-ring diagnostic retains 60.1–72.4% of the ring as 2–3 arcs with no sampled path/mark contacts across 17 options, but production use awaits explicit approval. The independent 0.68 cm RMS remains above the fixed 0.25 cm gate, with other callout/readability checks outstanding. Preserve all-seven V02, V02-before-V03, legacy DXF, protected export byte identities, CAD rights/profile/round-trip gates, and physical/factory/production-readiness claim limits. S420 reconciles these summaries only; no acceptance or status change.). Refresh the EPIC-17 summary to match verified S419 output and preserve its V02/V03 gates and unresolved holds."
+        },
+        {
+          "at": "2026-10-07T15:42:32.236Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Current integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S425 implements and verifies the maintainer-approved source-centered Polo H segmented-ring display across all 17 exact S399 output revisions; it changes no pattern geometry, source paths or POM schedule and releases no face. The maintainer rejects S424's unsupported 8.654851 cm Polo bicep reduction, retains the 0.25 cm residual gate and all Polo holds, and keeps Woven's continuous neckline with its 28 front holds. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, V02-before-V03, generic legacy DXF, protected export byte identities, V03 rights/profile/round-trip evidence, and physical/factory/production-readiness claim limits. See PROJECT-STATE.md and the S425 packet.). Reconcile EPIC-17 with approved S425 H-marker work and its preserved V02 holds."
+        },
+        {
+          "at": "2026-10-07T15:45:51.045Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S419's segmented H-ring diagnostic retains 60.1–72.4% in its prior renderer baseline. The separate S410 neckline clip decision is pending; S406's approved view-only collar-over-plackets order remains implemented. S425 now implements and verifies the maintainer-approved source-centered Polo H segmented-ring display across all 17 exact S399 output revisions; it changes no pattern geometry, source paths or POM schedule and releases no face. The maintainer rejected S424's unsupported 8.654851 cm Polo bicep reduction, retains the 0.25 cm residual gate and all Polo holds, and keeps Woven's continuous neckline with its 28 front holds. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, V02-before-V03, generic legacy DXF, protected export byte identities, V03 rights/profile/round-trip evidence, and physical/factory/production-readiness claim limits. See PROJECT-STATE.md and the S425 packet.). Preserve regression-critical slice history while reconciling the approved S425 diagnostic and current decision state."
+        },
+        {
+          "at": "2026-10-07T15:46:35.242Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S419's segmented H-ring diagnostic retains 60.1–72.4% in its prior renderer baseline. The separate S410 neckline clip decision is pending; S406's approved view-only collar-over-plackets order remains implemented. S425 now implements and verifies the maintainer-approved source-centered Polo H segmented-ring display across all 17 exact S399 output revisions; it changes no pattern geometry, source paths or POM schedule and releases no face. The maintainer rejected S424's unsupported 8.654851 cm Polo bicep reduction, retains the 0.25 cm residual gate and all Polo holds, and keeps Woven's continuous neckline with its 28 front holds. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, V02-before-V03, generic legacy DXF, protected export byte identities, V03 rights/profile/round-trip evidence, and physical/factory/production-readiness claim limits. See PROJECT-STATE.md and the S425 packet.). Keep the canonical admission link in the Epic summary while recording S425 without erasing required evidence history."
         }
       ],
       "evidenceRefs": [
@@ -4566,7 +4582,8 @@
         "E-G04-S401-EXIT",
         "E-G04-S402-START",
         "E-G04-S411-START",
-        "E-G04-S420-EXIT"
+        "E-G04-S420-EXIT",
+        "E-G04-S425-EXIT"
       ],
       "flagKey": null
     },
@@ -7264,7 +7281,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "G04 V02 remains In Progress; latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S406's approved Woven collar-over-plackets order remains implemented and maintainer-reaffirmed. S417 classifies joined endpoints and covered closure contacts separately from the unresolved repeated neckline/collar contact; S410's view-only seam clip decision remains pending. S381 found no evidence supporting a false Woven back-hem gap. S419 tested a 2–3-arc Polo H locator across 17 options with zero sampled source-stroke contacts, but implementation still needs explicit approval. All 56 Woven and 34 Polo faces remain held. Polo's 0.68 cm RMS remains above the unchanged 0.25 cm gate, with other callout/readability checks outstanding. Preserve all-seven V02, keep V03 gated, legacy DXF, protected export identities, and physical/factory claim limits. Current packet: docs/research/epic17/S420-current-board-summary-reconciliation/G04-BOARD-SUMMARY-RECONCILIATION-S420.md.",
+      "description": "G04 V02 remains In Progress; latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S381 found no evidence supporting a false Woven back-hem gap; S406's approved Woven collar-over-plackets order remains implemented; S410's view-only seam clip decision remains pending. The continuous neckline also remains visible, so preserve all 56 Woven holds and its 28 front holds. S419 tested a 2–3-arc Polo H locator across 17 options; S425 implements the approved segmented-ring view treatment and verifies all 17 exact S399 SVG revisions with 2–3 arcs, 60.28–72.22% ring retention, unchanged source component paths and 11/11 POM schedule rows, and zero sampled post-paint source-stroke contacts. All 56 Woven and 34 Polo faces remain held. The live Polo compiler remains held at 0.68 cm versus the fixed 0.25 cm residual gate, plus remaining callout/readability checks; the S424 8.654851 cm bicep reduction was rejected. Preserve all-seven V02, keep V03 gated, legacy DXF, protected exports and V03 rights/round-trip gates. Current packet: docs/research/epic17/S425-polo-h-segmented-locator-implementation/G04-V02-POLO-H-SEGMENTED-LOCATOR-S425.md",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -8789,6 +8806,16 @@
           "at": "2026-10-07T09:50:32.050Z",
           "actor": "Codex",
           "text": "S424's all-option in-memory source candidate reaches 0.20 cm RMS only by lowering Polo finished sleeve-bicep span from 43 to 34.345149 cm (−8.654851 cm), while retaining 1.5 cm cap ease. Rendered sleeve is markedly narrower. Recommend reject this repair absent pattern-specific construction evidence. No production change, gate relaxation or view release; all Polo and Woven holds remain. See E-G04-S424-EXIT."
+        },
+        {
+          "at": "2026-10-07T15:19:11.856Z",
+          "actor": "Codex",
+          "text": "S425 implements and verifies the approved S419 Polo H open-arc locator against same-revision rendered geometry across all 17 options. The maintainer's recommendations also reject the S424 bicep reduction and preserve the continuous Woven neckline; all 34 Polo and 56 Woven views remain held pending every V02 gate."
+        },
+        {
+          "at": "2026-10-07T15:42:32.509Z",
+          "actor": "Codex",
+          "text": "S425 implements the explicitly approved Polo H segmented-ring display. All 17 exact S399 revisions retain 2–3 arcs, 60.28–72.22% coverage, identical component path data/revision identities, all 11 POM rows, and zero sampled source-stroke contacts. The live compiler's unrelated Polo residual remains 0.68 cm vs 0.25 cm; all 34 Polo faces stay held. The maintainer rejected the bicep reduction and retained the Woven continuous-neckline hold; all 56 Woven faces stay held. See E-G04-S425-EXIT and E-G04-S425-RENDERED."
         }
       ],
       "evidenceRefs": [
@@ -9387,7 +9414,10 @@
         "E-G04-S423-START",
         "E-G04-S423-EXIT",
         "E-G04-S424-START",
-        "E-G04-S424-EXIT"
+        "E-G04-S424-EXIT",
+        "E-G04-S425-START",
+        "E-G04-S425-EXIT",
+        "E-G04-S425-RENDERED"
       ],
       "flagKey": null
     },
@@ -16354,6 +16384,33 @@
       "sha256": null,
       "verified": true,
       "note": "An in-memory bicep-input change meets the Polo endpoint target only by reducing finished sleeve-bicep span 8.654851 cm; recommend reject absent construction evidence. No production edit; all views held."
+    },
+    {
+      "id": "E-G04-S425-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S425-polo-h-segmented-locator-implementation/G04-V02-POLO-H-SEGMENTED-LOCATOR-S425.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts approved Polo H segmented-locator implementation and all-option review only; other approved decisions are preserved as holds, and no face release is authorized."
+    },
+    {
+      "id": "E-G04-S425-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S425-polo-h-segmented-locator-implementation/G04-V02-POLO-H-SEGMENTED-LOCATOR-S425.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implements the approved view-only Polo H segmentation; 17 exact source revisions preserve geometry and schedule, with 34 Polo/56 Woven faces still held."
+    },
+    {
+      "id": "E-G04-S425-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S425-polo-h-segmented-locator-implementation/S425-rendered-output-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 17 exact S399 output revisions pass current SVG renderer and Chromium centerline checks; 2–3 arcs, 60.28–72.22% coverage, 11 schedule rows, paths unchanged, zero source-stroke contacts. Matched default/least-coverage crops are retained."
     }
   ]
 }

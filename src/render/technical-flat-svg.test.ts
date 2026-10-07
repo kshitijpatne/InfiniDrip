@@ -111,6 +111,113 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("[data-schedule-for='pom-sleeve']")?.textContent).toContain("Measurement 2");
   });
 
+  it("segments only the Polo H ring around same-revision pattern paths and fails closed when its layout is unreadable", () => {
+    const hCallout: TechnicalFlatPrimitive = { kind: "callout", id: "pom-neck-width", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:polo:neck-width" }, text: "Neck width: 14 cm (±0.2 cm)",
+      anchor: { primitiveId: "front", point: { x: 5, y: 5 }, sourceEntityId: "pattern:polo:role:front:edge:shoulder" },
+      labelAt: { x: 8, y: 6 }, presentation: { kind: "keyed-marker-schedule", key: "H", markerRadiusCm: 0.22,
+        markerStyle: "segmented-open-halo" } };
+    const crossers: TechnicalFlatPrimitive[] = [
+      { ...outline, id: "front", source: { ...source, sourceId: "pattern:polo:role:front" }, commands: [
+        { op: "move", point: { x: 5.22, y: 4.8 } }, { op: "line", point: { x: 5.22, y: 5.2 } },
+      ] },
+      { ...outline, id: "outer-stand", source: { ...source, sourceId: "pattern:polo:role:outerStand" }, commands: [
+        { op: "move", point: { x: 4.78, y: 4.8 } }, { op: "line", point: { x: 4.78, y: 5.2 } },
+      ] },
+    ];
+    const distantPatternGeometry: TechnicalFlatPrimitive[] = [
+      { ...outline, id: "distant-curved-mark", source: { ...source, sourceId: "pattern:polo:role:distant" }, commands: [
+        { op: "move", point: { x: 20, y: 20 } },
+        { op: "cubic", control1: { x: 21, y: 20 }, control2: { x: 21, y: 21 }, point: { x: 20, y: 21 } },
+        { op: "close" },
+      ] },
+      { ...outline, id: "distant-zero-length", source: { ...source, sourceId: "pattern:polo:role:zero" }, commands: [
+        { op: "move", point: { x: 30, y: 30 } }, { op: "line", point: { x: 30, y: 30 } },
+      ] },
+      { kind: "circle", id: "distant-circle", layer: "CONSTRUCTION", feature: "dart",
+        source: { ...source, sourceId: "pattern:polo:role:circle" }, center: { x: 40, y: 40 }, radius: 0.5 },
+      { kind: "mark", id: "distant-button", layer: "CONSTRUCTION", feature: "closure",
+        source: { ...source, sourceId: "pattern:polo:mark:button" }, markKind: "button", markName: "distant-button", at: { x: 50, y: 50 } },
+      { kind: "mark", id: "distant-buttonhole", layer: "CONSTRUCTION", feature: "closure",
+        source: { ...source, sourceId: "pattern:polo:mark:buttonhole" }, markKind: "buttonhole", markName: "distant-buttonhole", at: { x: 60, y: 60 } },
+    ];
+    const rendered = renderTechnicalFlatSvg({ ...makeView([...crossers, ...distantPatternGeometry, hCallout]), recipeId: "polo" }, { measureText: measure });
+    expect(rendered.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(rendered.svg!, "image/svg+xml");
+    const marker = parsed.querySelector("g[data-pom-key='H']")!;
+    expect(marker.getAttribute("data-marker-arc-count")).toBe("2");
+    expect(Number(marker.getAttribute("data-marker-retained-coverage"))).toBeGreaterThan(0.5);
+    expect(marker.querySelector("path[data-segmented-marker='S425']")?.getAttribute("stroke-linecap")).toBe("round");
+    expect(marker.querySelector("circle")).toBeNull();
+    expect(parsed.querySelector("[data-schedule-for='pom-neck-width']")?.textContent)
+      .toBe("H  Neck width: 14 cm (±0.2 cm)");
+
+    const unreadable = { ...hCallout, presentation: { ...hCallout.presentation, key: "H",
+      markerRadiusCm: 0.22, markerStyle: "segmented-open-halo" as const } };
+    const allAround = Array.from({ length: 4 }, (_, index) => {
+      const angle = index * Math.PI / 2;
+      const x = 5 + Math.cos(angle) * 0.22;
+      const y = 5 + Math.sin(angle) * 0.22;
+      const normalX = -Math.sin(angle) * 0.08;
+      const normalY = Math.cos(angle) * 0.08;
+      return { ...outline, id: index === 0 ? "front" : `blocker-${index}`,
+        source: { ...source, sourceId: index === 0 ? "pattern:polo:role:front" : `pattern:polo:role:blocker${index}` },
+        ...(index === 0 ? { sourceEdgeIds: ["pattern:polo:role:front:edge:shoulder"] } : {}), commands: [
+        { op: "move" as const, point: { x: x - normalX, y: y - normalY } },
+        { op: "line" as const, point: { x: x + normalX, y: y + normalY } },
+      ] };
+    });
+    const blocked = renderTechnicalFlatSvg({ ...makeView([...allAround, unreadable]), recipeId: "polo" }, { measureText: measure });
+    expect(blocked.svg).toBeNull();
+    expect(blocked.issues).toContainEqual(expect.objectContaining({ code: "MARKER_SEGMENTATION_UNAVAILABLE", entityId: "H" }));
+  });
+
+  it("segments around independent circle and buttonhole marks and serializes a long retained arc", () => {
+    const hCallout: TechnicalFlatPrimitive = { kind: "callout", id: "pom-neck-width", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:polo:neck-width" }, text: "Neck width: 14 cm (±0.2 cm)",
+      anchor: { primitiveId: "front", point: { x: 5, y: 5 }, sourceEntityId: "pattern:polo:role:front:edge:shoulder" },
+      labelAt: { x: 8, y: 6 }, presentation: { kind: "keyed-marker-schedule", key: "H", markerRadiusCm: 0.22,
+        markerStyle: "segmented-open-halo" } };
+    const crossing = (angle: number, id: string, role: string, target = false): TechnicalFlatPrimitive => {
+      const x = 5 + Math.cos(angle) * 0.22; const y = 5 + Math.sin(angle) * 0.22;
+      const tx = -Math.sin(angle) * 0.08; const ty = Math.cos(angle) * 0.08;
+      return { ...outline, id, source: { ...source, sourceId: `pattern:polo:role:${role}` },
+        ...(target ? { sourceEdgeIds: ["pattern:polo:role:front:edge:shoulder"] } : {}), commands: [
+          { op: "move", point: { x: x - tx, y: y - ty } }, { op: "line", point: { x: x + tx, y: y + ty } },
+        ] };
+    };
+    const twoCrossings = renderTechnicalFlatSvg({ ...makeView([crossing(0, "front", "front", true),
+      crossing(1.4, "outer-stand", "outerStand"), hCallout]), recipeId: "polo" }, { measureText: measure });
+    expect(twoCrossings.issues).toEqual([]);
+    const twoCrossingsDoc = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(twoCrossings.svg!, "image/svg+xml");
+    expect(twoCrossingsDoc.querySelector("g[data-pom-key='H']")?.getAttribute("data-marker-arc-count")).toBe("2");
+    expect(twoCrossingsDoc.querySelector("g[data-pom-key='H'] path")?.getAttribute("d")).toContain(" 0 1 1 ");
+
+    const circleResult = renderTechnicalFlatSvg({ ...makeView([
+      crossing(Math.PI, "front", "front", true),
+      { kind: "circle", id: "circle-mark", layer: "CONSTRUCTION", feature: "dart",
+        source: { ...source, sourceId: "pattern:polo:role:circle-mark" }, center: { x: 5, y: 4.89 }, radius: 0.11 },
+      hCallout,
+    ]), recipeId: "polo" }, { measureText: measure });
+    expect(circleResult.issues).toEqual([]);
+    const circleDoc = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(circleResult.svg!, "image/svg+xml");
+    expect(circleDoc.querySelector("g[data-pom-key='H']")?.getAttribute("data-marker-arc-count")).toBe("2");
+
+    const buttonholeResult = renderTechnicalFlatSvg({ ...makeView([
+      crossing(Math.PI, "front", "front", true),
+      { kind: "mark", id: "buttonhole-mark", layer: "CONSTRUCTION", feature: "closure",
+        source: { ...source, sourceId: "pattern:polo:mark:buttonhole" }, markKind: "buttonhole", markName: "buttonhole", at: { x: 5.11, y: 5 } },
+      hCallout,
+    ]), recipeId: "polo" }, { measureText: measure });
+    expect(buttonholeResult.issues).toEqual([]);
+    const buttonholeDoc = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(buttonholeResult.svg!, "image/svg+xml");
+    expect(buttonholeDoc.querySelector("g[data-pom-key='H']")?.getAttribute("data-marker-arc-count")).toBe("2");
+  });
+
   it("applies approved Polo E/FG/H/I glyph-only offsets while keeping every keyed ring on its source anchor", () => {
     const keys = [
       { key: "E", x: 7, y: 2, style: "open-halo" as const },

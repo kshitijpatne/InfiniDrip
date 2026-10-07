@@ -451,7 +451,8 @@ export function mapPoloSourceCenteredKeyedCallouts(kind: TechnicalFlatViewKind, 
       return callout;
     }
     return { ...callout, layer: "ANNOTATION" as const,
-      presentation: { kind: "keyed-marker-schedule" as const, key, markerRadiusCm: 0.22, markerStyle: "open-halo" as const } };
+      presentation: { kind: "keyed-marker-schedule" as const, key, markerRadiusCm: 0.22,
+        markerStyle: key === "H" ? "segmented-open-halo" as const : "open-halo" as const } };
   });
   for (const [sourceId, key] of keyed) {
     if (requiredPomSourceIds.includes(sourceId) && !callouts.some((callout) => callout.source.sourceId === sourceId)) {

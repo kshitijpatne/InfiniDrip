@@ -541,7 +541,8 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(result.issues).toEqual([]);
     expect(result.callouts).toHaveLength(10);
     expect(result.callouts.map((callout) => callout.presentation?.key)).toEqual(identities.map(([, key]) => key));
-    expect(result.callouts.every((callout) => callout.presentation?.markerStyle === "open-halo"
+    expect(result.callouts.every((callout) => callout.presentation?.markerStyle
+      === (callout.presentation.key === "H" ? "segmented-open-halo" : "open-halo")
       && callout.presentation.markerRadiusCm === 0.22)).toBe(true);
     expect(mapPoloSourceCenteredKeyedCallouts("BACK_FLAT", "polo-r1", callouts).callouts).toEqual(callouts);
     expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts.slice(1)).issues).toEqual([]);

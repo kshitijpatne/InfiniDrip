@@ -39,7 +39,7 @@ export interface TechnicalFlatSvgOptions {
 export interface TechnicalFlatSvgIssue {
   readonly code: "INVALID_VIEW" | "FONT_METRICS_UNAVAILABLE" | "INVALID_FONT_METRICS"
     | "COLORWAY_REVISION_MISMATCH" | "COLORWAY_TARGET_MISSING" | "COLORWAY_CONTOUR_UNCLOSED"
-    | "VIEW_CLIP_CONTOUR_UNAVAILABLE" | "TEXT_COLLISION";
+    | "VIEW_CLIP_CONTOUR_UNAVAILABLE" | "TEXT_COLLISION" | "MARKER_SEGMENTATION_UNAVAILABLE";
   readonly entityId?: string;
   readonly message: string;
 }
@@ -462,6 +462,145 @@ function pathSegments(commands: readonly FlatPathCommand[]): Array<readonly [Fla
   return result;
 }
 
+interface SegmentedMarker {
+  readonly path: string;
+  readonly arcCount: number;
+  readonly retainedCoverage: number;
+}
+
+function squaredDistanceToSegment(point: FlatPoint, start: FlatPoint, end: FlatPoint): number {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+  if (lengthSquared === 0) return (point.x - start.x) ** 2 + (point.y - start.y) ** 2;
+  const ratio = Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared));
+  return (point.x - (start.x + ratio * dx)) ** 2 + (point.y - (start.y + ratio * dy)) ** 2;
+}
+
+function roundedButtonholeSegments(at: FlatPoint): Array<readonly [FlatPoint, FlatPoint]> {
+  const halfWidth = MARK_RADIUS_CM;
+  const halfHeight = MARK_RADIUS_CM / 2;
+  const radius = halfHeight;
+  const cornerCenters = [
+    { center: { x: at.x + halfWidth - radius, y: at.y }, start: -Math.PI / 2, end: Math.PI / 2 },
+    { center: { x: at.x - halfWidth + radius, y: at.y }, start: Math.PI / 2, end: Math.PI * 1.5 },
+  ];
+  const points: FlatPoint[] = [{ x: at.x - halfWidth + radius, y: at.y - halfHeight }];
+  points.push({ x: at.x + halfWidth - radius, y: at.y - halfHeight });
+  for (const { center, start, end } of cornerCenters.slice(0, 1)) {
+    for (let index = 1; index <= 12; index += 1) {
+      const angle = start + (end - start) * index / 12;
+      points.push({ x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius });
+    }
+  }
+  points.push({ x: at.x - halfWidth + radius, y: at.y + halfHeight });
+  for (const { center, start, end } of cornerCenters.slice(1)) {
+    for (let index = 1; index <= 12; index += 1) {
+      const angle = start + (end - start) * index / 12;
+      points.push({ x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius });
+    }
+  }
+  points.push(points[0]!);
+  return points.slice(1).map((point, index) => [points[index]!, point] as const);
+}
+
+function flattenedPathSegments(commands: readonly FlatPathCommand[]): Array<readonly [FlatPoint, FlatPoint]> {
+  const result: Array<readonly [FlatPoint, FlatPoint]> = [];
+  let current: FlatPoint | null = null;
+  let subpath: FlatPoint | null = null;
+  for (const command of commands) {
+    if (command.op === "move") { current = command.point; subpath = command.point; }
+    else if (command.op === "line") {
+      if (current) result.push([current, command.point]);
+      current = command.point;
+    } else if (command.op === "cubic") {
+      if (current) {
+        let previous = current;
+        for (let step = 1; step <= 32; step += 1) {
+          const t = step / 32;
+          const inverse = 1 - t;
+          const point = { x: inverse ** 3 * current.x + 3 * inverse ** 2 * t * command.control1.x
+            + 3 * inverse * t ** 2 * command.control2.x + t ** 3 * command.point.x,
+          y: inverse ** 3 * current.y + 3 * inverse ** 2 * t * command.control1.y
+            + 3 * inverse * t ** 2 * command.control2.y + t ** 3 * command.point.y };
+          result.push([previous, point]);
+          previous = point;
+        }
+      }
+      current = command.point;
+    } else if (command.op === "close" && current && subpath) {
+      result.push([current, subpath]);
+      current = subpath;
+    }
+  }
+  return result;
+}
+
+function segmentedPoloMarker(view: TechnicalFlatView, center: FlatPoint, radius: number): SegmentedMarker | null {
+  const samples = 720;
+  const clearanceCm = 0.045;
+  const minimumArcCm = 0.04;
+  const pathSegmentsForView = view.primitives.flatMap((primitive) =>
+    primitive.kind === "path" && primitive.colorwayBoundaryOnly !== true
+      && primitive.source.revisionId === view.revisionId
+      && primitive.source.sourceId.startsWith("pattern:polo:")
+      ? flattenedPathSegments(primitive.commands) : []);
+  const circles = view.primitives.filter((primitive) => primitive.kind === "circle"
+    && primitive.source.revisionId === view.revisionId && primitive.source.sourceId.startsWith("pattern:polo:"));
+  const marks = view.primitives.filter((primitive) => primitive.kind === "mark"
+    && primitive.source.revisionId === view.revisionId && primitive.source.sourceId.startsWith("pattern:polo:"));
+  const buttonholeSegments = marks.filter((primitive) => primitive.markKind === "buttonhole")
+    .flatMap((primitive) => roundedButtonholeSegments(primitive.at));
+  const markedCircles = marks.filter((primitive) => primitive.markKind !== "buttonhole");
+  const halfStroke = EDGE_STROKE_CM / 2;
+  const blocked = Array.from({ length: samples }, (_, index) => {
+    const angle = 2 * Math.PI * index / samples;
+    const point = { x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius };
+    const hitsPath = pathSegmentsForView.some(([start, end]) => squaredDistanceToSegment(point, start, end) <= halfStroke ** 2);
+    if (hitsPath) return true;
+    const hitsCircle = circles.some((circle) => Math.abs(Math.hypot(point.x - circle.center.x, point.y - circle.center.y)
+      - circle.radius) <= halfStroke);
+    if (hitsCircle) return true;
+    const hitsButtonhole = buttonholeSegments.some(([start, end]) => squaredDistanceToSegment(point, start, end) <= halfStroke ** 2);
+    if (hitsButtonhole) return true;
+    return markedCircles.some((mark) => Math.abs(Math.hypot(point.x - mark.at.x, point.y - mark.at.y)
+      - MARK_RADIUS_CM) <= halfStroke);
+  });
+  const buffered = blocked.slice();
+  const pad = Math.ceil(clearanceCm / (2 * Math.PI * radius / samples));
+  blocked.forEach((isBlocked, index) => {
+    if (!isBlocked) return;
+    for (let offset = -pad; offset <= pad; offset += 1) buffered[(index + offset + samples) % samples] = true;
+  });
+  const openCount = buffered.filter((isBlocked) => !isBlocked).length;
+  const arcs: Array<{ start: number; end: number; samples: number; lengthCm: number }> = [];
+  if (openCount > 0 && openCount < samples) {
+    const start = buffered.findIndex((isBlocked, index) => !isBlocked && buffered[(index + samples - 1) % samples]);
+    let index = start;
+    let visited = 0;
+    while (visited < samples) {
+      if (buffered[index]) { index = (index + 1) % samples; visited += 1; continue; }
+      const first = index;
+      let count = 0;
+      while (!buffered[index] && count < samples) { count += 1; index = (index + 1) % samples; visited += 1; }
+      const lengthCm = count * 2 * Math.PI * radius / samples;
+      if (lengthCm >= minimumArcCm) arcs.push({ start: first * 2 * Math.PI / samples,
+        end: (first + count) * 2 * Math.PI / samples, samples: count, lengthCm });
+    }
+  }
+  const retainedCount = arcs.reduce((sum, arc) => sum + arc.samples, 0);
+  const retainedCoverage = retainedCount / samples;
+  if (arcs.length < 2 || arcs.length > 3 || retainedCoverage < 0.5) return null;
+  const d = arcs.map((arc) => {
+    const x1 = center.x + Math.cos(arc.start) * radius;
+    const y1 = center.y + Math.sin(arc.start) * radius;
+    const x2 = center.x + Math.cos(arc.end) * radius;
+    const y2 = center.y + Math.sin(arc.end) * radius;
+    return `M${fmt(x1)} ${fmt(y1)} A${fmt(radius)} ${fmt(radius)} 0 ${arc.end - arc.start > Math.PI ? 1 : 0} 1 ${fmt(x2)} ${fmt(y2)}`;
+  }).join(" ");
+  return { path: d, arcCount: arcs.length, retainedCoverage };
+}
+
 function primitiveBlocksText(primitive: TechnicalFlatPrimitive, box: Bounds): boolean {
   if (primitive.kind === "artwork") return intersects(artworkBounds(primitive), box);
   if (primitive.kind === "path") return primitive.colorwayBoundaryOnly !== true && pathSegments(primitive.commands)
@@ -821,7 +960,15 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     const targets = group.map((item) => item.anchor.primitiveId).join("|");
     const sourceEntities = group.map((item) => item.anchor.sourceEntityId ?? "").join("|");
     const wovenWovenMarker = view.recipeId === "woven-shirt" && (key === "W" || key === "D");
-    const marker = wovenWovenMarker ? "" : presentation.markerStyle === "open-halo"
+    const segmented = presentation.markerStyle === "segmented-open-halo"
+      ? segmentedPoloMarker(view, markerPoint, presentation.markerRadiusCm) : null;
+    if (presentation.markerStyle === "segmented-open-halo" && (view.recipeId !== "polo" || view.kind !== "FRONT_FLAT" || !segmented)) {
+      issues.push({ code: "MARKER_SEGMENTATION_UNAVAILABLE", entityId: key,
+        message: "The same-revision Polo source paths and marks do not support a legible 2–3 arc keyed locator; keep this flat withheld." });
+    }
+    const marker = wovenWovenMarker ? "" : segmented
+      ? `<path d="${segmented.path}" fill="none" stroke="#991b1b" stroke-width="0.07" stroke-linecap="round" data-segmented-marker="S425"/>`
+      : presentation.markerStyle === "open-halo"
       ? `<circle cx="${fmt(markerPoint.x)}" cy="${fmt(markerPoint.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/>`
       : `<circle cx="${fmt(markerPoint.x)}" cy="${fmt(markerPoint.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/>`;
     const halo = presentation.markerStyle === "open-halo" ? ` stroke="#fff" stroke-width="0.09" stroke-linejoin="round" paint-order="stroke"` : "";
@@ -836,7 +983,7 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
       : view.recipeId === "polo" && key === "E" ? { x: -0.38, y: -0.34 }
       : view.recipeId === "polo" && key === "I" ? { x: 0.34, y: -0.32 }
         : view.recipeId === "polo" && key === "H" ? { x: 0.45, y: 0.45 } : { x: 0, y: 0 };
-    return `<g data-entity-id="${escapeXml(entityId)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(sourceIds)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(key)}"${presentation.markerPoint ? ` data-marker-source-entities="${escapeXml(markerSources)}"` : ""} ${targetMetadata}>${title}${marker}<text x="${fmt(markerPoint.x + glyphOffset.x)}" y="${fmt(markerPoint.y + 0.07 + glyphOffset.y)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b"${halo}>${escapeXml(key)}</text></g>`;
+    return `<g data-entity-id="${escapeXml(entityId)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(sourceIds)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(key)}"${segmented ? ` data-marker-arc-count="${segmented.arcCount}" data-marker-retained-coverage="${fmt(segmented.retainedCoverage)}"` : ""}${presentation.markerPoint ? ` data-marker-source-entities="${escapeXml(markerSources)}"` : ""} ${targetMetadata}>${title}${marker}<text x="${fmt(markerPoint.x + glyphOffset.x)}" y="${fmt(markerPoint.y + 0.07 + glyphOffset.y)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b"${halo}>${escapeXml(key)}</text></g>`;
   }).join("");
   const labels = textItems.map((item) => {
     const metric = metricFor(item.text, options.measureText);

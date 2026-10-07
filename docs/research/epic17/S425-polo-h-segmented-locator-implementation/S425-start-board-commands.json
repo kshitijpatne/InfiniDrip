@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2474,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S425-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S425-polo-h-segmented-locator-implementation/G04-V02-POLO-H-SEGMENTED-LOCATOR-S425.md",
+      "verified": true,
+      "note": "Starts approved Polo H segmented-locator implementation and all-option review only; other approved decisions are preserved as holds, and no face release is authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2475,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S425 implements and verifies the approved S419 Polo H open-arc locator against same-revision rendered geometry across all 17 options. The maintainer's recommendations also reject the S424 bicep reduction and preserve the continuous Woven neckline; all 34 Polo and 56 Woven views remain held pending every V02 gate."
+  }
+]
