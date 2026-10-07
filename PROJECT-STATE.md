@@ -1,6 +1,17 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 latest completed work — Slice 438 rejected Woven body-mask trial; V02 remains open
+## EPIC-17 / G04 latest completed work — Slice 439 rejected Woven source-length back-sleeve projection; V02 remains open
+
+S439 started 2026-10-07 20:15:05 UTC from clean S438 `6fd18da82ff614d681db88cb9e75d6393e3e0070` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor, and 438 was the highest prior slice. Board start/exit revisions are 2622→2625→2633. The offline candidate reused exact S406 Woven `live-draft:woven-shirt:14:14` BACK_FLAT SVGs for all 28 options. Source formula yields `sleeve.sideRight=22.203603 cm` and `sleeve.hem[0,.5]=18.5 cm`; all emitted cases confirm those lengths within 0.0002 cm. A unique contact-based solution on `back.sideMiddle` was found for every row: right B=(23.6219,40.7093), cuff C=(42.1219,40.7093), mirrored about `back.centerBack`.
+
+Reject the candidate: the two sleeve halves have 12 intersections per option against the S370-approved detached band drawings; both inner cuff endpoints touch unstitched `back.sideMiddle` stations; and every full output clips the sleeve at the existing ±32.2 cm viewBox while the candidate extends to ±42.1219 cm. Chromium renders 28 whole outputs and 28 enlarged crops with zero browser errors; default, yokeDepth-min/max, sleeveBandDepth-max, and sideVentDepth-min were inspected. The crop shows the large triangular sleeve; the whole production frame clips it. All 56 Woven and 34 Polo faces remain held; tally is 56 accepted / 90 held across 73 configs / 146 faces. No production mapping, source geometry/stitch, accepted status, scope or gate changed. Packet/matrix/images: `docs/research/epic17/S439-woven-back-sleeve-length-projection/`.
+
+`npm run control-center:test` passes 42/42; validated board command preflight/replay, evidence links, unchanged statuses/tally, and `git diff --check` pass. No production code/test changed; no changed-code coverage or full-Epic gate is due. Goal remains active and still needed through safe merge. Elapsed 20:15:05–20:25:25 UTC (~10m20s): product implementation 0m; source/mapping diagnosis ~2m; candidate script/focused assertions ~3m; Chromium render/review ~2m; packet/board/Control Center ~3m20s; agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** S440 may test a diagnostic source-vector-preserving sleeve orientation with the approved detached-band footprint treated as a hard collision constraint. If no outward, complete, unclipped and readable solution exists without changing S370's layout or implying a new stitch, return the exact conflict and seek one bounded design choice before any production mapping. Preserve all holds and all-seven V02/V02-before-V03.
+
+
+## EPIC-17 / G04 previous completed work — Slice 438 rejected Woven body-mask trial; V02 remains open
 
 S438 started 2026-10-07 20:07:51 UTC from clean S437 `bc3e252cee1f1b9fa3b86ad7692445a3cc6fe449` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor, highest prior slice 437, and the active goal remains valid. The offline trial reused exact Woven `live-draft:woven-shirt:14:14` BACK_FLAT outputs for 28 options. It applied source-derived back/yoke fill as a mask to only the two sleeve-outline strokes; all 28 crossings fell inside the fill, but the measured visible fraction of both outlines was 0% in every case. Chromium rendered all options with zero errors; default, `yokeDepth-min`, and center-crossing detail show the sleeve outlines entirely hidden while body/yoke/collar and detached gutter bands remain. The hypothesis is rejected; no production source, geometry, stitch, output, option, hold, or gate changed.
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2622,
-  "updatedAt": "2026-10-07T20:12:12.031Z",
+  "revision": 2633,
+  "updatedAt": "2026-10-07T20:25:09.199Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -637,7 +637,10 @@
         "E-G04-S437-EXIT",
         "E-G04-S437-TRACE",
         "E-G04-S438-EXIT",
-        "E-G04-S438-MATRIX"
+        "E-G04-S438-MATRIX",
+        "E-G04-S439-EXIT",
+        "E-G04-S439-MATRIX",
+        "E-G04-S439-RENDER"
       ]
     },
     {
@@ -4339,6 +4342,16 @@
           "at": "2026-10-07T20:12:12.031Z",
           "actor": "Codex",
           "text": "S438 is an offline negative rendering trial only. No source/cut/stitch geometry, production output, acceptance gate, hold, CAD requirement, legacy DXF/export identity, or physical/factory claim changed. Current integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
+        },
+        {
+          "at": "2026-10-07T20:15:35.892Z",
+          "actor": "Codex",
+          "text": "S439 is a bounded offline geometry/rendering diagnostic only. No production mapping, source geometry, stitch graph, V02 acceptance, CAD gate, export/DXF identity, scope, or view status changes."
+        },
+        {
+          "at": "2026-10-07T20:25:09.199Z",
+          "actor": "Codex",
+          "text": "S439 is a rejected offline view candidate only. No production mappings, pattern/stitch geometry, acceptance criteria, V03 gate, export identity, recipe scope, or face status changed; integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
         }
       ],
       "evidenceRefs": [
@@ -9096,6 +9109,16 @@
           "at": "2026-10-07T20:12:11.984Z",
           "actor": "Codex",
           "text": "S438 rejects the body-fill mask trial: although all 28 back sleeve-hem crossings lie inside the source-derived torso fill, masking only the two sleeve outline paths leaves 0% of either sleeve outline visible in every option. The exact Chromium trial removes required garment content; it is not a valid view resolution. All 56 Woven and 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-07T20:15:35.842Z",
+          "actor": "Codex",
+          "text": "Start S439: diagnose an exact-source-length, no-mask/no-gap outward back-sleeve projection candidate across 28 Woven options. Candidate pose remains an unapproved view convention; preserve complete source outlines, joins, all 56 Woven/34 Polo holds, and all-seven V02/V02-before-V03."
+        },
+        {
+          "at": "2026-10-07T20:25:09.153Z",
+          "actor": "Codex",
+          "text": "S439 rejects the no-mask source-length sleeve candidate: all 28 options produce 12 crossings against the approved detached band details, both hem halves touch unstitched back.sideMiddle stations, and the candidate extends to |x|=42.1219 outside the production viewBox ±32.2. The 22.203603 cm side and 18.5 cm hem lengths are preserved, but that alone does not give a truthful readable mapping. All Woven/Polo holds persist."
         }
       ],
       "evidenceRefs": [
@@ -9737,7 +9760,11 @@
         "E-G04-S437-EXIT",
         "E-G04-S438-START",
         "E-G04-S438-EXIT",
-        "E-G04-S438-MATRIX"
+        "E-G04-S438-MATRIX",
+        "E-G04-S439-START",
+        "E-G04-S439-EXIT",
+        "E-G04-S439-MATRIX",
+        "E-G04-S439-RENDER"
       ],
       "flagKey": null
     },
@@ -17091,6 +17118,42 @@
       "sha256": null,
       "verified": true,
       "note": "Exact revision 14:14 / 28-case output matrix; body mask covers all 28 hem crossings but leaves 0% of both sleeve outlines visible in every option."
+    },
+    {
+      "id": "E-G04-S439-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S439-woven-back-sleeve-length-projection/G04-V02-WOVEN-BACK-SLEEVE-LENGTH-PROJECTION-S439.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a no-gap offline Woven back-sleeve view candidate constrained by exact source side/half-hem lengths and body-side geometry; production changes and face releases are not authorized."
+    },
+    {
+      "id": "E-G04-S439-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S439-woven-back-sleeve-length-projection/G04-V02-WOVEN-BACK-SLEEVE-LENGTH-PROJECTION-S439.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Rejects source-length contact projection: 28/28 band collision rows, unstitched body contact and production viewBox clipping; all holds retained."
+    },
+    {
+      "id": "E-G04-S439-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S439-woven-back-sleeve-length-projection/source-length-candidate/S439-source-length-candidate-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact 28-option revision 14:14 results: unique 22.203603 cm side / 18.5 cm hem solutions, 12 crossings per row, zero length residual failures, zero Chromium errors."
+    },
+    {
+      "id": "E-G04-S439-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S439-woven-back-sleeve-length-projection/source-length-candidate/rendered/woven-shirt-default-sleeve-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium detail confirms oversized triangular sleeve, collision with approved detached band detail and unstitched cuff-to-body contact; whole-output frames clip the overhanging sleeve."
     }
   ]
 }
