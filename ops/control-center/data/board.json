@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2351,
-  "updatedAt": "2026-10-07T08:02:12.882Z",
+  "revision": 2358,
+  "updatedAt": "2026-10-07T08:06:03.271Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S406 implements four approved Woven front view-only conventions across all 28 same-revision options: 56/56 outputs emit without compile/SVG/browser errors, six approved clips/front, exact D schedule 28/28, and 28/28 S401-identical backs. S407 confirms two mirrored front-neckline/projected-collar contacts in every current Woven option. A diagnostic trial hides 0.8426–0.8433 cm of source base seam per side but interrupts S342's approved single-seam display; it remains unimplemented pending the exact maintainer choice. The S381 back hem has no supported gap; the settled hold is not reopened. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Polo's 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim. S407 packet and evidence are linked to G04-V02. S408 reviewed MQF-004–007, MQF-011, MQF-012 and MQF-015 against current S406 Woven and S394 Polo output; findings remain To be reviewed, the approved collar-over-plackets mapping remains implemented, S407's distinct neckline choice remains pending, all holds remain, and the S408 packet is linked to G04-V02.",
+      "description": "Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S406 implements four approved Woven front view-only conventions across all 28 same-revision options: 56/56 outputs emit without compile/SVG/browser errors, six approved clips/front, exact D schedule 28/28, and 28/28 S401-identical backs. S407 confirms two mirrored front-neckline/projected-collar contacts in every current Woven option. A diagnostic trial hides 0.8426–0.8433 cm of source base seam per side but interrupts S342's approved single-seam display; it remains unimplemented pending the exact maintainer choice. The S381 back hem has no supported gap; the settled hold is not reopened. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Polo's 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim. S407 packet and evidence are linked to G04-V02. S408 reviewed MQF-004–007, MQF-011, MQF-012 and MQF-015 against current S406 Woven and S394 Polo output; findings remain To be reviewed, the approved collar-over-plackets mapping remains implemented, S407's distinct neckline choice remains pending, all holds remain, and the S408 packet is linked to G04-V02. S409 corrects the Polo finding basis: S399 is the current 17-option production replay; its byte comparison uses S394 as baseline and isolates only the approved FG glyph plus revision/title tokens, preserving paths, schedules, colorway and paired backs. MQF-012 remains partial and To be reviewed; its concern remains unexplained, the 0.68 cm residual remains above 0.25 cm, and all 34 Polo faces remain held. See the S409 correction packet.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -586,7 +586,9 @@
         "E-G04-S407-TRIAL",
         "E-G04-S407-RENDER",
         "E-G04-S408-START",
-        "E-G04-S408-EXIT"
+        "E-G04-S408-EXIT",
+        "E-G04-S409-START",
+        "E-G04-S409-EXIT"
       ]
     },
     {
@@ -4118,6 +4120,11 @@
           "at": "2026-10-07T08:02:12.882Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S406 implements four approved Woven front view-only conventions across all 28 same-revision options: 56/56 outputs emit without compile/SVG/browser errors, six approved clips/front, exact D schedule 28/28, and 28/28 S401-identical backs. S407 confirms two mirrored front-neckline/projected-collar contacts in every current Woven option. A diagnostic trial hides 0.8426–0.8433 cm of source base seam per side but interrupts S342's approved single-seam display; it remains unimplemented pending the exact maintainer choice. The S381 back hem has no supported gap; the settled hold is not reopened. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Polo's 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim. S407 packet and evidence are linked to G04-V02. S408 reviewed MQF-004–007, MQF-011, MQF-012 and MQF-015 against current S406 Woven and S394 Polo output; findings remain To be reviewed, the approved collar-over-plackets mapping remains implemented, S407's distinct neckline choice remains pending, all holds remain, and the S408 packet is linked to G04-V02.). Append S408's current-output manual-finding review while preserving the complete existing Epic summary and its historical regression assertions."
+        },
+        {
+          "at": "2026-10-07T08:06:03.271Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S406 implements four approved Woven front view-only conventions across all 28 same-revision options: 56/56 outputs emit without compile/SVG/browser errors, six approved clips/front, exact D schedule 28/28, and 28/28 S401-identical backs. S407 confirms two mirrored front-neckline/projected-collar contacts in every current Woven option. A diagnostic trial hides 0.8426–0.8433 cm of source base seam per side but interrupts S342's approved single-seam display; it remains unimplemented pending the exact maintainer choice. The S381 back hem has no supported gap; the settled hold is not reopened. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Polo's 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim. S407 packet and evidence are linked to G04-V02. S408 reviewed MQF-004–007, MQF-011, MQF-012 and MQF-015 against current S406 Woven and S394 Polo output; findings remain To be reviewed, the approved collar-over-plackets mapping remains implemented, S407's distinct neckline choice remains pending, all holds remain, and the S408 packet is linked to G04-V02. S409 corrects the Polo finding basis: S399 is the current 17-option production replay; its byte comparison uses S394 as baseline and isolates only the approved FG glyph plus revision/title tokens, preserving paths, schedules, colorway and paired backs. MQF-012 remains partial and To be reviewed; its concern remains unexplained, the 0.68 cm residual remains above 0.25 cm, and all 34 Polo faces remain held. See the S409 correction packet.). Correct the Polo current-output version in the manual-finding evidence record while preserving S408 and all historical regression assertions."
         }
       ],
       "evidenceRefs": [
@@ -8574,6 +8581,16 @@
           "at": "2026-10-07T08:02:12.839Z",
           "actor": "Codex",
           "text": "S408 finds partial current-render evidence for MQF-004–007 and MQF-012, no artwork review for MQF-011, and no CAD exchange evidence for MQF-015. All findings remain To be reviewed, all 56 Woven and 34 Polo faces remain held, and every V02/V03 gate is unchanged."
+        },
+        {
+          "at": "2026-10-07T08:03:46.010Z",
+          "actor": "Codex",
+          "text": "S409 corrects the Polo output reference in S408 using the later S399 17-option production replay. It changes no output, finding status, hold or gate; all 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-07T08:06:03.230Z",
+          "actor": "Codex",
+          "text": "S409 confirms S399 is the current 17-option Polo output; S394 is the baseline for its FG-only byte comparison. MQF-012 remains partially reviewed and To be reviewed; no face/gate status changed."
         }
       ],
       "evidenceRefs": [
@@ -9126,7 +9143,9 @@
         "E-G04-S407-TRIAL",
         "E-G04-S407-RENDER",
         "E-G04-S408-START",
-        "E-G04-S408-EXIT"
+        "E-G04-S408-EXIT",
+        "E-G04-S409-START",
+        "E-G04-S409-EXIT"
       ],
       "flagKey": null
     },
@@ -15647,6 +15666,24 @@
       "sha256": null,
       "verified": true,
       "note": "Re-reviews G04-mapped manual findings against current S406 Woven and S394 Polo rendered output. Findings remain To be reviewed; no finding closes wholesale and all face holds/gates remain."
+    },
+    {
+      "id": "E-G04-S409-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S409-polo-output-review-correction/G04-V02-POLO-MQF-OUTPUT-REVIEW-CORRECTION-S409.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a narrow correction of S408's Polo manual-finding evidence basis by inspecting S399's later 17-option actual-renderer output; all Polo holds and gates remain."
+    },
+    {
+      "id": "E-G04-S409-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S409-polo-output-review-correction/G04-V02-POLO-MQF-OUTPUT-REVIEW-CORRECTION-S409.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Corrects S408 Polo finding evidence to the current S399 17-option actual renderer output. S394 is used only as its byte-diff baseline; MQF-012 remains partial/To be reviewed and all Polo holds/gates remain."
     }
   ]
 }

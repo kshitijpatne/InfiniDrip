@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2351,"itemId":"G04-V02","evidence":{"id":"E-G04-S409-START","kind":"document","uri":"docs/research/epic17/S409-polo-output-review-correction/G04-V02-POLO-MQF-OUTPUT-REVIEW-CORRECTION-S409.md","verified":true,"note":"Starts a narrow correction of S408's Polo manual-finding evidence basis by inspecting S399's later 17-option actual-renderer output; all Polo holds and gates remain."}},
+  {"type":"addEpicEvidence","expectedRevision":2352,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S409-START"},
+  {"type":"addComment","expectedRevision":2353,"itemId":"G04-V02","actor":"Codex","text":"S409 corrects the Polo output reference in S408 using the later S399 17-option production replay. It changes no output, finding status, hold or gate; all 34 Polo faces remain held."}
+]
