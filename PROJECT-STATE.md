@@ -1,6 +1,20 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 399 Polo FG glyph offset verified; V02 remains open
+## EPIC-17 / G04 current work — Slice 400 Woven W marker implemented and verified; V02 remains open
+
+S400 began at 2026-10-07 05:30:14 UTC from clean S399 `220291fd90f44b922f54d29cdcfb90daa311e6e6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S399 was the highest landed slice; S400 was uniquely reserved. Board revision 2232 recorded S399 exit; validated S400 start replay advanced it to 2234. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Usage at start: primary 3%, weekly 0%, ordinary work allowed.
+
+The maintainer approved S396's exact Woven W presentation: keep the open 0.22 cm ring at the same-revision `buttonPlacket.top` midpoint; paint it after colorway fill but beneath source strokes; move only W `(+0.2121,+0.2121 cm)`; preserve the unchanged full POM schedule. S400 implemented exact compiler mapping plus that renderer presentation. The source POM, target/source edge, revision, anchor, value, path/colorway identity, pattern/cut/stitch geometry, legacy DXF and protected export bytes remain unchanged.
+
+The live compiler now maps the keyed presentation only after exact same-revision source/target/edge checks; required missing or mismatched inputs fail closed and back views remain unchanged. Actual production compiler, renderer and Chromium replay across the same 28 Woven option values passes: exact source POM/target/revision and mapped key 28/28; colorway-before-ring and ring-before-all source strokes 28/28; ring/glyph positions 28/28; unchanged full schedule and path/colorway identity 28/28; zero browser errors. The minimum W glyph clearances are 0.07939 cm to source paths and 0.02914 cm to other labels. Default whole/detail, placketWidth-min detail, neckEase-max and combined-supported outputs were captured; default and limiting detail and schedule were visually inspected. Evidence: `docs/research/epic17/S400-woven-placket-marker-implementation/`.
+
+Focused renderer/live-compiler coverage passes 82/82 with 100% statements/branches/functions/lines in both `technical-flat-svg.ts` and `technical-flat-live.ts`. Build passes with the existing Vite large-chunk advisory; protected export identity and legacy DXF regressions pass 17/17. One concurrent Control Center run showed a transient `server.test.mjs` failure; isolated server tests pass 4/4 and the full Control Center suite passes 42/42 on serial rerun. `git diff --check` passes. All 56 Woven and 34 Polo faces remain held, including the independent Woven back hem crossing and Polo's 0.68 cm residual against the 0.25 cm gate. No view acceptance, G04 criterion/gate change, or CAD compatibility claim. All-seven V02, V02-before-V03, protected identities and V03 rights/round-trip remain unchanged.
+
+S400 time breakdown (05:30:14 UTC start; approximately 05:41 UTC close): live mapping/renderer/test implementation 3m; focused coverage, build and export verification 3m; actual 28-option replay and browser output review 3m; durable packet/state/board closeout 2m; external-agent waits 0m; maintainer-decision time 0m (approval preceded the slice start). No global coverage run was due for this focused slice; reserve it for the settled integrated Epic candidate. Validated board start/exit revisions: 2232→2234 / 2235→2245.
+
+**Next action:** refresh branch/board and continue with the highest-frequency remaining G04 V02 blocker. Preserve all face holds and the all-seven requirement.
+
+## Prior boundary — Slice 399 Polo FG glyph offset verified; V02 remains open
 
 S395 closed at `dbaf54d5b07a9ef0fce4cb9415b74fd834aa59f8` (`Slice 395: diagnose Woven placket marker feasibility`). S396 began from that clean commit on `codex/epic-17-g04`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revision 2188 recorded S395 exit; validated S396 start and exit replays advanced it through 2192 to 2202. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal check at the S395 boundary returned `active`, with an objective matching admitted EPIC-17; it remains needed and unchanged.
 

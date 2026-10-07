@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2232,
-  "updatedAt": "2026-10-07T05:24:54.011Z",
+  "revision": 2245,
+  "updatedAt": "2026-10-07T05:37:16.267Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -556,7 +556,9 @@
         "E-G04-S398-DIAG-MATRIX",
         "E-G04-S398-EXIT",
         "E-G04-S399-OUTPUT-DIFF",
-        "E-G04-S399-EXIT"
+        "E-G04-S399-EXIT",
+        "E-G04-S400-MATRIX",
+        "E-G04-S400-EXIT"
       ]
     },
     {
@@ -4013,6 +4015,11 @@
           "at": "2026-10-07T05:24:54.011Z",
           "actor": "Codex",
           "text": "S399's exact FG glyph offset is implemented and verified in 17 options. No view was accepted; all-seven V02 and V02-before-V03 remain unchanged. Start the next blocker from the durable S399 packet and state."
+        },
+        {
+          "at": "2026-10-07T05:37:16.267Z",
+          "actor": "Codex",
+          "text": "S400's exact approved W marker treatment is implemented and verified in all 28 Woven options. No view accepted; all-seven V02, V02-before-V03 and CAD rights/round-trip gates remain unchanged. Proceed to the next remaining V02 blocker from the S400 packet."
         }
       ],
       "evidenceRefs": [
@@ -4391,7 +4398,9 @@
         "E-G04-S398-START",
         "E-G04-S398-EXIT",
         "E-G04-S399-START",
-        "E-G04-S399-EXIT"
+        "E-G04-S399-EXIT",
+        "E-G04-S400-START",
+        "E-G04-S400-EXIT"
       ],
       "flagKey": null
     },
@@ -8384,6 +8393,11 @@
           "at": "2026-10-07T05:24:53.978Z",
           "actor": "Codex",
           "text": "S399 implements only the approved Polo FG glyph offset. Actual renderer/Chromium replay and S394 byte comparison pass across the same 17 options; fixed ring, both POM identities, 11-row schedule, source paths/marks, colorway and paired backs are preserved. Focused renderer coverage is 100% in all four metrics; build, protected export/DXF checks and Control Center tests pass. All 34 Polo and 56 Woven views remain held, including the 0.68 cm Polo residual against 0.25 cm."
+        },
+        {
+          "at": "2026-10-07T05:37:16.228Z",
+          "actor": "Codex",
+          "text": "S400 implements only the approved Woven W ring-under-strokes treatment and (+0.2121,+0.2121 cm) glyph offset. Actual renderer/Chromium passes 28/28 options; path/colorway identity and full POM schedule are unchanged; build, export/DXF, focused 100% renderer coverage and Control Center checks pass. All Woven and Polo faces remain held, including the independent back crossing and Polo residual."
         }
       ],
       "evidenceRefs": [
@@ -8889,7 +8903,14 @@
         "E-G04-S399-OUTPUT-DIFF",
         "E-G04-S399-DEFAULT-DETAIL",
         "E-G04-S399-LIMIT-DETAIL",
-        "E-G04-S399-EXIT"
+        "E-G04-S399-EXIT",
+        "E-G04-S400-START",
+        "E-G04-S400-MATRIX",
+        "E-G04-S400-DEFAULT-DETAIL",
+        "E-G04-S400-LIMIT-DETAIL",
+        "E-G04-S400-WHOLE",
+        "E-G04-S400-SCHEDULE",
+        "E-G04-S400-EXIT"
       ],
       "flagKey": null
     },
@@ -14987,6 +15008,69 @@
       "sha256": null,
       "verified": true,
       "note": "Implements the exact approved Polo FG text offset and passes 100% focused renderer coverage, 17-option actual-renderer/Chromium comparison, rendered review, build and protected export/DXF checks. All holds, gates and V03 dependencies remain."
+    },
+    {
+      "id": "E-G04-S400-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S400-woven-placket-marker-implementation/G04-V02-WOVEN-PLACKET-MARKER-IMPLEMENTATION-S400.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins implementation and exact 28-option verification of the maintainer-approved S396 Woven W marker treatment. Ring remains at the exact buttonPlacket.top midpoint, painted below source strokes, with only the W glyph offset; all face holds remain."
+    },
+    {
+      "id": "E-G04-S400-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S400-woven-placket-marker-implementation/woven-W-actual-renderer-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual production-renderer/Chromium replay covers all 28 exact Woven options: POM source/target/revision, colorway→ring→source-path order, approved ring/glyph position, full schedule, unchanged path/colorway identities, and zero browser errors."
+    },
+    {
+      "id": "E-G04-S400-DEFAULT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S400-woven-placket-marker-implementation/rendered/woven-shirt-default-woven-W-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium default detail: source construction strokes remain continuous over the fixed source-centered W ring; approved glyph stays associated and readable."
+    },
+    {
+      "id": "E-G04-S400-LIMIT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S400-woven-placket-marker-implementation/rendered/woven-shirt-placketWidth-min-woven-W-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium limiting-option detail confirms continuous source strokes and no new marker overlap; independent underlying label crowding remains held."
+    },
+    {
+      "id": "E-G04-S400-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S400-woven-placket-marker-implementation/rendered/woven-shirt-default-woven-W-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Whole default Woven front and keyed POM schedule rendered from current production SVG renderer; no view accepted."
+    },
+    {
+      "id": "E-G04-S400-SCHEDULE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S400-woven-placket-marker-implementation/rendered/woven-shirt-default-woven-W-schedule.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium schedule crop preserves the full source POM wording, value, tolerance and W key."
+    },
+    {
+      "id": "E-G04-S400-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S400-woven-placket-marker-implementation/G04-V02-WOVEN-PLACKET-MARKER-IMPLEMENTATION-S400.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implements exact approved S396 view-only W marker treatment and passes focused 100% changed-module coverage, actual 28-option renderer/Chromium evidence, rendered review, build, protected export/DXF checks, Control Center command suite, and diff check. All V02 holds/gates remain."
     }
   ]
 }

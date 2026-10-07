@@ -129,6 +129,43 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("g[data-pom-key='H'] text")?.getAttribute("y")).toBe("5.07");
   });
 
+  it("renders the approved Woven W ring below source strokes and offsets only its glyph", () => {
+    const target: TechnicalFlatPrimitive = { ...outline, id: "woven-placket-outline",
+      source: { ...source, sourceId: "view:woven-shirt:role:front:outline" } };
+    const pom: TechnicalFlatPrimitive = {
+      kind: "callout", id: "finished-placket-width", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:woven-shirt:finished-placket-width" }, text: "Finished placket width: 3.0 cm (±0.2 cm)",
+      anchor: { primitiveId: target.id, point: { x: 2, y: 3 }, sourceEntityId: "view:woven-shirt:role:front:outline" },
+      labelAt: { x: 8, y: 5 },
+      presentation: { kind: "keyed-marker-schedule", key: "W", markerRadiusCm: 0.22, markerStyle: "open-halo" },
+    };
+    const result = renderTechnicalFlatSvg({ ...makeView([target, pom]), recipeId: "woven-shirt" }, { measureText: measure,
+      colorway: { id: "fabric", revisionId, colorHex: "#3669a4", texture: "woven", shine: 24,
+        targetRoleIds: ["front"], sourceId: "style:fabric-presentation" } });
+    expect(result.issues).toEqual([]);
+    const parsed = new (new JSDOM({ url: "https://technical-flat.test/" }).window.DOMParser)()
+      .parseFromString(result.svg!, "image/svg+xml");
+    const silhouette = parsed.querySelector("g[data-layer-group='GARMENT_SILHOUETTE']")!;
+    const area = silhouette.querySelector("g[data-colorway-area-group]")!;
+    const underlay = silhouette.querySelector("g[data-marker-underlay-for='W']")!;
+    const sourcePath = silhouette.querySelector("path[data-entity-id='woven-placket-outline']")!;
+    expect([...silhouette.children].indexOf(area)).toBeLessThan([...silhouette.children].indexOf(underlay));
+    expect([...silhouette.children].indexOf(underlay)).toBeLessThan([...silhouette.children].indexOf(sourcePath));
+    expect(underlay.getAttribute("data-source-id")).toBe("pom:woven-shirt:finished-placket-width");
+    expect(underlay.getAttribute("data-revision-id")).toBe(revisionId);
+    expect(underlay.querySelector("circle")?.getAttribute("cx")).toBe("2");
+    expect(underlay.querySelector("circle")?.getAttribute("cy")).toBe("3");
+    expect(underlay.querySelector("circle")?.getAttribute("r")).toBe("0.22");
+    const marker = parsed.querySelector("g[data-pom-key='W']")!;
+    expect(marker.querySelector("circle")).toBeNull();
+    expect(marker.getAttribute("data-source-id")).toBe("pom:woven-shirt:finished-placket-width");
+    expect(marker.getAttribute("data-callout-target")).toBe("woven-placket-outline");
+    expect(marker.querySelector("text")?.getAttribute("x")).toBe("2.2121");
+    expect(marker.querySelector("text")?.getAttribute("y")).toBe("3.2821");
+    expect(parsed.querySelector("[data-schedule-for='finished-placket-width']")?.textContent)
+      .toBe("W  Finished placket width: 3.0 cm (±0.2 cm)");
+  });
+
   it("fails closed when one shared keyed station is not exactly co-located", () => {
     const first: TechnicalFlatPrimitive = { kind: "callout", id: "pom-a", layer: "ANNOTATION", feature: "pom", source,
       text: "First: 1 cm", anchor: { primitiveId: outline.id, point: { x: 2, y: 2 } }, labelAt: { x: 3, y: 3 },

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -71,6 +71,38 @@ describe("projectWovenSleeveFillClosures", () => {
     expect(projectWovenSleeveFillClosures(closed)).toContainEqual(expect.objectContaining({
       message: expect.stringContaining("must end at one exact line station"),
     }));
+  });
+});
+
+describe("mapWovenPlacketWidthKeyedCallout", () => {
+  const callout: FlatCalloutPrimitive = { kind: "callout", id: "woven-placket-width", layer: "CALLOUT", feature: "pom",
+    source: { sourceClass: "PATTERN_DERIVED", sourceId: "pom:woven-shirt:finished-placket-width", revisionId: "woven-r1" },
+    text: "Finished placket width: 3.0 cm (±0.2 cm)",
+    anchor: { primitiveId: "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline", point: { x: 3, y: 4 },
+      sourceEntityId: "pattern:woven-shirt:role:buttonPlacket:edge:top" }, labelAt: { x: 8, y: 5 } };
+
+  it("maps only the exact same-revision front POM and retains the source schedule text", () => {
+    expect(mapWovenPlacketWidthKeyedCallout("BACK_FLAT", "woven-r1", [callout], true))
+      .toEqual({ callouts: [callout], issues: [] });
+    const absent = mapWovenPlacketWidthKeyedCallout("FRONT_FLAT", "woven-r1", [], false);
+    expect(absent).toEqual({ callouts: [], issues: [] });
+    expect(mapWovenPlacketWidthKeyedCallout("FRONT_FLAT", "woven-r1", [], true).issues).toHaveLength(1);
+    const other = { ...callout, id: "other", source: { ...callout.source, sourceId: "pom:woven-shirt:other" } };
+    const result = mapWovenPlacketWidthKeyedCallout("FRONT_FLAT", "woven-r1", [other, callout], true);
+    expect(result.issues).toEqual([]);
+    expect(result.callouts[0]).toEqual(other);
+    expect(result.callouts[1]).toMatchObject({ ...callout, layer: "ANNOTATION",
+      presentation: { kind: "keyed-marker-schedule", key: "W", markerRadiusCm: 0.22, markerStyle: "open-halo" } });
+    expect(result.callouts[1]?.text).toBe(callout.text);
+  });
+
+  it("fails closed for duplicate or stale/mis-targeted Woven POM identity", () => {
+    expect(mapWovenPlacketWidthKeyedCallout("FRONT_FLAT", "woven-r1", [callout, callout], true).issues).toHaveLength(1);
+    for (const invalid of [
+      { ...callout, source: { ...callout.source, revisionId: "stale" } },
+      { ...callout, anchor: { ...callout.anchor, primitiveId: "wrong-target" } },
+      { ...callout, anchor: { ...callout.anchor, sourceEntityId: "wrong-edge" } },
+    ]) expect(mapWovenPlacketWidthKeyedCallout("FRONT_FLAT", "woven-r1", [invalid], true).issues).toHaveLength(1);
   });
 });
 

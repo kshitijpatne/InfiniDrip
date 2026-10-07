@@ -727,6 +727,13 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     if (a.kind === "artwork" && b.kind === "artwork") return a.zOrder - b.zOrder;
     return a.id.localeCompare(b.id);
   });
+  const wovenMarkerUnderlays = view.recipeId === "woven-shirt"
+    ? [...keyedMarkerGroups.entries()].filter(([key]) => key === "W").map(([key, group]) => {
+      const callout = group[0]!;
+      const { anchor } = callout;
+      const sourceIds = group.map((item) => item.source.sourceId).join("|");
+      return `<g data-entity-id="${escapeXml(callout.id)}:key-marker-ring" data-feature="pom" data-marker-underlay-for="${escapeXml(key)}" data-source-id="${escapeXml(sourceIds)}" data-revision-id="${escapeXml(callout.source.revisionId)}"><circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(callout.presentation!.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/></g>`;
+    }).join("") : "";
   const body = TECHNICAL_FLAT_LAYER_ORDER.map((layer: TechnicalFlatLayer) => {
     const layerPrimitives = ordered.filter((primitive) => primitive.layer === layer);
     const areaPaths = layer === "GARMENT_SILHOUETTE" && options.colorway
@@ -737,7 +744,8 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     const areas = areaPaths && options.colorway
       ? `<g data-colorway-area-group="${escapeXml(options.colorway.id)}" data-colorway-revision="${escapeXml(options.colorway.revisionId)}" opacity="0.16">${areaPaths}</g>` : "";
     const shapes = layerPrimitives.map((primitive) => styleFor(primitive, positions)).join("");
-    return `<g data-layer-group="${layer}" aria-label="${layer.toLowerCase().replace(/_/g, " ")}">${areas}${shapes}</g>`;
+    const markerUnderlays = layer === "GARMENT_SILHOUETTE" ? wovenMarkerUnderlays : "";
+    return `<g data-layer-group="${layer}" aria-label="${layer.toLowerCase().replace(/_/g, " ")}">${areas}${markerUnderlays}${shapes}</g>`;
   }).join("");
   const keyedMarkers = [...keyedMarkerGroups.entries()].map(([key, group]) => {
     const callout = group[0]!;
@@ -746,7 +754,8 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     const sourceIds = group.map((item) => item.source.sourceId).join("|");
     const targets = group.map((item) => item.anchor.primitiveId).join("|");
     const sourceEntities = group.map((item) => item.anchor.sourceEntityId ?? "").join("|");
-    const marker = presentation.markerStyle === "open-halo"
+    const wovenWovenMarker = view.recipeId === "woven-shirt" && key === "W";
+    const marker = wovenWovenMarker ? "" : presentation.markerStyle === "open-halo"
       ? `<circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/>`
       : `<circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/>`;
     const halo = presentation.markerStyle === "open-halo" ? ` stroke="#fff" stroke-width="0.09" stroke-linejoin="round" paint-order="stroke"` : "";
@@ -755,7 +764,8 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
       ? (anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(anchor.sourceEntityId)}"`)
       : ` data-callout-targets="${escapeXml(targets)}" data-callout-source-entities="${escapeXml(sourceEntities)}"`}`;
     const title = group.length > 1 ? `<title>${escapeXml(group.map((item) => item.text).join("; "))}</title>` : "";
-    const glyphOffset = view.recipeId === "polo" && key === "FG" ? { x: -0.424264, y: -0.424264 }
+    const glyphOffset = view.recipeId === "woven-shirt" && key === "W" ? { x: 0.2121, y: 0.2121 }
+      : view.recipeId === "polo" && key === "FG" ? { x: -0.424264, y: -0.424264 }
       : view.recipeId === "polo" && key === "E" ? { x: -0.38, y: -0.34 }
       : view.recipeId === "polo" && key === "I" ? { x: 0.34, y: -0.32 }
         : view.recipeId === "polo" && key === "H" ? { x: 0.45, y: 0.45 } : { x: 0, y: 0 };

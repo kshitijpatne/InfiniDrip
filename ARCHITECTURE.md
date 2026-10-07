@@ -118,6 +118,19 @@ do not assert pattern construction or erase a nearby mark. The approval permits
 remaining V02 checks and independent 0.68 cm sleeve residual above the fixed
 0.25 cm gate.
 
+Slice 400 maps only the exact same-revision Woven front `Finished placket
+width` POM and its `buttonPlacket.top` source edge to the approved keyed W
+annotation; the live compiler fails closed on missing, duplicate, or mismatched
+identity. Its open 0.22 cm ring stays at the source midpoint, renders after a
+colorway fill and beneath source strokes, and only the glyph is translated
+`(+0.2121,+0.2121 cm)`. The unchanged full POM row remains below the flat. The
+28-option production compiler/renderer/Chromium replay preserves source
+path/colorway identity and continuous strokes, and confirms the marker and
+schedule. This annotation order does not move, remove, or imply a gap in
+construction geometry. The approval and successful marker replay do not accept
+any view: all 56 Woven and 34 Polo faces remain held for independent topology,
+crossing, assembly, and residual gates.
+
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
 `TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled

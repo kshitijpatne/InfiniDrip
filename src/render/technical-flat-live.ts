@@ -304,6 +304,26 @@ export function mapPoloCollarPointKeyedCallout(kind: TechnicalFlatViewKind, revi
   issues: [] as TechnicalFlatLiveIssue[] };
 }
 
+/** Apply the approved Woven-only keyed presentation to the exact front placket-width POM. */
+export function mapWovenPlacketWidthKeyedCallout(kind: TechnicalFlatViewKind, revisionId: string,
+  callouts: readonly FlatCalloutPrimitive[], required = false) {
+  const sourceId = "pom:woven-shirt:finished-placket-width";
+  if (kind !== "FRONT_FLAT") return { callouts, issues: [] as TechnicalFlatLiveIssue[] };
+  const matches = callouts.filter((callout) => callout.source.sourceId === sourceId);
+  if (matches.length === 0) return { callouts, issues: required ? [{ stage: "pom" as const, sourceId,
+    message: "The approved Woven W key requires the finished-placket-width POM on the front flat." }] : [] as TechnicalFlatLiveIssue[] };
+  const callout = matches[0]!;
+  if (matches.length !== 1 || callout.source.revisionId !== revisionId
+    || callout.anchor.primitiveId !== "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+    || callout.anchor.sourceEntityId !== "pattern:woven-shirt:role:buttonPlacket:edge:top") {
+    return { callouts, issues: [{ stage: "pom" as const, sourceId,
+      message: "The Woven W key requires one exact same-revision buttonPlacket.top midpoint mapped to its front outline." }] };
+  }
+  return { callouts: callouts.map((candidate) => candidate.id === callout.id ? { ...candidate, layer: "ANNOTATION" as const,
+    presentation: { kind: "keyed-marker-schedule" as const, key: "W", markerRadiusCm: 0.22, markerStyle: "open-halo" as const } }
+    : candidate), issues: [] as TechnicalFlatLiveIssue[] };
+}
+
 /** Apply the approved source-centered Polo keys while retaining one full POM
  * schedule row per source measurement. These are display anchors, not joins. */
 export function mapPoloSourceCenteredKeyedCallouts(kind: TechnicalFlatViewKind, revisionId: string,
@@ -644,9 +664,13 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     ? mapPoloSourceCenteredKeyedCallouts(kind, revisionId, poloCollarPointKeying.callouts,
       poms.issues.length === 0 ? recipe.poms!.map((pom) => `pom:polo:${pom.label.toLowerCase()
         .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`) : []) : undefined;
+  const wovenPlacketWidthKeying = recipe.name === "woven-shirt" && mappedDimensionCallouts
+    ? mapWovenPlacketWidthKeyedCallout(kind, revisionId, mappedDimensionCallouts,
+      poms.issues.length === 0 && recipe.poms!.some((pom) => pom.label === "Finished placket width")) : undefined;
   let mappedPomCallouts = mappedDimensionCallouts;
   if (poloCollarPointKeying) mappedPomCallouts = poloCollarPointKeying.callouts;
   if (poloSourceCenterKeying) mappedPomCallouts = poloSourceCenterKeying.callouts;
+  if (wovenPlacketWidthKeying) mappedPomCallouts = wovenPlacketWidthKeying.callouts;
   const approvedWovenSleeveCap = projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
     .find((candidate) => candidate.roleId === "sleeve")?.wovenSleeveCapRepresentation?.decisionId
     === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION";
@@ -660,6 +684,7 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     ...(poloDimensions?.issues ?? []),
     ...(poloCollarPointKeying?.issues ?? []),
     ...(poloSourceCenterKeying?.issues ?? []),
+    ...(wovenPlacketWidthKeying?.issues ?? []),
   ];
   if (recipe.name === "polo") {
     issues.push(...assembly.issues.filter((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
