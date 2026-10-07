@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 411 Polo post-S399 blocker audit; V02 remains open
+## EPIC-17 / G04 current work — Slice 412 Polo H station ring layer trial; V02 remains open
+
+S412 started 2026-10-07 08:16:12 UTC from clean S411 `5d9a9d27dd38688a81288c044765cbab1d8c32a7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 411; S412 is uniquely reserved. Canonical board revision 2375 advanced to 2378 through validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The active goal remains needed and matches admitted V01→V02→V03 through final gates and safe merge; usage at start was 36% primary / 6% weekly.
+
+S412 uses the exact 17 saved S399 Polo production SVGs to trial moving only the H source-centered ring (center `(7,0)`, radius `0.22 cm`) behind colorway fill and all source silhouettes. It preserves the two POM identities/targets, approved glyph offset, eleven schedule rows, marks, paths and revisions; after removing the moved ring the remaining source/trial SVGs are byte-identical. Actual matched Chromium crops for default and standFrontRise min/max show no useful readability improvement: both distinct source shoulder marks remain clustered within the ring and shoulder/stand contours converge at the same station. This view treatment is rejected; no production code or mapping changed. All 34 Polo faces remain held.
+
+The Woven collar-over-plackets decision is already implemented in S406. S410's distinct Woven neckline clip question remains pending, and all 56 Woven views remain held. Preserve all-seven V02, the 0.25 cm Polo residual gate, V02-before-V03, legacy DXF, protected exports and V03 rights/profile/round-trip.
+
+S412 focused audit/browser assertions pass 17/17 with zero browser errors; actual default and limiting current/trial crops were inspected. Validated start/exit board revisions: 2375→2378 / 2378→2388. The post-update Control Center suite passes 42/42 and `git diff --check` passes. No global gate is due without production code. Elapsed approximately 5m (08:16:12–08:20:45 UTC): source/path inspection 1m; trial and assertions 1m; rendered review 1m; durable packet/state/validated-board closeout and focused Control Center verification 2m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m. Packet: `docs/research/epic17/S412-polo-h-station-ring-trial/`.
+
+**Next action:** S413 screens a source-anchored H marker/routed-label layout across the exact 17 current options. Only present a specific design choice if the rendered candidate clears the crowding without obscuring source marks or misleading the POM target.
+
+## Prior boundary — Slice 411 Polo post-S399 blocker audit; V02 remains open
 
 S411 started 2026-10-07 08:11:45 UTC from clean S410 `cccbbbb48a9fc34e3e11b7af0f901375d802dd39` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 410; S411 is uniquely reserved. Canonical board revision 2365 advanced to 2369 through validated start replay. G04-V01 Done, V02 In Progress, V03 Backlog. At start the goal was active and still matched the admitted G04 objective through safe merge; usage 35% primary / 5% weekly.
 

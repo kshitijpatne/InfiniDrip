@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2375,"itemId":"G04-V02","evidence":{"id":"E-G04-S412-START","kind":"document","uri":"docs/research/epic17/S412-polo-h-station-ring-trial/G04-V02-POLO-H-STATION-RING-LAYER-TRIAL-S412.md","verified":true,"note":"Diagnostic-only H station marker-layer study against the exact 17 current S399 Polo outputs. Source ring, marks, paths, POM identities, schedule, residual gate and all holds remain fixed."}},
+  {"type":"addEpicEvidence","expectedRevision":2376,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S412-START"},
+  {"type":"addComment","expectedRevision":2377,"itemId":"G04-V02","actor":"Codex","text":"S412 tests view-only rendering treatments for the repeated H source-station crowding in the current 17 S399 outputs. It is diagnostic only; both source shoulder marks, the exact anchor/ring, full schedule and every Polo hold stay fixed."}
+]
