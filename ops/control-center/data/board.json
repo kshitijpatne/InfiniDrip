@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2220,
-  "updatedAt": "2026-10-03T06:01:15.405Z",
+  "revision": 2232,
+  "updatedAt": "2026-10-07T05:24:54.011Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -554,7 +554,9 @@
         "E-G04-S396-EXIT",
         "E-G04-S397-EXIT",
         "E-G04-S398-DIAG-MATRIX",
-        "E-G04-S398-EXIT"
+        "E-G04-S398-EXIT",
+        "E-G04-S399-OUTPUT-DIFF",
+        "E-G04-S399-EXIT"
       ]
     },
     {
@@ -4006,6 +4008,11 @@
           "at": "2026-10-03T06:01:15.405Z",
           "actor": "Codex",
           "text": "S398 reconciles current Polo output and preserves all 34 holds. A specific FG glyph-only presentation decision is pending; the sleeve residual and all-seven V02/V02-before-V03 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-07T05:24:54.011Z",
+          "actor": "Codex",
+          "text": "S399's exact FG glyph offset is implemented and verified in 17 options. No view was accepted; all-seven V02 and V02-before-V03 remain unchanged. Start the next blocker from the durable S399 packet and state."
         }
       ],
       "evidenceRefs": [
@@ -4382,7 +4389,9 @@
         "E-G04-S397-START",
         "E-G04-S397-EXIT",
         "E-G04-S398-START",
-        "E-G04-S398-EXIT"
+        "E-G04-S398-EXIT",
+        "E-G04-S399-START",
+        "E-G04-S399-EXIT"
       ],
       "flagKey": null
     },
@@ -8370,6 +8379,11 @@
           "at": "2026-10-03T06:01:15.373Z",
           "actor": "Codex",
           "text": "S398 confirms the post-S394 state across the same 17 Polo options: three failures remain only on the unkeyed C fallback; all keyed outputs render cleanly. The independent 0.68 cm sleeve-cap residual still exceeds 0.25 cm on all 34 faces. A shared FG-only glyph offset (-0.424264,-0.424264 cm) clears the diagnostic box screen and has reviewed Chromium crops, while its source-centered ring remains at the crowded neckline/placket station. Exact presentation decision pending; no implementation, gate or hold change."
+        },
+        {
+          "at": "2026-10-07T05:24:53.978Z",
+          "actor": "Codex",
+          "text": "S399 implements only the approved Polo FG glyph offset. Actual renderer/Chromium replay and S394 byte comparison pass across the same 17 options; fixed ring, both POM identities, 11-row schedule, source paths/marks, colorway and paired backs are preserved. Focused renderer coverage is 100% in all four metrics; build, protected export/DXF checks and Control Center tests pass. All 34 Polo and 56 Woven views remain held, including the 0.68 cm Polo residual against 0.25 cm."
         }
       ],
       "evidenceRefs": [
@@ -8869,7 +8883,13 @@
         "E-G04-S398-DIAG-MATRIX",
         "E-G04-S398-FG-DEFAULT",
         "E-G04-S398-FG-LIMIT",
-        "E-G04-S398-EXIT"
+        "E-G04-S398-EXIT",
+        "E-G04-S399-START",
+        "E-G04-S399-OUTPUT-MATRIX",
+        "E-G04-S399-OUTPUT-DIFF",
+        "E-G04-S399-DEFAULT-DETAIL",
+        "E-G04-S399-LIMIT-DETAIL",
+        "E-G04-S399-EXIT"
       ],
       "flagKey": null
     },
@@ -14913,6 +14933,60 @@
       "sha256": null,
       "verified": true,
       "note": "Reconciles current S394 C fallback versus keyed output, all Polo key/topology holds, approved H offset and 34/34 independent 0.68 cm residuals. FG glyph-only candidate awaits exact maintainer approval; no implementation or face release."
+    },
+    {
+      "id": "E-G04-S399-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S399-polo-fg-glyph-offset/G04-V02-POLO-FG-GLYPH-OFFSET-S399.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins implementation and exact 17-option verification of the maintainer-approved Polo FG glyph-only offset. Fixed ring/source identities, schedule, geometry, output identities and all holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S399-OUTPUT-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S399-polo-fg-glyph-offset/polo-keyed-marker-trial-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual renderer/Chromium replay of the same 17 Polo option values: 17 keyed fronts, 17 colorways, 17 unchanged paired backs, zero browser errors; all existing holds remain."
+    },
+    {
+      "id": "E-G04-S399-OUTPUT-DIFF",
+      "kind": "document",
+      "uri": "docs/research/epic17/S399-polo-fg-glyph-offset/fg-output-diff-verification.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All 17 S399 SVGs compare byte-identically to S394 after restoring only FG glyph coordinates and revision/title tokens; ring, source IDs/targets, schedule, paths, marks and colorway are unchanged."
+    },
+    {
+      "id": "E-G04-S399-DEFAULT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S399-polo-fg-glyph-offset/rendered/polo-default-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium detail crop: approved FG glyph offset reads separately from fixed source-centered ring; underlying source paths remain visible through the crowded station. No other blocker is waived."
+    },
+    {
+      "id": "E-G04-S399-LIMIT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S399-polo-fg-glyph-offset/rendered/polo-collarPointExtension-min-collar-point-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium limiting-option crop confirms the same glyph-only behavior and preserved source paths/ring; all Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S399-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S399-polo-fg-glyph-offset/G04-V02-POLO-FG-GLYPH-OFFSET-S399.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implements the exact approved Polo FG text offset and passes 100% focused renderer coverage, 17-option actual-renderer/Chromium comparison, rendered review, build and protected export/DXF checks. All holds, gates and V03 dependencies remain."
     }
   ]
 }

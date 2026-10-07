@@ -61,11 +61,12 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("[data-schedule-for='pom-sleeve']")?.textContent).toContain("Measurement 2");
   });
 
-  it("applies approved Polo E/H/I glyph-only offsets while keeping every keyed ring on its source anchor", () => {
+  it("applies approved Polo E/FG/H/I glyph-only offsets while keeping every keyed ring on its source anchor", () => {
     const keys = [
       { key: "E", x: 7, y: 2, style: "open-halo" as const },
       { key: "I", x: 8, y: 3, style: "open-halo" as const },
       { key: "H", x: 7, y: 2, style: "open-halo" as const },
+      { key: "FG", x: 0, y: 8, style: "open-halo" as const },
       { key: "D", x: 9, y: 4, style: "open-halo" as const },
       { key: "C", x: 10, y: 5, style: undefined },
     ];
@@ -99,11 +100,13 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("g[data-pom-key='I'] text")?.getAttribute("y")).toBe("2.75");
     expect(parsed.querySelector("g[data-pom-key='H'] text")?.getAttribute("x")).toBe("7.45");
     expect(parsed.querySelector("g[data-pom-key='H'] text")?.getAttribute("y")).toBe("2.52");
+    expect(parsed.querySelector("g[data-pom-key='FG'] text")?.getAttribute("x")).toBe("-0.4243");
+    expect(parsed.querySelector("g[data-pom-key='FG'] text")?.getAttribute("y")).toBe("7.6457");
     expect(parsed.querySelector("g[data-pom-key='D'] text")?.getAttribute("x")).toBe("9");
     expect(parsed.querySelector("g[data-pom-key='D'] text")?.getAttribute("y")).toBe("4.07");
     expect(parsed.querySelector("g[data-pom-key='C'] text")?.getAttribute("x")).toBe("10");
     expect(parsed.querySelector("g[data-pom-key='C'] text")?.getAttribute("y")).toBe("5.07");
-    expect(parsed.querySelectorAll("g[data-layer-group='POM_SCHEDULE'] [data-schedule-for]")).toHaveLength(5);
+    expect(parsed.querySelectorAll("g[data-layer-group='POM_SCHEDULE'] [data-schedule-for]")).toHaveLength(6);
     expect(parsed.querySelector("[data-schedule-for='pom-H']")?.textContent).toBe("H  POM H: 10 cm (±0.2 cm)");
   });
 
