@@ -1,0 +1,9 @@
+{
+  "fromRevision": 2599,
+  "toRevision": 2600,
+  "applied": "E-G04-S436-EXIT was successfully added and linked to G04-V02 through executeBoardCommand before the subsequent matrix-evidence command was rejected.",
+  "rejectedNextCommand": "E-G04-S436-MATRIX",
+  "cause": "The first attempt used unsupported evidence kind test-report; the Control Center schema accepts document for this audit artifact.",
+  "statusChange": false,
+  "recovery": "Changed the evidence kind to document, retained the already-applied exit evidence, and regenerated the remaining command sequence from board revision 2600."
+}

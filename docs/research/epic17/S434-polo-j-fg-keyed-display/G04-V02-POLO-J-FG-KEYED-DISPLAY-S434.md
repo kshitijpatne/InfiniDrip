@@ -132,15 +132,16 @@ display point differs from its prior station by at most 0.103085 cm over the
 
 ### Boundary, holds and next work
 
-- S434 closes the approved display change only. It does not pass V02 face
-  acceptance. All 34 Polo faces and all 56 Woven faces remain held (90 total);
-  the J glyph overlap decision, remaining Polo visual-readability/source-
-  crossing checks, and the separately approved eased-seam criteria must pass.
-  Woven collar/sleeve and back hem
-  conflicts remain held. All-seven acceptance, 0.25 cm residual limit outside
-  the exact approved S351 case, legacy DXF and protected export identities are
-  unchanged. V03 remains gated by all-seven V02, rights review, a selected
-  industrial receiver/profile and representative import/round-trip evidence.
+- S434 closes the approved display change only. It does not pass overall V02
+  acceptance. S435/S436's corrected current-output audit finds no Polo POM
+  label/marker/schedule collision and clears the 17-option compiler, colorway,
+  join/residual and POM schedule checks in the retained evidence. All 34 Polo
+  faces remain held while the all-seven V02 gate is incomplete; all 56 Woven
+  faces remain held for the unresolved 28 front collar/neckline contacts and 28
+  back sleeve-hem crossings. The 0.25 cm residual limit outside the exact
+  approved S351 case, legacy DXF and protected export identities are unchanged.
+  V03 remains gated by all-seven V02, rights review, a selected industrial
+  receiver/profile and representative import/round-trip evidence.
 - Board statuses remain EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog.
   Validated start replay: 2574→2577; exit replay: 2577→2583; additive clearance
   reconciliation: 2583→2588. The exit packet and collision matrix are linked
@@ -154,7 +155,8 @@ display point differs from its prior station by at most 0.103085 cm over the
 - Landed as `Slice 434: implement Polo J/FG keyed POM display`. Refreshed
   `origin/main` ancestry and clean worktree are recorded by the commit and
   verified closeout.
-- Next action recorded at S434: S435 reconciles the preliminary raw path/mark
-  matrix with corrected full-label output criteria; then audit the current
-  per-face acceptance evidence before considering any Polo face release. Do
-  not start V03 until all-seven V02 acceptance passes.
+- Next action recorded at S434 and completed by S435/S436: reconcile raw path
+  contacts with full-label evidence and audit per-face Polo output. S436 finds
+  no remaining Polo-specific renderer/readability error in the current 17-case
+  evidence. Continue with the source-bound Woven crossings; do not release any
+  face or start V03 before all-seven V02 acceptance passes.

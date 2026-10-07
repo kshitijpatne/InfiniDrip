@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 435 Polo keyed-marker clearance; V02 remains open
+## EPIC-17 / G04 latest completed work — Slice 436 Polo face acceptance audit; V02 remains open
+
+S436 started 2026-10-07 19:45:35 UTC from clean S435 commit `72f36aced5335eca34e7839b4c05a373c834163d` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 435; reserve 436. Validated board revisions: start 2596→2599; exit includes a diagnosed partial replay 2599→2600 and corrected remainder 2600→2604. Statuses remain EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog; tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+The S436 audit joins the exact 17 Polo option values across S432–S435 while preserving each slice's distinct revision identifiers. All 34 current S434 front/back rows compile/render without issues, with same-revision colorway fills. The 17 back sleeve fills are closed; exact S351 residual remains clear and 0.25 cm stays active elsewhere. Front keyed schedules retain 13 full-text rows and source-defined POM counts (one declared omission at `sideVentDepth=min`); back-only measurements are not invented from front anchors. S435's complete-label analysis finds zero measured front source-label/marker/schedule overlaps. Three current back SVGs were rasterized and reviewed in Chromium with zero browser errors. No Polo-specific compiler, colorway, residual, POM identity or measured text-overlap failure remains in these 17 option rows.
+
+No face changed to accepted; all 34 Polo and 56 Woven views remain held. Overall V02 stays blocked by Woven's unresolved 28 front collar/neckline contacts and 28 back sleeve-hem crossings. All-seven acceptance, V02-before-V03, 100% coverage, protected export identities and legacy DXF behavior are unchanged. V03 remains downstream of all-seven V02 and still requires rights-cleared industrial receiver/profile plus representative round-trip evidence. Packet and matrices: `docs/research/epic17/S436-polo-face-acceptance-audit/`. The first exit command sequence used an unsupported board evidence kind and partially added the verified exit doc only; this was recorded and recovered without status/tally change. Corrected board replay ends at revision 2604; `npm run control-center:test` passes 42/42 and `git diff --check` passes. Goal record remains active and matches the admitted Epic.
+
+Elapsed 19:45:35–19:56:21 UTC (~10m46s): implementation 0m; cross-matrix diagnosis ~4m; focused checks/rendered review ~3m; board/docs closeout ~3m46s; external-agent waits 0m; maintainer-decision time 0m. Landed as `Slice 436: audit current Polo face acceptance`.
+
+**Next action:** resume exact-revision Woven front and back crossing review, preserve the continuous neckline, and do not fabricate a false sleeve-hem gap. Keep all holds until all-seven V02 gates pass.
+
+## EPIC-17 / G04 latest completed work — Slice 435 Polo keyed-marker clearance; V02 remains open
 
 S435 started 2026-10-07 19:30:37 UTC from clean S434 commit `1668e2e3d76bd08a8157e9fb0f1cbf5d05fb1a9a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 434; reserve 435. Validated board start replay advanced revision 2588→2591. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
 

@@ -1,0 +1,14 @@
+{
+  "sourceRevision": 2600,
+  "resultingRevision": 2604,
+  "statusesUnchanged": true,
+  "evidenceLinked": true,
+  "tallyPreserved": true,
+  "statuses": {
+    "epic": "In Progress",
+    "v01": "Done",
+    "v02": "In Progress",
+    "v03": "Backlog"
+  },
+  "faces": "56 accepted / 90 held across 73 configurations / 146 faces"
+}
