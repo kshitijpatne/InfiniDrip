@@ -1,0 +1,11 @@
+{
+    "model":  "claude-opus-5-5",
+    "effort":  "xhigh",
+    "permissionMode":  "plan",
+    "startedAt":  "2026-10-07T18:10:22.0602291-04:00",
+    "completedAt":  "2026-10-07T18:10:23.9681333-04:00",
+    "exitCode":  -1,
+    "workFinishedSignal":  false,
+    "error":  "Error: Input must be provided either through stdin or as a prompt argument when using --print",
+    "output":  "S443-attempt-1-input-error.txt"
+}

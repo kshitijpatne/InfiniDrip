@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2657,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S443-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S443-claude-woven-blocker-research/G04-WOVEN-V02-SOURCE-EVIDENCE-REVIEW-S443.md",
+      "verified": true,
+      "note": "Starts a bounded exact-model Claude Opus 5.5 xhigh read-only retry after the prior session limit; source-backed Woven remedy or precise no-go only, with current maintainer constraints unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2658,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S443 from clean S442. Retry only Claude Opus 5.5 xhigh in normal/read-only mode from an isolated S442 checkout after its session reset. Research the two exact Woven holds under the maintainer's continuous-neckline and fixed-S370 decisions; no trial renderer/code change, scope change, or alternate model. Preserve all 56 Woven/34 Polo holds and V02/V03 gates."
+  }
+]

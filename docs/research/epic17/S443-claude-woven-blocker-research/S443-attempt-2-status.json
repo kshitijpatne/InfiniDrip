@@ -1,0 +1,11 @@
+{
+  "model": "claude-opus-5-5",
+  "effort": "xhigh",
+  "permissionMode": "plan",
+  "startedAt": "2026-10-07T18:10:51.4063801-04:00",
+  "completedAt": "2026-10-07T18:10:53.7526165-04:00",
+  "exitCode": 1,
+  "workFinishedSignal": false,
+  "error": null,
+  "output": "S443-attempt-2-auth-error.txt"
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2657,
-  "updatedAt": "2026-10-07T21:27:48.621Z",
+  "revision": 2663,
+  "updatedAt": "2026-10-07T22:32:08.930Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -9157,6 +9157,16 @@
           "at": "2026-10-07T21:27:48.621Z",
           "actor": "Codex",
           "text": "S442 blocker disposition: Woven front 28 remain held at the S417 continuous-neckline/collar contacts per the prior keep-seam decision; Woven back 28 remain held at the full joined sleeve-hem crossing, with the maintainer now explicitly retaining the S370 band positions and rejecting the S441 local-Y/layout change. S436 found no current local Polo compiler/render/overlay/POM/readability defect, but no Polo face is accepted ahead of the all-seven integrated V02 review. V03 remains gated by V02, a rights-cleared receiver/profile and observed representative round-trip fixtures. Counts and statuses unchanged."
+        },
+        {
+          "at": "2026-10-07T21:31:29.076Z",
+          "actor": "Codex",
+          "text": "Start S443 from clean S442. Retry only Claude Opus 5.5 xhigh in normal/read-only mode from an isolated S442 checkout after its session reset. Research the two exact Woven holds under the maintainer's continuous-neckline and fixed-S370 decisions; no trial renderer/code change, scope change, or alternate model. Preserve all 56 Woven/34 Polo holds and V02/V03 gates."
+        },
+        {
+          "at": "2026-10-07T22:32:08.930Z",
+          "actor": "Codex",
+          "text": "S443 exact-model research and independent source/output review found no source-backed Woven front/back fix under the current maintainer decisions. The front's continuous collar contour crosses the preserved continuous neckline in 28/28 options (56 contacts); the back's only rendered crossing-free local-Y pose collides with both fixed S370 band details in 28/28. Preserve all 56 Woven holds, all 34 Polo holds, all-seven V02, V02-before-V03, and the unchanged acceptance criteria. No implementation or face release. See the S443 exit packet and exact-model result."
         }
       ],
       "evidenceRefs": [
@@ -9816,7 +9826,11 @@
         "E-G04-S441-BUILD-BASELINE",
         "E-G04-S442-START",
         "E-G04-S442-EXIT",
-        "E-G04-S442-DECISION"
+        "E-G04-S442-DECISION",
+        "E-G04-S443-START",
+        "E-G04-S443-EXIT",
+        "E-G04-S443-CLAUDE-RESULT",
+        "E-G04-S443-CLAUDE-STATUS"
       ],
       "flagKey": null
     },
@@ -17332,6 +17346,42 @@
       "sha256": null,
       "verified": true,
       "note": "Records the maintainer's decision to preserve S370 detached-band positions and retain all Woven BACK_FLAT holds; the S441 local-Y trial is not authorized for implementation."
+    },
+    {
+      "id": "E-G04-S443-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S443-claude-woven-blocker-research/G04-WOVEN-V02-SOURCE-EVIDENCE-REVIEW-S443.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded exact-model Claude Opus 5.5 xhigh read-only retry after the prior session limit; source-backed Woven remedy or precise no-go only, with current maintainer constraints unchanged."
+    },
+    {
+      "id": "E-G04-S443-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S443-claude-woven-blocker-research/G04-WOVEN-V02-SOURCE-EVIDENCE-REVIEW-S443.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Records exact-model Claude Opus 5.5 xhigh research and Codex source/28-option verification; no source-backed Woven fix satisfies the continuous-neckline and fixed-S370 decisions, so all holds and gates remain."
+    },
+    {
+      "id": "E-G04-S443-CLAUDE-RESULT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S443-claude-woven-blocker-research/S443-claude-output.txt",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Standalone claude-opus-5-5 xhigh result from the exact S442 checkout, exit 0, explicit WORK FINISHED; no files changed in the contributor checkout."
+    },
+    {
+      "id": "E-G04-S443-CLAUDE-STATUS",
+      "kind": "document",
+      "uri": "docs/research/epic17/S443-claude-woven-blocker-research/S443-claude-attempt-status.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Confirms exact model, xhigh CLI argument, plan mode, authenticated final run interval, exit status 0 and WORK FINISHED; earlier CLI setup errors are separately retained."
     }
   ]
 }
