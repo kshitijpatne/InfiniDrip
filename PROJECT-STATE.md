@@ -1,5 +1,14 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 current work — Slice 418 latest-board UI reconciliation check; G04 remains open
+
+S418 started 2026-10-07 09:03:48 UTC from clean S417 `06e0ca492d12613b6069d029879f401c711e81bf` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 417; S418 is uniquely reserved. Canonical board was revision 2428; validated start and exit replays advanced it to 2431 and 2435. EPIC-17/G04-V01 Done, V02 In Progress, V03 Backlog. Goal remains active and matches admitted V01→V02→V03 through required gates and safe merge.
+
+S418 read the approved UI sequence/note against current admission, state, board and S354/S385 records. Those records already reconcile construction-aware source geometry, same-piece/revision identity, exact source-bound POM values/anchors/targets, applicable overlays and rendered readability as existing G04 V02 scope. App-wide native styling, guidance, toolbar, catalog polish and UI integration remain independent UIQ cards; thumbnails, packs and assembled/oblique/inside views remain under G06/G05/G09. On the latest board, identity-aware clone preflight matched all 29 additive command entries; 29 skipped, 0 replayed, no identity conflict, no board mutation during that replay. All 14 UIQ cards remain Backlog and G04 has no UIQ dependency. No local-status commands were applied.
+
+G04 acceptance and every hold are unchanged. S417 is the latest Woven crossing audit; 56 Woven and 34 Polo faces remain held, Polo's 0.68 cm residual remains above 0.25 cm, and V03 stays gated behind all-seven V02. S418 changes no production code or tests. Evidence: `docs/research/epic17/S418-ui-reconciliation-latest-board/`; validated exit evidence/replay are linked on the canonical G04 board at revision 2435. `npm run control-center:test` passes 42/42; replay script syntax and `git diff --check` pass. No global Epic gate is due for this board/documentation-only slice.
+
+**Next action:** continue G04's next independent V02 blocker, retaining all holds and the original G04/V03 gates. UIQ registrations do not authorize implementation.
 ## EPIC-17 / G04 current work — Slice 417 Woven front post-clip crossing audit; V02 remains open
 
 S417 started 2026-10-07 08:48:43 UTC from clean S416 `2952b33e1b471b935470e94eaf5cce8c24f762b6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 416; S417 is uniquely reserved. Board revision 2420 advanced to 2423 through validated start replay and to 2428 through validated exit replay. G04-V01 is Done, V02 In Progress and V03 Backlog. Goal remains active and matches the admitted G04 objective. The attached `epic-17-g04` worktree is authoritative; the separate `F:\designApp` UIQ checkout is untouched.

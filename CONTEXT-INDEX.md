@@ -8,6 +8,10 @@ decision in `docs/PROJECT-DECISIONS.md` apply to every new or resumed task.
 
 ## Latest EPIC-17/G04 slice evidence
 
+- `docs/research/epic17/S418-ui-reconciliation-latest-board/G04-UI-RECONCILIATION-S418.md` and `S418-ui-board-reconciliation.json` — current-board clone preflight/replay skipped all 29 identical approved additive UI commands, with no G04 UI dependency, status change, or acceptance change. S354 remains the full scope reconciliation; all G04 holds stay intact.
+
+
+
 - `docs/research/epic17/S417-woven-front-post-clip-intersection-audit/G04-V02-WOVEN-FRONT-POST-CLIP-INTERSECTION-AUDIT-S417.md`, `woven-collar-stack-crossings.json`, and the Chromium post-clip overlays — classifies all 28 exact-revision Woven front contacts. The approved collar-over-plackets order is implemented; source-joined shoulder endpoints are not open defects; the mirrored neckline/collar contact remains the separate S410 hold. All Woven/Polo views remain held.
 
 ## Authority and reading order

@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2428,"itemId":"G04-V02","evidence":{"id":"E-G04-S418-START","kind":"document","uri":"docs/research/epic17/S418-ui-reconciliation-latest-board/G04-UI-RECONCILIATION-S418.md","verified":true,"note":"At normal S417 boundary, recheck the already-approved G04/UI reconciliation and preflight the additive UIQ command sequence against the latest board; no new G04 dependency or implementation."}},
+  {"type":"addEpicEvidence","expectedRevision":2429,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S418-START"},
+  {"type":"addComment","expectedRevision":2430,"itemId":"G04-V02","actor":"Codex","text":"S418 rechecks the approved UI sequence against S417/current G04 records at this boundary. Existing S354 reconciliation applies: source geometry/construction, piece/revision identity, source-bound POMs, applicable overlays and rendered readability are existing V02 scope; independent UIQ cards stay Backlog, and G04 gains no UI dependency. The additive command file will be preflighted against board 2428 with identity-aware skip; no local-status commands or older board/state are applied."}
+]
