@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2291,
-  "updatedAt": "2026-10-07T06:31:50.192Z",
+  "revision": 2305,
+  "updatedAt": "2026-10-07T06:40:38.392Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted EPIC-17/G04 V01 → V02 → V03 per docs/planning/EPIC-17-ADMISSION.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362 implemented the approved Woven full-collar view projection, which remains under rendered review; S363 blocks the known straight finished-placket-width leader crossing and retains fail-closed behavior; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S364's collar-perimeter-following route candidate is rejected for readability. S365 traces the exact Woven back sleeve/band crossing in all 28 options: the sleeve-band source join is exact, while reflected role paths cross the back/yoke shared seam and one another. No new mapping or face acceptance is approved by S365. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate. Preserve all-seven V02, legacy DXF, protected byte identities and V02-before-V03. Current state: PROJECT-STATE.md; current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-INSTANCE-DIAGNOSIS-S365.md. S366 tests a diagnostic-only outward receiver-normal mapping on all 28 exact-revision Woven back options. The candidate band outline self-crosses 20–25 times per configuration, and its mapped bandFold is visibly distorted; S366 rejects the candidate, makes no production change and accepts no face. All 56 Woven and 34 Polo faces remain held at the confirmed 0.25 cm Polo gate. Preserve all-seven V02 and V02-before-V03. Current packet: docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-EXTERIOR-NORMAL-PROPOSAL-S366.md; current state: PROJECT-STATE.md. S367 corrects S366 interval scope and tests only an unapproved half-band crop; S321 requires the uncut band instance. The crop retains mirrored seam, band-pair and opposite-sleeve crossings. All 56 Woven and 34 Polo faces remain held; Polo remains at 0.25 cm.",
+      "description": "Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S405 confirms Woven center-front collar/placket intersections are not source stitch junctions and no collar-over-placket order is encoded. The maintainer approved S402 D-marker, S403 pocket foreground, and S404 shoulder-occlusion view trials for S406 implementation and option-wide review only. All 56 Woven and 34 Polo faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Polo's current 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -569,7 +569,11 @@
         "E-G04-S404-START",
         "E-G04-S404-MATRIX",
         "E-G04-S404-OCCLUSION-TRIAL",
-        "E-G04-S404-EXIT"
+        "E-G04-S404-EXIT",
+        "E-G04-S405-START",
+        "E-G04-S405-MATRIX",
+        "E-G04-S405-RENDER",
+        "E-G04-S405-EXIT"
       ]
     },
     {
@@ -4046,6 +4050,26 @@
           "at": "2026-10-07T06:23:03.111Z",
           "actor": "Codex",
           "text": "S403 is diagnostic only. Source path identity, actual Chromium crops, the approved collar stitch graph and pocket source placement/stitches are linked. No pattern change, semantic mapping, acceptance, option criterion, all-seven gate or V03 gate changed."
+        },
+        {
+          "at": "2026-10-07T06:38:34.932Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. S405 confirms Woven center-front collar/placket intersections are not source stitch junctions and no collar-over-placket order is encoded. The maintainer approved S402 D-marker, S403 pocket foreground, and S404 shoulder-occlusion view trials for S406 implementation and option-wide review only. All 56 Woven and 34 Polo faces remain held, including Woven back sleeve/hem crossing and Polo 0.68 cm residual against the 0.25 cm gate. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim.). Refresh the canonical EPIC-17 summary after S405 and preserve the unresolved V02 holds and gates."
+        },
+        {
+          "at": "2026-10-07T06:39:06.580Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S405 confirms Woven center-front collar/placket intersections are not source stitch junctions and no collar-over-placket order is encoded. The maintainer approved S402 D-marker, S403 pocket foreground, and S404 shoulder-occlusion view trials for S406 implementation and option-wide review only. All 56 Woven and 34 Polo faces remain held, including Woven back sleeve/hem crossing and Polo 0.68 cm residual against the 0.25 cm gate. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim.). Retain the required accepted/held summary count while refreshing the canonical EPIC-17 status after S405."
+        },
+        {
+          "at": "2026-10-07T06:40:27.441Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S405 confirms Woven center-front collar/placket intersections are not source stitch junctions and no collar-over-placket order is encoded. The maintainer approved S402 D-marker, S403 pocket foreground, and S404 shoulder-occlusion view trials for S406 implementation and option-wide review only. All 56 Woven and 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Woven back sleeve/hem crossing and Polo's 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim.). Preserve required historical status assertions while refreshing the canonical EPIC-17 summary after S405."
+        },
+        {
+          "at": "2026-10-07T06:40:38.392Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S405 confirms Woven center-front collar/placket intersections are not source stitch junctions and no collar-over-placket order is encoded. The maintainer approved S402 D-marker, S403 pocket foreground, and S404 shoulder-occlusion view trials for S406 implementation and option-wide review only. All 56 Woven and 34 Polo faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Polo's current 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim.). Preserve required historical status assertions while refreshing the canonical EPIC-17 summary after S405."
         }
       ],
       "evidenceRefs": [
@@ -8457,6 +8481,16 @@
           "at": "2026-10-07T06:31:50.192Z",
           "actor": "Codex",
           "text": "S404 attributes the shoulder/collar intersection to the approved offset view mapping. The occlusion trial masks 1.51–3.52 cm of source shoulder seam and needs a maintainer display-order decision. All Woven/Polo views remain held."
+        },
+        {
+          "at": "2026-10-07T06:34:37.696Z",
+          "actor": "Codex",
+          "text": "S405 resolves the repeated center-front collar/placket output intersections to exact source edges and prior closure decisions. No production change or hold release is authorized by this audit."
+        },
+        {
+          "at": "2026-10-07T06:37:58.275Z",
+          "actor": "Codex",
+          "text": "S405 confirms the Woven collar/placket intersections are not source stitch junctions and no collar-over-placket order is encoded. The D marker, pocket foreground and shoulder occlusion are approved for implementation/re-verification in S406 only. All Woven/Polo views remain held."
         }
       ],
       "evidenceRefs": [
@@ -8992,7 +9026,11 @@
         "E-G04-S404-START",
         "E-G04-S404-MATRIX",
         "E-G04-S404-OCCLUSION-TRIAL",
-        "E-G04-S404-EXIT"
+        "E-G04-S404-EXIT",
+        "E-G04-S405-START",
+        "E-G04-S405-MATRIX",
+        "E-G04-S405-RENDER",
+        "E-G04-S405-EXIT"
       ],
       "flagKey": null
     },
@@ -15360,6 +15398,42 @@
       "sha256": null,
       "verified": true,
       "note": "Closes the source/station diagnosis with a concrete option-wide occlusion proposal and tradeoff. No face hold, source, mapping or acceptance gate changes."
+    },
+    {
+      "id": "E-G04-S405-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S405-woven-collar-closure-crossing/G04-V02-WOVEN-COLLAR-CLOSURE-CROSSING-S405.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a focused source-edge trace of repeated Woven center-front collar/placket intersections in S403's exact 28-option renderer matrix. Independent of pending D, pocket-order and shoulder-occlusion decisions; no faces release."
+    },
+    {
+      "id": "E-G04-S405-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S405-woven-collar-closure-crossing/woven-collar-placket-overlap-summary.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Groups center-front placket/collar outline intersections from the exact 28 S403 production-renderer option rows at live-draft:woven-shirt:14:14; source confirms separate placket and collar stitch families."
+    },
+    {
+      "id": "E-G04-S405-RENDER",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S403-woven-front-source-crossing-audit/rendered/woven-shirt-default-collar-front-crossing.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium diagnostic crop inspected for default center-front collar/placket path crossings; paired collarLeafDepth-max crop is also inspected and retained in the S403 evidence folder."
+    },
+    {
+      "id": "E-G04-S405-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S405-woven-collar-closure-crossing/G04-V02-WOVEN-COLLAR-CLOSURE-CROSSING-S405.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Closes the source-edge audit and records exact remaining collar/placket display ambiguity plus the S402 D, S403 pocket and S404 shoulder decisions approved for S406; no code or face status changed."
     }
   ]
 }

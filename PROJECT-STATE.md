@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 404 Woven collar station diagnosis complete; V02 remains open
+## EPIC-17 / G04 current work — Slice 405 Woven collar/closure crossing audit complete; V02 remains open
+
+S405 started 2026-10-07 06:34 UTC from clean S404 `204f788ddca4753e6563de33d9b9de163b95291f` on `codex/epic-17-g04`. Fetched `origin/main` remains `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor; S404 was highest and S405 uniquely reserved. Canonical board revision advanced through validated start replay 2291→2294 and exit replay 2294→2301; validated EPIC summary refreshes advanced it to 2305. G04-V01 is Done, V02 In Progress, V03 Backlog. `get_goal` at this verified boundary reports `active`; its objective matches the admitted EPIC-17 V01→V02→V03 objective through safe merge, so the goal is still needed and unchanged.
+
+S405 traced the repeated center-front collar/placket intersections in all 28 same-revision S403 Woven `FRONT_FLAT` outputs (`live-draft:woven-shirt:14:14`). Source directly encodes placket `attachmentRaw` joins to `front.centerFront` and separate outer-stand/neckline/collar stitches, but no collar-to-placket join or relative display order. S321 establishes button-placket above buttonhole-placket only; it does not settle collar-over-placket. The actual Chromium default and collarLeafDepth-max crops show the line intersections. Reproducible coordinate grouping is in `docs/research/epic17/S405-woven-collar-closure-crossing/`; no production code or face status changed. All 56 Woven and 34 Polo faces remain held; every all-seven, 0.25 cm Polo, V02-before-V03, CAD/right, export/DXF and physical/factory gate remains unchanged.
+
+During S405 the maintainer approved three exact view-only trials for implementation/re-verification: S402's D midpoint ring and glyph offset; S403 pocket foreground with only the hidden placket stroke suppressed; and S404 shoulder clipping to the first projected collar intersection on both sides. Decisions are recorded in `docs/PROJECT-DECISIONS.md`. These decisions release no views. A separate concrete collar-over-placket order remains unresolved; a proposal and its exact geometry/tradeoff are in the S405 packet. No such mapping is implemented. The G04 board remains In Progress.
+
+Focused syntax/audit checks pass, final Control Center run passes 42/42, and `git diff --check` passes. Three interim Control Center reruns exposed required historical summary assertions one at a time; the board description was corrected via validated commands and the final run passed without changing tests. No changed production code means no changed-code coverage or global gate was due. Elapsed approximately 3m (06:34–06:37 UTC): implementation 0m; source/matrix diagnosis 1m; rendered review 1m; durable record/board/focused checks 1m; external-agent wait 0m; maintainer-decision time ~1m. S405 exit evidence: `docs/research/epic17/S405-woven-collar-closure-crossing/G04-V02-WOVEN-COLLAR-CLOSURE-CROSSING-S405.md`.
+
+**Next action:** S406 implements the three approved view-only Woven treatments with focused changed-code 100% coverage and exact 28-option output/raster inspection. Preserve all holds. The collar/placket crossing remains a separate unresolved hold pending specific maintainer approval or supporting pattern-specific construction evidence.
+
+## Prior boundary — Slice 404 Woven collar station diagnosis complete; V02 remains open
 
 S404 began 2026-10-07 06:25 UTC from clean S403 `c2eca277105d6a1bf9b47cffe64251f2122380d7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S403 was highest; S404 was uniquely reserved. Board revision 2281 was the verified S403 exit and S404 start replay advanced it to 2284. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The active goal remains needed and active, with objective matching the admitted G04 scope; it is unchanged.
 

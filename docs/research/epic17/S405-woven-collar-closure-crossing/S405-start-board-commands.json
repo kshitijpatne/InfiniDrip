@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2291,"itemId":"G04-V02","evidence":{"id":"E-G04-S405-START","kind":"document","uri":"docs/research/epic17/S405-woven-collar-closure-crossing/G04-V02-WOVEN-COLLAR-CLOSURE-CROSSING-S405.md","verified":true,"note":"Starts a focused source-edge trace of repeated Woven center-front collar/placket intersections in S403's exact 28-option renderer matrix. Independent of pending D, pocket-order and shoulder-occlusion decisions; no faces release."}},
+  {"type":"addEpicEvidence","expectedRevision":2292,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S405-START"},
+  {"type":"addComment","expectedRevision":2293,"itemId":"G04-V02","actor":"Codex","text":"S405 resolves the repeated center-front collar/placket output intersections to exact source edges and prior closure decisions. No production change or hold release is authorized by this audit."}
+]
