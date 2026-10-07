@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2269,
-  "updatedAt": "2026-10-07T06:12:47.384Z",
+  "revision": 2281,
+  "updatedAt": "2026-10-07T06:23:03.111Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -562,7 +562,10 @@
         "E-G04-S401-MATRIX",
         "E-G04-S401-EXIT",
         "E-G04-S402-MATRIX",
-        "E-G04-S402-EXIT"
+        "E-G04-S402-EXIT",
+        "E-G04-S403-START",
+        "E-G04-S403-MATRIX",
+        "E-G04-S403-EXIT"
       ]
     },
     {
@@ -4034,6 +4037,11 @@
           "at": "2026-10-07T06:12:47.384Z",
           "actor": "Codex",
           "text": "S402 changes no G04 acceptance criteria, all-seven requirement, geometry, export behavior, or V03 gate. Its renderer-bound evidence records one concrete D interval-key proposal for maintainer decision; Woven fronts/backs and Polo remain held."
+        },
+        {
+          "at": "2026-10-07T06:23:03.111Z",
+          "actor": "Codex",
+          "text": "S403 is diagnostic only. Source path identity, actual Chromium crops, the approved collar stitch graph and pocket source placement/stitches are linked. No pattern change, semantic mapping, acceptance, option criterion, all-seven gate or V03 gate changed."
         }
       ],
       "evidenceRefs": [
@@ -8425,6 +8433,16 @@
           "at": "2026-10-07T06:12:47.318Z",
           "actor": "Codex",
           "text": "S402 finds a source-POM leader/collar contact in 23/28 Woven front options. The tested two-point bracket crosses unrelated source paths in all 28. A D key at the exact derived midpoint of source button marks is a diagnostic proposal only; all 28 fronts remain held pending the mapping decision and remaining V02 gates. All 28 back crossings and 34 Polo residual holds remain."
+        },
+        {
+          "at": "2026-10-07T06:14:21.801Z",
+          "actor": "Codex",
+          "text": "S403 audits independent source-path crossings and joins in the same 28 current Woven front outputs. It does not depend on or implement the pending S402 interval-key proposal. All Woven and Polo faces remain held."
+        },
+        {
+          "at": "2026-10-07T06:23:03.076Z",
+          "actor": "Codex",
+          "text": "S403 records a recurring projected collar/stand crossing on the front shoulder line in 28/28 Woven options and an independent pocket/placket interaction: the source outlines coincide in 25, have a 1 cm gap in placketWidth-min, and the placket overlaps the pocket bounds by 1 cm in placketWidth-max and combined-supported. The pocket/placket z-order or invalid-option response remains unresolved. All 56 Woven and 34 Polo faces remain held."
         }
       ],
       "evidenceRefs": [
@@ -8950,7 +8968,13 @@
         "E-G04-S402-BRACKET-REJECTED",
         "E-G04-S402-D-TRIAL",
         "E-G04-S402-D-SCHEDULE",
-        "E-G04-S402-EXIT"
+        "E-G04-S402-EXIT",
+        "E-G04-S403-START",
+        "E-G04-S403-MATRIX",
+        "E-G04-S403-COLLAR-CROSSING",
+        "E-G04-S403-POCKET-DEFAULT",
+        "E-G04-S403-POCKET-OVERLAP",
+        "E-G04-S403-EXIT"
       ],
       "flagKey": null
     },
@@ -15228,6 +15252,60 @@
       "sha256": null,
       "verified": true,
       "note": "Closes the 28-option Woven front POM contact audit and rejects the bracket alternative. The derived-midpoint D key remains a proposal pending maintainer decision; no face acceptance, criterion change, or production change."
+    },
+    {
+      "id": "E-G04-S403-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S403-woven-front-source-crossing-audit/G04-V02-WOVEN-FRONT-SOURCE-CROSSING-AUDIT-S403.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts an independent source-path geometry audit over the same 28 S401 Woven front SVGs. The S402 derived-midpoint D marker remains a separate pending decision; no source, mapping or face hold changes."
+    },
+    {
+      "id": "E-G04-S403-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S403-woven-front-source-crossing-audit/woven-front-path-crossings.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Same-revision 28-option actual-renderer front path audit records 19 component/seam paths per view, self-crossings, path-pair intersections and collinear overlap segments with source role/revision identity. No face acceptance is inferred from the raw crossing count."
+    },
+    {
+      "id": "E-G04-S403-COLLAR-CROSSING",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S403-woven-front-source-crossing-audit/rendered/woven-shirt-default-collar-front-crossing.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium actual-output crop marks the recurring projected collar/stand boundary crossing the body-front shoulder outline; this point is not the source neckline stitch junction. All affected fronts remain held."
+    },
+    {
+      "id": "E-G04-S403-POCKET-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S403-woven-front-source-crossing-audit/rendered/woven-shirt-default-pocket-placket-crossing.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium default crop shows the pocket-left boundary exactly coincident with the button-placket outer outline for the source pocket height; the source stitch graph does not join those edges."
+    },
+    {
+      "id": "E-G04-S403-POCKET-OVERLAP",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S403-woven-front-source-crossing-audit/rendered/woven-shirt-placketWidth-max-pocket-placket-crossing.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium actual output for placketWidth-max shows the button-placket outer stroke crossing 1 cm into the pocket bounds for its full 13 cm height. The combined-supported option has the analogous 15 cm overlap. Pocket/placket display order remains a decision, and both views stay held."
+    },
+    {
+      "id": "E-G04-S403-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S403-woven-front-source-crossing-audit/G04-V02-WOVEN-FRONT-SOURCE-CROSSING-AUDIT-S403.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Closes the diagnostic source-path review with exact recurring shoulder/collar intersections and pocket/placket boundary results. Records a concrete pocket-on-placket display proposal and alternative invalid-option response; neither is implemented. All face holds and G04 gates remain."
     }
   ]
 }

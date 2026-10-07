@@ -1,0 +1,10 @@
+{
+  "caseId": "woven-shirt-default",
+  "found": true,
+  "buttonPath": "M0 8.2 L5 8.2 M5 8.2 L5 70 M5 70 L0 70 M0 70 L0 8.2",
+  "pocketPath": "M5 30 L17 30 M17 30 L17 43 M17 43 L5 43 M5 43 L5 30",
+  "buttonOrder": 1,
+  "pocketOrder": 6,
+  "buttonFill": "none",
+  "pocketFill": "none"
+}

@@ -1,0 +1,45 @@
+{
+  "caseId": "woven-shirt-standHeight-min",
+  "highlighted": [
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:component:front:outline",
+      "source": "pattern:woven-shirt:role:front",
+      "color": "#334155"
+    },
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+      "source": "pattern:woven-shirt:role:outerStand",
+      "color": "#dc2626"
+    },
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+      "source": "pattern:woven-shirt:role:underCollar",
+      "color": "#2563eb"
+    },
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+      "source": "pattern:woven-shirt:role:upperCollar",
+      "color": "#7c3aed"
+    },
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+      "source": "pattern:woven-shirt:role:front:edge:neckline",
+      "color": "#16a34a"
+    },
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection",
+      "source": "pattern:woven-shirt:role:front:edge:neckline",
+      "color": "#16a34a"
+    },
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+      "source": "pattern:woven-shirt:role:buttonPlacket",
+      "color": "#ea580c"
+    },
+    {
+      "id": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure",
+      "source": "pattern:woven-shirt:role:buttonholePlacket",
+      "color": "#0891b2"
+    }
+  ]
+}

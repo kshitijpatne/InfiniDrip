@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2269,"itemId":"G04-V02","evidence":{"id":"E-G04-S403-START","kind":"document","uri":"docs/research/epic17/S403-woven-front-source-crossing-audit/G04-V02-WOVEN-FRONT-SOURCE-CROSSING-AUDIT-S403.md","verified":true,"note":"Starts an independent source-path geometry audit over the same 28 S401 Woven front SVGs. The S402 derived-midpoint D marker remains a separate pending decision; no source, mapping or face hold changes."}},
+  {"type":"addEpicEvidence","expectedRevision":2270,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S403-START"},
+  {"type":"addComment","expectedRevision":2271,"itemId":"G04-V02","actor":"Codex","text":"S403 audits independent source-path crossings and joins in the same 28 current Woven front outputs. It does not depend on or implement the pending S402 interval-key proposal. All Woven and Polo faces remain held."}
+]

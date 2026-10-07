@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 402 Woven front button-spacing diagnostic complete; V02 remains open
+## EPIC-17 / G04 current work — Slice 403 Woven front path-crossing audit complete; V02 remains open
+
+S403 began at 2026-10-07 06:14:05 UTC from clean S402 `ff7d2cb33a9270b2e814de4d1dcfa6af9cc2061f` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor. S402 was highest; S403 was uniquely reserved. Board revision 2269 followed S402 exit; validated S403 start replay advanced to 2272. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog.
+
+S403 audited 28 exact-revision (`live-draft:woven-shirt:14:14`) Woven `FRONT_FLAT` production-renderer SVGs. No component path self-crossing was detected in 28/28; 550 pairwise proper path-intersection records and the collinear overlap matrix are retained with source IDs and per-option geometry. These include sewn/projected overlaps and are not 550 independent defects. A recurring projected collar/stand contour crosses the front shoulder outline in 28/28; the crossing is not a declared source stitch junction. Separate source geometry places the pocket-left edge and button-placket outer edge exactly together in 25/28, leaves a 1 cm gap at `placketWidth-min`, and lets the placket extend 1 cm into the pocket bounds in `placketWidth-max` and `combined-supported`. The pocket is joined by source stitch only along `pocket.top` to the front placement mark; its placket relation/order is not encoded. Actual Chromium collar and pocket/placket crops and machine matrices are in `docs/research/epic17/S403-woven-front-source-crossing-audit/`.
+
+S403 is diagnostic-only and releases zero faces. A pocket-over-placket foreground convention is proposed for maintainer decision, with an explicit alternative to fail the two overlap configurations closed using an actionable width correction. Neither is implemented. The S402 D interval-key decision remains pending; no source, cut/stitch geometry, projection, POM, option range, acceptance threshold, all-seven criterion, export identity, or V03 gate changed. All 56 Woven and 34 Polo views remain held, including the source-continuous Woven back crossing and Polo 0.68 cm residual vs 0.25 cm. `npm run control-center:test` passes 42/42; three S403 `node --check` checks and `git diff --check` pass. No full gate is due for this evidence-only slice.
+
+S403 elapsed approximately 9m (06:14:05–06:23:05 UTC): implementation 0m; source and exact option-matrix audit 3m; rendered crops/generation and visual review 4m; durable/context/state/validated-board closeout and Control Center verification 2m; external-agent waits 0m; maintainer-decision time 0m. Validated board start/exit revisions: 2269→2272 / 2272→2281. The goal record checked after the S402 boundary remains active and still matches the admitted EPIC-17 objective; no goal change was needed.
+
+**Next action:** continue an independent diagnostic of the Woven collar shoulder station/crossing and its exact current view map while preserving all holds. Do not implement the pending D key or pocket/placket ordering decision without approval. Keep all-seven V02 and the unchanged CAD, export, physical and merge gates.
+
+## Prior boundary — Slice 402 Woven front button-spacing diagnostic complete; V02 remains open
 
 S402 began 2026-10-07 05:57:34 UTC from clean S401 `5186a75285b7d08cdab6dc7c4e72d622e87c8b9a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S401 was highest and S402 was uniquely reserved. Board revision 2257 recorded S401 exit; validated S402 start replay advanced the board to 2259. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Ordinary usage remained available.
 
