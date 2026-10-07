@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2459,
-  "updatedAt": "2026-10-07T09:33:30.368Z",
+  "revision": 2464,
+  "updatedAt": "2026-10-07T09:36:23.894Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -616,7 +616,8 @@
         "E-G04-S420-START",
         "E-G04-S420-EXIT",
         "E-G04-S421-START",
-        "E-G04-S421-EXIT"
+        "E-G04-S421-EXIT",
+        "E-G04-S422-EXIT"
       ]
     },
     {
@@ -8756,6 +8757,16 @@
           "at": "2026-10-07T09:25:07.962Z",
           "actor": "Codex",
           "text": "S420 updates the stale Epic and G04-V02 descriptions from S413/S407 to current S419 evidence and the reaffirmed S406 collar/placket approval. Both distinct decisions (Polo H segmentation and Woven base-seam clipping) remain pending; all 90 holds, the 0.25 cm gate, all-seven criterion and V02-before-V03 gate are unchanged. See E-G04-S420-EXIT."
+        },
+        {
+          "at": "2026-10-07T09:35:44.589Z",
+          "actor": "Codex",
+          "text": "S422 binds two still-distinct design choices to exact current evidence: Woven neckline clipping versus continuous seam/hold (S410/S417), and the source-preserving variable-arc Polo H locator versus continuous-ring hold (S419). Neither is settled by the already-approved collar-over-plackets mapping. No implementation or face release; all V02 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-07T09:36:23.894Z",
+          "actor": "Codex",
+          "text": "S422 manually reviewed exact S417 Woven and S419 Polo Chromium crops and consolidated two concrete pending display decisions. Woven clipping removes 0.8426–0.8433 cm/side of the continuous source base seam; keeping it continuous preserves source fidelity and retains the 28-front hold. Polo H segmentation retains 60.139–72.361% as 2–3 clear arcs with zero sampled source-stroke contact over 17 options; approval would permit implementation/review only, not release. No behavior, acceptance, gate or hold changed. See E-G04-S422-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -9348,7 +9359,9 @@
         "E-G04-S419-MATRIX",
         "E-G04-S419-RENDER",
         "E-G04-S420-START",
-        "E-G04-S420-EXIT"
+        "E-G04-S420-EXIT",
+        "E-G04-S422-START",
+        "E-G04-S422-EXIT"
       ],
       "flagKey": null
     },
@@ -16261,6 +16274,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official-source prerequisite research only: no no-cost industrial apparel receiver is qualified; CLO's documented trial crosses the paid/payment-data gate. No receiver/profile, import round trip or compatibility claim. V03 remains Backlog behind all-seven V02."
+    },
+    {
+      "id": "E-G04-S422-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S422-v02-unresolved-display-decisions/G04-V02-DISPLAY-DECISIONS-S422.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Consolidates the exact S410/S417 Woven neckline clip and S419 Polo H segmented-locator decisions; no implementation, status, gate or hold changes."
+    },
+    {
+      "id": "E-G04-S422-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S422-v02-unresolved-display-decisions/G04-V02-DISPLAY-DECISIONS-S422.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S422 reconciles the current exact-revision Woven neckline/collar and Polo H-locator display decisions. User direction is required before either semantic mapping changes; all faces and gates remain held."
     }
   ]
 }

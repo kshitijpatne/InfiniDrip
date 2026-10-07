@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 421 CAD rights prerequisite review; V02 remains open
+## EPIC-17 / G04 current work — Slice 422 unresolved V02 display decisions; V02 remains open
+
+S422 started 2026-10-07 09:35:06 UTC from clean S421 `9873ffb8fcfeb3d6f16c12c628744f905a878093` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 421; 422 is unique. Board revision 2459 advanced to 2461 at start. V01 Done, V02 In Progress, V03 Backlog; goal record is active and matches the full admitted objective.
+
+S422 reconciles two still-unanswered view-only decisions to the exact source revision/options and previously inspected output. Woven: the source's continuous `front.neckline` crosses the projected upper/under-collar contours in 28/28; clipping 0.8426–0.8433 cm per side removes the contact but interrupts the visible source base-seam stroke. Recommend preserve the continuous stroke and keep the 28 Woven fronts held. Polo: S419's source-centered H ring crosses strokes in 17/17; a 0.045 cm-buffered, 0.04 cm minimum-span open-arc rendering retains 60.139–72.361% circumference as 2–3 arcs with zero sampled path/mark contacts and an identifiable H in reviewed Chromium output. Recommend approve implementation/reverification of that annotation-only treatment. No decision or implementation is presumed; packet: `docs/research/epic17/S422-v02-unresolved-display-decisions/G04-V02-DISPLAY-DECISIONS-S422.md`.
+
+All 56 Woven and 34 Polo faces remain held; tally remains 56 accepted / 90 held over 73 configurations / 146 faces. The separate S381 back-hem no-gap decision and S406 collar-over-plackets implementation remain untouched. All-seven acceptance, the 0.25 cm Polo gate, V02-before-V03, DXF behavior and export identities remain unchanged. Validated start/exit replay and clone preflight preserve all statuses and advance board 2459→2464. `npm run control-center:test` passes 42/42; scripts and `git diff --check` pass. No production code changed.
+
+Elapsed ~1m25s: source/evidence and render review 35s; durable packet/state/board work 35s; focused verification 15s; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** present both concrete choices with the documented tradeoffs; do not implement either until approved. Continue only independent V02 work while decisions are pending.
+
+## EPIC-17 / G04 previous slice — Slice 421 CAD rights prerequisite review; V02 remains open
 
 S421 started 2026-10-07 09:29:56 UTC from clean S420 `ccb21a0447490fe33be835169ff3b2293aca738a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 420; S421 is unique. Board revision 2453 advanced to 2456 at start. V01 Done, V02 In Progress, V03 Backlog; active goal remains the admitted EPIC-17 objective.
 

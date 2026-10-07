@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2459,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S422-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S422-v02-unresolved-display-decisions/G04-V02-DISPLAY-DECISIONS-S422.md",
+      "verified": true,
+      "note": "Consolidates the exact S410/S417 Woven neckline clip and S419 Polo H segmented-locator decisions; no implementation, status, gate or hold changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2460,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S422 binds two still-distinct design choices to exact current evidence: Woven neckline clipping versus continuous seam/hold (S410/S417), and the source-preserving variable-arc Polo H locator versus continuous-ring hold (S419). Neither is settled by the already-approved collar-over-plackets mapping. No implementation or face release; all V02 gates remain unchanged."
+  }
+]
