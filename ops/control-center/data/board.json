@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2209,
-  "updatedAt": "2026-10-03T05:41:26.414Z",
+  "revision": 2220,
+  "updatedAt": "2026-10-03T06:01:15.405Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -552,7 +552,9 @@
         "E-G04-S396-START",
         "E-G04-S396-MATRIX",
         "E-G04-S396-EXIT",
-        "E-G04-S397-EXIT"
+        "E-G04-S397-EXIT",
+        "E-G04-S398-DIAG-MATRIX",
+        "E-G04-S398-EXIT"
       ]
     },
     {
@@ -3999,6 +4001,11 @@
           "at": "2026-10-03T05:41:26.414Z",
           "actor": "Codex",
           "text": "G04 manual findings were reviewed at S397 against actual retained output. No finding was closed and no acceptance/hold changed; MQF-015 remains gated for V03."
+        },
+        {
+          "at": "2026-10-03T06:01:15.405Z",
+          "actor": "Codex",
+          "text": "S398 reconciles current Polo output and preserves all 34 holds. A specific FG glyph-only presentation decision is pending; the sleeve residual and all-seven V02/V02-before-V03 gates remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -4373,7 +4380,9 @@
         "E-G04-S396-MATRIX",
         "E-G04-S396-EXIT",
         "E-G04-S397-START",
-        "E-G04-S397-EXIT"
+        "E-G04-S397-EXIT",
+        "E-G04-S398-START",
+        "E-G04-S398-EXIT"
       ],
       "flagKey": null
     },
@@ -8356,6 +8365,11 @@
           "at": "2026-10-03T05:41:26.377Z",
           "actor": "Codex",
           "text": "S397 reviewed MQF-004–007, MQF-011/012 and MQF-015 against S394 production H output and S396 diagnostic W output. The evidence is partial for keyed POM anchoring/readability and does not establish accepted construction/artwork/CAD coverage; all findings remain To be reviewed at their applicable exits. MQF-011/012 post-G17 deferrals, MQF-015 V03 rights/round-trip gate, all 56 Woven/34 Polo holds, all-seven V02 and V02-before-V03 remain unchanged."
+        },
+        {
+          "at": "2026-10-03T06:01:15.373Z",
+          "actor": "Codex",
+          "text": "S398 confirms the post-S394 state across the same 17 Polo options: three failures remain only on the unkeyed C fallback; all keyed outputs render cleanly. The independent 0.68 cm sleeve-cap residual still exceeds 0.25 cm on all 34 faces. A shared FG-only glyph offset (-0.424264,-0.424264 cm) clears the diagnostic box screen and has reviewed Chromium crops, while its source-centered ring remains at the crowded neckline/placket station. Exact presentation decision pending; no implementation, gate or hold change."
         }
       ],
       "evidenceRefs": [
@@ -8850,7 +8864,12 @@
         "E-G04-S396-W-SCHEDULE",
         "E-G04-S396-EXIT",
         "E-G04-S397-START",
-        "E-G04-S397-EXIT"
+        "E-G04-S397-EXIT",
+        "E-G04-S398-START",
+        "E-G04-S398-DIAG-MATRIX",
+        "E-G04-S398-FG-DEFAULT",
+        "E-G04-S398-FG-LIMIT",
+        "E-G04-S398-EXIT"
       ],
       "flagKey": null
     },
@@ -14849,6 +14868,51 @@
       "sha256": null,
       "verified": true,
       "note": "Finding-by-finding evidence review of MQF-004–007, MQF-011/012 and MQF-015 against S394/S396 actual output. Findings remain To be reviewed at applicable exits; MQF-011/012 post-G17 deferrals, MQF-015 V03 gate, all face holds and G04 gates are unchanged."
+    },
+    {
+      "id": "E-G04-S398-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S398-polo-current-blocker-reconciliation/G04-V02-POLO-POST-H-OFFSET-CURRENT-BLOCKERS-S398.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins a read-only 17-option reconciliation of S394 current Polo renderer output, S391 source/topology contacts and S392 residual rows after approved H glyph offset. No implementation, face release, threshold or acceptance change."
+    },
+    {
+      "id": "E-G04-S398-DIAG-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S398-polo-current-blocker-reconciliation/fg-offset-trial-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "64 shared FG glyph-only offsets screened against all 17 exact S394 actual-renderer SVGs. Seven clear the diagnostic glyph-box screen; selected near-ring candidate has positive measured path/mark/text/ring clearances. No production SVG/source was changed."
+    },
+    {
+      "id": "E-G04-S398-FG-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S398-polo-current-blocker-reconciliation/rendered/polo-default-FG-offset-trial.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium-rendered diagnostic FG glyph offset on S394 default output; ring, source marks and geometry remain fixed. Proposal only; no view acceptance."
+    },
+    {
+      "id": "E-G04-S398-FG-LIMIT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S398-polo-current-blocker-reconciliation/rendered/polo-collarPointExtension-min-FG-offset-trial.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium-rendered diagnostic FG glyph offset on a limiting S394 option. All source strokes remain visible and the offset glyph clears the measured display area. All 34 Polo views remain held."
+    },
+    {
+      "id": "E-G04-S398-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S398-polo-current-blocker-reconciliation/G04-V02-POLO-POST-H-OFFSET-CURRENT-BLOCKERS-S398.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles current S394 C fallback versus keyed output, all Polo key/topology holds, approved H offset and 34/34 independent 0.68 cm residuals. FG glyph-only candidate awaits exact maintainer approval; no implementation or face release."
     }
   ]
 }

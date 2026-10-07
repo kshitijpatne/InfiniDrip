@@ -46,5 +46,5 @@ Start packet and review boundary are linked through the validated board command 
 - `npm run control-center:test` passes 42/42 after validated board replay. `git diff --check` passes. Packet and board-command JSON parse checks pass. This documentation/output-evidence slice does not trigger production coverage, build, or export gates; those remain required at the settled integrated candidate.
 - Start board revisions 2203–2204. Validated exit evidence/comment replay closes at revision 2209. V02 remains In Progress; V01 Done; V03 Backlog.
 - Elapsed 05:38:45–05:45:50 UTC (7m05s): implementation 0m; focused source/output inspection about 2m; board/tests/diff verification about 1m; durable packet/context/state closeout about 4m05s; external-agent waits 0m; maintainer-decision time 0m.
-- Landed commit: `faeffbed58f0ce2e6480866dfe143ab687cb1b90` (`Slice 397: review G04 manual finding output`).
+- Landed commit: `f015fd90239cd69d9c202b32be25dcd0fc588a76` (`Slice 397: review G04 manual finding output`), verified at the S398 start boundary.
 - **Single next action:** continue the repeated cross-option V02 callout/topology blockers in a fresh uniquely numbered slice; keep the W production presentation pending its exact approval and preserve every face hold.
