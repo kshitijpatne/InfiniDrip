@@ -1,0 +1,853 @@
+{
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "sourceLineCounts": {
+    "collarOutlinePaths": 4,
+    "frontNecklineStrokes": 2
+  },
+  "finding": "The production SVG already paints both complete body-neckline paths after the four projected upper/under-collar outline paths in every option. Drawing the complete neckline over the collar is not a new layer-order solution; it is current behavior and leaves the two visible crossing/contact stations unchanged.",
+  "candidateSvgMutation": false,
+  "productionChanged": false,
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8 C5.523 8 10 4.4184 10 0",
+        "M0 8 C-5.523 8 -10 4.4184 -10 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.6 C5.9372 8.6 10.75 4.7498 10.75 0",
+        "M0 8.6 C-5.9372 8.6 -10.75 4.7498 -10.75 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "collarOutlineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+        "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection"
+      ],
+      "collarPaintIndices": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "necklineEntityIds": [
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection"
+      ],
+      "necklinePaintIndices": [
+        21,
+        22
+      ],
+      "necklinePathData": [
+        "M0 8.2 C5.6611 8.2 10.25 4.5289 10.25 0",
+        "M0 8.2 C-5.6611 8.2 -10.25 4.5289 -10.25 0"
+      ],
+      "productionOrderAlreadyMatchesProposedOverdraw": true,
+      "proposedReorderWouldBeNoOp": true
+    }
+  ]
+}

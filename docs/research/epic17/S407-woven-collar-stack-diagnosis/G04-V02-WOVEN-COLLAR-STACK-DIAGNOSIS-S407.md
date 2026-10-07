@@ -30,6 +30,10 @@ No general construction-reference search, repeat of the S381 gap decision, modif
 
 ## Exit record
 
+### S410 source-paint-order correction
+
+Slice 410 traced the exact S406 path order across all 28 Woven front SVGs and corrected the display explanation for this proposal. The production SVG paints the four projected under/upper-collar outline instances before the two complete source `front.neckline` strokes (indices 17–20 vs. 21–22). Thus the body neckline already appears on top and crosses the collar at the two mirrored stations. The S407 diagnostic does not change layer order: it clips the center-front-to-contact interval of `front.neckline`, hiding 0.8426–0.8433 cm per side so the collar outline is exposed there. This leaves an interruption in the base seam. It remains an unapproved design choice; the earlier collar-over-plackets approval does not settle it. Exact all-28 order evidence: `docs/research/epic17/S410-woven-neckline-layer-order-trial/woven-neckline-paint-order-matrix.json`; full comparison: `docs/research/epic17/S410-woven-neckline-layer-order-trial/G04-V02-WOVEN-NECKLINE-LAYER-ORDER-TRIAL-S410.md`.
+
 ### Source and current-output findings
 
 - **Directly encoded source geometry:** `collarPiece()` in `src/drafting/shirt.ts` constructs `underCollar` and `upperCollar` from the same edge formulas and same option values. Their `centerBack`, `stand`, `frontTip` and `outer` shapes are identical at the same revision. `WOVEN_SHIRT_COLLAR_STITCHES` joins `upperCollar.frontTip/outer` to `underCollar.frontTip/outer`; it separately joins the under-collar stand to the outer stand collar edge and upper-collar stand to inner stand. This explains the duplicate coincident collar outlines as a sewn source interface, not an independent join or added garment piece.
