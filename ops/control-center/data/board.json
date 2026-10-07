@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2652,
-  "updatedAt": "2026-10-07T21:21:11.839Z",
+  "revision": 2657,
+  "updatedAt": "2026-10-07T21:27:48.621Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -9147,6 +9147,16 @@
           "at": "2026-10-07T21:21:11.839Z",
           "actor": "Codex",
           "text": "S441 closes with no production changes. The local-Y trial clears measured sleeve/back-body geometry on all 28 options, but the fixed S370 band-detail locations collide in 28/28; clearing them moves each detail outward 20.57–22.43 cm and expands the frame 41.15–44.86 cm. Source does not encode the view orientation. All 56 Woven and 34 Polo faces remain held pending the bounded layout decision; all-seven V02 and V02-before-V03 stay unchanged."
+        },
+        {
+          "at": "2026-10-07T21:25:18.418Z",
+          "actor": "Codex",
+          "text": "Start S442: record the maintainer's response to S441—keep the approved S370 band positions and retain all Woven back holds. Reconcile current V02/V03 blockers from S417/S437, S436/S435, S421 and S441 without repeating those audits; preserve 56 accepted / 90 held, all-seven V02, and V02-before-V03. Documentation/board only."
+        },
+        {
+          "at": "2026-10-07T21:27:48.621Z",
+          "actor": "Codex",
+          "text": "S442 blocker disposition: Woven front 28 remain held at the S417 continuous-neckline/collar contacts per the prior keep-seam decision; Woven back 28 remain held at the full joined sleeve-hem crossing, with the maintainer now explicitly retaining the S370 band positions and rejecting the S441 local-Y/layout change. S436 found no current local Polo compiler/render/overlay/POM/readability defect, but no Polo face is accepted ahead of the all-seven integrated V02 review. V03 remains gated by V02, a rights-cleared receiver/profile and observed representative round-trip fixtures. Counts and statuses unchanged."
         }
       ],
       "evidenceRefs": [
@@ -9803,7 +9813,10 @@
         "E-G04-S441-GEOMETRY",
         "E-G04-S441-RENDER-CROP",
         "E-G04-S441-OPUS-ATTEMPT",
-        "E-G04-S441-BUILD-BASELINE"
+        "E-G04-S441-BUILD-BASELINE",
+        "E-G04-S442-START",
+        "E-G04-S442-EXIT",
+        "E-G04-S442-DECISION"
       ],
       "flagKey": null
     },
@@ -17292,6 +17305,33 @@
       "sha256": null,
       "verified": true,
       "note": "Records TypeScript build errors reproduced after restoring the diagnostic checkout to exact S440 source; blocker predates S441 trial and must be addressed at integrated candidate gate."
+    },
+    {
+      "id": "E-G04-S442-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S442-current-v02-v03-blocker-disposition/G04-V02-V03-BLOCKER-DISPOSITION-S442.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins a documentation-only reconciliation of current V02/V03 blockers and records the maintainer's S441 choice to retain the S370 band layout and all Woven back holds. No implementation or acceptance change."
+    },
+    {
+      "id": "E-G04-S442-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S442-current-v02-v03-blocker-disposition/G04-V02-V03-BLOCKER-DISPOSITION-S442.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles the user's S441 keep-layout decision and exact remaining G04 blockers from current Woven, Polo, and CAD-rights evidence. No production mapping, acceptance, face, or status changes."
+    },
+    {
+      "id": "E-G04-S442-DECISION",
+      "kind": "decision",
+      "uri": "docs/PROJECT-DECISIONS.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Records the maintainer's decision to preserve S370 detached-band positions and retain all Woven BACK_FLAT holds; the S441 local-Y trial is not authorized for implementation."
     }
   ]
 }

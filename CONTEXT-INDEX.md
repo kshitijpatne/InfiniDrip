@@ -77,6 +77,7 @@ only through an explicitly admitted, linked Epic packet.
 ## Current status documents
 
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
+- `docs/research/epic17/S442-current-v02-v03-blocker-disposition/G04-V02-V03-BLOCKER-DISPOSITION-S442.md` — latest G04 blocker disposition. Maintainer keeps S370 band positions and all 28 Woven back holds; Woven fronts remain held by the prior continuous-neckline decision. Current Polo 17-option evidence has no local output blocker but no face is accepted ahead of all-seven V02. V03 remains gated on V02, rights-cleared receiver/profile, and actual round-trip fixtures. Board exit revision 2657; Control Center tests pass 42/42; tally remains 56 accepted / 90 held.
 - `docs/research/epic17/S441-woven-hold-boundary/G04-V02-WOVEN-HOLD-BOUNDARY-S441.md` and adjacent diagnostics — latest EPIC-17/G04 evidence; its local-Y Woven trial clears geometry in 28 options only after moving the fixed S370 band details outward and expanding the frame. No implementation is authorized by the trial; all Woven/Polo holds remain. Board exit replay is 2645→2652 and Control Center tests pass 42/42. See the packet for the specific maintainer decision, Opus attempt limit, reproduced S440 build blocker and rendered evidence.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in

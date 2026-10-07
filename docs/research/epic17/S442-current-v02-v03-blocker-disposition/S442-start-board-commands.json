@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2652,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S442-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S442-current-v02-v03-blocker-disposition/G04-V02-V03-BLOCKER-DISPOSITION-S442.md",
+      "verified": true,
+      "note": "Begins a documentation-only reconciliation of current V02/V03 blockers and records the maintainer's S441 choice to retain the S370 band layout and all Woven back holds. No implementation or acceptance change."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2653,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S442: record the maintainer's response to S441—keep the approved S370 band positions and retain all Woven back holds. Reconcile current V02/V03 blockers from S417/S437, S436/S435, S421 and S441 without repeating those audits; preserve 56 accepted / 90 held, all-seven V02, and V02-before-V03. Documentation/board only."
+  }
+]
