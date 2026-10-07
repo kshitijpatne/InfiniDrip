@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2245,
-  "updatedAt": "2026-10-07T05:37:16.267Z",
+  "revision": 2257,
+  "updatedAt": "2026-10-07T05:55:11.930Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -558,7 +558,9 @@
         "E-G04-S399-OUTPUT-DIFF",
         "E-G04-S399-EXIT",
         "E-G04-S400-MATRIX",
-        "E-G04-S400-EXIT"
+        "E-G04-S400-EXIT",
+        "E-G04-S401-MATRIX",
+        "E-G04-S401-EXIT"
       ]
     },
     {
@@ -4020,6 +4022,11 @@
           "at": "2026-10-07T05:37:16.267Z",
           "actor": "Codex",
           "text": "S400's exact approved W marker treatment is implemented and verified in all 28 Woven options. No view accepted; all-seven V02, V02-before-V03 and CAD rights/round-trip gates remain unchanged. Proceed to the next remaining V02 blocker from the S400 packet."
+        },
+        {
+          "at": "2026-10-07T05:55:11.930Z",
+          "actor": "Codex",
+          "text": "S401's paired Woven output matrix, actual rendered evidence, and closeout packet are linked. Renderer emission is distinct from V02 acceptance; all seven-recipe criteria, every current hold, and the V02-before-V03/CAD evidence gates remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -4400,7 +4407,9 @@
         "E-G04-S399-START",
         "E-G04-S399-EXIT",
         "E-G04-S400-START",
-        "E-G04-S400-EXIT"
+        "E-G04-S400-EXIT",
+        "E-G04-S401-START",
+        "E-G04-S401-EXIT"
       ],
       "flagKey": null
     },
@@ -8398,6 +8407,11 @@
           "at": "2026-10-07T05:37:16.228Z",
           "actor": "Codex",
           "text": "S400 implements only the approved Woven W ring-under-strokes treatment and (+0.2121,+0.2121 cm) glyph offset. Actual renderer/Chromium passes 28/28 options; path/colorway identity and full POM schedule are unchanged; build, export/DXF, focused 100% renderer coverage and Control Center checks pass. All Woven and Polo faces remain held, including the independent back crossing and Polo residual."
+        },
+        {
+          "at": "2026-10-07T05:55:11.888Z",
+          "actor": "Codex",
+          "text": "S401 confirms the approved S400 W marker removes 25 prior Woven front TEXT_COLLISION emissions across the same 28 options. It releases zero faces: the source-continuous back sleeve-hem crossing remains unsupported for view separation, all 56 Woven faces remain held, and the 34 Polo faces remain held at 0.68 cm vs the 0.25 cm gate."
         }
       ],
       "evidenceRefs": [
@@ -8910,7 +8924,13 @@
         "E-G04-S400-LIMIT-DETAIL",
         "E-G04-S400-WHOLE",
         "E-G04-S400-SCHEDULE",
-        "E-G04-S400-EXIT"
+        "E-G04-S400-EXIT",
+        "E-G04-S401-START",
+        "E-G04-S401-MATRIX",
+        "E-G04-S401-FRONT-DETAIL",
+        "E-G04-S401-BACK-WHOLE",
+        "E-G04-S401-CROSSING",
+        "E-G04-S401-EXIT"
       ],
       "flagKey": null
     },
@@ -15071,6 +15091,60 @@
       "sha256": null,
       "verified": true,
       "note": "Implements exact approved S396 view-only W marker treatment and passes focused 100% changed-module coverage, actual 28-option renderer/Chromium evidence, rendered review, build, protected export/DXF checks, Control Center command suite, and diff check. All V02 holds/gates remain."
+    },
+    {
+      "id": "E-G04-S401-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S401-woven-paired-live-output-review/G04-V02-WOVEN-PAIRED-LIVE-OUTPUT-REVIEW-S401.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins 28-configuration paired Woven front/back actual live-compiler output review after S400 integrates the approved W marker mapping; acceptance and all held faces remain unchanged."
+    },
+    {
+      "id": "E-G04-S401-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S401-woven-paired-live-output-review/woven-paired-live-output-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Same-revision current production renderer/Chromium matrix covers 28 Woven configurations and 56 front/back requests, reconciles S372's prior 25 front collision holds, verifies current front W/full schedule, and matches paired back source/colorway identities 28/28. Renderer emission is not face acceptance; all 56 remain held."
+    },
+    {
+      "id": "E-G04-S401-FRONT-DETAIL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S401-woven-paired-live-output-review/rendered/woven-shirt-default-front_flat-W-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium default Woven front detail confirms the approved keyed W treatment and current front output; no face is accepted."
+    },
+    {
+      "id": "E-G04-S401-BACK-WHOLE",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S401-woven-paired-live-output-review/rendered/woven-shirt-default-back_flat-whole.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium whole back confirms paired output and the still-visible central source-continuous sleeve-hem crossing; the face remains held."
+    },
+    {
+      "id": "E-G04-S401-CROSSING",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S401-woven-paired-live-output-review/rendered/woven-shirt-default-back_flat-center-crossing.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium crossing detail corroborates S381: source provides no break, gap, or over-under information for a truthful view separation; keep all 28 Woven backs held."
+    },
+    {
+      "id": "E-G04-S401-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S401-woven-paired-live-output-review/G04-V02-WOVEN-PAIRED-LIVE-OUTPUT-REVIEW-S401.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Completes paired 28-option Woven current-renderer reconciliation and rendered inspection. S400 clears the prior recurring front emission collision; all 56 Woven and 34 Polo V02 faces remain held and all acceptance gates are unchanged."
     }
   ]
 }

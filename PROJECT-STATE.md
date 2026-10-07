@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 400 Woven W marker implemented and verified; V02 remains open
+## EPIC-17 / G04 current work — Slice 401 paired Woven live-output review complete; V02 remains open
+
+S401 began at 2026-10-07 05:44:41 UTC from clean S400 `1952860e16d68af07b04814d294df035aa4aa4b8` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S400 was highest; S401 was uniquely reserved. Board revision 2245 recorded the prior exit; validated S401 start replay advanced it to 2247. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Usage at start: primary 6%, weekly 1%, ordinary work allowed.
+
+S401 reconciled the production live renderer's paired Woven outputs across the exact 28 S363 option rows at `live-draft:woven-shirt:14:14`. It emits 28/28 front and 28/28 back requests with zero compile, renderer, or browser errors. Compared with S372's UI replay (3 fronts emitted, 25 held, 28 backs emitted), S400's exact approved W treatment removes the 25 recurring front `TEXT_COLLISION` rows. This is renderer-emission evidence only, not V02 face acceptance. The current front keeps the exact W source POM and full schedule in 28/28. Back path/colorway identity matches S372 in 28/28, including detached sleeve/band outlines and band-fold marks. Actual Chromium whole/detail images were inspected for default and limiting cases. The central continuous sleeve-hem X remains visible in default, yokeDepth-min, and yokeDepth-max backs. S381's pattern-specific evidence does not support a gap or over-under convention; all 28 back views remain held.
+
+S401 produces zero face releases: all 56 Woven faces remain held pending integrated all-seven V02 geometry, joins, crossings, overlap, readability and option gates; all 34 Polo faces remain held at the 0.68 cm residual against the unchanged 0.25 cm gate. No acceptance, hold, source geometry, criteria, or V03 gate changed. Evidence is in `docs/research/epic17/S401-woven-paired-live-output-review/`. Focused paired replay, matrix consistency, Chromium output review, Control Center tests and `git diff --check` pass. This evidence-only slice does not require a full coverage/build/export rerun; reserve the unchanged global gates for the settled integrated Epic candidate.
+
+S401 elapsed approximately 10m (05:44:41–05:54 UTC): implementation 0m; focused replay and matrix reconciliation 4m; rendered generation/review 3m; durable records, validated board replay and Control Center closeout 3m; external-agent waits 0m; maintainer-decision time 0m. Validated board start/exit revisions: 2245→2247 / 2247→2257. The current goal record remains active and its objective matches the admitted EPIC-17/G04 objective; it remains needed and was not changed.
+
+**Next action:** refresh branch/state/board/usage and prioritize the highest-frequency remaining G04 blocker without relaxing any face hold. Preserve the Woven back-crossing and Polo residual holds; continue the all-seven V02, rights-qualified V03, final-output, integrated-gate, PR, merge, ancestry and deployment sequence.
+
+## Prior boundary — Slice 400 Woven W marker implemented and verified; V02 remains open
 
 S400 began at 2026-10-07 05:30:14 UTC from clean S399 `220291fd90f44b922f54d29cdcfb90daa311e6e6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S399 was the highest landed slice; S400 was uniquely reserved. Board revision 2232 recorded S399 exit; validated S400 start replay advanced it to 2234. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Usage at start: primary 3%, weekly 0%, ordinary work allowed.
 
