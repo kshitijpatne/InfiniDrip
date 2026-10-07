@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 412 Polo H station ring layer trial; V02 remains open
+## EPIC-17 / G04 current work — Slice 413 Polo H callout routing trial; V02 remains open
+
+S413 started 2026-10-07 08:21:12 UTC from clean S412 `d422f033b2ee5a19e2d63420fbf32d508481593c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 412; S413 is uniquely reserved. Canonical board revision 2388 advanced to 2391 through validated start replay. EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. The goal remains active and matches admitted V01→V02→V03 through safe merge; usage at start 37% primary / 6% weekly.
+
+S413 screened eight shared H ring/glyph translations (four diagonals at 0.8 and 1.2 cm) with a direct leader from exact source `(7,0)` across all 17 S399 Polo options. At the anchor the front silhouette is 0.0012 cm away and the independent outer-stand outline is 0.0476 cm away; the stitch graph does not encode a join. All down-right/down-left leaders cross source collar/stand paths; for `west-down-0.8`, 49 contacts span `outerStand:outline`, `underCollar:outline` and `upperCollar:outline`. Upper routes avoid further paths, but the approved relative H glyph overlaps shoulder source labels in 15/17 (west-up) and 2/17 (east-up). No candidate passes all options, so none is proposed for implementation. All 34 Polo faces remain held.
+
+Actual Chromium default, `standFrontRise=max`, and `standFrontRise=min` crops show the rejected `west-down-0.8` trial; the moved marker separates from the source cluster but its leader enters the collar/stand stack. Corrected source-path, mark, and label matrix is `docs/research/epic17/S413-polo-h-callout-routing-trial/h-route-candidate-matrix.json`. No production code or acceptance changed. The separate 0.68 cm sleeve residual still exceeds 0.25 cm in 34/34 faces. Keep the all-seven criterion and all G04 gates. S412 found the prior ring-layer order trial visually ineffective and remains documented immediately below.
+
+Validated board exit replay advances 2391→2402; Control Center tests and diff check pass in packet. No global gate due without production code. All 56 Woven views remain held, including the separate S410 neckline question; the approved collar-over-plackets order is already in S406. Elapsed approximately 7m (08:21:12–08:28:12 UTC): source/topology and candidate design 1m; eight-route × 17-option screen 3m; rendered review 1m; durable packet/state/validated-board closeout and focused Control Center verification 2m; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. Packet: `docs/research/epic17/S413-polo-h-callout-routing-trial/`.
+
+**Next action:** continue from refreshed G04 state on the next repeated, independently actionable V02 blocker. Do not implement a failed H candidate or release Polo faces.
+
+## Prior boundary — Slice 412 Polo H station ring layer trial; V02 remains open
 
 S412 started 2026-10-07 08:16:12 UTC from clean S411 `5d9a9d27dd38688a81288c044765cbab1d8c32a7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 411; S412 is uniquely reserved. Canonical board revision 2375 advanced to 2378 through validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The active goal remains needed and matches admitted V01→V02→V03 through final gates and safe merge; usage at start was 36% primary / 6% weekly.
 

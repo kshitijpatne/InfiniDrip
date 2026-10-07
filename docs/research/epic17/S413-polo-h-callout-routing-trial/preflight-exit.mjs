@@ -1,0 +1,18 @@
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { executeBoardCommand } from '../../../../ops/control-center/board-store.mjs';
+
+const commands = JSON.parse(await readFile(new URL('./S413-exit-board-commands.json', import.meta.url), 'utf8'));
+const board = JSON.parse(await readFile(new URL('../../../../ops/control-center/data/board.json', import.meta.url), 'utf8'));
+const scratch = await mkdtemp(join(tmpdir(), 's413-exit-preflight-'));
+const boardPath = join(scratch, 'board.json');
+try {
+  await writeFile(boardPath, `${JSON.stringify(board, null, 2)}\n`, 'utf8');
+  for (const command of commands) {
+    const next = await executeBoardCommand(command, { boardPath });
+    console.log(`${command.type}: clone revision ${next.revision}`);
+  }
+} finally {
+  await rm(scratch, { recursive: true, force: true });
+}
