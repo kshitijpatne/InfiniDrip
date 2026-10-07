@@ -1,0 +1,626 @@
+{
+  "revision": "live-draft:woven-shirt:14:14",
+  "options": 28,
+  "method": "32-segment cubic tessellation from actual Chromium SVG; proper finite-segment crossings excluding endpoints",
+  "pairCrossingHistogram": {
+    "0": 28
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "pairCrossings": 0,
+      "pairCoordinates": [],
+      "perBody": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sleeveCrossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "frame": true
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2643,
-  "updatedAt": "2026-10-07T20:50:18.968Z",
+  "revision": 2652,
+  "updatedAt": "2026-10-07T21:21:11.839Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -9137,6 +9137,16 @@
           "at": "2026-10-07T20:50:18.937Z",
           "actor": "Codex",
           "text": "S440 rejects a source-compatible Woven BACK_FLAT sleeve reorientation under the approved S344 cap mapping and S370 side-gutter details. Across 3,600 0.1-degree rotations and all 28 exact options, 546 pass frame/band/reflected-pair geometry but zero also avoid the same-revision back/yoke fills. The corrected segment/polygon test confirms the result. No candidate survived to render; holds and all-seven acceptance remain unchanged."
+        },
+        {
+          "at": "2026-10-07T20:53:34.600Z",
+          "actor": "Codex",
+          "text": "Start S441: verify whether the specific prior local-Y Woven sleeve reflection hypothesis can preserve exact cap/underarm/band relationships and all 28 outputs, using the current S440 commit in a separate read-only Opus 5.5 worktree. Preserve all holds and V02/V03 gates; no production changes authorized."
+        },
+        {
+          "at": "2026-10-07T21:21:11.839Z",
+          "actor": "Codex",
+          "text": "S441 closes with no production changes. The local-Y trial clears measured sleeve/back-body geometry on all 28 options, but the fixed S370 band-detail locations collide in 28/28; clearing them moves each detail outward 20.57–22.43 cm and expands the frame 41.15–44.86 cm. Source does not encode the view orientation. All 56 Woven and 34 Polo faces remain held pending the bounded layout decision; all-seven V02 and V02-before-V03 stay unchanged."
         }
       ],
       "evidenceRefs": [
@@ -9786,7 +9796,14 @@
         "E-G04-S440-START",
         "E-G04-S440-EXIT",
         "E-G04-S440-MATRIX",
-        "E-G04-S440-CLAUDE"
+        "E-G04-S440-CLAUDE",
+        "E-G04-S441-START",
+        "E-G04-S441-EXIT",
+        "E-G04-S441-RENDER-MATRIX",
+        "E-G04-S441-GEOMETRY",
+        "E-G04-S441-RENDER-CROP",
+        "E-G04-S441-OPUS-ATTEMPT",
+        "E-G04-S441-BUILD-BASELINE"
       ],
       "flagKey": null
     },
@@ -17212,6 +17229,69 @@
       "sha256": null,
       "verified": true,
       "note": "Exact Claude Opus 5.5 xhigh read-only result corroborates no rigid placement; stale-worktree/incomplete-context/no-web-search limitations are recorded and the report is not treated as primary evidence."
+    },
+    {
+      "id": "E-G04-S441-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S441-woven-hold-boundary/G04-V02-WOVEN-HOLD-BOUNDARY-S441.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a diagnostic-only source/topology check of the specific S431 local-Y sleeve reflection hypothesis and reconciles remaining Woven V02 holds; no implementation or gate change authorized."
+    },
+    {
+      "id": "E-G04-S441-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S441-woven-hold-boundary/G04-V02-WOVEN-HOLD-BOUNDARY-S441.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Closes S441's source/topology and actual-renderer check of the Woven local-Y sleeve proposal; reports the all-28 geometry pass and the S370 fixed-band-layout conflict. No production mapping, face release, or gate change."
+    },
+    {
+      "id": "E-G04-S441-RENDER-MATRIX",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S441-woven-hold-boundary/local-y-candidate-rendered/matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only actual Chromium matrix: exact Woven revision 14:14, 28 options / 56 faces, issue-free emission, full D schedule, and preserved front output. Candidate is not production code and does not release faces."
+    },
+    {
+      "id": "E-G04-S441-GEOMETRY",
+      "kind": "test",
+      "uri": "docs/research/epic17/S441-woven-hold-boundary/local-y-candidate-geometry.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Corrected actual-SVG cubic/polygon analysis: no sleeve-pair or sleeve/body crossings, fill penetration, or frame failure in 28 options; quantifies S370 band collisions, required outward relocation, and frame expansion."
+    },
+    {
+      "id": "E-G04-S441-RENDER-CROP",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S441-woven-hold-boundary/local-y-candidate-rendered/png/woven-shirt-default-back_flat-sleeve-band-closeup.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed actual Chromium closeup of the diagnostic Woven default back: candidate sleeve outlines clear one another and the relocated, labeled source-scale detached band; image demonstrates the material outward-layout change."
+    },
+    {
+      "id": "E-G04-S441-OPUS-ATTEMPT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S441-woven-hold-boundary/S441-claude-opus-5-5-attempt.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Required exact-model xhigh attempt stopped at the CLI session limit before output or WORK FINISHED; no external-model result is claimed and no substitute was used."
+    },
+    {
+      "id": "E-G04-S441-BUILD-BASELINE",
+      "kind": "build",
+      "uri": "docs/research/epic17/S441-woven-hold-boundary/S441-build-baseline-failure.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Records TypeScript build errors reproduced after restoring the diagnostic checkout to exact S440 source; blocker predates S441 trial and must be addressed at integrated candidate gate."
     }
   ]
 }

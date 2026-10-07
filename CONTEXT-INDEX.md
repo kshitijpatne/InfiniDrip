@@ -77,6 +77,7 @@ only through an explicitly admitted, linked Epic packet.
 ## Current status documents
 
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
+- `docs/research/epic17/S441-woven-hold-boundary/G04-V02-WOVEN-HOLD-BOUNDARY-S441.md` and adjacent diagnostics — latest EPIC-17/G04 evidence; its local-Y Woven trial clears geometry in 28 options only after moving the fixed S370 band details outward and expanding the frame. No implementation is authorized by the trial; all Woven/Polo holds remain. Board exit replay is 2645→2652 and Control Center tests pass 42/42. See the packet for the specific maintainer decision, Opus attempt limit, reproduced S440 build blocker and rendered evidence.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.
