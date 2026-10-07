@@ -74,7 +74,7 @@ No implementation or acceptance change. Preserve 56 accepted / 90 held across 73
 
 Elapsed 2026-10-07 21:29:11–22:32:38 UTC (1h03m27s): implementation 0m; focused source/formula and evidence review about 4m; board/docs closeout and focused Control Center verification about 4m; external-model work 17m14s; waiting for the stated reset about 36m46s; maintainer-decision time 0m during S443. Values are approximate. Two local CLI setup failures were preserved and diagnosed before the single successful research run.
 
-## Deferred exact-model attempt
+## Deferred exact-model attempt — completed
 
-- On 2026-10-07 17:34:20 EDT, launched `run-after-claude-reset.ps1` as hidden PowerShell PID 75608. It waits until 18:10 EDT (the CLI-reported session reset), then invokes only `claude-opus-5-5` at xhigh in plan/read-only mode with Read/Grep/Glob/WebSearch/WebFetch. It writes the raw result and attempt metadata into this packet directory.
-- No result is available before the scheduled reset. Codex must confirm the process completed, inspect `S443-claude-attempt-status.json`, and require the exact standalone `WORK FINISHED` line before reviewing any research claims. If the CLI remains unavailable, preserve and record that exact outcome without model substitution.
+- On 2026-10-07 17:34:20 EDT, launched `run-after-claude-reset.ps1` as hidden PowerShell PID 75608. It waited until the CLI-reported 18:10 EDT reset, then made the exact `claude-opus-5-5` xhigh request in plan/read-only mode with Read/Grep/Glob/WebSearch/WebFetch.
+- The first scheduled invocation exposed a local CLI argument-parsing error; the follow-up without `--bare` authenticated and completed 2026-10-07 18:11:06–18:28:20 EDT, exit 0, with the required standalone `WORK FINISHED`. The final response is in `S443-claude-output.txt`; `S443-claude-attempt-status.json` records the exact settings and completion. Both initial diagnostics remain separately preserved. Codex verified source/topology and retained 28-option evidence before recording the S443 exit.

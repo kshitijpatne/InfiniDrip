@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2663,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S444-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S444-build-baseline-typecheck/G04-BUILD-BASELINE-REPAIR-S444.md",
+      "verified": true,
+      "note": "Starts an isolated diagnosis/repair of the previously reproduced TypeScript build baseline failure required for the integrated G04 PR gate; no garment behavior or V02/V03 criteria change."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2664,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S444 from clean S443. Diagnose the saved S441 baseline TypeScript build diagnostics against current source, fix only the compiler/type defects, and preserve runtime/output behavior, protected identities, all garment holds, all-seven V02 and V02-before-V03. Also correct S443's stale final scheduled-attempt note to match its completed authenticated Opus result."
+  }
+]

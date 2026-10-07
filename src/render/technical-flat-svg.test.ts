@@ -153,7 +153,7 @@ describe("renderTechnicalFlatSvg", () => {
     expect(parsed.querySelector("[data-schedule-for='pom-neck-width']")?.textContent)
       .toBe("H  Neck width: 14 cm (±0.2 cm)");
 
-    const unreadable = { ...hCallout, presentation: { ...hCallout.presentation, key: "H",
+    const unreadable = { ...hCallout, presentation: { kind: "keyed-marker-schedule" as const, ...hCallout.presentation, key: "H",
       markerRadiusCm: 0.22, markerStyle: "segmented-open-halo" as const } };
     const allAround = Array.from({ length: 4 }, (_, index) => {
       const angle = index * Math.PI / 2;

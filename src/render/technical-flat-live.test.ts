@@ -192,7 +192,8 @@ describe("projectPoloSleeveFillClosures", () => {
     expect(closures.map((closure) => closure.commands[closure.commands.length - 1])).toEqual([
       { op: "line", point: { x: 4.5, y: 2 } }, { op: "line", point: { x: 14.5, y: 2 } },
     ]);
-    const fillBoundaries = primitives.filter((primitive) => primitive.kind === "path"
+    const allPrimitives: TechnicalFlatPrimitive[] = primitives;
+    const fillBoundaries = allPrimitives.filter((primitive): primitive is FlatPathPrimitive => primitive.kind === "path"
       && primitive.colorwayBoundaryOnly === true && primitive.source.sourceId.includes(":armhole-boundary:"));
     expect(fillBoundaries).toHaveLength(2);
     for (const boundary of fillBoundaries) {
@@ -563,7 +564,8 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(result.issues).toEqual([]);
     expect(result.callouts).toHaveLength(12);
     expect(result.callouts.map((callout) => callout.presentation?.key)).toEqual(identities.map(([, key]) => key));
-    expect(result.callouts.every((callout) => callout.presentation?.markerStyle
+    expect(result.callouts.every((callout) => callout.presentation !== undefined
+      && callout.presentation.markerStyle
       === (callout.presentation.key === "H" ? "segmented-open-halo" : "open-halo")
       && callout.presentation.markerRadiusCm === 0.22)).toBe(true);
     expect(result.callouts.map((callout) => callout.text)).toEqual(callouts.map((callout) => callout.text));

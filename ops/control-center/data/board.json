@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2663,
-  "updatedAt": "2026-10-07T22:32:08.930Z",
+  "revision": 2667,
+  "updatedAt": "2026-10-07T22:39:22.451Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -9167,6 +9167,16 @@
           "at": "2026-10-07T22:32:08.930Z",
           "actor": "Codex",
           "text": "S443 exact-model research and independent source/output review found no source-backed Woven front/back fix under the current maintainer decisions. The front's continuous collar contour crosses the preserved continuous neckline in 28/28 options (56 contacts); the back's only rendered crossing-free local-Y pose collides with both fixed S370 band details in 28/28. Preserve all 56 Woven holds, all 34 Polo holds, all-seven V02, V02-before-V03, and the unchanged acceptance criteria. No implementation or face release. See the S443 exit packet and exact-model result."
+        },
+        {
+          "at": "2026-10-07T22:35:32.117Z",
+          "actor": "Codex",
+          "text": "Start S444 from clean S443. Diagnose the saved S441 baseline TypeScript build diagnostics against current source, fix only the compiler/type defects, and preserve runtime/output behavior, protected identities, all garment holds, all-seven V02 and V02-before-V03. Also correct S443's stale final scheduled-attempt note to match its completed authenticated Opus result."
+        },
+        {
+          "at": "2026-10-07T22:39:22.451Z",
+          "actor": "Codex",
+          "text": "S444 clears the reproduced TypeScript build blocker using explicit primitive-union narrowing and test fixture guards only. technical-flat-live/svg focused suites pass 87/87; technical-flat-svg changed-module coverage is 100% statements/branches/functions/lines; npm run build passes; protected export identity/regression tests pass 17/17. No runtime/rendered output, geometry, mapping, face or acceptance change. Woven holds from S443, all-seven V02 and V02-before-V03 remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -9830,7 +9840,9 @@
         "E-G04-S443-START",
         "E-G04-S443-EXIT",
         "E-G04-S443-CLAUDE-RESULT",
-        "E-G04-S443-CLAUDE-STATUS"
+        "E-G04-S443-CLAUDE-STATUS",
+        "E-G04-S444-START",
+        "E-G04-S444-EXIT"
       ],
       "flagKey": null
     },
@@ -17382,6 +17394,24 @@
       "sha256": null,
       "verified": true,
       "note": "Confirms exact model, xhigh CLI argument, plan mode, authenticated final run interval, exit status 0 and WORK FINISHED; earlier CLI setup errors are separately retained."
+    },
+    {
+      "id": "E-G04-S444-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S444-build-baseline-typecheck/G04-BUILD-BASELINE-REPAIR-S444.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts an isolated diagnosis/repair of the previously reproduced TypeScript build baseline failure required for the integrated G04 PR gate; no garment behavior or V02/V03 criteria change."
+    },
+    {
+      "id": "E-G04-S444-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S444-build-baseline-typecheck/G04-BUILD-BASELINE-REPAIR-S444.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Repairs the saved S441 baseline TypeScript errors without runtime/output changes; focused renderer coverage is 100%, the build passes, and protected export identity regressions pass. All G04 holds and V02/V03 gates remain."
     }
   ]
 }

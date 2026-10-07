@@ -3,6 +3,8 @@ import {
   validateTechnicalFlat,
   type FlatPathCommand,
   type FlatPoint,
+  type FlatCirclePrimitive,
+  type FlatPointMarkPrimitive,
   type TechnicalFlatPrimitive,
   type TechnicalFlatView,
   type TechnicalFlatLayer,
@@ -545,9 +547,9 @@ function segmentedPoloMarker(view: TechnicalFlatView, center: FlatPoint, radius:
       && primitive.source.revisionId === view.revisionId
       && primitive.source.sourceId.startsWith("pattern:polo:")
       ? flattenedPathSegments(primitive.commands) : []);
-  const circles = view.primitives.filter((primitive) => primitive.kind === "circle"
+  const circles = view.primitives.filter((primitive): primitive is FlatCirclePrimitive => primitive.kind === "circle"
     && primitive.source.revisionId === view.revisionId && primitive.source.sourceId.startsWith("pattern:polo:"));
-  const marks = view.primitives.filter((primitive) => primitive.kind === "mark"
+  const marks = view.primitives.filter((primitive): primitive is FlatPointMarkPrimitive => primitive.kind === "mark"
     && primitive.source.revisionId === view.revisionId && primitive.source.sourceId.startsWith("pattern:polo:"));
   const buttonholeSegments = marks.filter((primitive) => primitive.markKind === "buttonhole")
     .flatMap((primitive) => roundedButtonholeSegments(primitive.at));
