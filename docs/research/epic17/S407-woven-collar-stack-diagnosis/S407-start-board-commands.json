@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2329,"itemId":"G04-V02","evidence":{"id":"E-G04-S407-START","kind":"document","uri":"docs/research/epic17/S407-woven-collar-stack-diagnosis/G04-V02-WOVEN-COLLAR-STACK-DIAGNOSIS-S407.md","verified":true,"note":"Starts exact-source/current-output diagnosis of remaining repeated Woven collar-stack contacts after S406; S381's back-hem no-gap hold is settled and not reopened."}},
+  {"type":"addEpicEvidence","expectedRevision":2330,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S407-START"},
+  {"type":"addComment","expectedRevision":2331,"itemId":"G04-V02","actor":"Codex","text":"S407 uses the exact S406 28-option outputs to diagnose remaining Woven front collar-stack contacts against source edges, transforms and stitch topology. The approved collar-over-plackets mapping remains unchanged; all views stay held."}
+]
