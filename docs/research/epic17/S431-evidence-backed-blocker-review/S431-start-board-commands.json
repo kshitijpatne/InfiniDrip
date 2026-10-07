@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2544,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S431-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S431-evidence-backed-blocker-review/G04-V02-EVIDENCE-BACKED-BLOCKER-REVIEW-S431.md",
+      "verified": true,
+      "note": "Starts a bounded Claude Opus 5.5 read-only evidence review of the exact repeated Woven/Polo V02 blockers; preserves all-seven acceptance, current holds, source geometry and the 0.25 cm gate."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2545,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S431 from clean S430 518fdff. Use Claude Opus 5.5 in a separate read-only worktree to reconcile exact pattern source and retained option/render evidence for the Woven neckline/collar contacts, Woven sleeve-hem crossing, and Polo eased-sleeve residual. Seek only verifiable pattern-specific fixes; no speculation or code edits. Preserve 56 Woven/34 Polo holds, all-seven acceptance and the fixed 0.25 cm gate."
+  }
+]

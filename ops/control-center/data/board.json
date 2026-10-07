@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2544,
-  "updatedAt": "2026-10-07T16:53:57.138Z",
+  "revision": 2550,
+  "updatedAt": "2026-10-07T17:46:23.817Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -625,7 +625,8 @@
         "E-G04-S427-EXIT",
         "E-G04-S428-EXIT",
         "E-G04-S429-EXIT",
-        "E-G04-S430-EXIT"
+        "E-G04-S430-EXIT",
+        "E-G04-S431-EXIT"
       ]
     },
     {
@@ -4237,6 +4238,11 @@
           "at": "2026-10-07T16:53:57.138Z",
           "actor": "Codex",
           "text": "S430 provides a current Woven-output review of the durable G04 manual findings without closing any finding or expanding scope. All 90 held views remain; V02 stays In Progress and V03 remains gated."
+        },
+        {
+          "at": "2026-10-07T17:46:23.817Z",
+          "actor": "Codex",
+          "text": "S431 closes the bounded research slice without clearing a V02 blocker or weakening scope. V03 remains gated by all-seven V02 and a rights-cleared receiver/profile plus round-trip evidence."
         }
       ],
       "evidenceRefs": [
@@ -8909,6 +8915,16 @@
           "at": "2026-10-07T16:53:57.088Z",
           "actor": "Codex",
           "text": "S430 reviewed MQF-004–007/011/012/015 against S429's current Woven output. MQF-004–007 are partial; MQF-011 is not covered; MQF-012 is not addressed by this Woven audit; MQF-015 remains a V03 review. All remain To be reviewed. Post-G17 deferrals, all 56 Woven/34 Polo holds, all-seven V02 and V02-before-V03 are preserved; no remediation scope or status change."
+        },
+        {
+          "at": "2026-10-07T17:15:27.888Z",
+          "actor": "Codex",
+          "text": "Start S431 from clean S430 518fdff. Use Claude Opus 5.5 in a separate read-only worktree to reconcile exact pattern source and retained option/render evidence for the Woven neckline/collar contacts, Woven sleeve-hem crossing, and Polo eased-sleeve residual. Seek only verifiable pattern-specific fixes; no speculation or code edits. Preserve 56 Woven/34 Polo holds, all-seven acceptance and the fixed 0.25 cm gate."
+        },
+        {
+          "at": "2026-10-07T17:46:23.764Z",
+          "actor": "Codex",
+          "text": "S431 reconciles exact-model read-only findings with current source and retained output. No verified Woven front/back fix is established; the local-Y reflection is an unverified view candidate. Polo's exact S351 eased-seam residual repeats at 0.677835 cm across 17 options; a narrowly scoped residual exemption requires approval. All 56 Woven/34 Polo faces remain held and the numeric 0.25 cm limit/all-seven/V02-before-V03 gates are unchanged."
         }
       ],
       "evidenceRefs": [
@@ -9530,7 +9546,9 @@
         "E-G04-S429-MARKER-RENDERED",
         "E-G04-S429-SCHEDULE-RENDERED",
         "E-G04-S430-START",
-        "E-G04-S430-EXIT"
+        "E-G04-S430-EXIT",
+        "E-G04-S431-START",
+        "E-G04-S431-EXIT"
       ],
       "flagKey": null
     },
@@ -16704,6 +16722,24 @@
       "sha256": null,
       "verified": true,
       "note": "Reconciles all seven mapped manual findings against S429 current Woven output; findings stay To be reviewed, post-G17/V03 deferrals and every V02 hold/gate remain intact."
+    },
+    {
+      "id": "E-G04-S431-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S431-evidence-backed-blocker-review/G04-V02-EVIDENCE-BACKED-BLOCKER-REVIEW-S431.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded Claude Opus 5.5 read-only evidence review of the exact repeated Woven/Polo V02 blockers; preserves all-seven acceptance, current holds, source geometry and the 0.25 cm gate."
+    },
+    {
+      "id": "E-G04-S431-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S431-evidence-backed-blocker-review/G04-V02-EVIDENCE-BACKED-BLOCKER-REVIEW-S431.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles exact Opus 5.5 repository research with current Woven/Polo source and retained output; establishes no verified Woven remedy, an unapproved Polo residual-applicability decision, and preserves all holds and G04 gates."
     }
   ]
 }
