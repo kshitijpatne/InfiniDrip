@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2679,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S448-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md",
+      "verified": true,
+      "note": "Starts a documentation-only reconciliation of current Woven V02 blockers, accepted decisions and stale board summaries; no scope, status or hold changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2680,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S448 verifies the S447 boundary before reconciling the Epic/V02 summaries: the two remaining V02 release blockers are 28 Woven front neckline/collar contacts under the preserved continuous seam and 28 Woven back sleeve crossings under fixed S370 band positions. All-seven V02 and V02-before-V03 remain unchanged."
+  }
+]

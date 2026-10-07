@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 448 reconciles current blocker summaries
+
+S448 started 2026-10-07 23:00:59 UTC from clean S447 commit `38c7deee6c636c823e4dfef7fcc76dd374663f71` on `codex/epic-17-g04`; refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Highest assigned slice was 447. Board revision 2679 at start; goal active and still matches V01→V02→V03 completion and safe merge. Usage was 48% primary / 22% weekly.
+
+S448 updates stale EPIC-17 and G04-V02 board descriptions to match the verified S443–S447 evidence. The remaining all-seven V02 blockers are 28 Woven front neckline/collar contacts under the maintainer-approved continuous body seam and 28 Woven back sleeve crossings with S370 band-detail positions fixed by maintainer decision. S443 found no source-backed view fix under those decisions; S447's 13-value taper matrix also found no viable source candidate. Polo has no current local output blocker in S436, but its 34 faces remain held under the all-seven gate. The integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. V01 Done, V02 In Progress, V03 Backlog; no face, acceptance criterion, or production behavior changed.
+
+Start/exit board commands were validated and replayed through the Control Center command layer, advancing revision 2679→2681→2686. Historical-description assertions initially failed after the summary refresh; S448 retained those tested phrases additively through validated board commands to revision 2699 and brought the EPIC summary card current as well. The affected `board.test.mjs` passes 18/18, the isolated server suite passes 4/4 after one parallel worker failure, and the final serial `npm run control-center:test` passes 42/42. Canonical board read/evidence validation, all S448 script syntax checks, and `git diff --check` pass. This documentation/board-only slice does not trigger production coverage/build/export gates. Packet: `docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md`.
+
+**Next action:** obtain maintainer authority for a bounded, proposal-only Woven source-design study. Do not edit production geometry, mapping, acceptance, or face status before presenting an exact proposal for approval. If no new authority is granted, preserve holds; V02 cannot pass and V03 cannot start under current constraints.
+
 ## EPIC-17 / G04 — Slice 447 bounded Woven sleeve-source candidate closed no-go
 
 S447 started 2026-10-07 22:47:58 UTC from clean S446 commit `28b9859de91590419124df688e4479fdceea37db` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 446; S447 is unique. Board start validated 2675→2677. EPIC-17/G04-V02 remain In Progress, V03 Backlog; tally 56 accepted / 90 held across 73 configurations / 146 faces. Goal remains active and unchanged.
