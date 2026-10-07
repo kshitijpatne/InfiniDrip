@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 433 Polo output blocker diagnosis
+## EPIC-17 / G04 current work — Slice 434 Polo J/FG keyed display
+
+S434 started 2026-10-07 18:53:38 UTC from clean S433 commit `9939c65b514be581fd6ff81ffa472c7b2d23f1bf` on `codex/epic-17-g04`; fetched `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 433; reserve 434. Board start replay advanced revision 2574→2577 through the validated command layer. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+The maintainer approved the exact 17-option S433 trial: key J at `outerStand.frontEnd` start for `Finished collar stand height`; one FG ring at `outerStand.frontNeckline` start for `Stand front rise`, grouped with distinct `finished-placket-width` and `front-neck-drop` full-text POM schedule rows. S434 implements this mapping; each POM keeps its original source anchor, target, identity, value, tolerance and full text. All 13 keyed rows appear in each of 17 fronts; production compile/render/Chromium passes 34/34 with zero tool errors. No pattern geometry or stitch graph changed.
+
+Source-path/mark clearance review found a J glyph collision with `underCollar.centerFront` in all 17 options and component outlines in all 17 (buttonPlacket 14, outerStand 2, front 1); FG has zero measured path/mark/key-text collisions. An in-memory scan tested 144 fixed J text offsets over all 17 current SVGs: 42 have positive sampled clearance. The `(0,+0.70 cm)` glyph offset (ring remains fixed at its exact approved station) has minimum clearance 0.301791 cm to outlines, 0.457401 cm to source marks and 1.446248 cm to other keys; rendered default/min/max crops are diagnostic only. This new glyph-offset decision is not yet approved or implemented. Keep all 34 Polo faces held. All 56 Woven faces also remain held for previously recorded crossings/contact conflicts; 90 total. No face was accepted by S434.
+
+Packet and evidence: `docs/research/epic17/S434-polo-j-fg-keyed-display/G04-V02-POLO-J-FG-KEYED-DISPLAY-S434.md`, `S434-marker-clearance-matrix.json`, and `S434-j-glyph-offset-scan.json`, plus `docs/PROJECT-DECISIONS.md`. Validated board start/exit/additive clearance revisions are 2574→2577→2583→2588; Control Center tests pass 42/42. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. V03 remains gated until all-seven V02, rights-cleared receiver/profile, and representative round-trip evidence pass. Full repository test/coverage/build/browser/output/export gates remain reserved for the settled integrated Epic candidate.
+
+**Next action:** get maintainer approval for the precise view-only J glyph offset, or retain J and all Polo faces held; then implement only if approved and rerun the full 17-option source-clearance/render review. Continue independent held-face V02 work without changing G04 acceptance. Do not begin V03 before all-seven V02 and rights/round-trip prerequisites pass.
+
+## EPIC-17 / G04 latest completed work — Slice 433 Polo output blocker diagnosis
 
 S433 started 2026-10-07 18:18:31 UTC from clean S432 `f5aa0d55fd2edfef6ab620caf8b2a13452c7341c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice at start was 432; S433 is the next unique slice. Board revision advanced 2558→2560 through the validated command layer. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
 

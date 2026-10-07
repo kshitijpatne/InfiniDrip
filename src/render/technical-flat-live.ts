@@ -446,6 +446,8 @@ export function mapPoloSourceCenteredKeyedCallouts(kind: TechnicalFlatViewKind, 
     ["pom:polo:finished-placket-length", "E", "flat:polo:FRONT_FLAT:component:buttonPlacket:outline", "pattern:polo:role:buttonPlacket:edge:attachmentRaw"],
     ["pom:polo:finished-placket-width", "FG", "flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine", "pattern:polo:mark:buttonPlacket:attachmentLine"],
     ["pom:polo:front-neck-drop", "FG", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:neckline"],
+    ["pom:polo:finished-collar-stand-height", "J", "flat:polo:FRONT_FLAT:component:outerStand:outline", "pattern:polo:role:outerStand:edge:frontEnd"],
+    ["pom:polo:stand-front-rise", "FG", "flat:polo:FRONT_FLAT:component:outerStand:outline", "pattern:polo:role:outerStand:edge:frontNeckline"],
     ["pom:polo:neck-width", "H", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:shoulder"],
     ["pom:polo:shoulder-seam", "H", "flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:shoulder"],
     ["pom:polo:finished-pointed-collar-leaf", "I", "flat:polo:FRONT_FLAT:component:upperCollar:outline", "pattern:polo:role:upperCollar:edge:centerBack"],
@@ -473,7 +475,35 @@ export function mapPoloSourceCenteredKeyedCallouts(kind: TechnicalFlatViewKind, 
         message: `Polo ${key} keyed schedule is missing a required source POM for this recipe revision.` });
     }
   }
-  return { callouts: mapped, issues };
+  const fgIds = ["pom:polo:finished-placket-width", "pom:polo:front-neck-drop", "pom:polo:stand-front-rise"];
+  const fgCallouts = fgIds.map((sourceId) => callouts.filter((callout) => callout.source.sourceId === sourceId));
+  const fgRequired = fgIds.some((sourceId) => requiredPomSourceIds.includes(sourceId));
+  const fgPresent = fgCallouts.every((matches) => matches.length === 1);
+  if ((fgRequired || fgCallouts.some((matches) => matches.length > 0)) && !fgPresent) {
+    issues.push({ stage: "pom", sourceId: "pom:polo:fg-schedule-group",
+      message: "The approved Polo FG display requires exactly one same-revision placket-width, front-neck-drop, and stand-front-rise POM." });
+  }
+  if (!fgPresent) return { callouts: mapped, issues };
+  const fgMembers = fgCallouts.map((matches) => matches[0]!);
+  const standFrontRise = fgMembers[2]!;
+  const expectedTargets = [
+    ["flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine", "pattern:polo:mark:buttonPlacket:attachmentLine"],
+    ["flat:polo:FRONT_FLAT:component:front:outline", "pattern:polo:role:front:edge:neckline"],
+    ["flat:polo:FRONT_FLAT:component:outerStand:outline", "pattern:polo:role:outerStand:edge:frontNeckline"],
+  ] as const;
+  const fgSourcesMatch = fgMembers.every((callout, index) => callout.source.revisionId === revisionId
+    && callout.anchor.primitiveId === expectedTargets[index]![0]
+    && callout.anchor.sourceEntityId === expectedTargets[index]![1]);
+  if (!fgSourcesMatch) {
+    issues.push({ stage: "pom", sourceId: "pom:polo:fg-schedule-group",
+      message: "The approved Polo FG display requires three exact same-revision source POMs and their distinct mapped anchors." });
+    return { callouts: mapped, issues };
+  }
+  const markerPoint = { point: standFrontRise.anchor.point,
+    sourceEntityIds: fgMembers.map((callout) => callout.anchor.sourceEntityId!) };
+  const grouped = mapped.map((callout) => fgIds.includes(callout.source.sourceId) && callout.presentation?.key === "FG"
+    ? { ...callout, presentation: { ...callout.presentation, markerPoint } } : callout);
+  return { callouts: grouped, issues };
 }
 
 export function reflectFoldPrimitive(
@@ -765,7 +795,9 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     };
   }
   const poms = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, kind, recipe.poms,
-    [...geometry.primitives, ...waistbandFragments.primitives], resolvePomAnchor);
+    [...geometry.primitives, ...waistbandFragments.primitives], resolvePomAnchor,
+    recipe.name === "polo" && kind === "FRONT_FLAT"
+      ? ["pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise"] : []);
   const poloDimensions = recipe.name === "polo"
     ? mapPoloDimensionCallouts(block, kind, recipe.poms!, poms.callouts ?? [], assembly.transforms) : undefined;
   const mappedDimensionCallouts = poloDimensions ? poloDimensions.callouts : poms.callouts;

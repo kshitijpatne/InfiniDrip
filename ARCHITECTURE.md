@@ -70,6 +70,18 @@ Source-to-view identity reads complete colon-delimited `role`, `mark`, and
 example, `sleeve` and `sleeveBand`) from inheriting the other role's placement
 or moving its geometry and anchored annotations.
 
+Slice 434 adds Polo's source-bound J/FG presentation without moving either
+source measurement. The J key stays anchored to `outerStand.frontEnd`; one FG
+ring is centered at `outerStand.frontNeckline` and groups three independent
+full-text schedule rows (`finished-placket-width`, `front-neck-drop`, and
+`stand-front-rise`). Each row retains its own revision, target outline, source
+edge, value, tolerance, and text. Only the two approved source IDs bypass
+inline label placement because their schedule rows carry the readable text;
+other callouts keep the normal overlap-aware placement. Key markers are view
+annotations and never add pattern notches or construction joins. Option-wide
+rendering is necessary but does not clear a face while separate readability,
+construction, or residual gates remain open.
+
 Slice 318 paints a requested colorway area only when emitted silhouette paths,
 source-declared reflected edges and mapped view boundaries form exact closed
 loops at the same four-decimal coordinates serialized to SVG. The area is

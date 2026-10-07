@@ -1,0 +1,15 @@
+{
+  "sourceRevision": 2583,
+  "resultingRevision": 2588,
+  "statusRows": {
+    "epic": "In Progress",
+    "v01": "Done",
+    "v02": "In Progress",
+    "v03": "Backlog"
+  },
+  "exitEvidenceStillLinked": true,
+  "clearanceEvidenceLinked": true,
+  "allHoldsPreserved": true,
+  "collisionFactsRecorded": true,
+  "historicalEvidencePreserved": true
+}

@@ -110,6 +110,26 @@ describe("technical-flat POM callouts", () => {
     }
   });
 
+  it("retains exact Polo J/FG POM anchors for a keyed schedule without running inline label placement", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const geometry = faceGeometry(recipe.name, block, "FRONT_FLAT");
+    const poms = recipe.poms!.filter((pom) => ["Finished collar stand height", "Stand front rise"].includes(pom.label));
+    const result = compileTechnicalFlatPomCallouts(recipe.name, block, revisionId, "FRONT_FLAT", poms, geometry,
+      undefined, ["pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise"]);
+    expect(result.issues).toEqual([]);
+    expect(result.callouts).toHaveLength(2);
+    expect(result.callouts?.every((callout) => callout.anchor.point.x === callout.labelAt.x
+      && callout.anchor.point.y === callout.labelAt.y)).toBe(true);
+    expect(result.callouts?.map((callout) => [callout.source.sourceId, callout.anchor.primitiveId,
+      callout.anchor.sourceEntityId])).toEqual([
+      ["pom:polo:finished-collar-stand-height", "flat:polo:FRONT_FLAT:component:outerStand:outline",
+        "pattern:polo:role:outerStand:edge:frontEnd"],
+      ["pom:polo:stand-front-rise", "flat:polo:FRONT_FLAT:component:outerStand:outline",
+        "pattern:polo:role:outerStand:edge:frontNeckline"],
+    ]);
+  });
+
   it("keeps table-only methods and reports front-only anchors on the back view", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "tee");
     if (!recipe) throw new Error("Tee recipe is missing.");

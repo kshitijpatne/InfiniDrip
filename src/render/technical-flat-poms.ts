@@ -151,6 +151,7 @@ export function compileTechnicalFlatPomCallouts(
   poms: readonly Pom[],
   availableGeometry: readonly TechnicalFlatPrimitive[],
   resolveAnchor?: (pom: Pom, sourcePoint: Point) => TechnicalFlatPomResolvedAnchor | undefined,
+  keyedScheduleOnlySourceIds: readonly string[] = [],
 ): TechnicalFlatPomCallouts {
   const issues: TechnicalFlatPomIssue[] = [];
   const notices: TechnicalFlatNotice[] = [];
@@ -375,14 +376,15 @@ export function compileTechnicalFlatPomCallouts(
         message: "POM callouts need the exact mapped same-revision source entity in the composed view." });
       continue;
     }
-    const labelAt = placeLabel(resolved.point, text, positioned);
+    const scheduleOnly = keyedScheduleOnlySourceIds.includes(sourceId);
+    const labelAt = scheduleOnly ? resolved.point : placeLabel(resolved.point, text, positioned);
     if (!labelAt) {
       issues.push({ code: "LABEL_COLLISION", sourceId,
         message: `POM “${pom.label}” has no readable label/leader position in the supported search area; adjust the view layout before rendering.` });
       continue;
     }
     const box = labelBox(labelAt, text);
-    positioned.push({ anchor: resolved.point, labelAt, box });
+    if (!scheduleOnly) positioned.push({ anchor: resolved.point, labelAt, box });
     callouts.push({ kind: "callout", id, layer: "CALLOUT", feature: "pom",
       source: { sourceClass: "PATTERN_DERIVED", sourceId, revisionId }, text,
       anchor: { primitiveId: resolved.targetGeometryId, point: { ...resolved.point }, ...(sourceEntityId ? { sourceEntityId } : {}) }, labelAt });

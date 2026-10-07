@@ -536,7 +536,7 @@ describe("compileTechnicalFlatLiveView", () => {
     expect(mapPoloCollarPointKeyedCallout("FRONT_FLAT", "polo-r1", [callout, callout]).issues).toHaveLength(1);
   });
 
-  it("maps the ten approved Polo source POMs to exact source-centered keys and preserves distinct schedule rows", () => {
+  it("maps the twelve approved Polo source POMs to exact source-centered keys and preserves distinct schedule rows", () => {
     const identities = [
       ["across-shoulder", "A", "front:outline", "pattern:polo:role:front:edge:shoulder"],
       ["body-chest-finished", "B", "front:outline", "pattern:polo:role:front:edge:side"],
@@ -545,6 +545,8 @@ describe("compileTechnicalFlatLiveView", () => {
       ["finished-placket-length", "E", "buttonPlacket:outline", "pattern:polo:role:buttonPlacket:edge:attachmentRaw"],
       ["finished-placket-width", "FG", "buttonPlacket:attachmentLine", "pattern:polo:mark:buttonPlacket:attachmentLine"],
       ["front-neck-drop", "FG", "front:outline", "pattern:polo:role:front:edge:neckline"],
+      ["finished-collar-stand-height", "J", "outerStand:outline", "pattern:polo:role:outerStand:edge:frontEnd"],
+      ["stand-front-rise", "FG", "outerStand:outline", "pattern:polo:role:outerStand:edge:frontNeckline"],
       ["neck-width", "H", "front:outline", "pattern:polo:role:front:edge:shoulder"],
       ["shoulder-seam", "H", "front:outline", "pattern:polo:role:front:edge:shoulder"],
       ["finished-pointed-collar-leaf", "I", "upperCollar:outline", "pattern:polo:role:upperCollar:edge:centerBack"],
@@ -559,22 +561,45 @@ describe("compileTechnicalFlatLiveView", () => {
     }));
     const result = mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts);
     expect(result.issues).toEqual([]);
-    expect(result.callouts).toHaveLength(10);
+    expect(result.callouts).toHaveLength(12);
     expect(result.callouts.map((callout) => callout.presentation?.key)).toEqual(identities.map(([, key]) => key));
     expect(result.callouts.every((callout) => callout.presentation?.markerStyle
       === (callout.presentation.key === "H" ? "segmented-open-halo" : "open-halo")
       && callout.presentation.markerRadiusCm === 0.22)).toBe(true);
+    expect(result.callouts.map((callout) => callout.text)).toEqual(callouts.map((callout) => callout.text));
+    const fgMembers = result.callouts.filter((callout) => callout.presentation?.key === "FG");
+    expect(fgMembers).toHaveLength(3);
+    expect(fgMembers.map((callout) => callout.source.sourceId)).toEqual([
+      "pom:polo:finished-placket-width", "pom:polo:front-neck-drop", "pom:polo:stand-front-rise",
+    ]);
+    expect(fgMembers.every((callout) => callout.presentation?.markerPoint?.point
+      === fgMembers[2]!.anchor.point)).toBe(true);
+    expect(fgMembers[0]?.anchor.sourceEntityId).not.toBe(fgMembers[2]?.anchor.sourceEntityId);
+    expect(fgMembers[1]?.anchor.sourceEntityId).not.toBe(fgMembers[2]?.anchor.sourceEntityId);
+    expect(fgMembers[2]?.presentation?.markerPoint?.sourceEntityIds).toEqual(fgMembers.map((callout) => callout.anchor.sourceEntityId));
+    const standHeight = result.callouts.find((callout) => callout.source.sourceId === "pom:polo:finished-collar-stand-height")!;
+    expect(standHeight.presentation).toMatchObject({ key: "J", markerRadiusCm: 0.22, markerStyle: "open-halo" });
+    expect(standHeight.presentation?.markerPoint).toBeUndefined();
     expect(mapPoloSourceCenteredKeyedCallouts("BACK_FLAT", "polo-r1", callouts).callouts).toEqual(callouts);
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", []).issues).toEqual([]);
     expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts.slice(1)).issues).toEqual([]);
     const required = identities.map(([pom]) => `pom:polo:${pom}`);
     expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts.slice(1), required).issues)
       .toContainEqual(expect.objectContaining({ sourceId: "pom:polo:across-shoulder" }));
     expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", callouts, required).issues).toEqual([]);
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1",
+      callouts.filter((callout) => callout.source.sourceId !== "pom:polo:stand-front-rise"), required).issues)
+      .toContainEqual(expect.objectContaining({ sourceId: "pom:polo:stand-front-rise" }));
     const stale = { ...callouts[0]!, source: { ...callouts[0]!.source, revisionId: "stale" } };
     expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", [stale, ...callouts.slice(1)]).issues).toHaveLength(1);
     const moved = { ...callouts[0]!, anchor: { ...callouts[0]!.anchor, sourceEntityId: "wrong-edge" } };
     expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", [moved, ...callouts.slice(1)]).issues).toHaveLength(1);
     expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1", [...callouts, callouts[0]!]).issues).toHaveLength(2);
+    const standRise = callouts.find((callout) => callout.source.sourceId === "pom:polo:stand-front-rise")!;
+    const wrongStandEdge = { ...standRise, anchor: { ...standRise.anchor, sourceEntityId: "pattern:polo:role:outerStand:edge:backNeckline" } };
+    expect(mapPoloSourceCenteredKeyedCallouts("FRONT_FLAT", "polo-r1",
+      callouts.map((callout) => callout === standRise ? wrongStandEdge : callout)).issues)
+      .toContainEqual(expect.objectContaining({ sourceId: "pom:polo:fg-schedule-group" }));
   });
 
   it("resolves role ownership for geometry, marks, darts, artwork and anchored callouts", () => {
@@ -1065,7 +1090,7 @@ describe("compileTechnicalFlatLiveView", () => {
       { x: 0, y: 0 }, { x: 0, y: 2 })).toBeUndefined();
   });
 
-  it("compiles approved Polo collar geometry while keeping incoherent Woven faces held", () => {
+  it("compiles approved Polo collar and keyed POM geometry while keeping incoherent Woven faces held", () => {
     for (const recipeId of ["polo", "woven-shirt"]) {
       const recipe = GARMENTS.find((candidate) => candidate.name === recipeId)!;
       const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
@@ -1077,13 +1102,15 @@ describe("compileTechnicalFlatLiveView", () => {
             && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(false);
           const pomIssues = result.issues.filter((issue) => issue.stage === "pom");
           if (kind === "FRONT_FLAT") {
-            expect(result.view).toBeNull();
-            expect(result.colorway).toBeNull();
-            expect(pomIssues.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
-            expect(pomIssues.map((issue) => issue.sourceId)).toEqual([
-              "pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise",
-            ]);
-        } else {
+            expect(result.view).not.toBeNull();
+            expect(result.colorway).not.toBeNull();
+            expect(pomIssues).toEqual([]);
+            const keyed = result.view!.primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout"
+              && primitive.presentation !== undefined);
+            expect(keyed.filter((callout) => callout.presentation?.key === "FG").map((callout) => callout.source.sourceId))
+              .toEqual(["pom:polo:front-neck-drop", "pom:polo:finished-placket-width", "pom:polo:stand-front-rise"]);
+            expect(keyed.find((callout) => callout.source.sourceId === "pom:polo:finished-collar-stand-height")?.presentation?.key).toBe("J");
+          } else {
           expect(result.view).not.toBeNull();
           expect(result.colorway).not.toBeNull();
           expect(pomIssues).toEqual([]);
@@ -1192,7 +1219,7 @@ describe("compileTechnicalFlatLiveView", () => {
     }
   });
 
-  it("applies the S351 residual rule to all options but retains each independent Polo face hold", () => {
+  it("applies the S351 residual rule and approved J/FG mapping to every Polo option", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const optionSets = [defaultGarmentOptions(recipe.options ?? []), ...(recipe.options ?? []).flatMap((option) => [
       { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min },
@@ -1208,12 +1235,13 @@ describe("compileTechnicalFlatLiveView", () => {
           && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(false);
         const poms = result.issues.filter((issue) => issue.stage === "pom");
         if (kind === "FRONT_FLAT") {
-          expect(result.view).toBeNull();
-          expect(result.colorway).toBeNull();
-          expect(poms.map((issue) => issue.sourceId)).toEqual([
-            "pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise",
-          ]);
-          expect(poms.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
+          expect(result.view).not.toBeNull();
+          expect(result.colorway).not.toBeNull();
+          expect(poms).toEqual([]);
+          const keyed = result.view!.primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout"
+            && primitive.presentation !== undefined);
+          expect(keyed.filter((callout) => callout.presentation?.key === "FG")).toHaveLength(3);
+          expect(keyed.find((callout) => callout.source.sourceId === "pom:polo:finished-collar-stand-height")?.presentation?.key).toBe("J");
         } else {
           expect(result.view).not.toBeNull();
           expect(result.colorway).not.toBeNull();
