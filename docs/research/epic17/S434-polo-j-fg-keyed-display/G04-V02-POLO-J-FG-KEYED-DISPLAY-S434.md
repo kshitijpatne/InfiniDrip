@@ -115,24 +115,20 @@ display point differs from its prior station by at most 0.103085 cm over the
   `rendered-production/`.
 - Reviewed the full default front and magnified neck crop. The new J/FG rings
   remain on their exact source stations and the full schedule is readable in
-  the rendered output. Replayed S426's marker-clearance method against all 17
-  actual S434 front SVGs: there are 103 total keyed-glyph/source collisions.
-  The prior keys account for 69; the new J glyph accounts for 34: it overlaps
-  `underCollar.centerFront` in 17/17 options and an outline in 17/17 (the
-  `buttonPlacket` outline in 14, `outerStand` in 2, and `front` in 1). The FG
-  glyph has no measured source-path, source-mark or other-key collision.
-  Matrix: `S434-marker-clearance-matrix.json`.
-- A diagnostic-only scan tests 144 constant J-glyph offsets across all 17
-  options while keeping the J ring fixed at its approved exact anchor. Forty-
-  two offsets have positive sampled clearance. A constant `(0,+0.70 cm)`
-  translation gives minimum clearance 0.301791 cm to component outlines,
-  0.457401 cm to source marks, and 1.446248 cm to other key glyphs; the
-  limiting configuration is `polo-standFrontRise-min`. Its rendered default,
-  minimum-rise and maximum-rise crops are retained in
-  `rendered-j-offset-trial/`. This offset is only a proposal and has not been
-  implemented; the current J glyph conflict keeps Polo held.
-- The surrounding source shoulder/collar annotation region also remains dense.
-  Renderer/browser success does not settle those separate visual checks.
+  rendered output. The preliminary `S434-marker-clearance-matrix.json` reports
+  raw glyph-to-path/mark proximity, including target-station contacts. It does
+  not measure the corrected source-label collision criteria and is superseded
+  for label-readability interpretation by S435's full-label audit. Do not treat
+  its 34 J path/mark contacts as 34 verified unreadable collisions.
+- `scan-j-glyph-offsets.mjs`, `S434-j-glyph-offset-scan.json`, and
+  `rendered-j-offset-trial/` are a diagnostic exploration only. The constant
+  `(0,+0.70 cm)` J text shift was not approved, was not implemented, and is not
+  required by S435's corrected label-collision result. Keep the J ring at the
+  approved exact anchor unless later evidence identifies a real output defect.
+- The surrounding source shoulder/collar annotation region is visually dense,
+  but S435's actual 17-option full-label audit finds no label/key/schedule box
+  intersections. See S435's exact findings before deciding whether a separate
+  construction/topology blocker remains.
 
 ### Boundary, holds and next work
 
@@ -158,6 +154,7 @@ display point differs from its prior station by at most 0.103085 cm over the
 - Landed as `Slice 434: implement Polo J/FG keyed POM display`. Refreshed
   `origin/main` ancestry and clean worktree are recorded by the commit and
   verified closeout.
-- Next action: inspect the remaining Polo output blockers against the current
-  source, options, and production SVGs, while preserving all holds; do not
-  start V03 until all-seven V02 acceptance passes.
+- Next action recorded at S434: S435 reconciles the preliminary raw path/mark
+  matrix with corrected full-label output criteria; then audit the current
+  per-face acceptance evidence before considering any Polo face release. Do
+  not start V03 until all-seven V02 acceptance passes.
