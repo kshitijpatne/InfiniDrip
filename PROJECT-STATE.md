@@ -1,6 +1,20 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 410 Woven neckline layer-order trial; V02 remains open
+## EPIC-17 / G04 current work — Slice 411 Polo post-S399 blocker audit; V02 remains open
+
+S411 started 2026-10-07 08:11:45 UTC from clean S410 `cccbbbb48a9fc34e3e11b7af0f901375d802dd39` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 410; S411 is uniquely reserved. Canonical board revision 2365 advanced to 2369 through validated start replay. G04-V01 Done, V02 In Progress, V03 Backlog. At start the goal was active and still matched the admitted G04 objective through safe merge; usage 35% primary / 5% weekly.
+
+S411 reconciles S399's current actual Polo renderer output against the same 17 option rows and S391/S392 source and residual evidence. Keyed output has zero renderer issues in 17/17, while exactly three `TEXT_COLLISION` errors remain in the unkeyed C fallback (`collarLeafDepth=max`, `standFrontRise=max`, `collarPointExtension=min`). The approved keyed C marker resolves that text error; these are not keyed failures. A/B/C contacts are source-backed armhole/collar interfaces. FG and H retain crowded source stations after their approved text offsets; H's ring still overlays distinct shoulder marks and nearby contours. D/E/I statuses and exact IDs are recorded in the S411 matrix. The independent `stitch:Sleeve-cap ease` residual remains 0.68 cm in 34/34 faces against the unchanged 0.25 cm gate. No production behavior or acceptance changed; all 34 Polo faces remain held.
+
+Actual S399 Chromium details inspected: default collar/neck/placket, `collarPointExtension=min`, and default H station. The full schedule, ten POMs, eight stations, colorway, and paired backs remain revision-bound; all 17 browser outputs are error-free. Focused script and JSON assertions pass; Control Center passes 42/42; `git diff --check` passes. No production code changed, so the global gate remains for the settled Epic/PR candidate. S411 evidence is at `docs/research/epic17/S411-polo-post-S399-blocker-audit/`.
+
+The maintainer's collar-over-plackets decision is already implemented in S406. The distinct S410 neckline clipping decision remains pending; all 56 Woven faces remain held. Preserve all-seven V02, Polo's 0.25 cm gate, V02-before-V03, legacy DXF, protected export identities and V03 rights/profile/round-trip gates.
+
+Elapsed approximately 4m (08:11:45–08:15:34 UTC): source/matrix reconciliation 1m; actual rendered review 1m; audit script, durable packet/state/validated-board closeout and focused Control Center verification 2m; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. Board start/exit revisions: 2365→2369 / 2369→2375.
+
+**Next action:** refresh board/branch at this boundary and investigate the repeated H source-mark crowding with an exact rendered view-layer trial; do not move its source-centered marker, hide distinct source marks or release views without the required approval and option-wide verification.
+
+## Prior boundary — Slice 410 Woven neckline layer-order trial; V02 remains open
 
 S410 started 2026-10-07 08:07 UTC from clean S409 `0ef673d807173fc7121e4e2f7964109fe970c752` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 409; S410 is uniquely reserved. Canonical board revision 2358 advanced to 2361 through validated start replay. G04-V01 Done, V02 In Progress, V03 Backlog. Usage at start: primary 33%, weekly 5%, ordinary work allowed. The active goal remains required through admitted V01→V02→V03, final output/gates, safe merge, ancestry and any required deployment.
 
