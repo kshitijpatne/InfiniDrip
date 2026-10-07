@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 2491,
+  "itemId": "G04-V02",
+  "evidence": {
+    "id": "E-G04-S426-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/G04-V02-POLO-POST-H-CALLOUT-READABILITY-DIAGNOSIS-S426.md",
+    "verified": true,
+    "note": "Starts an exact 17-option source/revision diagnosis of Polo callout readability after approved S425 H segmentation; all holds and V02/V03 gates remain unchanged."
+  }
+}

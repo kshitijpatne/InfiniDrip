@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 425 approved Polo H segmentation; V02 remains open
+## EPIC-17 / G04 current work — Slice 426 Polo full-label callout diagnosis; V02 remains open
+
+S426 started 2026-10-07 15:50:59 UTC from clean S425 `408ec16b91dc0736bcf748fd2785cd8059e1f523` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 426 is complete; the next unique slice is 427. Canonical board revision moved 2491→2503 through validated start, exit, and summary-reconciliation commands. EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog; no status changed. The goal remains active. The integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+The corrected S426 replay uses all 17 exact S399 Polo revisions with the current production SVG renderer/Chromium and restores full source mark labels and all applicable unkeyed POM callouts. It preserves 610 source-label instances, 50 unkeyed callout instances, all 11 keyed POM schedule rows, source component paths/revision identities and approved S425 H treatment. Collision checks report zero source-label-pair and marker-label overlaps, zero renderer issues and zero browser errors. Actual default, collarPointExtension-max and sideVentDepth-min outputs plus targeted crops are retained and reviewed. The first incomplete replay omitted source labels; its apparent raw bbox contacts are explicitly superseded by the corrected complete replay.
+
+S426 resolves no construction/assembly hold. Polo's separate `Sleeve-cap ease` residual remains 0.68 cm against the unchanged 0.25 cm gate; the 8.654851 cm bicep reduction was rejected. All 34 Polo and 56 Woven faces remain held; Woven's continuous neckline remains the maintainer-approved display. All-seven V02, V02-before-V03, legacy DXF, protected export identities, V03 rights/round-trip gates and claim limits are unchanged. Packet and evidence: `docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/`.
+
+Focused verification: exact 17-option source-label output matrix passes all invariants; `npm run control-center:test` 42/42; board schema/read validation at revision 2503; `git diff --check` passes. The initial board regression assertions exposed dropped S406 historical phrases; the current canonical summaries preserve them and the regression tests now assert the verified S426/Woven status.
+
+**Next action:** begin S427 as a bounded Polo sleeve-cap construction/source-repair diagnostic. S424's large bicep reduction was rejected; do not change production pattern geometry or the stitch graph without a new source-backed proposal and maintainer approval. Keep all views held pending full V02 verification.
+
+## EPIC-17 / G04 previous slice — Slice 425 approved Polo H segmentation; V02 remains open
 
 S425 implements the maintainer-approved view-only segmented H locator in the technical-flat renderer. Only Polo's H uses the segmented style; the exact `(7,0)` source anchor, 0.22 cm radius, POM target identities, H glyph and complete schedule remain unchanged. The renderer masks path/circle/button/buttonhole-stroke contacts with 0.045 cm clearance, discards arcs under 0.04 cm, and fails closed unless it can retain 2–3 arcs covering at least half the ring. The exact S399 revision fixtures were passed through the changed renderer for all 17 options: 2–3 arcs, 60.28–72.22% retained circumference, 11/11 POM rows, preserved 11/11 component paths, zero sampled post-paint marker-to-source stroke contacts and zero browser errors. Actual default and `standFrontRise-min` crops are retained and manually reviewed. The current live compiler continues to withhold Polo because the separate 0.68 cm sleeve endpoint residual exceeds 0.25 cm; this trial accepts no view.
 

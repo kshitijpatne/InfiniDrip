@@ -1,0 +1,15 @@
+{
+  "sourceRevision": 2491,
+  "resultingRevision": 2503,
+  "epicStatus": "In Progress",
+  "summaryCardStatus": "In Progress",
+  "v01Status": "Done",
+  "v02Status": "In Progress",
+  "v03Status": "Backlog",
+  "exitEvidenceLinkedToEpic": true,
+  "exitEvidenceLinkedToSummary": true,
+  "exitEvidenceLinkedToV02": true,
+  "renderedEvidenceLinkedToV02": true,
+  "holdsRecorded": true,
+  "allStatusesUnchanged": true
+}

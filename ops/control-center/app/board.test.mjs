@@ -256,11 +256,11 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
       assert.match(epic.description, /Latest verified integrated tally is 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-      assert.match(epic.description, /S419's segmented H-ring diagnostic retains 60\.1–72\.4%/);
-      assert.match(epic.description, /The separate S410 neckline clip decision is pending/);
+      assert.match(epic.description, /S425 implements and verifies the approved Polo H segmented-ring display/);
+      assert.match(epic.description, /The Woven body neckline remains continuous by maintainer decision/);
       assert.match(epic.description, /S406's approved view-only collar-over-plackets order remains implemented/);
       assert.match(card.description, /Latest verified tally remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-      assert.match(card.description, /S419's Polo segmented H-ring trial is diagnostic only and awaits approval/);
+      assert.match(card.description, /S426's corrected full-label replay reports zero source-label or marker-label overlaps/);
       assert.match(card.description, /Preserve all-seven V02, V02-before-V03/);
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S420-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S420-EXIT"));
@@ -468,7 +468,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
       assert.match(admittedWork[1].description, /S406's approved Woven collar-over-plackets order remains implemented/);
       assert.match(admittedWork[1].description, /S419 tested a 2–3-arc Polo H locator across 17 options/);
-      assert.match(admittedWork[1].description, /S410's view-only seam clip decision remains pending/);
+      assert.match(admittedWork[1].description, /The maintainer keeps the Woven body neckline continuous/);
       assert.match(admittedWork[1].description, /All 56 Woven and 34 Polo faces remain held/);
       assert.match(admittedWork[1].description, /Preserve all-seven V02, keep V03 gated/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));

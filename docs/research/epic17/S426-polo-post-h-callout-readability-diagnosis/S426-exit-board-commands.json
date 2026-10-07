@@ -1,0 +1,74 @@
+[
+  {
+    "type": "editEpic",
+    "expectedRevision": 2493,
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Reconcile EPIC-17 with corrected S426 rendered callout evidence and current Woven/Polo holds.",
+    "epicId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S425 implements and verifies the approved Polo H segmented-ring display across all 17 exact S399 output revisions without changing pattern geometry, source paths or POM schedule, and releases no face. S426's corrected full-label replay reports zero source-label or marker-label overlaps across 17 Polo options and confirms preserved source POMs, marks, paths and schedules; no Polo face is released. The Woven body neckline remains continuous by maintainer decision; S406's approved view-only collar-over-plackets order remains implemented. The maintainer rejected S424's unsupported 8.654851 cm Polo bicep reduction; the 0.68 cm sleeve-cap endpoint residual still exceeds the fixed 0.25 cm gate. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, V02-before-V03, generic legacy DXF, protected export byte identities, V03 rights/profile/round-trip evidence, and physical/factory/production-readiness claim limits. See PROJECT-STATE.md and the S426 packet."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2494,
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "EPIC-17/G04 is In Progress through its admitted V01→V02→V03 sequence and safe merge. Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display; S426's corrected full-label replay reports zero source-label or marker-label overlaps across 17 exact Polo options while preserving source POMs, marks, component paths and schedules. The maintainer keeps the Woven body neckline continuous; S406's approved Woven collar-over-plackets display remains implemented. The proposed Polo bicep reduction remains rejected; all 34 Polo faces stay held at the 0.68 cm versus 0.25 cm residual gate, and all 56 Woven faces stay held. Preserve all-seven V02, V02-before-V03, legacy DXF, protected exports, CAD-rights/round-trip gates and claim limits."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2495,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "G04 V02 remains In Progress; latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S381 found no evidence supporting a false Woven back-hem gap; S406's approved Woven collar-over-plackets order remains implemented. The maintainer keeps the Woven body neckline continuous, so preserve all 56 Woven holds and its 28 front holds. S419 tested a 2–3-arc Polo H locator across 17 options; S425 implements the approved segmented ring and verifies all 17 exact S399 SVG revisions with unchanged source paths and 11/11 POM rows. S426 corrected full-label replay reports zero source-label or marker-label overlaps across all 17 exact Polo options, preserving source marks, component paths, three applicable unkeyed callouts and all 11 keyed POM rows. The independent Sleeve-cap ease residual is 0.68 cm versus the fixed 0.25 cm gate; the proposed 8.654851 cm bicep reduction was rejected. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, keep V03 gated, legacy DXF, protected exports and V03 rights/round-trip gates. Current packet: docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/G04-V02-POLO-POST-H-CALLOUT-READABILITY-DIAGNOSIS-S426.md"
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2496,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S426-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/G04-V02-POLO-POST-H-CALLOUT-READABILITY-DIAGNOSIS-S426.md",
+      "verified": true,
+      "note": "Exact 17-option corrected source-label/callout diagnostic; all source annotations, POMs, paths and schedules are preserved, with all Polo and Woven holds unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2497,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S426-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/S426-source-label-output-matrix.json",
+      "verified": true,
+      "note": "All 17 exact S399 Polo revisions rendered with full source labels and callouts; zero text overlaps or browser errors. Full outputs and default/max-stand targeted crops are retained."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2498,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S426-EXIT"
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2499,
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S426-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2500,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S426 exit: corrected full-label replay across 17 exact S399 Polo options preserves 610 source-label instances, 50 applicable unkeyed source POMs, 11 keyed schedule rows per option, component paths and revisions; zero source-label pairs, keyed marker-label overlaps, renderer issues or browser errors. Preliminary raw text-box contacts are superseded because that replay omitted source labels. The independent 0.68 cm Sleeve-cap ease endpoint residual still exceeds 0.25 cm. All 34 Polo/56 Woven faces remain held; V02 In Progress and V03 Backlog. See E-G04-S426-EXIT and E-G04-S426-RENDERED."
+  }
+]
