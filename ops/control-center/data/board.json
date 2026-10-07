@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2613,
-  "updatedAt": "2026-10-07T20:04:11.110Z",
+  "revision": 2622,
+  "updatedAt": "2026-10-07T20:12:12.031Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -635,7 +635,9 @@
         "E-G04-S436-EXIT",
         "E-G04-S436-MATRIX",
         "E-G04-S437-EXIT",
-        "E-G04-S437-TRACE"
+        "E-G04-S437-TRACE",
+        "E-G04-S438-EXIT",
+        "E-G04-S438-MATRIX"
       ]
     },
     {
@@ -4327,6 +4329,16 @@
           "at": "2026-10-07T20:04:11.110Z",
           "actor": "Codex",
           "text": "S437 is a read-only Woven topology/output reconciliation. No V02 acceptance, V03 ordering, options, geometry, stitches, holds, legacy DXF behavior, protected export identities, or physical/factory claim boundaries changed. Current tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
+        },
+        {
+          "at": "2026-10-07T20:08:35.973Z",
+          "actor": "Codex",
+          "text": "S438 tests one offline Woven back-view occlusion hypothesis; it does not change construction claims, V02 all-seven acceptance, V02-before-V03, export/DXF identities, CAD gates, scope or face statuses."
+        },
+        {
+          "at": "2026-10-07T20:12:12.031Z",
+          "actor": "Codex",
+          "text": "S438 is an offline negative rendering trial only. No source/cut/stitch geometry, production output, acceptance gate, hold, CAD requirement, legacy DXF/export identity, or physical/factory claim changed. Current integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
         }
       ],
       "evidenceRefs": [
@@ -9074,6 +9086,16 @@
           "at": "2026-10-07T20:04:11.056Z",
           "actor": "Codex",
           "text": "S437 revalidates the current exact Woven 14:14 output across 28 options: two repeated front body-neckline/collar contacts and one back crossing between reflected complete sleeve hems in every option. Source encodes no collar-over-neckline display order, sleeve-to-sleeve join, or hem over/under rule. The maintainer's prior decisions preserve the continuous base seam and reject an unsupported hem gap, so all 56 Woven faces remain held. All 34 Polo faces remain held; V02 is still blocked under all-seven acceptance."
+        },
+        {
+          "at": "2026-10-07T20:08:35.923Z",
+          "actor": "Codex",
+          "text": "Start S438: test whether the existing back-body fill can visibly occlude only sleeve strokes projected inside the body while preserving complete source paths, cap joins, colorway and all annotations across 28 exact Woven options. Diagnostic trial only; all 56 Woven and 34 Polo faces stay held."
+        },
+        {
+          "at": "2026-10-07T20:12:11.984Z",
+          "actor": "Codex",
+          "text": "S438 rejects the body-fill mask trial: although all 28 back sleeve-hem crossings lie inside the source-derived torso fill, masking only the two sleeve outline paths leaves 0% of either sleeve outline visible in every option. The exact Chromium trial removes required garment content; it is not a valid view resolution. All 56 Woven and 34 Polo faces remain held."
         }
       ],
       "evidenceRefs": [
@@ -9712,7 +9734,10 @@
         "E-G04-S436-MATRIX",
         "E-G04-S437-START",
         "E-G04-S437-TRACE",
-        "E-G04-S437-EXIT"
+        "E-G04-S437-EXIT",
+        "E-G04-S438-START",
+        "E-G04-S438-EXIT",
+        "E-G04-S438-MATRIX"
       ],
       "flagKey": null
     },
@@ -17039,6 +17064,33 @@
       "sha256": null,
       "verified": true,
       "note": "Source/output audit confirms the existing fail-closed Woven decisions; no source-grounded truthful fix, mapping change, or face release."
+    },
+    {
+      "id": "E-G04-S438-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S438-woven-back-body-occlusion-trial/G04-V02-WOVEN-BACK-BODY-OCCLUSION-TRIAL-S438.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts an offline painter-order hypothesis against exact S406 Woven back SVGs. No production implementation or face release is authorized."
+    },
+    {
+      "id": "E-G04-S438-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S438-woven-back-body-occlusion-trial/G04-V02-WOVEN-BACK-BODY-OCCLUSION-TRIAL-S438.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "28-option Chromium trial rejects body-fill occlusion: all sleeve outlines are hidden. No production change or hold release."
+    },
+    {
+      "id": "E-G04-S438-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S438-woven-back-body-occlusion-trial/body-mask-candidate/S438-back-body-mask-candidate.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact revision 14:14 / 28-case output matrix; body mask covers all 28 hem crossings but leaves 0% of both sleeve outlines visible in every option."
     }
   ]
 }

@@ -1,0 +1,1556 @@
+{
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "faces": 28,
+  "originalStrokesPreserved": true,
+  "maskUsesExactSourceBackAndYokeFills": true,
+  "crossingsInsideBodyMask": 28,
+  "sleeveInstancesRetained": true,
+  "minVisibleOutsideBodyFraction": 0,
+  "maxVisibleOutsideBodyFraction": 0,
+  "bothSleeveOutlinesStayVisiblyPresent": false,
+  "candidateViable": false,
+  "browserErrors": [],
+  "cases": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-default",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-default-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-default-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-neckEase-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-neckEase-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-neckEase-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-neckEase-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-neckEase-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-neckEase-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-standHeight-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-standHeight-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-standHeight-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-standHeight-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-standHeight-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-standHeight-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-collarLeafDepth-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-collarLeafDepth-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-collarLeafDepth-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-collarLeafDepth-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-collarLeafDepth-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-collarLeafDepth-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-buttonCount-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-buttonCount-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-buttonCount-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-buttonCount-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-buttonCount-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-buttonCount-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-buttonSpacing-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-buttonSpacing-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-buttonSpacing-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-buttonSpacing-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-buttonSpacing-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-buttonSpacing-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-frontOverlap-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-frontOverlap-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-frontOverlap-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-frontOverlap-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-frontOverlap-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-frontOverlap-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-placketWidth-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-placketWidth-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-placketWidth-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-placketWidth-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-placketWidth-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-placketWidth-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-yokeDepth-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 0,
+        "y": 24.095012130533036
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70363998413086,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70363998413086,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-yokeDepth-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-yokeDepth-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-yokeDepth-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": -8.881784197001252e-16,
+        "y": 22.231831063235624
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.703609466552734,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.703609466552734,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-yokeDepth-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-yokeDepth-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-pocketWidth-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-pocketWidth-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-pocketWidth-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-pocketWidth-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-pocketWidth-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-pocketWidth-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-pocketHeight-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-pocketHeight-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-pocketHeight-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-pocketHeight-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-pocketHeight-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-pocketHeight-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-sleeveBandDepth-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-sleeveBandDepth-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-sleeveBandDepth-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-sleeveBandDepth-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-sleeveBandDepth-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-sleeveBandDepth-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-sideVentDepth-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-sideVentDepth-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-sideVentDepth-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-sideVentDepth-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-sideVentDepth-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-sideVentDepth-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-hemTurn-min",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-hemTurn-min-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-hemTurn-min-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-hemTurn-max",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-hemTurn-max-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-hemTurn-max-back-body-mask.png",
+      "browserErrors": []
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "maskId": "s438-body-occlusion-woven-shirt-combined-supported",
+      "maskSources": [
+        {
+          "role": "back",
+          "sourceId": "pattern:woven-shirt:role:back",
+          "fillRule": "nonzero"
+        },
+        {
+          "role": "yoke",
+          "sourceId": "pattern:woven-shirt:role:yoke",
+          "fillRule": "nonzero"
+        }
+      ],
+      "sourcePathsUnchanged": true,
+      "sourceLayerOrderUnchanged": true,
+      "existingPOMAndColorwayElementsPreserved": true,
+      "originalIntersectionRetainedInPathData": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216
+      },
+      "crossingInsideBodyMask": true,
+      "sleevesVisibleOutsideBody": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "totalLength": 40.70362854003906,
+          "visibleOutsideBodyFraction": 0
+        }
+      ],
+      "candidateSvg": "body-mask-candidate\\woven-shirt-combined-supported-back_flat-body-mask.svg",
+      "renderedPng": "body-mask-candidate\\rendered\\woven-shirt-combined-supported-back-body-mask.png",
+      "browserErrors": []
+    }
+  ]
+}

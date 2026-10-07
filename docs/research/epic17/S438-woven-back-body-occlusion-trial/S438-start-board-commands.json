@@ -1,0 +1,28 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2613,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S438-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S438-woven-back-body-occlusion-trial/G04-V02-WOVEN-BACK-BODY-OCCLUSION-TRIAL-S438.md",
+      "verified": true,
+      "note": "Starts an offline painter-order hypothesis against exact S406 Woven back SVGs. No production implementation or face release is authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2614,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S438: test whether the existing back-body fill can visibly occlude only sleeve strokes projected inside the body while preserving complete source paths, cap joins, colorway and all annotations across 28 exact Woven options. Diagnostic trial only; all 56 Woven and 34 Polo faces stay held."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2615,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S438 tests one offline Woven back-view occlusion hypothesis; it does not change construction claims, V02 all-seven acceptance, V02-before-V03, export/DXF identities, CAD gates, scope or face statuses."
+  }
+]

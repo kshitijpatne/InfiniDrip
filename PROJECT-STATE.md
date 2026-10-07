@@ -1,6 +1,14 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 latest completed work — Slice 437 Woven topology/view-boundary audit; V02 remains open
+## EPIC-17 / G04 latest completed work — Slice 438 rejected Woven body-mask trial; V02 remains open
+
+S438 started 2026-10-07 20:07:51 UTC from clean S437 `bc3e252cee1f1b9fa3b86ad7692445a3cc6fe449` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor, highest prior slice 437, and the active goal remains valid. The offline trial reused exact Woven `live-draft:woven-shirt:14:14` BACK_FLAT outputs for 28 options. It applied source-derived back/yoke fill as a mask to only the two sleeve-outline strokes; all 28 crossings fell inside the fill, but the measured visible fraction of both outlines was 0% in every case. Chromium rendered all options with zero errors; default, `yokeDepth-min`, and center-crossing detail show the sleeve outlines entirely hidden while body/yoke/collar and detached gutter bands remain. The hypothesis is rejected; no production source, geometry, stitch, output, option, hold, or gate changed.
+
+All 56 Woven and 34 Polo faces remain held; integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. V02 remains blocked by the approved fail-closed Woven neckline and back-sleeve decisions under all-seven acceptance; V03 cannot start before V02 exits. Validated board start/exit revisions: 2613→2616→2622; statuses preserved. Control Center 42/42 and `git diff --check` pass. No product code/tests changed and no full gate is due. Packet, 28-candidate SVG/PNG matrix, and assertions: `docs/research/epic17/S438-woven-back-body-occlusion-trial/`. Elapsed ~4m25s (product implementation 0m, proposal/output coding and review ~3m, durable closeout/board regression ~1m25s; agent waits 0m; maintainer decision time 0m).
+
+**Next action:** do not use the body mask or a local crossing gap. Prepare a rendered, source-length-preserving outward back-sleeve projection candidate anchored at the current exact underarm receiver station; identify its unencoded direction/pose assumption explicitly and request approval only after exact all-option output evidence exists. Preserve the neckline hold and all-seven V02/V02-before-V03.
+
+## EPIC-17 / G04 previous completed work — Slice 437 Woven topology/view-boundary audit; V02 remains open
 
 S437 started 2026-10-07 19:58:26 UTC from clean S436 `22f077e9b6195e7e57c63bf0b21f4f8fa4a8ded9` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 436; S437 is unique. Validated board start/exit revisions are 2604→2607→2613. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; tally remains 56 accepted / 90 held across 73 configurations / 146 faces. The goal is active and still matches the admitted EPIC-17 objective through safe merge.
 

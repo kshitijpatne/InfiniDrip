@@ -1,0 +1,56 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2616,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S438-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S438-woven-back-body-occlusion-trial/G04-V02-WOVEN-BACK-BODY-OCCLUSION-TRIAL-S438.md",
+      "verified": true,
+      "note": "28-option Chromium trial rejects body-fill occlusion: all sleeve outlines are hidden. No production change or hold release."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2617,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S438-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S438-woven-back-body-occlusion-trial/body-mask-candidate/S438-back-body-mask-candidate.json",
+      "verified": true,
+      "note": "Exact revision 14:14 / 28-case output matrix; body mask covers all 28 hem crossings but leaves 0% of both sleeve outlines visible in every option."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2618,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S438-EXIT"
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2619,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S438-MATRIX"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2620,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S438 rejects the body-fill mask trial: although all 28 back sleeve-hem crossings lie inside the source-derived torso fill, masking only the two sleeve outline paths leaves 0% of either sleeve outline visible in every option. The exact Chromium trial removes required garment content; it is not a valid view resolution. All 56 Woven and 34 Polo faces remain held."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2621,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S438 is an offline negative rendering trial only. No source/cut/stitch geometry, production output, acceptance gate, hold, CAD requirement, legacy DXF/export identity, or physical/factory claim changed. Current integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
+  }
+]
