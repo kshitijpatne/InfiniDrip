@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2529,
-  "updatedAt": "2026-10-07T16:36:35.216Z",
+  "revision": 2538,
+  "updatedAt": "2026-10-07T16:50:21.724Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -623,7 +623,8 @@
         "E-G04-S425-EXIT",
         "E-G04-S426-EXIT",
         "E-G04-S427-EXIT",
-        "E-G04-S428-EXIT"
+        "E-G04-S428-EXIT",
+        "E-G04-S429-EXIT"
       ]
     },
     {
@@ -8882,6 +8883,16 @@
           "at": "2026-10-07T16:35:07.111Z",
           "actor": "Codex",
           "text": "S428 exit: current Woven output matches exact revision 14:14 across 28 configurations / 56 faces. The approved continuous body-neckline seam appears as two mirrored source halves per face; no duplicate outerStand neckline stroke is emitted. S417's symmetric front neckline/collar contacts and S381's crossing source-continuous back sleeve hems remain unresolved. No clip or gap is supported. All 56 Woven and 34 Polo views remain held; tally 56 accepted / 90 held. S427's unsupported cap-span repair remains rejected, and the approved Polo H locator remains implemented. No geometry, acceptance or gate changed."
+        },
+        {
+          "at": "2026-10-07T16:40:05.920Z",
+          "actor": "Codex",
+          "text": "Start S429 from clean S428 c481a1a. Audit exact Woven revision 14:14 across 28 options / 56 faces for POM target identity, keyed D/W presentation, label and marker overlap, and actual Chromium readability. No mapping, geometry, acceptance or hold changes."
+        },
+        {
+          "at": "2026-10-07T16:50:21.724Z",
+          "actor": "Codex",
+          "text": "S429 exit: exact Woven revision 14:14, 28 options/56 faces. All ten recipe POM definitions were accounted for by exact same-revision callouts on represented faces or explicit table-only/no-inference notices; 223 emitted callouts have exact source/target bindings. Keyed W/D rows remain complete. Actual Chromium text-box checks report zero overlaps, zero renderer/compile/browser errors; enlarged schedule and markers were reviewed. No source/render behavior, acceptance or status changed. Woven 56 and Polo 34 views remain held; 56 accepted/90 held overall. See the S429 packet and matrix."
         }
       ],
       "evidenceRefs": [
@@ -9495,7 +9506,13 @@
         "E-G04-S428-EXIT",
         "E-G04-S428-MATRIX",
         "E-G04-S428-RENDERED",
-        "E-G04-S428-BACK-RENDERED"
+        "E-G04-S428-BACK-RENDERED",
+        "E-G04-S429-START",
+        "E-G04-S429-EXIT",
+        "E-G04-S429-MATRIX",
+        "E-G04-S429-FRONT-RENDERED",
+        "E-G04-S429-MARKER-RENDERED",
+        "E-G04-S429-SCHEDULE-RENDERED"
       ],
       "flagKey": null
     },
@@ -16597,6 +16614,60 @@
       "sha256": null,
       "verified": true,
       "note": "Reviewed actual Chromium back close-up: both source-continuous reflected sleeve hems cross; no gap or unsupported over/under order is shown."
+    },
+    {
+      "id": "E-G04-S429-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/G04-V02-WOVEN-POM-OUTPUT-READABILITY-S429.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a 28-option current-revision audit of Woven POM/callout and label readability using actual emitted SVG output; preserves all holds and gates."
+    },
+    {
+      "id": "E-G04-S429-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/G04-V02-WOVEN-POM-OUTPUT-READABILITY-S429.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Audits every Woven source POM and every emitted same-revision face callout across 28 options/56 faces; preserves table-only notices and all holds."
+    },
+    {
+      "id": "E-G04-S429-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/S429-woven-callout-readability-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "28 options/56 faces: exact ten-POM inventory, 223 exact bound callouts, 337 explicit not-represented notices, zero text or unrelated ring collisions, zero compile/renderer/browser issues."
+    },
+    {
+      "id": "E-G04-S429-FRONT-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/rendered/woven-shirt-default-front_flat.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed actual Chromium same-revision Woven front output with approved collar/closure order, exact source callouts and retained hold notices."
+    },
+    {
+      "id": "E-G04-S429-MARKER-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/rendered-detail/woven-shirt-default-d-zoom.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed enlarged Chromium crop of the source-bound D spacing marker; source marks and underlying geometry remain visible."
+    },
+    {
+      "id": "E-G04-S429-SCHEDULE-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/rendered-detail/woven-shirt-default-pom-schedule-zoom.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed enlarged full keyed W/D schedule text, values and tolerances in actual Chromium output."
     }
   ]
 }

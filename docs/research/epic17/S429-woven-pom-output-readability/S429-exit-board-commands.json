@@ -1,0 +1,77 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2531,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S429-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/G04-V02-WOVEN-POM-OUTPUT-READABILITY-S429.md",
+      "verified": true,
+      "note": "Audits every Woven source POM and every emitted same-revision face callout across 28 options/56 faces; preserves table-only notices and all holds."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2532,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S429-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/S429-woven-callout-readability-matrix.json",
+      "verified": true,
+      "note": "28 options/56 faces: exact ten-POM inventory, 223 exact bound callouts, 337 explicit not-represented notices, zero text or unrelated ring collisions, zero compile/renderer/browser issues."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2533,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S429-FRONT-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/rendered/woven-shirt-default-front_flat.png",
+      "verified": true,
+      "note": "Reviewed actual Chromium same-revision Woven front output with approved collar/closure order, exact source callouts and retained hold notices."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2534,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S429-MARKER-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/rendered-detail/woven-shirt-default-d-zoom.png",
+      "verified": true,
+      "note": "Reviewed enlarged Chromium crop of the source-bound D spacing marker; source marks and underlying geometry remain visible."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2535,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S429-SCHEDULE-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/rendered-detail/woven-shirt-default-pom-schedule-zoom.png",
+      "verified": true,
+      "note": "Reviewed enlarged full keyed W/D schedule text, values and tolerances in actual Chromium output."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2536,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S429-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2537,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S429 exit: exact Woven revision 14:14, 28 options/56 faces. All ten recipe POM definitions were accounted for by exact same-revision callouts on represented faces or explicit table-only/no-inference notices; 223 emitted callouts have exact source/target bindings. Keyed W/D rows remain complete. Actual Chromium text-box checks report zero overlaps, zero renderer/compile/browser errors; enlarged schedule and markers were reviewed. No source/render behavior, acceptance or status changed. Woven 56 and Polo 34 views remain held; 56 accepted/90 held overall. See the S429 packet and matrix."
+  }
+]

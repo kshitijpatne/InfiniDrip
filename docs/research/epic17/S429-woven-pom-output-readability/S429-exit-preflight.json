@@ -1,0 +1,16 @@
+{
+  "sourceRevision": 2529,
+  "resultingRevision": 2538,
+  "epicStatus": "In Progress",
+  "v01Status": "Done",
+  "v02Status": "In Progress",
+  "v03Status": "Backlog",
+  "exitLinkedToEpic": true,
+  "exitLinkedToV02": true,
+  "matrixLinkedToV02": true,
+  "frontLinkedToV02": true,
+  "markerLinkedToV02": true,
+  "scheduleLinkedToV02": true,
+  "allStatusesUnchanged": true,
+  "holdsPreserved": true
+}

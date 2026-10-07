@@ -1,5 +1,19 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 latest completed work — Slice 429 Woven POM output readability audit
+
+S429 started 2026-10-07 16:39:35 UTC from clean S428 commit `c481a1a38c61c3af0477dffbfa79ddddfa8c3a42` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Slice 429 is complete; next unique number is 430. Board start/exit revision advances 2529→2538 through validated commands. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. `get_goal` confirms the admitted EPIC-17 objective remains active.
+
+S429 binds all ten source POM definitions to exact Woven revision `live-draft:woven-shirt:14:14`, then audits all 28 options / 56 faces. The emitted output contains 223 POM callout instances; all 223 are bound to the exact expected same-revision target and source edge/mark. View-specific source omissions are explicitly recorded in 337 notices; body length and neckline circumference remain table-only where their source edges are not drawn, and no opposite-face anchor is inferred. Every front has the two approved full keyed W/D POM schedule rows. Chromium reports zero text/text overlap, zero unrelated ring/text overlap, zero compile/renderer/browser issues. Actual full default front/back and zoomed keyed markers/schedule were inspected. The first apparent 56 ring/text collision count was the marker letters occupying their own rings; the audit now exempts only this intended pairing and confirms zero unrelated collisions. No new design decision or source change is needed.
+
+All holds remain unchanged: 56 Woven and 34 Polo faces; 56 accepted / 90 held across 73 configurations / 146 faces. Woven front collar contacts, back sleeve-hem crossings and the Polo 0.68 cm residual above the fixed 0.25 cm gate remain unresolved. No acceptance, mapping, geometry, export identity, status or V03 gate changed. Packet and matrix: `docs/research/epic17/S429-woven-pom-output-readability/`.
+
+Focused checks: exact-revision 28-option audit passes; actual default front/back and marker/schedule zoom captures reviewed. `npm run control-center:test` 42/42; board schema/read validation at revision 2538, validated start/exit command preflight/replay, script syntax and `git diff --check` pass. No production source changed, so changed-code coverage and the one integrated full repository gate remain for the settled Epic candidate.
+
+Elapsed 2026-10-07 16:39:35–16:50:23 UTC: audit/packet authoring ~3m; focused matrix, Chromium and Control Center verification ~4m; visual review ~1m; durable state/context/board closeout ~3m; external-agent waits 0m; blocking maintainer-decision wait 0m. (The maintainer confirmed the existing S425/S428 recommendations; no dependent work waited on that confirmation.)
+
+**Next action:** start S430 from the fresh boundary by prioritizing the remaining repeated Woven/Polo blockers without reopening settled mappings or changing thresholds. Preserve all 90 holds and V02-before-V03.
+
 ## EPIC-17 / G04 latest completed work — Slice 428 Woven current-hold reconciliation
 
 S428 started 2026-10-07 16:30:55 UTC from clean S427 `eb146b1ffcaa63af86d4d11caf31f51e55f1d803` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 428 is complete; next unique slice is 429. Board start/exit revision advanced 2514→2529 through validated commands. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog; statuses and goal status active. Current admitted scope and all-seven V02 acceptance are unchanged.
@@ -8,7 +22,7 @@ The maintainer confirmed the recommendation set: preserve the Woven continuous n
 
 Focused audit passes: 28/28 options, 56/56 faces, all exact revision, no compile/renderer issues, zero duplicate stand-base strokes, and 28/28 S401 back SVG/path identity matches. Actual S417 front and S373 back Chromium crops reviewed. Validated Control Center start/exit preflight and replay preserve all statuses; final `npm run control-center:test` passes 42/42; `readBoardFile()`, script syntax and `git diff --check` pass. Two summary assertion failures were diagnosed and the exact historical phrases restored additively. No production code changed; full repository coverage/build/export/rendered gate remains for the settled integrated candidate. Commit, clean state and ancestry verification remain before the slice boundary.
 
-**Next action:** commit S428 as one numbered slice, verify clean state and `origin/main` ancestry, then continue the remaining unresolved V02 blockers with every hold and gate preserved. No geometry or acceptance change is authorized by this reconciliation.
+**Next action:** continue the remaining unresolved V02 blockers with every hold and gate preserved. No geometry or acceptance change is authorized by this reconciliation. S428 landed as `c481a1a38c61c3af0477dffbfa79ddddfa8c3a42`; the worktree was clean and refreshed `origin/main` remained its ancestor.
 
 ## EPIC-17 / G04 latest completed work — Slice 427 Polo sleeve-cap source-repair diagnostic
 
