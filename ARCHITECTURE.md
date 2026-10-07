@@ -131,6 +131,19 @@ construction geometry. The approval and successful marker replay do not accept
 any view: all 56 Woven and 34 Polo faces remain held for independent topology,
 crossing, assembly, and residual gates.
 
+Slice 406 adds four maintainer-approved Woven front display conventions to the
+same revision-bound renderer: a D interval marker at the midpoint of the two
+source button marks, pocket foreground over only coincident/overlapping
+placket strokes, projected collar over the body shoulder from HPS to its first
+intersection, and projected collar over both closure plackets while preserving
+button-placket over buttonhole-placket beneath it. The source marks, piece
+outlines, stitches, POM data and schedule remain unchanged. The view-only clip
+metadata names the exact source decision and role contours; the renderer fails
+closed if those same-revision contours are unavailable. Its 28-option replay
+preserves all paired back SVGs, but other front intersections and the back
+sleeve/band crossing remain. The replay therefore releases none of the 56
+Woven or 34 Polo faces and does not satisfy all-seven V02 acceptance.
+
 Tee and Tank share a dedicated body-POM set with exact same-block back
 endpoints for chest, body length, across shoulder and neck width. The legacy
 `TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled

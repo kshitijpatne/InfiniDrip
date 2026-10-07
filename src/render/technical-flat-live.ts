@@ -324,6 +324,103 @@ export function mapWovenPlacketWidthKeyedCallout(kind: TechnicalFlatViewKind, re
     : candidate), issues: [] as TechnicalFlatLiveIssue[] };
 }
 
+/** Map the source interval POM to its approved derived midpoint marker without
+ * changing the source anchor, measurement, or schedule row. */
+export function mapWovenButtonSpacingKeyedCallout(kind: TechnicalFlatViewKind, revisionId: string,
+  callouts: readonly FlatCalloutPrimitive[], marks: readonly TechnicalFlatPrimitive[]) {
+  const sourceId = "pom:woven-shirt:front-button-spacing";
+  if (kind !== "FRONT_FLAT") return { callouts, issues: [] as TechnicalFlatLiveIssue[] };
+  const matches = callouts.filter((candidate) => candidate.source.sourceId === sourceId);
+  if (matches.length === 0) return { callouts, issues: [] as TechnicalFlatLiveIssue[] };
+  const markIds = ["button-1", "button-2"] as const;
+  const sources = markIds.map((markName) => `pattern:woven-shirt:mark:buttonPlacket:${markName}`);
+  const resolved = sources.map((sourceEntityId) => marks.filter((candidate): candidate is Extract<TechnicalFlatPrimitive, { kind: "mark" }> => candidate.kind === "mark"
+    && candidate.source.sourceId === sourceEntityId && candidate.source.revisionId === revisionId));
+  const callout = matches[0];
+  if (matches.length !== 1 || !callout || callout.source.revisionId !== revisionId
+    || callout.anchor.primitiveId !== "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1"
+    || callout.anchor.sourceEntityId !== sources[0] || resolved.some((items) => items.length !== 1)) {
+    return { callouts, issues: [{ stage: "pom" as const, sourceId,
+      message: "The approved Woven D key requires the exact same-revision front POM and one emitted button-1/button-2 mark pair." }] };
+  }
+  const first = resolved[0]![0]!;
+  const second = resolved[1]![0]!;
+  const point = { x: (first.at.x + second.at.x) / 2, y: (first.at.y + second.at.y) / 2 };
+  return { callouts: callouts.map((candidate) => candidate.id === callout.id ? { ...candidate, layer: "ANNOTATION" as const,
+    presentation: { kind: "keyed-marker-schedule" as const, key: "D", markerRadiusCm: 0.22,
+      markerStyle: "open-halo" as const, markerPoint: { point, sourceEntityIds: sources } } } : candidate),
+  issues: [] as TechnicalFlatLiveIssue[] };
+}
+
+function pathSubpaths(primitive: Extract<TechnicalFlatPrimitive, { kind: "path" }>) {
+  const groups: FlatPathCommand[][] = [];
+  let current: FlatPathCommand[] = [];
+  for (const command of primitive.commands) {
+    if (command.op === "move" && current.length) { groups.push(current); current = []; }
+    current.push(command);
+  }
+  if (current.length) groups.push(current);
+  return groups;
+}
+
+/** Attach the approved exact source-edge masks to the assembled Woven front.
+ * Missing or ambiguous source subpaths fail closed. */
+export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalFlatPrimitive[], revisionId: string) {
+  const rules = [
+    { source: "pattern:woven-shirt:role:front:edge:shoulder", decisionId: "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION", roles: ["outerStand"] },
+    { source: "pattern:woven-shirt:role:buttonPlacket:edge:top", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["outerStand", "underCollar", "upperCollar"] },
+    { source: "pattern:woven-shirt:role:buttonPlacket:edge:outerRaw", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["pocket", "outerStand", "underCollar", "upperCollar"] },
+    { source: "pattern:woven-shirt:role:buttonholePlacket:edge:top", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["outerStand", "underCollar", "upperCollar"] },
+    { source: "pattern:woven-shirt:role:buttonholePlacket:edge:outerRaw", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["outerStand", "underCollar", "upperCollar"] },
+  ] as const;
+  const issues: TechnicalFlatLiveIssue[] = [];
+  const targets = new Map<string, { owner: Extract<TechnicalFlatPrimitive, { kind: "path" }>;
+    clipped: Map<number, (typeof rules)[number]> }>();
+  for (const rule of rules) {
+    const owners = primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> => primitive.kind === "path" && primitive.source.revisionId === revisionId
+      && primitive.sourceEdgeIds !== undefined && primitive.sourceEdgeIds.includes(rule.source));
+    const occurrences = owners.flatMap((owner) => pathSubpaths(owner).map((commands, groupIndex) => ({ owner,
+      commands, groupIndex, sourceEdgeId: owner.sourceEdgeIds![groupIndex] })).filter((item) => item.sourceEdgeId === rule.source));
+    const expectedCount = rule.source.includes(":role:front:") ? 2 : 1;
+    if (occurrences.length !== expectedCount || occurrences.some((item) => !item.sourceEdgeId)) {
+      issues.push({ stage: "transform", sourceId: rule.source,
+        message: `Approved Woven view clipping requires ${expectedCount} exact same-revision assembled ${rule.source.split(":")[rule.source.split(":").length - 1]} edge instance(s); this face is withheld.` });
+      continue;
+    }
+    for (const item of occurrences) {
+      const ownerId = item.owner.id;
+      const target = targets.get(ownerId) ?? { owner: item.owner, clipped: new Map<number, (typeof rules)[number]>() };
+      const groupIndex = item.groupIndex;
+      target.clipped.set(groupIndex, rule);
+      targets.set(ownerId, target);
+    }
+  }
+  if (issues.length) return { primitives, issues };
+  const replacements = new Map<string, TechnicalFlatPrimitive[]>();
+  for (const [ownerId, target] of targets) {
+    const groups = pathSubpaths(target.owner);
+    // A target can only be added by the exact-edge filter above.
+    const sourceIds = target.owner.sourceEdgeIds!;
+    const calloutEdges = primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout"
+      && primitive.anchor.primitiveId === ownerId && primitive.anchor.sourceEntityId !== undefined)
+      .map((primitive) => primitive.anchor.sourceEntityId!);
+    const preferredIndex = sourceIds.findIndex((sourceId) => calloutEdges.includes(sourceId));
+    const retained = groups.flatMap((commands, index) => target.clipped.has(index)
+      ? [] : [{ commands, sourceEdgeId: sourceIds[index] }]);
+    const output: TechnicalFlatPrimitive[] = [];
+    if (retained.length) output.push({ ...target.owner, id: preferredIndex < 0 || !target.clipped.has(preferredIndex)
+      ? ownerId : `${ownerId}:unclipped-edges`,
+      commands: retained.flatMap((part) => part.commands), sourceEdgeIds: retained.map((part) => part.sourceEdgeId!).filter(Boolean) });
+    for (const [index, rule] of target.clipped) output.push({ ...target.owner,
+      id: index === preferredIndex ? ownerId : `${ownerId}:view-clip-${rule.source.split(":")[rule.source.split(":").length - 1]}`,
+      commands: groups[index]!, sourceEdgeIds: [rule.source],
+      viewClip: { decisionId: rule.decisionId, roleIds: [...rule.roles] } });
+    replacements.set(ownerId, output);
+  }
+  const output = primitives.flatMap((primitive) => replacements.get(primitive.id) ?? [primitive]);
+  return { primitives: output, issues };
+}
+
 /** Apply the approved source-centered Polo keys while retaining one full POM
  * schedule row per source measurement. These are display anchors, not joins. */
 export function mapPoloSourceCenteredKeyedCallouts(kind: TechnicalFlatViewKind, revisionId: string,
@@ -820,6 +917,22 @@ export function compileTechnicalFlatLiveView(input: TechnicalFlatLiveInput): Tec
     && projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
       .some((role) => role.roleId === "sleeve" && role.poloSleeveCapRepresentation !== undefined);
   if (approvedPoloSleeveCap) issues.push(...projectPoloSleeveFillClosures(transformed, input.revisionId));
+  if (recipe.name === "woven-shirt" && kind === "FRONT_FLAT") {
+    const sourceCallouts = transformed.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout");
+    const spacingKey = mapWovenButtonSpacingKeyedCallout(kind, revisionId, sourceCallouts, transformed);
+    issues.push(...spacingKey.issues);
+    if (!spacingKey.issues.length) {
+      const keyedById = new Map(spacingKey.callouts.map((callout) => [callout.id, callout]));
+      for (let index = 0; index < transformed.length; index += 1) {
+        const primitive = transformed[index]!;
+        // The mapper preserves the full callout list and only replaces the approved D row.
+        if (primitive.kind === "callout") transformed[index] = keyedById.get(primitive.id)!;
+      }
+    }
+    const clipped = applyWovenFrontApprovedViewClips(transformed, revisionId);
+    issues.push(...clipped.issues);
+    if (!clipped.issues.length) transformed.splice(0, transformed.length, ...clipped.primitives);
+  }
   if (!mapping || !face) issues.push({ stage: "geometry", sourceId: recipe.name,
     message: `Recipe “${recipe.label}” has no admitted ${kind === "FRONT_FLAT" ? "front" : "back"} flat mapping.` });
   if (issues.length > 0 || !overlayFace || poms.callouts === null) return { view: null, colorway: null, issues };

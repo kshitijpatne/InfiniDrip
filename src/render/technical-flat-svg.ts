@@ -38,7 +38,8 @@ export interface TechnicalFlatSvgOptions {
 
 export interface TechnicalFlatSvgIssue {
   readonly code: "INVALID_VIEW" | "FONT_METRICS_UNAVAILABLE" | "INVALID_FONT_METRICS"
-    | "COLORWAY_REVISION_MISMATCH" | "COLORWAY_TARGET_MISSING" | "COLORWAY_CONTOUR_UNCLOSED" | "TEXT_COLLISION";
+    | "COLORWAY_REVISION_MISMATCH" | "COLORWAY_TARGET_MISSING" | "COLORWAY_CONTOUR_UNCLOSED"
+    | "VIEW_CLIP_CONTOUR_UNAVAILABLE" | "TEXT_COLLISION";
   readonly entityId?: string;
   readonly message: string;
 }
@@ -107,8 +108,9 @@ function primitiveBounds(primitive: TechnicalFlatPrimitive): Bounds | null {
     case "text": return pointBounds(primitive.at);
     case "artwork": return artworkBounds(primitive);
     case "callout": {
+      const markerPoint = primitive.presentation?.markerPoint?.point ?? primitive.anchor.point;
       const base = primitive.presentation
-        ? pointBounds(primitive.anchor.point, primitive.presentation.markerRadiusCm)
+        ? pointBounds(markerPoint, primitive.presentation.markerRadiusCm)
         : union(pointBounds(primitive.anchor.point), pointBounds(primitive.labelAt));
       return (primitive.dimensionReferences?.references ?? []).reduce((result, reference) =>
         union(result, pointBounds(reference.point)), base);
@@ -323,6 +325,29 @@ function roleFor(primitive: TechnicalFlatPrimitive): string | null {
   return /:waistband:waistband:(?:frontLeft|frontRight|backLeft|backRight):waist:side-boundary$/u.test(primitive.id) ? "waistband" : null;
 }
 
+function viewRoleContour(view: TechnicalFlatView, roleId: string): string | null {
+  const outlines = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+    primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly !== true
+      && roleFor(primitive) === roleId);
+  const boundaries = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+    primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly === true
+      && roleFor(primitive) === roleId);
+  const paths = [...outlines, ...boundaries];
+  if (!paths.length) return null;
+  if (view.recipeId === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(roleId)) {
+    const suffix = ":attached-fold-reflection";
+    const original = paths.filter((primitive) => !primitive.id.endsWith(suffix));
+    const reflected = paths.filter((primitive) => primitive.id.endsWith(suffix));
+    const paired = original.length > 0 && original.length === reflected.length
+      && original.every((primitive) => reflected.some((candidate) => candidate.id === `${primitive.id}${suffix}`
+        && candidate.source.sourceId === primitive.source.sourceId && candidate.source.revisionId === primitive.source.revisionId));
+    if (!paired) return null;
+    const halves = [closedContourData(original), closedContourData(reflected)];
+    return halves.every((half): half is string => half !== null) ? halves.join(" ") : null;
+  }
+  return closedContourData(paths);
+}
+
 function selectSourceEdgeSubpaths(
   primitive: Extract<TechnicalFlatPrimitive, { kind: "path" }>,
   sourceEdgeIds: readonly string[],
@@ -351,8 +376,13 @@ function styleFor(primitive: TechnicalFlatPrimitive, positions: ReadonlyMap<stri
   switch (primitive.kind) {
     case "path": {
       if (primitive.colorwayBoundaryOnly === true) return "";
+      const clipKey = primitive.viewClip
+        ? `${primitive.viewClip.decisionId}:${[...primitive.viewClip.roleIds].sort().join(",")}` : undefined;
+      const clipId = clipKey === undefined ? undefined
+        : `view-clip-${clipKey.replace(/[^a-zA-Z0-9_-]/gu, "-")}`;
+      const mask = clipId ? ` mask="url(#${escapeXml(clipId)})" data-view-clip="${escapeXml(primitive.viewClip!.decisionId)}"` : "";
       const dash = primitive.patternMark?.kind === "foldLine" ? ` stroke-dasharray="0.18 0.1"` : "";
-      return `<path ${shared} data-layer="${primitive.layer}" d="${pathData(primitive.commands)}" fill="none" stroke="#19222b" stroke-width="${EDGE_STROKE_CM}" stroke-linecap="round" stroke-linejoin="round"${dash}/>`;
+      return `<path ${shared} data-layer="${primitive.layer}" d="${pathData(primitive.commands)}" fill="none" stroke="#19222b" stroke-width="${EDGE_STROKE_CM}" stroke-linecap="round" stroke-linejoin="round"${dash}${mask}/>`;
     }
     case "circle": return `<circle ${shared} data-layer="${primitive.layer}" cx="${fmt(primitive.center.x)}" cy="${fmt(primitive.center.y)}" r="${fmt(primitive.radius)}" fill="none" stroke="#19222b" stroke-width="${EDGE_STROKE_CM}"/>`;
     case "mark": {
@@ -682,8 +712,10 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   }
   for (const [key, group] of keyedMarkerGroups) {
     const first = group[0]!;
+    const firstPoint = first.presentation!.markerPoint?.point ?? first.anchor.point;
     if (group.some((callout) => callout.source.revisionId !== view.revisionId
-      || callout.anchor.point.x !== first.anchor.point.x || callout.anchor.point.y !== first.anchor.point.y
+      || (callout.presentation!.markerPoint?.point ?? callout.anchor.point).x !== firstPoint.x
+      || (callout.presentation!.markerPoint?.point ?? callout.anchor.point).y !== firstPoint.y
       || callout.presentation!.markerRadiusCm !== first.presentation!.markerRadiusCm
       || (callout.presentation!.markerStyle ?? "filled") !== (first.presentation!.markerStyle ?? "filled"))) {
       issues.push({ code: "TEXT_COLLISION", entityId: key,
@@ -721,18 +753,51 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   const finalWidth = Math.max(width, keyedScheduleWidth + 1.2);
   const viewBox = `${fmt(padBounds.minX)} ${fmt(padBounds.minY)} ${fmt(finalWidth)} ${fmt(height)}`;
 
+  const clipRules = new Map<string, { decisionId: string; roleIds: string[]; owners: string[] }>();
+  for (const primitive of view.primitives) {
+    if (primitive.kind !== "path" || !primitive.viewClip) continue;
+    const key = `${primitive.viewClip.decisionId}:${[...primitive.viewClip.roleIds].sort().join(",")}`;
+    const rule = clipRules.get(key) ?? { decisionId: primitive.viewClip.decisionId,
+      roleIds: [...primitive.viewClip.roleIds], owners: [] };
+    rule.owners.push(primitive.id);
+    clipRules.set(key, rule);
+  }
+  const clipIds = new Map<string, string>();
+  const clipDefinitions: string[] = [];
+  for (const [key, rule] of clipRules) {
+    const contours = rule.roleIds.map((roleId) => viewRoleContour(view, roleId));
+    if (contours.some((contour) => contour === null)) {
+      issues.push({ code: "VIEW_CLIP_CONTOUR_UNAVAILABLE", entityId: rule.owners[0],
+        message: `Approved view-only clip ${rule.decisionId} lacks a complete same-revision closed contour for ${rule.roleIds.join(", ")}; keep this flat withheld.` });
+      continue;
+    }
+    const id = `view-clip-${key.replace(/[^a-zA-Z0-9_-]/gu, "-")}`;
+    clipIds.set(key, id);
+    clipDefinitions.push(`<mask id="${escapeXml(id)}" maskUnits="userSpaceOnUse" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}"><rect x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}" fill="#fff"/><path d="${contours.join(" ")}" fill="#000" fill-rule="nonzero"/></mask>`);
+  }
+
   const ordered = [...view.primitives].sort((a, b) => {
     const layer = TECHNICAL_FLAT_LAYER_ORDER.indexOf(a.layer) - TECHNICAL_FLAT_LAYER_ORDER.indexOf(b.layer);
     if (layer) return layer;
+    if (view.recipeId === "woven-shirt" && view.kind === "FRONT_FLAT") {
+      const wovenRank = (primitive: TechnicalFlatPrimitive) => {
+        const role = roleFor(primitive);
+        return role === "buttonholePlacket" ? 10 : role === "buttonPlacket" ? 11
+          : role === "outerStand" ? 12 : role === "underCollar" ? 13 : role === "upperCollar" ? 14 : 0;
+      };
+      const roleOrder = wovenRank(a) - wovenRank(b);
+      if (roleOrder) return roleOrder;
+    }
     if (a.kind === "artwork" && b.kind === "artwork") return a.zOrder - b.zOrder;
     return a.id.localeCompare(b.id);
   });
   const wovenMarkerUnderlays = view.recipeId === "woven-shirt"
-    ? [...keyedMarkerGroups.entries()].filter(([key]) => key === "W").map(([key, group]) => {
+    ? [...keyedMarkerGroups.entries()].filter(([key]) => key === "W" || key === "D").map(([key, group]) => {
       const callout = group[0]!;
-      const { anchor } = callout;
+      const point = callout.presentation!.markerPoint?.point ?? callout.anchor.point;
       const sourceIds = group.map((item) => item.source.sourceId).join("|");
-      return `<g data-entity-id="${escapeXml(callout.id)}:key-marker-ring" data-feature="pom" data-marker-underlay-for="${escapeXml(key)}" data-source-id="${escapeXml(sourceIds)}" data-revision-id="${escapeXml(callout.source.revisionId)}"><circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(callout.presentation!.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/></g>`;
+      const markerSources = callout.presentation!.markerPoint?.sourceEntityIds.join("|") ?? callout.anchor.sourceEntityId ?? "";
+      return `<g data-entity-id="${escapeXml(callout.id)}:key-marker-ring" data-feature="pom" data-marker-underlay-for="${escapeXml(key)}" data-source-id="${escapeXml(sourceIds)}"${callout.presentation!.markerPoint ? ` data-marker-source-entities="${escapeXml(markerSources)}"` : ""} data-revision-id="${escapeXml(callout.source.revisionId)}"><circle cx="${fmt(point.x)}" cy="${fmt(point.y)}" r="${fmt(callout.presentation!.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/></g>`;
     }).join("") : "";
   const body = TECHNICAL_FLAT_LAYER_ORDER.map((layer: TechnicalFlatLayer) => {
     const layerPrimitives = ordered.filter((primitive) => primitive.layer === layer);
@@ -751,25 +816,27 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
     const callout = group[0]!;
     const presentation = callout.presentation!;
     const { anchor } = callout;
+    const markerPoint = presentation.markerPoint?.point ?? anchor.point;
     const sourceIds = group.map((item) => item.source.sourceId).join("|");
     const targets = group.map((item) => item.anchor.primitiveId).join("|");
     const sourceEntities = group.map((item) => item.anchor.sourceEntityId ?? "").join("|");
-    const wovenWovenMarker = view.recipeId === "woven-shirt" && key === "W";
+    const wovenWovenMarker = view.recipeId === "woven-shirt" && (key === "W" || key === "D");
     const marker = wovenWovenMarker ? "" : presentation.markerStyle === "open-halo"
-      ? `<circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/>`
-      : `<circle cx="${fmt(anchor.point.x)}" cy="${fmt(anchor.point.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/>`;
+      ? `<circle cx="${fmt(markerPoint.x)}" cy="${fmt(markerPoint.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/>`
+      : `<circle cx="${fmt(markerPoint.x)}" cy="${fmt(markerPoint.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/>`;
     const halo = presentation.markerStyle === "open-halo" ? ` stroke="#fff" stroke-width="0.09" stroke-linejoin="round" paint-order="stroke"` : "";
     const entityId = group.length === 1 ? `${callout.id}:key-marker` : `${key}:key-marker`;
+    const markerSources = presentation.markerPoint?.sourceEntityIds.join("|") ?? "";
     const targetMetadata = `data-callout-target="${escapeXml(targets)}"${group.length === 1
       ? (anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(anchor.sourceEntityId)}"`)
       : ` data-callout-targets="${escapeXml(targets)}" data-callout-source-entities="${escapeXml(sourceEntities)}"`}`;
     const title = group.length > 1 ? `<title>${escapeXml(group.map((item) => item.text).join("; "))}</title>` : "";
-    const glyphOffset = view.recipeId === "woven-shirt" && key === "W" ? { x: 0.2121, y: 0.2121 }
+    const glyphOffset = view.recipeId === "woven-shirt" && (key === "W" || key === "D") ? { x: 0.2121, y: 0.2121 }
       : view.recipeId === "polo" && key === "FG" ? { x: -0.424264, y: -0.424264 }
       : view.recipeId === "polo" && key === "E" ? { x: -0.38, y: -0.34 }
       : view.recipeId === "polo" && key === "I" ? { x: 0.34, y: -0.32 }
         : view.recipeId === "polo" && key === "H" ? { x: 0.45, y: 0.45 } : { x: 0, y: 0 };
-    return `<g data-entity-id="${escapeXml(entityId)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(sourceIds)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(key)}" ${targetMetadata}>${title}${marker}<text x="${fmt(anchor.point.x + glyphOffset.x)}" y="${fmt(anchor.point.y + 0.07 + glyphOffset.y)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b"${halo}>${escapeXml(key)}</text></g>`;
+    return `<g data-entity-id="${escapeXml(entityId)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(sourceIds)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(key)}"${presentation.markerPoint ? ` data-marker-source-entities="${escapeXml(markerSources)}"` : ""} ${targetMetadata}>${title}${marker}<text x="${fmt(markerPoint.x + glyphOffset.x)}" y="${fmt(markerPoint.y + 0.07 + glyphOffset.y)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b"${halo}>${escapeXml(key)}</text></g>`;
   }).join("");
   const labels = textItems.map((item) => {
     const metric = metricFor(item.text, options.measureText);
@@ -787,7 +854,7 @@ export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: Technic
   }).join("")}</g>` : "";
   const fabric = options.colorway ? ` data-colorway-id="${escapeXml(options.colorway.id)}" data-colorway-revision="${escapeXml(options.colorway.revisionId)}" data-color="${escapeXml(options.colorway.colorHex)}" data-texture="${options.colorway.texture}" data-shine="${fmt(options.colorway.shine)}"` : "";
   const title = escapeXml(options.title ?? `${view.recipeId} ${view.kind.replace("_", " ")}`);
-  const svg = `<svg xmlns="${SVG_NS}" role="img" aria-labelledby="flat-title" data-view-id="${escapeXml(view.viewId)}" data-revision-id="${escapeXml(view.revisionId)}" data-recipe-id="${escapeXml(view.recipeId)}" data-view-kind="${view.kind}" data-units="cm"${fabric} width="${fmt(finalWidth)}cm" height="${fmt(height)}cm" viewBox="${viewBox}"><title id="flat-title">${title}</title><desc>Pattern-derived technical flat in centimetres. Source and design revision are attached to every entity.</desc><rect data-technical-flat-paper="true" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}" fill="#fff"/>${body}${keyedMarkers.length ? `<g data-layer-group="POM_KEY_MARKERS">${keyedMarkers}</g>` : ""}<g data-layer-group="TEXT_LABELS">${labels}</g>${noticeLines.length ? `<g data-layer-group="SOURCE_NOTICES" role="note"><rect x="${fmt(padBounds.minX)}" y="${fmt(noticeTop)}" width="${fmt(width)}" height="${fmt(noticeHeight)}" fill="#fff7ed" stroke="#b45309" stroke-width="0.025"/>${renderedNotices}</g>` : ""}${keyedSchedule}</svg>`;
+  const svg = `<svg xmlns="${SVG_NS}" role="img" aria-labelledby="flat-title" data-view-id="${escapeXml(view.viewId)}" data-revision-id="${escapeXml(view.revisionId)}" data-recipe-id="${escapeXml(view.recipeId)}" data-view-kind="${view.kind}" data-units="cm"${fabric} width="${fmt(finalWidth)}cm" height="${fmt(height)}cm" viewBox="${viewBox}"><title id="flat-title">${title}</title><desc>Pattern-derived technical flat in centimetres. Source and design revision are attached to every entity.</desc>${clipDefinitions.length ? `<defs>${clipDefinitions.join("")}</defs>` : ""}<rect data-technical-flat-paper="true" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}" fill="#fff"/>${body}${keyedMarkers.length ? `<g data-layer-group="POM_KEY_MARKERS">${keyedMarkers}</g>` : ""}<g data-layer-group="TEXT_LABELS">${labels}</g>${noticeLines.length ? `<g data-layer-group="SOURCE_NOTICES" role="note"><rect x="${fmt(padBounds.minX)}" y="${fmt(noticeTop)}" width="${fmt(width)}" height="${fmt(noticeHeight)}" fill="#fff7ed" stroke="#b45309" stroke-width="0.025"/>${renderedNotices}</g>` : ""}${keyedSchedule}</svg>`;
   return { svg: issues.length ? null : svg, issues, textBounds: measured };
 }
 

@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 405 Woven collar/closure crossing audit complete; V02 remains open
+## EPIC-17 / G04 current work — Slice 406 Woven approved view conventions complete; V02 remains open
+
+S406 started 2026-10-07 06:42 UTC from clean S405 `3e30734` on `codex/epic-17-g04`; freshly fetched `origin/main` remains `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. S405 is the highest assigned slice; S406 is uniquely reserved. Canonical board revision advanced 2305→2308 through validated start replay and through 2329 through validated exit evidence, historical-assertion corrections and final status comment. G04-V01 Done, V02 In Progress, V03 Backlog. `get_goal` at the S406 boundary reports Active and the same EPIC-17 objective; the goal remains needed and unchanged.
+
+S406 implements four exact, approved Woven FRONT_FLAT view-only treatments: D keyed at the source button-mark midpoint with unchanged full schedule; pocket foreground suppressing only placket strokes beneath pocket bounds; collar over front shoulder from HPS to first projected intersection on both sides; and projected collar over both plackets, preserving button-over-buttonhole below the collar. No source/cut geometry, stitch graph, physical marks, POM identity, value/tolerance, option range or acceptance criterion changes. The separate closure layer order is an explicit view convention, not source evidence.
+
+S406 exit: actual Chromium replay at `live-draft:woven-shirt:14:14` covers 28 configurations/56 requests; all 56 emitted with zero compile, SVG or browser errors, six approved front clips per option, exact D marker/full schedule in 28/28 and S401-byte-identical backs in 28/28. Default, collarLeafDepth min/max, placketWidth min/max, combined and pocket-overlap crops were reviewed. Remaining front junction/crossing concerns and the back sleeve/band X keep all 56 Woven and 34 Polo faces held. Focused tests pass 98/98; changed-module coverage gate passes 231/231 and 100% statement/branch/function/line for all three production files; production build passes with existing chunk advisory; Control Center regression passes 42/42; `git diff --check` passes. One broad coverage invocation selected the repository suite unexpectedly, exposed unrelated UI failures and stalled; it is not treated as a passing full gate. Worker comparison: default 13.46 s/~1.84 GB Node RSS; one worker 19.13 s/~1.13 GB; defaults unchanged. Exact evidence and diagnosis are in `docs/research/epic17/S406-woven-approved-view-conventions/G04-V02-WOVEN-APPROVED-VIEW-CONVENTIONS-S406.md` and its `production-replay/` folder.
+
+At this verified boundary, `get_goal` reports Active and its objective matches the admitted EPIC-17 objective in the records. The goal remains needed through V02, V03, PR merge, ancestry and deployment verification; no goal status/wording change is required.
+
+**Next action:** at the committed S406 boundary, refresh Git/board and reserve unique S407 for the highest repeated remaining V02 blocker, beginning with the unresolved 28-option Woven back sleeve/band crossing. Preserve all holds and all-seven V02 acceptance; V03 remains gated.
+
+## Prior boundary — Slice 405 Woven collar/closure crossing audit complete; V02 remains open
 
 S405 started 2026-10-07 06:34 UTC from clean S404 `204f788ddca4753e6563de33d9b9de163b95291f` on `codex/epic-17-g04`. Fetched `origin/main` remains `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor; S404 was highest and S405 uniquely reserved. Canonical board revision advanced through validated start replay 2291→2294 and exit replay 2294→2301; validated EPIC summary refreshes advanced it to 2305. G04-V01 is Done, V02 In Progress, V03 Backlog. `get_goal` at this verified boundary reports `active`; its objective matches the admitted EPIC-17 V01→V02→V03 objective through safe merge, so the goal is still needed and unchanged.
 

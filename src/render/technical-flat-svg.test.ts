@@ -35,6 +35,56 @@ const measure: TechnicalFlatMeasureText = (text, fontSizeCm) => ({
 });
 
 describe("renderTechnicalFlatSvg", () => {
+  it("renders a source-provenanced alternate interval station and fails closed mask contour", () => {
+    const button1: TechnicalFlatPrimitive = { kind: "mark", id: "button-1", layer: "CONSTRUCTION", feature: "closure",
+      markKind: "button", markName: "button-1", source: { ...source, sourceId: "pattern:woven-shirt:mark:buttonPlacket:button-1" },
+      at: { x: 1, y: 1 } };
+    const button2: TechnicalFlatPrimitive = { ...button1, id: "button-2", markName: "button-2",
+      source: { ...button1.source, sourceId: "pattern:woven-shirt:mark:buttonPlacket:button-2" }, at: { x: 1, y: 5 } };
+    const collar: TechnicalFlatPrimitive = { kind: "path", id: "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...source, sourceId: "pattern:woven-shirt:role:outerStand" },
+      sourceEdgeIds: ["pattern:woven-shirt:role:outerStand:edge:a", "pattern:woven-shirt:role:outerStand:edge:b",
+        "pattern:woven-shirt:role:outerStand:edge:c"],
+      commands: [
+        { op: "move", point: { x: 0, y: 0 } }, { op: "line", point: { x: 3, y: 0 } },
+        { op: "move", point: { x: 3, y: 0 } }, { op: "line", point: { x: 3, y: 3 } },
+        { op: "move", point: { x: 3, y: 3 } }, { op: "line", point: { x: 0, y: 0 } },
+      ] };
+    const reflectedCollar: TechnicalFlatPrimitive = { ...collar,
+      id: `${collar.id}:attached-fold-reflection`,
+      commands: [
+        { op: "move", point: { x: -0, y: 0 } }, { op: "line", point: { x: -3, y: 0 } },
+        { op: "move", point: { x: -3, y: 0 } }, { op: "line", point: { x: -3, y: 3 } },
+        { op: "move", point: { x: -3, y: 3 } }, { op: "line", point: { x: 0, y: 0 } },
+      ] };
+    const clipped: TechnicalFlatPrimitive = { ...outline, id: "shoulder", sourceEdgeIds: ["pattern:woven-shirt:role:front:edge:shoulder"],
+      viewClip: { decisionId: "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION", roleIds: ["outerStand"] } };
+    const buttonPlacket: TechnicalFlatPrimitive = { ...outline, id: "button-placket",
+      source: { ...source, sourceId: "pattern:woven-shirt:role:buttonPlacket" },
+      sourceEdgeIds: ["pattern:woven-shirt:role:buttonPlacket:edge:top"] };
+    const pom: TechnicalFlatPrimitive = { kind: "callout", id: "spacing", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:woven-shirt:front-button-spacing" }, text: "Front button spacing: 4 cm (±0.2 cm)",
+      anchor: { primitiveId: "button-1", point: button1.at, sourceEntityId: button1.source.sourceId }, labelAt: { x: 6, y: 6 },
+      presentation: { kind: "keyed-marker-schedule", key: "D", markerRadiusCm: 0.22, markerStyle: "open-halo",
+        markerPoint: { point: { x: 1, y: 3 }, sourceEntityIds: [button1.source.sourceId, button2.source.sourceId] } } };
+    const widthPom: TechnicalFlatPrimitive = { kind: "callout", id: "placket-width", layer: "ANNOTATION", feature: "pom",
+      source: { ...source, sourceId: "pom:woven-shirt:finished-placket-width" }, text: "Finished placket width: 3 cm (±0.2 cm)",
+      anchor: { primitiveId: "button-placket", point: { x: 2, y: 1 }, sourceEntityId: "pattern:woven-shirt:role:buttonPlacket:edge:top" },
+      labelAt: { x: 7, y: 7 }, presentation: { kind: "keyed-marker-schedule", key: "W", markerRadiusCm: 0.22,
+        markerStyle: "open-halo" } };
+    const rendered = renderTechnicalFlatSvg({ ...makeView([button1, button2, collar, reflectedCollar, clipped, pom, buttonPlacket, widthPom]),
+      recipeId: "woven-shirt" }, { measureText: measure });
+    expect(rendered.issues).toEqual([]);
+    expect(rendered.svg).toContain("<mask id=\"view-clip-G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION-outerStand\"");
+    expect(rendered.svg).toContain("data-view-clip=\"G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION\"");
+    expect(rendered.svg).toContain("data-marker-source-entities=\"pattern:woven-shirt:mark:buttonPlacket:button-1|pattern:woven-shirt:mark:buttonPlacket:button-2\"");
+    expect(rendered.svg).toContain("cx=\"1\" cy=\"3\" r=\"0.22\"");
+    const invalid = renderTechnicalFlatSvg({ ...makeView([button1, button2, clipped, pom]), recipeId: "woven-shirt" }, { measureText: measure });
+    expect(invalid.svg).toBeNull();
+    expect(invalid.issues).toContainEqual(expect.objectContaining({ code: "VIEW_CLIP_CONTOUR_UNAVAILABLE" }));
+  });
+
   it("draws one open haloed marker per exact shared key while retaining one schedule row per POM", () => {
     const targets = ["front", "sleeve", "third"];
     const paths: TechnicalFlatPrimitive[] = targets.map((id) => ({ ...outline, id }));
@@ -135,7 +185,7 @@ describe("renderTechnicalFlatSvg", () => {
     const pom: TechnicalFlatPrimitive = {
       kind: "callout", id: "finished-placket-width", layer: "ANNOTATION", feature: "pom",
       source: { ...source, sourceId: "pom:woven-shirt:finished-placket-width" }, text: "Finished placket width: 3.0 cm (±0.2 cm)",
-      anchor: { primitiveId: target.id, point: { x: 2, y: 3 }, sourceEntityId: "view:woven-shirt:role:front:outline" },
+      anchor: { primitiveId: target.id, point: { x: 2, y: 3 } },
       labelAt: { x: 8, y: 5 },
       presentation: { kind: "keyed-marker-schedule", key: "W", markerRadiusCm: 0.22, markerStyle: "open-halo" },
     };

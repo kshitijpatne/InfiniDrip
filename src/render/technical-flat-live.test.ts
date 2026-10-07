@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { edgeEnd, edgeStart, pieceEdge } from "../drafting/piece";
-import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
+import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendPhysicalPairReflection, applyWovenFrontApprovedViewClips, compileTechnicalFlatLiveView, mapPoloCollarPointKeyedCallout, mapPoloSourceCenteredKeyedCallouts, mapPoloDimensionCallouts, mapWovenButtonSpacingKeyedCallout, mapWovenPlacketWidthKeyedCallout, placeTechnicalFlatPrimitive, projectPoloSleeveFillClosures, projectWovenSleeveFillClosures, reflectFoldPrimitive, reflectPhysicalPairPrimitive, reflectPrimitiveAcrossLine, technicalFlatAssemblyNotices, technicalFlatPrimitiveRole } from "./technical-flat-live";
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
@@ -103,6 +103,65 @@ describe("mapWovenPlacketWidthKeyedCallout", () => {
       { ...callout, anchor: { ...callout.anchor, primitiveId: "wrong-target" } },
       { ...callout, anchor: { ...callout.anchor, sourceEntityId: "wrong-edge" } },
     ]) expect(mapWovenPlacketWidthKeyedCallout("FRONT_FLAT", "woven-r1", [invalid], true).issues).toHaveLength(1);
+  });
+});
+
+describe("approved Woven front view conventions", () => {
+  const revisionId = "woven-r1";
+  const mark = (name: "button-1" | "button-2", x: number, y: number): TechnicalFlatPrimitive => ({
+    kind: "mark", id: `flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:${name}`, layer: "CONSTRUCTION",
+    feature: "closure", markKind: "button", markName: name,
+    source: { sourceClass: "PATTERN_DERIVED", sourceId: `pattern:woven-shirt:mark:buttonPlacket:${name}`, revisionId }, at: { x, y },
+  });
+
+  it("keys only the unchanged source interval POM and records both marks at their derived midpoint", () => {
+    const callout: FlatCalloutPrimitive = { kind: "callout", id: "spacing", layer: "CALLOUT", feature: "pom",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: "pom:woven-shirt:front-button-spacing", revisionId },
+      text: "Front button spacing: 8 cm (±0.2 cm)",
+      anchor: { primitiveId: "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1", point: { x: 1.5, y: 13.2 },
+        sourceEntityId: "pattern:woven-shirt:mark:buttonPlacket:button-1" }, labelAt: { x: 4, y: 8 } };
+    const result = mapWovenButtonSpacingKeyedCallout("FRONT_FLAT", revisionId, [callout], [mark("button-1", 1.5, 13.2), mark("button-2", 1.5, 21.2)]);
+    expect(result.issues).toEqual([]);
+    expect(result.callouts[0]).toMatchObject({ ...callout, layer: "ANNOTATION", text: callout.text,
+      presentation: { kind: "keyed-marker-schedule", key: "D", markerRadiusCm: 0.22, markerStyle: "open-halo",
+        markerPoint: { point: { x: 1.5, y: 17.2 }, sourceEntityIds: [
+          "pattern:woven-shirt:mark:buttonPlacket:button-1", "pattern:woven-shirt:mark:buttonPlacket:button-2",
+        ] } } });
+    expect(mapWovenButtonSpacingKeyedCallout("FRONT_FLAT", revisionId, [callout], [mark("button-1", 1.5, 13.2)]).issues).toHaveLength(1);
+    expect(mapWovenButtonSpacingKeyedCallout("BACK_FLAT", revisionId, [], []).issues).toEqual([]);
+  });
+
+  it("clips only approved exact subpaths and retains the callout target identity", () => {
+    const path = (id: string, role: string, edgeIds: string[]): FlatPathPrimitive => ({ kind: "path", id,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: `pattern:woven-shirt:role:${role}`, revisionId },
+      sourceEdgeIds: edgeIds, commands: edgeIds.flatMap((_, index) => [
+        { op: "move" as const, point: { x: index, y: 0 } }, { op: "line" as const, point: { x: index + 1, y: 0 } },
+      ]) });
+    const frontEdge = "pattern:woven-shirt:role:front:edge:shoulder";
+    const buttonTop = "pattern:woven-shirt:role:buttonPlacket:edge:top";
+    const buttonOuter = "pattern:woven-shirt:role:buttonPlacket:edge:outerRaw";
+    const buttonholeTop = "pattern:woven-shirt:role:buttonholePlacket:edge:top";
+    const buttonholeOuter = "pattern:woven-shirt:role:buttonholePlacket:edge:outerRaw";
+    const button = path("button", "buttonPlacket", [buttonTop, buttonOuter, "pattern:woven-shirt:role:buttonPlacket:edge:bottom"]);
+    const buttonhole = path("buttonhole", "buttonholePlacket", [buttonholeTop, buttonholeOuter]);
+    const shoulderA = path("shoulder-a", "front", [frontEdge]);
+    const shoulderB = path("shoulder-b", "front", [frontEdge]);
+    const callout: FlatCalloutPrimitive = { kind: "callout", id: "pom", layer: "CALLOUT", feature: "pom",
+      source: { sourceClass: "PATTERN_DERIVED", sourceId: "pom:woven-shirt:finished-placket-width", revisionId }, text: "width",
+      anchor: { primitiveId: "button", point: { x: 0, y: 0 }, sourceEntityId: buttonTop }, labelAt: { x: 2, y: 2 } };
+    const unmapped = { ...shoulderA, id: "unmapped-path", sourceEdgeIds: undefined };
+    const result = applyWovenFrontApprovedViewClips([button, buttonhole, shoulderA, shoulderB, unmapped, callout], revisionId);
+    expect(result.issues).toEqual([]);
+    const clipped = result.primitives.filter((primitive): primitive is FlatPathPrimitive => primitive.kind === "path" && primitive.viewClip !== undefined);
+    expect(clipped).toHaveLength(6);
+    expect(clipped.find((primitive) => primitive.viewClip?.decisionId === "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION")?.viewClip?.roleIds)
+      .toEqual(["outerStand"]);
+    expect(result.primitives.find((primitive) => primitive.id === "button")?.kind).toBe("path");
+    const missingInput = [button, buttonhole, shoulderA];
+    const missing = applyWovenFrontApprovedViewClips(missingInput, revisionId);
+    expect(missing.issues.length).toBeGreaterThan(0);
+    expect(missing.primitives).toBe(missingInput);
   });
 });
 

@@ -1,0 +1,3 @@
+[
+  {"type":"addComment","expectedRevision":2328,"itemId":"G04-V02","actor":"Codex","text":"S406 final closeout: canonical board summary retains historic verified assertions and adds current 28-option/56-request results. Control Center passes 42/42; focused tests 98/98; changed-area coverage 231/231 at 100% all metrics; build and production Chromium replay pass; git diff --check passes. Woven/Polo holds, all-seven acceptance, DXF/export identities and V03 gates remain unchanged."}
+]

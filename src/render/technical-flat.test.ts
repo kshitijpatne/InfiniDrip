@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   TECHNICAL_FLAT_SCHEMA_VERSION,
   validateTechnicalFlat,
+  type FlatCalloutPrimitive,
   type FlatPathPrimitive,
   type TechnicalFlatPrimitive,
   type TechnicalFlatView,
@@ -51,6 +52,27 @@ describe("validateTechnicalFlat", () => {
     expect(validateTechnicalFlat({ ...view(primitives), kind: "BACK_FLAT", notices: [
       { id: "topstitch-source-gap", feature: "topstitch", reason: "SOURCE_NOT_REPRESENTED", message: "Topstitch source is not represented." },
     ] })).toEqual([]);
+  });
+
+  it("validates view-only masks and alternate keyed marker provenance", () => {
+    const validClip: FlatPathPrimitive = { ...path(), viewClip: { decisionId: "G04-S405", roleIds: ["outerStand"] } };
+    const validMarker: FlatCalloutPrimitive = { kind: "callout", id: "pom-d", layer: "ANNOTATION", feature: "pom", source,
+      text: "Button spacing", anchor: { primitiveId: "front-outline", point: { x: 1, y: 2 } }, labelAt: { x: 5, y: 3 },
+      presentation: { kind: "keyed-marker-schedule", key: "D", markerRadiusCm: 0.22, markerStyle: "open-halo",
+        markerPoint: { point: { x: 2, y: 3 }, sourceEntityIds: ["pattern:tee:mark:front:first", "pattern:tee:mark:front:second"] } } };
+    expect(validateTechnicalFlat(view([validClip, validMarker]))).toEqual([]);
+    const malformed: TechnicalFlatPrimitive[] = [
+      { ...path("blank-decision"), viewClip: { decisionId: "", roleIds: ["outerStand"] } },
+      { ...path("empty-roles"), viewClip: { decisionId: "decision", roleIds: [] } },
+      { ...path("blank-role"), viewClip: { decisionId: "decision", roleIds: [" "] } },
+      { ...validMarker, id: "nonfinite-marker", presentation: { ...validMarker.presentation!, markerPoint: {
+        point: { x: Number.NaN, y: 2 }, sourceEntityIds: ["pattern:tee:mark:front:first"] } } },
+      { ...validMarker, id: "empty-marker-sources", presentation: { ...validMarker.presentation!, markerPoint: {
+        point: { x: 2, y: 3 }, sourceEntityIds: [] } } },
+      { ...validMarker, id: "blank-marker-source", presentation: { ...validMarker.presentation!, markerPoint: {
+        point: { x: 2, y: 3 }, sourceEntityIds: [" "] } } },
+    ];
+    expect(codes(view([path(), ...malformed]))).toEqual(Array(malformed.length).fill("INVALID_GEOMETRY"));
   });
 
   it("validates a POM callout's exact represented source edge", () => {

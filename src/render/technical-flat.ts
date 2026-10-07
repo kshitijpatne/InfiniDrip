@@ -90,6 +90,8 @@ export interface FlatPathPrimitive extends FlatPrimitiveBase {
   readonly projectionEndpointEdgeIds?: readonly [string, string];
   /** Internal source-bound contour closure used only to paint the associated colorway area. */
   readonly colorwayBoundaryOnly?: boolean;
+  /** View-only, fail-closed mask bound to exact assembled source-role contours. */
+  readonly viewClip?: { readonly decisionId: string; readonly roleIds: readonly string[] };
   readonly patternMark?: {
     readonly kind: "cutLine" | "foldLine" | "placementLine";
     readonly name: string;
@@ -151,6 +153,8 @@ export interface FlatCalloutPrimitive extends FlatPrimitiveBase {
     readonly markerRadiusCm: number;
     /** Open source-centered marker approved for the Polo V02 trial. */
     readonly markerStyle?: "filled" | "open-halo";
+    /** Alternate view-only marker station with explicit source provenance. */
+    readonly markerPoint?: { readonly point: FlatPoint; readonly sourceEntityIds: readonly string[] };
   };
   /** Annotation-only evidence for a multi-point POM; these references never join garment contours. */
   readonly dimensionReferences?: {
@@ -260,6 +264,12 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
       if (primitive.colorwayBoundaryOnly !== undefined && typeof primitive.colorwayBoundaryOnly !== "boolean") {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Colorway-only contour boundaries need an explicit boolean value." });
       }
+      if (primitive.viewClip !== undefined && (!primitive.viewClip || !nonBlank(primitive.viewClip.decisionId)
+        || !Array.isArray(primitive.viewClip.roleIds) || primitive.viewClip.roleIds.length === 0
+        || primitive.viewClip.roleIds.some((roleId) => !nonBlank(roleId)))) {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id,
+          message: "A view-only clip needs a decision identity and one or more exact role contours." });
+      }
       if (!validatePath(primitive)) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id, message: "Path commands must form finite, ordered subpaths." });
       }
@@ -322,6 +332,13 @@ function validatePrimitive(primitive: TechnicalFlatPrimitive): TechnicalFlatIssu
           && !["filled", "open-halo"].includes(primitive.presentation.markerStyle)))) {
         issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id,
           message: "Keyed callouts need a supported presentation, non-empty key and positive marker radius." });
+      }
+      if (primitive.presentation?.markerPoint !== undefined && (!finitePoint(primitive.presentation.markerPoint.point)
+        || !Array.isArray(primitive.presentation.markerPoint.sourceEntityIds)
+        || primitive.presentation.markerPoint.sourceEntityIds.length === 0
+        || primitive.presentation.markerPoint.sourceEntityIds.some((entityId) => !nonBlank(entityId)))) {
+        issues.push({ code: "INVALID_GEOMETRY", entityId: primitive.id,
+          message: "A view-only marker point requires a finite point and source-identified construction references." });
       }
       if (primitive.dimensionReferences !== undefined && (!primitive.dimensionReferences
         || !["edge-length", "vertical-levels"].includes(primitive.dimensionReferences.kind)
