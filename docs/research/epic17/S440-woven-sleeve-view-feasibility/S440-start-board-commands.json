@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2633,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S440-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S440-woven-sleeve-view-feasibility/G04-V02-WOVEN-SLEEVE-VIEW-FEASIBILITY-S440.md",
+      "verified": true,
+      "note": "Starts a diagnostic constrained search for a truthful source-vector-preserving Woven back-sleeve mapping, with S370 detached bands fixed as hard obstacles; no implementation or release authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2634,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S440: trace exact S406 Woven sleeve source/view correspondence and test source-vector-preserving placements against the approved fixed S370 band footprint, viewBox, topology and render constraints across all 28 options. Diagnostic only; preserve all holds and V02/V03 gates."
+  }
+]

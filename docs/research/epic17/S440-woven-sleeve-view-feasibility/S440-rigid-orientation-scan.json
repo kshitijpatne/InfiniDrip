@@ -1,0 +1,521 @@
+{
+  "candidate": "Rotate the entire source sideRight + hem[0,0.5] chain rigidly about the exact underarm endpoint; reflect the second instance across back.centerBack. Keep approved cap-to-armhole depiction and the S370 detached-band details fixed. This is a diagnostic view proposal, not source-encoded assembly order.",
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurationCount": 28,
+  "faces": 28,
+  "search": {
+    "stepDegrees": 0.1,
+    "testedAngles": 3600,
+    "obstacleClearanceCm": 0.05,
+    "constraints": [
+      "both reflected chains inside each exact production viewBox",
+      "both chains avoid the full S370 band-detail bounding boxes plus 0.05 cm clearance",
+      "no proper crossings between reflected sleeve line segments",
+      "neither line chain enters the exact back or yoke colorway-fill polygon (exact segment/polygon interval test on the SVG cubic tessellation)"
+    ]
+  },
+  "constraintCounts": {
+    "frame": 1196,
+    "band": 1864,
+    "pair": 3030,
+    "torsoExterior": 1548,
+    "frameBand": 1116,
+    "frameBandPair": 546,
+    "frameBandTorso": 0,
+    "allFour": 0
+  },
+  "sourceVectorChecks": [
+    {
+      "caseId": "woven-shirt-default",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "sideCm": 22.203609361092624,
+      "hemHalfCm": 18.500030910514717,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "sideCm": 22.203615576072288,
+      "hemHalfCm": 18.499997059999764,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "sideCm": 22.203579734132962,
+      "hemHalfCm": 18.500048898584026,
+      "U": {
+        "x": 27.5,
+        "y": 24
+      }
+    }
+  ],
+  "angleRangesPassingFrameBandAndPair": [
+    [
+      19.4,
+      48.4
+    ],
+    [
+      296.9,
+      322.3
+    ]
+  ],
+  "angleCountPassingFrameBandAndPair": 546,
+  "aggregateAnglesPassingAllRows": [],
+  "angleCountPassingAllRows": 0,
+  "perOptionSampledAnglesPassing": [
+    {
+      "caseId": "woven-shirt-default",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3067,
+      "torso": 1586,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "frame": 1224,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "frame": 1304,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "frame": 1251,
+      "band": 1901,
+      "reflectedPair": 3068,
+      "torso": 1585,
+      "combined": 0
+    }
+  ],
+  "limits": "This screen samples 0.1-degree rigid rotations. The no-body-overlap test uses exact segment intervals against same-revision back/yoke polygons whose cubic curves are tessellated at 24 steps. No accepted candidate exists, so no candidate SVG or rendered trial was generated. It does not establish cap/side tangent continuity, closure shape, body/collar layer order, POM/artwork clearance or truthful product semantics."
+}

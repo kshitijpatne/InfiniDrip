@@ -1,0 +1,53 @@
+# G04 V02 — Woven back-sleeve view feasibility — Slice 440
+
+## Start boundary and scope
+
+- Started 2026-10-07 20:30:14 UTC from clean S439 `ecd24c14d1b7fc526e0825bc09085fae01a41c78` on `codex/epic-17-g04`. Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and remains an ancestor. Highest assigned slice across fetched refs is 439; reserve S440. Canonical board revision 2633; EPIC-17 and G04-V02 are In Progress, V01 Done and V03 Backlog. Integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. Goal is active and matches completion through safe merge. Usage at entry is 26% primary / 18% weekly; ordinary work is allowed.
+- Admission: this bounded investigation is the next action in S439. No new recipe, display decision, or acceptance change is admitted.
+- Scope: trace the exact current S406 Woven BACK_FLAT source-to-view mapping and test whether any source-vector-preserving complete sleeve placement can satisfy the exact S370-approved detached-band footprint, viewBox, non-crossing and readability constraints across all 28 options. Diagnostic only; no production mapping, source/cut geometry, stitch graph, renderer, callout, export or face status changes.
+- Direct source/output evidence: bind to current `src/drafting/shirt.ts`, `src/render/technical-flat-projection.ts`, exact S406 replay revision `live-draft:woven-shirt:14:14`, S373/S437 crossing evidence, S370 verification notes, and the S370/S321 maintainer decisions. Distinguish encoded topology and coordinates from any proposed view orientation.
+- Required evidence: a reproducible constraint trace and option matrix for each geometrically distinct feasible mapping class; actual Chromium full-output/detail images for any candidate surviving exact constraints; source length/identity checks; intersections against body, yoke, collar, detached-band outlines/fold marks, callouts, and viewport; concise conclusion stating either a verified admissible mapping or the precise remaining product decision. Preserve holds if any gate fails.
+- Non-goals: do not move or resize approved S370 band details in production, add a hem gap/mask, invent a stitch or layer order, change source/cut geometry, release a face, change the 0.25 cm residual gate, weaken all-seven V02, start V03 early, or make physical/factory/production claims. No supplier contact, spending, broad UI work, or repeated general construction research.
+- Dependencies and gates: S370 band layout, S321 reflected pair, S344 cap projection, exact revision 14:14, all 28 Woven options, and all existing V02 acceptance checks. V03 remains Backlog until every V02 recipe/face passes and CAD rights/profile/round-trip evidence is secured. Legacy DXF and protected export byte identities remain required.
+- Ownership: Codex owns source/renderer trace, constrained candidate search, exact output review, and integration. No parallel coding ownership is safe because the same source geometry, mapping, output and renderer constraints must be evaluated together. No external coding agent is assigned in this slice.
+- Focused verification: bounded diagnostic assertions, Chromium output for any candidate that survives geometry constraints, `npm run control-center:test` for board changes, validated command-layer replay/preflight, and `git diff --check`. No product code is planned, so changed-production coverage/build/export and full-Epic gates are not due.
+- Start evidence: validated board command preflight and replay must advance revision 2633→2635 without changing Epic/work-item status or accepted/held tallies.
+
+## Slice result
+
+**No-go for a view-only placement within the current approved constraints.** Keep all 56 Woven views and 34 Polo views held. Do not add a hem gap, mask, invented sleeve-to-sleeve order or acceptance exception.
+
+### Direct source evidence and approved conventions
+
+- `src/drafting/shirt.ts::wovenSleeve` defines one uncut (`onFold: false`) sleeve with ordered `capLeft`, `capRight`, `sideRight`, full `hem`, and `sideLeft` edges. `Woven sleeve-cap ease` joins the sleeve cap to front/yoke/back armhole interfaces; `Folded sleeve band ↔ sleeve hem` connects the complete sleeve hem to `sleeveBand.top`. There is no source-defined sleeve-to-sleeve stitch, split hem, center-back crossing station, or over/under order.
+- The current production BACK_FLAT uses two sleeve instances reflected across `back.centerBack`; the displayed crossing is not a physical join. S344's cap receiver registration and endpoint anchoring fix the rigid complete-piece transform. Changing that transform moves the cap away from its approved receiver. Source-to-view geometry is thus not free to rotate as a complete piece while preserving the cap mapping.
+- The S370-approved unscaled band detail remains fixed in both side gutters. S373 rejects the unsupported 0.60 cm hem gap; S438 rejects body masking (0% sleeve outline visible outside the body/yoke fills in all 28 options); S439 rejects a length-preserving contact candidate (band intersections, unstitched body contact, and viewBox clipping).
+
+### Corrected permissive-rotation diagnostic
+
+The scanner tests a deliberately more permissive chain than a rigid complete-piece map: it rotates connected `sideRight` + `hem[0,.5]` around the exact underarm point, preserving those two lengths and their included angle, but changing their relation to the source cap tangent. This cannot be accepted as a complete source-piece mapping; it asks whether extra local freedom would even clear the gross constraints.
+
+Against all 28 exact S406 revision `live-draft:woven-shirt:14:14` cases, it checks 3,600 rotations at 0.1° increments, using exact segment intervals against the same-revision back/yoke fill polygons (cubic boundaries tessellated at 24 chords), the fixed S370 band boxes plus 0.05 cm clearance, reflected-pair intersection, and each production viewBox. It finds 546 rotations that pass frame/band/pair constraints, in angle ranges 19.4°–48.4° and 296.9°–322.3°. **None** also avoids the back/yoke fills, in every option. There is therefore no surviving candidate to render or review.
+
+The first scanner implementation used 100 point samples per segment while its JSON description incorrectly said 0.01 cm. Before relying on it, this was corrected to a segment/polygon interval test. Its first boundary-only self-check exposed that the ray-cast helper classifies an edge point as inside; the interval predicate now excludes explicit polygon-boundary points. The four self-checks then passed for an interior crossing, disjoint segment, boundary-only contact and interior endpoint. The corrected 28-option result remains zero feasible rotations; the torso-only count changes 1,549→1,548. See `scan-rigid-sleeve-orientation.mjs`, `S440-rigid-orientation-scan.json`, and `S440-claude-opus-5-5-result.md`.
+
+### Opus 5.5 research check
+
+Claude CLI confirmed model `claude-opus-5-5` at `xhigh` and returned `WORK FINISHED`, no code/file edits, and zero web searches/fetches. It independently reasoned that the armhole receiver anchor fixes position and cap fit fixes rigid rotation, so no rigid source-piece pose removes the crossing while preserving S344 and S370. This is corroboration only: Claude ran from a stale Slice-260 worktree, did not verify the coordinator checkout against S439, omitted multiple requested controlling records, and rendered no candidate. Its result file records these limitations. No external reference was found that can settle InfiniDrip's custom sleeve mapping; the question is constrained by the recipe source and approved view semantics.
+
+### Acceptance, holds, and decision boundary
+
+- No valid alternative mapping or applicable renderer change was established. No view code, source geometry/stitch graph, band layout, cut piece, option, export, acceptance rule or status changed.
+- The original crossing remains visible in actual S373/S406 output. Since no new candidate survived the exact geometry screen, no S440 candidate SVG or Chromium output was generated; the render-if-feasible criterion was not triggered.
+- All 56 Woven and 34 Polo faces stay held. Integrated tally remains 56 accepted / 90 held over 73 configurations / 146 faces. All-seven V02 and V02-before-V03 remain unchanged; V03 remains gated behind V02 and CAD rights/profile/round-trip evidence. Legacy DXF and protected export identities remain required.
+- A different path would require a new explicit decision and exact proposal revisiting the complete-piece cap transform, the fixed S370 band placement, or source cut/topology. Accepting the center-back crossing would revise the no-crossing V02 gate; it is not recommended, approved, or applied. Keep the present holds until a permitted source-backed proposal exists.
+
+## Exit evidence and next action
+
+Validated start and exit board commands advance revision 2633→2635→2643; EPIC-17/G04-V02 remain In Progress, V01 Done, and V03 Backlog. S440 start, exit, corrected matrix and Claude result are verified and linked on G04-V02. Canonical board read validates the schema, four S440 evidence links are present, and all statuses/tallies remain unchanged.
+
+`npm run control-center:test` passes 42/42 after the exit replay. The corrected scanner and its four geometric self-checks pass across all 28 options; `node --check` passes for the scanner/preflight/replay scripts; board exit preflight passes; `git diff --check` passes with only the repository's existing Windows line-ending notices. No production behavior or test suite changed, so no production coverage/build/export or full-Epic gate is due. Actual sleeve crossing reference remains the S373/S406 production output; no new candidate output exists to review.
+
+Elapsed 2026-10-07 20:30:14–20:51:04 UTC (20m50s): production implementation 0m; source/code/geometry analysis ~4m; diagnostic harness correction, self-checks and matrix rerun ~2m; focused board/scanner verification ~2m; packet/state/context/board closeout ~4m; Claude Opus external-agent waits at least 8m41s for the completed invocation (the two earlier exhausted attempts were not independently timed); maintainer-decision time 0m.
+
+**Next action:** retain the Woven/Polo holds and unchanged all-seven V02/V02-before-V03 gates. Create one bounded decision brief for the maintainer that lists the exact remaining Woven front and back holds, their current source/output evidence, and which approved mapping, band-layout, source-topology or acceptance constraint would have to be explicitly revisited before any new implementation. Do not silently change those constraints or start V03.

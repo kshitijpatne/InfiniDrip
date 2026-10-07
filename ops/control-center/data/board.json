@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2633,
-  "updatedAt": "2026-10-07T20:25:09.199Z",
+  "revision": 2643,
+  "updatedAt": "2026-10-07T20:50:18.968Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -640,7 +640,10 @@
         "E-G04-S438-MATRIX",
         "E-G04-S439-EXIT",
         "E-G04-S439-MATRIX",
-        "E-G04-S439-RENDER"
+        "E-G04-S439-RENDER",
+        "E-G04-S440-EXIT",
+        "E-G04-S440-MATRIX",
+        "E-G04-S440-CLAUDE"
       ]
     },
     {
@@ -4352,6 +4355,11 @@
           "at": "2026-10-07T20:25:09.199Z",
           "actor": "Codex",
           "text": "S439 is a rejected offline view candidate only. No production mappings, pattern/stitch geometry, acceptance criteria, V03 gate, export identity, recipe scope, or face status changed; integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
+        },
+        {
+          "at": "2026-10-07T20:50:18.968Z",
+          "actor": "Codex",
+          "text": "S440 is diagnostic only. No source, cut geometry, stitch graph, production mapping, export, acceptance gate, or face status changed. All Woven and Polo views remain held; tally stays 56 accepted / 90 held across 73 configurations / 146 faces. V03 remains gated behind all-seven V02 and CAD rights/profile/round-trip evidence."
         }
       ],
       "evidenceRefs": [
@@ -9119,6 +9127,16 @@
           "at": "2026-10-07T20:25:09.153Z",
           "actor": "Codex",
           "text": "S439 rejects the no-mask source-length sleeve candidate: all 28 options produce 12 crossings against the approved detached band details, both hem halves touch unstitched back.sideMiddle stations, and the candidate extends to |x|=42.1219 outside the production viewBox ±32.2. The 22.203603 cm side and 18.5 cm hem lengths are preserved, but that alone does not give a truthful readable mapping. All Woven/Polo holds persist."
+        },
+        {
+          "at": "2026-10-07T20:30:48.558Z",
+          "actor": "Codex",
+          "text": "Start S440: trace exact S406 Woven sleeve source/view correspondence and test source-vector-preserving placements against the approved fixed S370 band footprint, viewBox, topology and render constraints across all 28 options. Diagnostic only; preserve all holds and V02/V03 gates."
+        },
+        {
+          "at": "2026-10-07T20:50:18.937Z",
+          "actor": "Codex",
+          "text": "S440 rejects a source-compatible Woven BACK_FLAT sleeve reorientation under the approved S344 cap mapping and S370 side-gutter details. Across 3,600 0.1-degree rotations and all 28 exact options, 546 pass frame/band/reflected-pair geometry but zero also avoid the same-revision back/yoke fills. The corrected segment/polygon test confirms the result. No candidate survived to render; holds and all-seven acceptance remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -9764,7 +9782,11 @@
         "E-G04-S439-START",
         "E-G04-S439-EXIT",
         "E-G04-S439-MATRIX",
-        "E-G04-S439-RENDER"
+        "E-G04-S439-RENDER",
+        "E-G04-S440-START",
+        "E-G04-S440-EXIT",
+        "E-G04-S440-MATRIX",
+        "E-G04-S440-CLAUDE"
       ],
       "flagKey": null
     },
@@ -17154,6 +17176,42 @@
       "sha256": null,
       "verified": true,
       "note": "Chromium detail confirms oversized triangular sleeve, collision with approved detached band detail and unstitched cuff-to-body contact; whole-output frames clip the overhanging sleeve."
+    },
+    {
+      "id": "E-G04-S440-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S440-woven-sleeve-view-feasibility/G04-V02-WOVEN-SLEEVE-VIEW-FEASIBILITY-S440.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a diagnostic constrained search for a truthful source-vector-preserving Woven back-sleeve mapping, with S370 detached bands fixed as hard obstacles; no implementation or release authorized."
+    },
+    {
+      "id": "E-G04-S440-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S440-woven-sleeve-view-feasibility/G04-V02-WOVEN-SLEEVE-VIEW-FEASIBILITY-S440.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Corrected exact-interval geometry scan finds zero source-compatible Woven back-sleeve placements under the cap mapping, fixed S370 bands, mirrored-pair, body and frame constraints; all holds retained."
+    },
+    {
+      "id": "E-G04-S440-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S440-woven-sleeve-view-feasibility/S440-rigid-orientation-scan.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Rerunnable 3,600-angle scan across all 28 exact S406 options; corrected segment/polygon interval check and four self-checks produce zero combined feasible rotations."
+    },
+    {
+      "id": "E-G04-S440-CLAUDE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S440-woven-sleeve-view-feasibility/S440-claude-opus-5-5-result.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact Claude Opus 5.5 xhigh read-only result corroborates no rigid placement; stale-worktree/incomplete-context/no-web-search limitations are recorded and the report is not treated as primary evidence."
     }
   ]
 }
