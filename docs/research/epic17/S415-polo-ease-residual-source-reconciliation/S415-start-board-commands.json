@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2408,"itemId":"G04-V02","evidence":{"id":"E-G04-S415-START","kind":"document","uri":"docs/research/epic17/S415-polo-ease-residual-source-reconciliation/G04-V02-POLO-EASE-RESIDUAL-SOURCE-RECONCILIATION-S415.md","verified":true,"note":"Reconciles directly encoded 1.5 cm Polo sleeve-cap ease with the repeated 0.68 cm assembled-view residual and fixed 0.25 cm gate; no threshold or source-geometry change."}},
+  {"type":"addEpicEvidence","expectedRevision":2409,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S415-START"},
+  {"type":"addComment","expectedRevision":2410,"itemId":"G04-V02","actor":"Codex","text":"S415 investigates whether Polo's repeated 0.68 cm sleeve-cap residual is distinct from the directly authored 1.5 cm cap ease. The 0.25 cm gate and all 34 face holds remain fixed."}
+]

@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2411,"itemId":"G04-V02","evidence":{"id":"E-G04-S415-EXIT","kind":"document","uri":"docs/research/epic17/S415-polo-ease-residual-source-reconciliation/G04-V02-POLO-EASE-RESIDUAL-SOURCE-RECONCILIATION-S415.md","verified":true,"note":"Polo's 1.5 cm authored ease is distinct from 0.68 cm production-mapped RMS landmark separation. Corrects misleading diagnostic wording only; fixed 0.25 cm gate and all 34 Polo holds remain."}},
+  {"type":"addEpicEvidence","expectedRevision":2412,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S415-EXIT"},
+  {"type":"addComment","expectedRevision":2413,"itemId":"G04-V02","actor":"Codex","text":"S415 clarifies that the 0.68 cm Polo blocker is RMS separation across matched seam landmarks after mapped rigid placement, distinct from the source-authored 1.5 cm ease. Diagnostic wording is corrected; 0.25 cm gate and 34 face holds remain."}
+]

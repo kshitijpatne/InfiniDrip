@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2408,
-  "updatedAt": "2026-10-07T08:32:43.956Z",
+  "revision": 2414,
+  "updatedAt": "2026-10-07T08:40:26.013Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -602,7 +602,9 @@
         "E-G04-S413-MATRIX",
         "E-G04-S413-REJECTED-MATRIX",
         "E-G04-S414-START",
-        "E-G04-S414-EXIT"
+        "E-G04-S414-EXIT",
+        "E-G04-S415-START",
+        "E-G04-S415-EXIT"
       ]
     },
     {
@@ -8676,6 +8678,16 @@
           "at": "2026-10-07T08:32:43.956Z",
           "actor": "Codex",
           "text": "S414 confirms the reaffirmed collar-over-plackets order is implemented. It does not settle the separate S410 center-front neckline interruption choice. Woven: 56 held; Polo: 34 held; all-seven V02 unchanged."
+        },
+        {
+          "at": "2026-10-07T08:35:33.920Z",
+          "actor": "Codex",
+          "text": "S415 investigates whether Polo's repeated 0.68 cm sleeve-cap residual is distinct from the directly authored 1.5 cm cap ease. The 0.25 cm gate and all 34 face holds remain fixed."
+        },
+        {
+          "at": "2026-10-07T08:40:26.013Z",
+          "actor": "Codex",
+          "text": "S415 clarifies that the 0.68 cm Polo blocker is RMS separation across matched seam landmarks after mapped rigid placement, distinct from the source-authored 1.5 cm ease. Diagnostic wording is corrected; 0.25 cm gate and 34 face holds remain."
         }
       ],
       "evidenceRefs": [
@@ -9251,7 +9263,9 @@
         "E-G04-S413-RISE-MAX",
         "E-G04-S413-RISE-MIN",
         "E-G04-S414-START",
-        "E-G04-S414-EXIT"
+        "E-G04-S414-EXIT",
+        "E-G04-S415-START",
+        "E-G04-S415-EXIT"
       ],
       "flagKey": null
     },
@@ -15979,6 +15993,24 @@
       "sha256": null,
       "verified": true,
       "note": "Reaffirmed collar-over-plackets approval is already implemented in S406; exact 28-option output and S407/S410 evidence leave only the distinct neckline clip choice unresolved; all 56 Woven and 34 Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S415-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S415-polo-ease-residual-source-reconciliation/G04-V02-POLO-EASE-RESIDUAL-SOURCE-RECONCILIATION-S415.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles directly encoded 1.5 cm Polo sleeve-cap ease with the repeated 0.68 cm assembled-view residual and fixed 0.25 cm gate; no threshold or source-geometry change."
+    },
+    {
+      "id": "E-G04-S415-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S415-polo-ease-residual-source-reconciliation/G04-V02-POLO-EASE-RESIDUAL-SOURCE-RECONCILIATION-S415.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Polo's 1.5 cm authored ease is distinct from 0.68 cm production-mapped RMS landmark separation. Corrects misleading diagnostic wording only; fixed 0.25 cm gate and all 34 Polo holds remain."
     }
   ]
 }

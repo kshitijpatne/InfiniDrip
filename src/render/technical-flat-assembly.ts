@@ -396,7 +396,7 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
         && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION"));
       if (residual && !issues.some((issue) => issue.sourceId === `stitch:${residual.label}`)) issues.push({
         code: "STITCH_ENDPOINT_RESIDUAL", sourceId: `stitch:${residual.label}`,
-        message: `Stitch “${residual.label}” leaves its sewn endpoints ${residual.endpointResidualCm.toFixed(2)} cm apart after rigid placement; review this construction line before release.`,
+        message: `Stitch “${residual.label}” has ${residual.endpointResidualCm.toFixed(2)} cm RMS separation across matched seam landmarks after rigid placement; review this construction line before release.`,
       });
     }
   }

@@ -665,7 +665,7 @@ describe("compileTechnicalFlatLiveView", () => {
         const bodyUnderarm = bodyUnderarmCommand.point;
         expect(Math.hypot(sleeveUnderarm.x - bodyUnderarm.x, sleeveUnderarm.y - bodyUnderarm.y)).toBeLessThan(1e-8);
         expect(result.view?.notices.some((notice) => notice.sourceId === "stitch:Sleeve-cap ease"
-          && notice.message.includes("endpoints"))).toBe(true);
+          && notice.message.includes("RMS separation across matched seam landmarks"))).toBe(true);
         expect(result.view?.primitives.some((primitive) => primitive.id.endsWith(":approved-view-pair"))).toBe(true);
       }
     }
@@ -963,7 +963,7 @@ describe("compileTechnicalFlatLiveView", () => {
         expect(result.view?.primitives.some((primitive) => primitive.kind === "path"
           && primitive.source.sourceId === `pattern:${recipeId}:role:${roleId}`), `${recipeId}.${kind}`).toBe(true);
         expect(result.view?.notices.some((notice) => notice.sourceId === "stitch:Sleeve-cap ease"
-          && notice.message.includes("endpoints")), `${recipeId}.${kind}`).toBe(true);
+          && notice.message.includes("RMS separation across matched seam landmarks")), `${recipeId}.${kind}`).toBe(true);
       }
     }
   });
@@ -1182,6 +1182,8 @@ describe("compileTechnicalFlatLiveView", () => {
         expect(result.view).toBeNull();
         expect(result.colorway).toBeNull();
         expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
+          sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.68 cm RMS separation across matched seam landmarks") }));
+        expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
           sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));
         const poms = result.issues.filter((issue) => issue.stage === "pom");
         expect(poms.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
@@ -1326,7 +1328,9 @@ describe("compileTechnicalFlatLiveView", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
     const block = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
     const result = assembleTechnicalFlatRoles("tee", block, "FRONT_FLAT");
-    const residual = result.issues.find((issue) => issue.message.includes("leaves its sewn endpoints"));
+    const residual = result.issues.find((issue) => issue.message.includes("RMS separation across matched seam landmarks"));
     expect(residual?.sourceId).toContain("stitch:");
+    expect(residual?.message).toContain("after rigid placement");
   });
+
 });

@@ -1,0 +1,27 @@
+{
+  "sourceRevision": "S382 current 17-option Polo pattern source; unchanged through S415",
+  "options": 17,
+  "faces": 34,
+  "sourceStitch": "Sleeve-cap ease",
+  "sourceEaseCm": 1.5,
+  "capEdges": ["sleeve.capLeft", "sleeve.capRight"],
+  "receiverEdges": ["front.armhole", "back.armhole"],
+  "totalCapLengthCm": 43.19145806476,
+  "totalReceiverLengthCm": 41.69145806677,
+  "productionMappedRmsSeparationCm": 0.68,
+  "gateCm": 0.25,
+  "productionMappedFacesFailingGate": 34,
+  "metricMethod": "RMS Euclidean separation across matched interface landmarks after rigid placement and endpoint anchoring, using the validated S353 projection metadata for edge traversal/reflection.",
+  "rawHelperOnlyDiagnostic": {
+    "rmsCm": 0.48,
+    "status": "not production-comparable; called assembleTechnicalFlatRoles without the validated projection map"
+  },
+  "diagnosticWordingCorrected": true,
+  "liveCompilerRegressionRows": 17,
+  "liveCompilerRegressionFaces": 34,
+  "liveCompilerMessage": "Stitch ‘Sleeve-cap ease’ has 0.68 cm RMS separation across matched seam landmarks after rigid placement; review this construction line before release. Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance.",
+  "measurementChanged": false,
+  "gateChanged": false,
+  "sourceGeometryOrStitchChanged": false,
+  "facesReleased": 0
+}
