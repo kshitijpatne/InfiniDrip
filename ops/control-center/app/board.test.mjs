@@ -255,8 +255,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     if (id === "EPIC-17") {
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /Latest verified integrated tally is 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-      assert.match(epic.description, /S425 implements and verifies the approved Polo H segmented-ring display/);
+      assert.match(epic.description, /Latest integrated tally remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(epic.description, /S425 implements the approved Polo H display/);
       assert.match(epic.description, /The Woven body neckline remains continuous by maintainer decision/);
       assert.match(epic.description, /S406's approved view-only collar-over-plackets order remains implemented/);
       assert.match(card.description, /Latest verified tally remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);

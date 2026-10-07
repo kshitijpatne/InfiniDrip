@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2503,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S427-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S427-polo-sleeve-cap-repair-alternatives/G04-V02-POLO-SLEEVE-CAP-REPAIR-DIAGNOSTIC-S427.md",
+      "verified": true,
+      "note": "Starts a source-bound Polo sleeve-cap repair diagnostic; no geometry, stitch graph, acceptance gate, or face hold may change."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2504,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S427 from clean S426 3eba932a. Diagnose bounded Polo sleeve-cap source-repair alternatives against the exact 17 supported option rows and both front/back residuals. Do not edit production geometry/stitch graphs without a new explicit approval; retain the 0.25 cm gate, all 34 Polo/56 Woven holds and all-seven V02."
+  }
+]

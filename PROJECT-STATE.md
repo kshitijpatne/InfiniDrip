@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 latest completed work — Slice 427 Polo sleeve-cap source-repair diagnostic
+
+S427 started 2026-10-07 16:19:12 UTC from clean S426 `3eba932a9ad752d3e08014610350b51e568adf8c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 427 is complete; next unique number is 428. Board revision moved 2503→2514 through validated start and exit commands. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog; statuses unchanged. The goal remains active. Usage at entry: 9% primary / 10% weekly.
+
+Exact Polo source and all 17 options reproduce S423's 0.677835 cm endpoint RMS. The source couples 43 cm cap span to the Sleeve bicep width POM at the cap/side junctions (±0.6 cm). A cap-span-only diagnostic would have to shrink that span to 35.730905 cm to reach 0.25 cm, changing the POM by −7.269095 cm and increasing cap height from 1.786944 to 10.978524 cm while retaining 1.5 cm total cap ease. The change is outside POM tolerance and materially reshapes the piece; no source change is made or recommended. All 34 Polo and 56 Woven views remain held; 56 accepted / 90 held across 73 configurations / 146 faces. Preserve every G04 gate and claim boundary. Packet, matrix and overlay: `docs/research/epic17/S427-polo-sleeve-cap-repair-alternatives/`.
+
+Focused checks: 17-option diagnostic invariants pass; Chromium rendered the actual-source/in-memory overlay with zero browser errors; validated board preflight/replay and `readBoardFile()` pass at revision 2514; `npm run control-center:test` passes 42/42; `git diff --check` passes. Two stale summary wording assertions were corrected and documented in the packet.
+
+**Next action:** start S428 with an exact-current-source/output diagnosis of remaining Woven holds, reusing S381/S417 and later approved-mapping evidence; keep 56 Woven faces held unless all topology and rendered gates pass.
+
 ## EPIC-17 / G04 current work — Slice 426 Polo full-label callout diagnosis; V02 remains open
 
 S426 started 2026-10-07 15:50:59 UTC from clean S425 `408ec16b91dc0736bcf748fd2785cd8059e1f523` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 426 is complete; the next unique slice is 427. Canonical board revision moved 2491→2503 through validated start, exit, and summary-reconciliation commands. EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog; no status changed. The goal remains active. The integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.

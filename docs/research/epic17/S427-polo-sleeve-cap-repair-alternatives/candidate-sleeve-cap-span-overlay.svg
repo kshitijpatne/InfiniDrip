@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="800" viewBox="-4 -3 52 40">
+<rect x="-4" y="-3" width="52" height="40" fill="white"/>
+<g fill="none" stroke-linejoin="round" stroke-linecap="round">
+<path d="M 0 1.787 C 10.75 1.787 11.825 0.268 21.5 0 C 31.175 0.268 32.25 1.787 43 1.787 L 40 23.787 L 3 23.787 L 0 1.787 Z" stroke="#a4aab4" stroke-width="0.18"/>
+<path d="M 3.635 10.979 C 12.567 10.979 13.461 1.647 21.5 0 C 29.539 1.647 30.433 10.979 39.365 10.979 L 40 23.787 L 3 23.787 L 3.635 10.979 Z" stroke="#1769aa" stroke-width="0.20"/>
+</g>
+<g font-family="Arial,sans-serif" font-size="0.85" fill="#242a31">
+<text x="0" y="-1.8">Polo sleeve cap span threshold trial — default</text>
+<text x="0" y="35.2" fill="#727985">gray: source cap/bicep 43.00 cm · blue: cap span 35.731 cm · POM change -7.269 cm · RMS 0.678 → 0.250 cm</text>
+</g>
+</svg>

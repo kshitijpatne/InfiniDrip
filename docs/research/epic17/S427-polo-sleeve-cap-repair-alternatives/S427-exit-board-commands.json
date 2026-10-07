@@ -1,0 +1,86 @@
+[
+  {
+    "type": "editEpic",
+    "expectedRevision": 2505,
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Reconcile EPIC-17 with S427 source-bound sleeve-cap diagnostic and preserved Polo holds.",
+    "epicId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S425 implements the approved Polo H display; S426's corrected full-label replay reports zero label/marker overlaps across 17 Polo options. S427 proves the production Polo sleeve uses one 43 cm cap/bicep span and anchors its ±0.6 cm Sleeve bicep width POM at those cap endpoints; the 0.25 cm residual threshold requires a diagnostic 35.730905 cm span, changing that POM by −7.269095 cm and the cap height from 1.786944 to 10.978524 cm. This exceeds tolerance; no production source/geometry edit is made or recommended. The Woven body neckline remains continuous by maintainer decision. S406's approved view-only collar-over-plackets order remains implemented. The 0.68 cm sleeve-cap residual and all 34 Polo/56 Woven holds persist. Preserve all-seven V02, V02-before-V03, legacy DXF, protected export identities, V03 rights/round-trip evidence and claim limits. See the S427 packet."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2506,
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "EPIC-17/G04 is In Progress through its admitted V01→V02→V03 sequence and safe merge. Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display; S426's corrected full-label replay reports zero source-label or marker-label overlaps across 17 exact Polo options. S427 found no viable bounded sleeve-cap span repair that preserves the existing ±0.6 cm Sleeve bicep width POM: the 0.25 cm residual threshold needs a 35.730905 cm cap span (−7.269095 cm POM change), so the proposal is rejected and production geometry remains unchanged. The maintainer keeps the Woven body neckline continuous; S406's approved Woven collar-over-plackets display remains implemented. All 34 Polo and 56 Woven faces stay held. Preserve all-seven V02, V02-before-V03, legacy DXF, protected exports, CAD-rights/round-trip gates and claim limits."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2507,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "G04 V02 remains In Progress; latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S381 found no evidence supporting a false Woven back-hem gap; S406's approved Woven collar-over-plackets order remains implemented. The maintainer keeps the Woven body neckline continuous; retain all 56 Woven holds and its 28 front holds. S419 tested a 2–3-arc Polo H locator across 17 options; S425 implements the approved segmented ring. S426 corrected full-label replay reports zero source-label or marker-label overlaps across all 17 exact Polo options, preserving source marks, component paths and POM rows. S427 source analysis shows the Polo sleeve's 43 cm cap span is also the Sleeve bicep width POM station (±0.6 cm); a 0.25 cm residual pass requires 35.730905 cm, changing the POM by −7.269095 cm and materially reshaping the cap. The candidate is diagnostic only and is rejected; no source geometry changed. The 0.68 cm residual remains above the fixed 0.25 cm gate. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, keep V03 gated, legacy DXF, protected exports and V03 rights/round-trip gates. Current packet: docs/research/epic17/S427-polo-sleeve-cap-repair-alternatives/G04-V02-POLO-SLEEVE-CAP-REPAIR-DIAGNOSTIC-S427.md"
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2508,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S427-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S427-polo-sleeve-cap-repair-alternatives/G04-V02-POLO-SLEEVE-CAP-REPAIR-DIAGNOSTIC-S427.md",
+      "verified": true,
+      "note": "Source-bound 17-option diagnostic rejects the cap-span trial because the residual gate requires a 7.269 cm Sleeve bicep width POM change; no production geometry was changed."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2509,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S427-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S427-polo-sleeve-cap-repair-alternatives/candidate-matrix.json",
+      "verified": true,
+      "note": "Exact 17-option baseline and cap-span/ease sweeps; the threshold candidate reaches 0.25 cm but lies far outside the existing Sleeve bicep width POM tolerance."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2510,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S427-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S427-polo-sleeve-cap-repair-alternatives/candidate-sleeve-cap-span-overlay.png",
+      "verified": true,
+      "note": "Chromium overlay of exact default production sleeve outline and in-memory threshold cap-span trial. It demonstrates the material cap/side shape and POM tradeoff; no assembled view is accepted."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2511,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S427-EXIT"
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2512,
+    "itemId": "EPIC-17",
+    "evidenceId": "E-G04-S427-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2513,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S427 exit: exact production Polo source and all 17 options reproduce S423's 0.677835 cm endpoint RMS. With 1.5 cm cap ease retained, meeting the fixed 0.25 cm gate requires reducing the shared cap/bicep span from 43 to 35.730905 cm; the current Sleeve bicep width POM would shift −7.269095 cm against ±0.6 cm tolerance. Actual-source Chromium overlay reviewed; no source change made and candidate not recommended. All 34 Polo/56 Woven faces remain held; V02 In Progress and V03 Backlog. See E-G04-S427-EXIT, MATRIX and RENDERED."
+  }
+]
