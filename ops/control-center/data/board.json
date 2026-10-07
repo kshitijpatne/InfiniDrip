@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2402,
-  "updatedAt": "2026-10-07T08:28:01.424Z",
+  "revision": 2408,
+  "updatedAt": "2026-10-07T08:32:43.956Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -600,7 +600,9 @@
         "E-G04-S413-START",
         "E-G04-S413-EXIT",
         "E-G04-S413-MATRIX",
-        "E-G04-S413-REJECTED-MATRIX"
+        "E-G04-S413-REJECTED-MATRIX",
+        "E-G04-S414-START",
+        "E-G04-S414-EXIT"
       ]
     },
     {
@@ -8664,6 +8666,16 @@
           "at": "2026-10-07T08:28:01.383Z",
           "actor": "Codex",
           "text": "S413 screened eight shared source-anchored H callout translations across all 17 Polo options. Downward leaders cross collar/stand paths; upward routes collide with source shoulder labels. No layout passes all options without another unresolved overlap. All 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-07T08:31:44.838Z",
+          "actor": "Codex",
+          "text": "S414 reconciles the reaffirmed Woven collar-over-plackets approval with the implemented S406 output. It does not answer S410's distinct center-front neckline display choice or release any face."
+        },
+        {
+          "at": "2026-10-07T08:32:43.956Z",
+          "actor": "Codex",
+          "text": "S414 confirms the reaffirmed collar-over-plackets order is implemented. It does not settle the separate S410 center-front neckline interruption choice. Woven: 56 held; Polo: 34 held; all-seven V02 unchanged."
         }
       ],
       "evidenceRefs": [
@@ -9237,7 +9249,9 @@
         "E-G04-S413-REJECTED-MATRIX",
         "E-G04-S413-DEFAULT",
         "E-G04-S413-RISE-MAX",
-        "E-G04-S413-RISE-MIN"
+        "E-G04-S413-RISE-MIN",
+        "E-G04-S414-START",
+        "E-G04-S414-EXIT"
       ],
       "flagKey": null
     },
@@ -15947,6 +15961,24 @@
       "sha256": null,
       "verified": true,
       "note": "Actual Chromium standFrontRise-min crop for rejected leader candidate with same source target and geometry."
+    },
+    {
+      "id": "E-G04-S414-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S414-woven-approved-layer-reconciliation/G04-V02-WOVEN-APPROVED-LAYER-RECONCILIATION-S414.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only reconciliation of the reaffirmed Woven collar-over-plackets decision against S406 production output and S407/S410 same-revision, all-28 path/order evidence; preserves the distinct neckline hold and all face holds."
+    },
+    {
+      "id": "E-G04-S414-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S414-woven-approved-layer-reconciliation/G04-V02-WOVEN-APPROVED-LAYER-RECONCILIATION-S414.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reaffirmed collar-over-plackets approval is already implemented in S406; exact 28-option output and S407/S410 evidence leave only the distinct neckline clip choice unresolved; all 56 Woven and 34 Polo faces remain held."
     }
   ]
 }

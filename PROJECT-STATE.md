@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 current work — Slice 414 Woven approved-layer reconciliation; V02 remains open
+
+S414 started 2026-10-07 08:31:04 UTC from clean S413 `ec08d3617a721a72225fddd06ca0082d959702a4` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 413; S414 is unique. Board revision 2402 advanced to 2405 by validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. Goal is active and still matches the admitted objective; usage at start was 39% primary / 6% weekly.
+
+The maintainer reaffirmed the Woven collar-over-plackets decision already implemented in S406: button placket over buttonhole placket, collar over both, with only closure outline portions inside the collar silhouette clipped. S406's exact production replay emits all 28 front/back pairs, six approved front clips per option, zero compile/renderer/browser issues, and 28/28 backs byte-identical to S401. S407's exact S406-revision audit and S410 paint-order trace confirm a distinct unresolved issue: two mirrored body-neckline/projected-collar contacts remain in all 28 options, and the complete neckline already paints above the collar. The diagnostic clip removes 0.8426–0.8433 cm per side and visibly interrupts the continuous base seam, so it remains unimplemented pending its own decision. This approval does not answer S410.
+
+S414 packet and compact matrix: `docs/research/epic17/S414-woven-approved-layer-reconciliation/`. No source/output or production code changed. All 56 Woven and 34 Polo faces remain held; Polo's 0.68 cm residual still exceeds the fixed 0.25 cm gate. All-seven V02, V02-before-V03, legacy DXF, protected export identities and V03 rights/round-trip gates are unchanged. Focused reconciliation checks, Control Center tests and `git diff --check` pass; full integrated gates remain for the settled Epic candidate.
+
+**Next action:** continue the next repeated V02 blocker resolvable from current source/output evidence, preserving all holds. Do not implement or imply approval of the distinct S410 neckline clip.
+
 ## EPIC-17 / G04 current work — Slice 413 Polo H callout routing trial; V02 remains open
 
 S413 started 2026-10-07 08:21:12 UTC from clean S412 `d422f033b2ee5a19e2d63420fbf32d508481593c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 412; S413 is uniquely reserved. Canonical board revision 2388 advanced to 2391 through validated start replay. EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. The goal remains active and matches admitted V01→V02→V03 through safe merge; usage at start 37% primary / 6% weekly.

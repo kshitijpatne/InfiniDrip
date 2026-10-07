@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2402,"itemId":"G04-V02","evidence":{"id":"E-G04-S414-START","kind":"document","uri":"docs/research/epic17/S414-woven-approved-layer-reconciliation/G04-V02-WOVEN-APPROVED-LAYER-RECONCILIATION-S414.md","verified":true,"note":"Read-only reconciliation of the reaffirmed Woven collar-over-plackets decision against S406 production output and S407/S410 same-revision, all-28 path/order evidence; preserves the distinct neckline hold and all face holds."}},
+  {"type":"addEpicEvidence","expectedRevision":2403,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S414-START"},
+  {"type":"addComment","expectedRevision":2404,"itemId":"G04-V02","actor":"Codex","text":"S414 reconciles the reaffirmed Woven collar-over-plackets approval with the implemented S406 output. It does not answer S410's distinct center-front neckline display choice or release any face."}
+]
