@@ -1,0 +1,29 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2471,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S424-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S424-polo-residual-source-repair-proposal/G04-V02-POLO-SOURCE-REPAIR-PROPOSAL-S424.md",
+      "verified": true,
+      "note": "An in-memory bicep-input change meets the Polo endpoint target only by reducing finished sleeve-bicep span 8.654851 cm; recommend reject absent construction evidence. No production edit; all views held."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2472,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S424-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2473,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S424's all-option in-memory source candidate reaches 0.20 cm RMS only by lowering Polo finished sleeve-bicep span from 43 to 34.345149 cm (−8.654851 cm), while retaining 1.5 cm cap ease. Rendered sleeve is markedly narrower. Recommend reject this repair absent pattern-specific construction evidence. No production change, gate relaxation or view release; all Polo and Woven holds remain. See E-G04-S424-EXIT."
+  }
+]

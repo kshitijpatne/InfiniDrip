@@ -1,6 +1,16 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 latest slice — Slice 423 Polo residual lower-bound diagnostic; V02 remains open
+## EPIC-17 / G04 current work — Slice 424 Polo source-repair proposal; V02 remains open
+
+S424 tested an in-memory change to the sleeve component's existing bicep input across all 17 Polo option rows/34 face requests. Reaching 0.20 cm endpoint RMS while retaining 1.5 cm authored cap ease requires reducing standard raw bicep from 38 to 29.345149 cm; the finished sleeve-bicep span falls 43 to 34.345149 cm (−8.654851 cm, 20.1%). Body armholes and the source stitch stay unchanged in the diagnostic. Actual-source sleeve overlay was rendered and reviewed; it is markedly narrower and is not a complete assembled flat. Recommend rejecting this simple repair; no pattern-specific construction source justifies it, no physical fit claim is made, and a more meaningful cap construction needs separate source/design evidence. Production source, tests, geometry, acceptance, threshold and holds are unchanged. All 34 Polo and 56 Woven views remain held. Matrix and rendered output: `docs/research/epic17/S424-polo-residual-source-repair-proposal/`.
+
+Focused candidate matrix/render checks pass; Control Center tests pass 42/42; start/exit script syntax, validated replay and `git diff --check` pass. No global production gate is due. Board exit advances 2471→2474 with V01 Done, V02 In Progress and V03 Backlog; statuses and acceptance are unchanged. The latest collar-over-plackets reply confirms the already-implemented S406 mapping; S410's distinct continuous-neckline display hold remains.
+
+Elapsed 5m09s from 09:45:27 to 09:50:36 UTC: source inspection/candidate exploration 2m; all-option matrix and rendered review 1m; focused verification/durable closeout 2m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** ask whether to reject the 8.654851 cm bicep reduction and retain all Polo holds, or authorize a separate pattern-specific construction search; continue independent V02 work while the source and 0.25 cm gate remain unchanged.
+
+## EPIC-17 / G04 previous slice — Slice 423 Polo residual lower-bound diagnostic; V02 remains open
 
 S423 started 2026-10-07 09:38:09 UTC from clean S422 `2d6b018469823f0204d5d3bf31340f799d215712` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice 422; S423 is unique. Board revision 2464 advances to 2466 at start. V01 Done, V02 In Progress, V03 Backlog; goal active and unchanged. Usage at entry 50% primary / 8% weekly.
 

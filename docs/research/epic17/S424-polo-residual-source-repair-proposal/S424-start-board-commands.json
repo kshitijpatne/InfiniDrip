@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2469,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S424-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S424-polo-residual-source-repair-proposal/G04-V02-POLO-SOURCE-REPAIR-PROPOSAL-S424.md",
+      "verified": true,
+      "note": "Starts an in-memory source candidate study only; no source geometry change is approved and all face holds remain."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2470,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S424 tests whether a source-level Polo sleeve candidate can address S423's fixed-gate endpoint residual while preserving authored cap ease. It will not edit production pattern source or release views. All 34 Polo and 56 Woven faces remain held."
+  }
+]

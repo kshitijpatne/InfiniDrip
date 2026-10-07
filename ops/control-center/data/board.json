@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2469,
-  "updatedAt": "2026-10-07T09:45:02.027Z",
+  "revision": 2474,
+  "updatedAt": "2026-10-07T09:50:32.050Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -618,7 +618,8 @@
         "E-G04-S421-START",
         "E-G04-S421-EXIT",
         "E-G04-S422-EXIT",
-        "E-G04-S423-EXIT"
+        "E-G04-S423-EXIT",
+        "E-G04-S424-EXIT"
       ]
     },
     {
@@ -8778,6 +8779,16 @@
           "at": "2026-10-07T09:45:02.027Z",
           "actor": "Codex",
           "text": "S423 reproduced both live 0.68 cm endpoint-only assembly residuals for all 17 Polo option rows. Exact source chords differ by 0.958604 cm; the hard-anchored RMS is 0.677835 cm and the best unconstrained rigid two-endpoint fit is still 0.479302 cm, above the fixed 0.25 cm gate. No source, stitch, cut geometry, renderer, threshold, status or acceptance changed. All 34 Polo and 56 Woven faces remain held. See E-G04-S423-EXIT."
+        },
+        {
+          "at": "2026-10-07T09:49:26.037Z",
+          "actor": "Codex",
+          "text": "S424 tests whether a source-level Polo sleeve candidate can address S423's fixed-gate endpoint residual while preserving authored cap ease. It will not edit production pattern source or release views. All 34 Polo and 56 Woven faces remain held."
+        },
+        {
+          "at": "2026-10-07T09:50:32.050Z",
+          "actor": "Codex",
+          "text": "S424's all-option in-memory source candidate reaches 0.20 cm RMS only by lowering Polo finished sleeve-bicep span from 43 to 34.345149 cm (−8.654851 cm), while retaining 1.5 cm cap ease. Rendered sleeve is markedly narrower. Recommend reject this repair absent pattern-specific construction evidence. No production change, gate relaxation or view release; all Polo and Woven holds remain. See E-G04-S424-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -9374,7 +9385,9 @@
         "E-G04-S422-START",
         "E-G04-S422-EXIT",
         "E-G04-S423-START",
-        "E-G04-S423-EXIT"
+        "E-G04-S423-EXIT",
+        "E-G04-S424-START",
+        "E-G04-S424-EXIT"
       ],
       "flagKey": null
     },
@@ -16323,6 +16336,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact source/compiler analysis proves the current endpoint-only Polo residual cannot meet 0.25 cm under any rigid source-supported correspondence; all faces and gates remain held."
+    },
+    {
+      "id": "E-G04-S424-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S424-polo-residual-source-repair-proposal/G04-V02-POLO-SOURCE-REPAIR-PROPOSAL-S424.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts an in-memory source candidate study only; no source geometry change is approved and all face holds remain."
+    },
+    {
+      "id": "E-G04-S424-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S424-polo-residual-source-repair-proposal/G04-V02-POLO-SOURCE-REPAIR-PROPOSAL-S424.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "An in-memory bicep-input change meets the Polo endpoint target only by reducing finished sleeve-bicep span 8.654851 cm; recommend reject absent construction evidence. No production edit; all views held."
     }
   ]
 }
