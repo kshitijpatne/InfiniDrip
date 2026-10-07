@@ -5,7 +5,7 @@ import { block } from "../drafting/block";
 import { defaultGarmentOptions } from "../drafting/options";
 import { edgeRef, iface, markRef, type Stitch } from "../drafting/stitch";
 import type { Edge } from "../drafting/piece";
-import { assembleTechnicalFlatRoles, isApprovedWovenBaseSeamDisplay } from "./technical-flat-assembly";
+import { assembleTechnicalFlatRoles, isApprovedPoloEaseResidualDisplay, isApprovedWovenBaseSeamDisplay } from "./technical-flat-assembly";
 import type { TechnicalFlatViewKind } from "./technical-flat";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { cubicPoint } from "../geometry";
@@ -21,6 +21,34 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline", "unapproved")).toBe(false);
     expect(isApprovedWovenBaseSeamDisplay("Woven sleeve-cap ease", "G04-S342-WOVEN-COLLAR-BASE-SEAM")).toBe(false);
     expect(isApprovedWovenBaseSeamDisplay("Outer stand ↔ woven neckline")).toBe(false);
+  });
+
+  it("suppresses only the exact validated S351 Polo eased-cap endpoint residual", () => {
+    expect(isApprovedPoloEaseResidualDisplay("Sleeve-cap ease", "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH")).toBe(true);
+    expect(isApprovedPoloEaseResidualDisplay("Sleeve-cap ease changed", "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH")).toBe(false);
+    expect(isApprovedPoloEaseResidualDisplay("Sleeve-cap ease", "unapproved")).toBe(false);
+
+    const polo = GARMENTS.find((recipe) => recipe.name === "polo")!;
+    const source = draft(polo);
+    const projection = createG04TechnicalFlatProjectionMap("polo", source, "assembly-polo-s351-r1")!;
+    for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
+      const result = assembleTechnicalFlatRoles("polo", source, kind, projection);
+      expect(result.joinedStitchLabels).toContain("Sleeve-cap ease");
+      expect(result.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+        && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(false);
+
+      const stale = structuredClone(projection);
+      const sleeve = stale.faces.find((face) => face.kind === kind)!.roles.find((role) => role.roleId === "sleeve")!;
+      (sleeve.poloSleeveCapRepresentation as { decisionId: string }).decisionId = "stale";
+      const rejected = assembleTechnicalFlatRoles("polo", source, kind, stale);
+      expect(rejected.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+        && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(true);
+    }
+
+    const tee = draft(TEE);
+    const teeAssembly = assembleTechnicalFlatRoles("tee", tee, "FRONT_FLAT");
+    expect(teeAssembly.issues.some((issue) => issue.code === "STITCH_ENDPOINT_RESIDUAL"
+      && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(true);
   });
 
   it("maps every exterior role for all seven default recipes without exposing interior support pieces", () => {

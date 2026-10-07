@@ -1,0 +1,1032 @@
+{
+  "sourceOptionFixture": "S331-polo-browser-final/matrix.json",
+  "options": 17,
+  "faces": 34,
+  "residualThresholdCm": 0.25,
+  "s351EndpointResiduals": 0,
+  "frontViewsWithheldForPOMPlacement": 17,
+  "backViewsRendered": 17,
+  "browserErrors": [],
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-default",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-default",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-default-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketLength-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketLength-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-placketLength-min-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketLength-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketLength-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-placketLength-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketWidth-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketWidth-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-placketWidth-min-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketWidth-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-placketWidth-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-placketWidth-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standHeight-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standHeight-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-standHeight-min-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standHeight-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standHeight-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-standHeight-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarLeafDepth-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarLeafDepth-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-collarLeafDepth-min-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarLeafDepth-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarLeafDepth-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-collarLeafDepth-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standFrontRise-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standFrontRise-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-standFrontRise-min-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standFrontRise-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-standFrontRise-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-standFrontRise-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarPointExtension-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarPointExtension-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-collarPointExtension-min-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarPointExtension-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-collarPointExtension-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-collarPointExtension-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-sideVentDepth-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-sideVentDepth-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-sideVentDepth-min-back_flat.svg",
+      "sourceBoundPathCount": 54,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 51,
+      "noticeCount": 18
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-sideVentDepth-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-sideVentDepth-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-sideVentDepth-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-backHemDrop-min",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-backHemDrop-min",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-backHemDrop-min-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-backHemDrop-max",
+      "liveViewEmitted": false,
+      "assemblyIssues": [],
+      "compilerIssues": [
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "message": "POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        },
+        {
+          "stage": "pom",
+          "sourceId": "pom:polo:stand-front-rise",
+          "message": "POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S432:polo-backHemDrop-max",
+      "liveViewEmitted": true,
+      "assemblyIssues": [],
+      "compilerIssues": [],
+      "colorwayIssues": [
+        {
+          "code": "COLORWAY_CONTOUR_UNCLOSED",
+          "entityId": "flat:polo:BACK_FLAT:component:sleeve:outline",
+          "message": "The sleeve colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area."
+        }
+      ],
+      "colorwayIncludedInDiagnosticSvg": false,
+      "svgPath": "rendered/polo-backHemDrop-max-back_flat.svg",
+      "sourceBoundPathCount": 58,
+      "sourceRevisionCount": 1,
+      "primitiveCount": 54,
+      "noticeCount": 17
+    }
+  ]
+}

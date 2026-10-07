@@ -1053,21 +1053,21 @@ describe("compileTechnicalFlatLiveView", () => {
         const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-${recipeId}-${kind}`, kind,
           placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
         if (recipeId === "polo") {
-          expect(result.view).toBeNull();
-          expect(result.colorway).toBeNull();
+          expect(result.issues.some((issue) => issue.stage === "assembly"
+            && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(false);
           const pomIssues = result.issues.filter((issue) => issue.stage === "pom");
-          expect(pomIssues.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
           if (kind === "FRONT_FLAT") {
+            expect(result.view).toBeNull();
+            expect(result.colorway).toBeNull();
+            expect(pomIssues.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
             expect(pomIssues.map((issue) => issue.sourceId)).toEqual([
               "pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise",
             ]);
           } else {
-            // S351's current browser-rendered callout issue remains a separate
-            // all-option gate; this source-only compiler check adds no POM error.
+            expect(result.view).not.toBeNull();
+            expect(result.colorway).not.toBeNull();
             expect(pomIssues).toEqual([]);
           }
-          expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
-            sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));
           expect(result.issues.some((issue) => issue.stage === "geometry"
             && issue.message.includes("no authored front/back split landmark"))).toBe(false);
         } else {
@@ -1168,7 +1168,7 @@ describe("compileTechnicalFlatLiveView", () => {
     }
   });
 
-  it("withholds every Polo option face while the mapped sleeve-cap residual exceeds tolerance", () => {
+  it("applies the S351 residual rule to all options but retains each independent Polo face hold", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const optionSets = [defaultGarmentOptions(recipe.options ?? []), ...(recipe.options ?? []).flatMap((option) => [
       { ...defaultGarmentOptions(recipe.options ?? []), [option.id]: option.min },
@@ -1180,14 +1180,21 @@ describe("compileTechnicalFlatLiveView", () => {
       for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
         const result = compileTechnicalFlatLiveView({ recipe, block, revisionId: `live-polo-${kind}-${JSON.stringify(options)}`,
           kind, placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
-        expect(result.view).toBeNull();
-        expect(result.colorway).toBeNull();
-        expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
-          sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.68 cm RMS separation across matched seam landmarks") }));
-        expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
-          sourceId: "stitch:Sleeve-cap ease", message: expect.stringContaining("0.25 cm acceptance tolerance") }));
+        expect(result.issues.some((issue) => issue.stage === "assembly"
+          && issue.sourceId === "stitch:Sleeve-cap ease")).toBe(false);
         const poms = result.issues.filter((issue) => issue.stage === "pom");
-        expect(poms.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
+        if (kind === "FRONT_FLAT") {
+          expect(result.view).toBeNull();
+          expect(result.colorway).toBeNull();
+          expect(poms.map((issue) => issue.sourceId)).toEqual([
+            "pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise",
+          ]);
+          expect(poms.every((issue) => issue.message.includes("no readable label/leader position"))).toBe(true);
+        } else {
+          expect(result.view).not.toBeNull();
+          expect(result.colorway).not.toBeNull();
+          expect(poms).toEqual([]);
+        }
       }
     }
   });

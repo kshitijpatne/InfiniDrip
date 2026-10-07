@@ -1,0 +1,11 @@
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp
+
+ ✓ src/export/regression.test.ts (8 tests) 56ms
+ ✓ src/quality/export-identity.test.ts (9 tests) 991ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > polo: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements 303ms
+
+ Test Files  2 passed (2)
+      Tests  17 passed (17)
+   Start at  14:08:30
+   Duration  3.68s (transform 1.11s, setup 0ms, collect 2.97s, tests 1.05s, environment 1ms, prepare 864ms)

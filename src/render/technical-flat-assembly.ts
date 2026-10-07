@@ -48,6 +48,10 @@ export function isApprovedWovenBaseSeamDisplay(stitchLabel: string, decisionId?:
   return stitchLabel === "Outer stand ↔ woven neckline" && decisionId === "G04-S342-WOVEN-COLLAR-BASE-SEAM";
 }
 
+export function isApprovedPoloEaseResidualDisplay(stitchLabel: string, decisionId?: string): boolean {
+  return stitchLabel === "Sleeve-cap ease" && decisionId === "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH";
+}
+
 const radians = (degrees: number): number => degrees * Math.PI / 180;
 const point = (x: number, y: number): FlatPoint => ({ x, y });
 const distance = (a: FlatPoint, b: FlatPoint): number => Math.hypot(a.x - b.x, a.y - b.y);
@@ -349,6 +353,10 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
     ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
       .find((role) => role.roleId === "sleeve")?.wovenSleeveCapRepresentation
     : undefined;
+  const approvedPoloSleeveCap = projectionIsValid && recipeId === "polo"
+    ? projectionMap?.faces.find((candidate) => candidate.kind === kind)?.roles
+      .find((role) => role.roleId === "sleeve")?.poloSleeveCapRepresentation
+    : undefined;
   const visible = new Set(face.roles.filter((role) => role.treatment !== "INTERIOR_HIDDEN").map((role) => role.roleId));
   const sourceFragments = recipeId === "trouser" ? trouserWaistbandFragments(block, kind) : [];
   const fragmentPlacedRoles = sourceFragments.length === 2 ? new Set(["waistband"]) : new Set<string>();
@@ -393,7 +401,8 @@ export function assembleTechnicalFlatRoles(recipeId: string, block: Block, kind:
       relations.push(...projectedResults);
       const residual = projectedResults.find((candidate) => candidate.endpointResidualCm > 0.25
         && !isApprovedWovenBaseSeamDisplay(candidate.label, approvedWovenBaseSeam?.decisionId)
-        && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION"));
+        && !(candidate.label === "Woven sleeve-cap ease" && approvedWovenSleeveCap?.decisionId === "G04-S344-WOVEN-SLEEVE-CAP-PROJECTION")
+        && !isApprovedPoloEaseResidualDisplay(candidate.label, approvedPoloSleeveCap?.decisionId));
       if (residual && !issues.some((issue) => issue.sourceId === `stitch:${residual.label}`)) issues.push({
         code: "STITCH_ENDPOINT_RESIDUAL", sourceId: `stitch:${residual.label}`,
         message: `Stitch “${residual.label}” has ${residual.endpointResidualCm.toFixed(2)} cm RMS separation across matched seam landmarks after rigid placement; review this construction line before release.`,

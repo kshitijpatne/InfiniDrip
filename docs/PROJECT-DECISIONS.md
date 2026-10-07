@@ -1016,6 +1016,13 @@ pass, and preserve any other Woven hold.
 - Preserve Polo's source-authored 1.5 cm cap ease and existing pattern/POM values. The tested candidate that narrows width and removes ease is not authorized. Keep all 34 Polo faces held until the source revision passes the existing residual, topology, colorway, callout and rendered-output gates.
 - This decision changes no V02 acceptance criterion and approves no face; all seven recipes remain required before V03.
 
+## EPIC-17 / G04 — S351 eased-cap residual applicability (2026-10-07)
+
+- The maintainer approved suppressing the endpoint-only rigid residual diagnostic only for the exact `Sleeve-cap ease` relation when the exact same-revision Polo projection map validates and its sleeve role carries decision `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH`.
+- The approved S351 display maps `capLeft` to `front.armhole` and `capRight` to `back.armhole` by normalized arclength. Its receiver-edge display intentionally does not share the authored cap endpoint coordinates, so endpoint-only rigid RMS is not applicable to that displayed eased seam.
+- Keep the numeric 0.25 cm residual check for every other stitch relation. This decision changes applicability for that one view representation only; it does not change source geometry, stitch graph, ease, POMs, solver behavior, or any other topology, crossing, overlap, revision, identity, callout, output, or acceptance gate.
+- This decision accepts no face. Polo remains held until the exact 17-option/34-face output passes every applicable V02 gate, including source/revision identity, joins, crossings, callout and rendered readability. All-seven acceptance and V02-before-V03 remain.
+
 ## EPIC-17 / G04 — Trouser fly-underlap source repair (S326)
 
 - The maintainer approved the exact Slice 325 proposal on 2026-10-01: add a physical `flyUnderlap` interior role sized 3.5 cm × current `flyLength`; route `frontRight.flyEdge` to `flyUnderlap.frontEdge`, then `flyUnderlap.shieldEdge` to `flyShield.right`; retain `frontLeft.flyEdge` to `flyShield.left`; place the underlap behind the exterior `frontLeft` layer.

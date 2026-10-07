@@ -572,9 +572,13 @@ uses the adjoining roles' matching endpoints to solve rigid rotation and
 translation. It preserves drafted curves and dimensions. Hidden mapped
 components may provide construction links but are excluded from returned
 exterior transforms. A bad/missing interface, unplaced visible role, endpoint
-residual over 0.25 cm or contradictory cycle returns an explicit issue. This
-is drafted transform evidence only; it does not merge a component into a
-face-specific garment contour by itself.
+residual over 0.25 cm or contradictory cycle returns an explicit issue. The
+sole view-specific residual exception is Polo's exact validated S351
+`Sleeve-cap ease` arclength representation: that displayed eased seam does not
+use rigid endpoint RMS as its correspondence check. The numeric 0.25 cm gate
+remains active for every other relation. This is drafted transform evidence
+only; it does not merge a component into a face-specific garment contour by
+itself or accept any face.
 
 Slice 345 adds an exact-revision Woven sleeve-cap projection to the live flat
 pipeline. `technical-flat-projection.ts` validates the approved ordered body
