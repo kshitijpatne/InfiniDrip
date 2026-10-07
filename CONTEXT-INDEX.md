@@ -8,6 +8,10 @@ decision in `docs/PROJECT-DECISIONS.md` apply to every new or resumed task.
 
 ## Latest EPIC-17/G04 slice evidence
 
+- `docs/research/epic17/S419-polo-h-segmented-locator-trial/G04-V02-POLO-H-SEGMENTED-LOCATOR-TRIAL-S419.md` and `segmented-h-locator-matrix.json` — tests the unchanged source-centered Polo H locator across all 17 S399 options. A diagnostic 2–3-arc ring has zero sampled source-stroke contacts; production approval is still required and all 34 Polo faces remain held.
+
+
+
 - `docs/research/epic17/S418-ui-reconciliation-latest-board/G04-UI-RECONCILIATION-S418.md` and `S418-ui-board-reconciliation.json` — current-board clone preflight/replay skipped all 29 identical approved additive UI commands, with no G04 UI dependency, status change, or acceptance change. S354 remains the full scope reconciliation; all G04 holds stay intact.
 
 

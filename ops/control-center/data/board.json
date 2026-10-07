@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2435,
-  "updatedAt": "2026-10-07T09:05:06.350Z",
+  "revision": 2443,
+  "updatedAt": "2026-10-07T09:18:37.906Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -610,7 +610,9 @@
         "E-G04-S417-START",
         "E-G04-S417-EXIT",
         "E-G04-S418-START",
-        "E-G04-S418-EXIT"
+        "E-G04-S418-EXIT",
+        "E-G04-S419-START",
+        "E-G04-S419-EXIT"
       ]
     },
     {
@@ -8724,6 +8726,16 @@
           "at": "2026-10-07T09:05:06.350Z",
           "actor": "Codex",
           "text": "S418 confirmed S354's G04/UI reconciliation against the latest S417 board: 29 additive UI commands already match and are skipped, with zero replayed. Source-bound geometry/construction, piece/revision identity, exact POM anchors/targets, applicable artwork overlays and output readability remain existing V02 scope. UIQ packages remain Backlog, G04 has no UIQ dependency, and all-seven V02/V03 gates and current holds are unchanged. No local-status commands were applied."
+        },
+        {
+          "at": "2026-10-07T09:10:07.243Z",
+          "actor": "Codex",
+          "text": "S419 tests only whether a source-centered segmented H locator can avoid the all-option source-path contacts found in S416 while preserving the approved anchor, radius, glyph and full schedule. The production marker and all 34 Polo view holds remain unchanged pending actual option-wide rendered review."
+        },
+        {
+          "at": "2026-10-07T09:18:37.906Z",
+          "actor": "Codex",
+          "text": "S419 finds a candidate way to keep the exact H station while avoiding source-stroke crossings: 0.22 cm ring rendered as geometry-aware open arcs, 60.1–72.4% retained across 17 options, zero post-paint source contacts. This is diagnostic only and requires maintainer approval before production implementation; nearby labels and the 0.68/0.25 cm sleeve residual still hold every Polo face. Packet/matrix/default and limiting rendered crops linked; all 34 remain held."
         }
       ],
       "evidenceRefs": [
@@ -9310,7 +9322,11 @@
         "E-G04-S417-RENDER",
         "E-G04-S418-START",
         "E-G04-S418-EXIT",
-        "E-G04-S418-BOARD-REPLAY"
+        "E-G04-S418-BOARD-REPLAY",
+        "E-G04-S419-START",
+        "E-G04-S419-EXIT",
+        "E-G04-S419-MATRIX",
+        "E-G04-S419-RENDER"
       ],
       "flagKey": null
     },
@@ -16137,6 +16153,42 @@
       "sha256": null,
       "verified": true,
       "note": "Clone preflight against board revision 2431 matched all 29 current approved UI commands by identity/content and skipped them; board revision remained 2431. All 14 UIQ items are Backlog; EPIC-17 has no UIQ dependency."
+    },
+    {
+      "id": "E-G04-S419-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S419-polo-h-segmented-locator-trial/G04-V02-POLO-H-SEGMENTED-LOCATOR-TRIAL-S419.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only option-wide test of a segmented 0.22 cm H locator at the approved source anchor; preserves all source paths/marks and all 34 Polo holds."
+    },
+    {
+      "id": "E-G04-S419-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S419-polo-h-segmented-locator-trial/G04-V02-POLO-H-SEGMENTED-LOCATOR-TRIAL-S419.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact 17-option diagnostic keeps H anchor/radius/glyph/POM schedule fixed and replaces only its ring with collision-aware arcs. Retained coverage is 60.1–72.4%; post-paint sampling finds zero source path/mark contacts. All 34 Polo faces remain held."
+    },
+    {
+      "id": "E-G04-S419-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S419-polo-h-segmented-locator-trial/segmented-h-locator-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "17 exact S399 options/revisions with all source obstacle identities, retained ring coverage/arc geometry and zero post-paint stroke contacts; no component path, mark, H identity or POM schedule changed."
+    },
+    {
+      "id": "E-G04-S419-RENDER",
+      "kind": "document",
+      "uri": "docs/research/epic17/S419-polo-h-segmented-locator-trial/rendered/polo-default-segmented-H.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual Chromium segmented-H trial at the unchanged source station, matched against a same-size baseline; the least-coverage standFrontRise-min comparison is also in the packet. All 34 faces stay held."
     }
   ]
 }

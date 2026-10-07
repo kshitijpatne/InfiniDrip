@@ -1,0 +1,983 @@
+{
+  "source": "exact saved S399 production FRONT_FLAT SVGs; diagnostic-only arc segmentation",
+  "revisionIds": [
+    "live-draft:polo:S399:polo-default",
+    "live-draft:polo:S399:polo-placketLength-min",
+    "live-draft:polo:S399:polo-placketLength-max",
+    "live-draft:polo:S399:polo-placketWidth-min",
+    "live-draft:polo:S399:polo-placketWidth-max",
+    "live-draft:polo:S399:polo-standHeight-min",
+    "live-draft:polo:S399:polo-standHeight-max",
+    "live-draft:polo:S399:polo-collarLeafDepth-min",
+    "live-draft:polo:S399:polo-collarLeafDepth-max",
+    "live-draft:polo:S399:polo-standFrontRise-min",
+    "live-draft:polo:S399:polo-standFrontRise-max",
+    "live-draft:polo:S399:polo-collarPointExtension-min",
+    "live-draft:polo:S399:polo-collarPointExtension-max",
+    "live-draft:polo:S399:polo-sideVentDepth-min",
+    "live-draft:polo:S399:polo-sideVentDepth-max",
+    "live-draft:polo:S399:polo-backHemDrop-min",
+    "live-draft:polo:S399:polo-backHemDrop-max"
+  ],
+  "options": 17,
+  "radiusCm": 0.22,
+  "paddingCm": 0.045,
+  "samplesPerRing": 720,
+  "browserErrors": [],
+  "summary": {
+    "minRetainedCoverage": 0.60139,
+    "maxRetainedCoverage": 0.72361,
+    "minArcCount": 2,
+    "maxArcCount": 3,
+    "minArcLengthCm": 0.08639,
+    "optionsWithNoArcs": 0,
+    "optionsUnderHalfCoverage": 0
+  },
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "revisionId": "live-draft:polo:S399:polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-default-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "revisionId": "live-draft:polo:S399:polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-placketLength-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "revisionId": "live-draft:polo:S399:polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-placketLength-max-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "revisionId": "live-draft:polo:S399:polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-placketWidth-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "revisionId": "live-draft:polo:S399:polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-placketWidth-max-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "revisionId": "live-draft:polo:S399:polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 78,
+      "bufferedGapSamples": 246,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline",
+        "flat:polo:FRONT_FLAT:component:underCollar:outline",
+        "flat:polo:FRONT_FLAT:component:upperCollar:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5759586531581288,
+          "end": 1.3002702927357754,
+          "samples": 83,
+          "lengthCm": 0.15935
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.2689280275926285,
+          "samples": 45,
+          "lengthCm": 0.08639
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.65833,
+      "minArcLengthCm": 0.08639,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 457,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-standHeight-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "revisionId": "live-draft:polo:S399:polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-standHeight-max-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "revisionId": "live-draft:polo:S399:polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-collarLeafDepth-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "revisionId": "live-draft:polo:S399:polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-collarLeafDepth-max-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "revisionId": "live-draft:polo:S399:polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 142,
+      "bufferedGapSamples": 286,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline",
+        "flat:polo:FRONT_FLAT:component:underCollar:outline",
+        "flat:polo:FRONT_FLAT:component:upperCollar:outline"
+      ],
+      "arcs": [
+        {
+          "start": 1.8936822384138474,
+          "end": 2.7139869868511823,
+          "samples": 94,
+          "lengthCm": 0.18047
+        },
+        {
+          "start": 3.2899456400093112,
+          "end": 6.2482787221397,
+          "samples": 339,
+          "lengthCm": 0.65083
+        }
+      ],
+      "discardedMicroArcCount": 1,
+      "retainedCoverage": 0.60139,
+      "minArcLengthCm": 0.18047,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 417,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-standFrontRise-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "revisionId": "live-draft:polo:S399:polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 135,
+      "bufferedGapSamples": 278,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline",
+        "flat:polo:FRONT_FLAT:mark:outerStand:shoulder"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 3.141592653589793,
+          "end": 6.2482787221397,
+          "samples": 356,
+          "lengthCm": 0.68347
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.61389,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 426,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-standFrontRise-max-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "revisionId": "live-draft:polo:S399:polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-collarPointExtension-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "revisionId": "live-draft:polo:S399:polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-collarPointExtension-max-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "revisionId": "live-draft:polo:S399:polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-sideVentDepth-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "revisionId": "live-draft:polo:S399:polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-sideVentDepth-max-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "revisionId": "live-draft:polo:S399:polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-backHemDrop-min-segmented-H.svg"
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "revisionId": "live-draft:polo:S399:polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "radiusCm": 0.22,
+      "paddingCm": 0.045,
+      "cx": 7,
+      "cy": 0,
+      "sourceRadius": 0.22,
+      "rawBlockedSamples": 55,
+      "bufferedGapSamples": 199,
+      "paddedSamplesEachSide": 24,
+      "obstacleIds": [
+        "flat:polo:FRONT_FLAT:component:front:outline",
+        "flat:polo:FRONT_FLAT:component:outerStand:outline"
+      ],
+      "arcs": [
+        {
+          "start": 0.5497787143782138,
+          "end": 1.3002702927357754,
+          "samples": 86,
+          "lengthCm": 0.16511
+        },
+        {
+          "start": 1.876228945893904,
+          "end": 2.6529004630313806,
+          "samples": 89,
+          "lengthCm": 0.17087
+        },
+        {
+          "start": 3.2288591161895095,
+          "end": 6.2482787221397,
+          "samples": 346,
+          "lengthCm": 0.66427
+        }
+      ],
+      "discardedMicroArcCount": 0,
+      "retainedCoverage": 0.72361,
+      "minArcLengthCm": 0.16511,
+      "markerOrder": 2,
+      "postPaint": {
+        "sampledPoints": 502,
+        "collidingSamples": 0,
+        "contacts": []
+      },
+      "output": "polo-backHemDrop-max-segmented-H.svg"
+    }
+  ]
+}

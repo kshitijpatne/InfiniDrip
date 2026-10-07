@@ -1,5 +1,14 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 current work — Slice 419 Polo H segmented locator trial; V02 remains open
+
+S419 started 2026-10-07 09:09:39 UTC from clean S418 `02d9bb8e763f37cc2e79d4f11a8f7854e69d1320` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 418; S419 is uniquely reserved. Board revision 2435 advanced to 2438 at slice start and 2443 at validated exit. G04-V01 Done, V02 In Progress and V03 Backlog. Goal remains active and matches the full admitted objective.
+
+S419 tested a diagnostic-only segmentation of the approved 0.22 cm Polo H ring at its unchanged source point `(7,0)` across the exact 17 S399 front outputs. It removed only arc spans that contact current source paths/marks, with a 0.045 cm clearance buffer and 0.04 cm minimum retained arc. Every derivative retains 60.1–72.4% of the ring as two or three arcs; sampled post-paint source contacts are zero in all 17. Component paths, marks, H identity/anchor/targets/glyph and POM schedule are unchanged. Chromium default and least-coverage views were reviewed. This treatment is a proposal only; no production change or approval was assumed.
+
+All 34 Polo faces remain held: the 0.68 cm residual remains above the 0.25 cm gate and other callout readability checks remain. All 56 Woven faces remain held, including the S410 neckline/base-seam decision and S381 back hem. The latest S417 output classification and S418 UI reconciliation remain current. Preserve all-seven V02, V02-before-V03, legacy DXF/protected exports, V03 rights/round-trip and claim boundaries. Focused S419 identity/geometry checks and script syntax pass; `npm run control-center:test` passes 42/42; `git diff --check` passes. No production code changed, so integrated full coverage/build/export/browser gates remain for the settled Epic/PR candidate. Evidence: `docs/research/epic17/S419-polo-h-segmented-locator-trial/`; board revision 2443 links exit, matrix and rendered evidence.
+
+**Next action:** obtain the specific H marker design approval before implementation; keep all faces held. The separate S410 neckline/base-seam question also remains unanswered. Continue independent G04 work without treating either decision as view acceptance.
 ## EPIC-17 / G04 current work — Slice 418 latest-board UI reconciliation check; G04 remains open
 
 S418 started 2026-10-07 09:03:48 UTC from clean S417 `06e0ca492d12613b6069d029879f401c711e81bf` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 417; S418 is uniquely reserved. Canonical board was revision 2428; validated start and exit replays advanced it to 2431 and 2435. EPIC-17/G04-V01 Done, V02 In Progress, V03 Backlog. Goal remains active and matches admitted V01→V02→V03 through required gates and safe merge.
