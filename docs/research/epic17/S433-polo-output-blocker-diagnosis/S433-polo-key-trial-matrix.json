@@ -1,0 +1,722 @@
+{
+  "options": 17,
+  "trialOnly": true,
+  "approvedProductMappingChanged": false,
+  "browserErrors": [],
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "revisionId": "live-draft:polo:S433:polo-default",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "revisionId": "live-draft:polo:S433:polo-placketLength-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "revisionId": "live-draft:polo:S433:polo-placketLength-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "revisionId": "live-draft:polo:S433:polo-placketWidth-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "revisionId": "live-draft:polo:S433:polo-placketWidth-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "revisionId": "live-draft:polo:S433:polo-standHeight-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 1.0305357222564875,
+            "y": 7.924036843800506
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "revisionId": "live-draft:polo:S433:polo-standHeight-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 3.0289235366340947,
+            "y": 7.843748965841943
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "revisionId": "live-draft:polo:S433:polo-collarLeafDepth-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "revisionId": "live-draft:polo:S433:polo-collarLeafDepth-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "revisionId": "live-draft:polo:S433:polo-standFrontRise-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 1.98230088495575,
+            "y": 7.734513274336283
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": -1.7763568394002505e-15,
+            "y": 8
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 1.7763568394002505e-15,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": -1.7763568394002505e-15,
+          "y": 8
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "revisionId": "live-draft:polo:S433:polo-standFrontRise-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.056762504196283,
+            "y": 8.13302495330663
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.0678819615711923,
+            "y": 7.922420615347208
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.10308502136517575,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.0678819615711923,
+          "y": 7.922420615347208
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "revisionId": "live-draft:polo:S433:polo-collarPointExtension-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "revisionId": "live-draft:polo:S433:polo-collarPointExtension-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "revisionId": "live-draft:polo:S433:polo-sideVentDepth-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "revisionId": "live-draft:polo:S433:polo-sideVentDepth-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "revisionId": "live-draft:polo:S433:polo-backHemDrop-min",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "revisionId": "live-draft:polo:S433:polo-backHemDrop-max",
+      "issues": [],
+      "keyMappings": [
+        {
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "key": "J",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd"
+        },
+        {
+          "sourceId": "pom:polo:stand-front-rise",
+          "key": "FG",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "target": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline"
+        }
+      ],
+      "standFrontRiseToExistingFGStationCm": 0.047595437743607326,
+      "existingFgRingGroups": [
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 8
+        },
+        {
+          "x": 0.031341815067683854,
+          "y": 7.964180782779788
+        }
+      ]
+    }
+  ]
+}

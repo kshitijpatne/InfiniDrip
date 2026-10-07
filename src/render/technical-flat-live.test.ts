@@ -5,6 +5,7 @@ import { appendApprovedViewPairReflection, appendOppositeSideReflection, appendP
 import { assembleTechnicalFlatRoles } from "./technical-flat-assembly";
 import { G04_TECHNICAL_FLAT_MAPPINGS } from "./technical-flat-mapping";
 import { transformFlatPoint } from "./technical-flat-transform";
+import { renderTechnicalFlatSvg } from "./technical-flat-svg";
 import type { FlatCalloutPrimitive, FlatPathPrimitive, TechnicalFlatPrimitive } from "./technical-flat";
 import type { TechnicalFlatLiveIssue } from "./technical-flat-live";
 
@@ -187,10 +188,21 @@ describe("projectPoloSleeveFillClosures", () => {
   it("moves both reflected sleeve closures to the exact receiving shoulder endpoints", () => {
     const primitives = create();
     expect(projectPoloSleeveFillClosures(primitives, revisionId)).toEqual([]);
-    const closures = primitives.filter((primitive) => primitive.kind === "path" && primitive.colorwayBoundaryOnly);
+    const closures = primitives.filter((primitive) => primitive.kind === "path" && primitive.id.includes(":approved-sleeve-area-closure"));
     expect(closures.map((closure) => closure.commands[closure.commands.length - 1])).toEqual([
       { op: "line", point: { x: 4.5, y: 2 } }, { op: "line", point: { x: 14.5, y: 2 } },
     ]);
+    const fillBoundaries = primitives.filter((primitive) => primitive.kind === "path"
+      && primitive.colorwayBoundaryOnly === true && primitive.source.sourceId.includes(":armhole-boundary:"));
+    expect(fillBoundaries).toHaveLength(2);
+    for (const boundary of fillBoundaries) {
+      expect(boundary.source.sourceId).toContain("view:polo:role:sleeve:decision:G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH");
+      expect(boundary.sourceEdgeIds).toEqual([boundary.source.sourceId.endsWith(":front")
+        ? "pattern:polo:role:front:edge:armhole" : "pattern:polo:role:back:edge:armhole"]);
+      const seam = primitives.find((primitive) => primitive.kind === "path" && primitive.id === boundary.id.replace(":polo-sleeve-colorway-boundary", ""));
+      expect(seam?.kind).toBe("path");
+      if (seam?.kind === "path") expect(boundary.commands).toEqual(seam.commands);
+    }
   });
 
   it("fails closed for stale revisions, missing contours, ambiguous shoulders, and malformed closures", () => {
@@ -217,6 +229,14 @@ describe("projectPoloSleeveFillClosures", () => {
     const staleSeam = create();
     staleSeam[2] = { ...staleSeam[2]!, source: { ...staleSeam[2]!.source, revisionId: "stale" } } as typeof staleSeam[number];
     expect(projectPoloSleeveFillClosures(staleSeam, revisionId).some((issue) => issue.message.includes("unique receiving"))).toBe(true);
+
+    const wrongSource = create();
+    wrongSource[2] = { ...wrongSource[2]!, source: { ...wrongSource[2]!.source, sourceId: "pattern:polo:role:front:edge:shoulder" } } as typeof wrongSource[number];
+    expect(projectPoloSleeveFillClosures(wrongSource, revisionId).some((issue) => issue.message.includes("exact mapped same-revision front/back armhole"))).toBe(true);
+
+    const wrongEdgeSet = create();
+    wrongEdgeSet[2] = { ...wrongEdgeSet[2]!, sourceEdgeIds: ["pattern:polo:role:front:edge:shoulder"] } as typeof wrongEdgeSet[number];
+    expect(projectPoloSleeveFillClosures(wrongEdgeSet, revisionId).some((issue) => issue.message.includes("exact mapped same-revision front/back armhole"))).toBe(true);
   });
 });
 
@@ -1063,11 +1083,15 @@ describe("compileTechnicalFlatLiveView", () => {
             expect(pomIssues.map((issue) => issue.sourceId)).toEqual([
               "pom:polo:finished-collar-stand-height", "pom:polo:stand-front-rise",
             ]);
-          } else {
-            expect(result.view).not.toBeNull();
-            expect(result.colorway).not.toBeNull();
-            expect(pomIssues).toEqual([]);
-          }
+        } else {
+          expect(result.view).not.toBeNull();
+          expect(result.colorway).not.toBeNull();
+          expect(pomIssues).toEqual([]);
+          const rendered = renderTechnicalFlatSvg(result.view!, { measureText: () => ({ widthCm: 2, ascentCm: 0.3, descentCm: 0.1 }),
+            colorway: result.colorway! });
+          expect(rendered.issues.some((issue) => issue.code === "COLORWAY_CONTOUR_UNCLOSED"
+            && issue.entityId === "flat:polo:BACK_FLAT:component:sleeve:outline")).toBe(false);
+        }
           expect(result.issues.some((issue) => issue.stage === "geometry"
             && issue.message.includes("no authored front/back split landmark"))).toBe(false);
         } else {

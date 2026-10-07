@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2558,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S433-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S433-polo-output-blocker-diagnosis/G04-V02-POLO-OUTPUT-BLOCKER-DIAGNOSIS-S433.md",
+      "verified": true,
+      "note": "Starts source/topology/re-render diagnosis of Polo's 17 repeated front POM label-placement failures and 17 back sleeve colorway-closure failures, with all 34 faces held."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2559,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S433 from S432 f5aa0d5. Diagnose the two Polo front POM callout placements and back sleeve colorway closure against exact source geometry, current option matrices, and actual renderer. Implement only if current source plus approved conventions uniquely support a correction; otherwise preserve all holds and present the exact remaining decision. No V02/V03 gate changes."
+  }
+]

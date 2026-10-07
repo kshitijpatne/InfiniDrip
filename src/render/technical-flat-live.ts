@@ -230,9 +230,22 @@ export function projectPoloSleeveFillClosures(
         message: "The approved Polo sleeve colorway closure does not resolve one unique receiving armhole shoulder station." });
       continue;
     }
+    const armholeSource = /^pattern:polo:role:(front|back):edge:armhole$/u.exec(nearest.seam.source.sourceId);
+    if (!armholeSource || (nearest.seam.sourceEdgeIds !== undefined
+      && (nearest.seam.sourceEdgeIds.length !== 1 || nearest.seam.sourceEdgeIds[0] !== nearest.seam.source.sourceId))) {
+      issues.push({ stage: "transform", sourceId: closure.source.sourceId,
+        message: "The approved Polo sleeve colorway boundary requires the exact mapped same-revision front/back armhole source edge." });
+      continue;
+    }
     usedSeams.add(nearest.seam.id);
     transformed[transformed.indexOf(closure)] = { ...closure,
       commands: [...closure.commands.slice(0, -1), { op: "line", point: nearest.shoulder }] };
+    transformed.push({ ...nearest.seam,
+      id: `${nearest.seam.id}:polo-sleeve-colorway-boundary`,
+      layer: "GARMENT_SILHOUETTE", feature: "silhouette",
+      source: { ...nearest.seam.source, sourceId: `view:polo:role:sleeve:decision:G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH:armhole-boundary:${armholeSource[1]}` },
+      sourceEdgeIds: [nearest.seam.source.sourceId], colorwayBoundaryOnly: true,
+    });
   }
   if (closures.length !== 2 || seamPaths.length !== 2 || usedSeams.size !== seamPaths.length) {
     issues.push({ stage: "transform", sourceId: "view:polo:sleeve:cap-armhole-closure",

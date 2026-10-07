@@ -1,0 +1,9 @@
+{
+  "revision": 2566,
+  "epicStatus": "In Progress",
+  "v01Status": "Done",
+  "v02Status": "In Progress",
+  "v03Status": "Backlog",
+  "exitLinkedToEpic": true,
+  "exitLinkedToV02": true
+}

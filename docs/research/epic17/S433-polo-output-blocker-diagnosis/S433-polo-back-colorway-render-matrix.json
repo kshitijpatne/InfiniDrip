@@ -1,0 +1,193 @@
+{
+  "options": 17,
+  "browserErrors": [],
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "revisionId": "live-draft:polo:S433:polo-default",
+      "svgPath": "rendered-colorway/polo-default-back_flat.svg",
+      "svgBytes": 43597,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-default"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "revisionId": "live-draft:polo:S433:polo-placketLength-min",
+      "svgPath": "rendered-colorway/polo-placketLength-min-back_flat.svg",
+      "svgBytes": 44457,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-placketLength-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "revisionId": "live-draft:polo:S433:polo-placketLength-max",
+      "svgPath": "rendered-colorway/polo-placketLength-max-back_flat.svg",
+      "svgBytes": 44457,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-placketLength-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "revisionId": "live-draft:polo:S433:polo-placketWidth-min",
+      "svgPath": "rendered-colorway/polo-placketWidth-min-back_flat.svg",
+      "svgBytes": 44371,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-placketWidth-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "revisionId": "live-draft:polo:S433:polo-placketWidth-max",
+      "svgPath": "rendered-colorway/polo-placketWidth-max-back_flat.svg",
+      "svgBytes": 44371,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-placketWidth-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "revisionId": "live-draft:polo:S433:polo-standHeight-min",
+      "svgPath": "rendered-colorway/polo-standHeight-min-back_flat.svg",
+      "svgBytes": 44289,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-standHeight-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "revisionId": "live-draft:polo:S433:polo-standHeight-max",
+      "svgPath": "rendered-colorway/polo-standHeight-max-back_flat.svg",
+      "svgBytes": 44285,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-standHeight-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "revisionId": "live-draft:polo:S433:polo-collarLeafDepth-min",
+      "svgPath": "rendered-colorway/polo-collarLeafDepth-min-back_flat.svg",
+      "svgBytes": 44629,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-collarLeafDepth-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "revisionId": "live-draft:polo:S433:polo-collarLeafDepth-max",
+      "svgPath": "rendered-colorway/polo-collarLeafDepth-max-back_flat.svg",
+      "svgBytes": 44631,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-collarLeafDepth-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "revisionId": "live-draft:polo:S433:polo-standFrontRise-min",
+      "svgPath": "rendered-colorway/polo-standFrontRise-min-back_flat.svg",
+      "svgBytes": 44511,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-standFrontRise-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "revisionId": "live-draft:polo:S433:polo-standFrontRise-max",
+      "svgPath": "rendered-colorway/polo-standFrontRise-max-back_flat.svg",
+      "svgBytes": 44537,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-standFrontRise-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "revisionId": "live-draft:polo:S433:polo-collarPointExtension-min",
+      "svgPath": "rendered-colorway/polo-collarPointExtension-min-back_flat.svg",
+      "svgBytes": 45059,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-collarPointExtension-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "revisionId": "live-draft:polo:S433:polo-collarPointExtension-max",
+      "svgPath": "rendered-colorway/polo-collarPointExtension-max-back_flat.svg",
+      "svgBytes": 45063,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-collarPointExtension-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "revisionId": "live-draft:polo:S433:polo-sideVentDepth-min",
+      "svgPath": "rendered-colorway/polo-sideVentDepth-min-back_flat.svg",
+      "svgBytes": 42218,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-sideVentDepth-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "revisionId": "live-draft:polo:S433:polo-sideVentDepth-max",
+      "svgPath": "rendered-colorway/polo-sideVentDepth-max-back_flat.svg",
+      "svgBytes": 44458,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-sideVentDepth-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "revisionId": "live-draft:polo:S433:polo-backHemDrop-min",
+      "svgPath": "rendered-colorway/polo-backHemDrop-min-back_flat.svg",
+      "svgBytes": 44255,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-backHemDrop-min"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "revisionId": "live-draft:polo:S433:polo-backHemDrop-max",
+      "svgPath": "rendered-colorway/polo-backHemDrop-max-back_flat.svg",
+      "svgBytes": 44256,
+      "sourceRevisions": [
+        "live-draft:polo:S433:polo-backHemDrop-max"
+      ],
+      "issueCount": 0,
+      "sleeveFillPath": "data-colorway-fill-for=\"flat:polo:BACK_FLAT:component:sleeve:outline\""
+    }
+  ]
+}
