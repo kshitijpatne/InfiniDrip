@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 445 Woven collar-orientation audit completed
+
+S445 started 2026-10-07 22:40:43 UTC from clean S444 commit `901499580391eb6f7aee20cc71dc776d7662194b` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 444; S445 is unique. Validated board start moved revision 2667→2669. Goal remains active and needed through the admitted V01→V02→V03 objective and safe merge.
+
+S445 reviewed the actual retained same-revision Woven default and `collarLeafDepth-min` `FRONT_FLAT` output plus S417's post-clip Chromium crop against the exact source joins, S359 approved projection, S406 layer convention, and maintained Woven W3/W4 research. The render is explicitly a pattern-derived technical flat; its view-only projection does not claim sewn roll or physical face orientation. Research confirms that roll cannot be derived from equal flat layers and provides no relation for this exact drafted revision. This is not a new independent blocker and no new decision is needed. The separate 28/28 neckline/collar contacts remain held under the approved complete base-seam choice. User direction confirmed that S370 band positions stay fixed; therefore all 28 Woven back views remain held. No source/code/render/gate/acceptance change.
+
+The integrated board remains 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces remain held. G04-V02 is In Progress; V03 is Backlog and cannot start before all-seven V02 plus its rights-cleared receiver/profile and observed round-trip evidence. S445 exit board replay and focused Control Center tests/validation/diff check pass. Packet: `docs/research/epic17/S445-woven-collar-orientation-audit/G04-WOVEN-COLLAR-ORIENTATION-AUDIT-S445.md`.
+
+Elapsed 22:40:43–22:43:41 UTC (2m58s): implementation 0m; source/render/research review ~1m35s; durable docs/board ~45s; focused verification ~38s; external-agent waits 0m; maintainer-decision time 0m. **Next action:** reconcile S443/S445’s Woven no-go with the current goal and produce the smallest explicit source/design constraint proposal that could clear both Woven blocker classes while retaining all-seven V02. No implementation or acceptance change before required approval.
+
 ## EPIC-17 / G04 — Slice 444 TypeScript build baseline repair completed
 
 S444 started 2026-10-07 22:34:49 UTC from clean S443 commit `1b49797f93ec09a913c9ff1aac7460e562002580` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 443; S444 is unique. Canonical board revision is 2667 after validated start/exit replay 2663→2665→2667. EPIC-17/G04-V02 remains In Progress, V01 Done, V03 Backlog; tally is unchanged at 56 accepted / 90 held across 73 configurations / 146 faces. The goal remains active and necessary.

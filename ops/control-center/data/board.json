@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2667,
-  "updatedAt": "2026-10-07T22:39:22.451Z",
+  "revision": 2671,
+  "updatedAt": "2026-10-07T22:43:33.135Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -9177,6 +9177,16 @@
           "at": "2026-10-07T22:39:22.451Z",
           "actor": "Codex",
           "text": "S444 clears the reproduced TypeScript build blocker using explicit primitive-union narrowing and test fixture guards only. technical-flat-live/svg focused suites pass 87/87; technical-flat-svg changed-module coverage is 100% statements/branches/functions/lines; npm run build passes; protected export identity/regression tests pass 17/17. No runtime/rendered output, geometry, mapping, face or acceptance change. Woven holds from S443, all-seven V02 and V02-before-V03 remain unchanged."
+        },
+        {
+          "at": "2026-10-07T22:41:44.021Z",
+          "actor": "Codex",
+          "text": "Start S445 from clean S444. Review only whether the approved Woven collar projection depicts collar/stand orientation misleadingly under G04's construction-aware criterion. Bind to source revision 14:14 and reuse current S406/S417/S437 output/research. Do not change S359 projection, clip the continuous neckline, relax gates, or release any face; preserve all Woven/Polo holds."
+        },
+        {
+          "at": "2026-10-07T22:43:33.135Z",
+          "actor": "Codex",
+          "text": "S445 source/output audit finds no separate Woven collar-orientation decision: the retained artifact is an explicitly pattern-derived FRONT_FLAT, and S359 defines a view-only projection without a physical roll claim. The repeated neckline/collar contacts remain a separate 28-front hold; preserve the complete base seam. The maintainer’s S441/S442 choice to keep S370 band positions and all 28 back holds remains controlling. No code, renderer, output, status, tally or acceptance change; all-seven V02 and V02-before-V03 are unchanged."
         }
       ],
       "evidenceRefs": [
@@ -9842,7 +9852,9 @@
         "E-G04-S443-CLAUDE-RESULT",
         "E-G04-S443-CLAUDE-STATUS",
         "E-G04-S444-START",
-        "E-G04-S444-EXIT"
+        "E-G04-S444-EXIT",
+        "E-G04-S445-START",
+        "E-G04-S445-EXIT"
       ],
       "flagKey": null
     },
@@ -17412,6 +17424,24 @@
       "sha256": null,
       "verified": true,
       "note": "Repairs the saved S441 baseline TypeScript errors without runtime/output changes; focused renderer coverage is 100%, the build passes, and protected export identity regressions pass. All G04 holds and V02/V03 gates remain."
+    },
+    {
+      "id": "E-G04-S445-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S445-woven-collar-orientation-audit/G04-WOVEN-COLLAR-ORIENTATION-AUDIT-S445.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts the S443 follow-up review of current Woven collar orientation against exact source/projection, already-rendered current output and checked construction research; evidence only, no projection trial or mapping change."
+    },
+    {
+      "id": "E-G04-S445-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S445-woven-collar-orientation-audit/G04-WOVEN-COLLAR-ORIENTATION-AUDIT-S445.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Confirms the approved Woven projection is a technical-flat convention without a sewn-roll claim; the independent 28-front neckline/collar contacts and 28-back crossing stay held with S370 positions fixed."
     }
   ]
 }

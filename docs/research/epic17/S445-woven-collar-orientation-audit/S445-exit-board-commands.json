@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2669,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S445-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S445-woven-collar-orientation-audit/G04-WOVEN-COLLAR-ORIENTATION-AUDIT-S445.md",
+      "verified": true,
+      "note": "Confirms the approved Woven projection is a technical-flat convention without a sewn-roll claim; the independent 28-front neckline/collar contacts and 28-back crossing stay held with S370 positions fixed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2670,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S445 source/output audit finds no separate Woven collar-orientation decision: the retained artifact is an explicitly pattern-derived FRONT_FLAT, and S359 defines a view-only projection without a physical roll claim. The repeated neckline/collar contacts remain a separate 28-front hold; preserve the complete base seam. The maintainer’s S441/S442 choice to keep S370 band positions and all 28 back holds remains controlling. No code, renderer, output, status, tally or acceptance change; all-seven V02 and V02-before-V03 are unchanged."
+  }
+]

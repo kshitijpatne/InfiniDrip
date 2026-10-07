@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2667,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S445-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S445-woven-collar-orientation-audit/G04-WOVEN-COLLAR-ORIENTATION-AUDIT-S445.md",
+      "verified": true,
+      "note": "Starts the S443 follow-up review of current Woven collar orientation against exact source/projection, already-rendered current output and checked construction research; evidence only, no projection trial or mapping change."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2668,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S445 from clean S444. Review only whether the approved Woven collar projection depicts collar/stand orientation misleadingly under G04's construction-aware criterion. Bind to source revision 14:14 and reuse current S406/S417/S437 output/research. Do not change S359 projection, clip the continuous neckline, relax gates, or release any face; preserve all Woven/Polo holds."
+  }
+]
