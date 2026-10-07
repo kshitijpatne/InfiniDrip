@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2344,"itemId":"G04-V02","evidence":{"id":"E-G04-S408-START","kind":"document","uri":"docs/research/epic17/S408-mqf-current-output-review/G04-V02-MANUAL-FINDINGS-OUTPUT-REVIEW-S408.md","verified":true,"note":"Starts an evidence-only review of G04-mapped manual findings against current S406 Woven and S394 Polo production-rendered output; preserves all holds and post-G17 deferrals."}},
+  {"type":"addEpicEvidence","expectedRevision":2345,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S408-START"},
+  {"type":"addComment","expectedRevision":2346,"itemId":"G04-V02","actor":"Codex","text":"S408 reviews MQF-004–007, MQF-011, MQF-012 and MQF-015 against the latest applicable actual production output. Each remains a review check; no hold or gate is relaxed. The approved collar-over-plackets rule remains implemented from S406; S407's distinct neckline-seam choice stays pending."}
+]
