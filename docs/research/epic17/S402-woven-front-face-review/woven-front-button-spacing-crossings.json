@@ -1,0 +1,3004 @@
+{
+  "summary": {
+    "configurations": 28,
+    "frontButtonSpacingLeaderHitsCollarOrNeckline": 23,
+    "frontButtonSpacingLeaderWithin015cmOfCollarOrNeckline": 23
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13 L1.0402 3.1295",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13
+      },
+      "labelPoint": {
+        "x": 1.0402,
+        "y": 3.1295
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.002836683137868111,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00031575931830018,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005206933355516846,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00031575931830018,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005206933355516846,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.004156679029194889,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.6 L1.0889 3.9747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.6
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.9747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.005724005820650185,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0017993662887621602,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0008774790524745554,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0017993662887621602,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0008774790524745554,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0014393413867403925,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.6
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.6
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.6
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.6
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.6
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.6
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.6
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L-7.8532 12.6429",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": -7.8532,
+        "y": 12.6429
+      },
+      "relevantContours": [],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L-7.8532 12.6429",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": -7.8532,
+        "y": 12.6429
+      },
+      "relevantContours": [],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.4791 5.5363",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.4791,
+        "y": 5.5363
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.0029010153631432996,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0017568761822513593,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0001680154939545941,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0017568761822513593,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0001680154939545941,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0019117585743269037,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L-7.8532 12.6429",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": -7.8532,
+        "y": 12.6429
+      },
+      "relevantContours": [],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 19.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 25.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 31.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 43.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 49.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 22.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 31.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 40.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 49.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 58.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 67.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1 13.2 L0.6377 3.8199",
+      "sourceAnchor": {
+        "x": 1,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 0.6377,
+        "y": 3.8199
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.0037565275886054174,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0032394548455108945,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00218726992669289,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0032394548455108945,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00218726992669289,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.00606691131364308,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M3 13.2 L7.8886 12.6429",
+      "sourceAnchor": {
+        "x": 3,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 7.8886,
+        "y": 12.6429
+      },
+      "relevantContours": [],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 3,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 3,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 3,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 3,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 3,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 3,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 3,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L7.057 11.8146",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 7.057,
+        "y": 11.8146
+      },
+      "relevantContours": [],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M1.5 13.2 L1.0889 3.5747",
+      "sourceAnchor": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": 1.0889,
+        "y": 3.5747
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.006214317276548672,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.00002994838147854616,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.0005464089610602324,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0016569321748187654,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 1.5,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 1.5,
+          "y": 21.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 1.5,
+          "y": 29.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 1.5,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 1.5,
+          "y": 45.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 1.5,
+          "y": 53.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-7",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-7",
+          "x": 1.5,
+          "y": 61.2
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "found": true,
+      "sourceId": "pom:woven-shirt:front-button-spacing",
+      "targetId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+      "sourceEntityId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leaderD": "M2 13.2 L-0.9109 2.2531",
+      "sourceAnchor": {
+        "x": 2,
+        "y": 13.2
+      },
+      "labelPoint": {
+        "x": -0.9109,
+        "y": 2.2531
+      },
+      "relevantContours": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+          "sourceId": "pattern:woven-shirt:role:outerStand",
+          "minimumCenterlineDistanceCm": 0.0026662154584861123,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.004570558853181563,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:underCollar",
+          "minimumCenterlineDistanceCm": 0.000641438604205149,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.004570558853181563,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:attached-fold-reflection",
+          "sourceId": "pattern:woven-shirt:role:upperCollar",
+          "minimumCenterlineDistanceCm": 0.000641438604205149,
+          "strokedContactWithin035cm": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "minimumCenterlineDistanceCm": 0.0036277065236428236,
+          "strokedContactWithin035cm": true
+        }
+      ],
+      "buttonMarkGroups": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-1",
+          "x": 2,
+          "y": 13.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-2",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-2",
+          "x": 2,
+          "y": 19.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-3",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-3",
+          "x": 2,
+          "y": 25.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-4",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-4",
+          "x": 2,
+          "y": 31.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-5",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-5",
+          "x": 2,
+          "y": 37.2
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-6",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:button-6",
+          "x": 2,
+          "y": 43.2
+        }
+      ]
+    }
+  ]
+}

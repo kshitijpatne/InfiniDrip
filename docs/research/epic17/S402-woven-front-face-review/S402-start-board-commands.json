@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2257,"itemId":"G04-V02","evidence":{"id":"E-G04-S402-START","kind":"document","uri":"docs/research/epic17/S402-woven-front-face-review/G04-V02-WOVEN-FRONT-FACE-REVIEW-S402.md","verified":true,"note":"Begins a face-level audit of 28 current Woven FRONT_FLAT outputs after S400/S401. Renderer emission is not acceptance; preserve all Woven back crossing holds, Polo residual holds and all-seven V02 gates."}},
+  {"type":"addEvidence","expectedRevision":2258,"itemId":"EPIC-17","evidenceId":"E-G04-S402-START"}
+]

@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 401 paired Woven live-output review complete; V02 remains open
+## EPIC-17 / G04 current work — Slice 402 Woven front button-spacing diagnostic complete; V02 remains open
+
+S402 began 2026-10-07 05:57:34 UTC from clean S401 `5186a75285b7d08cdab6dc7c4e72d622e87c8b9a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S401 was highest and S402 was uniquely reserved. Board revision 2257 recorded S401 exit; validated S402 start replay advanced the board to 2259. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Ordinary usage remained available.
+
+S402 audited the actual 28 S401 Woven `FRONT_FLAT` outputs at `live-draft:woven-shirt:14:14`. The source computes Front button spacing from the source `button-1` and `button-2` marks, currently anchoring the leader at button 1. That rendered leader contacts a collar or neckline source path within the 0.035 cm stroked-contact threshold in 23/28 option configurations; five configurations do not have this particular contact. A two-point bracket alternative touches unrelated source paths in 28/28 and is rejected. A diagnostic keyed interval marker at the arithmetic midpoint of the exact two source marks preserves the source measurements, source anchors, full schedule and continuous closure line; six glyph offsets clear sampled source paths and text boxes across all 28 rows. The recommended D glyph offset is `(+0.2121,+0.2121 cm)`. Because the derived midpoint is not an authored physical mark, this view convention awaits maintainer approval and is not implemented or accepted. Evidence and Chromium crops are in `docs/research/epic17/S402-woven-front-face-review/`.
+
+S402 releases zero faces. All 28 Woven fronts stay held pending approval, production implementation/replay if approved, and remaining topology/join/crossing/overlay gates. All 28 Woven backs remain held at the source-continuous sleeve/hem crossing. All 34 Polo faces remain held at 0.68 cm against the unchanged 0.25 cm gate. No source/cut/stitch geometry, acceptance threshold, all-seven criterion, export behavior or V03 gate changed. Focused 28-option diagnostics, actual Chromium trial/schedule inspection, `npm run control-center:test`, and `git diff --check` pass. The full repository gate remains reserved for the settled integrated Epic candidate.
+
+S402 elapsed approximately 15m (05:57:34–06:12 UTC): implementation 0m; focused audit and trial verification 8m; rendered generation/inspection 3m; durable packet/context/state/validated-board closeout and Control Center verification 4m; external-agent waits 0m; maintainer-decision time 0m. Validated board start/exit revisions: 2257→2259 / 2259→2269. `npm run control-center:test` passes 42/42; `git diff --check` and four script syntax checks pass. The current goal remains active, matches admitted EPIC-17/G04, is still needed, and was not changed.
+
+**Next action:** request a decision on the exact derived-midpoint D interval marker. Keep all Woven and Polo faces held. If approved, uniquely reserve the next slice to implement the view-only marker and verify production output for all 28 options; then continue blockers, all-seven V02, qualified V03 evidence, final output review, the integrated gate, PR, safe merge, ancestry, and required deployment.
+
+## Prior boundary — Slice 401 paired Woven live-output review complete; V02 remains open
 
 S401 began at 2026-10-07 05:44:41 UTC from clean S400 `1952860e16d68af07b04814d294df035aa4aa4b8` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S400 was highest; S401 was uniquely reserved. Board revision 2245 recorded the prior exit; validated S401 start replay advanced it to 2247. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Usage at start: primary 6%, weekly 1%, ordinary work allowed.
 

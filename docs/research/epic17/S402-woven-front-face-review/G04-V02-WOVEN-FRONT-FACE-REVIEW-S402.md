@@ -1,0 +1,49 @@
+# G04 V02 — Woven front-face review — Slice 402
+
+## Start boundary and authority
+
+- Started 2026-10-07 05:57:34 UTC from clean S401 `5186a75285b7d08cdab6dc7c4e72d622e87c8b9a` on `codex/epic-17-g04`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S401 was the highest landed slice; S402 is uniquely reserved. Board revision 2257 records S401 exit; G04-V02 is In Progress, V01 Done, V03 Backlog. Usage at start: primary 7%, weekly 1%, ordinary work allowed.
+- S400 integrates the maintainer-approved source-bound W key treatment; S401 reconciles the paired live output for the same 28 Woven option rows. The renderer now emits every front, but renderer emission is not acceptance. This review tests whether front faces meet the extant V02 face gates and retains exact back crossing holds.
+- Authority remains the EPIC-17 admission packet, roadmap, existing S321 view decisions, current S400 implementation, S401 matrix, S381 crossing evidence, and the canonical board. No new construction decision or criterion change is inferred.
+
+## Scope and acceptance
+
+- Reuse the exact 28 S363 Woven options, current revision `live-draft:woven-shirt:14:14`, and S401's current production-renderer front SVGs. Verify each view's source/piece/revision identity, approved sleeve/collar/placket mapping and join evidence, independent outline and seam crossings, colorway coverage, exact keyed W POM target/source identity, unchanged complete POM schedule, layer order, and zero compiler/renderer issues.
+- Run a geometry audit over the actual emitted front paths, checking self-intersections, unintended inter-piece crossings/overlaps, and supported source stitch/join incidence. Distinguish authored shared seams and approved projection from independent path crossings. Preserve a machine-readable per-option/per-face gate matrix.
+- Inspect actual Chromium whole/detail renderings for default, every option endpoint that changes relevant front topology, and any geometry-audit outlier. Confirm callout readability, colorway boundaries, silhouette/seam/topstitch/closure/pocket/dart details, and that no output is misleading or clipped.
+- Adjudicate only the 28 Woven FRONT_FLAT faces. Mark a front accepted only if all existing per-face G04 V02 criteria pass on its current revision and the source-backed interpretation is supported. If any gate fails or evidence is incomplete, keep that face held with the exact reason. This slice cannot complete the all-seven V02 Epic gate.
+- Keep all 28 Woven BACK_FLAT faces held at the source-continuous sleeve-hem crossing (S381), even if the front passes. Preserve the Polo 0.68 cm residual vs 0.25 cm hold, all seven recipe criterion, V02-before-V03, protected export byte identities and legacy DXF behavior.
+- Evidence-only unless the output audit identifies a bounded defect; do not alter geometry or mapping in this slice. Focused output/matrix checks, rendered inspection, validated board replay, `npm run control-center:test` and `git diff --check`; no full repository gate for evidence-only work.
+
+## Non-goals, blockers, and ownership
+
+- No physical or factory claim, source/cut/stitch change, V02 threshold or all-seven criterion change, back-face crossing repair, Polo ease change, new garment, G05/G09 work, V03 receiver/rights/profile/round-trip claim, broad UI change, supplier contact, spending, or hosted service.
+- Blocking decision: none for this source-backed front-face review. The Woven back crossing and Polo residual remain separately blocking for their affected faces. No safe disjoint task is available because path topology, live output and face-level gate evidence must be reviewed together; Codex retains integration ownership.
+
+## Start-board record
+
+- `S402-start-board-commands.json` is replayed through the validated `executeBoardCommand` layer.
+
+## Exit record
+
+## Exit findings and face disposition
+
+The audit ran against the 28 exact S401 production-renderer `FRONT_FLAT` SVGs at `live-draft:woven-shirt:14:14`; no source, production renderer, geometry, mapping, POM, or criterion was changed.
+
+- **Directly encoded source facts:** `src/drafting/shirt.ts` computes `Front button spacing` from the distance between `buttonPlacket.button-1` and `buttonPlacket.button-2`, with the first button as the current leader anchor. The same-revision emitted callout keeps POM ID `pom:woven-shirt:front-button-spacing`, target `flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:button-1`, source entity `pattern:woven-shirt:mark:buttonPlacket:button-1`, and full source schedule. In default, the marks are `(1.5,13.2)` and `(1.5,21.2)` cm, so the source distance is 8.0 cm and their arithmetic midpoint is `(1.5,17.2)` cm. The midpoint is derived from two source marks; it is not an authored physical mark.
+- **Current blocker:** the existing leader runs `M1.5 13.2 L1.0889 3.5747` and its stroked path contacts a collar/neckline source contour within 0.035 cm in 23/28 configurations. The affected rows are default, `neckEase` min/max, `collarLeafDepth-min`, `buttonCount` min/max, `buttonSpacing` min/max, `frontOverlap-min`, `placketWidth-max`, `yokeDepth` min/max, `pocketWidth` min/max, `pocketHeight` min/max, `sleeveBandDepth` min/max, `sideVentDepth` min/max, `hemTurn` min/max, and combined-supported. The contacting source roles are `outerStand`, `underCollar`, `upperCollar`, and `front:edge:neckline`. The five options without this contact are `standHeight-min`, `standHeight-max`, `collarLeafDepth-max`, `frontOverlap-max`, and `placketWidth-min`. This is a display-path crossing, not a source geometry or join defect. The highlighted actual-renderer overlay is `rendered/woven-default-front-button-spacing-crossing.png`; machine details are in `woven-front-button-spacing-crossings.json`.
+- **Rejected alternative:** a two-point bracket placed 0.6 cm beyond the button-placket bounding box keeps the exact source distance and avoids label-box contact, but its extension lines touch unrelated source paths/marks in all 28 options. It is rejected; see `woven-front-two-point-dimension-trial.json` and the default detail screenshot.
+- **Proposed design decision, not pattern evidence:** replace only the inline leader with a keyed interval marker: a 0.22 cm open ring centered on the arithmetic midpoint of the exact same-revision `button-1` and `button-2` marks, with `D` offset `(+0.2121,+0.2121 cm)`. The full text row continues to state `Front button spacing: <source distance> cm (±0.2 cm)`. This identifies the measured interval without drawing a false construction line through the collar. Across the same 28-option diagnostic render, the ring stayed anchored to the computed interval, both source point anchors remained unchanged, all 28 exact source distances were retained, and six glyph offsets had no sampled source-path or text-box contact; the recommended southeast offset is among them. The ring is under source strokes, so the source closure line stays continuous. The view convention introduces one derived center marker and a keyed association to the unmodified full-text POM; it does not claim a physical midpoint mark. Actual Chromium default, `standHeight-max`, `collarLeafDepth-min`, and combined-supported views plus the unchanged schedule crop were inspected. Evidence is `woven-front-interval-key-trial.json` and `rendered/woven-shirt-default-front-interval-key-trial-{whole,detail,schedule}.png`, with limiting/combined crops alongside.
+- **Face disposition:** all 28 Woven front faces remain held until the proposed interval mapping receives approval, is implemented and passes production-renderer option-wide identity/readability checks, and the remaining per-face topology, crossings, joins and overlay gates are completed. All 28 Woven back faces remain held at the source-continuous sleeve/hem crossing; no truthful view separation was found. All 34 Polo faces remain held at the 0.68 cm sleeve residual against the unchanged 0.25 cm gate. S402 accepts zero faces and changes no acceptance criterion, hold, all-seven requirement, export behavior, or V03 gate.
+
+## Verification and elapsed time
+
+- `audit-button-spacing-leader.mjs`: 28/28 source/revision identities verified; 23/28 stroked leader contacts; five unaffected options as listed above.
+- `trial-two-point-spacing-dimension.mjs`: 28/28 exact source distances; zero label-box conflicts; unrelated source-path contact in 28/28; rejected.
+- `trial-keyed-interval-marker.mjs`: 28/28 exact source distances and preserved source anchors; six shared clear glyph positions; full W schedule unchanged. The D mapping is diagnostic only.
+- Chromium regenerated and inspected the actual derived candidate output crops and full schedule. `node --check` passes for all S402 scripts. `npm run control-center:test` and `git diff --check` are run at closeout.
+- No full repository coverage/build/export gate is due for this evidence-only slice; unchanged global gates remain required on the settled integrated candidate.
+- Validated board revisions: start 2257→2259; exit 2259→2269. `npm run control-center:test` passes 42/42; `git diff --check` and all four `node --check` script validations pass.
+- Elapsed approximately 15m (05:57:34–06:12 UTC): implementation 0m; focused audit and trial verification 8m; rendered generation/inspection 3m; durable packet/context/state/validated-board closeout and Control Center verification 4m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** ask the maintainer whether to authorize the exact view-only D interval marker described above. If approved, reserve the next unique slice for production implementation and 28-option production-renderer verification. If declined, keep all 28 Woven fronts held and investigate a different source-faithful callout layout. Preserve every back and Polo hold, all-seven V02 acceptance, and the unchanged V03 gates.
