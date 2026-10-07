@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2453,
-  "updatedAt": "2026-10-07T09:26:52.807Z",
+  "revision": 2459,
+  "updatedAt": "2026-10-07T09:33:30.368Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -614,7 +614,9 @@
         "E-G04-S419-START",
         "E-G04-S419-EXIT",
         "E-G04-S420-START",
-        "E-G04-S420-EXIT"
+        "E-G04-S420-EXIT",
+        "E-G04-S421-START",
+        "E-G04-S421-EXIT"
       ]
     },
     {
@@ -9391,8 +9393,22 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
-      "evidenceRefs": [],
+      "comments": [
+        {
+          "at": "2026-10-07T09:30:23.596Z",
+          "actor": "Codex",
+          "text": "S421 researches public rights and documented capabilities of no-cost CAD receiver/parser candidates as a prerequisite only. V03 stays Backlog behind all-seven V02; no receiver/profile selection, implementation, software install, spending or exact compatibility claim is in scope."
+        },
+        {
+          "at": "2026-10-07T09:33:30.368Z",
+          "actor": "Codex",
+          "text": "S421 exit: checked official public evidence qualifies no no-cost industrial apparel receiver. CLO documents bidirectional Standard DXF/AAMA/ASTM support but its trial requires payment information and converts to paid access. Valentina's reviewed DXF claim is export-oriented; Seamly2D receiver behavior is not established; LibreCAD is generic DXF only. No selection, install, terms, contact, fixture round-trip or compatibility claim. Keep V03 Backlog pending all-seven V02 and rights-cleared access. See E-G04-S421-EXIT."
+        }
+      ],
+      "evidenceRefs": [
+        "E-G04-S421-START",
+        "E-G04-S421-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -16227,6 +16243,24 @@
       "sha256": null,
       "verified": true,
       "note": "Reconciles the canonical EPIC-17, summary-card and G04-V02 descriptions with S419/current holds. No status, acceptance, face release or gate changes."
+    },
+    {
+      "id": "E-G04-S421-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S421-cad-rights-prerequisite-review/G04-V03-CAD-RIGHTS-PREREQUISITE-REVIEW-S421.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S421 is prerequisite public-source rights/capability research only. V03 remains Backlog pending all-seven V02; no receiver/profile selected and no implementation or exact compatibility claim."
+    },
+    {
+      "id": "E-G04-S421-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S421-cad-rights-prerequisite-review/G04-V03-CAD-RIGHTS-PREREQUISITE-REVIEW-S421.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official-source prerequisite research only: no no-cost industrial apparel receiver is qualified; CLO's documented trial crosses the paid/payment-data gate. No receiver/profile, import round trip or compatibility claim. V03 remains Backlog behind all-seven V02."
     }
   ]
 }

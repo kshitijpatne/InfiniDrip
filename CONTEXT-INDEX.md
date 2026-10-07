@@ -8,6 +8,7 @@ decision in `docs/PROJECT-DECISIONS.md` apply to every new or resumed task.
 
 ## Latest EPIC-17/G04 slice evidence
 
+- `docs/research/epic17/S421-cad-rights-prerequisite-review/G04-V03-CAD-RIGHTS-PREREQUISITE-REVIEW-S421.md` — official public-source rights/capability review only. No no-cost industrial apparel receiver is qualified; CLO's documented AAMA/ASTM receiver path requires payment details and converts to a paid subscription, while the open tools checked do not establish an apparel receiver. V03 remains Backlog behind all-seven V02; no receiver/profile selection or compatibility claim.
 - `docs/research/epic17/S420-current-board-summary-reconciliation/G04-BOARD-SUMMARY-RECONCILIATION-S420.md` — reconciles the canonical EPIC-17 and G04-V02 descriptions with current S419 evidence and confirmed S406 collar/placket approval. The Polo H-segmentation and Woven neckline decisions remain separate/pending; all status, acceptance and view holds are preserved.
 
 - `docs/research/epic17/S419-polo-h-segmented-locator-trial/G04-V02-POLO-H-SEGMENTED-LOCATOR-TRIAL-S419.md` and `segmented-h-locator-matrix.json` — tests the unchanged source-centered Polo H locator across all 17 S399 options. A diagnostic 2–3-arc ring has zero sampled source-stroke contacts; production approval is still required and all 34 Polo faces remain held.

@@ -1,6 +1,18 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 420 current board summary reconciliation; V02 remains open
+## EPIC-17 / G04 current work — Slice 421 CAD rights prerequisite review; V02 remains open
+
+S421 started 2026-10-07 09:29:56 UTC from clean S420 `ccb21a0447490fe33be835169ff3b2293aca738a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 420; S421 is unique. Board revision 2453 advanced to 2456 at start. V01 Done, V02 In Progress, V03 Backlog; active goal remains the admitted EPIC-17 objective.
+
+S421 completed prerequisite public-source rights/capability research only. CLO's official current support docs claim Standard DXF/AAMA/ASTM import/export and apparel-CAD use, but its trial requires account/billing/payment information and auto-starts a paid subscription after 14 days; business/academic access requires vendor contact. Valentina's official release notes establish DXF-AAMA/ASTM export to CLO3D, not receiver behavior. Seamly2D is GPLv3+ patternmaking software whose checked docs/source do not establish a DXF apparel receiver. LibreCAD is GPLv2 generic DXF import/export only. No no-cost industrial apparel receiver is qualified; no version/profile selected, software installed, terms accepted, paid/contact gate crossed, fixture imported or compatibility claim made. Research and evidence: `docs/research/epic17/S421-cad-rights-prerequisite-review/`.
+
+V02 remains In Progress and V03 Backlog. Current verified integrated tally remains 56 accepted / 90 held over 73 configurations / 146 faces; every Woven/Polo face remains held. S410 neckline and S419 H-marker decisions remain unresolved; Polo's 0.68 cm residual still exceeds the fixed 0.25 cm gate. Preserve all-seven V02, V02-before-V03, generic legacy DXF and all protected export identities. S421 is documentation/board-only; the integrated full coverage/build/export/browser gate remains for the settled Epic candidate. Validated clone preflight/replay advanced board 2453→2459 with all Epic/work-item statuses unchanged. `npm run control-center:test` passes 42/42; clone preflight invariants, both script syntax checks and `git diff --check` pass. S421 evidence is linked on G04-V03 and EPIC-17.
+
+Elapsed time ~6m: public/local source review 2m; packet and durable state/board closeout 2m; focused verification 2m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** continue independent V02 blocker work; do not select a V03 receiver/profile until all-seven V02 passes and rights are cleared.
+
+## EPIC-17 / G04 previous slice — Slice 420 current board summary reconciliation; V02 remains open
 
 S420 started 2026-10-07 09:23:40 UTC from clean S419 `c90e89f0a677111762a47de6b8fa8692b720341c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 419; S420 is unique. Board revision 2443 advanced to 2446 at start and 2453 at validated exit. V01 Done, V02 In Progress, V03 Backlog; the active goal remains unchanged.
 
