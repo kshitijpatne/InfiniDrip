@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2671,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S446-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S446-woven-v02-resolution-boundary/G04-WOVEN-V02-RESOLUTION-BOUNDARY-S446.md",
+      "verified": true,
+      "note": "Starts a bounded source/evidence reconciliation of the remaining Woven front/back holds under the approved projection, continuous neckline, fixed S370 layout and unchanged all-seven V02 gate."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2672,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S446 reconciles exact source constraints and already-reviewed 28-option/render evidence for the two Woven hold classes. No production edits, general research rerun, renderer replay, status change or acceptance change. It will define whether a source-design candidate study is the only unblocked path under the current decisions."
+  }
+]

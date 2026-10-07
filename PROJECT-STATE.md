@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 446 Woven V02 resolution boundary completed
+
+S446 started 2026-10-07 22:45:15 UTC from clean S445 commit `f8747c9ef9edddb481e409cd4ff253f17296c62f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 445; S446 is unique. Validated board start advanced 2671→2673. The active goal exactly matches this Epic through safe merge.
+
+S446 source-bound reconciliation confirms the only remaining V02 release blockers are the 28 Woven front neckline/collar contacts and 28 Woven back sleeve-hem crossings. The collar contacts are forced by the approved S359 offset endpoints (`-h` to `d-h`, where all supported `d-h >= 0.5 cm`) while the maintainer's complete body base seam remains visible. The back's only measured crossing-free candidate is S441 local-Y, but it collides with both S370 band details in all 28 options; the maintainer keeps those locations. S417/S437/S441 plus completed Claude Opus 5.5 xhigh research find no source-backed resolution inside these choices. Polo has no current local output blocker, but all 34 Polo faces remain held under the all-seven acceptance gate. No code, renderer, source, stitch, face, export or acceptance change.
+
+Packet: `docs/research/epic17/S446-woven-v02-resolution-boundary/G04-WOVEN-V02-RESOLUTION-BOUNDARY-S446.md`. It recommends a bounded, in-memory Woven source-design candidate study; no production change may land without exact proposal review and separate approval. All 56 Woven and 34 Polo holds, 56 accepted / 90 held tally, V02 status and V03 dependency remain unchanged. S446 board revisions are 2671→2673→2675; Control Center tests pass 42/42.
+
+Elapsed 22:45:15–22:46:45 UTC (1m30s): implementation 0m; source/decision reconciliation ~35s; durable docs/board ~35s; focused verification ~20s; external-agent waits 0m; maintainer-decision time 0m. **Next action:** obtain authorization for the bounded in-memory Woven source-design candidate study and return exact source/render evidence; no production change or acceptance change before separately approving a concrete proposal. No V03 start before V02 passes.
+
 ## EPIC-17 / G04 — Slice 445 Woven collar-orientation audit completed
 
 S445 started 2026-10-07 22:40:43 UTC from clean S444 commit `901499580391eb6f7aee20cc71dc776d7662194b` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 444; S445 is unique. Validated board start moved revision 2667→2669. Goal remains active and needed through the admitted V01→V02→V03 objective and safe merge.

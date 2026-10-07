@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2671,
-  "updatedAt": "2026-10-07T22:43:33.135Z",
+  "revision": 2675,
+  "updatedAt": "2026-10-07T22:46:46.572Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -9187,6 +9187,16 @@
           "at": "2026-10-07T22:43:33.135Z",
           "actor": "Codex",
           "text": "S445 source/output audit finds no separate Woven collar-orientation decision: the retained artifact is an explicitly pattern-derived FRONT_FLAT, and S359 defines a view-only projection without a physical roll claim. The repeated neckline/collar contacts remain a separate 28-front hold; preserve the complete base seam. The maintainer’s S441/S442 choice to keep S370 band positions and all 28 back holds remains controlling. No code, renderer, output, status, tally or acceptance change; all-seven V02 and V02-before-V03 are unchanged."
+        },
+        {
+          "at": "2026-10-07T22:46:19.989Z",
+          "actor": "Codex",
+          "text": "S446 reconciles exact source constraints and already-reviewed 28-option/render evidence for the two Woven hold classes. No production edits, general research rerun, renderer replay, status change or acceptance change. It will define whether a source-design candidate study is the only unblocked path under the current decisions."
+        },
+        {
+          "at": "2026-10-07T22:46:46.572Z",
+          "actor": "Codex",
+          "text": "S446 confirms the remaining Woven front and back holds have no source-backed fix under existing approvals. The proposed next step is limited to in-memory source-design candidates for collar/stand and sleeve geometry, with exact option/render evidence and no production or acceptance changes unless a separate exact proposal is approved. Preserve all 90 held faces and all-seven V02; V03 remains gated."
         }
       ],
       "evidenceRefs": [
@@ -9854,7 +9864,9 @@
         "E-G04-S444-START",
         "E-G04-S444-EXIT",
         "E-G04-S445-START",
-        "E-G04-S445-EXIT"
+        "E-G04-S445-EXIT",
+        "E-G04-S446-START",
+        "E-G04-S446-EXIT"
       ],
       "flagKey": null
     },
@@ -17442,6 +17454,24 @@
       "sha256": null,
       "verified": true,
       "note": "Confirms the approved Woven projection is a technical-flat convention without a sewn-roll claim; the independent 28-front neckline/collar contacts and 28-back crossing stay held with S370 positions fixed."
+    },
+    {
+      "id": "E-G04-S446-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S446-woven-v02-resolution-boundary/G04-WOVEN-V02-RESOLUTION-BOUNDARY-S446.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded source/evidence reconciliation of the remaining Woven front/back holds under the approved projection, continuous neckline, fixed S370 layout and unchanged all-seven V02 gate."
+    },
+    {
+      "id": "E-G04-S446-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S446-woven-v02-resolution-boundary/G04-WOVEN-V02-RESOLUTION-BOUNDARY-S446.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Confirms source constraints and prior option/render research leave no source-backed fix for the two Woven V02 hold classes under the continuous-neckline and fixed-S370 decisions; requests authority only for an in-memory source-design candidate study."
     }
   ]
 }
