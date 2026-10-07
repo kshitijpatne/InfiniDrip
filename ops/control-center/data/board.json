@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2604,
-  "updatedAt": "2026-10-07T19:56:15.426Z",
+  "revision": 2613,
+  "updatedAt": "2026-10-07T20:04:11.110Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -633,7 +633,9 @@
         "E-G04-S434-CLEARANCE",
         "E-G04-S435-EXIT",
         "E-G04-S436-EXIT",
-        "E-G04-S436-MATRIX"
+        "E-G04-S436-MATRIX",
+        "E-G04-S437-EXIT",
+        "E-G04-S437-TRACE"
       ]
     },
     {
@@ -4315,6 +4317,16 @@
           "at": "2026-10-07T19:46:39.914Z",
           "actor": "Codex",
           "text": "S436 is a read-only Polo V02 acceptance audit. It does not change all-seven scope, face acceptance, Woven holds, protected exports, DXF behavior or V03 rights/round-trip gates."
+        },
+        {
+          "at": "2026-10-07T19:58:59.415Z",
+          "actor": "Codex",
+          "text": "S437 is a Woven source/output hold audit only. It does not change all-seven V02 acceptance, V02-before-V03, legacy DXF/protected export identities, V03 rights and round-trip gates, or physical/factory claim boundaries."
+        },
+        {
+          "at": "2026-10-07T20:04:11.110Z",
+          "actor": "Codex",
+          "text": "S437 is a read-only Woven topology/output reconciliation. No V02 acceptance, V03 ordering, options, geometry, stitches, holds, legacy DXF behavior, protected export identities, or physical/factory claim boundaries changed. Current tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
         }
       ],
       "evidenceRefs": [
@@ -9052,6 +9064,16 @@
           "at": "2026-10-07T19:56:15.426Z",
           "actor": "Codex",
           "text": "S436 per-face audit: the current 17-option Polo evidence has no remaining local compiler, source-revision, colorway, S351 residual, keyed POM, or measured label-overlap blocker. All 34 Polo faces remain held; none is newly accepted. Overall V02 remains blocked by Woven's 28 front collar/neckline contacts and 28 back sleeve-hem crossings. No V02/V03, all-seven, export, or claim gate changed."
+        },
+        {
+          "at": "2026-10-07T19:58:59.349Z",
+          "actor": "Codex",
+          "text": "Start S437: trace the current exact Woven front neckline/collar contact and back reflected sleeve-hem crossing to source edge/stitch topology, approved projection, emitted paths and rendered output. Read-only; preserve the continuous neckline, complete hems, all 56 Woven and 34 Polo holds, and all G04 gates."
+        },
+        {
+          "at": "2026-10-07T20:04:11.056Z",
+          "actor": "Codex",
+          "text": "S437 revalidates the current exact Woven 14:14 output across 28 options: two repeated front body-neckline/collar contacts and one back crossing between reflected complete sleeve hems in every option. Source encodes no collar-over-neckline display order, sleeve-to-sleeve join, or hem over/under rule. The maintainer's prior decisions preserve the continuous base seam and reject an unsupported hem gap, so all 56 Woven faces remain held. All 34 Polo faces remain held; V02 is still blocked under all-seven acceptance."
         }
       ],
       "evidenceRefs": [
@@ -9687,7 +9709,10 @@
         "E-G04-S435-EXIT",
         "E-G04-S436-START",
         "E-G04-S436-EXIT",
-        "E-G04-S436-MATRIX"
+        "E-G04-S436-MATRIX",
+        "E-G04-S437-START",
+        "E-G04-S437-TRACE",
+        "E-G04-S437-EXIT"
       ],
       "flagKey": null
     },
@@ -16987,6 +17012,33 @@
       "sha256": null,
       "verified": true,
       "note": "Per-case audit joins exact option values while retaining slice revision identity; verifies 34 issue-free current S434 faces, all 17 closed back sleeve fills, source POM schedule exceptions, and zero S435 front label overlaps. No face accepted."
+    },
+    {
+      "id": "E-G04-S437-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S437-woven-topology-view-boundary-audit/G04-V02-WOVEN-TOPOLOGY-VIEW-BOUNDARY-AUDIT-S437.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a read-only exact-source and production-output audit of the two repeated Woven V02 hold classes. No new mapping or face release is authorized."
+    },
+    {
+      "id": "E-G04-S437-TRACE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S437-woven-topology-view-boundary-audit/S437-woven-current-hold-trace.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles exact revision 14:14 outputs, 28 mirrored front collar contacts and 28 reflected sleeve-hem crossings to retained source/output traces. All views remain held."
+    },
+    {
+      "id": "E-G04-S437-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S437-woven-topology-view-boundary-audit/G04-V02-WOVEN-TOPOLOGY-VIEW-BOUNDARY-AUDIT-S437.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source/output audit confirms the existing fail-closed Woven decisions; no source-grounded truthful fix, mapping change, or face release."
     }
   ]
 }

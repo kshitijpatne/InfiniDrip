@@ -1,0 +1,14 @@
+{
+  "sourceRevision": 2604,
+  "resultingRevision": 2613,
+  "statusesUnchanged": true,
+  "tallyPreserved": true,
+  "evidenceLinked": true,
+  "v02CommentRecorded": true,
+  "statuses": {
+    "epic": "In Progress",
+    "v01": "Done",
+    "v02": "In Progress",
+    "v03": "Backlog"
+  }
+}

@@ -1,0 +1,1335 @@
+{
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "exactProductionReplay": {
+    "configurations": 28,
+    "faces": 56,
+    "emitted": 56,
+    "compileIssues": 0,
+    "rendererIssues": 0,
+    "browserErrors": 0
+  },
+  "frontHold": {
+    "configurations": 28,
+    "contactsPerConfiguration": 2,
+    "distinctContactBoundsCm": {
+      "absX": [
+        0.5032987220308646,
+        1.2818053625634753
+      ],
+      "y": [
+        7.971896138523247,
+        8.573851032602086
+      ]
+    },
+    "intersectionPairs": "front:neckline against upperCollar:outline and underCollar:outline; source body-to-collar contour crossing is not a direct body-to-collar stitch"
+  },
+  "backHold": {
+    "configurations": 28,
+    "crossingsPerConfiguration": 1,
+    "distinctCrossingYcm": [
+      "23.665129568",
+      "24.095012131",
+      "22.231831063"
+    ],
+    "sourceInstancesPerFace": 2,
+    "completeSourceSleeveHems": true,
+    "sleeveToBandStitchEncoded": true,
+    "sleeveToSleeveStitchEncoded": false,
+    "layerOrderEncoded": false
+  },
+  "statuses": {
+    "all56WovenHeld": true,
+    "all34PoloHeld": true,
+    "currentIntegratedTally": "56 accepted / 90 held across 73 configurations / 146 faces"
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8427012871589177,
+          "y": 7.971896138523247
+        },
+        {
+          "x": 0.8427012871589177,
+          "y": 7.971896138523247
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8420496557993047,
+          "y": 8.573851032602086
+        },
+        {
+          "x": 0.8420496557993047,
+          "y": 8.573851032602086
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.5032987220308646,
+          "y": 8.190103833907406
+        },
+        {
+          "x": 0.5032987220308646,
+          "y": 8.190103833907406
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -1.1847902949583835,
+          "y": 8.14562911512485
+        },
+        {
+          "x": 1.1847902949583835,
+          "y": 8.14562911512485
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -1.2818053625634753,
+          "y": 8.136389274873048
+        },
+        {
+          "x": 1.2818053625634753,
+          "y": 8.136389274873048
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.628841527721126,
+          "y": 8.184633889115496
+        },
+        {
+          "x": 0.628841527721126,
+          "y": 8.184633889115496
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 0,
+        "y": 24.095012130533036,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": -8.881784197001252e-16,
+        "y": 22.231831063235624,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "frontContacts": 2,
+      "frontContact": [
+        {
+          "x": -0.8654060319336707,
+          "y": 8.171078888232152
+        },
+        {
+          "x": 0.8654060319336707,
+          "y": 8.171078888232152
+        }
+      ],
+      "backCrossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "instanceIds": [
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair"
+        ],
+        "layers": [
+          "GARMENT_SILHOUETTE",
+          "GARMENT_SILHOUETTE"
+        ],
+        "completeHemContinuesIntoBand": true
+      }
+    }
+  ]
+}
