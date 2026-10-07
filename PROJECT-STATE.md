@@ -1,8 +1,18 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 current work — Slice 416 Polo H ring-radius trial; V02 remains open
+
+S416 started 2026-10-07 08:41:04 UTC from clean S415 `46c1b91d462159dc1aeab8e537c7dc9b3d3526fb` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 415; S416 is unique. Board revision 2414 advanced to 2417 via validated start replay. EPIC-17/G04-V02 remains In Progress, V01 Done, V03 Backlog. Goal remains active and matches admitted V01→V02→V03 through safe merge; usage at start 41% primary / 6% weekly.
+
+S416 screened source-centered H ring radii 0.10–0.18 cm against the exact 17 S399 Polo front options, preserving the approved `(7,0)` anchor, H glyph, schedule, marks, paths and revision. No tested radius clears component paths in all 17 options. Radius 0.18 cm clears marks in 16/17 but still crosses source paths; smaller radii remain in contact with the crowded source marks. Default and placketLength-min Chromium crops were inspected. No production mapping or output changed; all 34 Polo faces remain held, including the independent 0.68 cm residual against 0.25 cm.
+
+Packet/matrix/renders: `docs/research/epic17/S416-polo-h-ring-radius-trial/`. Focused matrix consistency check and diagnostic syntax pass; validated Control Center tests pass 42/42 and `git diff --check` passes. No production code changed; settled-Epic coverage/build/export gates remain due at candidate boundary. All-seven V02 and all current holds remain unchanged.
+
+**Next action:** continue the next repeated source/output-resolvable V02 blocker; do not implement a smaller H ring or release Polo views.
+
 ## EPIC-17 / G04 current work — Slice 415 Polo ease-residual wording correction; V02 remains open
 
-S415 started 2026-10-07 08:35:12 UTC from S414 commit `aebce952f8682576ef15037bfd8828deb818272f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 414; S415 is unique. Board revision 2408 advanced to 2411 through validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The goal remains active and matches current Epic records; usage at start was 39% primary / 6% weekly.
+S415 started 2026-10-07 08:35:12 UTC from S414 commit `aebce952f8682576ef15037bfd8828deb818272f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 414; S415 is unique. Board revision 2408 advanced to 2411 through validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The goal remained active and matched current Epic records; usage at start was 39% primary / 6% weekly. S415 landed as `46c1b91d462159dc1aeab8e537c7dc9b3d3526fb`.
 
 S415 reconciled the fixed Polo assembly hold against current source and the S382 17-option matrix. `CAP_EASE = 1.5 cm` makes the summed cap length 43.191458 cm versus 41.691458 cm receiving armholes. Production mapped assembly reports a distinct 0.68 cm RMS separation across matched seam landmarks after rigid placement, greater than the unchanged 0.25 cm gate on all 34 face/configuration requests. A helper-only raw call without validated S353 projection metadata produces a different non-production-comparable number; the revised regression uses the live compiler and checks all 17 option rows and both faces. The diagnostic sentence was corrected from endpoint-gap wording to RMS landmark separation; calculation, gate, geometry and stitches are unchanged.
 

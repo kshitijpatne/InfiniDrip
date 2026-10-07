@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2417,"itemId":"G04-V02","evidence":{"id":"E-G04-S416-EXIT","kind":"document","uri":"docs/research/epic17/S416-polo-h-ring-radius-trial/G04-V02-POLO-H-RING-RADIUS-TRIAL-S416.md","verified":true,"note":"Five source-centered H ring radii tested against exact 17-option paths/marks and actual Chromium crops; no all-option path-clear candidate. All 34 Polo faces remain held."}},
+  {"type":"addEpicEvidence","expectedRevision":2418,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S416-EXIT"},
+  {"type":"addComment","expectedRevision":2419,"itemId":"G04-V02","actor":"Codex","text":"S416 tested five smaller H ring radii across 17 exact Polo outputs. None clears all source paths; 0.18 cm clears marks in 16/17 but still overlaps paths. No production change; all 34 faces remain held."}
+]
