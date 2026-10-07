@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2281,
-  "updatedAt": "2026-10-07T06:23:03.111Z",
+  "revision": 2291,
+  "updatedAt": "2026-10-07T06:31:50.192Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -565,7 +565,11 @@
         "E-G04-S402-EXIT",
         "E-G04-S403-START",
         "E-G04-S403-MATRIX",
-        "E-G04-S403-EXIT"
+        "E-G04-S403-EXIT",
+        "E-G04-S404-START",
+        "E-G04-S404-MATRIX",
+        "E-G04-S404-OCCLUSION-TRIAL",
+        "E-G04-S404-EXIT"
       ]
     },
     {
@@ -8443,6 +8447,16 @@
           "at": "2026-10-07T06:23:03.076Z",
           "actor": "Codex",
           "text": "S403 records a recurring projected collar/stand crossing on the front shoulder line in 28/28 Woven options and an independent pocket/placket interaction: the source outlines coincide in 25, have a 1 cm gap in placketWidth-min, and the placket overlaps the pocket bounds by 1 cm in placketWidth-max and combined-supported. The pocket/placket z-order or invalid-option response remains unresolved. All 56 Woven and 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-07T06:25:43.315Z",
+          "actor": "Codex",
+          "text": "S404 traces the repeated Woven front shoulder/collar crossing through the exact approved projection and same-revision options. No production mapping changes; preserve all current holds and gates."
+        },
+        {
+          "at": "2026-10-07T06:31:50.192Z",
+          "actor": "Codex",
+          "text": "S404 attributes the shoulder/collar intersection to the approved offset view mapping. The occlusion trial masks 1.51–3.52 cm of source shoulder seam and needs a maintainer display-order decision. All Woven/Polo views remain held."
         }
       ],
       "evidenceRefs": [
@@ -8974,7 +8988,11 @@
         "E-G04-S403-COLLAR-CROSSING",
         "E-G04-S403-POCKET-DEFAULT",
         "E-G04-S403-POCKET-OVERLAP",
-        "E-G04-S403-EXIT"
+        "E-G04-S403-EXIT",
+        "E-G04-S404-START",
+        "E-G04-S404-MATRIX",
+        "E-G04-S404-OCCLUSION-TRIAL",
+        "E-G04-S404-EXIT"
       ],
       "flagKey": null
     },
@@ -15306,6 +15324,42 @@
       "sha256": null,
       "verified": true,
       "note": "Closes the diagnostic source-path review with exact recurring shoulder/collar intersections and pocket/placket boundary results. Records a concrete pocket-on-placket display proposal and alternative invalid-option response; neither is implemented. All face holds and G04 gates remain."
+    },
+    {
+      "id": "E-G04-S404-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S404-woven-collar-station-diagnosis/G04-V02-WOVEN-COLLAR-STATION-DIAGNOSIS-S404.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a diagnostic-only source/station trace of the repeated Woven front shoulder/collar crossing. Independent of the pending S402 D-marker and S403 pocket-order decisions; all face holds and gates remain."
+    },
+    {
+      "id": "E-G04-S404-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S404-woven-collar-station-diagnosis/woven-collar-crossing-stations.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles all 28 exact-revision Woven renderer crossings to the independent front.shoulder source edge and the approved projected outerStand.collar run; records coordinates, per-option HPS distance and source join distinction."
+    },
+    {
+      "id": "E-G04-S404-OCCLUSION-TRIAL",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S404-woven-collar-station-diagnosis/rendered/woven-shirt-default-shoulder-occlusion-trial.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnostic-only Chromium path edit hides the source shoulder interval to the first collar crossing on both sides. It removes that crossing but exposes the seam at a point not present in the source stitch graph; no production mapping is approved or implemented."
+    },
+    {
+      "id": "E-G04-S404-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S404-woven-collar-station-diagnosis/G04-V02-WOVEN-COLLAR-STATION-DIAGNOSIS-S404.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Closes the source/station diagnosis with a concrete option-wide occlusion proposal and tradeoff. No face hold, source, mapping or acceptance gate changes."
     }
   ]
 }

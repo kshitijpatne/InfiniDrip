@@ -42,9 +42,14 @@ is authoritative for maintainer decisions that are not derivable from code.
 - Code signing has not started.
 - EPIC-16/G03 is closed after PR #14's verified merge and PR #15's board
   closeout. Its automatic main-branch deployment succeeded in GitHub Actions
-  run `36535708194`; the configured site returned HTTP 200. EPIC-17 remains in
-  Backlog. Do not begin EPIC-17 until the maintainer explicitly asks to begin
-  it; roadmap ordering or completion of EPIC-16 is not admission.
+  run `36535708194`; the configured site returned HTTP 200. EPIC-17/G04 was
+  explicitly admitted by the maintainer and remains In Progress on
+  `codex/epic-17-g04`. Continue from `docs/planning/EPIC-17-ADMISSION.md`,
+  `PROJECT-STATE.md`, and the linked V02 evidence; do not restart admission or
+  treat pending V02 decisions as permission to release faces. The approved UI
+  overlay is `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`: isolated candidates
+  remain outside the G04 critical path and do not add closure dependencies.
+  Future numbered Epic admissions and launch/physical gates remain explicit.
 
 ## Durable workflow rules
 

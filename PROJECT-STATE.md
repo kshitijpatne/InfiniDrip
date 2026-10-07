@@ -1,6 +1,20 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 current work — Slice 403 Woven front path-crossing audit complete; V02 remains open
+## EPIC-17 / G04 current work — Slice 404 Woven collar station diagnosis complete; V02 remains open
+
+S404 began 2026-10-07 06:25 UTC from clean S403 `c2eca277105d6a1bf9b47cffe64251f2122380d7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S403 was highest; S404 was uniquely reserved. Board revision 2281 was the verified S403 exit and S404 start replay advanced it to 2284. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The active goal remains needed and active, with objective matching the admitted G04 scope; it is unchanged.
+
+S404 reconciled the exact S403 28-option Woven `FRONT_FLAT` output crossing to its source paths and approved view map. `outerStand.collar` is the S359-projected, signed-normal-offset front run; it crosses independent `front.shoulder` in all 28 cases at revision `live-draft:woven-shirt:14:14`. The source stitch attaches `outerStand.neckline` to the body `front.neckline`/`yoke.neckline`; it does not connect the collar run to the shoulder. Crossings range x=11.7294–13.7019 cm, y=0.3019–0.7045 cm and 1.5099–3.5230 cm along the shoulder from HPS (default 2.5165 cm). CollarLeafDepth does not affect it; neckEase/standHeight and their supported combination do. Exact option/source/path records are in `docs/research/epic17/S404-woven-collar-station-diagnosis/woven-collar-crossing-stations.json`.
+
+A diagnostic-only actual-Chromium trial clips the front shoulder from HPS to the first outerStand collar intersection on both physical sides. It removes the crossing, but hides the first 1.51–3.52 cm of a source shoulder seam and makes its visible start appear to meet the collar at an unstitched point. No source, cut geometry, stitch graph, renderer, production map or acceptance changed. This view-layer decision needs maintainer approval; the diagnostic remains outside production and every view remains held. The pending S402 derived-midpoint D marker and S403 pocket/placket layer-order decision are unchanged.
+
+S404 closed diagnostic-only. All 56 Woven and 34 Polo views remain held. All-seven V02, Polo's 0.25 cm gate, V02-before-V03, DXF behavior, protected export identities, V03 rights/round-trip and physical/factory boundaries are unchanged. Focused `node` diagnostics and actual output review passed; `npm run control-center:test` passes 42/42 and `git diff --check` passes. No global gate was due. Board start/exit revisions: 2281→2284 / 2284→2291.
+
+Elapsed time is approximately 7m (06:25–06:32 UTC): production implementation 0m; source/matrix diagnosis 3m; diagnostic render and visual review 2m; packet/context/state/validated-board closeout and Control Center verification 2m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** present one grouped set with the exact S402 D marker, S403 pocket-over-placket display order, and this S404 shoulder-occlusion convention. Continue independent blocker diagnosis while answers are pending; do not implement any pending semantic choice before approval, and preserve all holds.
+
+## Prior boundary — Slice 403 Woven front path-crossing audit complete; V02 remains open
 
 S403 began at 2026-10-07 06:14:05 UTC from clean S402 `ff7d2cb33a9270b2e814de4d1dcfa6af9cc2061f` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor. S402 was highest; S403 was uniquely reserved. Board revision 2269 followed S402 exit; validated S403 start replay advanced to 2272. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog.
 
