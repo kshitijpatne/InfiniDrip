@@ -2,6 +2,12 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S535-local-receiver-availability/S535-exit-packet.md`
+  records the bounded local app inventory: no additional registered,
+  Start-menu indexed, or running apparel CAD/DXF receiver was found; CLO is
+  the only relevant running app and stays open. No installation, CLO window
+  action, or pattern data. The current rights/receiver path question is
+  pending; do not repeat this inventory or use G04 files under the S526 hold.
 - `docs/research/epic17/S534-open-patterns-parser-screen/S534-exit-packet.md`
   screens Open Patterns' `ksons/astm-parser`. It parses apparel DXF into OPF
   and renders SVG/PNG, but cannot write DXF or act as a CAD receiver, so it

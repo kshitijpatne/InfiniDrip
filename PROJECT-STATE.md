@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 535 local receiver availability (closed; V03 remains open)
+
+A bounded local inventory checked HKLM/HKCU registered-app entries, relevant
+Program Files directories, Start-menu entries, and running processes. It found
+only CLO among relevant apparel CAD/DXF apps; the only matching process is the
+existing CLO 2026.1.310 session, which remains open. No portable application
+under every possible directory is ruled out, but no indexed/local receiver is
+available for another practical test. No install, CLO interaction, pattern
+file, vendor contact, purchase, or gate change. Evidence:
+`docs/research/epic17/S535-local-receiver-availability/S535-exit-packet.md`.
+Board exit replay is recorded there.
+
+**Next:** the V03 rights/receiver path question is pending maintainer input.
+Written CLO product-development permission and acceptable local-data terms,
+or explicit approval to amend the no-supplier-contact boundary for one narrow
+support inquiry, are needed before further CLO product-pattern tests. The
+goal remains active; V01/V02 Done, V03 In Progress.
+
 ## EPIC-17 / G04 — Slice 534 Open Patterns receiver screen (closed; V03 remains open)
 
 The `ksons/astm-parser` Open Patterns lead parses ASTM/AAMA DXF into OPF and

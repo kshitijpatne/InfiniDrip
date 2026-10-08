@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3251,
-  "updatedAt": "2026-10-08T20:59:19.895Z",
+  "revision": 3255,
+  "updatedAt": "2026-10-08T21:02:55.202Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11168,6 +11168,16 @@
           "at": "2026-10-08T20:59:19.895Z",
           "actor": "Codex",
           "text": "S534 screened Open Patterns: the package parses ASTM/AAMA DXF into OPF and renders SVG/PNG but does not write DXF or provide a CAD receiver, so it cannot meet V03 round-trip acceptance. It may be a future one-way cross-check subject to rights review. No install, G04 data, or acceptance change. The next blocker is written CLO product-development permission and acceptable local-data handling, or a different rights-cleared free apparel CAD receiver/profile."
+        },
+        {
+          "at": "2026-10-08T21:02:20.168Z",
+          "actor": "Codex",
+          "text": "S535 checks local receiver availability only after the registry and Program Files search found no installed apparel CAD/DXF receiver. No new candidate search, software installation, CLO launch, G04 data, or gate change."
+        },
+        {
+          "at": "2026-10-08T21:02:55.202Z",
+          "actor": "Codex",
+          "text": "S535 confirms the local environment has no alternative registered or running CAD receiver; CLO is the only relevant installed app found and remains open. The rights/profile gate is unchanged, with the maintainer path question pending. Do not repeat this inventory or run pattern tests under the current S526 evidence."
         }
       ],
       "evidenceRefs": [
@@ -11333,7 +11343,9 @@
         "E-G04-S533-START",
         "E-G04-S533-EXIT",
         "E-G04-S534-START",
-        "E-G04-S534-EXIT"
+        "E-G04-S534-EXIT",
+        "E-G04-S535-START",
+        "E-G04-S535-EXIT"
       ],
       "flagKey": null
     },
@@ -21076,6 +21088,24 @@
       "sha256": null,
       "verified": true,
       "note": "Open Patterns is a local ASTM/AAMA DXF-to-OPF parser and renderer, not a CAD receiver or DXF round-trip writer. No install was useful for the admitted receiver gate. No G04 data or acceptance change; all V03 gates remain."
+    },
+    {
+      "id": "E-G04-S535-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S535-local-receiver-availability/S535-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Start a bounded local receiver inventory. Initial registered-app and Program Files searches found no apparel CAD/DXF receiver beyond the already-running CLO session. No app launch, install, pattern data, or acceptance change."
+    },
+    {
+      "id": "E-G04-S535-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S535-local-receiver-availability/S535-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded local inventory found no additional registered, Start-menu indexed, or running apparel CAD/DXF receiver; only the existing CLO process matched. CLO remains open; no app interaction, installation, product data, or V03 gate change."
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3251,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S535-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S535-local-receiver-availability/S535-start-packet.md",
+    "verified": true,
+    "note": "Start a bounded local receiver inventory. Initial registered-app and Program Files searches found no apparel CAD/DXF receiver beyond the already-running CLO session. No app launch, install, pattern data, or acceptance change."
+  }
+}

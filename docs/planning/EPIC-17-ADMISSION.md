@@ -1,3 +1,19 @@
+## Current EPIC-17/G04 V03 local receiver availability — S535 exit (2026-10-08)
+
+S535 checked registered apps, relevant Program Files directories, Start-menu
+entries and running processes. CLO is the only relevant local app/process
+found; it remains open and was not operated. No other local receiver is
+available for practical testing, though this bounded name-based inventory
+does not rule out a portable app hidden elsewhere. No pattern data, install,
+external contact or gate change. The rights/receiver decision presented to
+the maintainer remains pending. Packet:
+`docs/research/epic17/S535-local-receiver-availability/S535-exit-packet.md`.
+
+**Next:** wait for the specific rights path decision: written CLO permission
+and acceptable local-data basis, or explicit amendment authorizing one narrow
+CLO support inquiry despite the admitted no-supplier-contact boundary. Do not
+repeat the local inventory or test G04 data under the unresolved S526 hold.
+
 ## Current EPIC-17/G04 V03 receiver screen — S534 exit (2026-10-08)
 
 S534 reviewed the specific Open Patterns / `ksons/astm-parser` repository.
