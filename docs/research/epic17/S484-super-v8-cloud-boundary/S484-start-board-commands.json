@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2999,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S484-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-start-packet.md",
+      "verified": true,
+      "note": "S484 reviews only official Super V8 cloud/conversion disclosures to establish the G04 local-processing boundary; no download, install, account, or fixture."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3000,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S484-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-start-packet.md",
+      "verified": true,
+      "note": "Exact publisher cloud boundary only; no change to receiver selection or G04 V03 gates."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3001,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S484-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3002,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S484 determines only the Super V8 publisher-documented cloud operations and their boundaries; unknown local behavior remains unknown."
+  }
+]

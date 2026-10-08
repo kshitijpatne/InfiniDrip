@@ -1,5 +1,24 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 484 Super V8 cloud boundary
+
+S484 checked Richpeace's exact-version launch article. It states that Cloud
+Super Arrangement is SaaS: the app sends marker commands for remote processing
+and retrieves markers locally; the function is paid. Exclude that hosted
+marker path. This does not identify the data path for local DXF import/export
+or the separate limited-time cloud-conversion feature. Super V8 remains a
+conditional, unselected lead; all V03 rights/local/profile/round-trip/grade/
+negative gates stay open. No app, account, fixture, or cloud function was used.
+Packet: `docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md`.
+
+Start `2026-10-08 08:12:54 UTC` from clean S483 `0521929`; refreshed
+`origin/main` remains an ancestor. Board `2999→3003→3007`; Control Center
+42/42. A narrowly scoped installation-approval question is pending; this
+independent source review did not presume consent. **Next:** if approved,
+retrieve only the official package in the designated C: exchange folder and
+perform the bounded Gate 0 install inspection; otherwise preserve V03 hold and
+continue only independent evidence work.
+
 ## EPIC-17 / G04 — Slice 483 Richpeace Super V8 candidate check
 
 S483 assessed the publisher's distinct Garment CAD Super V8 against V03.

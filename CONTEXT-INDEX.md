@@ -2,6 +2,12 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md`
+  records the official Super V8 paid SaaS marker flow: marker commands go to
+  remote processing and results return locally. Exclude that service. Local
+  DXF/conversion file handling is still unknown; all V03 gates remain. Board
+  `2999→3003→3007`; an action-time install-approval question is pending.
+
 - `docs/research/epic17/S483-richpeace-super-v8-candidate/S483-exit-packet.md`
   assesses the publisher's distinct Super V8 as a conditional lead. Official
   disclosures say genuine-free and HPGL/CUT exchange, with cloud features, but

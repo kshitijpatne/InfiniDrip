@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2999,
-  "updatedAt": "2026-10-08T08:11:55.838Z",
+  "revision": 3007,
+  "updatedAt": "2026-10-08T08:14:19.001Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -701,7 +701,9 @@
         "E-EPIC17-S482-START",
         "E-EPIC17-S482-EXIT",
         "E-EPIC17-S483-START",
-        "E-EPIC17-S483-EXIT"
+        "E-EPIC17-S483-EXIT",
+        "E-EPIC17-S484-START",
+        "E-EPIC17-S484-EXIT"
       ]
     },
     {
@@ -5003,7 +5005,9 @@
         "E-EPIC17-S482-START",
         "E-EPIC17-S482-EXIT",
         "E-EPIC17-S483-START",
-        "E-EPIC17-S483-EXIT"
+        "E-EPIC17-S483-EXIT",
+        "E-EPIC17-S484-START",
+        "E-EPIC17-S484-EXIT"
       ],
       "flagKey": null
     },
@@ -10576,6 +10580,16 @@
           "at": "2026-10-08T08:11:55.838Z",
           "actor": "Codex",
           "text": "S483 identifies Richpeace Super V8 as a conditional free local-inspection lead, not a qualified receiver. Official exchange disclosure is HPGL/CUT only; DXF/AAMA/ASTM claims occur only in a third-party listing. No download or install; continue only with explicit approval and Gate 0."
+        },
+        {
+          "at": "2026-10-08T08:13:18.835Z",
+          "actor": "Codex",
+          "text": "S484 determines only the Super V8 publisher-documented cloud operations and their boundaries; unknown local behavior remains unknown."
+        },
+        {
+          "at": "2026-10-08T08:14:19.001Z",
+          "actor": "Codex",
+          "text": "S484 excludes the publisher-documented paid SaaS marker workflow. It does not establish whether pattern DXF import/export or cloud conversion is local; no V03 gate clears."
         }
       ],
       "evidenceRefs": [
@@ -10629,7 +10643,9 @@
         "E-G04-S482-START",
         "E-G04-S482-EXIT",
         "E-G04-S483-START",
-        "E-G04-S483-EXIT"
+        "E-G04-S483-EXIT",
+        "E-G04-S484-START",
+        "E-G04-S484-EXIT"
       ],
       "flagKey": null
     },
@@ -19319,6 +19335,42 @@
       "sha256": null,
       "verified": true,
       "note": "Super V8 remains conditional only; exact apparel CAD profile, rights terms, local handling, host, and round-trip gates remain open."
+    },
+    {
+      "id": "E-G04-S484-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S484 reviews only official Super V8 cloud/conversion disclosures to establish the G04 local-processing boundary; no download, install, account, or fixture."
+    },
+    {
+      "id": "E-EPIC17-S484-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact publisher cloud boundary only; no change to receiver selection or G04 V03 gates."
+    },
+    {
+      "id": "E-G04-S484-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Publisher confirms paid Cloud Super Arrangement sends marker commands for remote processing. This path is excluded; local DXF/conversion handling remains unverified and V03 gates stay unchanged."
+    },
+    {
+      "id": "E-EPIC17-S484-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The exact Super V8 paid marker-cloud path is identified and excluded; other exchange data paths remain unverified."
     }
   ]
 }
