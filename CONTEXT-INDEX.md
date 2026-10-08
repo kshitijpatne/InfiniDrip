@@ -2,6 +2,11 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S471-free-receiver-alternatives/S471-exit-packet.md`
+  finds no reviewed free candidate that meets Windows 11, apparel-DXF
+  import/export, and G04's local/no-hosted scope together. V03 remains gated;
+  Richpeace V8 is still the strongest documented exchange lead, with Windows
+  11 support unverified.
 - `docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md`
   records the Windows 11 25H2 host vs. Richpeace V8/V10 pages that list support
   only through Windows 10. V8 still has stronger documented exchange evidence;

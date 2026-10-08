@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 471 screens free receiver alternatives
+
+A focused current-source review found no free alternative that both works on
+the Windows 11 host and meets V03 apparel import/export while staying within
+the admitted local/no-hosted boundary. Seamly2D supports Windows 11 but its
+project confirms it cannot import DXF. OpenMarker is local/free and imports
+limited DXF, but it is not production-ready and export is still planned.
+Garment.dev claims AAMA/ASTM exchange but is invite-only and account-backed in
+a browser, outside this Epic's hosted-service exclusion. No fixtures were
+uploaded. Richpeace V8 remains the strongest documented exchange candidate,
+but Windows 11 is not in its published OS range.
+
+S471 validated start/exit board replays 2899→2903→2907; Control Center passes
+42/42 and `git diff --check` passes. EPIC-17/V03 remain In Progress; V01/V02
+Done. Packet: `docs/research/epic17/S471-free-receiver-alternatives/`.
+**Next:** owner may try the normal Richpeace V8 Free English installer with
+the disclosed Windows 11 caveat; verify exact build, terms, local handling and
+menus before opening any fixture. Otherwise obtain a different lawful local
+receiver/version; no online service or partial viewer satisfies the gate.
+
 ## EPIC-17 / G04 — Slice 470 qualifies receiver candidate for this host
 
 The current host reports Windows 11 Pro build 26200 (Microsoft maps this to

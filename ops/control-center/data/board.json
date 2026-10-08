@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2899,
-  "updatedAt": "2026-10-08T04:56:46.505Z",
+  "revision": 2907,
+  "updatedAt": "2026-10-08T04:59:00.095Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -676,7 +676,9 @@
         "E-EPIC17-S469-START",
         "E-EPIC17-S469-EXIT",
         "E-EPIC17-S470-START",
-        "E-EPIC17-S470-EXIT"
+        "E-EPIC17-S470-EXIT",
+        "E-EPIC17-S471-START",
+        "E-EPIC17-S471-EXIT"
       ]
     },
     {
@@ -4953,7 +4955,9 @@
         "E-EPIC17-S469-START",
         "E-EPIC17-S469-EXIT",
         "E-EPIC17-S470-START",
-        "E-EPIC17-S470-EXIT"
+        "E-EPIC17-S470-EXIT",
+        "E-EPIC17-S471-START",
+        "E-EPIC17-S471-EXIT"
       ],
       "flagKey": null
     },
@@ -10401,6 +10405,16 @@
           "at": "2026-10-08T04:56:46.505Z",
           "actor": "Codex",
           "text": "S470 confirms the local host is Windows 11 build 26200 while Richpeace V8/V10 free pages list through Windows 10 only. V8 remains the strongest exchange lead but compatibility is unverified; do not alter settings or use fixtures before rights/build/local-processing checks. See E-G04-S470-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:58:29.201Z",
+          "actor": "Codex",
+          "text": "S471 compares free alternatives on Windows 11 support, apparel-profile import/export, rights and local processing; hosted candidates remain outside scope. No install or fixture use. See E-G04-S471-START."
+        },
+        {
+          "at": "2026-10-08T04:59:00.095Z",
+          "actor": "Codex",
+          "text": "S471 found no reviewed free receiver that both works for Windows 11 and meets V03 inside the local/no-hosted scope. Seamly2D lacks DXF import; OpenMarker lacks export; garment.dev is hosted/invite-only. Richpeace V8 remains the strongest exchange lead but Windows 11 support is unlisted. See E-G04-S471-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10429,7 +10443,9 @@
         "E-G04-S469-START",
         "E-G04-S469-EXIT",
         "E-G04-S470-START",
-        "E-G04-S470-EXIT"
+        "E-G04-S470-EXIT",
+        "E-G04-S471-START",
+        "E-G04-S471-EXIT"
       ],
       "flagKey": null
     },
@@ -18669,6 +18685,42 @@
       "sha256": null,
       "verified": true,
       "note": "S470 qualifies candidate OS support and discloses the local host label discrepancy without changing the receiver/profile, V03 gates, or acceptance."
+    },
+    {
+      "id": "E-G04-S471-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S471-free-receiver-alternatives/S471-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S471 reviews narrow free Windows 11/local/browser candidates against V03 receiver and scope requirements without installation or fixture transfer."
+    },
+    {
+      "id": "E-EPIC17-S471-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S471-free-receiver-alternatives/S471-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S471 tests whether a free Windows 11/local or browser alternative can meet admitted V03 import/export gates without expanding to hosted services."
+    },
+    {
+      "id": "E-G04-S471-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S471-free-receiver-alternatives/S471-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S471 screens free Windows 11/local and browser alternatives; none meets both the V03 apparel receiver requirement and admitted local/no-hosted scope."
+    },
+    {
+      "id": "E-EPIC17-S471-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S471-free-receiver-alternatives/S471-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S471 rules out the reviewed free alternatives without changing the admitted V03 rights, local processing, profile or round-trip gates."
     }
   ]
 }
