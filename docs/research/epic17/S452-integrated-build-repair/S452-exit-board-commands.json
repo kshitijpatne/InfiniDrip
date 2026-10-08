@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2721,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S452-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md",
+      "verified": true,
+      "note": "Current HEAD build passes; S441 TypeScript diagnostics were corrected by Slice 444. No code edit was required in S452."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2722,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-G04-S452-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2723,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S452 reproduced the current merge-candidate build successfully: the S441 TypeScript diagnostics are historical and Slice 444 fixed their renderer narrowing and test typing causes. Production build passes with only the existing large-chunk advisory. No production edits or Woven hold changes were needed."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2724,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S452 confirms current HEAD passes `npm run build`; S441's recorded failure is resolved by Slice 444. Board status and V02/V03 gates remain unchanged. Current Woven decision proposals remain pending. Packet: docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md."
+  }
+]

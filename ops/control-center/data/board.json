@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2719,
-  "updatedAt": "2026-10-08T00:18:39.521Z",
+  "revision": 2725,
+  "updatedAt": "2026-10-08T00:21:22.833Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -647,7 +647,8 @@
         "E-G04-S448-EXIT",
         "E-G04-S449-EXIT",
         "E-G04-S450-EXIT",
-        "E-G04-S451-EXIT"
+        "E-G04-S451-EXIT",
+        "E-G04-S452-EXIT"
       ]
     },
     {
@@ -4404,6 +4405,11 @@
           "at": "2026-10-08T00:18:39.521Z",
           "actor": "Codex",
           "text": "S451 is a bounded Woven blocker decision packet only. It preserves the admitted all-seven V02 gate, V02-before-V03, every hold and all non-goals. The goal remains active; the next action depends on whether the maintainer reopens either exact prior view choice. Packet: docs/research/epic17/S451-woven-decision-proposals/G04-WOVEN-BLOCKER-DECISION-PROPOSALS-S451.md."
+        },
+        {
+          "at": "2026-10-08T00:21:22.833Z",
+          "actor": "Codex",
+          "text": "S452 confirms current HEAD passes `npm run build`; S441's recorded failure is resolved by Slice 444. Board status and V02/V03 gates remain unchanged. Current Woven decision proposals remain pending. Packet: docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md."
         }
       ],
       "evidenceRefs": [
@@ -9291,6 +9297,16 @@
           "at": "2026-10-08T00:18:39.470Z",
           "actor": "Codex",
           "text": "S451 confirms both remaining all-seven blockers are Woven: 28 fronts under the continuous neckline decision, and 28 backs under the fixed S370 band layout. The only already-rendered trials that clear them contradict those decisions; no new construction drawing resolves the custom semantics. The packet presents exact, quantified view-only trial choices; all holds remain pending maintainer direction."
+        },
+        {
+          "at": "2026-10-08T00:20:11.864Z",
+          "actor": "Codex",
+          "text": "S452 checks whether the S441 TypeScript build failure still exists at current HEAD and repairs only verified compile issues. This is independent of pending Woven display choices; all V02 statuses, all-seven acceptance and holds remain unchanged."
+        },
+        {
+          "at": "2026-10-08T00:21:22.653Z",
+          "actor": "Codex",
+          "text": "S452 reproduced the current merge-candidate build successfully: the S441 TypeScript diagnostics are historical and Slice 444 fixed their renderer narrowing and test typing causes. Production build passes with only the existing large-chunk advisory. No production edits or Woven hold changes were needed."
         }
       ],
       "evidenceRefs": [
@@ -9970,7 +9986,9 @@
         "E-G04-S450-START",
         "E-G04-S450-EXIT",
         "E-G04-S451-START",
-        "E-G04-S451-EXIT"
+        "E-G04-S451-EXIT",
+        "E-G04-S452-START",
+        "E-G04-S452-EXIT"
       ],
       "flagKey": null
     },
@@ -17666,6 +17684,24 @@
       "sha256": null,
       "verified": true,
       "note": "Reconciles the exact Woven source, previous all-option output evidence, qualified drawing research and prior view decisions; no implementation or acceptance changes."
+    },
+    {
+      "id": "E-G04-S452-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a narrow reproduction/repair of the documented final-candidate TypeScript build failure; no Woven decision, V02 acceptance, or view hold changes."
+    },
+    {
+      "id": "E-G04-S452-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current HEAD build passes; S441 TypeScript diagnostics were corrected by Slice 444. No code edit was required in S452."
     }
   ]
 }

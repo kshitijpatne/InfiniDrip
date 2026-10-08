@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 452 confirms current build gate passes
+
+S452 started 2026-10-08 00:19:48 UTC from clean S451 `65d101815a068b5bc084b11223c5b0f8738b29b7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 451; S452 is unique. Board revision 2719 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, tally 56 accepted / 90 held over 73 options / 146 faces. Goal record remains active and matches the admitted completion objective.
+
+The documented S441 build failure no longer reproduces at current HEAD. `npm run build` passes TypeScript and Vite; only the existing >500 kB chunk advisory remains. The exact prior diagnostics were fixed by Slice 444 (`9014995`): the renderer now narrows circle/mark primitives with type predicates, and affected tests use explicit path/presentation discriminants. No production or test code changed in S452, and no renderer/geometry/view/hold/acceptance behavior changed.
+
+Packet: `docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md`; full build output: `current-build.log`. Validated board start replay 2719→2721 and exit 2721→2725. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; tally remains 56/90. `npm run control-center:test` passes 42/42; board preflight/replay/status/evidence and `git diff --check` pass. No changed-code coverage or focused production test was due because no code changed; full integrated coverage/export/browser/Electron gates remain for the settled PR candidate. The current build gate is no longer a blocker.
+
+Elapsed 00:19:48–00:21:29 UTC (1m41s): build reproduction/history diagnosis ~45s; packet/state/board work ~35s; focused verification ~21s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. `get_goal` at this boundary is active and its wording matches the admitted objective. The S451 Woven view choices are still pending; all current holds and gates remain. **Next action:** continue only after the grouped S451 decision response; any approved trial must complete exact 28-option rendered and topology checks before advancing V02.
+
 ## EPIC-17 / G04 — Slice 451 Woven decision proposals completed
 
 S451 started 2026-10-08 00:17:15 UTC from clean S450 `700fd68dabe328cf04788ed7b7448b909a4afd6a` on `codex/epic-17-g04`; freshly fetched `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 450; S451 is unique. Board revision 2713 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, 56 accepted / 90 held over 73 configurations / 146 faces. `get_goal` at exit reports active and its objective matches the admitted Epic through safe merge.
