@@ -1,4 +1,33 @@
-## Current evidence and conditional remaining estimate — S464 exit (2026-10-08)
+## Current evidence and conditional remaining estimate — S503 exit (2026-10-08)
+
+S503 follows S502 `043dbb3d0063601c87a9e158b6a4c4ec24c8ee71` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The admitted
+goal is active and still matches the complete objective through V01/V02/V03,
+final review, safe merge, ancestry verification and any required deployment.
+V01/V02 are Done; V03 and EPIC-17 remain In Progress. Board revision
+`3125→3127→3129`. See
+`docs/research/epic17/S503-polo-import-options-live/S503-exit-packet.md`.
+
+The owner-authorized CLO 2026.1.310 Polo M import matrix tested DXF-AAMA and
+DXF-ASTM with Optimize All Curve Points off/on. All four settings render and
+export but reproduce the same five CUT contour losses, with exact-segment
+sampled lower-bound witnesses `0.0101935–0.0111803 cm` against the unchanged
+`0.001 cm` gate. AAMA and ASTM output geometry is identical across all 94
+polylines; optimization changes four button-mark loops and does not repair the
+five CUT contours. No source or product code, acceptance, protected identity,
+or V03 rights/profile gate changed. This CLO experiment is not an industrial
+profile, native grade, or round-trip acceptance result.
+
+The older S464 local availability check remains historical evidence below;
+its then-current statement that owner access was required has been superseded
+for bounded local CLO evaluation only. It is not superseded for the separate
+receiver-rights, industrial-profile, grade-semantics, or acceptance gates.
+**Next:** S504 tests CLO's observed Standard DXF import mode on the same
+hash-pinned Polo M fixture with other settings fixed, then checks the same
+geometry thresholds. Keep all V03 gates and rights review unchanged.
+
+## Historical conditional remaining estimate — S464 exit (2026-10-08)
 
 S464 follows S463 `8e4cdfa63ca3c903dfcd5275b6759022b5fad0ee` on
 `codex/epic-17-g04`; refreshed `origin/main`

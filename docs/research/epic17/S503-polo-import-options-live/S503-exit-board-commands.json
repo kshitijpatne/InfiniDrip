@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3127,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S503-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S503-polo-import-options-live/S503-exit-packet.md",
+      "verified": true,
+      "note": "Four live Polo M CLO import/export trials reproduce the same five CUT contour failures under AAMA/ASTM and curve-optimization off/on. Format has identical ordered geometry; optimizer-on also changes four button-mark loops. All V03 gates remain unchanged; CLO closed normally."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3128,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S503 completed the four-cell CLO Polo M matrix. All cells retain nine source-SEW piece mappings but lose the same five CUT vertices; sampled exact-segment witnesses are 0.0101935–0.0111803 cm against the unchanged 0.001 cm limit. AAMA/ASTM geometry matches across all 94 parsed polylines. Optimizer-on changes four button-mark loops from 12 to 8 vertices (numeric layers recorded without semantic claims). No gate or threshold changed. CLO was closed normally and its absence verified. See S503 exit packet and C:\\G04-CLO-DXF-Exchange\\S503-polo-import-options."
+  }
+]

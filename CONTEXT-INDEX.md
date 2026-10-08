@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S503-polo-import-options-live/S503-exit-packet.md`
+  records four actual CLO 2026.1.310 Polo M import/export cells (AAMA/ASTM ×
+  Optimize All Curve Points off/on) using the same C:-confined, hash-pinned
+  input. All four reproduce the same five CUT contour losses with exact-segment
+  sampled witnesses above `0.001 cm`; AAMA and ASTM output geometry matches.
+  Optimizer-on changes four button-mark loops from 12 to 8 vertices. CLO was
+  closed normally and absence verified. No gate changes; V03 remains In
+  Progress. Board `3125→3127→3129`. The next bounded diagnostic is CLO's
+  observed Standard DXF import mode on the same Polo M source.
 - `docs/research/epic17/S502-negative-dxf-validity-check/S502-exit-packet.md`
   corrects S498's incomplete “missing EOF” wording: S463 replaced the valid
   terminal `0/EOF` pair with an unmatched group code `0`. Autodesk's primary

@@ -1,5 +1,18 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — Bounded local CLO evaluation authorization (S503)
+
+On 2026-10-08, the maintainer explicitly authorized practical DXF
+import/export evaluation using the existing installed and signed-in CLO
+2026.1.310 trial. This authorization covers the requested local test files and
+captures only under `C:\\G04-CLO-DXF-Exchange\\<named-slice-folder>`; it does
+not authorize CLO-SET/CONNECT or other cloud uploads, paid access, new
+installation, or account changes. Close CLO normally when the test no longer
+needs it. This bounded evaluation does not clear the separate receiver-rights
+review, authorize a commercial-use claim, establish an industrial exchange
+profile, or relax any G04 geometry, mark, grading, negative-input, round-trip,
+all-seven, or export-identity gate.
+
 ## EPIC-17/G04 — Woven technical-flat display decisions confirmed 2026-10-08
 
 The maintainer approved these view-only decisions for G04 V02:

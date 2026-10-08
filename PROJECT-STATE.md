@@ -1,5 +1,46 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 503 Polo import-option matrix (complete)
+
+Started `2026-10-08 15:11:57 UTC` from clean S502 `043dbb3` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. S502 was
+highest; S503 was reserved. Board start `3125→3127`; validated exit
+`3127→3129`. EPIC-17/G04-V03 remain In Progress, V01/V02 Done; goal active.
+
+S503 completed the four Polo M CLO import cells (DXF-AAMA/ASTM × Optimize All
+Curve Points off/on), followed by the same DXF-ASTM export profile. Each cell
+renders, shows the Custom seam-allowance information notice, and exports. The
+same five known CUT contours miss one source vertex under every combination;
+sampled point-to-exact-segment witnesses are `0.0101935–0.0111803 cm`, so the
+unchanged `0.001 cm` gate remains failed. AAMA and ASTM have identical ordered
+geometry across all 94 parsed polylines for each optimizer setting. Optimizer
+on changes four button-mark loops in Polo block `3_M` from 12 to 8 vertices;
+numeric DXF layers remain unnamed semantically. All output, captures and
+analysis remain under `C:\\G04-CLO-DXF-Exchange\\S503-polo-import-options`.
+See `docs/research/epic17/S503-polo-import-options-live/S503-exit-packet.md`.
+
+The user-authorized live CLO run used only the named C: exchange folder. CLO
+was closed through File → Quit and verified absent (`running: false`, no
+windows). Input hash, four output hashes, import/export settings, renders,
+notice captures and the zoomed mark view are recorded by S503. No source,
+production code, acceptance gate, or protected identity changed. The seven
+recipe and V03 rights, profile, mark, grading, negative-control and round-trip
+gates remain in force.
+
+Focused checks: fixture verifier 6 positive + 1 negative; four S503 geometry
+analyses and pairwise comparison; CLO screenshot review; exit preflight/replay;
+Control Center tests; `git diff --check`. This evidence-only slice is not
+independently releaseable; global tests/coverage/build remain due on the settled
+Epic/PR candidate. Timing: implementation `0m`; focused live CLO work `~16m`;
+geometry analysis `~5m`; durable closeout and focused checks `~7m38s`;
+external-agent waits `0m`; maintainer-decision time `0m`.
+
+**Next:** reserve S504 and use CLO's separately observed `Standard DXF` import
+mode on the same hash-pinned Polo M fixture, holding units, scale, orientation,
+notches, and export profile constant. Numerically inspect the same cut and mark
+geometry against the unchanged gates. Do not alter source or acceptance to
+make a cell pass.
 ## EPIC-17 / G04 — Slice 502 negative-DXF validity check
 
 Started `2026-10-08 15:06:03 UTC` from clean S501 `5e75eb9` on
