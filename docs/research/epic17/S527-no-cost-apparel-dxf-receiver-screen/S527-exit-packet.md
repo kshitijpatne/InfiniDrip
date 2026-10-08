@@ -11,19 +11,19 @@ acceptance gate changed.
 
 | Candidate | Official evidence | Free/import/export evidence | Rights and file handling | Disposition |
 |---|---|---|---|---|
-| **garment.dev** | Its current pages describe an apparel pattern CAD service and claim AAMA/ASTM import/export checked against 34 production files. Its import/export guides describe DXF input and AAMA/ASTM output, with output validation in a receiving system. | Hobby plan is listed as free and includes production DXF export. Service access is currently invite-only. | Terms allow storage/backups of user patterns; official data-use page says standard vector imports are processed locally, while cloud saving/collaboration send document data to the service. Account and patterns live on the service. The export guide says it downloads a file, but the full G04 no-cloud import/export path is not verified. | **Strongest desk-screen lead; not qualified.** Requires an invite and a narrowly controlled local-handling test before any G04 fixture. Never cloud-save or collaborate on G04 patterns under the C:-only boundary. |
+| **garment.dev** | Its current pages describe an apparel pattern CAD service and claim AAMA/ASTM import/export checked against 34 production files. Its import/export guides describe DXF input and AAMA/ASTM output, with output validation in a receiving system. | Hobby plan is listed as free and includes production DXF export. Service access is currently invite-only. | Terms allow storage/backups of user patterns; official data-use page says standard vector imports are processed locally, while cloud saving/collaboration send document data to the service. The export guide requires saving the pattern before handoff; the full G04 no-cloud import/export path is not verified. | **Technically promising but out of admitted scope.** G04 expressly excludes hosted services. Do not request access or propose it as a G04 route. |
 | **GetonAgain Garment CAD V2024.1 / free version** | Manufacturer describes apparel drafting/grading; its V2024.1 manual shows an import dialog with ASTM/AAMA and AutoCAD choices. Its brochure claims DXF/PLT input/output. | Manufacturer lists a free phone-registration version with design/grading/marker tools and cloud nesting, but the public sources do not establish that this free build has the V2024.1 bidirectional DXF features or provide a stable build identity. | Local file paths appear in the manual, but no applicable free-build license, privacy/data-flow, offline behavior, or no-cloud guarantee was found. | **Conditional technical lead; not qualified.** Do not install or register until the exact free build, rights, and local handling are established. |
 | **MPattern editor** | Its official page says the editor can import AAMA/ASTM DXF. | The free editor cannot export; DXF export from the editor requires MPattern Cloud, a paid add-on. Three generated patterns can be downloaded free, but that is not round-tripping an imported G04 pattern. | Browser/account/cloud service. | **Fails no-cost bidirectional gate.** No further test. |
 | **Parmel CAD** | The public legacy page advertises apparel CAD and AAMA/DXF export. | It gives no current version, current download, import path, or round-trip documentation; page carries a 2005 copyright. | Current use rights and handling are unknown. | **Not a candidate on current evidence.** |
 | **Previously screened** | S520/S521/S524 already cover CLO, Pixie, LibreCAD, Seamly2D, Open Patterns, OpenMarker, patternForge, and Richpeace candidates. | No prior candidate's disposition was reopened. | — | **Excluded from this repeat-free pass.** |
 
-garment.dev is the only newly found candidate whose current official pages
+garment.dev is the only newly found service whose current official pages
 claim both industry apparel DXF directions and a free plan. That is a
 vendor-stated capability claim, not an independently verified profile or
-round trip. Its service terms/data handling prevent treating it as a C:-only
-receiver without a controlled no-save proof. The GetonAgain evidence mixes a
-free registered build with a separately documented V2024.1 build; the feature
-intersection is not established.
+round trip; in any event, the hosted service is expressly outside admitted
+G04 scope. The GetonAgain evidence mixes a free registered build with a
+separately documented V2024.1 build; the feature intersection is not
+established.
 
 ## Exact V03 effect
 
@@ -38,17 +38,14 @@ intersection is not established.
 
 ## Next decision
 
-Recommended next action: authorize one access request to garment.dev, which
-would send the user's email address and access-request metadata to an outside
-software service. The free plan is invite-only. If access is granted, the
-first trial must use a synthetic non-product DXF and verify actual network/file
-handling before any G04 pattern is considered. The official data-use page
-claims standard vector import is processed in-browser but also documents cloud
-storage and server processing for other operations. A G04 fixture must not be
-used unless the test demonstrates the required C:-only path. No request has
-been sent. Alternatively, keep this lead deferred and wait for applicable
-written local-use evidence or another qualified no-cost receiver. CLO remains
-open and idle.
+The original draft proposed requesting a garment.dev invite. That is
+superseded by the admitted G04 non-goal excluding hosted services: no invite
+request should be made for this Epic. The only new potentially in-scope lead
+is GetonAgain's desktop garment CAD, but the free-build DXF capability, use
+rights, and local/offline behavior are not established. The next useful step
+requires a maintainer decision before any external inquiry or phone
+registration; no account, vendor request, pattern transfer, or installer use
+has occurred. CLO remains open and idle.
 
 ## Official sources reviewed
 

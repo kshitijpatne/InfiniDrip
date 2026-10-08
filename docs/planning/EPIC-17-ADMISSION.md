@@ -1,9 +1,25 @@
-## Current V03 receiver screen — S527 exit (2026-10-08)
+## Current V03 candidate scope reconciliation — S528 exit (2026-10-08)
+
+S528 corrected S527's proposed garment.dev invite request against the
+admitted non-goal excluding hosted services. garment.dev's DXF-AAMA/ASTM
+claims remain source research only; do not request access or pursue it for
+G04. GetonAgain remains an unverified desktop lead: its free-build feature
+intersection, rights, and local/offline handling are unknown. No vendor
+inquiry, phone registration, download, pattern transfer, CLO action, or V03
+gate change occurred. Exit packet:
+`docs/research/epic17/S528-candidate-scope-reconciliation/S528-exit-packet.md`.
+
+Board start/exit transition is recorded in the S528 packet; EPIC-17/G04-V03
+remain In Progress, V01/V02 Done. **Next:** require maintainer authorization
+before one narrowly scoped GetonAgain vendor inquiry, then proceed only if the
+free desktop build, rights, and local file handling are affirmatively verified.
+
+## Previous V03 receiver screen — S527 exit (2026-10-08)
 
 S527 screened new no-cost candidates from official sources. garment.dev claims
-apparel AAMA/ASTM import/export and a free tier, but requires an invite and its
-documented export workflow starts from a saved hosted pattern; this cannot
-meet the C:-only G04 data path. GetonAgain has a free phone-registered apparel
+apparel AAMA/ASTM import/export and a free tier, but requires an invite and
+uses a hosted pattern library. S528 classified it as out of admitted scope,
+which excludes hosted services. GetonAgain has a free phone-registered apparel
 CAD build and a V2024.1 manual/brochure showing ASTM/AAMA input and DXF output,
 but the feature intersection for the free build, its applicable rights, and
 local handling are unverified. MPattern's free editor cannot export imported

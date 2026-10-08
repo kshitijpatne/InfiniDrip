@@ -3,13 +3,16 @@
 ## Current EPIC-17/G04 V03 slice
 
 - `docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-exit-packet.md`
-  records a one-pass official-source search. garment.dev has the strongest
-  new AAMA/ASTM feature claims but is invite-only and its export workflow
-  requires a saved hosted pattern; it cannot meet the C:-only G04 data path.
-  GetonAgain is a conditional free desktop lead, but the free-build feature
-  intersection, rights, and data handling are unknown. MPattern free editor
-  cannot export imported DXF; Parmel evidence is obsolete/incomplete. No V03
-  gate cleared. Board `3219→3221→3223`; CLO was untouched and remains open.
+  records a one-pass official-source search. S528 corrects the proposed next
+  step: garment.dev is a hosted service, expressly out of G04 scope, and no
+  invite should be requested. GetonAgain remains an unverified desktop lead;
+  the free-build feature intersection, rights, and local handling are unknown.
+  MPattern free editor cannot export imported DXF; Parmel evidence is
+  obsolete/incomplete. No V03 gate cleared. S527 board `3219→3221→3223`;
+  CLO was untouched and remains open.
+- `docs/research/epic17/S528-candidate-scope-reconciliation/S528-exit-packet.md`
+  removes the hosted-app route from the admitted path and records the single
+  remaining authorization boundary before vendor/phone contact.
 - `docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-start-packet.md`
   defines the single bounded candidate screen and excludes previously
   screened candidates, installers, accounts, and file transfers.

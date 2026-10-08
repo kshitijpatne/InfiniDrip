@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3223,
-  "updatedAt": "2026-10-08T20:15:42.821Z",
+  "revision": 3227,
+  "updatedAt": "2026-10-08T20:19:03.857Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11098,6 +11098,16 @@
           "at": "2026-10-08T20:15:42.821Z",
           "actor": "Codex",
           "text": "S527 completed one official-source-only pass without repeating prior candidates. garment.dev is the strongest new free technical lead but is invite-only and stores saved patterns in its hosted service; GetonAgain's free-build feature intersection and rights/data handling remain unverified. MPattern free editor has no DXF export; Parmel has only legacy incomplete evidence. No V03 gate changed. Next requires approval before sending a garment.dev invite request; no CLO action or pattern transfer."
+        },
+        {
+          "at": "2026-10-08T20:18:08.826Z",
+          "actor": "Codex",
+          "text": "S528 reconciles the newly discovered candidate against the admitted hosted-service non-goal. It will not authorize or perform any hosted-app access, vendor contact, registration, installation, or CLO action. All V03 holds remain."
+        },
+        {
+          "at": "2026-10-08T20:19:03.857Z",
+          "actor": "Codex",
+          "text": "Correction: garment.dev is a hosted service, an explicit G04 non-goal; do not request access or pursue it for this Epic. GetonAgain is the only new desktop lead, but the free-build format capabilities, rights, and local handling are unverified. A narrowly scoped vendor inquiry requires maintainer authorization. All V03 gates remain unchanged; CLO stays untouched."
         }
       ],
       "evidenceRefs": [
@@ -11249,7 +11259,9 @@
         "E-G04-S526-START",
         "E-G04-S526-EXIT",
         "E-G04-S527-START",
-        "E-G04-S527-EXIT"
+        "E-G04-S527-EXIT",
+        "E-G04-S528-START",
+        "E-G04-S528-EXIT"
       ],
       "flagKey": null
     },
@@ -20866,6 +20878,24 @@
       "sha256": null,
       "verified": true,
       "note": "One-pass official-source screen found garment.dev as a strong but invite-only/cloud-handling lead and GetonAgain as a mixed-build/unresolved-rights lead; MPattern free editor lacks export, Parmel evidence is obsolete/incomplete. No candidate clears permission, local handling, and round-trip gates; no tests or app operations."
+    },
+    {
+      "id": "E-G04-S528-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S528-candidate-scope-reconciliation/S528-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Documentation-only correction of S527 next-step recommendation against EPIC-17 admission non-goals. No app or external action; no V03 gate change."
+    },
+    {
+      "id": "E-G04-S528-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S528-candidate-scope-reconciliation/S528-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Corrects S527's invite suggestion against G04's explicit hosted-service non-goal. No external contact, app/account/file action, or V03 gate change. GetonAgain remains only an unverified desktop lead pending an authorized factual vendor inquiry."
     }
   ]
 }

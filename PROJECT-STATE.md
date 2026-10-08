@@ -1,5 +1,31 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 528 scope reconciliation (complete; V03 remains open)
+
+S528 corrected S527's proposed garment.dev invite request against the
+admission's explicit hosted-service non-goal. garment.dev remains recorded as
+source research only and is not a G04 route; no invite/contact should be
+made. GetonAgain is the only newly discovered desktop lead, but the free
+build's AAMA/ASTM import/export intersection, applicable use rights, and
+local/offline file handling remain unverified. No download, registration,
+phone submission, vendor inquiry, pattern transfer, or CLO operation occurred.
+V03 gates and acceptance remain unchanged.
+
+Started `2026-10-08 20:17:49 UTC` from S527 `c046db9` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S528 is
+unique. Board start/exit replay is recorded at the packet's final revision;
+EPIC-17/G04-V03 remain In Progress; V01/V02 Done. The full Epic goal is still
+active and accurate. See
+`docs/research/epic17/S528-candidate-scope-reconciliation/S528-exit-packet.md`.
+
+**Next:** one authorization is needed before any external vendor inquiry or
+phone registration for the GetonAgain free build. Ask only whether that
+specific free build has apparel AAMA/ASTM DXF import and export, whether
+product-development use is permitted, and whether the input/output path can
+remain local without sending patterns. Do not touch CLO or use a pattern until
+all three are verified.
+
 ## EPIC-17 / G04 — Slice 527 free receiver screen (complete; V03 remains open)
 
 S527 performed one official-source-only screen of new no-cost apparel CAD
@@ -24,12 +50,9 @@ G04-V03 remain In Progress; V01/V02 Done. Sources and candidate limits are in
 The complete Epic goal remains active and accurate. CLO remains open and
 running; this slice made no app action.
 
-**Next:** GetonAgain is the only new candidate that might support a desktop,
-local-file trial, but its free build, rights, and offline behavior are not
-established. Do not download/register or use any pattern until those are
-verified. Its free registration requires a phone number; request maintainer
-authorization before sending account data or initiating vendor access. Keep
-all V03 criteria and holds unchanged.
+**Next:** see S528's scope correction. Do not pursue the hosted garment.dev
+service. Keep GetonAgain as an unverified desktop lead and preserve all V03
+criteria and holds.
 
 ## EPIC-17 / G04 — Slice 526 CLO trial rights review (complete; V03 remains open)
 
