@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3246,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S533 reconciles authoritative profile evidence with pinned receiver results: ASTM D6673-10 is withdrawn without replacement; CLO's selectable AAMA/ASTM modes do not document an exact normative edition or conformance. S532 geometry is narrow and semantics remain unresolved; S531 malformed-input behavior failed. CLO trial rights/data handling and all-seven qualified round trip remain blocked. No acceptance change. Next requires a documented permitted receiver/profile route; do not repeat synthetic CLO tests or use G04 bytes under the S526 hold."
+}

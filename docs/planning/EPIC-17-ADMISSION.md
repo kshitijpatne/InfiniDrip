@@ -1,3 +1,25 @@
+## Current EPIC-17/G04 V03 profile-evidence reconciliation — S533 exit (2026-10-08)
+
+Official ASTM records show D6673-10 was withdrawn in 2019 without replacement.
+NIST's historical report describes ANSI/AAMA-292 as a near-term/interim
+solution, not a current edition/status qualification. CLO's current support
+documents selectable AAMA/ASTM modes and grading controls, but does not state
+an exact normative edition or conformance mapping. S532 confirms only narrow
+synthetic geometry stability; its output duplicates CUT geometry and mixes
+CUT/SEW on layer 8. S525 found layer-8 mixing across all seven tested recipe
+exports, 78 source marks without direct exact-geometry matches, and five Polo
+CUT misses. S531's malformed-input case silently dropped the inset sew contour.
+These are bounded observations, not a global CLO claim. The current trial-use
+and local-data gate remains held per S526; no rights-qualified receiver/profile
+has passed all required representative round trips, semantics, and grades.
+No V03 acceptance, threshold, or status changed. Full source and gate map:
+`docs/research/epic17/S533-apparel-dxf-profile-evidence/S533-exit-packet.md`.
+
+**Next:** review the separate local open-source parser lead's license and
+documented apparel-profile coverage before any test. Do not repeat the same
+CLO synthetic run or use product patterns without the S526 rights and data
+handling prerequisite. Keep the current V03 gates unchanged.
+
 ## Current EPIC-17/G04 V03 practical evidence — S532 exit (2026-10-08)
 
 S532 completed one synthetic non-garment DXF-AAMA import/export/re-import in

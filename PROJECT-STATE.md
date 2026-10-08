@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 533 apparel DXF profile evidence (closed; V03 remains open)
+
+Authoritative review found ASTM D6673-10 was withdrawn in 2019 without
+replacement; public CLO help offers DXF-AAMA/ASTM modes but no exact normative
+edition or conformance mapping. NIST's historical report treats ANSI/AAMA-292
+as an interim/near-term profile, not current proof of an edition. S532's AAMA
+output geometry was stable on a synthetic fixture but duplicated CUT across
+numeric layers and mixed CUT/SEW on layer 8; S525 saw layer-8 mixing in all
+seven recipe exports. S531's malformed-input case is a concrete tested
+failure. Rights and local-only handling remain held per S526, and no single
+rights-qualified receiver/profile has cleared all-seven semantics/grades and
+round-trip gates. No criterion changed. Evidence and primary links:
+`docs/research/epic17/S533-apparel-dxf-profile-evidence/S533-exit-packet.md`.
+The board records the evidence; CLO stays open and was untouched in S533.
+
+**Next:** inspect the distinct local open-source parser lead for exact license,
+profile coverage, and round-trip capability before any test. Do not repeat
+CLO synthetic runs, use G04 bytes under the trial-rights hold, or claim
+compatibility. The full G04 goal remains active.
+
 ## EPIC-17 / G04 — Slice 532 CLO synthetic DXF-AAMA round trip (closed; V03 remains open)
 
 One synthetic non-garment CUT/SEW fixture was imported, exported twice, and

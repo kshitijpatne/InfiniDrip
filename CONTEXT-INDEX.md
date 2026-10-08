@@ -2,6 +2,19 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S533-apparel-dxf-profile-evidence/S533-exit-packet.md`
+  reconciles authoritative profile and existing practical evidence. ASTM
+  D6673-10 was withdrawn in 2019 without replacement; CLO's AAMA/ASTM modes
+  do not identify a normative edition or conformance map. NIST describes
+  AAMA-292 as historical/interim. S532 found duplicate CUT paths and CUT/SEW
+  mixing; S525 found layer-8 mixing across all seven recipes; S531's malformed
+  input case failed. CLO trial rights/local-only handling and qualified
+  all-seven exchange remain held. No acceptance change and no CLO UI action.
+  Next: assess a distinct local open-source parser's license and coverage
+  before testing; no repeated synthetic trial or product bytes under S526's
+  hold.
+- `docs/research/epic17/S533-apparel-dxf-profile-evidence/S533-start-packet.md`
+  records the bounded source/evidence review.
 - `docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-exit-packet.md`
   closes one synthetic non-garment DXF-AAMA round trip in the same running
   CLO session. Both generations preserve this simple CUT/SEW geometry within
