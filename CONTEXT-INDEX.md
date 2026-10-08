@@ -2,6 +2,20 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S556-v03-current-gate-reconciliation/` is the current
+  evidence-only V03 closeout. Its matrix reconciles settled CLO
+  product-development/local-processing authorization with all still-open
+  technical gates: five Polo contour failures, CUT/SEW ambiguity, incomplete
+  mark mapping and grade/options evidence, the tested malformed-input failure,
+  unknown exact industrial profile and no independent qualified receiver.
+  Preserve every original criterion. Do not repeat known CLO scenarios. The
+  authorized CLO route can still support a focused retained-file mark/render
+  audit and a source-truth check for genuine multi-size fixtures; it cannot
+  establish its own independent acceptance or an unlisted normative profile.
+  Active worktree is `C:\Users\kshit\.codex\worktrees\epic-17-g04\designApp`;
+  `F:\designApp` is stale. Board start/exit replay is 3337→3339→3341. Next:
+  reconcile retained mark/render evidence and confirm source-backed grade
+  fixture availability; do not repeat known exchanges.
 - `docs/research/epic17/S555-polo-contour-remediation-analysis/S555-exit-packet.md`
   records that no source- and standard-backed, geometry-identical DXF change
   or new CLO trial is currently justified for the five Polo vertex losses.

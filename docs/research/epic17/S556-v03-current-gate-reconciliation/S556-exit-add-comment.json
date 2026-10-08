@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3340,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S556 closes the stale permission/locality question from the maintainer's written CLO confirmation. The current matrix records the remaining technical blockers: five measured Polo contour failures, CUT/SEW ambiguity, incomplete marks and grading/options evidence, a tested malformed-input failure, no exact industrial profile and no independent qualified receiver. Preserve all V03 criteria. Next audit retained marks/renders and genuine grade-fixture availability; do not repeat known exchanges."
+}

@@ -1,5 +1,13 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 556 current V03 reconciliation
+
+S556 started from clean S555 commit `3f723622e9dacc85ee8896dfd17a97c1a07b92f5`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The active G04 worktree is `C:\Users\kshit\.codex\worktrees\epic-17-g04\designApp`; `F:\designApp` is a stale coordinator checkout. Start board revision 3337; validated S556 start replay reaches 3339. G04-V03 remains In Progress.
+
+The maintainer explicitly confirmed product-development evaluation and local DXF processing with CLO. Both project-level questions are settled and must not be raised again. Current matrix: `docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`. It preserves the full V03 contract: seven-recipe M/default, two-generation results are limited evidence; five Polo CUT contours fail the unchanged 0.001 cm tolerance; CUT/SEW layer 8 is ambiguous; source marks and grades/options are incomplete; the tested malformed input was silently accepted; exact industrial profile and independent receiver qualification remain open. CLO cannot independently qualify its own round trip. No source, pattern geometry, acceptance, legacy DXF behavior, protected export identity, or claim changed.
+
+S556 exit is recorded at board revision 3341. The active goal remains needed and aligned with EPIC-17 through safe merge. Next: reconcile retained source/output marks and renders, and check whether genuine multi-size/grade fixtures with source truth exist, without repeating known CLO scenarios. Keep CLO open while it is needed. If no qualified profile/receiver or permitted evidence path remains, present the exact unresolved scope/access boundary; do not weaken acceptance silently. See `docs/research/epic17/S556-v03-current-gate-reconciliation/S556-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 555 exit (V03 remains open)
 
 The source emitter and independent Claude Opus 5.5 review support no

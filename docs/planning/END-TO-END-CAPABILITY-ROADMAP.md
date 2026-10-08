@@ -2,6 +2,22 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
+### G04 current V03 gate picture — S556 (2026-10-08)
+
+S556 reconciles S547/S554/S555 and confirms the maintainer's written
+authorization for product-development DXF evaluation and local CLO processing;
+those project-level concerns are settled. V03 is not passed: the all-seven
+M/default, two-generation CLO cohort is limited evidence; five Polo CUT
+contours fail the unchanged 0.001 cm tolerance; tested outputs mix CUT/SEW on
+layer 8; source marks and grade/options remain incomplete; S531's tested
+malformed input was silently accepted; exact industrial-profile evidence and
+an independently qualified receiver remain absent. No acceptance, cost,
+physical, factory, or production-readiness gate is relaxed. Current matrix:
+`docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`.
+Next, inspect retained source/output marks and rendered files, and verify
+whether genuine multi-size/grade fixtures with source truth exist, without
+repeating known CLO scenarios. CLO stays open while needed.
+
 ### G04 current evidence and conditional estimate — S520 (2026-10-08)
 
 S459's all-seven V02 acceptance remains Done. S520 reconciles S493–S519 and
