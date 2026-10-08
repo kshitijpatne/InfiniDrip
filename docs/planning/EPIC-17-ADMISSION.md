@@ -831,3 +831,12 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   target under S503's already authorized local-trial bounds; never guess
   profile enum values. The technical trial does not itself clear the V03
   receiver-rights/profile-selection gate or change acceptance.
+- **S515 official CLO API refresh:** the current official pages still list SDK
+  11.0.0 for build `.224`, omit an import-format selector, and leave the
+  export-format integer unmapped. A path-only export API opens its options
+  dialog, permitting a documented UI profile choice for the already authorized
+  local AAMA pilot without guessing enum values. The technical trial does not
+  clear the V03 receiver-rights/profile-selection gate. Next operation remains
+  one AAMA export/reimport/second-generation pilot when the supported
+  screenshot matches the still-running CLO target; prior tests are not
+  repeated.

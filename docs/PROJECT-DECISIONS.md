@@ -28,6 +28,18 @@ receiver-rights/profile-selection gate. Previously tested Standard cases and
 the AAMA-import/ASTM-export matrix are not to be repeated. The S503
 authorization's C:-only/no-cloud/no-paid-access/no-install bounds still apply.
 
+## EPIC-17/G04 — CLO API profile source refresh (S515)
+
+On 2026-10-08, current official CLO docs were rechecked. SDK 11.0.0 is listed
+for 2026.1.224, not installed 2026.1.310. `ImportDxfOption` has no documented
+profile field; `ExportDxfOption.m_ExportDXFFormatType` remains an unmapped
+integer. The documented path-only `ExportDXF(path)` opens the options dialog,
+so a visible UI profile can be selected without guessing the integer in the
+bounded S503 local trial. This does not clear V03 receiver-rights/profile
+selection, and safe visual control of the running CLO window is still needed.
+Do not repeat already measured Standard/AAMA-import→ASTM-export cases or
+download/install the mismatched SDK.
+
 ## EPIC-17/G04 — Woven technical-flat display decisions confirmed 2026-10-08
 
 The maintainer approved these view-only decisions for G04 V02:

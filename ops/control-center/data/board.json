@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3171,
-  "updatedAt": "2026-10-08T17:59:33.851Z",
+  "revision": 3175,
+  "updatedAt": "2026-10-08T18:04:14.793Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10968,6 +10968,16 @@
           "at": "2026-10-08T17:59:33.851Z",
           "actor": "Codex",
           "text": "S514 closes with a concrete helper capture mismatch after one fresh recovery. Keep CLO open while the Epic needs it; do not rerun S503/S505/S507/S508 Standard cases or S503's AAMA-import/ASTM-export matrix. Next: when safely targetable, run one instrumented, C:-confined pilot for the untested AAMA export/reimport path without guessing enum values; continue no-file V03 reconciliation if the helper mismatch persists. Do not claim V03 compatibility or all-seven acceptance before every existing gate passes."
+        },
+        {
+          "at": "2026-10-08T18:02:33.913Z",
+          "actor": "Codex",
+          "text": "S515 checks whether current official CLO docs now provide a matching .310 SDK or DXF profile enum mapping. This is bounded source review only; no repeated practical tests, install, or format inference. Keep CLO running and preserve the one-pilot plan under S503 authorization."
+        },
+        {
+          "at": "2026-10-08T18:04:14.793Z",
+          "actor": "Codex",
+          "text": "S515 closes the official source refresh; it removes API-version speculation but does not produce exchange evidence. Do not download mismatched SDK .224 or repeat prior format trials. Next: one menu/dialog-selected AAMA export→AAMA reimport→second-generation check on existing Polo M fixture, all artifacts under C:\\G04-CLO-DXF-Exchange, only when the supported capture visibly matches the still-running CLO window. Continue independent V03 gate reconciliation meanwhile."
         }
       ],
       "evidenceRefs": [
@@ -11093,7 +11103,9 @@
         "E-G04-S513-START",
         "E-G04-S513-EXIT",
         "E-G04-S514-START",
-        "E-G04-S514-EXIT"
+        "E-G04-S514-EXIT",
+        "E-G04-S515-START",
+        "E-G04-S515-EXIT"
       ],
       "flagKey": null
     },
@@ -20476,6 +20488,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO .310 is running and links DXF API entry points, but selected-window/accessibility identify CLO while both supported captures show Codex; no DXF operation occurred. This is a helper access failure, not a format result. One non-redundant AAMA-export/API pilot remains gated on visually safe targeting and rights/local handling; all V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S515-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S515 is a source-only refresh of official CLO API option and SDK version docs for exact .310 profile mapping. No SDK download/install or CLO/file operation; all V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S515-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current official CLO docs still list SDK 11.0.0 for .224, omit import-profile selection, and leave ExportDxfOption's integer format mapping unspecified. Path-only ExportDXF opens its documented options dialog, offering a no-guess export choice for the authorized local AAMA pilot when the UI can be safely targeted. No SDK or fixture operation; all V03 gates unchanged."
     }
   ]
 }

@@ -2,15 +2,26 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-exit-packet.md`
+  rechecks CLO's current official API pages: newest listed SDK is for .224,
+  not installed .310; import options lack a documented profile selector; and
+  the export-format integer remains unmapped. Path-only `ExportDXF` opens the
+  UI options dialog, giving a no-guess export choice for the authorized local
+  AAMA pilot. Actual operation still awaits a supported capture that visibly
+  matches the running CLO window. All V03 gates remain. Board
+  `3171→3173→3175`.
+- `docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-start-packet.md`
+  bounds the source refresh; no SDK download or fixture operation.
 - `docs/research/epic17/S514-clo-helper-target-recovery/S514-exit-packet.md`
   closes the fresh app-control check. CLO 2026.1.310 is running and its
   installed API DLL contains DXF entry points, but the supported target and
   accessibility identify CLO while both screenshots show Codex. No DXF
   operation occurred; this is a helper failure, not an exchange result. Do
   not repeat already measured Standard cases or the AAMA-import/ASTM-export
-  matrix. Next practical target is one instrumented, C:-confined AAMA
-  export/reimport pilot when visual targeting works and rights/local handling
-  is cleared. Keep CLO open until the Epic no longer needs it. Board
+  matrix. Next practical target is one C:-confined AAMA export/reimport pilot
+  under S503's authorized local trial when visual targeting works. This does
+  not clear receiver-rights/profile selection. Keep CLO open until the Epic no
+  longer needs it. Board
   `3167→3169→3171`; all V03 gates unchanged.
 - `docs/research/epic17/S514-clo-helper-target-recovery/S514-start-packet.md`
   records the one-recovery bound and read-only exact-install inspection.

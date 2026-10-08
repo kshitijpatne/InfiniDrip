@@ -1,5 +1,13 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 515 CLO exact-build API/profile screen (complete; no exchange performed)
+
+Started `2026-10-08 18:01:24 UTC` from clean S514 `eb0696be4f2045cd88aa0d7351d64dd956a2feec`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest was 514; S515 is complete. Board start/exit is `3171→3173→3175`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+Current official CLO docs still map latest SDK 11.0.0 to build 2026.1.224, omit import profile selection, and leave `ExportDxfOption.m_ExportDXFFormatType` as an unmapped integer. They document that path-only `ExportDXF(path)` opens the options dialog; the authorized local AAMA export pilot can therefore select a visible documented profile without guessing enum constants, but safe visual control of the live CLO window remains unavailable. No SDK, app, or fixture operation occurred. No acceptance/profile/receiver gate changed. Next: one UI-selected AAMA export/reimport/second-generation trial on the existing Polo M fixture once the supported screenshot matches the running CLO window; no repeats of prior tests. See `docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-exit-packet.md`.
+
+Control Center tests pass 42/42; `git diff --check` passes. No production code changed, so no full repository gate is due. Keep CLO open through the Epic; close normally once at the end.
+
 ## EPIC-17 / G04 — Slice 514 CLO helper target recovery (complete; no exchange performed)
 
 Started `2026-10-08 17:56:30 UTC` from S513 `5ca570087c10aa20ab983b5d4a10fbf1b1fa7e4f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest was 513; S514 is complete. Board start/exit is `3167→3169→3171`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
