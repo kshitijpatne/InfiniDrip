@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S474-tee-geometry-oracle/S474-exit-packet.md`
+  extracts the exact six serialized Tee CUT/SEW polylines and all 190
+  quantized vertices from the S473 copy into
+  `tee-expected-geometry.json`, with piece-order association, bounds and
+  source hash. Its focused tests pass 3/3. This is only the source baseline;
+  no CLO output exists yet. Use it for C04's 0.001 cm comparison after the
+  owner completes the native trial.
+
 - `docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-exit-packet.md`
   records the owner-reported CLO 2026.1.310 all-features free trial (14 days)
   and local-file handling. Supplied screenshots show only the top-level

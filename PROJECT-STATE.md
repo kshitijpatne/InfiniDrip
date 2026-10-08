@@ -1,31 +1,39 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 473 prepares local CLO Tee exchange
+## EPIC-17 / G04 — Slice 474 prepares exact Tee round-trip comparison
 
-The owner reports CLO 2026.1.310 is available under a free 14-day trial with
-all features and confirms ordinary DXF file operations use local files. No
-subscription or account settings were inspected or changed; no paid use is
-authorized. Supplied screenshots show the application version
-`2026.1.310 (r58944)`, `File > Import > DXF`, and `File > Export > DXF`. These
-are top-level menu entries only; dialog-level profiles, units and warnings
-remain to be observed. No CLO fixture import/export result has been returned.
+The owner reports CLO 2026.1.310 is available with all features during a free
+14-day trial and confirms ordinary DXF operations use local files. No
+subscription/account settings were inspected or changed; no paid use is
+authorized. The supplied screenshots show version `2026.1.310 (r58944)` and
+top-level `File > Import > DXF` / `File > Export > DXF` only. S473 prepared a
+hash-verified copy of the synthetic standard-M Tee input and a local operator
+runbook. No CLO import/export result is in the shared folder yet.
 
-S473 starts from clean S472 commit `af111518b0d1e9abe9b91acefcb36b963396036c`;
+S474 starts from clean S473 commit `852cabea299b64015c9ef91222f4aad27cc99ce8`;
 refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an
-ancestor. Highest slice 472; S473 is unique. Board revision 2911 at start and
-validated start replay 2911→2915; EPIC-17 and G04-V03 remain In Progress,
-V01/V02 Done. Usage primary 2%; ordinary work allowed. S473 preserves the two
-owner screenshots and prepares only a copy of S463 `tee-standard-m.dxf`; its
-SHA-256 matches the S463 manifest. The source fixture remains unchanged.
+ancestor. Highest slice 473; S474 is unique. Board revision 2919 at start;
+validated start replay 2919→2923. EPIC-17 and G04-V03 remain In Progress,
+V01/V02 Done. Usage primary 3%; ordinary work allowed.
 
-**Next:** perform the copy-only Tee import in CLO, select centimeters if asked
-(the source uses cm but does not declare units), record the exact dialog
-profile/settings and warnings, inspect/reopen the native save, export a DXF to
-the packet's `receiver-outputs/`, and return that file plus screenshots for
-independent geometry comparison. Keep all other fixtures unopened until the
-Tee behavior is understood. No receiver/profile selection, round-trip pass,
-standard conformance or compatibility claim is made yet. Packet and runbook:
-`docs/research/epic17/S473-clo-local-roundtrip-preflight/`.
+S474 extracts the exact S473 Tee copy into
+`docs/research/epic17/S474-tee-geometry-oracle/tee-expected-geometry.json`:
+six closed polylines, 190 coordinate pairs, three source-piece associations,
+layers, bounds, raw serialized coordinate strings, source SHA and the explicit
+external centimeter basis (the file itself declares no units). Focused oracle
+tests pass 3/3. This prepares, but does not perform, C04's receiver comparison.
+The S463 source fixtures, generic DXF behavior and protected export identities
+remain unchanged.
+
+**Next:** stage the verified input in `C:\G04-CLO-DXF-Exchange` and use only
+that dedicated C: folder for CLO import, native save/reopen, DXF export and
+screenshots. Within the reported free window, select centimeters if asked and
+record actual dialog profile/settings and warnings. Compare actual entities,
+layers, outlines, bounds and coordinates to the S474 oracle under C04's 0.001
+cm limit. No receiver profile, round-trip pass, standards conformance or
+compatibility claim is made. Evidence packets:
+`docs/research/epic17/S473-clo-local-roundtrip-preflight/` and
+`docs/research/epic17/S474-tee-geometry-oracle/`.
 
 ## EPIC-17 / G04 — Slice 471 screens free receiver alternatives
 

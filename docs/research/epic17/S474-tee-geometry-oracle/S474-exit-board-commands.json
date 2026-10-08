@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2923,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S474-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-exit-packet.md",
+      "verified": true,
+      "note": "S474 records a tested, deterministic source oracle for six S463 Tee contours and all 190 vertices. This enables comparison to later CLO output; no receiver output or compatibility pass is claimed."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2924,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S474-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-exit-packet.md",
+      "verified": true,
+      "note": "S474 prepares exact serialized Tee geometry for C04's 0.001 cm round-trip comparison; the CLO import/export result remains pending."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2925,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S474-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2926,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S474 extracts a SHA-bound oracle for the S473 Tee input: six closed CUT/SEW polylines, 190 vertices, source order/piece association and bounds. Focused tests pass 3/3. This is an input baseline only; actual CLO output and C04 round-trip acceptance remain pending."
+  }
+]

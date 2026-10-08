@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2919,
-  "updatedAt": "2026-10-08T06:02:25.223Z",
+  "revision": 2927,
+  "updatedAt": "2026-10-08T06:07:34.815Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -681,7 +681,9 @@
         "E-EPIC17-S471-EXIT",
         "E-EPIC17-S472-CLO-CANDIDATE",
         "E-EPIC17-S473-START",
-        "E-EPIC17-S473-EXIT"
+        "E-EPIC17-S473-EXIT",
+        "E-EPIC17-S474-START",
+        "E-EPIC17-S474-EXIT"
       ]
     },
     {
@@ -4963,7 +4965,9 @@
         "E-EPIC17-S471-EXIT",
         "E-EPIC17-S472-CLO-CANDIDATE",
         "E-EPIC17-S473-START",
-        "E-EPIC17-S473-EXIT"
+        "E-EPIC17-S473-EXIT",
+        "E-EPIC17-S474-START",
+        "E-EPIC17-S474-EXIT"
       ],
       "flagKey": null
     },
@@ -10436,6 +10440,16 @@
           "at": "2026-10-08T06:02:25.223Z",
           "actor": "Codex",
           "text": "S473 records the owner's free 14-day all-features CLO trial and local-file confirmation; screenshots show top-level File > Import > DXF and File > Export > DXF. The copied Tee fixture hash matches S463. Profile/units and actual import/export/round-trip output are still pending; V03 gates remain unchanged. Runbook and output path: docs/research/epic17/S473-clo-local-roundtrip-preflight/clo-tee-trial-runbook.md."
+        },
+        {
+          "at": "2026-10-08T06:05:44.146Z",
+          "actor": "Codex",
+          "text": "S474 prepares a deterministic source-side geometry oracle from the S473 Tee copy. No CLO output is present yet; this evidence only makes the later 0.001 cm receiver comparison exact. V03 remains In Progress with all gates unchanged."
+        },
+        {
+          "at": "2026-10-08T06:07:34.815Z",
+          "actor": "Codex",
+          "text": "S474 extracts a SHA-bound oracle for the S473 Tee input: six closed CUT/SEW polylines, 190 vertices, source order/piece association and bounds. Focused tests pass 3/3. This is an input baseline only; actual CLO output and C04 round-trip acceptance remain pending."
         }
       ],
       "evidenceRefs": [
@@ -10469,7 +10483,9 @@
         "E-G04-S471-EXIT",
         "E-G04-S472-CLO-CANDIDATE",
         "E-G04-S473-START",
-        "E-G04-S473-EXIT"
+        "E-G04-S473-EXIT",
+        "E-G04-S474-START",
+        "E-G04-S474-EXIT"
       ],
       "flagKey": null
     },
@@ -18799,6 +18815,42 @@
       "sha256": null,
       "verified": true,
       "note": "S473 advances CLO to a bounded owner-operated local Tee test within the reported no-charge trial; no profile selection or compatibility claim yet."
+    },
+    {
+      "id": "E-G04-S474-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S474 builds an exact source-coordinate oracle from S473's hash-verified generic Tee copy; it changes no receiver, exporter, fixture or acceptance gate."
+    },
+    {
+      "id": "E-EPIC17-S474-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S474 prepares the serialized Tee geometry reference needed for C04's receiver round-trip comparison while preserving all V03 gates."
+    },
+    {
+      "id": "E-G04-S474-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S474 records a tested, deterministic source oracle for six S463 Tee contours and all 190 vertices. This enables comparison to later CLO output; no receiver output or compatibility pass is claimed."
+    },
+    {
+      "id": "E-EPIC17-S474-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S474 prepares exact serialized Tee geometry for C04's 0.001 cm round-trip comparison; the CLO import/export result remains pending."
     }
   ]
 }

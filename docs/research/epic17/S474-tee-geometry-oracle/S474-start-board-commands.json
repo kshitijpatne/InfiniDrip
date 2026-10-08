@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2919,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S474-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-start-packet.md",
+      "verified": true,
+      "note": "S474 builds an exact source-coordinate oracle from S473's hash-verified generic Tee copy; it changes no receiver, exporter, fixture or acceptance gate."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2920,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S474-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S474-tee-geometry-oracle/S474-start-packet.md",
+      "verified": true,
+      "note": "S474 prepares the serialized Tee geometry reference needed for C04's receiver round-trip comparison while preserving all V03 gates."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2921,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S474-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2922,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S474 prepares a deterministic source-side geometry oracle from the S473 Tee copy. No CLO output is present yet; this evidence only makes the later 0.001 cm receiver comparison exact. V03 remains In Progress with all gates unchanged."
+  }
+]
