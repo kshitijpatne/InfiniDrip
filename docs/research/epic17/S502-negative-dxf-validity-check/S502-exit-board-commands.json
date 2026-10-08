@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3121,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S502-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S502-negative-dxf-validity-check/S502-exit-packet.md",
+      "verified": true,
+      "note": "Autodesk's code/value structure confirms S463's negative fixture ends in a terminal unmatched group code 0 after replacing the valid 0/EOF pair. S498 silently rendered this exact malformed control, failing the unchanged reject-or-report gate. CLO recovery internals and broader conformance remain unknown."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3122,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S502-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3123,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S502 corrects S498's incomplete 'missing EOF' wording: the S463 generator replaces terminal 0/EOF with an unmatched group code 0. Autodesk documents code/value pairs and code 0 as a named separator/entity introducer. The S498 silent render therefore fails S463's unchanged malformed-input negative gate; internal CLO recovery and broader profile conformance remain unknown. All V03 gates stay unchanged. See E-G04-S502-EXIT."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3124,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S502 establishes the exact S463 malformed control and corrects how S498's silent acceptance is described. It adds no general CLO conformance claim and relaxes no gate. Next, use the now-running CLO window to retry the bounded import-option matrix if it can be controlled; otherwise preserve the concrete UI limitation."
+  }
+]

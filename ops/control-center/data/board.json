@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3119,
-  "updatedAt": "2026-10-08T15:05:09.472Z",
+  "revision": 3125,
+  "updatedAt": "2026-10-08T15:09:37.904Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -722,7 +722,8 @@
         "E-G04-S498-EXIT",
         "E-G04-S499-EXIT",
         "E-G04-S500-EXIT",
-        "E-G04-S501-EXIT"
+        "E-G04-S501-EXIT",
+        "E-G04-S502-EXIT"
       ]
     },
     {
@@ -4629,6 +4630,11 @@
           "at": "2026-10-08T15:05:09.472Z",
           "actor": "Codex",
           "text": "S501 confirms a repeatable CLO UI automation blocker, not a receiver result. Keep V03 In Progress with every acceptance gate. Continue independent offline evidence; do not relaunch CLO until targetability or normal shutdown is resolved."
+        },
+        {
+          "at": "2026-10-08T15:09:37.904Z",
+          "actor": "Codex",
+          "text": "S502 establishes the exact S463 malformed control and corrects how S498's silent acceptance is described. It adds no general CLO conformance claim and relaxes no gate. Next, use the now-running CLO window to retry the bounded import-option matrix if it can be controlled; otherwise preserve the concrete UI limitation."
         }
       ],
       "evidenceRefs": [
@@ -10832,6 +10838,16 @@
           "at": "2026-10-08T15:05:09.359Z",
           "actor": "Codex",
           "text": "S501's fresh CLO launch repeated the target-window capture failure after single-window reselection; no import/export ran. Graceful close was accepted but the process remained responding and could not be closed through the UI. Do not infer receiver behavior. Preserve all V03 gates and retry only after usable UI/shutdown recovery. See E-G04-S501-EXIT."
+        },
+        {
+          "at": "2026-10-08T15:06:45.208Z",
+          "actor": "Codex",
+          "text": "S502 checks whether the S463 negative control is structurally invalid as authored (a terminal unmatched group code 0), using authoritative DXF documentation, and reconciles S498's description. The actual no-error CLO import remains recorded; this review cannot clear or weaken the unchanged malformed-input gate."
+        },
+        {
+          "at": "2026-10-08T15:09:37.803Z",
+          "actor": "Codex",
+          "text": "S502 corrects S498's incomplete 'missing EOF' wording: the S463 generator replaces terminal 0/EOF with an unmatched group code 0. Autodesk documents code/value pairs and code 0 as a named separator/entity introducer. The S498 silent render therefore fails S463's unchanged malformed-input negative gate; internal CLO recovery and broader profile conformance remain unknown. All V03 gates stay unchanged. See E-G04-S502-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10933,7 +10949,9 @@
         "E-G04-S500-START",
         "E-G04-S500-EXIT",
         "E-G04-S501-START",
-        "E-G04-S501-EXIT"
+        "E-G04-S501-EXIT",
+        "E-G04-S502-START",
+        "E-G04-S502-EXIT"
       ],
       "flagKey": null
     },
@@ -20100,6 +20118,24 @@
       "sha256": null,
       "verified": true,
       "note": "Fresh CLO launch repeated foreground window did not report a process id after exact single-window reselection. The four-cell profile matrix did not run. Graceful close was accepted but process remained present/responding; no forced termination. C: input hash pinned; all V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S502-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S502-negative-dxf-validity-check/S502-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verify S463's exact unmatched-group-code negative fixture against authoritative DXF/R12 structure documentation and correct S498's incomplete missing-EOF description without changing any acceptance gate."
+    },
+    {
+      "id": "E-G04-S502-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S502-negative-dxf-validity-check/S502-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Autodesk's code/value structure confirms S463's negative fixture ends in a terminal unmatched group code 0 after replacing the valid 0/EOF pair. S498 silently rendered this exact malformed control, failing the unchanged reject-or-report gate. CLO recovery internals and broader conformance remain unknown."
     }
   ]
 }

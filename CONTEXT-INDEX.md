@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S502-negative-dxf-validity-check/S502-exit-packet.md`
+  corrects S498's incomplete “missing EOF” wording: S463 replaced the valid
+  terminal `0/EOF` pair with an unmatched group code `0`. Autodesk's primary
+  group/value documentation confirms the malformed structure; S498's silent
+  render is a failure of the unchanged S463 reject-or-report gate, with no
+  broader CLO conformance inference. V03 remains In Progress. Board
+  `3119→3121→3125`.
+
 - `docs/research/epic17/S501-polo-import-options-retry/S501-exit-packet.md`
   records a fresh CLO launch where state capture twice returned
   `foreground window did not report a process id` after re-selection. The

@@ -1,5 +1,28 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 502 negative-DXF validity check
+
+Started `2026-10-08 15:06:03 UTC` from clean S501 `5e75eb9` on
+`codex/epic-17-g04`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. S501 was highest;
+S502 reserved. Board start advanced `3119→3121`; Epic and G04-V03 remain In
+Progress, V01/V02 Done. Goal active; primary usage 17%, weekly 40%.
+
+S463's negative fixture replaces the valid terminal `0/EOF` pair with an
+unmatched group code `0`. Autodesk's primary DXF documentation confirms that
+codes are followed by associated values and code `0` introduces a named item;
+the fixture therefore violates the documented group/value structure. S498
+silently rendered this exact file, failing S463's unchanged reject-or-report
+negative-control gate. This does not reveal CLO's recovery mechanism or prove
+broader profile conformance. S502 corrects the incomplete “missing EOF” phrase
+in its durable exit packet; no fixture, implementation, tolerance, or gate
+changed. See
+`docs/research/epic17/S502-negative-dxf-validity-check/S502-exit-packet.md`.
+Exit board `3119→3121→3125`; focused Control Center tests, preflight, and diff
+check pass. **Next:** with the maintainer-reported running CLO available,
+retry the bounded AAMA/ASTM × optimization matrix if the window can be
+controlled; otherwise record the exact UI limitation and continue offline.
+
 ## EPIC-17 / G04 — Slice 501 Polo import-option retry stopped at UI capture
 
 Started `2026-10-08 15:03:15 UTC` from clean S500 `fe8623a` on

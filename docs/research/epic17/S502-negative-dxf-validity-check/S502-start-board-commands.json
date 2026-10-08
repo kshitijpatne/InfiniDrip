@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3119,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S502-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S502-negative-dxf-validity-check/S502-start-packet.md",
+      "verified": true,
+      "note": "Verify S463's exact unmatched-group-code negative fixture against authoritative DXF/R12 structure documentation and correct S498's incomplete missing-EOF description without changing any acceptance gate."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3120,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S502 checks whether the S463 negative control is structurally invalid as authored (a terminal unmatched group code 0), using authoritative DXF documentation, and reconciles S498's description. The actual no-error CLO import remains recorded; this review cannot clear or weaken the unchanged malformed-input gate."
+  }
+]

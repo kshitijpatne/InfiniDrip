@@ -97,12 +97,15 @@ the malformed fixture.
 The copied malformed control
 `Input\negative-truncated-group-value.dxf` (6,746 bytes, SHA-256
 `89C01B3DCE1424E9D6655A7D7383543EDDD4C070B801726DFE91BCF0832CBC24`)
-matches the Tee M fixture except the final `EOF` marker is truncated away.
-CLO imported it using DXF-AAMA settings with no error/warning dialog and
-rendered three Tee piece outlines. This is a concrete failure of the required
-negative-control behavior: the receiver does not report this malformed-file
-condition. It may have tolerated or ignored the missing terminal marker; no
-claim is made about other malformed DXFs. Captures:
+is generated from the Tee M fixture by replacing its terminal pair `0 / EOF`
+with a lone terminal group code `0`; the negative file ends `0 / ENDSEC / 0`,
+so its final group code has no value. S502 corrected the earlier incomplete
+description that only mentioned a missing EOF marker. CLO imported this exact
+malformed input using DXF-AAMA settings with no error/warning dialog and
+rendered three Tee piece outlines. This fails the S463 negative-control rule
+requiring rejection or an explicit report of an unmatched group code. The
+observation does not reveal whether CLO ignored, discarded, or repaired the
+trailing code, and makes no claim about other malformed DXFs. Captures:
 `Evidence\negative-import-profile.jpg` and
 `Evidence\negative-import-workspace.jpg`.
 
@@ -120,8 +123,10 @@ nesting, grade increments, or grade-rule preservation. Their exact input
 
 - **Observed technical subset:** Tee and Woven M contours survive the two
   measured generations within threshold; Polo remains a measured failure.
-- **Observed negative-control failure:** missing terminal DXF EOF marker is
-  accepted and rendered without explicit error/warning.
+- **Observed negative-control failure:** the terminal unmatched group code is
+  accepted and rendered without explicit error/warning. See the S502
+  correction and primary DXF structure references in
+  `../S502-negative-dxf-validity-check/S502-exit-packet.md`.
 - **Not established:** a documented industrial exchange profile, header unit
   declaration, semantically correct layer/mark transfer, native graded-nest
   fidelity, receiver rights for this profile/use, local-only processing, or
