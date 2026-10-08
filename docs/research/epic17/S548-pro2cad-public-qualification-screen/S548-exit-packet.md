@@ -29,4 +29,4 @@ Do not pursue Pro2CAD installation without build-specific evidence for no-cost p
 - Board start revision 3303; exit replay records evidence/comment and advances to 3307. G04-V03 remains In Progress.
 - `npm run control-center:test`: 42/42 passed. `git diff --check` passed. No production code changed; full repository gate is not due.
 - Time: publisher-source review 3m; packet/state/board and focused verification 2m; external-agent waits 0m; maintainer-decision time 0m. (Closeout timings are rounded.)
-- At this safe slice boundary, inspect the goal record; the admitted objective remains active through safe merge.\n
+- At this safe slice boundary, inspect the goal record; the admitted objective remains active through safe merge.

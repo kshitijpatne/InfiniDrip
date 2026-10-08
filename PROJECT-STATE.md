@@ -1,5 +1,9 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 549 exit (V03 remains open)
+
+S549 created a geometry-equivalent cm-to-mm Polo DXF fixture and hash-pinned both current AAMA generations, confirming they omit the same source vertex (back index 13; four collar indices 14) after 0.0456–0.0470 cm incoming segments and a 16–17° turn. This is a testable simplification hypothesis, not a confirmed cause. The planned CLO import/export did not occur: the screenshot showed the open pattern canvas while accessibility reported a hidden Export DXF dialog; one cancel action had unknown outcome and re-observation remained mismatched. CLO remains open and no further UI input was attempted. All V03 gates remain unchanged. Next: run one unit-invariance trial only after the screenshot and accessibility state agree. S549 packet: `docs/research/epic17/S549-polo-unit-invariance-control/S549-exit-packet.md`; board start/exit `3307→3309→3311`, with exact point-mapping evidence `3311→3313`.
+
 ## EPIC-17 / G04 — Slice 548 exit (V03 remains open)
 
 S548 screened Pro2CAD from publisher-hosted sources and did not download,

@@ -1,0 +1,16 @@
+import { createHash } from 'node:crypto';
+import { readFile, writeFile } from 'node:fs/promises';
+const sourcePath='C:/G04-CLO-DXF-Exchange/Input/polo-standard-m.dxf';
+const mmPath='C:/G04-CLO-DXF-Exchange/S549-polo-unit-invariance-control/polo-standard-m-mm.dxf';
+const source=await readFile(sourcePath,'utf8'); const mm=await readFile(mmPath,'utf8');
+const old=JSON.parse(await readFile(new URL('../S500-polo-vertex-loss-analysis/S500-vertex-loss-analysis.json',import.meta.url),'utf8'));
+const current=JSON.parse(await readFile('C:/G04-CLO-DXF-Exchange/S544-aama-three-recipe-roundtrip/Evidence/three-recipe-roundtrip-analysis.json','utf8'));
+const hash=b=>createHash('sha256').update(b).digest('hex');
+const sourceHash=hash(Buffer.from(source));
+if(sourceHash!=='796e537ec77e86b16d6b82c3aadd4a9982933314097b707ae689936c65944fca')throw new Error('Unexpected source hash');
+const polo=current.recipes.find(r=>r.recipe==='Polo');
+if(polo.input.sha256!==sourceHash)throw new Error('S545 input is not the same source');
+const rows=old.findings.map(f=>{const g=f.generation1,p=g.retainedPredecessorCm,q=g.omittedSourcePointCm,n=g.retainedSuccessorCm;const len=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);return{sourceOrdinal:f.sourceOrdinal,piece:f.name,pointCm:q,predecessorCm:p,successorCm:n,incomingSegmentCm:len(p,q),outgoingSegmentCm:len(q,n),turnDegrees:g.localDirectionChangeDegrees,omittedPointResidualCm:g.sourcePointToReplacementChordCm};});
+const data={sourceSha256:sourceHash,mmFixtureSha256:hash(Buffer.from(mm)),scale:10,inverseCoordinateMaximumErrorCm:1.4210854715202004e-14,s545AamaGen1:polo.generations[0].matchSummary,s545AamaGen2:polo.generations[1].matchSummary,fiveCornerSignature:rows,interpretation:'All five failures share a short incoming source segment and a 16-17 degree turn. This is a correlation and a testable hypothesis, not proof of CLO simplification cause.'};
+await writeFile(new URL('./S549-microsegment-analysis.json',import.meta.url),JSON.stringify(data,null,2)+'\n');
+console.log(JSON.stringify(rows.map(({sourceOrdinal,piece,incomingSegmentCm,outgoingSegmentCm,turnDegrees,omittedPointResidualCm})=>({sourceOrdinal,piece,incomingSegmentCm,outgoingSegmentCm,turnDegrees,omittedPointResidualCm})),null,2));

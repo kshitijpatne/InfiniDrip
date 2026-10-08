@@ -2,6 +2,23 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S549-polo-unit-invariance-control/S549-exit-packet.md`
+  records an exact cm-to-mm Polo fixture and maps both current AAMA generations
+  to the same five dropped vertices (back 13, collar pieces 14), all following
+  0.0456–0.0470 cm incoming edges. CLO testing did not execute because the screenshot showed the
+  pattern canvas while accessibility reported a hidden Export DXF dialog; a
+  Cancel attempt was uncertain and the mismatch persisted. CLO remains open.
+  No gates changed. Next: one unit-invariance trial after screenshot and
+  accessibility observations align.
+- `docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md`
+  closes the publisher-source screen. Pro2CAD rights, current-build support,
+  local handling and exact profile remain unproven; CLO user confirmation is
+  limited to CLO. S549 supersedes its immediate next-action note.
+- `docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md`
+  and `V03-CURRENT-GATE-MATRIX-S547.md` remain the current seven-recipe
+  gate baseline: 77/82 contours per generation pass and five Polo CUT contours
+  fail. Exact profile, semantics/marks, grading/options, malformed-input
+  rejection, and independent receiver acceptance remain open.
 - `docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md`
   closes the public-source Pro2CAD screen. Import/export are advertised, but the
 demo/manual version mismatch and Windows 11, product-development demo rights,

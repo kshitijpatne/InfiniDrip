@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3307,
-  "updatedAt": "2026-10-08T22:53:30.216Z",
+  "revision": 3313,
+  "updatedAt": "2026-10-08T23:01:29.720Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11308,6 +11308,21 @@
           "at": "2026-10-08T22:53:30.216Z",
           "actor": "Codex",
           "text": "S548 screened official Pro2CAD publisher materials. AAMA/ASTM DXF import/export are documented, but manual v2.1.101 does not match demo v2.2.101; Windows 11, demo product-development rights, local-only handling, and exact profile edition are unproven. No download/install/contact/data transfer. Maintainer's written confirmation resolves CLO trial-use/local processing only. Keep all V03 gates and holds unchanged; next use one targeted CLO investigation of the repeat Polo geometry and CUT/SEW semantic failures without repeating settings matrices. See S548 exit packet."
+        },
+        {
+          "at": "2026-10-08T22:57:09.064Z",
+          "actor": "Codex",
+          "text": "S549 runs one geometry-preserving unit-invariance control: transform the exact Polo M fixture from cm to mm and import/export once in the same AAMA profile/settings. This checks whether the repeat five-corner loss depends on unit representation. Save all data under C:\\G04-CLO-DXF-Exchange\\S549-polo-unit-invariance-control. No other settings, app restart, source edit, or acceptance change."
+        },
+        {
+          "at": "2026-10-08T22:59:52.359Z",
+          "actor": "Codex",
+          "text": "S549 exact cm-to-mm fixture is ready and geometry-equivalent, but CLO's Export DXF dialog appears only in accessibility while the screenshot shows the loaded pattern canvas; one Cancel attempt had an unknown outcome and fresh state still disagreed. No exchange occurred; CLO remains open. Five failed corners share ~0.046 cm incoming segments and 16–17° turns, a testable correlation but unproven cause. Keep all V03 gates. Resume one unit-invariance trial only after screenshot/accessibility state aligns. See exit packet."
+        },
+        {
+          "at": "2026-10-08T23:01:29.720Z",
+          "actor": "Codex",
+          "text": "Supplemental S549 exact point mapping: both hash-pinned current AAMA generations omit source vertex 13 on the back and vertex 14 on four collar pieces; retained coordinates stay within 0.000013–0.000038 cm. All five omitted points follow 0.0456–0.0470 cm incoming segments and exceed the 0.001 cm limit by 0.0127–0.0140 cm. The geometry signature is confirmed; a short-edge simplification cause is still only a hypothesis. CLO UI remains unobservable for the planned unit-equivalence test."
         }
       ],
       "evidenceRefs": [
@@ -11501,7 +11516,10 @@
         "E-G04-S547-START",
         "E-G04-S547-EXIT",
         "E-G04-S548-START",
-        "E-G04-S548-EXIT"
+        "E-G04-S548-EXIT",
+        "E-G04-S549-START",
+        "E-G04-S549-EXIT",
+        "E-G04-S549-POINT-MAP"
       ],
       "flagKey": null
     },
@@ -21496,6 +21514,33 @@
       "sha256": null,
       "verified": true,
       "note": "Publisher-source screen finds Pro2CAD is not qualified for executable use: demo v2.2.101/manual v2.1.101 mismatch, Windows 11, product-development demo rights, local-only handling, and exact profile edition are unproven. CLO user-confirmed rights/local processing remain resolved; all S547 V03 failures and gates stay unchanged."
+    },
+    {
+      "id": "E-G04-S549-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S549-polo-unit-invariance-control/S549-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Test one geometry-equivalent cm-to-mm representation against CLO's already-tested AAMA exchange to see whether the five repeated Polo corner losses depend on numeric units. C:-only evidence, same profile, one import/export, no settings sweep or acceptance change."
+    },
+    {
+      "id": "E-G04-S549-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S549-polo-unit-invariance-control/S549-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact mm-equivalent Polo fixture generated and coordinate-verified. Five failures share 0.0456–0.0470 cm incoming segments, but CLO targetability mismatch prevented the exchange; hidden Export DXF dialog conflicted with visible canvas. No exchange result or gate change."
+    },
+    {
+      "id": "E-G04-S549-POINT-MAP",
+      "kind": "document",
+      "uri": "docs/research/epic17/S549-polo-unit-invariance-control/S549-current-aama-point-mapping.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Hash-pinned source and both current AAMA Polo outputs confirm identical omitted vertex indices in gen1/gen2 for all five failures; incoming segments 0.0456–0.0470 cm, residual 0.0127–0.0140 cm. Cause remains unproven."
     }
   ]
 }

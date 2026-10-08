@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3312,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "Supplemental S549 exact point mapping: both hash-pinned current AAMA generations omit source vertex 13 on the back and vertex 14 on four collar pieces; retained coordinates stay within 0.000013–0.000038 cm. All five omitted points follow 0.0456–0.0470 cm incoming segments and exceed the 0.001 cm limit by 0.0127–0.0140 cm. The geometry signature is confirmed; a short-edge simplification cause is still only a hypothesis. CLO UI remains unobservable for the planned unit-equivalence test."
+}
