@@ -1,5 +1,40 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 497 CLO startup diagnosis
+
+S497 started `2026-10-08 14:11:53 UTC` from clean S496
+`6914335d17046d15caef968e2cf7189be90192ac` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S496 was highest; S497 is unique. Board start replay advanced
+`3089→3091`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done.
+
+Official CLO guidance names missing disk write permission as one possible
+cause of “Unable to launch CLO, it is not responding.” The current executable
+and install-folder ACLs grant `BUILTIN\Users` read/execute but not write, while
+the prior startup cache accepted writes. That makes permissions a hypothesis,
+not a verified cause. The Intel 530/630 immediate-crash article does not match
+the recorded delayed stall on this not-yet-identified `Intel(R) Graphics`
+adapter. No ACL, setting, driver, security, network, account, or app-file
+change occurred. OpenCode's official-source findings are reviewed in
+`docs/research/epic17/S497-clo-startup-official-diagnostics/`.
+
+The maintainer reported at closeout that CLO is running. This has not yet been
+observed through its window. S497 made no further app input under its read-only
+scope. Existing measured Tee/Woven/Polo round-trip results and every V03 gate
+remain unchanged; no compatibility claim is made. Validated exit replay links
+`E-G04-S497-EXIT` and retains G04-V03 In Progress. Full repository/coverage/
+build/output gates remain due on the settled Epic candidate.
+
+Approximate elapsed time: source and ACL review `2m`; external-agent wait and
+report review `3m`; implementation `0m`; durable packet/state/board and focused
+board verification `2m`; maintainer-decision time `0m`.
+
+**Next:** reserve S498 and inspect the already-running CLO window. If a
+responsive workspace is present, continue practical import/export scenarios
+with exchange files confined to `C:\\G04-CLO-DXF-Exchange`; otherwise capture
+the exact failure and seek a concrete recovery path. Do not relax rights,
+round-trip, all-recipe/profile, or V03 claim gates.
+
 ## EPIC-17 / G04 — Slice 496 CLO startup diagnostics
 
 S496 started `2026-10-08 14:04:17 UTC` from clean S495

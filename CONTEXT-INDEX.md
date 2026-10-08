@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S497-clo-startup-official-diagnostics/S497-exit-packet.md`
+  records a read-only official-source/ACL diagnosis. CLO lists insufficient
+  write rights as a possible unresponsive-launch condition, but local ACL/cache
+  evidence does not confirm the cause; the Intel 530/630 immediate-crash fix
+  does not match the delayed stall on this unidentified Intel adapter. No
+  permissions/settings/driver/app-file change or new import/export occurred.
+  The maintainer reports CLO is running; S498 should inspect the existing
+  window and proceed with practical scenarios only if a responsive workspace
+  is present. Prior receiver results and every V03 gate remain unchanged.
+  Board `3089→3091→3095`; EPIC-17/G04-V03 In Progress, V01/V02 Done.
+
 - `docs/research/epic17/S496-clo-startup-diagnostics/S496-exit-packet.md`
   records two authenticated CLO launches that did not reach the pattern
   workspace; the second advanced to “Loading CLO” before Windows reported

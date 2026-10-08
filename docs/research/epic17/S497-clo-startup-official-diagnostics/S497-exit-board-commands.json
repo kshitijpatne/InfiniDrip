@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3091,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S497-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S497-clo-startup-official-diagnostics/S497-exit-packet.md",
+      "verified": true,
+      "note": "Official CLO guidance does not establish a verified fix for the reproduced startup stall. Disk-write rights are a plausible but unconfirmed hypothesis; no ACL/settings/driver change or V03 gate change. Maintainer reports CLO is now running; S498 will inspect the existing window before any exchange operation."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3092,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S497-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3093,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S497 reviewed official CLO startup guidance and local ACLs. Disk write access is a plausible but unconfirmed cause; the exact Intel driver article does not match the delayed post-login stall. No fix, setting change, import/export, or V03 gate was verified. The maintainer reports CLO is now running; S498 will first inspect its current window, then continue practical tests only if a responsive workspace is present."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3094,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S497 closes an official-source startup diagnosis, not a receiver qualification. V03 remains In Progress with its existing rights, semantics, grades, negative-case, independent-receiver and measured round-trip gates unchanged. Next: inspect the already-running CLO UI in S498 and continue scoped exchange scenarios if it is responsive."
+  }
+]

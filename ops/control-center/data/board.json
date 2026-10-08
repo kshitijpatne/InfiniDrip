@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3089,
-  "updatedAt": "2026-10-08T14:09:24.475Z",
+  "revision": 3095,
+  "updatedAt": "2026-10-08T14:20:12.582Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -717,7 +717,8 @@
         "E-G04-S493-EXIT",
         "E-G04-S494-EXIT",
         "E-G04-S495-EXIT",
-        "E-G04-S496-EXIT"
+        "E-G04-S496-EXIT",
+        "E-G04-S497-EXIT"
       ]
     },
     {
@@ -4599,6 +4600,11 @@
           "at": "2026-10-08T14:09:24.475Z",
           "actor": "Codex",
           "text": "S496 adds read-only startup diagnostics and a reproduced CLO workspace hang. It does not change V03 scope, prior round-trip outcomes, or any acceptance gate. EPIC-17/G04-V03 remain In Progress; V01/V02 Done. See E-G04-S496-EXIT."
+        },
+        {
+          "at": "2026-10-08T14:20:12.582Z",
+          "actor": "Codex",
+          "text": "S497 closes an official-source startup diagnosis, not a receiver qualification. V03 remains In Progress with its existing rights, semantics, grades, negative-case, independent-receiver and measured round-trip gates unchanged. Next: inspect the already-running CLO UI in S498 and continue scoped exchange scenarios if it is responsive."
         }
       ],
       "evidenceRefs": [
@@ -10752,6 +10758,16 @@
           "at": "2026-10-08T14:09:24.358Z",
           "actor": "Codex",
           "text": "S496 reproduced CLO failing to reach a usable workspace: authentication succeeded, startup advanced to Loading CLO, then Windows reported Responding: False. No matching Windows Application error/crash record or crash dump was found; no import/export was attempted. This is an environment startup hold, not evidence of DXF incompatibility. Prior Tee/Woven passes and Polo 5-contour failure remain unchanged; all V03 gates remain. See E-G04-S496-EXIT."
+        },
+        {
+          "at": "2026-10-08T14:12:54.756Z",
+          "actor": "Codex",
+          "text": "S497 checks whether CLO's official disk/Intel startup guidance matches the exact reproduced launch symptoms and local ACLs. Read-only; no changes or further CLO launch. V03 and EPIC status unchanged."
+        },
+        {
+          "at": "2026-10-08T14:20:12.490Z",
+          "actor": "Codex",
+          "text": "S497 reviewed official CLO startup guidance and local ACLs. Disk write access is a plausible but unconfirmed cause; the exact Intel driver article does not match the delayed post-login stall. No fix, setting change, import/export, or V03 gate was verified. The maintainer reports CLO is now running; S498 will first inspect its current window, then continue practical tests only if a responsive workspace is present."
         }
       ],
       "evidenceRefs": [
@@ -10843,7 +10859,9 @@
         "E-G04-S495-START",
         "E-G04-S495-EXIT",
         "E-G04-S496-START",
-        "E-G04-S496-EXIT"
+        "E-G04-S496-EXIT",
+        "E-G04-S497-START",
+        "E-G04-S497-EXIT"
       ],
       "flagKey": null
     },
@@ -19920,6 +19938,24 @@
       "sha256": null,
       "verified": true,
       "note": "S496 found successful CLO authentication and no matching Windows crash event, but reproduced a second startup hang before the pattern workspace; no settings or exchange files changed and no new import/export occurred."
+    },
+    {
+      "id": "E-G04-S497-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S497-clo-startup-official-diagnostics/S497-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S497 cross-checks official CLO startup guidance and current local ACLs after two nonresponsive launches; read-only only, with no app/settings/file changes."
+    },
+    {
+      "id": "E-G04-S497-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S497-clo-startup-official-diagnostics/S497-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official CLO guidance does not establish a verified fix for the reproduced startup stall. Disk-write rights are a plausible but unconfirmed hypothesis; no ACL/settings/driver change or V03 gate change. Maintainer reports CLO is now running; S498 will inspect the existing window before any exchange operation."
     }
   ]
 }
