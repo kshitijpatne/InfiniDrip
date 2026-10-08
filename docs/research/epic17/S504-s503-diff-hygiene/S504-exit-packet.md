@@ -25,11 +25,12 @@ or V03 gate changed. V01/V02 remain Done and V03/EPIC-17 remain In Progress.
 Started `2026-10-08 15:41:54 UTC` from S503 `f048f84` on
 `codex/epic-17-g04`; refreshed `origin/main` was
 `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and remained an ancestor. Board
-start revision was 3129. Elapsed time at exit: implementation `0m`; focused
-verification `~3m`; documentation, board and durable closeout `~4m`;
-external-agent waits `0m`; maintainer-decision time `0m`.
+start revision was 3129. The exact commit time was `2026-10-08 15:44:34 UTC`,
+for total elapsed time `2m40s`: implementation `0m`; focused verification
+`~25s`; documentation, board and durable closeout `~2m15s`; external-agent
+waits `0m`; maintainer-decision time `0m`. S505 corrects the initial rough
+category estimate; S504's code and commit are unchanged.
 
-**Next:** inspect the current goal record without changing it. Then reserve
-S505 and test CLO's `Standard DXF` import option with the same hash-pinned Polo
-M source. Preserve the `0.001 cm` geometry gate and every V03 acceptance and
-rights condition.
+**Next:** test CLO's `Standard DXF` import option with the same hash-pinned
+Polo M source. Preserve the `0.001 cm` geometry gate and every V03 acceptance
+and rights condition.

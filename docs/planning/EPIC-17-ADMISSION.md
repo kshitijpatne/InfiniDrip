@@ -1,4 +1,38 @@
-## Current evidence and conditional remaining estimate — S504 exit (2026-10-08)
+## Current evidence and conditional remaining estimate — S505 exit (2026-10-08)
+
+S505 follows S504 `1111b9e2504fac3e400d5a4c1da8252627b2f712` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The validated
+board advances `3132→3133→3135`; V01/V02 remain Done and V03/EPIC-17 remain In
+Progress. `get_goal` at the S504 safe boundary reported Active; the admitted
+objective remains needed through merge and deployment. No goal edit/resume was
+made. S505 completed the authorized live CLO 2026.1.310 (r58944) Polo M
+Standard DXF import, ASTM export, reimport, and second ASTM export after a
+fresh enumeration produced one unique targetable window. The first export
+contains nine piece blocks but all nine cut bounds are approximately 0.1×
+source size in the configured centimeter profile. The round trip retains
+94/100 polyline records and drops six, comprising three closed four-vertex
+shapes repeated on numeric layers 8 and 85 in block `3_M`. The five known Polo
+CUT contour failures also remain. The live renders show all nine pieces; CLO
+was closed normally. This rejects only the tested Standard DXF configuration
+as a viable exchange path; it does not determine general CLO conformance,
+rights, or industrial-profile suitability. No acceptance, code, fixture, or
+protected export baseline changed. All S505 artifacts stay in the dedicated
+C: folder; see `docs/research/epic17/S505-polo-standard-dxf/S505-exit-packet.md`.
+
+The candidate-specific rights/local-handling and exact industrial apparel
+profile gates remain unresolved alongside native grade and negative-control
+evidence. S505 does not reduce the previously conditional V03 implementation
+estimate: allow 1–2 bounded evidence slices to re-evaluate known candidate
+rights/access/profile facts; only if one qualifies, retain the conditional
+3–6 fixture/round-trip slices and 3–5 final integrated review, merge, and
+deployment slices. External rights/access waits remain unbounded, so this is
+not a date commitment. **Next:** reserve S506 after refreshing Git/board
+state; reconcile the previously researched receiver candidates on
+rights/access/profile evidence before further receiver pattern trials. Keep
+every V03 and all-seven gate.
+
+## Historical current evidence — S504 exit (2026-10-08)
 
 S504 follows S503 `f048f84816cbed9acfd6044a8e445a25c01d1e4c` on
 `codex/epic-17-g04`; refreshed `origin/main`

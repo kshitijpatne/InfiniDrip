@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S505-polo-standard-dxf/S505-exit-packet.md`
+  records the completed live CLO Standard DXF Polo M import/export and
+  round-trip probe. All nine pieces export at one tenth of source dimensions;
+  five known CUT contour deviations remain, and the second round trip loses
+  six polyline records across three repeated four-vertex shapes. CLO rendered
+  all nine pieces and was closed normally. C:-confined projects, screenshots,
+  hashes, and diagnostics are documented in the packet. V03 rights/profile,
+  grade, negative-control, round-trip, and all-seven gates remain unchanged;
+  CLO is not selected as a compatible industrial profile. S505 is closed.
 - `docs/research/epic17/S504-s503-diff-hygiene/S504-exit-packet.md`
   records a separate closeout follow-up for S503's staged whitespace check.
   It removes two trailing blank lines, corrects S503's verification record,

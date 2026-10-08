@@ -1,6 +1,52 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 505 Standard DXF CLO probe (complete; candidate rejected)
+
+Started `2026-10-08 15:46:12 UTC` from clean S504
+`1111b9e2504fac3e400d5a4c1da8252627b2f712` on `codex/epic-17-g04`;
+refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and
+remains an ancestor. Board start was `3132→3133`, exit replay was
+`3133→3135`; S505 is the latest assigned slice. G04-V03 is In Progress,
+V01/V02 Done. At the S504 boundary, `get_goal`
+confirmed the EPIC goal is Active and still needed through safe merge and
+required deployment. Its “Begin by admitting…” phrase is now historical; the
+suggested wording is “Continue from the verified admitted EPIC-17/G04 state…”
+The goal was not edited or resumed.
+
+After an initial ambiguous window enumeration, a later fresh inventory
+provided a unique targetable CLO 2026.1.310 (r58944) window. The live
+Standard DXF import rendered all nine Polo M pieces and ASTM export completed;
+reimport displayed the Custom seam-allowance information notice and rendered
+the pieces, then the second ASTM export completed. Direct original-scale
+comparison shows all nine output cut bounds are approximately 0.1× the
+hash-pinned source dimensions under the configured centimeter profile. The
+round trip also lost six polyline records: three distinct closed four-vertex
+shapes duplicated across numeric layers 8 and 85 in block `3_M`; numeric layer
+semantics remain unidentified. Of the 94 retained records, maximum matched
+vertex drift is `0.0000022361 cm`. The five known Polo CUT contour deviations
+remain under diagnostic shape comparison. CLO was closed normally, and the
+final window inventory returned no CLO window. All import/export artifacts,
+projects, screenshots, hashes, and analysis remain under
+`C:\\G04-CLO-DXF-Exchange\\S505-polo-standard-dxf`. This is a concrete
+failure for CLO Standard DXF under this tested configuration, not a claim of
+general CLO nonconformance; no industrial profile or rights basis is selected.
+No product source, fixture, output baseline, acceptance criterion, or V03 gate
+changed. See `docs/research/epic17/S505-polo-standard-dxf/S505-exit-packet.md`.
+
+S505 also corrects S504's elapsed category estimate using the exact S504
+commit time; S504 commit/history remain unchanged. **Next:** reserve S506 from
+refreshed Git and board state and reconcile the already-reviewed receiver
+rights/local-handling/profile prerequisite without further CLO pattern trials
+absent rights evidence. Preserve every V03 gate.
+
 ## EPIC-17 / G04 — Slice 504 S503 closeout hygiene (complete)
+
+S504 closed at commit `1111b9e2504fac3e400d5a4c1da8252627b2f712`. At its
+exit boundary, `get_goal` reported Active. The admitted objective still matches
+the required V01/V02/V03, final review, safe merge, and deployment outcome.
+Its kickoff clause “Begin by admitting from verified Git and Control Center
+state” is historical. Suggested replacement: “Continue from the verified
+admitted EPIC-17/G04 state.” No change or UI resume was made.
 
 Started `2026-10-08 15:41:54 UTC` from clean S503
 `f048f84816cbed9acfd6044a8e445a25c01d1e4c` on `codex/epic-17-g04`;
@@ -17,8 +63,9 @@ validated and replayed. No product source, DXF, gate, threshold, or acceptance
 rule changed. See
 `docs/research/epic17/S504-s503-diff-hygiene/S504-exit-packet.md`.
 
-**Next:** inspect the goal record without changing it; then reserve S505 for
-the one-cell CLO Standard DXF import probe on the unchanged Polo M fixture.
+The S504-boundary goal review is complete: `get_goal` reports Active; its
+objective remains needed through merge/deployment; the kickoff clause is stale
+wording, with no status change or UI resume required.
 
 ## EPIC-17 / G04 — Slice 503 Polo import-option matrix (complete)
 

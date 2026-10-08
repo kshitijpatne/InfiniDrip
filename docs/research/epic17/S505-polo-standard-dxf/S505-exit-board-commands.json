@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3133,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S505-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S505-polo-standard-dxf/S505-exit-packet.md",
+      "verified": true,
+      "note": "S505 completed live CLO Standard DXF Polo M import/render, ASTM export, ASTM reimport/render and second ASTM export after a fresh unique window became available. All nine first-export piece bounds were about 0.1x the source under centimeter interpretation; five known CUT contour deviations remain. The second round trip drops six polyline records (three closed shapes duplicated on two unidentified numeric layers). C-only hashes, screenshots, projects and geometry analysis are in the packet evidence folder. CLO was closed normally. The tested Standard DXF configuration fails exchange gates; rights/profile, grade, negative-control, representative round-trip, all-seven and protected-export gates remain unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3134,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S505's actual CLO Standard DXF Polo M test rendered all nine pieces, but all nine exports are one tenth the source dimensions under centimeter interpretation; five known CUT contour losses remain. A second import/export drops six polyline records. This rejects the tested path without selecting a CLO industrial profile or changing any V03 gate. Projects, renders, hashes and exact comparisons are confined to the named C: folder; CLO is closed. Next: resolve receiver rights/access/profile evidence before more pattern trials."
+  }
+]
