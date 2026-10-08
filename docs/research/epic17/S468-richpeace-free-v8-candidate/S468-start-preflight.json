@@ -1,0 +1,47 @@
+{
+  "startRevision": 2875,
+  "exitRevision": 2879,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "evidence": {
+        "kind": "document",
+        "note": "S468 checks official Richpeace English V8 free evaluation build plus V8 exchange manual; no install/data transfer and no receiver/profile selection.",
+        "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-start-packet.md",
+        "id": "E-G04-S468-START",
+        "verified": true
+      },
+      "expectedRevision": 2875,
+      "type": "addEvidence",
+      "itemId": "G04-V03"
+    },
+    {
+      "evidence": {
+        "kind": "document",
+        "note": "S468 screens a potentially local free CAD receiver candidate; exact free-build profile, rights and local processing remain unproven.",
+        "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-start-packet.md",
+        "id": "E-EPIC17-S468-START",
+        "verified": true
+      },
+      "expectedRevision": 2876,
+      "type": "addEvidence",
+      "itemId": "EPIC-17"
+    },
+    {
+      "epicId": "EPIC-17",
+      "expectedRevision": 2877,
+      "type": "addEpicEvidence",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S468-START"
+    },
+    {
+      "actor": "Codex",
+      "expectedRevision": 2878,
+      "text": "S468 reviews Richpeace Garment CAD V8.0 Free Version (English) and its V8 exchange manual. Verify free-build parity, local processing and evaluation rights before any fixture use; preserve V03 gates. See E-G04-S468-START.",
+      "type": "addComment",
+      "itemId": "G04-V03"
+    }
+  ]
+}

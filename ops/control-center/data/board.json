@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2875,
-  "updatedAt": "2026-10-08T04:45:54.899Z",
+  "revision": 2883,
+  "updatedAt": "2026-10-08T04:49:16.174Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -670,7 +670,9 @@
         "E-EPIC17-S466-START",
         "E-EPIC17-S466-EXIT",
         "E-EPIC17-S467-START",
-        "E-EPIC17-S467-EXIT"
+        "E-EPIC17-S467-EXIT",
+        "E-EPIC17-S468-START",
+        "E-EPIC17-S468-EXIT"
       ]
     },
     {
@@ -4941,7 +4943,9 @@
         "E-EPIC17-S466-START",
         "E-EPIC17-S466-EXIT",
         "E-EPIC17-S467-START",
-        "E-EPIC17-S467-EXIT"
+        "E-EPIC17-S467-EXIT",
+        "E-EPIC17-S468-START",
+        "E-EPIC17-S468-EXIT"
       ],
       "flagKey": null
     },
@@ -10359,6 +10363,16 @@
           "at": "2026-10-08T04:45:54.899Z",
           "actor": "Codex",
           "text": "S467 reconciles GetonAgain official-language claims: free version lists generic DXF import/export and AAMA/ASTM import, but AAMA/ASTM export and local handling are not established; phone login/cloud SuperNest are disclosed. No install or fixture transfer. Candidate unselected pending exact build, rights and local-processing check; V03 gates unchanged. See E-G04-S467-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:48:54.433Z",
+          "actor": "Codex",
+          "text": "S468 reviews Richpeace Garment CAD V8.0 Free Version (English) and its V8 exchange manual. Verify free-build parity, local processing and evaluation rights before any fixture use; preserve V03 gates. See E-G04-S468-START."
+        },
+        {
+          "at": "2026-10-08T04:49:16.174Z",
+          "actor": "Codex",
+          "text": "S468 identifies Richpeace Garment CAD V8.0 Free Version-English as the best install candidate: official product listing links a V8 manual with AAMA/ASTM import and ASTM export. This is still unproven for the exact installed build and local/rights conditions; no install or fixture transfer. Check About, menus, terms and local paths first; V03 remains In Progress. See E-G04-S468-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10381,7 +10395,9 @@
         "E-G04-S466-START",
         "E-G04-S466-EXIT",
         "E-G04-S467-START",
-        "E-G04-S467-EXIT"
+        "E-G04-S467-EXIT",
+        "E-G04-S468-START",
+        "E-G04-S468-EXIT"
       ],
       "flagKey": null
     },
@@ -18513,6 +18529,42 @@
       "sha256": null,
       "verified": true,
       "note": "S467 resolves official free-build claims: candidate can be considered for local trial only after exact build, rights and on-device handling are checked; no fixture transferred."
+    },
+    {
+      "id": "E-G04-S468-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S468 checks official Richpeace English V8 free evaluation build plus V8 exchange manual; no install/data transfer and no receiver/profile selection."
+    },
+    {
+      "id": "E-EPIC17-S468-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S468 screens a potentially local free CAD receiver candidate; exact free-build profile, rights and local processing remain unproven."
+    },
+    {
+      "id": "E-G04-S468-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official Richpeace free English V8 listing links the V8 manual documenting local-path AAMA/ASTM import and ASTM export; exact build, license/local handling and round-trip remain unverified."
+    },
+    {
+      "id": "E-EPIC17-S468-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S468 recommends Richpeace V8 Free English as next local receiver trial candidate, without selection or compatibility claim; V03 acceptance unchanged."
     }
   ]
 }

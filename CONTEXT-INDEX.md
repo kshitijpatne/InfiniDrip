@@ -2,6 +2,12 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md`
+  recommends Richpeace Garment CAD V8.0 Free Version-English as the next
+  receiver trial: its official free evaluation listing links the V8 manual
+  documenting AAMA/ASTM import and ASTM export. Exact-build parity, evaluation
+  rights, and local processing remain unverified; no fixture was transferred.
+
 - `docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md`
   confirms the official free-version pages claim generic DXF import/export and
   AAMA/ASTM import, but not apparel-profile export, local handling, or rights.

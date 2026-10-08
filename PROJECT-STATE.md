@@ -1,5 +1,9 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 468 qualifies Richpeace V8 Free as next receiver trial
+
+The official Richpeace English V8 free-evaluation listing links a V8 manual that documents AAMA/ASTM import and ASTM export. This is the strongest downloadable candidate so far, but the installed free-build menus, evaluation rights, and local-only file handling remain unverified. Do not load a fixture until those are checked and cloud conversion is avoided. No software installed, account created, terms accepted, or files transferred. V03 remains In Progress; V01/V02 Done. Board revisions 2875→2879→2883. Packet: `docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md`. **Next:** owner may install Richpeace Garment CAD V8.0 Free Version-English from the official listing, then report About/version and import/export choices before any pattern is opened.
+
 ## EPIC-17 / G04 — Slice 467 reconciles free-version DXF claims
 
 The official GetonAgain free-version pages state generic DXF import/export and AAMA/ASTM import, but do not establish AAMA/ASTM export, on-device handling, or rights. Phone registration and cloud SuperNest are disclosed. No install, registration, fixture transfer, or profile selection occurred. Do not use a fixture until exact build/modes, license, and local-only pattern handling are established. G04-V03 remains In Progress; V01/V02 Done. Board revisions 2867→2871→2875. Packet: `docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md`. **Next:** owner may inspect the installed free build/version and format menu, without loading a pattern; reject it if the required exchange path uses cloud processing or lacks an AAMA/ASTM export mode.
