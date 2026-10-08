@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3325,
-  "updatedAt": "2026-10-08T23:21:36.776Z",
+  "revision": 3329,
+  "updatedAt": "2026-10-08T23:28:30.007Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11353,6 +11353,16 @@
           "at": "2026-10-08T23:21:36.776Z",
           "actor": "Codex",
           "text": "S552 pinpoints the repeated Polo defect: source indices 13/14 are absent from the same five CUT receiver blocks in both cm generations and the mm CLO export. Incoming edges are 0.0456–0.0470 cm; omitted-corner deviation is 0.0127–0.0140 cm against 0.001 cm. Official docs and prior tested controls provide no verified CLO fix, and stage attribution remains unknown. Keep all gates held; qualify a rights-reviewed industrial receiver/profile next."
+        },
+        {
+          "at": "2026-10-08T23:24:04.722Z",
+          "actor": "Codex",
+          "text": "S553 performs one diagnostic Standard DXF export from the existing imported S551 Polo workspace. Compare against the same-workspace AAMA output to test for an AAMA-specific short-edge loss. A repeated omission remains inconclusive for import vs shared export stage. Keep all V03 gates and C:-only file handling unchanged."
+        },
+        {
+          "at": "2026-10-08T23:28:30.007Z",
+          "actor": "Codex",
+          "text": "S553's single Standard DXF export from the existing S551-imported Polo workspace matches AAMA exactly for all 18 contour residuals (max absolute difference 0); the same five source indices are omitted. This rules out an AAMA-only exporter explanation but cannot distinguish CLO import/internal geometry from behavior common to both exporters. Keep every V03 hold and qualify a rights-reviewed industrial receiver/profile next."
         }
       ],
       "evidenceRefs": [
@@ -11555,7 +11565,9 @@
         "E-G04-S551-START",
         "E-G04-S551-EXIT",
         "E-G04-S552-START",
-        "E-G04-S552-EXIT"
+        "E-G04-S552-EXIT",
+        "E-G04-S553-START",
+        "E-G04-S553-EXIT"
       ],
       "flagKey": null
     },
@@ -21631,6 +21643,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact source-to-output mapping confirms the same five Polo CUT vertices are omitted in both cm generations and the mm CLO run; official docs and prior controls provide no documented fix. No geometry or gate changed; continue by qualifying an industrial receiver/profile."
+    },
+    {
+      "id": "E-G04-S553-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One controlled Standard DXF export from the existing imported S551 Polo workspace will test whether its five repeat contour losses are specific to AAMA output; no geometry, stage, or acceptance inference beyond the comparison. C:-only, no reimport or gate changes."
+    },
+    {
+      "id": "E-G04-S553-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One Standard DXF export from the same imported Polo workspace exactly matches the AAMA output across all 18 contour residuals; the same five source vertices remain missing. This rules out AAMA-only loss but does not isolate import/internal representation from shared export behavior. All V03 gates remain held."
     }
   ]
 }

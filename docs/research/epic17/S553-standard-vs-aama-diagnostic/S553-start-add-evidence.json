@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3325,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S553-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-start-packet.md",
+    "verified": true,
+    "note": "One controlled Standard DXF export from the existing imported S551 Polo workspace will test whether its five repeat contour losses are specific to AAMA output; no geometry, stage, or acceptance inference beyond the comparison. C:-only, no reimport or gate changes."
+  }
+}

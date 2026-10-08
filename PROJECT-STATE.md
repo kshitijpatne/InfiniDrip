@@ -1,5 +1,22 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 553 exit (V03 remains open)
+
+A single CLO 2026.1.310 Standard DXF export from the already imported S551
+Polo millimeter workspace exactly matches the AAMA millimeter output's
+symmetric residuals across all 18 closed contours (maximum absolute delta is
+0 cm at reported precision). Both outputs pass 13/18 and fail the same five
+CUT contours, with source vertices 13/14 missing in the same blocks. This
+rules out an AAMA-only exporter explanation, but does not isolate import or
+internal representation from behavior shared by both exporters. No app error
+occurred; all pieces remained rendered. This is a diagnostic, not industrial
+profile qualification or a compatibility claim. All-seven, semantic, mark,
+grade/options, malformed-input and round-trip gates remain held. No source,
+code, baseline, threshold or acceptance changed. C:-only output and report:
+`docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-exit-packet.md`.
+Board replay is 3325→3327→3329; G04-V03 remains In Progress. Next: qualify a
+rights-reviewed industrial apparel receiver/profile from primary capability
+and rights evidence before fixture transfer. CLO remains open while needed.
 ## EPIC-17 / G04 — Slice 552 exit (V03 remains open)
 
 S552's hash-pinned mapping confirms the same five Polo CUT source vertices

@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-exit-packet.md`
+  records a single Standard DXF export from the existing imported Polo mm
+  workspace. Its 18 contour residuals exactly equal the existing AAMA output;
+  the same five source corners fail, so AAMA-only export is ruled out while
+  import versus common internal/export behavior stays unresolved. The test
+  remains diagnostic only; every V03 gate is held. The exported DXF and render
+  are C:-only. Next: qualify a rights-reviewed industrial receiver/profile
+  using primary capability and rights evidence before fixture transfer. CLO
+  remains open during admitted work.
+## Prior S552 and earlier evidence
+
 - `docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-exit-packet.md`
   records the exact five Polo CUT vertex losses across S545 cm gen1/gen2 and
   S551 mm output. The same source indices (back 13, collar roles 14) are absent
