@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S500-polo-vertex-loss-analysis/S500-exit-packet.md`
+  localizes all five S498 Polo M CUT failures to the same single missing source
+  vertex per piece across both receiver generations. The omitted points are
+  non-collinear: residuals `0.012736–0.013970 cm`, direction change
+  `16.28–17.39°`; other vertices match within tolerance. Cause remains
+  unproven; S499's CLO UI matrix could not run after a window-handle failure.
+  CLO was subsequently closed through an accepted graceful OS close request.
+  Preserve 0.001 cm and every V03 gate. Board `3107→3109→3113`.
+
 - `docs/research/epic17/S499-clo-polo-import-options/S499-exit-packet.md`
   records why the proposed four-cell import-option matrix did not run: CLO's
   relaunched startup window became untargetable and refreshed screenshot state

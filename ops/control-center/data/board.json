@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3107,
-  "updatedAt": "2026-10-08T14:56:04.754Z",
+  "revision": 3113,
+  "updatedAt": "2026-10-08T15:01:33.297Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -720,7 +720,8 @@
         "E-G04-S496-EXIT",
         "E-G04-S497-EXIT",
         "E-G04-S498-EXIT",
-        "E-G04-S499-EXIT"
+        "E-G04-S499-EXIT",
+        "E-G04-S500-EXIT"
       ]
     },
     {
@@ -4617,6 +4618,11 @@
           "at": "2026-10-08T14:56:04.754Z",
           "actor": "Codex",
           "text": "S499 closed as a concrete CLO window-handle interruption; the import-option hypothesis remains untested. CLO still appears running and could not be closed through File → Quit. V03 remains In Progress. Continue with offline analysis of S498 artifacts; resume the UI matrix only when a usable responsive CLO window is available."
+        },
+        {
+          "at": "2026-10-08T15:01:33.297Z",
+          "actor": "Codex",
+          "text": "S500 localizes the repeatable Polo output geometry loss without assigning a cause or adding a workaround. Keep G04-V03 In Progress and every V03 gate unchanged. Next: test a single import-option variable only when a responsive CLO UI is available."
         }
       ],
       "evidenceRefs": [
@@ -10800,6 +10806,16 @@
           "at": "2026-10-08T14:56:04.668Z",
           "actor": "Codex",
           "text": "S499 stopped before importing a file: the relaunched CLO startup window was not a usable app window, and refreshed state capture returned foreground window did not report a process id. No profile matrix or compatibility inference resulted. The pinned input remains in the dedicated C: folder. Preserve all V03 gates; next diagnose S498 point-removal evidence without assuming an import-setting cause."
+        },
+        {
+          "at": "2026-10-08T14:57:09.256Z",
+          "actor": "Codex",
+          "text": "S500 traces each S498 Polo M source CUT vertex sequence to both CLO output generations to establish which coordinates were removed and whether those points are geometrically redundant or shape-changing. This offline diagnosis does not assume an import-mode cause or alter the 0.001 cm gate; S499's UI matrix remains unrun."
+        },
+        {
+          "at": "2026-10-08T15:01:33.177Z",
+          "actor": "Codex",
+          "text": "S500 proves the same non-collinear source vertex is omitted from five Polo M CUT contours in both S498 CLO generations; all other vertices match within tolerance. The point-change residual is 0.012736–0.013970 cm with 16.28–17.39° direction change. The import/optimization cause remains untested because S499's UI failed. Preserve the 0.001 cm gate and all V03 holds. See E-G04-S500-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10897,7 +10913,9 @@
         "E-G04-S498-START",
         "E-G04-S498-EXIT",
         "E-G04-S499-START",
-        "E-G04-S499-EXIT"
+        "E-G04-S499-EXIT",
+        "E-G04-S500-START",
+        "E-G04-S500-EXIT"
       ],
       "flagKey": null
     },
@@ -20028,6 +20046,24 @@
       "sha256": null,
       "verified": true,
       "note": "The four-profile CLO matrix did not run: the relaunched window became untargetable and capture returned foreground window did not report a process id. No receiver behavior inferred. Dedicated C: input hash checked; all V03 gates retained."
+    },
+    {
+      "id": "E-G04-S500-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S500-polo-vertex-loss-analysis/S500-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Offline, hash-pinned geometric diagnosis of the five Polo M CUT contours that failed in both S498 CLO generations. Uses existing C: exchange artifacts only; no source or receiver changes and no inference from S499's unrun UI matrix."
+    },
+    {
+      "id": "E-G04-S500-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S500-polo-vertex-loss-analysis/S500-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Both S498 CLO generations omit the same non-collinear Polo M CUT vertex from each of five contours; localized chord residuals 0.012736–0.013970 cm and 16.28–17.39° direction changes exceed the 0.001 cm exact gate. Cause remains unproven; no workaround or acceptance change."
     }
   ]
 }

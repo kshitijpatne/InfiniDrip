@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3109,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S500-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S500-polo-vertex-loss-analysis/S500-exit-packet.md",
+      "verified": true,
+      "note": "Both S498 CLO generations omit the same non-collinear Polo M CUT vertex from each of five contours; localized chord residuals 0.012736–0.013970 cm and 16.28–17.39° direction changes exceed the 0.001 cm exact gate. Cause remains unproven; no workaround or acceptance change."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3110,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S500-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3111,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S500 proves the same non-collinear source vertex is omitted from five Polo M CUT contours in both S498 CLO generations; all other vertices match within tolerance. The point-change residual is 0.012736–0.013970 cm with 16.28–17.39° direction change. The import/optimization cause remains untested because S499's UI failed. Preserve the 0.001 cm gate and all V03 holds. See E-G04-S500-EXIT."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3112,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S500 localizes the repeatable Polo output geometry loss without assigning a cause or adding a workaround. Keep G04-V03 In Progress and every V03 gate unchanged. Next: test a single import-option variable only when a responsive CLO UI is available."
+  }
+]

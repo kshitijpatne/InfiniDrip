@@ -1,5 +1,32 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 500 Polo contour-loss diagnosis
+
+S500 started `2026-10-08 14:56:43 UTC` from clean S499 `b999d89` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor. S499 was highest; S500 is unique. Start board replay advanced
+`3107→3109`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal remains
+active and aligned with the admitted objective.
+
+Offline, hash-pinned parsing of the S498 Polo M source and both CLO generations
+shows the same one source CUT vertex missing on each of five pieces. The
+retained vertices match within `0.000013–0.000038 cm`; omitted-point chord
+residuals are `0.012736–0.013970 cm` and local direction changes `16.28–17.39°`.
+These are non-collinear shape points, not redundant straight-line subdivisions,
+and their output geometry misses the unchanged 0.001 cm gate. Cause is still
+unproven; S499's import-option matrix did not run because CLO's startup window
+became untargetable. After S499 closeout, a graceful Windows
+`CloseMainWindow` request was accepted and the CLO process exited. No source
+or receiver workaround was applied. Overlay and exact metrics:
+`docs/research/epic17/S500-polo-vertex-loss-analysis/S500-vertex-loss-overlays.png`
+and adjacent JSON/packet.
+
+S500 exit board revisions `3107→3109→3113`; Control Center tests pass 42/42,
+preflight and `git diff --check` pass; all V03 gates and holds remain. No full
+repository gate applies to this analysis-only slice. **Next:** only test an
+import option when the CLO UI is usable; meanwhile keep the exact failure and
+avoid changing source geometry/tolerance.
+
 ## EPIC-17 / G04 — Slice 499 CLO window-handle interruption
 
 Started `2026-10-08 14:53:34 UTC` from S498 `01de6cc` on

@@ -1,0 +1,357 @@
+{
+  "title": "S500 Polo CUT point-removal geometry diagnosis",
+  "receiver": "CLO 2026.1.310 (r58944), S498 practical outputs",
+  "thresholdCm": 0.001,
+  "sources": {
+    "source": {
+      "file": "C:/G04-CLO-DXF-Exchange/Input/polo-standard-m.dxf",
+      "bytes": 24261,
+      "sha256": "796e537ec77e86b16d6b82c3aadd4a9982933314097b707ae689936c65944fca"
+    },
+    "first": {
+      "file": "C:/G04-CLO-DXF-Exchange/S498-practical-retest/Output/polo-standard-m-s498-clo-export.dxf",
+      "bytes": 221652,
+      "sha256": "523dbd2d7f2e1e6440a1deff254efa1137b1bf37bb0c9070da6681144594722c"
+    },
+    "second": {
+      "file": "C:/G04-CLO-DXF-Exchange/S498-practical-retest/Output/polo-standard-m-s498-generation-2.dxf",
+      "bytes": 221654,
+      "sha256": "2a878fa0d00d289cf733718debc77b755c2e033b9834e53b1a9e76d948f0a0f8"
+    }
+  },
+  "method": "Hash-pinned pair parser associates source CUT ordinals to S498 piece blocks. For each block, every possible single source-vertex deletion is tested against each closed output polyline using cyclic/reverse maximum coordinate delta. The closest deleted-vertex match is retained. The geometric residual is the omitted source point's distance to the chord between its source neighbors; this quantifies point significance but does not identify CLO's internal cause.",
+  "findings": [
+    {
+      "sourceOrdinal": 2,
+      "name": "back",
+      "block": "1_M",
+      "sourceVertexCount": 33,
+      "sourceBounds": {
+        "minX": 31.5,
+        "maxX": 60,
+        "minY": 1,
+        "maxY": 75.742
+      },
+      "generation1": {
+        "matchedOutputLayer": "8",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.000012999999995599865,
+        "outputVertexCount": 32,
+        "removedVertexIndexZeroBased": 13,
+        "omittedSourcePointCm": {
+          "x": 37.489,
+          "y": 74.514
+        },
+        "retainedPredecessorCm": {
+          "x": 37.469,
+          "y": 74.473
+        },
+        "retainedSuccessorCm": {
+          "x": 37.688,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012736083492453013,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 37.47644944045849,
+          "y": 74.5161659358074
+        },
+        "projectionPosition": 0.03401570985610445,
+        "localDirectionChangeDegrees": 16.798462964349568,
+        "distinctNumericLayerCandidateCount": 6
+      },
+      "generation2": {
+        "matchedOutputLayer": "1",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.000025000000000829914,
+        "outputVertexCount": 32,
+        "removedVertexIndexZeroBased": 13,
+        "omittedSourcePointCm": {
+          "x": 37.489,
+          "y": 74.514
+        },
+        "retainedPredecessorCm": {
+          "x": 37.469,
+          "y": 74.473
+        },
+        "retainedSuccessorCm": {
+          "x": 37.688,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012736083492453013,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 37.47644944045849,
+          "y": 74.5161659358074
+        },
+        "projectionPosition": 0.03401570985610445,
+        "localDirectionChangeDegrees": 16.798462964349568,
+        "distinctNumericLayerCandidateCount": 6
+      },
+      "generationsOmitSameSourceVertex": true
+    },
+    {
+      "sourceOrdinal": 10,
+      "name": "outer collar stand",
+      "block": "5_M",
+      "sourceVertexCount": 54,
+      "sourceBounds": {
+        "minX": 133.288,
+        "maxX": 148.932,
+        "minY": 56.145,
+        "maxY": 75.742
+      },
+      "generation1": {
+        "matchedOutputLayer": "8",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.000022999999998774,
+        "outputVertexCount": 53,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 139.277,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 139.257,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 140.777,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012982545767004694,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 139.2641865639811,
+          "y": 66.46108862442345
+        },
+        "projectionPosition": 0.0047280026191374265,
+        "localDirectionChangeDegrees": 16.28450432681734,
+        "distinctNumericLayerCandidateCount": 2
+      },
+      "generation2": {
+        "matchedOutputLayer": "8",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.00003799999998932435,
+        "outputVertexCount": 53,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 139.277,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 139.257,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 140.777,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012982545767004694,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 139.2641865639811,
+          "y": 66.46108862442345
+        },
+        "projectionPosition": 0.0047280026191374265,
+        "localDirectionChangeDegrees": 16.28450432681734,
+        "distinctNumericLayerCandidateCount": 2
+      },
+      "generationsOmitSameSourceVertex": true
+    },
+    {
+      "sourceOrdinal": 12,
+      "name": "inner collar stand",
+      "block": "6_M",
+      "sourceVertexCount": 54,
+      "sourceBounds": {
+        "minX": 150.932,
+        "maxX": 166.575,
+        "minY": 56.145,
+        "maxY": 75.742
+      },
+      "generation1": {
+        "matchedOutputLayer": "8",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.000022999999998774,
+        "outputVertexCount": 53,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 156.921,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 156.9,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 158.42,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.013969519835794598,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 156.90721244616864,
+          "y": 66.46124740823846
+        },
+        "projectionPosition": 0.004745030374098031,
+        "localDirectionChangeDegrees": 17.39222560993241,
+        "distinctNumericLayerCandidateCount": 2
+      },
+      "generation2": {
+        "matchedOutputLayer": "8",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.00003799999998932435,
+        "outputVertexCount": 53,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 156.921,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 156.9,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 158.42,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.013969519835794598,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 156.90721244616864,
+          "y": 66.46124740823846
+        },
+        "projectionPosition": 0.004745030374098031,
+        "localDirectionChangeDegrees": 17.39222560993241,
+        "distinctNumericLayerCandidateCount": 2
+      },
+      "generationsOmitSameSourceVertex": true
+    },
+    {
+      "sourceOrdinal": 14,
+      "name": "upper pointed collar",
+      "block": "7_M",
+      "sourceVertexCount": 44,
+      "sourceBounds": {
+        "minX": 168.575,
+        "maxX": 186.175,
+        "minY": 52.819,
+        "maxY": 75.742
+      },
+      "generation1": {
+        "matchedOutputLayer": "1",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.000022999999998774,
+        "outputVertexCount": 43,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 174.564,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 174.544,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 176.064,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012982545767004694,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 174.5511865639811,
+          "y": 66.46108862442345
+        },
+        "projectionPosition": 0.0047280026191374265,
+        "localDirectionChangeDegrees": 16.28450432681734,
+        "distinctNumericLayerCandidateCount": 6
+      },
+      "generation2": {
+        "matchedOutputLayer": "1",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.00003799999998932435,
+        "outputVertexCount": 43,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 174.564,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 174.544,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 176.064,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012982545767004694,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 174.5511865639811,
+          "y": 66.46108862442345
+        },
+        "projectionPosition": 0.0047280026191374265,
+        "localDirectionChangeDegrees": 16.28450432681734,
+        "distinctNumericLayerCandidateCount": 6
+      },
+      "generationsOmitSameSourceVertex": true
+    },
+    {
+      "sourceOrdinal": 16,
+      "name": "under pointed collar",
+      "block": "8_M",
+      "sourceVertexCount": 44,
+      "sourceBounds": {
+        "minX": 188.175,
+        "maxX": 205.775,
+        "minY": 52.819,
+        "maxY": 75.742
+      },
+      "generation1": {
+        "matchedOutputLayer": "8",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.00002199999997287705,
+        "outputVertexCount": 43,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 194.164,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 194.144,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 195.664,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012982545767004694,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 194.1511865639811,
+          "y": 66.46108862442345
+        },
+        "projectionPosition": 0.0047280026191374265,
+        "localDirectionChangeDegrees": 16.28450432681734,
+        "distinctNumericLayerCandidateCount": 6
+      },
+      "generation2": {
+        "matchedOutputLayer": "8",
+        "matchingOneVertexDeletedSequenceDeltaCm": 0.000036000000022795575,
+        "outputVertexCount": 43,
+        "removedVertexIndexZeroBased": 14,
+        "omittedSourcePointCm": {
+          "x": 194.164,
+          "y": 66.459
+        },
+        "retainedPredecessorCm": {
+          "x": 194.144,
+          "y": 66.417
+        },
+        "retainedSuccessorCm": {
+          "x": 195.664,
+          "y": 75.742
+        },
+        "sourcePointToReplacementChordCm": 0.012982545767004694,
+        "sourcePointToReplacementProjectionCm": {
+          "x": 194.1511865639811,
+          "y": 66.46108862442345
+        },
+        "projectionPosition": 0.0047280026191374265,
+        "localDirectionChangeDegrees": 16.28450432681734,
+        "distinctNumericLayerCandidateCount": 6
+      },
+      "generationsOmitSameSourceVertex": true
+    }
+  ],
+  "conclusion": "The same source point index is absent in both generations for each affected piece; every remaining vertex sequence matches within 0.001 cm. Chord distances and direction changes state whether the removed points were geometrically redundant in the source. Repetition proves a stable receiver output difference, not which import setting caused it.",
+  "renderedEvidence": "The companion SVG overlays the exact source CUT, first-generation receiver polyline, and second-generation receiver polyline, with the omitted source vertex and replacement chord highlighted.",
+  "limits": [
+    "No CLO UI option was changed or tested in S499.",
+    "This does not prove DXF-AAMA or DXF-ASTM conformance, semantic layer meaning, rights/local handling, or factory/physical acceptance.",
+    "A geometrically small chord residual cannot alone decide whether removing a source subdivision is semantically permitted by the V03 exact round-trip gate."
+  ]
+}
