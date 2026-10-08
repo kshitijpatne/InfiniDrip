@@ -2,6 +2,21 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md`
+  closes the bounded S486 new-receiver scan; its linked Codex matrix identifies
+  three new apparel-CAD candidates, none meeting V03/C04 gates. iDigit Lite
+  advertises AAMA DXF output but not proven DXF input/rights/local handling;
+  Fashion Dot advertises Win10/11 and generic DXF output but is paid with no
+  apparel-DXF input/profile; Cameo v8 is paid and documents generic AutoCAD
+  DXF only, with Windows 11/local handling unverified. The separate OpenCode
+  findings and Codex source review are linked in the same S486 folder.
+  Valentina was already reviewed in S460; its current publisher FAQ explicitly
+  rules out DXF pattern import. No new receiver or profile is selected; all
+  V03 gates and protected export identities remain unchanged. No app was
+  installed/launched or used with a fixture; CLO remains closed. Board
+  `3015→3019→3024→3025`; the final clarification permits only source-level CLO
+  rights review, not reopening the app or using fixtures.
+
 - `docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md`
   reconciles the manufacturer-branded Super V8 page: DXF/PLT import, PLT save,
   and cloud conversion for other native CAD files. It does not document exact

@@ -1,25 +1,38 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 485 Super V8 format-source reconciliation
+## EPIC-17 / G04 — Slice 486 free/local receiver search
 
-S485 reviewed the publisher-branded Super V8 compatibility statement. It
-advertises DXF/PLT import, PLT save, and cloud conversion for other CAD-native
-files; separately, the English product page lists HPGL/CUT import/export. No
-exact-product apparel DXF/AAMA/ASTM export or local round-trip is documented.
-The linked manual exceeded the web extractor limit (22,136,092 bytes); direct
-retrieval yielded no file and HEAD timed out. No manual contents are claimed.
-Super V8 remains unqualified, and no install/download/account/fixture/cloud
-use occurred. V01/V02 Done; V03/EPIC-17 In Progress; all gates and protected
-exports unchanged. Packet:
-`docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md`.
+S486 reviewed three new apparel-CAD receiver candidates: iDigit Lite, Fashion
+Dot Tailoring CAD, and Wild Ginger Cameo v8. None satisfies V03/C04. iDigit
+advertises AAMA DXF output but does not establish DXF reception, rights,
+Windows 11 or local-only handling. Fashion Dot advertises Windows 10/11 and
+generic DXF output but is paid and does not document apparel-DXF import or an
+AAMA/ASTM profile. Cameo v8 documents generic AutoCAD DXF in/out but is paid;
+the reviewed pages do not establish Windows 11/local-only handling or an
+apparel profile. The independent OpenCode scan and Codex review are linked in
+the S486 packet; Valentina remains an older S460 lead, and its publisher FAQ
+explicitly says it cannot import DXF. No candidate or profile is selected.
 
-Start `2026-10-08 08:15:12 UTC` from clean S484 `415d914`; refreshed
-`origin/main` remains an ancestor. Board `3007→3011→3015`; Control Center
-42/42. An action-time install question was pending, but the exact-product
-source now documents import and PLT save only; no install is recommended unless
-the owner still wants a menu-only check. **Next:** continue only toward an
-already accessible rights-cleared local receiver or an explicitly approved
-inspection whose Gate 0 may prove an additional local apparel export path.
+No software was downloaded, installed, launched, or used with a fixture; no
+account, vendor, or hosted CAD service was used. CLO remains closed. V01/V02
+Done and V03/EPIC-17 In Progress. All-seven V02, every V03 rights/local/profile/
+round-trip/grade/negative gate, legacy DXF behavior and protected export
+identities remain unchanged. Packets:
+`docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md`,
+`S486-codex-candidate-matrix.md`, `S486-opencode-findings.md`, and
+`S486-opencode-review.md`.
+
+Started `2026-10-08 08:21:05 UTC` from S485 `f3813a3`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board start replay `3015→3019`, validated exit replay `3019→3024`, and a
+validated next-step clarification `3024→3025`; focused
+Control Center 42/42. No V03 acceptance advances and the receiver-access wait
+remains unbounded. Conditional estimate remains 4–9 V03 proof/round-trip
+slices plus 3–5 final review/merge/deployment slices after qualifying access.
+**Next:** a source-only review of the unresolved exact-build rights boundary
+for the already installed CLO evaluation, without reopening CLO or using any
+fixture; its result must either establish an allowed Gate 0 or keep that path
+closed and preserve the V03 hold.
 
 ## EPIC-17 / G04 — Slice 484 Super V8 cloud boundary
 

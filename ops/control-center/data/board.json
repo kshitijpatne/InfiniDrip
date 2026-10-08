@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3015,
-  "updatedAt": "2026-10-08T08:19:54.287Z",
+  "revision": 3025,
+  "updatedAt": "2026-10-08T08:35:02.963Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -705,7 +705,9 @@
         "E-EPIC17-S484-START",
         "E-EPIC17-S484-EXIT",
         "E-EPIC17-S485-START",
-        "E-EPIC17-S485-EXIT"
+        "E-EPIC17-S485-EXIT",
+        "E-EPIC17-S486-START",
+        "E-G04-S486-EXIT"
       ]
     },
     {
@@ -5011,7 +5013,8 @@
         "E-EPIC17-S484-START",
         "E-EPIC17-S484-EXIT",
         "E-EPIC17-S485-START",
-        "E-EPIC17-S485-EXIT"
+        "E-EPIC17-S485-EXIT",
+        "E-EPIC17-S486-START"
       ],
       "flagKey": null
     },
@@ -10604,6 +10607,21 @@
           "at": "2026-10-08T08:19:54.287Z",
           "actor": "Codex",
           "text": "S485 confirms Super V8's documented compatibility direction is DXF/PLT import and PLT save; it does not document apparel DXF/AAMA/ASTM export. Keep V03 gated."
+        },
+        {
+          "at": "2026-10-08T08:22:14.198Z",
+          "actor": "Codex",
+          "text": "S486 is a bounded current-source scan for new free/local industrial apparel CAD receivers, excluding candidates already reviewed in S465-S485; no criteria or scope changes."
+        },
+        {
+          "at": "2026-10-08T08:33:38.094Z",
+          "actor": "Codex",
+          "text": "S486 checks three new apparel-CAD receiver candidates; none meets V03/C04 rights, Windows 11, local-processing, apparel-profile, and round-trip gates. All acceptance and holds remain. Continue only when a concrete rights-cleared local receiver/build is available; do not download/install a screened candidate."
+        },
+        {
+          "at": "2026-10-08T08:35:02.963Z",
+          "actor": "Codex",
+          "text": "S486's next allowed work is source-only review of the unresolved rights scope for the already installed CLO evaluation; this does not authorize reopening the app, uploading data, accounts, or fixtures. Keep CLO unselected unless rights, exact profile, and local handling all pass."
         }
       ],
       "evidenceRefs": [
@@ -10661,7 +10679,11 @@
         "E-G04-S484-START",
         "E-G04-S484-EXIT",
         "E-G04-S485-START",
-        "E-G04-S485-EXIT"
+        "E-G04-S485-EXIT",
+        "E-G04-S486-START",
+        "E-G04-S486-EXIT",
+        "E-G04-S486-CANDIDATE-MATRIX",
+        "E-G04-S486-OPENCODE-REVIEW"
       ],
       "flagKey": null
     },
@@ -19423,6 +19445,51 @@
       "sha256": null,
       "verified": true,
       "note": "Super V8 is still unqualified: official exact-product output disclosure is PLT, with no verified local apparel-DXF export or round-trip."
+    },
+    {
+      "id": "E-G04-S486-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S486 searches for new free/local apparel-CAD receivers not reviewed in S465-S485; official rights, Windows, local, exchange and round-trip evidence only; no download/install or fixture."
+    },
+    {
+      "id": "E-EPIC17-S486-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded read-only search for additional free/local CAD receiver candidates; all G04 acceptance remains unchanged."
+    },
+    {
+      "id": "E-G04-S486-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S486 primary-source review finds no qualifying new free/local receiver; V03 rights, Windows 11, local handling, apparel profile, round-trip, grading and negative-input gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S486-CANDIDATE-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-codex-candidate-matrix.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Gate-by-gate primary-source matrix for three new apparel-CAD receiver candidates; no receiver selected and all V03 gates retained."
+    },
+    {
+      "id": "E-G04-S486-OPENCODE-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-opencode-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Codex independently verified the read-only OpenCode source scan in its required separate Muse Spark 1.3 xhigh normal-mode worktree; no app, fixture, account, or vendor contact."
     }
   ]
 }

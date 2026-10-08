@@ -1,0 +1,53 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3019,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S486-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md",
+      "verified": true,
+      "note": "S486 primary-source review finds no qualifying new free/local receiver; V03 rights, Windows 11, local handling, apparel profile, round-trip, grading and negative-input gates remain unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3020,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S486-CANDIDATE-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-codex-candidate-matrix.md",
+      "verified": true,
+      "note": "Gate-by-gate primary-source matrix for three new apparel-CAD receiver candidates; no receiver selected and all V03 gates retained."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3021,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S486-OPENCODE-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S486-free-local-receiver-search/S486-opencode-review.md",
+      "verified": true,
+      "note": "Codex independently verified the read-only OpenCode source scan in its required separate Muse Spark 1.3 xhigh normal-mode worktree; no app, fixture, account, or vendor contact."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3022,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S486-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3023,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S486 checks three new apparel-CAD receiver candidates; none meets V03/C04 rights, Windows 11, local-processing, apparel-profile, and round-trip gates. All acceptance and holds remain. Continue only when a concrete rights-cleared local receiver/build is available; do not download/install a screened candidate."
+  }
+]
