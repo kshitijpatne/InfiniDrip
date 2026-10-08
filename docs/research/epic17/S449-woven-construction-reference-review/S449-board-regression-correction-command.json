@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 2706,
+  "epicId": "EPIC-17",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Retain the admission-packet link required by the Control Center summary regression contract while keeping the S449 research update.",
+  "patch": {
+    "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S448 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 blockers are 28 Woven front neckline/collar contacts under the continuous base seam and 28 Woven back sleeve crossings under fixed S370 band positions. S443's Claude Opus 5.5 xhigh research and Codex review found no source-backed fix under those decisions; S447's 13-value taper study found no viable source candidate. Polo has no current local output blocker per S436 but remains held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF, and protected export identities. V03 additionally requires a rights-cleared receiver/profile and representative round-trip evidence; S421 did not qualify a no-cost industrial apparel receiver. Current record: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical summary: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S449's targeted construction-reference review found useful general menswear drawings but none specific to Woven source revision 14:14; no face or acceptance advanced. The maintainer authorized a proposal-only study. Next: derive exact-source in-memory candidate proposals and compare all 28 option outputs before any separately approved production change. S449 record: docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md."
+  }
+}

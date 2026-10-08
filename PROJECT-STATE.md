@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 449 Woven construction-reference review completed
+
+S449 started 2026-10-08 00:03:15 UTC from clean S448 `f2c9906c05faff13063ece74d4f9aa1913dab1fa` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 448; S449 is unique. Canonical board revision 2699 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, 56 accepted / 90 held over 73 options / 146 faces. `get_goal` reports the admitted objective active. Usage was 0% primary / 22% weekly.
+
+The maintainer authorized a proposal-only Woven source-design study. S449 searched only for drawings relevant to the two exact Woven blockers: the 28 front neckline/collar contacts and the 28 back sleeve crossings under fixed S370 detail positions. Qualified the publisher-described illustrated chapters of Kim & Kim (2025), accessible M. Müller & Sohn collar/shirt pattern drawings, Cornell University shirt-sleeve draping, and academic/government pattern drawing leads. None is tied to this source revision or proves the missing visible layer/sleeve pose. The packet distinguishes construction evidence from a candidate-design input and records access limits. No production source, geometry, stitch, mapping, test, hold, acceptance, status, or export changed.
+
+Packet: `docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md`. Board start replay 2699→2701; exit replay 2701→2706; an additive validated summary-link repair advanced 2706→2707 after the first Control Center run exposed a stale admission-link assertion (failure preserved in the packet). Focused final Control Center suite passes 42/42; canonical board read/schema, packet/command parse, all S449 script syntax, clone preflight, and `git diff --check` pass. No production/global coverage/build/export gate was due for this research/documentation-only slice. All 56 Woven and 34 Polo faces remain held; all-seven V02 and V02-before-V03 unchanged.
+
+Elapsed 00:03:15–00:08:51 UTC (5m36s): research/source review ~2m30s; packet/state/context/board work ~2m10s; focused verification, failure diagnosis and replay ~56s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. **Next action:** reserve S450 for an exact-source, in-memory Woven collar and sleeve/back-view candidate study informed by these qualified drawings. Return exact proposals and option/render evidence for approval; do not change production source or release faces.
+
 ## EPIC-17 / G04 — Slice 448 reconciles current blocker summaries
 
 S448 started 2026-10-07 23:00:59 UTC from clean S447 commit `38c7deee6c636c823e4dfef7fcc76dd374663f71` on `codex/epic-17-g04`; refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Highest assigned slice was 447. Board revision 2679 at start; goal active and still matches V01→V02→V03 completion and safe merge. Usage was 48% primary / 22% weekly.
