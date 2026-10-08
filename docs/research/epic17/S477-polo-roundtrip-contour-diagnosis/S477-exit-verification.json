@@ -1,0 +1,10 @@
+{
+  "revision": 2951,
+  "preflightStartRevision": 2947,
+  "expectedExitRevision": 2951,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "v03ExitEvidencePresent": true,
+  "epicExitEvidencePresent": true,
+  "packetUri": "docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-exit-packet.md"
+}

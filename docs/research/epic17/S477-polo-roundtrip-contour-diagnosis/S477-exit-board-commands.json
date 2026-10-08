@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2947,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S477-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-exit-packet.md",
+      "verified": true,
+      "note": "S477 diagnoses S476's Polo CUT mismatches: the large deltas were CUT/SEW association errors; corrected block matches show five witnessed deviations 0.0102–0.0112 cm above the 0.001 cm gate. V03 remains In Progress; no profile/compatibility claim."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2948,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S477-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-exit-packet.md",
+      "verified": true,
+      "note": "S477 resolves Polo contour attribution against the actual CLO export but leaves all five strict-tolerance CUT failures and every V03 rights, profile, and receiver gate unchanged."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2949,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S477-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2950,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S477's hash-bound source/output analysis corrected the Polo mismatch attribution: exact-SEW associations identify all nine CLO piece blocks, and each of five CUT outlines is near its correct block contour but exceeds the unchanged 0.001 cm gate with a measured >0.01 cm witness. No geometry/export change or V03 pass is claimed. Next: continue the remaining rights/profile and receiver round-trip evidence gates."
+  }
+]

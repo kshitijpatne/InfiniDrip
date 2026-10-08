@@ -1,5 +1,32 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 477 Polo output diagnosis
+
+S477 closed the Polo mismatch-attribution diagnostic. Matching each source
+SEW contour to its unique CLO block resolved the apparent 2.000004 cm and
+9.298007 cm CUT mismatches as wrong CUT/SEW associations from a same-vertex
+matcher. The five correct CUT candidates have 32–53 vertices versus 33–54 in
+source and witnessed 0.01019–0.01118 cm deviation, still above the unchanged
+0.001 cm gate. The five strict CUT round trips therefore remain unproven; no
+receiver profile or compatibility claim is made. Packet:
+`docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-exit-packet.md`.
+
+Codex rendered and inspected overlays from hash-bound S463 Polo M source and
+S476 CLO output; files stay in `C:\G04-CLO-DXF-Exchange\Evidence`. A direct CLO
+UI re-export from the Woven reimported project also stays in that exchange
+folder and does not count as a second reimport pass. No product, geometry,
+exporter, protected identity, V02/V03 criterion, or acceptance status changed.
+The OpenCode source-only review completed at exact required settings and is
+summarized in the S477 packet. Board start revision 2943 advanced to 2947 and
+the validated exit replay advanced 2947→2951; EPIC-17 and G04 V03 remain In
+Progress. Control Center tests pass 42/42; board preflight/exit verification,
+script syntax, and `git diff --check` pass. No production code changed. The goal
+remains active and aligned with EPIC-17.
+
+**Next:** continue V03 rights/profile qualification and independent receiver
+round-trip evidence gates. Keep claims fail-closed; preserve exact byte
+identities and all V02/V03 acceptance requirements.
+
 ## EPIC-17 / G04 — Slice 476 tests representative CLO fixtures
 
 S476 completed local CLO `2026.1.310 (r58944)` import/export/reimport trials

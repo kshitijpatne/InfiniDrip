@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-exit-packet.md`
+  closes the five Polo M CUT association diagnosis. Source SEW geometry
+  identifies all nine CLO blocks; corrected CUT comparisons have witnessed
+  0.01019–0.01118 cm deviations above the unchanged 0.001 cm gate. Annotated
+  source/CLO overlays and exchange files remain only in
+  `C:\G04-CLO-DXF-Exchange`. No code, geometry, compatibility claim, or V03
+  gate changed. Next: continue bounded V03 rights/profile and receiver evidence.
+
 - `docs/research/epic17/S476-clo-representative-roundtrips/S476-exit-packet.md`
   records local CLO trials for the exact S463 Polo M and Woven M fixtures;
   CAD files, native projects, screenshots, and numeric analysis remain only in
