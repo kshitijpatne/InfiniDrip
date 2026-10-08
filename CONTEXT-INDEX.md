@@ -2,6 +2,20 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md`
+  finds the CLO Trial License is limited to evaluation/demonstration and
+  excludes commercial/for-profit purposes; the applicable grant/scope for the
+  observed sessions is not established. General Terms grant limited Work
+  Product processing rights for operation and Content Analytics. The File
+  menu does not prove local-only processing. CLO is not selected as a
+  rights-cleared V03 receiver/profile; previous results remain bounded
+  technical observations. No further CLO trials until rights or an alternative
+  are evidenced. No V02/V03 criteria changed. Board closeout 2963→2967.
+- `docs/research/epic17/S479-clo-rights-profile-review/S479-opencode-rights-review.md`
+  records the exact official clauses and an independent OpenCode source
+  cross-review completed in its required separate worktree/model; no files
+  were uploaded or changed.
+
 - `docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md`
   closes the bounded Woven M CLO generation-two DXF reimport. The live 2D
   output showed twelve pieces; hash-bound matching confirms 114/114

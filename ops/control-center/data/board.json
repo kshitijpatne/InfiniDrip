@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2959,
-  "updatedAt": "2026-10-08T07:30:24.541Z",
+  "revision": 2967,
+  "updatedAt": "2026-10-08T07:41:58.021Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -691,7 +691,9 @@
         "E-EPIC17-S477-START",
         "E-EPIC17-S477-EXIT",
         "E-EPIC17-S478-START",
-        "E-EPIC17-S478-EXIT"
+        "E-EPIC17-S478-EXIT",
+        "E-EPIC17-S479-START",
+        "E-EPIC17-S479-EXIT"
       ]
     },
     {
@@ -4983,7 +4985,9 @@
         "E-EPIC17-S477-START",
         "E-EPIC17-S477-EXIT",
         "E-EPIC17-S478-START",
-        "E-EPIC17-S478-EXIT"
+        "E-EPIC17-S478-EXIT",
+        "E-EPIC17-S479-START",
+        "E-EPIC17-S479-EXIT"
       ],
       "flagKey": null
     },
@@ -10506,6 +10510,16 @@
           "at": "2026-10-08T07:30:24.541Z",
           "actor": "Codex",
           "text": "S478 reimported the hash-bound Woven generation-two DXF in the CLO UI and saved a native project under C:\\G04-CLO-DXF-Exchange. Twelve piece blocks/inserts and 114/114 same-block/layer contours persisted within 0.001 cm; the maximum cyclic vertex delta was 0.000031 cm. All 24 source outlines retain an output match within 0.001 cm. The numeric-layer mapping, rights/profile, other option/grade/recipe cases, and V03 acceptance remain open; this is not an ASTM conformance or general compatibility claim."
+        },
+        {
+          "at": "2026-10-08T07:36:12.097Z",
+          "actor": "Codex",
+          "text": "S479 checks published CLO use/content terms and exact DXF profile claims against the observed S475–S478 local round trips. It will recommend only the narrowest claim supported by rights and output evidence; it does not change the receiver decision, acceptance criteria, or compatibility gates."
+        },
+        {
+          "at": "2026-10-08T07:41:58.021Z",
+          "actor": "Codex",
+          "text": "S479 rights review leaves CLO unselected as a V03 receiver/profile. The product-development license scope is not established, and no further CLO pattern trials are planned absent rights evidence. Next use S465–S471 results to qualify or reject a free/local rights-compatible alternative; preserve every V03 and all-seven V02 gate."
         }
       ],
       "evidenceRefs": [
@@ -10549,7 +10563,9 @@
         "E-G04-S477-START",
         "E-G04-S477-EXIT",
         "E-G04-S478-START",
-        "E-G04-S478-EXIT"
+        "E-G04-S478-EXIT",
+        "E-G04-S479-START",
+        "E-G04-S479-EXIT"
       ],
       "flagKey": null
     },
@@ -19059,6 +19075,42 @@
       "sha256": null,
       "verified": true,
       "note": "S478 provides hash-bound evidence for one additional Woven M CLO DXF generation only. V03 remains In Progress; no standards, industrial compatibility, physical-fit, or factory-acceptance claim is made."
+    },
+    {
+      "id": "E-G04-S479-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S479 reviews official CLO rights, file handling, and DXF profile evidence against S475–S478. It changes no receiver/profile selection or V03 gate and uses no uploads."
+    },
+    {
+      "id": "E-EPIC17-S479-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S479 is bounded V03 rights/profile research; admitted G04 acceptance criteria and all holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S479-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S479 records that CLO is not selected as a rights-cleared V03 receiver/profile; further CLO pattern trials await rights evidence. Existing criteria and bounded technical observations remain unchanged."
+    },
+    {
+      "id": "E-EPIC17-S479-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S479 completes official CLO rights/profile research. No receiver/profile is selected and no G04 gate or claim changes."
     }
   ]
 }

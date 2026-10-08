@@ -1,5 +1,31 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 479 CLO rights and profile review
+
+S479 reviewed CLO's current published trial/license/software terms and DXF
+documentation against S475–S478. The Trial License is limited to evaluation
+and demonstration, with express exclusions for commercial/for-profit use; the
+applicable grant and scope for the observed product-development sessions are
+not evidenced. CLO retains limited Work Product processing rights for
+operation and Content Analytics. Local import/export UI does not prove
+local-only processing. CLO is not selected as a rights-cleared V03
+receiver/profile; prior output remains bounded technical evidence only. No
+further CLO pattern trial until rights evidence or a rights-compatible
+alternative is available. No existing gate, all-seven V02 acceptance, export
+identity, or claim boundary changed. Packet:
+`docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md`;
+official-source review:
+`docs/research/epic17/S479-clo-rights-profile-review/S479-opencode-rights-review.md`.
+
+Start: `2026-10-08 07:34:16 UTC` from S478 commit `aae706d1d048b830c87871e42ef9162563c525e2`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Board
+revision 2959→2963 at start; exit replay is recorded at 2963→2967. Goal
+remains active and aligned.
+
+**Next:** reuse S465–S471 evidence to test whether any free, local,
+rights-compatible receiver/profile can satisfy V03. Do not run further CLO
+pattern trials, upload fixtures, weaken V03, or make compatibility claims.
+
 ## EPIC-17 / G04 — Slice 478 Woven generation-two reimport
 
 S478 reimported S477's Woven M generation-two DXF in CLO `2026.1.310 (r58944)`

@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2959,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S479-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-start-packet.md",
+      "verified": true,
+      "note": "S479 reviews official CLO rights, file handling, and DXF profile evidence against S475–S478. It changes no receiver/profile selection or V03 gate and uses no uploads."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2960,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S479-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-start-packet.md",
+      "verified": true,
+      "note": "S479 is bounded V03 rights/profile research; admitted G04 acceptance criteria and all holds remain unchanged."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2961,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S479-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2962,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S479 checks published CLO use/content terms and exact DXF profile claims against the observed S475–S478 local round trips. It will recommend only the narrowest claim supported by rights and output evidence; it does not change the receiver decision, acceptance criteria, or compatibility gates."
+  }
+]
