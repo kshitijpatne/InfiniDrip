@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 469 prepares the local receiver trial
+
+S469 adds an operator checklist for the S468 Richpeace Garment CAD V8.0 Free
+Version-English candidate and the synthetic S463 fixture pack. First check
+exact product/build, evaluation rights, import/export menu labels, and local
+file handling without opening a pattern. If those pass, the runbook describes
+the local Tee/Polo/Woven, separate-size and malformed-control trial plus the
+required output comparisons. No install, fixture transfer, or CAD exchange
+occurred; no receiver/profile or compatibility claim is selected. The checklist
+does not establish native multi-size grading and does not change any V03 gate.
+
+V01/V02 remain Done; EPIC-17/G04-V03 remain In Progress. Start board revision
+2883; validated start and exit replay 2883→2887→2891. `npm run
+control-center:test` passes 42/42; the S463 independent fixture verifier passes
+for six positive and one negative fixture; `git diff --check` passes. See
+`docs/research/epic17/S469-local-receiver-trial-runbook/S469-exit-packet.md`
+and `receiver-trial-checklist.md`. **Next:** after owner installation, verify
+the About version/build, evaluation terms, exchange menu modes, and local-only
+handling; do not open fixtures until those preconditions pass.
+
 ## EPIC-17 / G04 — Slice 468 qualifies Richpeace V8 Free as next receiver trial
 
 The official Richpeace English V8 free-evaluation listing links a V8 manual that documents AAMA/ASTM import and ASTM export. This is the strongest downloadable candidate so far, but the installed free-build menus, evaluation rights, and local-only file handling remain unverified. Do not load a fixture until those are checked and cloud conversion is avoided. No software installed, account created, terms accepted, or files transferred. V03 remains In Progress; V01/V02 Done. Board revisions 2875→2879→2883. Packet: `docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md`. **Next:** owner may install Richpeace Garment CAD V8.0 Free Version-English from the official listing, then report About/version and import/export choices before any pattern is opened.

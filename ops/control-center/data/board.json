@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2883,
-  "updatedAt": "2026-10-08T04:49:16.174Z",
+  "revision": 2891,
+  "updatedAt": "2026-10-08T04:53:32.614Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -672,7 +672,9 @@
         "E-EPIC17-S467-START",
         "E-EPIC17-S467-EXIT",
         "E-EPIC17-S468-START",
-        "E-EPIC17-S468-EXIT"
+        "E-EPIC17-S468-EXIT",
+        "E-EPIC17-S469-START",
+        "E-EPIC17-S469-EXIT"
       ]
     },
     {
@@ -4945,7 +4947,9 @@
         "E-EPIC17-S467-START",
         "E-EPIC17-S467-EXIT",
         "E-EPIC17-S468-START",
-        "E-EPIC17-S468-EXIT"
+        "E-EPIC17-S468-EXIT",
+        "E-EPIC17-S469-START",
+        "E-EPIC17-S469-EXIT"
       ],
       "flagKey": null
     },
@@ -10373,6 +10377,16 @@
           "at": "2026-10-08T04:49:16.174Z",
           "actor": "Codex",
           "text": "S468 identifies Richpeace Garment CAD V8.0 Free Version-English as the best install candidate: official product listing links a V8 manual with AAMA/ASTM import and ASTM export. This is still unproven for the exact installed build and local/rights conditions; no install or fixture transfer. Check About, menus, terms and local paths first; V03 remains In Progress. See E-G04-S468-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:52:19.315Z",
+          "actor": "Codex",
+          "text": "S469 writes the exact preflight and synthetic-fixture round-trip steps for the S468 local CAD candidate; no fixture is opened until rights, exact build, exchange modes and local processing are confirmed. See E-G04-S469-START."
+        },
+        {
+          "at": "2026-10-08T04:53:32.614Z",
+          "actor": "Codex",
+          "text": "S469 provides the local preflight and synthetic round-trip checklist, including exact stop conditions, file/unit/mark/grade comparisons, and the malformed-input control. No fixture was opened and no compatibility claim is made; V03 remains In Progress pending permitted exact-build evidence and actual round trips. See E-G04-S469-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10397,7 +10411,9 @@
         "E-G04-S467-START",
         "E-G04-S467-EXIT",
         "E-G04-S468-START",
-        "E-G04-S468-EXIT"
+        "E-G04-S468-EXIT",
+        "E-G04-S469-START",
+        "E-G04-S469-EXIT"
       ],
       "flagKey": null
     },
@@ -18565,6 +18581,42 @@
       "sha256": null,
       "verified": true,
       "note": "S468 recommends Richpeace V8 Free English as next local receiver trial candidate, without selection or compatibility claim; V03 acceptance unchanged."
+    },
+    {
+      "id": "E-G04-S469-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S469-local-receiver-trial-runbook/S469-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S469 prepares a local receiver operator runbook from the existing S463 synthetic fixtures and S468 candidate; no install or compatibility claim."
+    },
+    {
+      "id": "E-EPIC17-S469-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S469-local-receiver-trial-runbook/S469-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S469 converts the pending exact-build/local-rights receiver check into a reproducible operator sequence without changing V03 gates."
+    },
+    {
+      "id": "E-G04-S469-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S469-local-receiver-trial-runbook/S469-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S469 supplies a local-only receiver preflight and fixture trial checklist tied to S463's synthetic inputs; rights, profile, and compatibility remain unproven."
+    },
+    {
+      "id": "E-EPIC17-S469-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S469-local-receiver-trial-runbook/S469-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S469 turns the pending local receiver gate into an auditable owner-operated sequence; G04 acceptance and V03 gates are unchanged."
     }
   ]
 }

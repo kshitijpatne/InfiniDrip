@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S469-local-receiver-trial-runbook/receiver-trial-checklist.md`
+  is the owner-facing, local-only preflight and synthetic-fixture trial
+  procedure for the S468 Richpeace V8 Free English candidate. It requires
+  rights, exact build, visible exchange modes, and local processing to pass
+  before any fixture is opened; it changes no V03 gate and selects no receiver.
+- `docs/research/epic17/S469-local-receiver-trial-runbook/S469-exit-packet.md`
+  records the documentation-only slice result and keeps V03 pending actual
+  receiver access and observed round-trip evidence.
 - `docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md`
   recommends Richpeace Garment CAD V8.0 Free Version-English as the next
   receiver trial: its official free evaluation listing links the V8 manual
