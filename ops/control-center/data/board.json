@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2859,
-  "updatedAt": "2026-10-08T04:37:48.410Z",
+  "revision": 2867,
+  "updatedAt": "2026-10-08T04:43:27.556Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -666,7 +666,9 @@
         "E-EPIC17-S464-START",
         "E-EPIC17-S464-EXIT",
         "E-EPIC17-S465-START",
-        "E-EPIC17-S465-EXIT"
+        "E-EPIC17-S465-EXIT",
+        "E-EPIC17-S466-START",
+        "E-EPIC17-S466-EXIT"
       ]
     },
     {
@@ -4933,7 +4935,9 @@
         "E-EPIC17-S464-START",
         "E-EPIC17-S464-EXIT",
         "E-EPIC17-S465-START",
-        "E-EPIC17-S465-EXIT"
+        "E-EPIC17-S465-EXIT",
+        "E-EPIC17-S466-START",
+        "E-EPIC17-S466-EXIT"
       ],
       "flagKey": null
     },
@@ -10331,6 +10335,16 @@
           "at": "2026-10-08T04:37:48.410Z",
           "actor": "Codex",
           "text": "S465 qualifies Pixie Space 0.2.0 only as a free local-first candidate for a witnessed test. No S463 fixture was imported; current Codex browser controls could not operate the file chooser. Its menu labels AAMA with ASTM D-6959, which is a withdrawn plotting-device format, not proof of apparel pattern interchange. No profile, rights conclusion, compatibility claim or acceptance change. Preserve all V03 gates. See E-G04-S465-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:42:50.913Z",
+          "actor": "Codex",
+          "text": "S466 screens GetonAgain Garment CAD Free Version. The vendor documents AAMA/ASTM DXF import for the free version, but free-build export, local handling and rights remain unverified. No registration, install or fixture transfer. Preserve V03 gates; see E-G04-S466-START."
+        },
+        {
+          "at": "2026-10-08T04:43:27.556Z",
+          "actor": "Codex",
+          "text": "S466 official-source review: the free GetonAgain page explicitly claims AAMA/ASTM DXF import and requires phone registration; it does not establish free-build export or local handling and mentions cloud super-nesting. No install/registration/fixture transfer. Next, owner may install and report exact version/modes; inspect privacy/local handling before fixture use. All V03 gates remain. See E-G04-S466-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10349,7 +10363,9 @@
         "E-G04-S464-START",
         "E-G04-S464-EXIT",
         "E-G04-S465-START",
-        "E-G04-S465-EXIT"
+        "E-G04-S465-EXIT",
+        "E-G04-S466-START",
+        "E-G04-S466-EXIT"
       ],
       "flagKey": null
     },
@@ -18409,6 +18425,42 @@
       "sha256": null,
       "verified": true,
       "note": "S465 found a free local-first browser CAD candidate for a witnessed test; it does not close G04 V03, select a profile, or prove compatibility."
+    },
+    {
+      "id": "E-G04-S466-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S466 reviews a free downloadable garment CAD candidate. No install, registration, file transfer, profile selection or compatibility claim; all V03 gates remain."
+    },
+    {
+      "id": "E-EPIC17-S466-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S466 qualifies a free CAD candidate using official disclosures only; receiver rights, exact free-build exchange and round-trip remain unproven."
+    },
+    {
+      "id": "E-G04-S466-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official free-version page claims AAMA/ASTM DXF import, but free-build export, rights and local handling are unverified. V03 gates stay open; S466 recommends owner install/version and menu check before any fixture handling."
+    },
+    {
+      "id": "E-EPIC17-S466-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S466 identifies GetonAgain Free as an import-capable candidate only; no installation, terms, file transfer, round-trip or compatibility claim. V03 remains active."
     }
   ]
 }

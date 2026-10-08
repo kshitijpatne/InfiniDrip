@@ -1,0 +1,41 @@
+[
+  {
+    "itemId": "G04-V03",
+    "evidence": {
+      "verified": true,
+      "id": "E-G04-S466-EXIT",
+      "note": "Official free-version page claims AAMA/ASTM DXF import, but free-build export, rights and local handling are unverified. V03 gates stay open; S466 recommends owner install/version and menu check before any fixture handling.",
+      "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md",
+      "kind": "document"
+    },
+    "expectedRevision": 2863,
+    "type": "addEvidence"
+  },
+  {
+    "itemId": "EPIC-17",
+    "evidence": {
+      "verified": true,
+      "id": "E-EPIC17-S466-EXIT",
+      "note": "S466 identifies GetonAgain Free as an import-capable candidate only; no installation, terms, file transfer, round-trip or compatibility claim. V03 remains active.",
+      "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md",
+      "kind": "document"
+    },
+    "expectedRevision": 2864,
+    "type": "addEvidence"
+  },
+  {
+    "expectedRevision": 2865,
+    "actor": "Codex",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-EPIC17-S466-EXIT",
+    "role": "maintainer",
+    "type": "addEpicEvidence"
+  },
+  {
+    "itemId": "G04-V03",
+    "expectedRevision": 2866,
+    "actor": "Codex",
+    "type": "addComment",
+    "text": "S466 official-source review: the free GetonAgain page explicitly claims AAMA/ASTM DXF import and requires phone registration; it does not establish free-build export or local handling and mentions cloud super-nesting. No install/registration/fixture transfer. Next, owner may install and report exact version/modes; inspect privacy/local handling before fixture use. All V03 gates remain. See E-G04-S466-EXIT."
+  }
+]

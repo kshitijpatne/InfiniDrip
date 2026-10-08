@@ -1,6 +1,12 @@
 # InfiniDrip context index
 
 ## Current EPIC-17/G04 V03 slice
+- `docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md`
+  qualifies GetonAgain Garment CAD Free Version only as a free import candidate:
+  the vendor lists AAMA/ASTM DXF import and phone registration, but free-build
+  export, rights, and local file handling remain unverified. No install or file
+  transfer occurred. V03 gates remain; next is owner installation/version and
+  DXF-mode inspection, then a local fixture trial only if handling is clear.
 
 - `docs/research/epic17/S465-free-browser-receiver-candidate/S465-exit-packet.md`
   identifies Pixie Space preview 0.2.0 as a free, no-login/local-first

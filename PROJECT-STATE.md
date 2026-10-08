@@ -1,5 +1,11 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 466 qualifies a free CAD import candidate
+
+GetonAgain Garment CAD Free Version is a candidate, not a selected V03 receiver. Its official free-version page explicitly lists AAMA/ASTM DXF import and says phone-number registration is required; it mentions cloud super-nesting. The free page does not establish export parity, local handling, or rights. Do not load S463 fixtures until the installed free build/version, exact export modes, privacy/terms, and local file handling are checked. No install, registration, file transfer, compatibility claim, product change, or acceptance change occurred. V03 remains In Progress behind every admitted rights/profile/fixture/round-trip gate; V01/V02 Done.
+
+S466 board revisions 2859→2863→2867; Control Center test and `git diff --check` are the focused documentation/board checks. Packet: `docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md`. **Next:** owner may install the candidate and report exact version and available DXF modes. Inspect local handling before opening any fixture. Goal remains active through actual V03 proof, final review/gates, safe merge and any required deployment.
+
 ## EPIC-17 / G04 — Slice 465 identifies a free browser receiver candidate
 
 Pixie Space 0.2.0 is a free, no-install/no-login local-first candidate for a
@@ -14,12 +20,6 @@ round trip is proven. No profile is selected and V03 acceptance is unchanged.
 
 S465 board revisions 2851→2855→2859; EPIC-17/V03 remain In Progress; V01/V02
 remain Done. Packet: `docs/research/epic17/S465-free-browser-receiver-candidate/`.
-**Next:** perform a witnessed local open/export of S463 inputs in the exact
-0.2.0 preview (or obtain another lawful receiver path), then inspect and
-independently compare the re-export; preserve the grade, rights, negative,
-identity, and protected-export gates. Goal is active and still required through
-the final review, gates, safe merge and any required deployment.
-
 ## EPIC-17 / G04 — Slice 464 confirms no standard local receiver is exposed
 
 Read-only checks of HKLM 64/32-bit and HKCU uninstall entries, conventional
