@@ -2,6 +2,19 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S488-grafis-accumark-source-screen/S488-exit-packet.md`
+  closes the focused GRAFIS/AccuMark source screen. GRAFIS's free training
+  edition disables pattern import/export; AccuMark's reviewed sources require
+  assigned licensed access and document no no-cost route. Neither qualifies
+  on current evidence. OpenCode's exact-model source review was checked by
+  Codex. No software, account, fixture, or file was accessed. Board
+  `3032→3034→3039`; V01/V02 remain Done, V03/EPIC-17 remain In Progress, and
+  all rights, local-handling, exact-profile, round-trip, grade, and
+  negative-input gates remain unchanged. Next: assess only one exact
+  previously unreviewed candidate with primary evidence for rights-cleared
+  no-cost Windows-local apparel-profile import/export; do not install or use
+  fixtures unless Gate 0 passes.
+
 - `docs/research/epic17/S487-clo-trial-purpose-boundary/S487-exit-packet.md`
   records the current CLO-rights boundary. Official terms still limit trial
   use to evaluation/demonstration and exclude commercial/for-profit purposes;

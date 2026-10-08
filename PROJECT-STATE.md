@@ -1,6 +1,42 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 487 CLO trial-purpose boundary
+## EPIC-17 / G04 — Slice 488 GRAFIS and AccuMark source screen
+
+S488 screened GRAFIS and Gerber AccuMark against V03's unchanged rights,
+Windows-local handling, exact apparel-profile, round-trip, grade, and
+negative-input gates. GRAFIS's free training edition disables pattern
+import/export; its documented exchange-capable commercial system is paid.
+AccuMark's official help documents AAMA/ASTM exchange, but reviewed access
+materials require assigned licensed product access and do not document a
+no-cost route. Missing public proof is recorded as unqualified on current
+evidence, not proof that an exception cannot exist. Neither candidate is
+selected. No software, account, fixture, or CAD file was accessed. Codex
+checked OpenCode's exact-model source review and corrected its absence-of-
+evidence wording. Details and primary sources are in
+`docs/research/epic17/S488-grafis-accumark-source-screen/`.
+
+Validated board replay advances `3034→3039`; it links S488's exit packet,
+Codex candidate matrix, and OpenCode review to G04-V03 and the exit to
+EPIC-17. `npm run control-center:test` passes `42/42`; S488 scripts pass
+`node --check`; `git diff --check` passes. No production code changed, so no
+changed-code coverage applies and the full repository gate remains for the
+settled Epic/PR candidate. EPIC-17 and G04-V03 remain In Progress; V01/V02
+remain Done. Preserve all V03 and export-identity gates. The active goal
+record still matches this admitted objective. CLO was already not running;
+its browser tabs were left untouched.
+
+Elapsed `11m55s` (`08:45:17–08:57:12 UTC`; category estimates): source
+research/assessment `3m35s`, independent-agent wait and source cross-review
+`3m15s`, implementation `0m`, focused verification `1m30s`, rendered/output
+review `0m` (no candidate qualified for local fixture work), durable
+record/board work `3m35s`, maintainer-decision time `0m`.
+
+Next action: conduct one bounded primary-source screen of a previously
+unreviewed apparel-CAD candidate only if it has a plausible rights-cleared,
+no-cost Windows-local path and apparel-profile input/output. Do not download,
+install, create an account, or run fixtures before Gate 0 passes.
+
+### Slice 487 CLO trial-purpose boundary (prior boundary)
 
 S487 rechecked the current official CLO rights sources for the owner's
 reported 14-day trial against future G04 product-development exchange tests.

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3033,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S488 is a bounded primary-source check of GRAFIS and Gerber AccuMark only. Installation, account, fixture, vendor contact, and any V03 gate change are out of scope."
+}

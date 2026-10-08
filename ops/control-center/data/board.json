@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3032,
-  "updatedAt": "2026-10-08T08:43:34.508Z",
+  "revision": 3039,
+  "updatedAt": "2026-10-08T08:56:59.099Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -708,7 +708,8 @@
         "E-EPIC17-S485-EXIT",
         "E-EPIC17-S486-START",
         "E-G04-S486-EXIT",
-        "E-G04-S487-EXIT"
+        "E-G04-S487-EXIT",
+        "E-G04-S488-EXIT"
       ]
     },
     {
@@ -10633,6 +10634,16 @@
           "at": "2026-10-08T08:43:34.508Z",
           "actor": "Codex",
           "text": "S487 checked the current official CLO terms and trial help. They do not affirmatively clear Gate 0 for future G04 product-development fixtures; CLO remains excluded on the present evidence. All seven-recipe V02 acceptance and V03 gates remain unchanged. Continue only with a separately rights-cleared local apparel-CAD receiver/profile."
+        },
+        {
+          "at": "2026-10-08T08:45:54.826Z",
+          "actor": "Codex",
+          "text": "S488 is a bounded primary-source check of GRAFIS and Gerber AccuMark only. Installation, account, fixture, vendor contact, and any V03 gate change are out of scope."
+        },
+        {
+          "at": "2026-10-08T08:56:59.099Z",
+          "actor": "Codex",
+          "text": "S488 screened GRAFIS and Gerber AccuMark. GRAFIS's free edition disables import/export; AccuMark's reviewed sources document licensed/subscription access but no no-cost route. Neither is selected. V03 remains held until a rights-cleared local apparel-profile receiver and actual representative round-trip evidence are available."
         }
       ],
       "evidenceRefs": [
@@ -10698,7 +10709,11 @@
         "E-G04-S487-START",
         "E-G04-S487-EXIT",
         "E-G04-S487-CODEX-FINDINGS",
-        "E-G04-S487-OPENCODE-REVIEW"
+        "E-G04-S487-OPENCODE-REVIEW",
+        "E-G04-S488-START",
+        "E-G04-S488-EXIT",
+        "E-G04-S488-MATRIX",
+        "E-G04-S488-OPENCODE-REVIEW"
       ],
       "flagKey": null
     },
@@ -19541,6 +19556,42 @@
       "sha256": null,
       "verified": true,
       "note": "Codex reviewed the independent exact-model OpenCode clause cross-check, verified official sources, and corrected an unsupported inference about project commercial status."
+    },
+    {
+      "id": "E-G04-S488-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S488 screens only GRAFIS and Gerber AccuMark primary sources for lawful no-cost local apparel-profile receive/send evidence; no install or fixture."
+    },
+    {
+      "id": "E-G04-S488-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S488 confirms GRAFIS free training disables pattern exchange and AccuMark has no documented no-cost path; neither candidate clears V03 Gate 0 or round-trip evidence. All gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S488-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-codex-candidate-matrix.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Codex primary-source matrix records candidate-by-candidate no-cost, Windows, local handling, apparel profile, round-trip, grading, and negative-input evidence with unknowns left open."
+    },
+    {
+      "id": "E-G04-S488-OPENCODE-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-opencode-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Codex checked the separate exact-model OpenCode screen against primary GRAFIS and Lectra/Gerber sources and corrected absence-of-evidence wording."
     }
   ]
 }
