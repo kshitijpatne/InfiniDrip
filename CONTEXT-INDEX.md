@@ -2,14 +2,21 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-exit-packet.md`
+  records the owner-reported CLO 2026.1.310 all-features free trial (14 days)
+  and local-file handling. Supplied screenshots show only the top-level
+  `File > Import > DXF` and `File > Export > DXF` menu entries, not dialog
+  profile/unit settings. A hash-verified Tee copy and local operator runbook
+  are prepared; no receiver output has been returned and no compatibility
+  claim is made. The next owner action is one local synthetic Tee import,
+  reopen, and DXF export within the reported trial window.
+
 - `docs/research/epic17/S472-clo-receiver-qualification/S472-exit-packet.md`
   qualifies the owner-reported installed CLO 2026.1.310 as a candidate because
   official documentation supports Windows 11 25H2 and apparel-DXF
-  import/export. This is not a selected receiver or tested profile: trial
-  rights/eligibility, no-charge renewal state, exact installed menus and
-  local-only handling remain unknown. No fixture was opened. The owner-only
-  Gate 0 checklist is in `clo-receiver-preflight.md`; keep V03 held until it
-  passes.
+  import/export. This is not a selected receiver or tested profile; S473
+  supersedes its preflight status with owner-provided trial/local/menu
+  observations. No round-trip output is yet available.
 
 - `docs/research/epic17/S471-free-receiver-alternatives/S471-exit-packet.md`
   finds no reviewed free candidate that meets Windows 11, apparel-DXF

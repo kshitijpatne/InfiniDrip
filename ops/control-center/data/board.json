@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2911,
-  "updatedAt": "2026-10-08T05:51:37.663Z",
+  "revision": 2919,
+  "updatedAt": "2026-10-08T06:02:25.223Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -679,7 +679,9 @@
         "E-EPIC17-S470-EXIT",
         "E-EPIC17-S471-START",
         "E-EPIC17-S471-EXIT",
-        "E-EPIC17-S472-CLO-CANDIDATE"
+        "E-EPIC17-S472-CLO-CANDIDATE",
+        "E-EPIC17-S473-START",
+        "E-EPIC17-S473-EXIT"
       ]
     },
     {
@@ -4959,7 +4961,9 @@
         "E-EPIC17-S470-EXIT",
         "E-EPIC17-S471-START",
         "E-EPIC17-S471-EXIT",
-        "E-EPIC17-S472-CLO-CANDIDATE"
+        "E-EPIC17-S472-CLO-CANDIDATE",
+        "E-EPIC17-S473-START",
+        "E-EPIC17-S473-EXIT"
       ],
       "flagKey": null
     },
@@ -10422,6 +10426,16 @@
           "at": "2026-10-08T05:51:37.663Z",
           "actor": "Codex",
           "text": "S472 qualifies owner-reported CLO 2026.1.310 as a candidate: official docs list Windows 11 25H2 support and DXF-AAMA/DXF-ASTM import/export. The standard trial auto-converts to paid unless canceled and its Individual-license eligibility must apply. Actual menus/local handling remain unverified; no fixture was opened. Owner Gate 0 checklist: docs/research/epic17/S472-clo-receiver-qualification/clo-receiver-preflight.md."
+        },
+        {
+          "at": "2026-10-08T06:00:44.338Z",
+          "actor": "Codex",
+          "text": "S473 records the owner's free 14-day all-features trial and local-file confirmation, plus screenshots showing File > Import > DXF and File > Export > DXF. The screenshots show top-level entries only; dialog-level profile/units and round-trip output remain unverified. A SHA-verified Tee copy and operator runbook are prepared; no source fixture or export behavior changed."
+        },
+        {
+          "at": "2026-10-08T06:02:25.223Z",
+          "actor": "Codex",
+          "text": "S473 records the owner's free 14-day all-features CLO trial and local-file confirmation; screenshots show top-level File > Import > DXF and File > Export > DXF. The copied Tee fixture hash matches S463. Profile/units and actual import/export/round-trip output are still pending; V03 gates remain unchanged. Runbook and output path: docs/research/epic17/S473-clo-local-roundtrip-preflight/clo-tee-trial-runbook.md."
         }
       ],
       "evidenceRefs": [
@@ -10453,7 +10467,9 @@
         "E-G04-S470-EXIT",
         "E-G04-S471-START",
         "E-G04-S471-EXIT",
-        "E-G04-S472-CLO-CANDIDATE"
+        "E-G04-S472-CLO-CANDIDATE",
+        "E-G04-S473-START",
+        "E-G04-S473-EXIT"
       ],
       "flagKey": null
     },
@@ -18747,6 +18763,42 @@
       "sha256": null,
       "verified": true,
       "note": "S472 retains V03 rights, local-processing, profile and round-trip gates while qualifying CLO 2026.1.310 for preflight only."
+    },
+    {
+      "id": "E-G04-S473-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S473 records owner-reported 14-day all-features trial and local DXF handling, screenshots of top-level DXF import/export, and a copy-only Tee test plan; no round-trip result is claimed."
+    },
+    {
+      "id": "E-EPIC17-S473-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S473 prepares the first owner-operated local CLO synthetic Tee exchange within the reported free trial; all V03 rights/profile/round-trip gates remain open."
+    },
+    {
+      "id": "E-G04-S473-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S473 records owner-reported 14-day all-features trial/local DXF use, screenshot-observed top-level DXF menus, and a hash-verified Tee copy/runbook. Dialog settings and all actual receiver output remain pending; V03 is not accepted."
+    },
+    {
+      "id": "E-EPIC17-S473-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S473 advances CLO to a bounded owner-operated local Tee test within the reported no-charge trial; no profile selection or compatibility claim yet."
     }
   ]
 }

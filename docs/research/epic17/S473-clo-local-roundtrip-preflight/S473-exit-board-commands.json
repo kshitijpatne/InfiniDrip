@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2915,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S473-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-exit-packet.md",
+      "verified": true,
+      "note": "S473 records owner-reported 14-day all-features trial/local DXF use, screenshot-observed top-level DXF menus, and a hash-verified Tee copy/runbook. Dialog settings and all actual receiver output remain pending; V03 is not accepted."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2916,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S473-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-exit-packet.md",
+      "verified": true,
+      "note": "S473 advances CLO to a bounded owner-operated local Tee test within the reported no-charge trial; no profile selection or compatibility claim yet."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2917,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S473-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2918,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S473 records the owner's free 14-day all-features CLO trial and local-file confirmation; screenshots show top-level File > Import > DXF and File > Export > DXF. The copied Tee fixture hash matches S463. Profile/units and actual import/export/round-trip output are still pending; V03 gates remain unchanged. Runbook and output path: docs/research/epic17/S473-clo-local-roundtrip-preflight/clo-tee-trial-runbook.md."
+  }
+]

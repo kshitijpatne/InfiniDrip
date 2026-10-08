@@ -1,33 +1,31 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 472 qualifies CLO receiver candidate; Gate 0 pending
+## EPIC-17 / G04 — Slice 473 prepares local CLO Tee exchange
 
-The owner reports CLO downloaded/signed in at version `2026.1.310`. Current
-official CLO documentation supports Windows 11 25H2 and names Standard DXF,
-DXF-AAMA, and DXF-ASTM import/export. This makes CLO a candidate for a bounded
-receiver proof, not a selected receiver or proven format profile. The standard
-14-day Individual trial requires payment setup and automatically starts the
-chosen paid subscription unless canceled; user eligibility and trial/renewal
-state are unknown. Exact installed menus and local-only file handling are also
-unverified. No S463 fixture was opened or sent anywhere; no account or billing
-state was inspected or changed. G04-V03 stays In Progress with all rights,
-local-processing, exact-profile and round-trip gates unchanged.
+The owner reports CLO 2026.1.310 is available under a free 14-day trial with
+all features and confirms ordinary DXF file operations use local files. No
+subscription or account settings were inspected or changed; no paid use is
+authorized. Supplied screenshots show the application version
+`2026.1.310 (r58944)`, `File > Import > DXF`, and `File > Export > DXF`. These
+are top-level menu entries only; dialog-level profiles, units and warnings
+remain to be observed. No CLO fixture import/export result has been returned.
 
-S472 refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, which
-remains an ancestor of clean start commit `79de026ff27ec1b692f2770c5f72172a409bc087`;
-S472 is unique. Board revision 2907 at start; EPIC-17 In Progress, V01/V02
-Done, V03 In Progress. Validated board exit revision 2911;
-`npm run control-center:test` passes 42/42 and `git diff --check` passes.
-Packet and owner checklist:
-`docs/research/epic17/S472-clo-receiver-qualification/`.
+S473 starts from clean S472 commit `af111518b0d1e9abe9b91acefcb36b963396036c`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an
+ancestor. Highest slice 472; S473 is unique. Board revision 2911 at start and
+validated start replay 2911→2915; EPIC-17 and G04-V03 remain In Progress,
+V01/V02 Done. Usage primary 2%; ordinary work allowed. S473 preserves the two
+owner screenshots and prepares only a copy of S463 `tee-standard-m.dxf`; its
+SHA-256 matches the S463 manifest. The source fixture remains unchanged.
 
-**Next:** the owner completes Gate 0 in `clo-receiver-preflight.md`: confirm
-the Individual-license eligibility and a no-charge/cancel-before-renewal state
-without sharing billing data, then report the About version, actual import and
-export menu modes, and whether file operations stay local. Open no fixture
-until every check passes. If the Individual license does not apply or the
-trial cannot be kept no-charge, stop CLO testing; do not contact the vendor or
-use a hosted service in this Epic.
+**Next:** perform the copy-only Tee import in CLO, select centimeters if asked
+(the source uses cm but does not declare units), record the exact dialog
+profile/settings and warnings, inspect/reopen the native save, export a DXF to
+the packet's `receiver-outputs/`, and return that file plus screenshots for
+independent geometry comparison. Keep all other fixtures unopened until the
+Tee behavior is understood. No receiver/profile selection, round-trip pass,
+standard conformance or compatibility claim is made yet. Packet and runbook:
+`docs/research/epic17/S473-clo-local-roundtrip-preflight/`.
 
 ## EPIC-17 / G04 — Slice 471 screens free receiver alternatives
 
