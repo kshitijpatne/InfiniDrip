@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S539-clo-semantic-attribute-audit/S539-exit-packet.md`
+  rechecks the 14 hash-pinned source/receiver files from S525. For matched
+  shared-layer-8 outlines across both observed AAMA and ASTM cohorts, the
+  examined entity properties do not distinguish CUT from SEW. The same five
+  Polo CUT misses reproduce. This is evidence about saved files, not standard
+  conformance; no CLO operation or gate change occurred.
+- `docs/research/epic17/S539-clo-semantic-attribute-audit/S539-start-packet.md`
+  and `audit-shared-layer.mjs` define and reproduce the read-only attribute
+  comparison; output is in the named C: evidence folder.
+
 - `docs/research/epic17/S538-clo-authorization-control-recheck/S538-exit-packet.md`
   records the maintainer-confirmed written basis for bounded CLO trial use and
   local DXF processing. A fresh screenshot/accessibility check of the running

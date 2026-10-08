@@ -1140,3 +1140,19 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   V03 and acceptance are unchanged; CLO stays open. Validated board replay and
   focused Control Center verification are recorded in
   `docs/research/epic17/S538-clo-authorization-control-recheck/S538-exit-packet.md`.
+- **S539 CLO semantic attribute audit (2026-10-08):** from clean S538
+  `c2905f36a564c2004d8def74eed3d75e9ab9d9e9`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; unique
+  S539. Reused the S525 cohort and verified 14 source/receiver hashes. Across
+  all seven observed outputs, matched layer-8 CUT and SEW entities share
+  `70=1` and show no examined line type/color/lineweight/visibility/vector/
+  material/plot-style/XDATA/per-vertex-layer distinction. There is no stable
+  tested CUT/SEW discriminator in either AAMA or ASTM cohort. Layer 8 maps
+  41/41 SEW and 36/41 CUT contours; the five direct CUT misses are the known
+  Polo roles. First audit pass correctly failed its overstrict assertion on
+  the known missing back CUT; the corrected report represents zero matches
+  explicitly, and two full runs are byte-identical. Report SHA-256
+  `f55276078387d65ee96bec8e40e0a2d44b4ba3b1d2be26a5fff961776d102488` is
+  stored under `C:\\G04-CLO-DXF-Exchange\\S539-clo-semantic-attribute-audit`.
+  Focused Control Center tests 42/42; no source/app operation, acceptance or
+  profile claim. V03 remains In Progress; see the S539 exit packet.

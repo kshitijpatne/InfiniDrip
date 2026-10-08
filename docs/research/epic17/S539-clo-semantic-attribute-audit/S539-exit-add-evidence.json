@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3269,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S539-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S539-clo-semantic-attribute-audit/S539-exit-packet.md",
+    "verified": true,
+    "note": "Hash-pinned all-seven audit found no examined non-layer entity attribute distinguishing matched CUT/SEW outlines on output layer 8; the five Polo CUT contour misses reproduce. No exchange was replayed and no V03 gate or criterion changed."
+  }
+}

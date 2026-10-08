@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 539 CLO semantic attribute audit (closed; V03 remains open)
+
+S539 reread the 14 hash-pinned source and generation-two receiver DXFs from
+S525 across all seven recipes. Among direct geometry matches on output layer
+8, CUT and SEW have the same closed-polyline flag; no examined non-layer DXF
+property distinguishes them in either observed AAMA or ASTM output cohort.
+The audit maps 41/41 SEW contours and 36/41 CUT contours on layer 8; the same
+five Polo CUT misses reproduce. Report SHA-256 is
+`f55276078387d65ee96bec8e40e0a2d44b4ba3b1d2be26a5fff961776d102488`, stored
+under `C:\\G04-CLO-DXF-Exchange\\S539-clo-semantic-attribute-audit`.
+This is an empirical result for those exact files, not a profile/conformance
+claim. No CLO operation or acceptance change occurred.
+
+**Next:** continue V03 with a documented apparel profile/semantic contract and
+representative round-trip evidence; do not infer CUT/SEW from shared layer 8 or
+repeat the same CLO fixtures. Preserve all current gates and keep V03 In
+Progress. Evidence: `docs/research/epic17/S539-clo-semantic-attribute-audit/S539-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 538 CLO authorization and control-state recheck (closed; V03 remains open)
 
 The maintainer confirms written authorization for CLO trial product-development

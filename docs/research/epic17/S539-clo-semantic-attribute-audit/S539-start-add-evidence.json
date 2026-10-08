@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3267,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S539-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S539-clo-semantic-attribute-audit/S539-start-packet.md",
+    "verified": true,
+    "note": "Begin a read-only, hash-pinned inspection of DXF properties beyond numeric layer to see whether all-seven saved CLO outputs carry a stable CUT/SEW discriminator on shared layer 8. No app or exchange action."
+  }
+}

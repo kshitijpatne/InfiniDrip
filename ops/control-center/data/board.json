@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3267,
-  "updatedAt": "2026-10-08T21:42:57.449Z",
+  "revision": 3271,
+  "updatedAt": "2026-10-08T21:47:41.970Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11208,6 +11208,16 @@
           "at": "2026-10-08T21:42:57.449Z",
           "actor": "Codex",
           "text": "S538 clears the maintainer-confirmed CLO trial-use/local-processing concern for the bounded evaluation. A repeated screenshot/accessibility mismatch prevented a safely verified new UI operation; no import/export occurred. Polo five-contour loss, CUT/SEW layer ambiguity, unmatched marks, malformed-input behavior, exact profile and independent receiver/round-trip gates remain. V03 stays In Progress; no acceptance or threshold changed."
+        },
+        {
+          "at": "2026-10-08T21:46:03.124Z",
+          "actor": "Codex",
+          "text": "S539 compares existing hash-pinned all-seven CLO CUT/SEW matches by entity attributes beyond numeric layer. It is read-only; no repeated exchange or acceptance changes."
+        },
+        {
+          "at": "2026-10-08T21:47:41.970Z",
+          "actor": "Codex",
+          "text": "S539 rechecked 14 source/receiver hashes across all seven saved CLO outputs. Matched layer-8 CUT/SEW entities share the same closed flag and have no examined non-layer discriminator in either AAMA or ASTM cohort; 36/41 CUT and 41/41 SEW contours match there, with the same five Polo CUT misses. No file operation, conformance claim, gate change, or threshold change."
         }
       ],
       "evidenceRefs": [
@@ -11381,7 +11391,9 @@
         "E-G04-S537-START",
         "E-G04-S537-EXIT",
         "E-G04-S538-START",
-        "E-G04-S538-EXIT"
+        "E-G04-S538-EXIT",
+        "E-G04-S539-START",
+        "E-G04-S539-EXIT"
       ],
       "flagKey": null
     },
@@ -21196,6 +21208,24 @@
       "sha256": null,
       "verified": true,
       "note": "Maintainer-confirmed written trial-use/local-processing basis resolves that concern. The live CLO screenshot and accessibility snapshot disagree about an Export DXF dialog, so no file operation occurred. Existing S493/S525/S536 technical failures and all V03 gates remain."
+    },
+    {
+      "id": "E-G04-S539-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S539-clo-semantic-attribute-audit/S539-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begin a read-only, hash-pinned inspection of DXF properties beyond numeric layer to see whether all-seven saved CLO outputs carry a stable CUT/SEW discriminator on shared layer 8. No app or exchange action."
+    },
+    {
+      "id": "E-G04-S539-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S539-clo-semantic-attribute-audit/S539-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Hash-pinned all-seven audit found no examined non-layer entity attribute distinguishing matched CUT/SEW outlines on output layer 8; the five Polo CUT contour misses reproduce. No exchange was replayed and no V03 gate or criterion changed."
     }
   ]
 }
