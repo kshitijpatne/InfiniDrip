@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S538-clo-authorization-control-recheck/S538-exit-packet.md`
+  records the maintainer-confirmed written basis for bounded CLO trial use and
+  local DXF processing. A fresh screenshot/accessibility check of the running
+  CLO window disagreed about an Export DXF dialog, so no repeat exchange was
+  attempted. Existing V03 failures and gates are preserved; the next action is
+  static inspection of hash-pinned outputs and protocol mapping, then a
+  practical operation only when the visible target is unambiguous.
+- `docs/research/epic17/S538-clo-authorization-control-recheck/S538-start-packet.md`
+  defines the bounded recheck and no-repeat rule.
+
 - `docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-exit-packet.md`
   screens newly surfaced public CAD leads. PatternSmith offers a 30-day
   no-card trial and lists AAMA import/generic DXF export, but signup requires
@@ -9,8 +19,7 @@
   local-only pattern handling, and AAMA/ASTM export is not documented. Other
   reviewed apparel CAD leads lack a verified no-cost no-contact path. No
   signup, contact, download, install or G04 file transfer occurred; no V03
-  gate changed. Next is a specific maintainer decision before crossing the
-  no-supplier-contact boundary for trial access.
+  gate changed. PatternSmith remains outside the no-supplier-contact boundary.
 - `docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-start-packet.md`
   records the bounded official-source-only scope.
 

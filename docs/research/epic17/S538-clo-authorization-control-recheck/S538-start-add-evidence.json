@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3263,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S538-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S538-clo-authorization-control-recheck/S538-start-packet.md",
+    "verified": true,
+    "note": "Begin a bounded reconciliation of the maintainer-confirmed CLO trial-use/local-processing basis and one screenshot-backed check of the existing running session. No repeated exchange cases or acceptance changes."
+  }
+}

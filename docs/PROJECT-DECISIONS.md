@@ -1,5 +1,23 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — CLO trial-use and local-processing confirmation (2026-10-08)
+
+The maintainer confirms that written confirmation covers both use of the
+existing CLO 2026.1.310 trial for InfiniDrip product-development DXF evaluation
+and local processing of imported/exported DXF files. Treat these two concerns
+as settled for the bounded local evaluation and do not ask the maintainer to
+reconfirm them. This record reflects the maintainer's report; it is not an
+independent legal opinion and does not establish an industrial profile,
+conformance, receiver acceptance, or permission to send patterns to CLO-SET,
+CONNECT, or another hosted service. Continue to keep exchange files under the
+named `C:\\G04-CLO-DXF-Exchange\\<slice-folder>` paths and preserve all V03
+geometry, semantic, grading, negative-input and round-trip gates.
+
+S538's current-window check found a mismatch between the visible CLO
+screenshot and accessibility's Export DXF dialog report. No file operation
+was attempted from that inconsistent state. This control limitation does not
+reopen the settled authorization decision or establish a CLO format failure.
+
 ## EPIC-17/G04 — CLO AAMA round-trip result recorded (S516)
 
 On 2026-10-08, the already-running CLO 2026.1.310 trial was used once through

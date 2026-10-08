@@ -1127,3 +1127,16 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   one AAMA export/reimport/second-generation pilot when the supported
   screenshot matches the still-running CLO target; prior tests are not
   repeated.
+- **S538 authorization/control-state recheck (2026-10-08):** from clean S537
+  `69d14d52670f0219890fb8cfa6168169801b321e`, refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; unique
+  S538. The maintainer confirms written permission for bounded CLO
+  product-development testing and local DXF processing, resolving that
+  concern. Reconciled S493/S525/S536 without replaying exchanges. The current
+  CLO screenshot and accessibility tree disagree on whether the AAMA export
+  dialog is visible; no file action followed. Polo's five CUT failures,
+  mixed layer semantics, unmatched source marks, malformed-input behavior,
+  industrial profile/version, grading and independent receiver gates remain.
+  V03 and acceptance are unchanged; CLO stays open. Validated board replay and
+  focused Control Center verification are recorded in
+  `docs/research/epic17/S538-clo-authorization-control-recheck/S538-exit-packet.md`.

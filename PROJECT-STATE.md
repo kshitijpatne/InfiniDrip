@@ -1,5 +1,32 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 538 CLO authorization and control-state recheck (closed; V03 remains open)
+
+The maintainer confirms written authorization for CLO trial product-development
+evaluation and local DXF processing. Treat that authorization and handling
+concern as resolved for the bounded local evaluation; do not ask again. S538
+reconciled S493/S525/S536 evidence without repeating exchange cases. CLO's
+saved seven-recipe outputs map 41/41 pieces, while output layer 8 mixes CUT
+and SEW in all seven and 78 source marks lack a direct geometry match (not
+proof of loss). Polo's same five CUT outlines still fail the unchanged
+0.001 cm gate; the malformed-input test still silently accepts an input while
+omitting an inset SEW contour. Exact industrial profile/version, grading,
+semantics and independent receiver acceptance remain open.
+
+The existing CLO session is running. A fresh screenshot showed the pattern
+workspace without an Export DXF dialog while accessibility simultaneously
+reported a DXF-AAMA Graded Nest export dialog; no separately targetable dialog
+appeared in the live window list. No file operation followed. This is a
+desktop-control state mismatch, not an authorization or format result. CLO
+remains open, and no new files were imported or exported in S538.
+Evidence: `docs/research/epic17/S538-clo-authorization-control-recheck/S538-exit-packet.md`.
+
+**Next:** continue static, hash-pinned output/protocol analysis and preserve
+all V03 gates. Retry a practical exchange only after the current visible CLO
+target and dialog are unambiguous; do not repeat S493/S525/S536 scenarios.
+EPIC-17 remains In Progress; V01/V02 Done, V03 In Progress. No physical fit,
+factory acceptance, or production-readiness claim is made.
+
 ## EPIC-17 / G04 — Slice 537 no-cost local CAD trial screen (closed; V03 remains open)
 
 The current official-source pass found one new potential desktop trial:
