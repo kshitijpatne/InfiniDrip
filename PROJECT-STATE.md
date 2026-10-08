@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 555 exit (V03 remains open)
+
+The source emitter and independent Claude Opus 5.5 review support no
+geometry-identical DXF encoding change or distinct CLO trial that is shown to
+preserve the five Polo CUT vertices. The emitted R12 coordinates round to
+0.001 cm; the lost incoming edges are about 46 increments long. S536's
+geometry-identical R2000 LWPOLYLINE still lost the same five. The CLO import
+versus export stage remains unknown because the saved proprietary project
+could not be measured. No source code, pattern/cut geometry, byte identity,
+tolerance or acceptance changed. All V03 profile/semantic/grade/malformed/
+independent receiver/all-seven holds remain. The user's written CLO
+product-development and local-processing confirmation is recorded; do not
+ask again. Packet and DXF-standard findings:
+`docs/research/epic17/S555-polo-contour-remediation-analysis/S555-exit-packet.md`.
+Board replay is 3335→3337; G04-V03 remains In Progress. Next: reconcile the
+open V03 criteria and continue only with a genuinely untested acceptance gate
+or a newly qualified local receiver. CLO remains open.
+
 ## EPIC-17 / G04 — Slice 554 exit (V03 remains open)
 
 S554 screened new apparel-CAD receivers using publisher sources and the

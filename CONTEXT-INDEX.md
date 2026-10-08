@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S555-polo-contour-remediation-analysis/S555-exit-packet.md`
+  records that no source- and standard-backed, geometry-identical DXF change
+  or new CLO trial is currently justified for the five Polo vertex losses.
+  The R12 emitter rounds at 0.001 cm while the affected edges span about 46
+  increments; S536's exact-path R2000 LWPOLYLINE still loses the same vertices.
+  Official Autodesk definitions and independent Opus 5.5 review were checked.
+  Import-vs-export stage, exact profile, semantic marks/layers, grades,
+  malformed-input rejection and independent receiver remain open; all V03
+  holds remain. CLO authorization/locality are confirmed. Do not repeat these
+  contour/settings trials. Board replay is 3335→3337. Next: reconcile exact
+  remaining V03 gates and identify only untested acceptance evidence.
 - `docs/research/epic17/S554-new-receiver-candidate-screen/S554-exit-packet.md`
   records the bounded receiver scan. Optitex PDS is a promising technical lead,
   but current manual pages are login-gated and exact profile, evaluation

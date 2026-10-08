@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3335,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S555-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S555-polo-contour-remediation-analysis/S555-exit-packet.md",
+    "verified": true,
+    "note": "Source and independent Opus 5.5 review found no evidenced DXF representation change that preserves the exact closed Polo cut path and avoids CLO's five measured vertex losses. Preserve the 0.001 cm gate and all V03 holds; do not repeat prior CLO trials."
+  }
+}
