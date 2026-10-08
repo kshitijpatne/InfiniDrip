@@ -1,5 +1,32 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 518 native-stage isolation (complete; V03 remains open)
+
+Started `2026-10-08 18:23:45 UTC` from S517 commit
+`28f55942fc0315167e6ab5ea37441e74b3723776`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. In the
+already-running CLO 2026.1.310 (r58944) session, S518 imported the same pinned
+Polo M AAMA source once and saved the native project before any export. The
+import rendered all nine pieces without a format error. Native project hash is
+`2ca9169c472ec8201ddd43284b4ff5a900a740ecfeb21c5009b08a51ff896547`.
+A focused parser verified the CLO-prefixed container, embedded/nested ZIP
+indexes and entry CRCs. Exact contours reside in its proprietary `.pac`
+payload and were not measurable with the safe local parser; the known source
+coordinate text/float signatures were absent. S518 therefore did not attribute
+S516's five point losses to import or export, and per its stop rule did not
+repeat the failing DXF export. This is a concrete parser limit, not a CLO
+format error or a compatibility fix. No geometry, rights, profile, thresholds,
+export identities, or acceptance gates changed. CLO remains open and idle for
+ongoing G04 work. Board start/exit `3183→3185→3187`; V03/EPIC-17 remain In
+Progress; V01/V02 remain Done. Focused Control Center tests pass 42/42;
+native archive extraction/CRC checks, exit board preflight and diff check pass.
+
+Next: reserve a fresh slice after refreshing refs/history and board state.
+Qualify an evidence-backed geometry-preserving receiver/profile against rights
+and exchange requirements before any further CLO fixture work; do not repeat
+the S516/S518 Polo case without a specific new measurement or profile change.
+See `docs/research/epic17/S518-clo-native-stage-isolation/S518-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 517 contour-loss diagnosis (complete; V03 remains open)
 
 Started `2026-10-08 18:17:16 UTC` from S516 commit
@@ -14,16 +41,9 @@ neighbors. Deviations are 0.0127407 cm (back), 0.0129774 cm (outer stand),
 has six; insert transforms are identity and CLO imported centimeters at 100%.
 This is localized point removal/smoothing, not a global scaling/rounding
 pattern. S503's tested AAMA/ASTM import and point-optimization choices plus
-S516 AAMA export leave the same five contours failing. Because no pre-export
-CLO geometry was captured, import-time versus export-time removal remains
-unresolved. No production behavior or gates changed. Board start/exit
-`3179→3181→3183`; V03/EPIC-17 remain In Progress; V01/V02 remain Done.
-
-Next: S518 performs one cause-isolation import, saves the native CLO project
-before one export, and inspects whether its exact outline data can distinguish
-import-time from export-time simplification. Stop without another matrix if
-the native project does not expose measurable contour geometry. CLO remains
-open and idle until needed. See
+S516 AAMA export leave the same five contours failing. No production behavior
+or gates changed. Board start/exit `3179→3181→3183`; V03/EPIC-17 remain In
+Progress; V01/V02 remain Done. See
 `docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-exit-packet.md`.
 
 ## EPIC-17 / G04 — Slice 516 CLO AAMA round trip (complete; V03 remains open)

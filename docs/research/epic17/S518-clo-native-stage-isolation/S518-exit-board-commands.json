@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3185,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S518-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S518-clo-native-stage-isolation/S518-exit-packet.md",
+      "verified": true,
+      "note": "S518 imported the same pinned Polo M AAMA fixture in the existing CLO 2026.1.310 session and saved a 2,335,872-byte pre-export native project. The CLO header plus embedded/nested ZIP indexes are readable and CRC-checked, but exact CUT outlines reside in a proprietary 3,815,032-byte .pac payload without usable contour records in the safe parser; tested source coordinate text/float signatures were absent. Per the packet's stop rule, no redundant DXF export was run and import-vs-export simplification remains unresolved. Import rendered all nine pieces without a format error. No geometry, thresholds, profiles, rights, or V03 gates changed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3186,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S518 completed the single native-save-before-export experiment. The native project proves CLO can save the imported workspace, but its exact garment contours are held in a proprietary .pac payload not readable by the safe local parser. No export was repeated because it would not attribute S516's already-measured five-point loss. Keep CLO open for G04; do not rerun this Polo fixture. Next work should target receiver/profile rights and an evidence-backed geometry-preserving alternative."
+  }
+]

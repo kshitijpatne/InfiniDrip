@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S518-clo-native-stage-isolation/S518-exit-packet.md`
+  records one native-project-before-export trial in the existing CLO session.
+  Import and native save succeeded, but exact contours reside in a proprietary
+  `.pac` payload that the safe parser cannot measure. No duplicate export was
+  run because it could not attribute S516's five-point loss. V03's strict
+  fidelity, rights/profile and all-seven gates remain; keep CLO open and do
+  not repeat the fixture without a new measurement or profile change. Board
+  `3183→3185→3187`.
+- `docs/research/epic17/S518-clo-native-stage-isolation/S518-start-packet.md`
+  bounds the cause-isolation experiment and its stop rule.
 - `docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-exit-packet.md`
   pinpoints one source CUT vertex per S516 failing path removed and replaced
   by a shortcut (0.01274–0.01397 cm deviation); all remaining vertices are
