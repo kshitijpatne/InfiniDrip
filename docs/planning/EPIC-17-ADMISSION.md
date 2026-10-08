@@ -1156,3 +1156,23 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   stored under `C:\\G04-CLO-DXF-Exchange\\S539-clo-semantic-attribute-audit`.
   Focused Control Center tests 42/42; no source/app operation, acceptance or
   profile claim. V03 remains In Progress; see the S539 exit packet.
+
+- **S540 CLO CUT/SEW swap-option diagnostic (2026-10-08):** from clean S539
+  `0e11b700185cb847fb734d79797c1ed5606cffef`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; unique
+  S540. Used the running CLO 2026.1.310 session for one synthetic DXF-AAMA
+  import/export with the documented `Swap Cutting Line and Sewing Line`
+  option on. Compared the S531/S532 positive fixture and S532 no-swap export:
+  both outputs have four POLYLINEs on layers 1/8/14 at counts 1/2/1; source
+  CUT matches layers 1/14/8 and SEW matches layer 8 in both. Thus the option
+  did not remove CUT duplication or mixed CUT/SEW layer 8. Export had no
+  visible error and the pattern rendered, but this synthetic case cannot
+  establish profile or apparel acceptance. Input/output, preserved CLO
+  workspace copy, analyzer report and rendered captures are confined to
+  `C:\\G04-CLO-DXF-Exchange\\S540-clo-swap-import-option`; report SHA-256
+  `CA51123B2BEA93BA5D0FE197940A559AD7F7389DC7E52C9C403BFC9A195B7734`.
+  Start/exit board revisions and focused Control Center verification are in
+  the packet. V03 remains In Progress; V01/V02 Done. No threshold, gate,
+  source code, legacy DXF behavior, or protected output identity changed.
+  **Next:** S541 compares exact saved-file DXF versions/headers with primary
+  profile documentation; do not retry this option.

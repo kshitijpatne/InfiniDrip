@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3272,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S540 tests one previously untried documented CLO import option against the hash-pinned synthetic CUT/SEW control. No repeated garment exchange or acceptance change."
+}

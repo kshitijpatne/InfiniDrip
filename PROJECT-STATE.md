@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 540 CLO CUT/SEW swap-option diagnostic (closed; V03 remains open)
+
+S540 used the confirmed local CLO trial for one controlled synthetic
+DXF-AAMA import/export with `Swap Cutting Line and Sewing Line` enabled.
+Against S532's hash-pinned no-swap baseline, the source CUT square still
+matches output layers 1, 14 and 8, and source SEW still matches layer 8; the
+layer counts are unchanged. The option did not clear semantic acceptance.
+The exported 3,721-byte file SHA-256 is
+`62BA3A3F4ABE5131170313A876720F2FD42BBF8D7FA6A2DF6649A7E790A9E447`;
+analysis and rendered captures are under
+`C:\\G04-CLO-DXF-Exchange\\S540-clo-swap-import-option`. No format error
+occurred, but this synthetic trial does not establish an industrial profile.
+All V03 profile, all-seven, semantic, grading, negative-input, and round-trip
+gates remain unchanged. CLO stays open.
+
+**Next:** reserve S541 and compare exact DXF headers/version data in the
+already hash-pinned outputs with primary profile documentation. Do not repeat
+the swap-option test or change V03 acceptance. Evidence:
+`docs/research/epic17/S540-clo-swap-import-option/S540-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 539 CLO semantic attribute audit (closed; V03 remains open)
 
 S539 reread the 14 hash-pinned source and generation-two receiver DXFs from

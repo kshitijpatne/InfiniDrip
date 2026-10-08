@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S540-clo-swap-import-option/S540-exit-packet.md`
+  records a real CLO 2026.1.310 synthetic DXF-AAMA import/export with the
+  documented CUT/SEW swap option enabled. Compared with S532's hash-pinned
+  no-swap baseline, the same CUT geometry still maps to layers 1/14/8, SEW
+  still maps to layer 8, and layer 8 remains mixed. The option is ruled out as
+  a semantic fix; no gate or acceptance changed. CLO stays open. Next: inspect
+  exact DXF version/header evidence against primary profile documentation.
+- `docs/research/epic17/S540-clo-swap-import-option/S540-start-packet.md`,
+  `analyze-swap-export.mjs`, and the S540 C:-only output/report/render
+  artifacts define and reproduce the one-option differential.
+
 - `docs/research/epic17/S539-clo-semantic-attribute-audit/S539-exit-packet.md`
   rechecks the 14 hash-pinned source/receiver files from S525. For matched
   shared-layer-8 outlines across both observed AAMA and ASTM cohorts, the

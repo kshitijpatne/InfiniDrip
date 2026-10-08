@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3271,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S540-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S540-clo-swap-import-option/S540-start-packet.md",
+    "verified": true,
+    "note": "Begin one controlled synthetic CLO DXF-AAMA import/export with the documented Swap Cutting Line and Sewing Line option enabled; compare semantic attributes with S532 no-swap evidence."
+  }
+}

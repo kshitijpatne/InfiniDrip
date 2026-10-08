@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3271,
-  "updatedAt": "2026-10-08T21:47:41.970Z",
+  "revision": 3275,
+  "updatedAt": "2026-10-08T21:58:52.175Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11218,6 +11218,16 @@
           "at": "2026-10-08T21:47:41.970Z",
           "actor": "Codex",
           "text": "S539 rechecked 14 source/receiver hashes across all seven saved CLO outputs. Matched layer-8 CUT/SEW entities share the same closed flag and have no examined non-layer discriminator in either AAMA or ASTM cohort; 36/41 CUT and 41/41 SEW contours match there, with the same five Polo CUT misses. No file operation, conformance claim, gate change, or threshold change."
+        },
+        {
+          "at": "2026-10-08T21:52:05.251Z",
+          "actor": "Codex",
+          "text": "S540 tests one previously untried documented CLO import option against the hash-pinned synthetic CUT/SEW control. No repeated garment exchange or acceptance change."
+        },
+        {
+          "at": "2026-10-08T21:58:52.175Z",
+          "actor": "Codex",
+          "text": "S540 used the verified running CLO 2026.1.310 session and the hash-pinned synthetic control. Enabling Swap Cutting Line and Sewing Line did not change source-geometry-to-layer mappings or layer counts versus S532 no-swap output. All existing profile, all-seven, semantic, grading, negative-input, and round-trip gates remain unchanged. CLO stays open."
         }
       ],
       "evidenceRefs": [
@@ -11393,7 +11403,9 @@
         "E-G04-S538-START",
         "E-G04-S538-EXIT",
         "E-G04-S539-START",
-        "E-G04-S539-EXIT"
+        "E-G04-S539-EXIT",
+        "E-G04-S540-START",
+        "E-G04-S540-EXIT"
       ],
       "flagKey": null
     },
@@ -21226,6 +21238,24 @@
       "sha256": null,
       "verified": true,
       "note": "Hash-pinned all-seven audit found no examined non-layer entity attribute distinguishing matched CUT/SEW outlines on output layer 8; the five Polo CUT contour misses reproduce. No exchange was replayed and no V03 gate or criterion changed."
+    },
+    {
+      "id": "E-G04-S540-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S540-clo-swap-import-option/S540-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begin one controlled synthetic CLO DXF-AAMA import/export with the documented Swap Cutting Line and Sewing Line option enabled; compare semantic attributes with S532 no-swap evidence."
+    },
+    {
+      "id": "E-G04-S540-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S540-clo-swap-import-option/S540-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "A real CLO DXF-AAMA import/export with the documented CUT/SEW swap enabled left the synthetic source-to-output layer mapping unchanged: CUT appears on 1/14/8 and SEW on 8. This option does not clear semantic acceptance."
     }
   ]
 }
