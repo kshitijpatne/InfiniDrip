@@ -1,5 +1,27 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 461 closes diagnostic-log diff check
+
+S461 follows S460 without rewriting its commit. It removed only trailing
+spaces/tabs from S460's two preserved Control Center failure logs and proved
+their remaining text matches committed S460 after line-ending normalization.
+This corrects S460's premature `git diff --check` statement: S460's staged
+check had reported the log whitespace; current `git diff --check` passes after
+S461. Both failures remain in the evidence packet.
+
+Start-board replay and exit evidence passed 2810→2815→2821. V01/V02 remain
+Done; V03 and EPIC-17 remain In Progress. Control Center tests pass 42/42,
+log-content comparison and S461 helper syntax pass. No production code, DXF,
+profile, protected hash, acceptance or gate changed. S460's current rights
+review still requires owner-provided lawful exact CAD receiver/version access
+before representative import/export/round-trip work. Goal is active and still
+needed through safe merge/deployment; no UI resume is needed.
+
+S460 exit packet and current rights facts:
+`docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md`.
+S461 follow-up evidence:
+`docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 460 V03 rights/profile evidence (complete)
 
 S459 passed the all-seven digital V02 gate: 73 supported configurations and

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2810,
-  "updatedAt": "2026-10-08T04:11:35.564Z",
+  "revision": 2821,
+  "updatedAt": "2026-10-08T04:13:49.438Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -656,7 +656,9 @@
         "E-EPIC17-S459-START",
         "E-EPIC17-S459-EXIT",
         "E-EPIC17-S460-START",
-        "E-EPIC17-S460-EXIT"
+        "E-EPIC17-S460-EXIT",
+        "E-EPIC17-S461-START",
+        "E-EPIC17-S461-EXIT"
       ]
     },
     {
@@ -4493,6 +4495,16 @@
           "at": "2026-10-08T04:08:39.359Z",
           "actor": "Codex",
           "text": "S460 refreshed rights/access evidence and traced the existing writer; no qualifying no-cost industrial apparel receiver or witnessed round trip. Recommended next path is an owner-provided lawful exact local receiver/version, with CLO strongest if licensed access exists. No payment, account, terms, contact or files handled. V03 and its acceptance criteria remain In Progress and unchanged; all-seven V02 and legacy export identities remain accepted/protected. Goal is active; manual resume is not needed. See E-EPIC17-S460-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:12:47.357Z",
+          "actor": "Codex",
+          "text": "S461 corrects S460 evidence hygiene only after the final diff check found log trailing spaces; status, acceptance and CAD-access gate are unchanged. S460 history is preserved; the repair receives its own slice number and commit. See E-EPIC17-S461-START."
+        },
+        {
+          "at": "2026-10-08T04:13:49.438Z",
+          "actor": "Codex",
+          "text": "S461 preserves S460's failed-gate evidence and records its trailing-whitespace correction in a distinct commit. All product/export/acceptance gates remain unchanged. Goal remains active; no manual resume action is needed. Next V03 dependency is owner-provided or newly authorized lawful exact receiver/version access. See E-EPIC17-S461-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -4887,7 +4899,9 @@
         "E-EPIC17-S459-START",
         "E-EPIC17-S459-EXIT",
         "E-EPIC17-S460-START",
-        "E-EPIC17-S460-EXIT"
+        "E-EPIC17-S460-EXIT",
+        "E-EPIC17-S461-START",
+        "E-EPIC17-S461-EXIT"
       ],
       "flagKey": null
     },
@@ -10235,6 +10249,16 @@
           "at": "2026-10-08T04:08:39.303Z",
           "actor": "Codex",
           "text": "S460 rights/profile exit: current official sources checked; CLO documents import/export but its Individual trial requires owner account, billing/payment and auto-converts to paid, while enterprise/academic trial needs vendor contact. Valentina 1.1.1 adds export fixes but no documented receiver; Seamly2D import remains unestablished; LibreCAD is generic only; OpenMarker is Apache-2.0 but not production-ready and has no export yet. InfiniDrip emits generic entities-only DXF with no declared units/grade/IDs; protected bytes remain locked. V03 remains In Progress; no receiver selected and no round-trip or compatibility claim. See E-G04-S460-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:12:47.275Z",
+          "actor": "Codex",
+          "text": "S461 is a no-behavior follow-up to S460: final staged diff checking found trailing whitespace in the two preserved failed-run logs. Normalize line-end whitespace only, retain all diagnostics, rerun diff and 42-test Control Center gates; do not rewrite S460. V03 remains In Progress with no receiver selected. See E-G04-S461-START."
+        },
+        {
+          "at": "2026-10-08T04:13:49.381Z",
+          "actor": "Codex",
+          "text": "S461 closes the S460 log whitespace follow-up without rewriting history: the two captured failing test outputs retain their full text after line-ending normalization; only trailing spaces/tabs were removed. Current diff check passes, and Control Center tests pass 42/42. V03 remains In Progress and unproven pending the exact lawful local receiver/version and round-trip fixtures. See E-G04-S461-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10242,7 +10266,9 @@
         "E-G04-S421-EXIT",
         "E-G04-S460-START",
         "E-G04-S460-EXIT",
-        "E-G04-S460-SOURCE-CONTRACT"
+        "E-G04-S460-SOURCE-CONTRACT",
+        "E-G04-S461-START",
+        "E-G04-S461-EXIT"
       ],
       "flagKey": null
     },
@@ -18104,6 +18130,42 @@
       "sha256": null,
       "verified": true,
       "note": "S460 exit preserves all-seven V02 and all protected DXF identities; V03 remains in progress awaiting an exact lawful local receiver/version to run actual exchange fixtures."
+    },
+    {
+      "id": "E-G04-S461-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S461 follows S460 without rewriting it: normalize only trailing whitespace in the preserved diagnostic logs, then rerun focused board checks and diff validation."
+    },
+    {
+      "id": "E-EPIC17-S461-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S461 is a documentation/evidence hygiene follow-up; V03 remains In Progress awaiting a lawful exact receiver/version for actual interchange fixtures."
+    },
+    {
+      "id": "E-G04-S461-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S461 normalizes only trailing whitespace in S460's two retained failure logs, proves remaining text unchanged, corrects the S460 premature diff-check statement, and passes current board tests and diff validation."
+    },
+    {
+      "id": "E-EPIC17-S461-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S461 changes no product source or acceptance; V03 remains In Progress pending lawful exact receiver/version access and witnessed round trips."
     }
   ]
 }

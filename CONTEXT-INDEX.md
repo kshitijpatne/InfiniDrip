@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md`
+  closes the S460 evidence-format follow-up without rewriting its commit. Only
+  trailing whitespace was removed from two retained failed-run logs; verified
+  normalized text is unchanged, Control Center passes 42/42, and current diff
+  check passes. Board revision 2821. V03 remains In Progress, pending the
+  lawful receiver/version access described in S460:
+  `docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md`.
+  No receiver is selected and no compatibility claim is made. The goal remains
+  active; no manual resume is needed.
+
 - `docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md`
   closes the current rights/source audit after S459's all-seven V02 acceptance.
   No no-cost industrial apparel receiver is qualified: CLO is documented but
@@ -11,8 +21,7 @@
   and has no export. Actual InfiniDrip generic DXF omits declared units, IDs,
   labels and grade data. V03 remains In Progress without a selected receiver
   or compatibility claim, pending an owner-provided/authorized lawful exact
-  receiver and version. Board revision 2810. The goal is active; no manual
-  resume action is needed.
+  receiver and version; that gate is unchanged by S461.
 
 This repository is the durable source of project context shared by Codex,
 Claude Code, and future development sessions. Chat history and external Project

@@ -58,9 +58,9 @@
 test at ops\control-center\app\board.test.mjs:183:1
 ✖ S361 evidence remains linked after the current summary reconciliation (3.8546ms)
   AssertionError [ERR_ASSERTION]: The input did not match the regular expression /S406's approved view-only collar-over-plackets order remains implemented/. Input:
-  
+
   'EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03 acceptance, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:203:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -79,9 +79,9 @@ test at ops\control-center\app\board.test.mjs:183:1
 test at ops\control-center\app\board.test.mjs:243:1
 ✖ closed Epics 14–16 and admitted G04 status match their evidence (9.137ms)
   AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Preserve V02-before-V03, legacy DXF behavior and protected export identities/. Input:
-  
+
   'EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03 acceptance, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:273:14)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)

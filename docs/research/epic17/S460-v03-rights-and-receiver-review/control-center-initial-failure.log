@@ -59,10 +59,10 @@ test at ops\control-center\app\board.test.mjs:76:1
 ✖ S355 Woven diagnosis is linked while every G04 acceptance hold remains (4.6881ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'In Progress'
   - 'Backlog'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:86:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -82,10 +82,10 @@ test at ops\control-center\app\board.test.mjs:91:1
 ✖ S356 rejects the Woven chord-reflection candidate and retains every hold (1.3486ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'In Progress'
   - 'Backlog'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:101:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -105,10 +105,10 @@ test at ops\control-center\app\board.test.mjs:105:1
 ✖ S357 Polo residual study retains the source ease, threshold, and all holds (1.5164ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'In Progress'
   - 'Backlog'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:115:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -128,10 +128,10 @@ test at ops\control-center\app\board.test.mjs:119:1
 ✖ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (1.1125ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'In Progress'
   - 'Backlog'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:131:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -151,10 +151,10 @@ test at ops\control-center\app\board.test.mjs:136:1
 ✖ S359 records the Woven rigid-fit decision boundary without releasing holds (1.3193ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'In Progress'
   - 'Backlog'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:153:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -174,10 +174,10 @@ test at ops\control-center\app\board.test.mjs:159:1
 ✖ S360 binds the landed S359 commit without changing Polo or Woven holds (1.6179ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'In Progress'
   - 'Backlog'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:179:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -197,10 +197,10 @@ test at ops\control-center\app\board.test.mjs:183:1
 ✖ S361 evidence remains linked after the current summary reconciliation (1.3598ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
-  
+
   + 'In Progress'
   - 'Backlog'
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:196:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)
@@ -220,14 +220,14 @@ test at ops\control-center\app\board.test.mjs:243:1
 ✖ closed Epics 14–16 and admitted G04 status match their evidence (14.5155ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
-  
+
     [
       'Done',
       'Done',
   +   'In Progress'
   -   'Backlog'
     ]
-  
+
       at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:479:14)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1201:25)

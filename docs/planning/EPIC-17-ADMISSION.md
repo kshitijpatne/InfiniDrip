@@ -1,3 +1,32 @@
+## Current evidence and conditional remaining estimate — S461 exit (2026-10-08)
+
+S461 follows S460 `d0f1a152d92eb4a8099f787e6fa0ce5372e57ee0` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+remains an ancestor; S460 was highest and S461 is unique. The goal inspection
+at the verified boundary shows it is active, accurately describes the full
+goal, and remains necessary; no UI resume is needed.
+
+S461 strips only trailing spaces/tabs from S460's two retained failed-run
+logs, with normalized-text comparison proving no other content changed. It
+corrects S460's premature diff-check statement: the original staged check
+flagged those logs; current `git diff --check` passes. Board revision 2810→2815
+at S461 start and validated exit evidence 2815→2821; V01/V02 Done and V03
+In Progress. Control Center passes 42/42; helper scripts/log preservation
+checks pass. No product source, DXF bytes, protected hashes, acceptance,
+receiver decision or V02 output changed. Packets: `docs/research/epic17/
+S461-control-center-log-whitespace-closeout/` and current V03 rights gate in
+`docs/research/epic17/S460-v03-rights-and-receiver-review/`.
+
+V03 still awaits owner-provided lawful local receiver/version access. CLO is
+the strongest documented candidate, but trial/account/payment auto-conversion
+or vendor-contact gates are not authorized. Future work remains conditionally
+4–9 V03 slices plus 3–5 final review/merge/deployment slices (7–14 future
+slices), excluding unbounded rights/access delay. Compared with S459's
+remaining estimate, the required S461 evidence correction adds one completed
+follow-up slice. **Next:** obtain the exact lawful local receiver/version
+access decision, then freeze its profile and run witnessed representative
+fixtures; keep all compatibility claims held until those outputs pass.
+
 ## Current evidence and conditional remaining estimate — S460 exit (2026-10-08)
 
 S460 started from clean S459 `8a437a1e4c738c7ff0f3803cb5a1ea8835bdde2f`;

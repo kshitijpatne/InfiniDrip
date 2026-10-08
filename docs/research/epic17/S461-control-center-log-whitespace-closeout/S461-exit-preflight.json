@@ -1,0 +1,59 @@
+{
+  "startRevision": 2815,
+  "exitRevision": 2821,
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2815,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S461-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md",
+        "verified": true,
+        "note": "S461 normalizes only trailing whitespace in S460's two retained failure logs, proves remaining text unchanged, corrects the S460 premature diff-check statement, and passes current board tests and diff validation."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2816,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S461-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md",
+        "verified": true,
+        "note": "S461 changes no product source or acceptance; V03 remains In Progress pending lawful exact receiver/version access and witnessed round trips."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2817,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S461-EXIT"
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2818,
+      "itemId": "EPIC-17",
+      "evidenceId": "E-EPIC17-S461-EXIT"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2819,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S461 closes the S460 log whitespace follow-up without rewriting history: the two captured failing test outputs retain their full text after line-ending normalization; only trailing spaces/tabs were removed. Current diff check passes, and Control Center tests pass 42/42. V03 remains In Progress and unproven pending the exact lawful local receiver/version and round-trip fixtures. See E-G04-S461-EXIT."
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2820,
+      "itemId": "EPIC-17",
+      "actor": "Codex",
+      "text": "S461 preserves S460's failed-gate evidence and records its trailing-whitespace correction in a distinct commit. All product/export/acceptance gates remain unchanged. Goal remains active; no manual resume action is needed. Next V03 dependency is owner-provided or newly authorized lawful exact receiver/version access. See E-EPIC17-S461-EXIT."
+    }
+  ]
+}
