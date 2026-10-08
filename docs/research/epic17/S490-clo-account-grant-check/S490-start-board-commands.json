@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3047,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S490-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S490-clo-account-grant-check/S490-start-packet.md",
+      "verified": true,
+      "note": "S490 will make a bounded read-only inspection of the already-authorized local CLO trial/account display to look for an affirmative rights grant; no terms acceptance, files, fixtures, uploads, or product changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3048,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S490 checks only visible version/license/trial scope in the pre-existing CLO installation. Stop at any new ToS, login, privacy, permission, payment, or contact gate. No file/project/fixture or exchange operation. Close CLO after the read-only check if no further authorized work is possible."
+  }
+]

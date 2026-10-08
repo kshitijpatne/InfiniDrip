@@ -1,0 +1,29 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3049,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S490-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S490-clo-account-grant-check/S490-exit-packet.md",
+      "verified": true,
+      "note": "CLO's visible trial/renewal notice showed no account-specific G04-use grant; no files or exchange operations were performed, and CLO was closed and verified not running. Gate 0 remains held."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3050,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S490-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3051,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S490's read-only CLO display showed trial/renewal status but no account-specific grant for local G04 product-development exchange evaluation. No file or exchange action occurred; CLO is closed and verified not running. Gate 0 and all remaining V03 gates stay held; do not infer rights from trial duration or feature access."
+  }
+]

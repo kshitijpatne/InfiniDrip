@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S490-clo-account-grant-check/S490-exit-packet.md`
+  closes the read-only inspection of the already-installed CLO trial screen.
+  CLO 2026.1.310 displayed 14 days left and renewal text dated 22.10.2026,
+  but no account-specific grant for local G04 product-development exchange
+  evaluation. No project or file was opened; no exchange, acceptance, upload,
+  account action, or file save occurred. CLO was closed and verified not
+  running; Chrome was untouched. Gate 0 and every remaining V03 gate remain
+  held. Board `3049→3052`; G04-V03/EPIC-17 stay In Progress, V01/V02 Done.
+  Next requires affirmative rights-cleared access to an exact local receiver
+  and documented local file handling; do not infer permission from the trial.
+
 - `docs/research/epic17/S489-local-cad-trial-access/S489-exit-packet.md`
   closes the narrow StyleCAD/Optitex access check, with the Codex source
   matrix, exact-model OpenCode report, cross-review, and board-replay

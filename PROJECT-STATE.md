@@ -1,6 +1,38 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 489 StyleCAD and Optitex access screen
+## EPIC-17 / G04 — Slice 490 CLO account grant check
+
+S490 inspected only CLO's visible trial/account notice. It showed CLO
+Standalone OnlineAuth `2026.1.310`, 14 days left, subscription-renewal text,
+and the date `22.10.2026`; it did not show an account-specific grant or
+agreement scope covering local G04 product-development CAD exchange
+evaluation. Do not infer rights from trial duration or available features.
+No project, pattern, fixture, or DXF was opened; there was no import/export,
+account action, acceptance, upload, payment, or file save. The notice was
+dismissed without checking “Don't show again”; CLO was closed and a fresh
+inventory verified no running process/windows. Chrome remained untouched.
+
+Validated board closeout advances `3049→3052`, links the exit packet to
+G04-V03 and EPIC-17, and preserves EPIC-17/G04-V03 In Progress and V01/V02
+Done. `npm run control-center:test` passes `42/42`; S490 scripts pass
+`node --check`; `git diff --check` passes. No production code changed, so
+changed-code coverage and garment rendering do not apply. Full repository
+gates remain for the settled integrated Epic/PR candidate. See
+`docs/research/epic17/S490-clo-account-grant-check/S490-exit-packet.md`.
+
+Elapsed `5m57s` (`09:10:34–09:16:31 UTC`; estimates): account UI inspection
+`3m10s`; implementation `0m`; focused verification `0m09s`; app closure and
+inventory verification `0m40s`; durable record/board `1m58s`; external-agent
+wait `0m`; maintainer-decision time `0m`.
+
+Next: keep V03 Gate 0 held. Continue only if an exact local receiver/build
+has affirmative rights-cleared access and local file handling. If the
+no-paid-software preference continues, no candidate through S490 qualifies.
+Preserve all V03 exact-profile, same-receiver round-trip, grading, and
+negative-input gates, plus legacy DXF behavior and protected export
+identities.
+
+### Slice 489 StyleCAD and Optitex access screen (prior boundary)
 
 S489 checked the no-cost access path only for StyleCAD and Optitex, candidates
 already included in S464's installed-app inventory. StyleCAD's public PDS
