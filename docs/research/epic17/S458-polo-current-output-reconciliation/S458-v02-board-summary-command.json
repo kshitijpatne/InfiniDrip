@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 2772,
+  "itemId": "G04-V02",
+  "patch": {
+    "description": "Current S458 tally: 112 locally accepted / 34 pending integrated all-seven acceptance across 73 configurations / 146 faces. S457’s 0.68 cm-vs-0.25 cm Polo residual hold reason was stale: the approved S351 exception applies to the exact same-revision Polo sleeve-ease arclength mapping; the 0.25 cm gate remains for every other relation. Current actual production/Chromium replay covers all 17 Polo options / 34 faces with zero compiler/renderer/browser issues, zero exact S351 residual diagnostics, zero revision/path-identity differences, 13 keyed POM rows per front, and zero full-label rectangle collisions. Polo local checks pass; preserve all-seven V02 and keep face requests pending integrated review. V01 Done; V02 In Progress; V03 Backlog and gated. S406's approved view-only collar-over-plackets order remains implemented. Preserve legacy DXF and protected export identities. V03 still requires a rights-cleared receiver/version/profile and observed import/export round-trip evidence. No fit, factory-acceptance or production-readiness claim. Evidence: docs/research/epic17/S458-polo-current-output-reconciliation/S458-exit-packet.md."
+  }
+}

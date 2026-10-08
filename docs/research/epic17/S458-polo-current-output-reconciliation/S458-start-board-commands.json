@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2760,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S458-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S458-polo-current-output-reconciliation/S458-start-packet.md",
+      "verified": true,
+      "note": "S458 reconciles the current Polo residual status against the approved exact S351 exception and verifies current production output across all 17 supported options before changing face holds."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2761,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S458 starts from S457 commit e602a672, clean on codex/epic-17-g04; refreshed origin/main a5af5e13 is an ancestor. The S457/board claim that Polo remains at a 0.68 cm residual conflicts with approved S351/S432 and the S436 17-option audit, both of which report zero exact S351 residual diagnostics. Revalidate current production source and rendered output for all 17 Polo option pairs before changing any held count. Preserve 0.25 cm for all other relations, all-seven V02 and V02-before-V03."
+  }
+]

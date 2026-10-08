@@ -1,5 +1,11 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 458 reconciles current Polo output (complete)
+
+S458 verified the current Polo renderer against all 17 supported options / 34 front-back faces at fresh paired revisions. Chromium replay and audits report zero compiler/renderer/browser issues, zero exact S351 Polo sleeve-ease residual diagnostics, zero source/colorway revision mismatches, zero source-path differences from S434, 13 keyed POM schedule rows per front, and zero full-label rectangle overlaps (660 labels / 153 key glyphs). Default and edge-option renders were reviewed. The S457/board statement that Polo is blocked by a 0.68 cm sleeve-cap residual against 0.25 cm is stale and incorrect: the maintainer-approved S351 exception applies only to that exact same-revision arclength-mapped Polo relation, and every other relation retains the 0.25 cm gate.
+
+This reconciliation does not release Polo face requests pending integrated all-seven V02 review. Current tally remains 112 accepted / 34 pending across 73 configurations / 146 face requests; Polo local checks pass, but final combined V02 acceptance remains open. V01 Done, V02 In Progress, V03 Backlog and gated. No production code, pattern/stitch geometry, POM definitions, export behavior, or protected bytes changed. S458 packet, matrices, Chromium PNGs and audit scripts: `docs/research/epic17/S458-polo-current-output-reconciliation/`. Next: S459 integrated all-seven supported-option V02 acceptance review; then start V03 only if V02 passes. S458 timing and focused closeout gates are recorded in its exit packet.
+
 ## EPIC-17 / G04 — Slice 457 resolves Woven front/back view blockers (complete)
 
 S457 started 2026-10-08 02:56 UTC from clean S456 `61f69681d48e990cd8c3568e62705c435ca7f614` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 456; S457 is unique. Board start revision 2754. The S457 decisions, implementation, output evidence, gates, non-goals, timing and next action are recorded in `docs/research/epic17/S457-woven-front-back-resolution/S457-exit-packet.md` and its start packet.
