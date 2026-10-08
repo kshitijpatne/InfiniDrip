@@ -2,14 +2,26 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S550-polo-unit-invariance-control/S550-exit-packet.md`
+  closes a repeated but concretely observed CLO UI-targetability issue. The
+  previously hidden Export DXF state was gone and the screenshot/accessibility
+  initially agreed on the loaded pattern canvas; starting a new import exposed
+  an unsaved-project prompt, then a visible Windows Save File picker whose
+  controls were absent from the accessibility state. No DXF import/export or
+  save occurred. The user has confirmed product-development evaluation and
+  local DXF processing, so neither is a blocker. Two verified inputs are in
+  `C:\\G04-CLO-DXF-Exchange\\S550-polo-unit-invariance-control`. Keep CLO open;
+  resume the one mm unit-invariance trial only when the file picker is
+  consistently targetable. All V03 gates remain unchanged.
 - `docs/research/epic17/S549-polo-unit-invariance-control/S549-exit-packet.md`
   records an exact cm-to-mm Polo fixture and maps both current AAMA generations
   to the same five dropped vertices (back 13, collar pieces 14), all following
   0.0456–0.0470 cm incoming edges. CLO testing did not execute because the screenshot showed the
   pattern canvas while accessibility reported a hidden Export DXF dialog; a
   Cancel attempt was uncertain and the mismatch persisted. CLO remains open.
-  No gates changed. Next: one unit-invariance trial after screenshot and
-  accessibility observations align.
+  No gates changed. S550 later confirmed the initial canvas state aligned but
+  the next native Save File picker did not; see S550 before attempting the
+  unit-invariance trial.
 - `docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md`
   closes the publisher-source screen. Pro2CAD rights, current-build support,
   local handling and exact profile remain unproven; CLO user confirmation is

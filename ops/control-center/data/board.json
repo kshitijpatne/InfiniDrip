@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3313,
-  "updatedAt": "2026-10-08T23:01:29.720Z",
+  "revision": 3317,
+  "updatedAt": "2026-10-08T23:07:58.342Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11323,6 +11323,16 @@
           "at": "2026-10-08T23:01:29.720Z",
           "actor": "Codex",
           "text": "Supplemental S549 exact point mapping: both hash-pinned current AAMA generations omit source vertex 13 on the back and vertex 14 on four collar pieces; retained coordinates stay within 0.000013–0.000038 cm. All five omitted points follow 0.0456–0.0470 cm incoming segments and exceed the 0.001 cm limit by 0.0127–0.0140 cm. The geometry signature is confirmed; a short-edge simplification cause is still only a hypothesis. CLO UI remains unobservable for the planned unit-equivalence test."
+        },
+        {
+          "at": "2026-10-08T23:05:55.812Z",
+          "actor": "Codex",
+          "text": "S550 resumes the S549-prepared, geometry-equivalent Polo cm-to-mm control after a fresh screenshot/accessibility observation aligned on the open pattern canvas. Exactly one AAMA-mm import/export, inverse-scaled contour comparison, and rendered review; all DXFs/evidence remain under C:\\G04-CLO-DXF-Exchange\\S550-polo-unit-invariance-control. No app restart, settings sweep, scope expansion, or V03 gate change."
+        },
+        {
+          "at": "2026-10-08T23:07:58.342Z",
+          "actor": "Codex",
+          "text": "S550 stopped before any DXF import/export because the visible Windows Save File picker did not match CLO's accessibility state and no separate picker window was returned. The user has confirmed product-development use and local DXF processing; neither is a blocker. No format conclusion or gate change. Keep CLO open and resume only when the visible picker and actionable UI controls are consistently targetable."
         }
       ],
       "evidenceRefs": [
@@ -11519,7 +11529,9 @@
         "E-G04-S548-EXIT",
         "E-G04-S549-START",
         "E-G04-S549-EXIT",
-        "E-G04-S549-POINT-MAP"
+        "E-G04-S549-POINT-MAP",
+        "E-G04-S550-START",
+        "E-G04-S550-EXIT"
       ],
       "flagKey": null
     },
@@ -21541,6 +21553,24 @@
       "sha256": null,
       "verified": true,
       "note": "Hash-pinned source and both current AAMA Polo outputs confirm identical omitted vertex indices in gen1/gen2 for all five failures; incoming segments 0.0456–0.0470 cm, residual 0.0127–0.0140 cm. Cause remains unproven."
+    },
+    {
+      "id": "E-G04-S550-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S550-polo-unit-invariance-control/S550-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Run one prepared geometry-equivalent Polo DXF-AAMA exchange in mm in the authorized, local CLO session. Compare inverse-scaled geometry with the unchanged 0.001 cm gate; preserve all V03 holds and store exchange data only under the named C: folder."
+    },
+    {
+      "id": "E-G04-S550-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S550-polo-unit-invariance-control/S550-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The mm exchange did not begin: CLO showed a Windows Save File picker while accessibility exposed the underlying CLO save prompt and no picker controls. Rights/local handling are user-confirmed; this is a UI-targetability result, not a format failure. All V03 gates remain unchanged."
     }
   ]
 }

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3316,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S550 stopped before any DXF import/export because the visible Windows Save File picker did not match CLO's accessibility state and no separate picker window was returned. The user has confirmed product-development use and local DXF processing; neither is a blocker. No format conclusion or gate change. Keep CLO open and resume only when the visible picker and actionable UI controls are consistently targetable."
+}
