@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S519-clo-point-retention-control/S519-exit-packet.md`
+  records one narrowly scoped CLO test motivated by a CLO staff suggestion:
+  enabling `Import Draw Curve Points` did not change any of the five measured
+  CUT losses on the pinned Polo M AAMA fixture (0.012741–0.013974 cm versus
+  the 0.001 cm gate). CLO rendered all nine pieces without a format error.
+  This is one failed build/profile/fixture/control combination, not a general
+  CLO verdict. Stop repeating this case; keep CLO open. Board
+  `3187→3189→3191`.
+- `docs/research/epic17/S519-clo-point-retention-control/S519-start-packet.md`
+  bounds the one vendor-lead import-option check and the unchanged stop gates.
 - `docs/research/epic17/S518-clo-native-stage-isolation/S518-exit-packet.md`
   records one native-project-before-export trial in the existing CLO session.
   Import and native save succeeded, but exact contours reside in a proprietary

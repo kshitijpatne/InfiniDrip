@@ -1,5 +1,29 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 519 source-point retention control (complete; V03 remains open)
+
+Started `2026-10-08 18:40:10 UTC` from S518 commit `7b20f20` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S519 tested one
+vendor-suggested CLO import control, `Import Draw Curve Points`, on the pinned
+Polo M AAMA fixture. CLO 2026.1.310 imported and rendered all nine pieces
+without a format error; the single export still lost the same five CUT
+vertices by 0.012741–0.013974 cm, above the unchanged 0.001 cm gate. This
+isolates a failed build/profile/fixture/control combination; it does not
+establish general CLO incompatibility. The result is measured in the C:-only
+fixture and rendered evidence. Stop repeating this point-retention case unless
+a genuinely new source-backed mechanism appears. CLO stays open. Board
+start/exit `3187→3189→3191`; V01/V02 remain Done and V03/EPIC-17 remain In
+Progress. Focused Control Center tests pass 42/42; analyzer replay, board
+preflight/replay, and `git diff --check` pass. No production code, pattern
+geometry, acceptance gate, or export baseline changed.
+
+Next: pursue a different receiver/profile candidate with primary evidence for
+rights, supported DXF layers/marks, and exact geometry round-trip before any
+new live exchange. Do not repeat the tested CLO case or imply general CLO
+unsuitability. See
+`docs/research/epic17/S519-clo-point-retention-control/S519-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 518 native-stage isolation (complete; V03 remains open)
 
 Started `2026-10-08 18:23:45 UTC` from S517 commit

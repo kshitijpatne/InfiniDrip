@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3189,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S519-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S519-clo-point-retention-control/S519-exit-packet.md",
+      "verified": true,
+      "note": "S519 tested the one new CLO import option recommended by CLO staff for incomplete DXF patterns. With Draw Curve Points checked and all other observed AAMA settings unchanged, CLO rendered all nine Polo M pieces without a format error; the single 148,011-byte output still loses the same five CUT vertices at 0.012741–0.013974 cm, above the 0.001 cm gate. This build/profile/fixture/control combination fails; no general CLO claim. No reimport or adjacent option cell followed. All V03 and all-seven gates remain."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3190,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "The only source-backed new CLO point option was tested once and did not change the five measured CUT failures. Stop same-fixture CLO variants; keep the app open. Next focus on a different rights-reviewed receiver/profile and its geometry evidence. Do not claim CLO is generally unsuitable or change V03 thresholds."
+  }
+]
