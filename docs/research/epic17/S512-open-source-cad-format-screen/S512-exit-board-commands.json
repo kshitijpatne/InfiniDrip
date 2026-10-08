@@ -1,0 +1,23 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3161,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S512-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S512-open-source-cad-format-screen/S512-exit-packet.md",
+      "verified": true,
+      "note": "Current project release/license evidence and Seamly project-forum confirmation show that Seamly2D exports but does not open DXF; a 2026 open issue reports vertex/edge metadata loss in export. It is not a round-trip receiver; no install, fixture, profile selection, or gate change occurred."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3162,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S512 rejects Seamly2D as a G04 receiver lead: project-community documentation confirms no DXF open/import path, so it cannot produce the required independent DXF round trip. A current open export-metadata issue is an additional caution, not proof of all-mode geometry loss. All V03 gates remain unchanged; next is an exact import-capable receiver/build with measured profile-specific round-trip evidence."
+  }
+]
+
+\n

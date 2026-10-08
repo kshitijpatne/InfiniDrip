@@ -1,5 +1,27 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 512 Seamly2D receiver screen (complete; candidate rejected)
+
+Started `2026-10-08 17:47:40 UTC` from clean S511 commit
+`e49b57fc3fab13fe96845d10fb0c553657276aa5` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was 511; S512 is complete. Board start/exit is `3159→3161→3163`;
+V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+Official project materials confirm current Seamly2D releases and GPLv3+
+licensing, but its community forum confirms the product does not open DXF; it
+exports DXF from its own pattern drafts. An open 2026 project issue reports
+that SVG/DXF export merges edge/vertex boundaries. Seamly2D therefore cannot
+serve as the independent import/export receiver required by V03; no install or
+fixture was used. The user reports CLO is open, but S510's target-window and
+monitor errors remain the last supported input result; no AAMA trial conclusion
+is made. See
+`docs/research/epic17/S512-open-source-cad-format-screen/S512-exit-packet.md`.
+Control Center tests pass 42/42 and `git diff --check` passes. No production
+code changed; full repository gate is not due. **Next:** continue only with an
+exact import-capable receiver/build and measured profile-specific round trip;
+resume the authorized CLO test only with safely targetable desktop access.
+
 ## EPIC-17 / G04 — Slice 511 public DXF profile evidence (complete; no profile selected)
 
 Started `2026-10-08 17:44:22 UTC` from S510 commit

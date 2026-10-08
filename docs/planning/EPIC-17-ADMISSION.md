@@ -1,4 +1,26 @@
-## Latest V03 profile evidence — S511 exit (2026-10-08)
+## Latest V03 receiver screen — S512 exit (2026-10-08)
+
+S512 follows S511 `e49b57fc3fab13fe96845d10fb0c553657276aa5` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The current
+Seamly2D project is GPLv3+ and publishes Windows releases, but its project
+community confirms it does not open DXF, so it cannot provide the independent
+round trip V03 requires. A 2026 open issue reports export vertex/edge metadata
+loss; it is not treated as conformance proof. No installation, fixture, profile
+selection, or acceptance change occurred. Board start/exit
+`3159→3161→3163`; V01/V02 Done, V03/EPIC-17 In Progress. Focused Control Center
+tests pass 42/42. See
+`docs/research/epic17/S512-open-source-cad-format-screen/S512-exit-packet.md`
+and `S512-start-packet.md`.
+
+**Next:** continue with an exact rights-reviewed receiver/build able to import
+the pinned source, export the documented profile, and reimport generation two
+for measured all-seven evidence. CLO remains authorized for practical testing;
+the AAMA attempt has not succeeded because the supported desktop helper could
+not target its reported live window. No alternative UI automation backend or
+V03 gate substitution is authorized by this evidence.
+
+## Prior V03 profile evidence — S511 exit (2026-10-08)
 
 S511 follows S510 `ac4b8eaea8ffa668a914fa5665b08a371d7668e2` on
 `codex/epic-17-g04`; refreshed `origin/main`

@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S512-open-source-cad-format-screen/S512-exit-packet.md`
+  records the official Seamly2D project/community screen. Though currently
+  released for Windows under GPLv3+, Seamly2D does not open/import DXF, so it
+  cannot be the independent G04 round-trip receiver. A current open issue
+  reports export vertex/edge metadata loss. No install, fixture, or V03 gate
+  change. Board `3159→3161→3163`; V01/V02 Done and V03/EPIC-17 In Progress.
+- `docs/research/epic17/S512-open-source-cad-format-screen/S512-start-packet.md`
+  bounds this screen to official current source evidence for the already
+  evaluated open-source lead. It does not authorize installation or a profile
+  change.
 - `docs/research/epic17/S511-public-dxf-profile-evidence/S511-exit-packet.md`
   records official evidence: ANSI/AAMA-292 was withdrawn in 2002, ASTM
   D6673-10 was withdrawn without replacement in 2019, and current CLO help
