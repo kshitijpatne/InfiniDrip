@@ -1,5 +1,32 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 523 remaining-recipe CLO round trips (complete; V03 remains open)
+
+Started `2026-10-08 19:10:56 UTC` from S522 commit `079ca9f` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. In one
+continuous, already-running CLO 2026.1.310 (r58944) session, S523 ran two
+DXF-AAMA import/export generations for current-source base-M/default Fitted,
+Tank, Skirt, and Trouser fixtures. The same 34/34 closed source CUT/SEW
+outlines and exact 17/17 piece inserts matched in each generation at the
+unchanged `0.001 cm` threshold; maximum delta was `0.000051 cm`. No CLO format
+error or gross rendered outline damage was observed. All inputs, outputs,
+settings and renders remain only in
+`C:\G04-CLO-DXF-Exchange\S523-clo-remaining-recipe-roundtrip\`. CLO stays
+open. Board start `3203→3205`, exit evidence/comment `3205→3207`; V01/V02
+remain Done and V03/G04 remain In Progress. This closes only the four
+bounded base-M CLO round-trip cases; it does not clear rights/local handling,
+industrial profile, the prior Polo point-loss, all-option/grade coverage,
+semantic/negative-input, or complete receiver gates. Acceptance, threshold,
+legacy DXF behavior and protected export identities are unchanged. No
+production code changed. See
+`docs/research/epic17/S523-clo-remaining-recipes-roundtrip/S523-exit-packet.md`.
+
+**Next:** refresh refs/history/board and reserve S524 for the next
+rights-reviewed V03 qualification action; do not repeat these four same
+fixtures without a materially different receiver/profile or source-backed
+mechanism. Keep CLO open while G04 requires it.
+
 ## EPIC-17 / G04 — Slice 522 CLO import-control evidence screen (complete; V03 remains open)
 
 Started `2026-10-08 19:06:47 UTC` from S521 commit `30196f4` on

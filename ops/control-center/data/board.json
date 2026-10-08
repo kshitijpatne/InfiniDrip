@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3203,
-  "updatedAt": "2026-10-08T19:07:37.398Z",
+  "revision": 3207,
+  "updatedAt": "2026-10-08T19:30:23.902Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11048,6 +11048,16 @@
           "at": "2026-10-08T19:07:37.398Z",
           "actor": "Codex",
           "text": "S522 closes the current CLO control screen without another UI operation. S503 curve-optimization variants and S519 Draw Curve Points did not fix the measured Polo loss. The remaining documented Remove Non-Grading Points option deletes points without grade information and is not a safe fix for the ungraded input. Do not repeat these settings; require a new source-backed mechanism plus rights evidence before another CLO trial."
+        },
+        {
+          "at": "2026-10-08T19:11:39.400Z",
+          "actor": "Codex",
+          "text": "S523 fills untested CLO base-size recipe coverage only; it does not repeat Tee/Polo/Woven or claim V03 acceptance. Use the app's existing session, inspect current workspace before any state-changing operation, save/read only under C:\\G04-CLO-DXF-Exchange\\S523-clo-remaining-recipe-roundtrip, and leave CLO open. Report per-recipe measured geometry and rendered results at the 0.001 cm gate."
+        },
+        {
+          "at": "2026-10-08T19:30:23.902Z",
+          "actor": "Codex",
+          "text": "S523 closes only two-generation base-M/default CLO trials for Fitted, Tank, Skirt, and Trouser: 68/68 outline-generation comparisons pass the unchanged 0.001 cm gate, exact piece insert counts match, and rendered evidence is retained under C:\\G04-CLO-DXF-Exchange\\S523-clo-remaining-recipe-roundtrip. Keep V03 In Progress; this does not establish rights/local handling, an industrial apparel profile, all options/grades, semantic or negative-input gates, or resolve the prior Polo contour failure. Do not repeat these fixtures without a materially different receiver/profile or source-backed mechanism."
         }
       ],
       "evidenceRefs": [
@@ -11189,7 +11199,9 @@
         "E-G04-S521-START",
         "E-G04-S521-EXIT",
         "E-G04-S522-START",
-        "E-G04-S522-EXIT"
+        "E-G04-S522-EXIT",
+        "E-G04-S523-START",
+        "E-G04-S523-EXIT"
       ],
       "flagKey": null
     },
@@ -20716,6 +20728,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current official CLO DXF guide checked against prior actual controls. No new safe, documented point-retention setting exists; Remove Non-Grading Points explicitly deletes ungraded points and was not tested. No UI/file operation occurred. V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S523-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S523-clo-remaining-recipes-roundtrip/S523-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S523 scopes one continuous CLO session for current-source base-M AAMA import/export trials on the four recipes absent from prior receiver evidence: Fitted, Tank, Skirt, and Trouser. All exchange evidence is restricted to the named C: folder; no acceptance or product source changes."
+    },
+    {
+      "id": "E-G04-S523-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S523-clo-remaining-recipes-roundtrip/S523-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Two-generation local CLO 2026.1.310 DXF-AAMA base-M/default round trips for Fitted, Tank, Skirt, and Trouser. All 34 source closed CUT/SEW outlines matched in each generation at 0.001 cm; rendered evidence retained under the named C: folder. V03 rights/profile and remaining matrix gates stay open."
     }
   ]
 }

@@ -1,3 +1,25 @@
+## Latest CLO recipe-coverage evidence — S523 exit (2026-10-08)
+
+S523 follows S522 `079ca9f`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. A single
+continuous CLO 2026.1.310 (r58944) session completed two local DXF-AAMA
+import/export generations for pinned base-M/default Fitted, Tank, Skirt, and
+Trouser fixtures. All 34 source closed CUT/SEW contours matched in each
+generation at `0.001 cm` (68/68 comparisons; max `0.000051 cm`); all piece
+insert counts matched. Rendered screenshots were reviewed and no format error
+or gross outline damage was seen. Files and screenshots are C:-confined. Board
+`3203→3205→3207`; V01/V02 Done; V03/G04 In Progress. No code, geometry,
+acceptance or protected export identity changed. This is bounded receiver
+evidence only; rights/local handling, industrial apparel profile, Polo loss,
+all option/grade, semantic, negative-input and broader round-trip gates remain.
+Packet and raw evidence: `docs/research/epic17/S523-clo-remaining-recipes-roundtrip/`
+and `C:\G04-CLO-DXF-Exchange\S523-clo-remaining-recipe-roundtrip\`.
+
+**Next:** refresh repository state and reserve S524. Qualify rights and an
+industrial apparel exchange profile before any compatibility claim; do not
+repeat these fixtures without a materially changed receiver/profile or
+source-backed mechanism. Keep CLO open while G04 remains active.
+
 ## Latest V03 CLO option evidence screen — S522 exit (2026-10-08)
 
 S522 follows S521 `30196f4`; refreshed `origin/main`

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3203,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S523-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S523-clo-remaining-recipes-roundtrip/S523-start-packet.md",
+      "verified": true,
+      "note": "S523 scopes one continuous CLO session for current-source base-M AAMA import/export trials on the four recipes absent from prior receiver evidence: Fitted, Tank, Skirt, and Trouser. All exchange evidence is restricted to the named C: folder; no acceptance or product source changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3204,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S523 fills untested CLO base-size recipe coverage only; it does not repeat Tee/Polo/Woven or claim V03 acceptance. Use the app's existing session, inspect current workspace before any state-changing operation, save/read only under C:\\G04-CLO-DXF-Exchange\\S523-clo-remaining-recipe-roundtrip, and leave CLO open. Report per-recipe measured geometry and rendered results at the 0.001 cm gate."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3205,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S523-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S523-clo-remaining-recipes-roundtrip/S523-exit-packet.md",
+    "verified": true,
+    "note": "Two-generation local CLO 2026.1.310 DXF-AAMA base-M/default round trips for Fitted, Tank, Skirt, and Trouser. All 34 source closed CUT/SEW outlines matched in each generation at 0.001 cm; rendered evidence retained under the named C: folder. V03 rights/profile and remaining matrix gates stay open."
+  }
+}
