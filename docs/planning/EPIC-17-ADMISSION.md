@@ -1,4 +1,23 @@
-## Current V03 rights review — S526 exit (2026-10-08)
+## Current V03 receiver screen — S527 exit (2026-10-08)
+
+S527 screened new no-cost candidates from official sources. garment.dev claims
+apparel AAMA/ASTM import/export and a free tier, but requires an invite and its
+documented export workflow starts from a saved hosted pattern; this cannot
+meet the C:-only G04 data path. GetonAgain has a free phone-registered apparel
+CAD build and a V2024.1 manual/brochure showing ASTM/AAMA input and DXF output,
+but the feature intersection for the free build, its applicable rights, and
+local handling are unverified. MPattern's free editor cannot export imported
+patterns; Parmel is legacy/incomplete. No candidate qualifies and no V03 gate
+or acceptance criterion changes. No installers, accounts, requests, pattern
+files, or CLO UI were used. Exit packet:
+`docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-exit-packet.md`.
+
+Board start/exit `3219→3221→3223`; EPIC-17/G04-V03 remain In Progress,
+V01/V02 Done. **Next:** do not submit a phone registration or download a
+candidate until the exact free-build rights/data handling and authorization
+are established. CLO remains open and untouched.
+
+## Previous V03 rights review — S526 exit (2026-10-08)
 
 The current CLO Additional Terms §5.1.4 limit Trial Licenses to evaluation and
 demonstration and exclude commercial/for-profit purposes. Because G04 is

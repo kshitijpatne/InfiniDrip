@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3219,
-  "updatedAt": "2026-10-08T20:09:07.430Z",
+  "revision": 3223,
+  "updatedAt": "2026-10-08T20:15:42.821Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11088,6 +11088,16 @@
           "at": "2026-10-08T20:09:07.430Z",
           "actor": "Codex",
           "text": "S526 found the current CLO Trial License clause defines Trial Purposes as evaluation/demo but excludes commercial and for-profit purposes. Individual paid licensing may allow qualifying one-person commercial use; that does not erase the trial restriction. General Terms allow automatic Internet connections/remote authentication, and Work Product Content Analytics is licensed; privacy terms do not prove local-only handling. Do not run new CLO pattern tests until appropriate written rights and local-handling authority exist. Keep every V03 acceptance criterion unchanged; CLO remains open and untouched."
+        },
+        {
+          "at": "2026-10-08T20:13:04.737Z",
+          "actor": "Codex",
+          "text": "S527 is a single source-backed screen for new no-cost apparel CAD receivers with real DXF import and export plus a permissible/local-use basis. No installation, account, file transfer, CLO interaction, or repeat of S520/S521/S524 candidates. All V03 criteria remain unchanged."
+        },
+        {
+          "at": "2026-10-08T20:15:42.821Z",
+          "actor": "Codex",
+          "text": "S527 completed one official-source-only pass without repeating prior candidates. garment.dev is the strongest new free technical lead but is invite-only and stores saved patterns in its hosted service; GetonAgain's free-build feature intersection and rights/data handling remain unverified. MPattern free editor has no DXF export; Parmel has only legacy incomplete evidence. No V03 gate changed. Next requires approval before sending a garment.dev invite request; no CLO action or pattern transfer."
         }
       ],
       "evidenceRefs": [
@@ -11237,7 +11247,9 @@
         "E-G04-S525-START",
         "E-G04-S525-EXIT",
         "E-G04-S526-START",
-        "E-G04-S526-EXIT"
+        "E-G04-S526-EXIT",
+        "E-G04-S527-START",
+        "E-G04-S527-EXIT"
       ],
       "flagKey": null
     },
@@ -20836,6 +20848,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current CLO Additional Terms state Trial Purposes exclude commercial and for-profit purposes. G04 is product development, so the standard CLO trial does not affirmatively authorize further exchange tests. Current general/privacy terms also do not establish local-only file handling. No app action or gate change."
+    },
+    {
+      "id": "E-G04-S527-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One bounded desk search of new no-cost apparel-DXF receiver candidates using official current sources. Excludes previously screened candidates and all CLO/UI/file activity; does not change V03 gates."
+    },
+    {
+      "id": "E-G04-S527-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One-pass official-source screen found garment.dev as a strong but invite-only/cloud-handling lead and GetonAgain as a mixed-build/unresolved-rights lead; MPattern free editor lacks export, Parmel evidence is obsolete/incomplete. No candidate clears permission, local handling, and round-trip gates; no tests or app operations."
     }
   ]
 }

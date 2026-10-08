@@ -1,5 +1,36 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 527 free receiver screen (complete; V03 remains open)
+
+S527 performed one official-source-only screen of new no-cost apparel CAD
+leads, without installing software, creating accounts, sending access
+requests, transferring patterns, or touching CLO. garment.dev claims
+AAMA/ASTM DXF import/export and a free plan, but is invite-only; its export
+workflow requires a saved hosted pattern and its terms/data pages describe
+cloud storage. It does not satisfy the C:-only G04 handling requirement.
+GetonAgain has a free phone-registered apparel CAD build and V2024.1 import /
+DXF evidence, but sources do not establish that the free build includes those
+exchange features or establish applicable use rights and local data handling.
+MPattern's free editor imports but cannot export; export from the editor needs
+paid Cloud. Parmel's AAMA/DXF export page is legacy and lacks a current build
+and import evidence. No candidate qualified; no V03 criterion changed.
+
+Started `2026-10-08 20:12:29 UTC` from S526 `629ad32` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S527 is
+unique. Validated board start/exit replay is `3219→3221→3223`; EPIC-17 and
+G04-V03 remain In Progress; V01/V02 Done. Sources and candidate limits are in
+`docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-exit-packet.md`.
+The complete Epic goal remains active and accurate. CLO remains open and
+running; this slice made no app action.
+
+**Next:** GetonAgain is the only new candidate that might support a desktop,
+local-file trial, but its free build, rights, and offline behavior are not
+established. Do not download/register or use any pattern until those are
+verified. Its free registration requires a phone number; request maintainer
+authorization before sending account data or initiating vendor access. Keep
+all V03 criteria and holds unchanged.
+
 ## EPIC-17 / G04 — Slice 526 CLO trial rights review (complete; V03 remains open)
 
 S526 reviewed current official CLO terms and privacy pages without operating
