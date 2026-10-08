@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S522-clo-import-control-evidence-screen/S522-exit-packet.md`
+  checks current official CLO DXF controls against S503/S517/S519. The only
+  documented untested point-deletion control removes points without grading
+  data; it is counter-indicated for the ungraded inputs. No new safe
+  point-preservation mechanism was found, and no UI/file operation occurred.
+  Do not repeat the same CLO settings. Board `3199→3201→3203`; V01/V02 Done,
+  V03 In Progress. Next requires a new source-backed receiver/encoding
+  mechanism and rights evidence.
+- `docs/research/epic17/S522-clo-import-control-evidence-screen/S522-start-packet.md`
+  defines the read-only official-control screen.
 - `docs/research/epic17/S521-librecad-receiver-preflight/S521-exit-packet.md`
   closes a one-pass screen of LibreCAD 2.2.1.5 as a free, GPLv2 generic DXF
   R12 candidate. It is general 2D CAD, not apparel CAD or an industrial

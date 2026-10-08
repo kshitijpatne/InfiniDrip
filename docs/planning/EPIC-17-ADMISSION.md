@@ -1,4 +1,21 @@
-## Latest V03 receiver preflight — S521 exit (2026-10-08)
+## Latest V03 CLO option evidence screen — S522 exit (2026-10-08)
+
+S522 follows S521 `30196f4`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Current
+official CLO DXF documentation was compared with actual S503/S516–S519
+settings. Curve optimization and Draw Curve Points were tested; the only
+documented untested point-related control, Remove Non-Grading Points, deletes
+points without grade data and is counter-indicated for the ungraded generic
+inputs. No CLO UI/file operation occurred and no new safe point-preservation
+setting was found. Board `3199→3201→3203`; V01/V02 Done, V03/G04 In Progress;
+all gates unchanged. Evidence: `docs/research/epic17/S522-clo-import-control-evidence-screen/`.
+
+**Next:** qualify a rights-reviewed apparel receiver/profile or a genuinely
+new source-backed encoding/build mechanism. Do not repeat S503, S507, S508,
+or S519's measured settings. Keep the CLO session open; preserve the five
+Polo CUT failures and the strict `0.001 cm` gate.
+
+## Prior V03 receiver preflight — S521 exit (2026-10-08)
 
 S521 follows S520 `b78ef47`; refreshed `origin/main`
 `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. LibreCAD

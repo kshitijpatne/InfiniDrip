@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3199,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S522-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S522-clo-import-control-evidence-screen/S522-start-packet.md",
+      "verified": true,
+      "note": "S522 screens current official CLO DXF import controls against measured S503/S516–S519 results. It authorizes no CLO UI/file operation and does not alter any gate."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3200,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S522 is a read-only option-evidence screen. Do not repeat S503 curve-optimization, S507 scale, S508 Standard DXF, or S519 Draw Curve Points cases. Determine whether CLO's documented Remove Non-Grading Points option is a safe, distinct point-preservation path for the non-graded source; keep all V03 gates unchanged."
+  }
+]

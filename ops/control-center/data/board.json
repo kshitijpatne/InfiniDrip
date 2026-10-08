@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3199,
-  "updatedAt": "2026-10-08T19:02:22.263Z",
+  "revision": 3203,
+  "updatedAt": "2026-10-08T19:07:37.398Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11038,6 +11038,16 @@
           "at": "2026-10-08T19:02:22.263Z",
           "actor": "Codex",
           "text": "S521 defines one bounded LibreCAD 2.2.1.5 R12 test and its exact evidentiary limit. A pass would show only generic DXF behavior for the tested fixtures, not an apparel industrial profile or G04 completion. Await authorization to download/run the free official build, or owner confirmation that it has been installed. CLO stays open and untouched; do not repeat the S519 path."
+        },
+        {
+          "at": "2026-10-08T19:07:08.978Z",
+          "actor": "Codex",
+          "text": "S522 is a read-only option-evidence screen. Do not repeat S503 curve-optimization, S507 scale, S508 Standard DXF, or S519 Draw Curve Points cases. Determine whether CLO's documented Remove Non-Grading Points option is a safe, distinct point-preservation path for the non-graded source; keep all V03 gates unchanged."
+        },
+        {
+          "at": "2026-10-08T19:07:37.398Z",
+          "actor": "Codex",
+          "text": "S522 closes the current CLO control screen without another UI operation. S503 curve-optimization variants and S519 Draw Curve Points did not fix the measured Polo loss. The remaining documented Remove Non-Grading Points option deletes points without grade information and is not a safe fix for the ungraded input. Do not repeat these settings; require a new source-backed mechanism plus rights evidence before another CLO trial."
         }
       ],
       "evidenceRefs": [
@@ -11177,7 +11187,9 @@
         "E-G04-S520-START",
         "E-G04-S520-EXIT",
         "E-G04-S521-START",
-        "E-G04-S521-EXIT"
+        "E-G04-S521-EXIT",
+        "E-G04-S522-START",
+        "E-G04-S522-EXIT"
       ],
       "flagKey": null
     },
@@ -20686,6 +20698,24 @@
       "sha256": null,
       "verified": true,
       "note": "S521 preflights LibreCAD 2.2.1.5 as a free general-purpose DXF R12 candidate, not apparel CAD or an industrial-profile qualification. One C:-confined generic round-trip plan is documented; the app is not installed and no download/run was authorized or performed. V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S522-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S522-clo-import-control-evidence-screen/S522-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S522 screens current official CLO DXF import controls against measured S503/S516–S519 results. It authorizes no CLO UI/file operation and does not alter any gate."
+    },
+    {
+      "id": "E-G04-S522-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S522-clo-import-control-evidence-screen/S522-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current official CLO DXF guide checked against prior actual controls. No new safe, documented point-retention setting exists; Remove Non-Grading Points explicitly deletes ungraded points and was not tested. No UI/file operation occurred. V03 gates unchanged."
     }
   ]
 }

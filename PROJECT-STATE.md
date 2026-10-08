@@ -1,5 +1,28 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 522 CLO import-control evidence screen (complete; V03 remains open)
+
+Started `2026-10-08 19:06:47 UTC` from S521 commit `30196f4` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S522 compared
+the current official CLO DXF guide with already tested S503/S516–S519
+settings. Curve optimization and Draw Curve Points are already tested;
+official documentation says Remove Non-Grading Points deletes points that
+lack grading data, so it is not a safe correction for these ungraded generic
+DXFs. No new source-backed CLO setting was found that warrants another import
+or export. No CLO UI, file, account, download, or external-message operation
+occurred. Board `3199→3201→3203`; V01/V02 remain Done and V03/G04 remain In
+Progress. The Polo AAMA path still has five measured CUT-point failures above
+the unchanged `0.001 cm` gate. All rights/profile, semantic/grade,
+negative-input and round-trip gates remain. No code, geometry, acceptance, or
+protected export identity changed. See
+`docs/research/epic17/S522-clo-import-control-evidence-screen/S522-exit-packet.md`.
+
+Next: continue only with a new, rights-reviewed apparel receiver/profile or a
+source-backed encoding/build mechanism that can change the measured result.
+Do not repeat same-fixture CLO settings. Keep the CLO session open as the user
+requested; V03 and the overall goal remain active.
+
 ## EPIC-17 / G04 — Slice 521 LibreCAD receiver preflight (complete; V03 remains open)
 
 Started `2026-10-08 18:59:38 UTC` from S520 commit `b78ef47` on
