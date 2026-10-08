@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3255,
-  "updatedAt": "2026-10-08T21:02:55.202Z",
+  "revision": 3259,
+  "updatedAt": "2026-10-08T21:30:03.561Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11178,6 +11178,16 @@
           "at": "2026-10-08T21:02:55.202Z",
           "actor": "Codex",
           "text": "S535 confirms the local environment has no alternative registered or running CAD receiver; CLO is the only relevant installed app found and remains open. The rights/profile gate is unchanged, with the maintainer path question pending. Do not repeat this inventory or run pattern tests under the current S526 evidence."
+        },
+        {
+          "at": "2026-10-08T21:19:43.948Z",
+          "actor": "Codex",
+          "text": "S536 tests one new, coordinate-preserving polyline encoding for the known Polo AAMA vertex-loss failure. The maintainer attests written confirmation for trial purpose and file handling; no prior base-M case is being replayed. No production code or acceptance gate changes."
+        },
+        {
+          "at": "2026-10-08T21:30:03.561Z",
+          "actor": "Codex",
+          "text": "S536 closes the geometry-identical LWPOLYLINE encoding trial: it does not resolve Polo's five CUT-outline losses in CLO AAMA exchange. Do not repeat this encoding or the failed Polo AAMA→ASTM path. V03 remains In Progress with profile, all-seven, round-trip, grading, and semantic gates unchanged. The maintainer confirms written trial-use and handling permission; CLO stays open for G04."
         }
       ],
       "evidenceRefs": [
@@ -11345,7 +11355,9 @@
         "E-G04-S534-START",
         "E-G04-S534-EXIT",
         "E-G04-S535-START",
-        "E-G04-S535-EXIT"
+        "E-G04-S535-EXIT",
+        "E-G04-S536-START",
+        "E-G04-S536-EXIT"
       ],
       "flagKey": null
     },
@@ -21106,6 +21118,24 @@
       "sha256": null,
       "verified": true,
       "note": "Bounded local inventory found no additional registered, Start-menu indexed, or running apparel CAD/DXF receiver; only the existing CLO process matched. CLO remains open; no app interaction, installation, product data, or V03 gate change."
+    },
+    {
+      "id": "E-G04-S536-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S536-polo-aama-vertex-preservation/S536-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Start a single controlled CLO probe of an unchanged-geometry DXF encoding variant against the five measured Polo CUT failures. Maintainer attests written trial-use and file-handling confirmation; actual prior test matrix is reused and all working exchange evidence stays under the S536 C: folder."
+    },
+    {
+      "id": "E-G04-S536-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S536-polo-aama-vertex-preservation/S536-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO 2026.1.310 AAMA import/export of an exact-geometry R2000 LWPOLYLINE Polo M derivative rendered all nine pieces and preserved all nine SEW outlines, but the same five CUT contours lose one vertex and measure 0.012741–0.013974 cm against the unchanged 0.001 cm gate. Four of nine CUT contours pass. No V03 gate or compatibility claim changed; CLO remains open."
     }
   ]
 }

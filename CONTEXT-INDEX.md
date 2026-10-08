@@ -2,6 +2,21 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S536-polo-aama-vertex-preservation/S536-exit-packet.md`
+  records the authorized local CLO 2026.1.310 DXF-AAMA import/export probe of
+  a geometry-identical R2000 `LWPOLYLINE` Polo M fixture. All nine pieces
+  rendered and all nine SEW outlines mapped, but the same five CUT outlines
+  lose one vertex and exceed the 0.001 cm gate at 0.012741–0.013974 cm. Four
+  of nine CUT outlines pass. This encoding does not clear V03. Maintainer
+  attested written trial-use/file-handling confirmation; no independent legal
+  review is claimed. CLO remains open; no production code or gate changed.
+  Board start/exit revisions are recorded in the packet. Next: pursue an
+  evidence-backed receiver/profile path for the admitted all-seven exchange
+  and semantic requirements; do not repeat this encoding or Polo AAMA→ASTM.
+- `docs/research/epic17/S536-polo-aama-vertex-preservation/S536-start-packet.md`
+  and its start board commands define the scope, fixture identity, and C:-only
+  evidence boundary for the probe.
+
 - `docs/research/epic17/S535-local-receiver-availability/S535-exit-packet.md`
   records the bounded local app inventory: no additional registered,
   Start-menu indexed, or running apparel CAD/DXF receiver was found; CLO is

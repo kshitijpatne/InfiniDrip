@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3256,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S536 tests one new, coordinate-preserving polyline encoding for the known Polo AAMA vertex-loss failure. The maintainer attests written confirmation for trial purpose and file handling; no prior base-M case is being replayed. No production code or acceptance gate changes."
+}

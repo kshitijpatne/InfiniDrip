@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 536 Polo AAMA vertex-preservation probe (closed; V03 remains open)
+
+The maintainer attested written confirmation for CLO product-development
+testing and file handling, clearing authorization to use the existing trial
+for this bounded local test. CLO 2026.1.310 imported and rendered all nine
+Polo M pieces from a geometry-identical R2000 `LWPOLYLINE` derivative and
+exported DXF-AAMA with no format error. All nine source SEW contours bind to
+receiver pieces within 0.000005–0.000035 cm, but five CUT outlines still lose
+one vertex and exceed the unchanged 0.001 cm gate (0.012741–0.013974 cm).
+Four of nine CUT outlines pass. The encoding variant does not fix the same
+five roles already failing with legacy `POLYLINE` input; no source geometry,
+production exporter, threshold, protected bytes, or V03 gate changed. CLO
+remains open. Evidence: `docs/research/epic17/S536-polo-aama-vertex-preservation/S536-exit-packet.md`.
+Validated board exit replay is recorded in that packet.
+
+**Next:** pursue an evidence-backed V03 profile/receiver path capable of the
+admitted all-seven representative exchange and semantic gates. Do not repeat
+this encoding or the already failed Polo AAMA→ASTM path. The full goal remains
+active; V01/V02 Done, V03 In Progress. No physical-fit or factory-acceptance
+claim is made.
+
 ## EPIC-17 / G04 — Slice 535 local receiver availability (closed; V03 remains open)
 
 A bounded local inventory checked HKLM/HKCU registered-app entries, relevant
