@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S462-final-evidence-diff-hygiene/S462-exit-packet.md`
+  closes the S461 packet's last staged diff-check finding. S462 removes one
+  extra EOF blank line and records that correction without rewriting history.
+  Board revisions 2821→2825→2831; Control Center passes 42/42 and refreshed
+  `origin/main` remains an ancestor. V01/V02 Done; V03 In Progress. The active
+  goal remains needed through safe merge/deployment; no UI resume is needed.
+  V03's remaining gate is lawful exact receiver/version access and witnessed
+  import/export/round-trip evidence; see S460 below.
+
 - `docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md`
   closes the S460 evidence-format follow-up without rewriting its commit. Only
   trailing whitespace was removed from two retained failed-run logs; verified

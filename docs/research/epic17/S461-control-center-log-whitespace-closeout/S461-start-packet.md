@@ -16,5 +16,4 @@ No production code, acceptance criteria, board status, profile decision, export 
 
 ## Delegation
 
-No independent agent task is safe or useful for an exact log-only normalization; Codex retains ownership. OpenCode's listed model is `Muse Spark 1.3 Free` with no declared variants; Claude CLI exposes a latest `opus` alias, not a verifiable Opus 5.5 exact identity. No substitution is used.
-
+No independent agent task is safe or useful for an exact log-only normalization; Codex retains ownership. OpenCode's listed model is `Muse Spark 1.3 Free` with no declared variants; Claude CLI exposes a latest `opus` alias, not a verifiable Opus 5.5 exact identity. No substitution is used.\n

@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 462 closes final evidence diff hygiene
+
+S462 removes one extra EOF blank line from the S461 start packet and corrects
+S461's closeout note to disclose the staged-check finding. S460/S461 commits
+remain unchanged. Refreshed `origin/main` is an ancestor; board revisions
+2821→2825→2831; `npm run control-center:test` passes 42/42 and the unstaged
+diff check passes. The staged diff check is the immediate pre-commit gate.
+V01/V02 remain Done and V03/EPIC-17 remain In Progress. No product, DXF,
+protected-export identity, receiver choice or acceptance gate changed.
+
+S462 packet and validated board evidence:
+`docs/research/epic17/S462-final-evidence-diff-hygiene/`.
+V03 still needs lawful local access to an exact industrial apparel-CAD
+receiver/version before profile-specific fixtures and witnessed round trips.
+No receiver is selected and no compatibility claim is made. The goal remains
+active and needed through final review, gates, PR, safe merge and any required
+deployment; no UI resume is needed.
+
 ## EPIC-17 / G04 — Slice 461 closes diagnostic-log diff check
 
 S461 follows S460 without rewriting its commit. It removed only trailing

@@ -1,3 +1,28 @@
+## Current evidence and conditional remaining estimate — S462 exit (2026-10-08)
+
+S462 follows S461 `d487a20afe739768af6f7199b488e3f01a94ff70` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S461 was
+highest and S462 is unique. The goal is active, its objective still matches
+the admitted Epic through merge/deployment, and it remains necessary; no UI
+resume is needed.
+
+S462 removes one extra EOF blank line from the S461 start packet and corrects
+S461's closeout note to disclose the staged-check finding without rewriting
+either earlier commit. Validated board revisions 2821→2825→2831. Control Center
+passes 42/42 and unstaged diff check passes; require a clean staged diff check
+before commit. V01/V02 remain Done; V03/EPIC-17 remain In Progress. No product
+source, DXF, export identity, acceptance or receiver selection changed. See
+`docs/research/epic17/S462-final-evidence-diff-hygiene/`.
+
+V03 remains gated on lawful access to an exact apparel-CAD receiver/version
+and witnessed representative import/export/round-trip behavior. Re-estimate
+from S460: 4–9 V03 slices plus 3–5 final review/merge/deployment slices
+(7–14 total), excluding unbounded access delay. **Next:** finish the staged
+diff check and commit S462, then obtain the exact lawful receiver access
+decision. No trial, payment, vendor contact or compatibility claim is
+authorized absent that access and evidence.
+
 ## Current evidence and conditional remaining estimate — S461 exit (2026-10-08)
 
 S461 follows S460 `d0f1a152d92eb4a8099f787e6fa0ce5372e57ee0` on
