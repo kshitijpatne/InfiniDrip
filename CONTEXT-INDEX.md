@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S541-dxf-header-profile-audit/S541-exit-packet.md`
+  audits all seven hash-pinned S498/S523 second-generation recipe DXFs. Each
+  declares `AC1009` (R11/R12) and omits `$INSUNITS`; this conditionally
+  conflicts with ASTM D6673-04's stated R13 (`AC1012`) requirement for the
+  three DXF-ASTM-menu outputs, without proving whole-standard nonconformance.
+  No profile, semantics, or V03 gate is cleared. CLO stays open. Next: confirm
+  whether its documented mode exposes an exact DXF version/edition.
+- `docs/research/epic17/S541-dxf-header-profile-audit/S541-start-packet.md`,
+  `audit-dxf-headers.mjs`, and the C:-only report define and reproduce the
+  seven-file version audit.
+
 - `docs/research/epic17/S540-clo-swap-import-option/S540-exit-packet.md`
   records a real CLO 2026.1.310 synthetic DXF-AAMA import/export with the
   documented CUT/SEW swap option enabled. Compared with S532's hash-pinned

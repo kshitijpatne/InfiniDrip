@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3277,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S541-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S541-dxf-header-profile-audit/S541-exit-packet.md",
+    "verified": true,
+    "note": "All seven hash-pinned S498/S523 exports declare AC1009 (R11/R12), with no $INSUNITS. Three DXF-ASTM-menu outputs conflict conditionally with D6673-04's R13 requirement; no full-standard nonconformance claim or gate change."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3275,
-  "updatedAt": "2026-10-08T21:58:52.175Z",
+  "revision": 3279,
+  "updatedAt": "2026-10-08T22:03:54.829Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11228,6 +11228,16 @@
           "at": "2026-10-08T21:58:52.175Z",
           "actor": "Codex",
           "text": "S540 used the verified running CLO 2026.1.310 session and the hash-pinned synthetic control. Enabling Swap Cutting Line and Sewing Line did not change source-geometry-to-layer mappings or layer counts versus S532 no-swap output. All existing profile, all-seven, semantic, grading, negative-input, and round-trip gates remain unchanged. CLO stays open."
+        },
+        {
+          "at": "2026-10-08T22:01:48.340Z",
+          "actor": "Codex",
+          "text": "S541 checks the seven existing hash-pinned CLO recipe exports' raw DXF header/version values against primary Autodesk and ASTM records. Read-only; no CLO repeat, conformance leap, or acceptance change."
+        },
+        {
+          "at": "2026-10-08T22:03:54.829Z",
+          "actor": "Codex",
+          "text": "S541 confirms all seven saved recipe outputs are AC1009 (R11/R12) and omit $INSUNITS; the three DXF-ASTM-menu files conditionally conflict with ASTM D6673-04's stated R13 requirement. This narrows but does not establish whole-standard nonconformance or clear V03."
         }
       ],
       "evidenceRefs": [
@@ -11405,7 +11415,9 @@
         "E-G04-S539-START",
         "E-G04-S539-EXIT",
         "E-G04-S540-START",
-        "E-G04-S540-EXIT"
+        "E-G04-S540-EXIT",
+        "E-G04-S541-START",
+        "E-G04-S541-EXIT"
       ],
       "flagKey": null
     },
@@ -21256,6 +21268,24 @@
       "sha256": null,
       "verified": true,
       "note": "A real CLO DXF-AAMA import/export with the documented CUT/SEW swap enabled left the synthetic source-to-output layer mapping unchanged: CUT appears on 1/14/8 and SEW on 8. This option does not clear semantic acceptance."
+    },
+    {
+      "id": "E-G04-S541-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S541-dxf-header-profile-audit/S541-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begin read-only hash-pinned header/version audit of the seven existing S498/S523 CLO recipe outputs against primary Autodesk and ASTM documentation; no new exchange or gate change."
+    },
+    {
+      "id": "E-G04-S541-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S541-dxf-header-profile-audit/S541-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All seven hash-pinned S498/S523 exports declare AC1009 (R11/R12), with no $INSUNITS. Three DXF-ASTM-menu outputs conflict conditionally with D6673-04's R13 requirement; no full-standard nonconformance claim or gate change."
     }
   ]
 }

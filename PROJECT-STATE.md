@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 541 DXF header/profile audit (closed; V03 remains open)
+
+S541 rechecked all seven pinned second-generation S498/S523 recipe outputs.
+Each declares `$ACADVER=AC1009` (AutoCAD R11/R12) and omits `$INSUNITS`.
+Three DXF-ASTM-menu exports therefore conditionally conflict with ASTM
+D6673-04's stated AutoCAD Version 13 requirement (`AC1012`); the menu label
+does not establish that edition, so this is not a whole-standard
+nonconformance claim. The four DXF-AAMA files are also AC1009 and do not by
+themselves prove a current AAMA profile. All seven hashes passed; deterministic
+report SHA-256 is
+`e88d31688eb1d8933aaf76521f314cc0517919dbd1d3711a325ff5647456f551` in
+`C:\\G04-CLO-DXF-Exchange\\S541-dxf-header-profile-audit`. V03 remains In
+Progress; no profile or acceptance gate is cleared. CLO stays open.
+
+**Next:** verify whether CLO documentation/settings establish an exact
+normative DXF edition or selectable file version. See
+`docs/research/epic17/S541-dxf-header-profile-audit/S541-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 540 CLO CUT/SEW swap-option diagnostic (closed; V03 remains open)
 
 S540 used the confirmed local CLO trial for one controlled synthetic
@@ -15,9 +33,8 @@ occurred, but this synthetic trial does not establish an industrial profile.
 All V03 profile, all-seven, semantic, grading, negative-input, and round-trip
 gates remain unchanged. CLO stays open.
 
-**Next:** reserve S541 and compare exact DXF headers/version data in the
-already hash-pinned outputs with primary profile documentation. Do not repeat
-the swap-option test or change V03 acceptance. Evidence:
+**Next:** see S541 for the completed header/version audit. Do not repeat the
+swap-option test or change V03 acceptance. Evidence:
 `docs/research/epic17/S540-clo-swap-import-option/S540-exit-packet.md`.
 
 ## EPIC-17 / G04 — Slice 539 CLO semantic attribute audit (closed; V03 remains open)

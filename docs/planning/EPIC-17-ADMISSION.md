@@ -1176,3 +1176,21 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   source code, legacy DXF behavior, or protected output identity changed.
   **Next:** S541 compares exact saved-file DXF versions/headers with primary
   profile documentation; do not retry this option.
+
+- **S541 DXF header/profile audit (2026-10-08):** from clean S540
+  `e8c93d754bdca770d76162cb06bf8aca074fc343`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; unique
+  S541. Hash-checked the seven existing S498/S523 generation-two recipe DXFs
+  under their existing C: folders. All seven declare `$ACADVER=AC1009`
+  (Autodesk R11/R12) and omit `$INSUNITS`. The three S498 DXF-ASTM-menu files
+  conditionally conflict with ASTM D6673-04's explicit AutoCAD Version 13
+  requirement (`AC1012`); no exact edition claim is established, so this is
+  not a whole-standard nonconformance finding. ASTM lists D6673-10 as
+  withdrawn in 2019. Report SHA-256
+  `e88d31688eb1d8933aaf76521f314cc0517919dbd1d3711a325ff5647456f551` stays
+  under `C:\\G04-CLO-DXF-Exchange\\S541-dxf-header-profile-audit`. Start/exit
+  board revisions and focused Control Center verification are in the packet.
+  No acceptance, semantic, threshold, source code, legacy DXF behavior, or
+  protected identity changed. **Next:** confirm from CLO's documented mode or
+  settings whether an exact edition or DXF-version selector exists; preserve
+  all V03 holds.
