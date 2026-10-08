@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2935,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S476-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S476-clo-representative-roundtrips/S476-start-packet.md",
+      "verified": true,
+      "note": "S476 is a bounded local CLO DXF-ASTM import/export/reimport and source-geometry trial for hash-identified Polo M and Woven M fixtures; all receiver files stay in C:\\G04-CLO-DXF-Exchange. V03 criteria and claim limits remain unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2936,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S476-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S476-clo-representative-roundtrips/S476-start-packet.md",
+      "verified": true,
+      "note": "S476 plans two representative local receiver trials; official CLO and ASTM/Autodesk format references are recorded, with no standard-conformance or broader compatibility claim."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2937,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S476-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2938,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S476 reserves local CLO DXF-ASTM round trips for the S463 Polo M and Woven M fixtures. It will compare source geometry and inspect marks, units, output layers and reimport rendering. S475's AC1009/version observation and coincident-layer ambiguity remain; all V03 gates and claims stay unchanged."
+  }
+]

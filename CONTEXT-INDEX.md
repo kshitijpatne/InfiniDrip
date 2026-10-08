@@ -2,6 +2,21 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S476-clo-representative-roundtrips/S476-exit-packet.md`
+  records local CLO trials for the exact S463 Polo M and Woven M fixtures;
+  CAD files, native projects, screenshots, and numeric analysis remain only in
+  `C:\G04-CLO-DXF-Exchange`. Woven passes 24/24 contours within C04's 0.001 cm
+  gate; Polo passes only 13/18, with three CUT contour deltas over gate and two
+  not pairable by vertex count. Both outputs use AC1009 without `$INSUNITS`
+  and duplicate contours on numeric layers with no authoritative CLO mapping.
+  Reimport renders nine Polo and twelve Woven pieces, but all-mark semantics,
+  grading/options and industrial receiver acceptance remain unknown. The
+  independent source review is
+  `S476-opencode-research-result.md`; the `DXF-ASTM` menu does not establish
+  ASTM conformance or factory readiness. V03 and EPIC-17 stay In Progress.
+  Next: diagnose Polo's five CUT contour mismatches read-only; do not change
+  source/product geometry or broaden compatibility claims from this trial.
+
 - `docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md` records
   the witnessed local CLO 2026.1.310 Tee import/native reopen/DXF-ASTM export/
   matching reimport. All round-trip files and captures remain in

@@ -1,5 +1,40 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 476 tests representative CLO fixtures
+
+S476 completed local CLO `2026.1.310 (r58944)` import/export/reimport trials
+for the S463 Polo M and Woven M fixtures. All receiver CAD files, native
+projects, screenshots, and analysis remain under
+`C:\G04-CLO-DXF-Exchange`. The same observed DXF-AAMA import and DXF-ASTM
+graded-nest export/reimport settings as S475 were used, with centimeters, 100%,
+and no rotation. Woven source geometry passes the unchanged C04 0.001 cm
+coordinate threshold for 24/24 contours (maximum `0.000074 cm`). Polo only
+passes for 13/18; three CUT contours exceed the threshold (best matches
+`2.000004 cm` and `9.298007 cm` twice) and two have no same-vertex-count output
+candidate. Do not claim Polo round-trip preservation. Both outputs declare
+`AC1009`, omit `$INSUNITS`, and duplicate geometry across undocumented numeric
+layers. Reimport screenshots show the expected 9 Polo and 12 Woven pieces;
+individual mark semantics and option/grade fidelity remain unverified.
+
+OpenCode's required Muse Spark 1.3 xhigh normal-mode research completed and was
+reviewed against official CLO/ASTM/Autodesk sources. CLO's `DXF-ASTM` menu
+label does not establish conformance or factory readiness: D6673-04 cites
+AutoCAD Version 13; D6673-10 is withdrawn with no replacement; AC1009 is
+R11/R12; output has no embedded units declaration; no authoritative CLO layer
+map was found. Full standard text and numeric layer clauses remain unreviewed.
+No profile or receiver is qualified by S476. V01/V02 stay Done; G04 V03 and
+EPIC-17 stay In Progress, with all criteria, export identities and claim limits
+unchanged. No physical-fit, factory-acceptance or production-readiness claim.
+
+Start board revision 2935 advanced to 2939; S476 exit is preflighted from 2939.
+Start and exit packets: `docs/research/epic17/S476-clo-representative-roundtrips/S476-start-packet.md`
+and `S476-exit-packet.md`; external research:
+`docs/research/epic17/S476-clo-representative-roundtrips/S476-opencode-research-result.md`.
+
+**Next:** diagnose the five Polo CUT contour mismatches with a read-only
+source/output analysis. Do not change the source pattern, product code, or V03
+claims from the CLO observation alone.
+
 ## EPIC-17 / G04 — Slice 475 verifies one local CLO Tee round trip
 
 S475 used CLO `2026.1.310 (r58944)` to import the S463 standard-M Tee, save and

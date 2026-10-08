@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2935,
-  "updatedAt": "2026-10-08T06:21:31.905Z",
+  "revision": 2943,
+  "updatedAt": "2026-10-08T06:50:24.898Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -685,7 +685,9 @@
         "E-EPIC17-S474-START",
         "E-EPIC17-S474-EXIT",
         "E-EPIC17-S475-START",
-        "E-EPIC17-S475-EXIT"
+        "E-EPIC17-S475-EXIT",
+        "E-EPIC17-S476-START",
+        "E-EPIC17-S476-EXIT"
       ]
     },
     {
@@ -4971,7 +4973,9 @@
         "E-EPIC17-S474-START",
         "E-EPIC17-S474-EXIT",
         "E-EPIC17-S475-START",
-        "E-EPIC17-S475-EXIT"
+        "E-EPIC17-S475-EXIT",
+        "E-EPIC17-S476-START",
+        "E-EPIC17-S476-EXIT"
       ],
       "flagKey": null
     },
@@ -10464,6 +10468,16 @@
           "at": "2026-10-08T06:21:31.905Z",
           "actor": "Codex",
           "text": "S475 passes the C04 coordinate threshold for six Tee contours (max 0.0000161 cm) in one observed CLO DXF-ASTM round trip. It also exposes duplicate coincident layer representations that need semantic review. Rights/scope, Polo/Woven, grade, and broader round-trip evidence remain. V03 and EPIC-17 remain In Progress; no conformance claim."
+        },
+        {
+          "at": "2026-10-08T06:27:27.761Z",
+          "actor": "Codex",
+          "text": "S476 reserves local CLO DXF-ASTM round trips for the S463 Polo M and Woven M fixtures. It will compare source geometry and inspect marks, units, output layers and reimport rendering. S475's AC1009/version observation and coincident-layer ambiguity remain; all V03 gates and claims stay unchanged."
+        },
+        {
+          "at": "2026-10-08T06:50:24.898Z",
+          "actor": "Codex",
+          "text": "S476 closes the two representative CLO trials with mixed evidence: Woven 24/24 source contours pass the unchanged 0.001 cm coordinate gate; Polo passes 13/18, with five CUT contours still unresolved. Reimports render all distinct pieces, but marks, layers, grading/options and industrial acceptance remain unverified. CLO's DXF-ASTM label is not a conformance claim. V03 remains In Progress. Next: read-only diagnosis of the Polo contour mismatches."
         }
       ],
       "evidenceRefs": [
@@ -10501,7 +10515,9 @@
         "E-G04-S474-START",
         "E-G04-S474-EXIT",
         "E-G04-S475-START",
-        "E-G04-S475-EXIT"
+        "E-G04-S475-EXIT",
+        "E-G04-S476-START",
+        "E-G04-S476-EXIT"
       ],
       "flagKey": null
     },
@@ -18903,6 +18919,42 @@
       "sha256": null,
       "verified": true,
       "note": "S475 closes a local Tee receiver trial and identifies its exact geometry result and remaining V03 gates without asserting general format compatibility or ASTM conformance."
+    },
+    {
+      "id": "E-G04-S476-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S476-clo-representative-roundtrips/S476-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S476 is a bounded local CLO DXF-ASTM import/export/reimport and source-geometry trial for hash-identified Polo M and Woven M fixtures; all receiver files stay in C:\\G04-CLO-DXF-Exchange. V03 criteria and claim limits remain unchanged."
+    },
+    {
+      "id": "E-EPIC17-S476-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S476-clo-representative-roundtrips/S476-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S476 plans two representative local receiver trials; official CLO and ASTM/Autodesk format references are recorded, with no standard-conformance or broader compatibility claim."
+    },
+    {
+      "id": "E-G04-S476-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S476-clo-representative-roundtrips/S476-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO local DXF-ASTM trials: Woven passes 24/24 contours within 0.001 cm; Polo passes 13/18 with five source CUT contours unresolved. AC1009/no INSUNITS and numeric layer meaning remain open; no conformance claim. V03 stays In Progress."
+    },
+    {
+      "id": "E-EPIC17-S476-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S476-clo-representative-roundtrips/S476-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S476 records local Polo/Woven CLO trials and independent standards review. Woven geometry passes this fixture; Polo has five CUT contours unresolved. V03 gates and claims remain unchanged."
     }
   ]
 }
