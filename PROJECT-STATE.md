@@ -1,8 +1,28 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 552 exit (V03 remains open)
+
+S552's hash-pinned mapping confirms the same five Polo CUT source vertices
+(index 13 on back; index 14 on four collar roles) are omitted in both S545
+centimeter generations and S551's geometry-equivalent millimeter CLO output.
+Incoming segments are 0.0456–0.0470 cm; symmetric contour residuals are
+0.0127–0.0140 cm against the unchanged 0.001 cm gate. The other 13/18 source
+contours pass. CLO's current official docs describe optimization/removal
+controls but no minimum-edge preservation rule; S503/S519 tested the relevant
+optimizer and Draw Curve Points settings, and S522 found no new safe switch.
+The repeated defect is real for this tested CLO build/profile/fixture, but its
+import/save/export stage and cause remain unknown. Do not repeat the same
+setting/unit trials. Rights and local DXF processing are confirmed in writing;
+all seven-recipe/profile/semantic/grade/negative-input/round-trip gates remain
+held. No source geometry, code, threshold, export identity or acceptance gate
+changed. S552 supersedes S551's immediate next-action note. C:-only detailed mapping and hashes are in
+`docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-exit-packet.md`.
+Board replay is 3321→3323→3325; G04-V03 remains In Progress. Next: qualify a
+rights-reviewed industrial apparel receiver/profile with primary evidence
+before any fixture transfer. CLO stays open while G04 work still needs it.
 ## EPIC-17 / G04 — Slice 551 exit (V03 remains open)
 
-S551 completed one authorized CLO 2026.1.310 (r58944) DXF-AAMA millimeter import/export cycle for the geometry-equivalent Polo M/default fixture. Screenshot-coordinate input successfully targeted CLO's visible native file pickers after they were absent from accessibility, and a copy of the open CLO project was saved before the test. The Custom seam-allowance notice was informational, not an error. The import/export render shows the expected major pieces without gross silhouette loss. After converting output coordinates back to cm, 13/18 source outlines pass the unchanged 0.001 cm gate; the same five Polo CUT outlines (ordinals 2, 10, 12, 14, 16) fail at 0.01274–0.01397 cm with one omitted vertex each, as in both prior centimeter generations. Residual changes are negligible (all-contour max difference 0.00003436 cm), ruling out numeric unit representation alone as the cause. This does not isolate import versus export or prove CUT/SEW semantics, a normative AAMA edition, grades/options, malformed-input rejection, or independent receiver acceptance. All V03 holds remain unchanged; user-confirmed trial-use rights/local processing are resolved. DXFs, project copy, renders and analyzer report stay in `C:\\G04-CLO-DXF-Exchange\\S551-polo-unit-invariance-ui-recovery`. CLO remains open. Next: diagnose the five short-edge losses without geometry or threshold changes, then resolve the remaining all-seven profile/semantic gates with evidence. Packet: `docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md`; board replay `3317→3319→3321`.
+S551 completed one authorized CLO 2026.1.310 (r58944) DXF-AAMA millimeter import/export cycle for the geometry-equivalent Polo M/default fixture. Screenshot-coordinate input successfully targeted CLO's visible native file pickers after they were absent from accessibility, and a copy of the open CLO project was saved before the test. The Custom seam-allowance notice was informational, not an error. The import/export render shows the expected major pieces without gross silhouette loss. After converting output coordinates back to cm, 13/18 source outlines pass the unchanged 0.001 cm gate; the same five Polo CUT outlines (ordinals 2, 10, 12, 14, 16) fail at 0.01274–0.01397 cm with one omitted vertex each, as in both prior centimeter generations. Residual changes are negligible (all-contour max difference 0.00003436 cm), ruling out numeric unit representation alone as the cause. This does not isolate import versus export or prove CUT/SEW semantics, a normative AAMA edition, grades/options, malformed-input rejection, or independent receiver acceptance. All V03 holds remain unchanged; user-confirmed trial-use rights/local processing are resolved. DXFs, project copy, renders and analyzer report stay in `C:\\G04-CLO-DXF-Exchange\\S551-polo-unit-invariance-ui-recovery`. CLO remains open. Next: diagnose the five short-edge losses without geometry or threshold changes, then resolve the remaining all-seven profile/semantic gates with evidence; S552 supersedes this immediate next-action note. Packet: `docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md`; board replay `3317→3319→3321`.
 
 ## EPIC-17 / G04 — Slice 550 exit (V03 remains open)
 

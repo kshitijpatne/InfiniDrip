@@ -2,6 +2,22 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-exit-packet.md`
+  records the exact five Polo CUT vertex losses across S545 cm gen1/gen2 and
+  S551 mm output. The same source indices (back 13, collar roles 14) are absent
+  from the same blocks; incoming edges are 0.0456–0.0470 cm and measured
+  contour residuals remain 0.0127–0.0140 cm against the 0.001 cm gate. CLO's
+  current official docs and previously tested controls offer no verified fix;
+  stage attribution remains unresolved. Authorization for CLO product-
+  development evaluation and local DXF processing is maintainer-confirmed.
+  All gates and holds remain. C:-only report hash is recorded in the packet.
+  Next: qualify a rights-reviewed industrial apparel receiver/profile against
+  primary capability and rights evidence before fixture transfer. CLO remains
+  open for admitted work.
+- `docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md`
+  records the completed millimeter comparison and rendered evidence.
+## Prior S551/S550 evidence
+
 - `docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md`
   records the completed CLO 2026.1.310 DXF-AAMA millimeter control. Screenshot-
   coordinate targeting saved the existing session copy and completed one

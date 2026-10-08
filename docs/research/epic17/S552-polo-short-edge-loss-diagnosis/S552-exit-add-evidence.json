@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3323,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S552-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-exit-packet.md",
+    "verified": true,
+    "note": "Exact source-to-output mapping confirms the same five Polo CUT vertices are omitted in both cm generations and the mm CLO run; official docs and prior controls provide no documented fix. No geometry or gate changed; continue by qualifying an industrial receiver/profile."
+  }
+}

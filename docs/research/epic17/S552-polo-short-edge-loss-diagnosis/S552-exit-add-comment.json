@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3324,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S552 pinpoints the repeated Polo defect: source indices 13/14 are absent from the same five CUT receiver blocks in both cm generations and the mm CLO export. Incoming edges are 0.0456–0.0470 cm; omitted-corner deviation is 0.0127–0.0140 cm against 0.001 cm. Official docs and prior tested controls provide no verified CLO fix, and stage attribution remains unknown. Keep all gates held; qualify a rights-reviewed industrial receiver/profile next."
+}

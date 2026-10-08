@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3321,
-  "updatedAt": "2026-10-08T23:16:26.052Z",
+  "revision": 3325,
+  "updatedAt": "2026-10-08T23:21:36.776Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11343,6 +11343,16 @@
           "at": "2026-10-08T23:16:26.052Z",
           "actor": "Codex",
           "text": "S551's CLO DXF-AAMA millimeter round trip reproduced the same five Polo CUT contour losses as both centimeter runs; 13/18 contours pass and five remain 0.01274–0.01397 cm over the unchanged 0.001 cm gate. Numeric units alone are ruled out as the cause. Screenshot-coordinate interaction recovered the visible Save/Open pickers; CLO stays open. User authorization and local handling are confirmed. Profile, CUT/SEW/mark, grade/options, malformed-input and all-seven gates remain unchanged."
+        },
+        {
+          "at": "2026-10-08T23:18:12.600Z",
+          "actor": "Codex",
+          "text": "S552 is a read-only diagnosis of the same five Polo source corners failing in the S545 centimeter and S551 millimeter CLO AAMA exchanges. Pin exact source/output point and edge mappings and search official CLO documentation for a directly relevant point-preservation rule; otherwise name the evidence-led next test. No geometry, setting, code or V03 acceptance changes; all files remain C:-only."
+        },
+        {
+          "at": "2026-10-08T23:21:36.776Z",
+          "actor": "Codex",
+          "text": "S552 pinpoints the repeated Polo defect: source indices 13/14 are absent from the same five CUT receiver blocks in both cm generations and the mm CLO export. Incoming edges are 0.0456–0.0470 cm; omitted-corner deviation is 0.0127–0.0140 cm against 0.001 cm. Official docs and prior tested controls provide no verified CLO fix, and stage attribution remains unknown. Keep all gates held; qualify a rights-reviewed industrial receiver/profile next."
         }
       ],
       "evidenceRefs": [
@@ -11543,7 +11553,9 @@
         "E-G04-S550-START",
         "E-G04-S550-EXIT",
         "E-G04-S551-START",
-        "E-G04-S551-EXIT"
+        "E-G04-S551-EXIT",
+        "E-G04-S552-START",
+        "E-G04-S552-EXIT"
       ],
       "flagKey": null
     },
@@ -21601,6 +21613,24 @@
       "sha256": null,
       "verified": true,
       "note": "Completed the authorized CLO DXF-AAMA mm control. After inverse unit conversion, 13/18 contours pass and the same five Polo CUT contours fail as in both cm generations (0.01274–0.01397 cm); unit representation alone does not explain the loss. Render and hashes are in the C:-only S551 evidence folder. No V03 gate changes."
+    },
+    {
+      "id": "E-G04-S552-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Map the five repeat Polo contour failures to exact source vertices/edges and compare the S545 cm and S551 mm outputs; check official CLO documentation for a specific point-preservation rule. Read-only, no geometry/settings/acceptance changes."
+    },
+    {
+      "id": "E-G04-S552-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact source-to-output mapping confirms the same five Polo CUT vertices are omitted in both cm generations and the mm CLO run; official docs and prior controls provide no documented fix. No geometry or gate changed; continue by qualifying an industrial receiver/profile."
     }
   ]
 }
