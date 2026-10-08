@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S492-style3d-dxf-access/S492-exit-packet.md` and
+  `S492-source-matrix.md` reject Style3D Free for G04. The desktop app has
+  pattern DXF IO in some configurations, but the Free plan lists DXF import
+  and not DXF export; its free terms restrict use to personal learning and
+  prohibit commercial/profit and organizational use. The help requires login;
+  local-only file handling, exact profile, and round-trip are unproven. No
+  account/software/file action occurred; CLO remains closed. Board
+  `3058→3060→3064`; V03/EPIC-17 stay In Progress. No candidate through S492
+  qualifies under the no-paid constraint.
+
 - `docs/research/epic17/S491-tukacad-trial-profile-screen/S491-exit-packet.md`
   and `S491-source-matrix.md` reject TUKAcad CLE as currently documented. Its
   no-cost 14-day Learning Edition does not list data import/export; that

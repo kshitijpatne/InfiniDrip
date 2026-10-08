@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3058,
-  "updatedAt": "2026-10-08T09:21:11.273Z",
+  "revision": 3064,
+  "updatedAt": "2026-10-08T09:24:34.132Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -712,7 +712,8 @@
         "E-G04-S488-EXIT",
         "E-G04-S489-EXIT",
         "E-G04-S490-EXIT",
-        "E-G04-S491-EXIT"
+        "E-G04-S491-EXIT",
+        "E-G04-S492-EXIT"
       ]
     },
     {
@@ -10677,6 +10678,16 @@
           "at": "2026-10-08T09:21:11.273Z",
           "actor": "Codex",
           "text": "S491 does not select TUKAcad CLE: the official plan does not list data import/export for CLE, and the trial's feature unlock, pattern-exchange profile, rights, and local file handling are unproven. No account or software action occurred. Keep every V03 gate unchanged."
+        },
+        {
+          "at": "2026-10-08T09:23:09.572Z",
+          "actor": "Codex",
+          "text": "S492 is a bounded official-source check of whether Style3D Studio's documented pattern-DXF paths and access model can meet G04 V03 at no cost with rights-cleared local file handling. Do not create an account, start a trial, install, contact, upload, or use fixtures."
+        },
+        {
+          "at": "2026-10-08T09:24:34.132Z",
+          "actor": "Codex",
+          "text": "S492 rejects Style3D Free for G04: its listed free-tier exports omit DXF and its Free Version terms restrict use to personal learning while prohibiting commercial/profit and organization use. The paid/other configurations are not evaluated. No account, file, trial, or software action occurred; keep V03 gates unchanged."
         }
       ],
       "evidenceRefs": [
@@ -10756,7 +10767,10 @@
         "E-G04-S490-EXIT",
         "E-G04-S491-START",
         "E-G04-S491-MATRIX",
-        "E-G04-S491-EXIT"
+        "E-G04-S491-EXIT",
+        "E-G04-S492-START",
+        "E-G04-S492-MATRIX",
+        "E-G04-S492-EXIT"
       ],
       "flagKey": null
     },
@@ -19725,6 +19739,33 @@
       "sha256": null,
       "verified": true,
       "note": "S491 rejects TUKAcad CLE as currently documented; no account, checkout, payment, install, fixture, or file operation. V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S492-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S492-style3d-dxf-access/S492-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S492 checks only current official Style3D Studio access, rights/local handling, and apparel-pattern DXF profile evidence; no account, download/install, cloud upload, or fixture use."
+    },
+    {
+      "id": "E-G04-S492-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S492-style3d-dxf-access/S492-source-matrix.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official Style3D sources document apparel DXF features but its Free plan lists DXF import, not DXF export, and Free Version terms restrict use to personal learning, prohibiting commercial/profit and organization use."
+    },
+    {
+      "id": "E-G04-S492-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S492-style3d-dxf-access/S492-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S492 rejects Style3D Free as a G04 receiver; no account/software/file action occurred. Rights, DXF export, local-only handling, exact profile, and round-trip gates remain."
     }
   ]
 }

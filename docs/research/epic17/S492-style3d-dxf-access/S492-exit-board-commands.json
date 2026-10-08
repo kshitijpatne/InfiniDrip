@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3060,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S492-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S492-style3d-dxf-access/S492-source-matrix.md",
+      "verified": true,
+      "note": "Official Style3D sources document apparel DXF features but its Free plan lists DXF import, not DXF export, and Free Version terms restrict use to personal learning, prohibiting commercial/profit and organization use."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3061,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S492-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S492-style3d-dxf-access/S492-exit-packet.md",
+      "verified": true,
+      "note": "S492 rejects Style3D Free as a G04 receiver; no account/software/file action occurred. Rights, DXF export, local-only handling, exact profile, and round-trip gates remain."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3062,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S492-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3063,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S492 rejects Style3D Free for G04: its listed free-tier exports omit DXF and its Free Version terms restrict use to personal learning while prohibiting commercial/profit and organization use. The paid/other configurations are not evaluated. No account, file, trial, or software action occurred; keep V03 gates unchanged."
+  }
+]

@@ -1,6 +1,48 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 491 TUKAcad trial/profile screen
+## EPIC-17 / G04 — Slice 492 Style3D Studio access/DXF screen
+
+S492 started `2026-10-08 09:22:45 UTC` from committed S491 `172c2fd` on
+`codex/epic-17-g04`. Refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S491 was
+highest and S492 is unique. Validated start commands advanced board
+`3058→3060`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal remains
+active and unchanged.
+
+S492 checks whether Style3D Studio's documented apparel-pattern DXF features
+have a no-cost, rights-cleared, Windows-local path suitable for G04. Work is
+source-only: no account, sign-in, terms, trial, contact, download/install,
+pattern, upload, or fixture. CLO is closed and not needed.
+
+S492's official-source matrix and exit packet are in
+`docs/research/epic17/S492-style3d-dxf-access/`. The Style3D desktop product
+supports pattern DXF import/export in some configurations and release notes
+mention Gerber/Lectra, but its public Free plan lists DXF import without DXF
+export. Its Free Version terms limit use to personal learning and prohibit
+commercial/profit and enterprise use. It is not selected for G04. Login is
+required; exact profile semantics and local-only handling are unproven. No
+account, trial, contact, install, file, or upload was used; CLO remains closed.
+
+Validated closeout advanced board `3060→3064`, linking the source matrix and
+exit to G04-V03 and exit to EPIC-17; statuses remain unchanged. Control Center
+passes `42/42`; S492 scripts pass `node --check`; `git diff --check` passes.
+No production source, fixture, or garment output changed. The full repository
+gate remains for the settled integrated Epic/PR candidate.
+
+Next: no candidate through S492 qualifies for V03 under the no-paid constraint.
+Continue only when an exact receiver/version has affirmative product-
+development rights, local-only file handling, and apparel-profile import and
+export. If that access remains unavailable, V03 and therefore EPIC-17 are
+blocked on an external access/authorization change; do not weaken acceptance.
+
+Elapsed `2m20s` (`09:22:45–09:25:05 UTC`; estimates): official-source review
+`1m00s`; implementation `0m`; focused verification `0m13s`; durable
+packet/board work `1m07s`; external-agent wait `0m`; maintainer-decision time
+`0m`.
+
+### Slice 491 TUKAcad trial/profile screen (prior boundary)
+
+### Slice 491 TUKAcad trial/profile screen (prior boundary)
 
 S491 started `2026-10-08 09:19:30 UTC` from committed S490 `c10a9c3` on
 `codex/epic-17-g04`. Refreshed `origin/main`
