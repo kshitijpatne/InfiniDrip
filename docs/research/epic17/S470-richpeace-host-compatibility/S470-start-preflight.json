@@ -1,0 +1,47 @@
+{
+  "startRevision": 2891,
+  "exitRevision": 2895,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2891,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S470-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-start-packet.md",
+        "verified": true,
+        "note": "S470 checks vendor-published OS support against the local test host and compares the official free V10 demo, without installation or fixture use."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2892,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S470-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-start-packet.md",
+        "verified": true,
+        "note": "S470 qualifies Windows 11 host compatibility and a vendor free-demo alternative while retaining exact V03 rights/profile/round-trip gates."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2893,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S470-START"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2894,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S470 checks whether the current Richpeace candidate's published OS range includes this Windows 11 host and whether the free V10 demo is a better documented exchange option. This is read-only; no installer or pattern is opened. See E-G04-S470-START."
+    }
+  ]
+}

@@ -2,6 +2,10 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md`
+  records the Windows 11 25H2 host vs. Richpeace V8/V10 pages that list support
+  only through Windows 10. V8 still has stronger documented exchange evidence;
+  Windows 11 support is unverified. No software or fixture was opened.
 - `docs/research/epic17/S469-local-receiver-trial-runbook/receiver-trial-checklist.md`
   is the owner-facing, local-only preflight and synthetic-fixture trial
   procedure for the S468 Richpeace V8 Free English candidate. It requires

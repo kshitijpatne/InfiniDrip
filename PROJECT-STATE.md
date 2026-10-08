@@ -1,5 +1,28 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 470 qualifies receiver candidate for this host
+
+The current host reports Windows 11 Pro build 26200 (Microsoft maps this to
+Windows 11 25H2); `Get-ComputerInfo` returned a conflicting Windows 10 label,
+which is disclosed in the packet. Richpeace's official V8 free English and
+V10 free demo pages list Windows only through Windows 10. V8 remains the
+stronger documented exchange candidate because its linked manual lists AAMA/
+ASTM import and ASTM export; V10's free demo page documents import but no
+apparel-format export. Neither vendor page confirms Windows 11 compatibility.
+No install, settings change, or fixture use occurred. The S469 checklist now
+states this compatibility caveat and says to stop if a normal install fails or
+is unstable.
+
+V01/V02 remain Done; EPIC-17/G04-V03 remain In Progress. S470 started at board
+revision 2891; validated start/exit replay advanced 2891→2895→2899.
+`npm run control-center:test` passes 42/42 and `git diff --check` passes.
+Evidence is linked in
+`docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md`.
+**Next:** the owner may attempt the normal official V8 install, understanding
+Windows 11 support is unverified. If it runs, first check exact About/build,
+terms, exchange menus and local handling; do not open a fixture until these
+preconditions pass.
+
 ## EPIC-17 / G04 — Slice 469 prepares the local receiver trial
 
 S469 adds an operator checklist for the S468 Richpeace Garment CAD V8.0 Free

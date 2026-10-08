@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2891,
-  "updatedAt": "2026-10-08T04:53:32.614Z",
+  "revision": 2899,
+  "updatedAt": "2026-10-08T04:56:46.505Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -674,7 +674,9 @@
         "E-EPIC17-S468-START",
         "E-EPIC17-S468-EXIT",
         "E-EPIC17-S469-START",
-        "E-EPIC17-S469-EXIT"
+        "E-EPIC17-S469-EXIT",
+        "E-EPIC17-S470-START",
+        "E-EPIC17-S470-EXIT"
       ]
     },
     {
@@ -4949,7 +4951,9 @@
         "E-EPIC17-S468-START",
         "E-EPIC17-S468-EXIT",
         "E-EPIC17-S469-START",
-        "E-EPIC17-S469-EXIT"
+        "E-EPIC17-S469-EXIT",
+        "E-EPIC17-S470-START",
+        "E-EPIC17-S470-EXIT"
       ],
       "flagKey": null
     },
@@ -10387,6 +10391,16 @@
           "at": "2026-10-08T04:53:32.614Z",
           "actor": "Codex",
           "text": "S469 provides the local preflight and synthetic round-trip checklist, including exact stop conditions, file/unit/mark/grade comparisons, and the malformed-input control. No fixture was opened and no compatibility claim is made; V03 remains In Progress pending permitted exact-build evidence and actual round trips. See E-G04-S469-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:56:09.297Z",
+          "actor": "Codex",
+          "text": "S470 checks whether the current Richpeace candidate's published OS range includes this Windows 11 host and whether the free V10 demo is a better documented exchange option. This is read-only; no installer or pattern is opened. See E-G04-S470-START."
+        },
+        {
+          "at": "2026-10-08T04:56:46.505Z",
+          "actor": "Codex",
+          "text": "S470 confirms the local host is Windows 11 build 26200 while Richpeace V8/V10 free pages list through Windows 10 only. V8 remains the strongest exchange lead but compatibility is unverified; do not alter settings or use fixtures before rights/build/local-processing checks. See E-G04-S470-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10413,7 +10427,9 @@
         "E-G04-S468-START",
         "E-G04-S468-EXIT",
         "E-G04-S469-START",
-        "E-G04-S469-EXIT"
+        "E-G04-S469-EXIT",
+        "E-G04-S470-START",
+        "E-G04-S470-EXIT"
       ],
       "flagKey": null
     },
@@ -18617,6 +18633,42 @@
       "sha256": null,
       "verified": true,
       "note": "S469 turns the pending local receiver gate into an auditable owner-operated sequence; G04 acceptance and V03 gates are unchanged."
+    },
+    {
+      "id": "E-G04-S470-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S470 checks vendor-published OS support against the local test host and compares the official free V10 demo, without installation or fixture use."
+    },
+    {
+      "id": "E-EPIC17-S470-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S470 qualifies Windows 11 host compatibility and a vendor free-demo alternative while retaining exact V03 rights/profile/round-trip gates."
+    },
+    {
+      "id": "E-G04-S470-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S470 records that Richpeace V8/V10 list Windows support only through Windows 10; V8 has stronger documented export evidence, but Windows 11 support remains unverified."
+    },
+    {
+      "id": "E-EPIC17-S470-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S470 qualifies candidate OS support and discloses the local host label discrepancy without changing the receiver/profile, V03 gates, or acceptance."
     }
   ]
 }

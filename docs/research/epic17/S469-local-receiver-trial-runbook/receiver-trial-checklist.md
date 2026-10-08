@@ -9,6 +9,12 @@ rights, exact-build, format-menu, and local-processing checks. Use only the
 synthetic S463 files listed below; never use a private or production pattern in
 this trial.
 
+**Host compatibility caveat:** this test host reports Windows 11 Pro build
+26200 (25H2). Richpeace's V8 and V10 free product pages list Windows XP/7/8/10,
+not Windows 11. A normal V8 installation attempt is optional, but Windows 11
+support is unverified. If setup fails or the app is unstable, stop; do not use
+compatibility-mode workarounds or claim the application is supported here.
+
 ## Gate 0 — inspect before opening any pattern
 
 1. Confirm the installed product is **Richpeace Garment CAD V8.0 Free
