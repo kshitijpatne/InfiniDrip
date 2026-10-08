@@ -52,3 +52,27 @@ No one is authorized to alter production code, design choices, pattern/stitch ge
 ## Start board record
 
 Validated commands and clone preflight are adjacent. No status transition is authorized.
+
+## Findings and exit evidence
+
+### Review results
+
+- Codex's *Fashion Upcycling* review is in `CODEX-FASHION-UPCYCLE-REVIEW.md`; the four additional supplied-book reviews are in `CODEX-OTHER-SUPPLIED-BOOKS-REVIEW.md`. Each report separates direct book instruction from convention/inference, records scan/provenance limitations, cites 1-based PDF page indices, and identifies which pages were visually inspected. No copyrighted page image or extended prose is stored in the repository.
+- The supplied books add general construction examples: Amaden-Crawford distinguishes detached from fold-up cuffs and illustrates shirt sleeve plackets; Shaeffer demonstrates a tie-collar pattern/attachment and placket examples; Hollahan's scan covers collar terminology and general top/under-collar pattern relationships but has inconsistent embedded metadata; Mahon explains classic-shirt assembly and physical pattern/fabric layout; Hilado covers sewing, finishing, and refashioning tutorials. All findings remain generic source material, not facts about the current Woven source revision.
+- None establishes the exact Woven front seam visibility/order needed to retain S425 while removing the S454 contacts, nor a paired sleeve/band view that clears the S442 back crossings while preserving S370 positions. No specific book review changes the current next action or G04 gates. Books may inform a future, separately scoped construction/pattern education experience; the scans' provenance/rights remain unassessed.
+- Delegation did not yield independent review reports. The Claude Opus 5.5 xhigh attempt failed on access to the supplied `F:` files; the retry reached the model account session limit. OpenCode used the mandated Muse Spark 1.3/xhigh/normal configuration, but its request to access the external source directory was rejected by tool approval review. Codex therefore completed the local reviews. No unavailable model was substituted; no contributor report was treated as evidence.
+
+### Preserved decisions and gates
+
+- Board status remains EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. The current tally remains 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven faces and all 34 Polo faces remain held. S454's exact mask remains proposal-only and awaits maintainer disposition; S425's continuous visible neckline decision and S442's fixed S370 band layout remain authoritative. Do not infer acceptance from a locally clear view.
+- All-seven V02, V02-before-V03, the 0.25 cm Polo residual gate, legacy DXF behavior, protected export byte identities, and V03's rights/receiver/profile/round-trip gates remain unchanged. No V03 implementation begins while V02 is In Progress. No fit, factory acceptance, or production-readiness claim.
+
+### Verification and closeout
+
+- Current branch `codex/epic-17-g04` was at `1873f666b72bbbd7ab24a54cf8b6f522b2770f8e`; refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and is an ancestor. Slice 455 remains the unique latest assigned number; no new slice was needed for this closeout.
+- Board exit commands are `S455-exit-board-commands.json`; preflight and canonical replay are `preflight-exit.mjs` and `replay-exit.mjs`. Preflight and canonical replay both advanced board revision 2750→2752, adding only an evidence reference and comment. Board read confirmed EPIC-17/V02 In Progress, V01 Done, V03 Backlog, and the 56 accepted / 90 held description.
+- `npm run control-center:test`: 42/42 passed (1.46 s test duration). `node --check` passed for both exit scripts and both command JSON files. Exit preflight passed, canonical replay/read passed at revision 2752, and `git diff --check` passed; Git emitted only its normal LF-to-CRLF advisory for edited text files. No production source/tests changed, so production coverage, build, export identity, and full-Epic gates are not due in this research-only slice; they remain due at the settled Epic/PR candidate.
+- Time record (approximate, UTC; total wall window about 20 min): supplied-book identity/page review 13 min; durable report/state/context/board integration 3 min; focused verification 2 min; external-agent setup/access recovery 2 min; implementation 0 min; maintainer-decision time 0 min. Claude/OpenCode produced no active process that needs further waiting. Slice started 02:26 and closed 02:46 UTC.
+- S455's original `Slice 455: review remaining sewing book references` commit remains unchanged because it is the base of the delegated worktrees. The final documentation/board closeout is recorded in the unique Slice 456 follow-up packet at `docs/research/epic17/S456-supplied-book-review-closeout/G04-S455-BOOK-REVIEW-CLOSEOUT-S456.md`; no second S455 commit was created.
+- **Next action:** obtain maintainer disposition of S454's exact collar-leaf mask proposal or continue only with an independent, source-backed V02 blocker step. Until the Woven front/back blockers are resolved, preserve every face hold and do not start V03.
+- **Next action:** obtain maintainer disposition of S454's exact collar-leaf mask proposal or continue only with an independent, source-backed V02 blocker step. Until the Woven front/back blockers are resolved, preserve every face hold and do not start V03.

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2752,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S456-S455-CLOSEOUT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S456-supplied-book-review-closeout/G04-S455-BOOK-REVIEW-CLOSEOUT-S456.md",
+      "verified": true,
+      "note": "S456 closes S455's supplied-book review in a uniquely numbered follow-up, preserving the original S455 commit shared by delegated worktrees. No product, scope, gate, or face-hold change."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2753,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S456 closes the S455 supplied-book review in a separate unique follow-up commit because the original S455 commit is shared by delegated worktrees and remains unchanged. Board evidence and the S455/S456 packets preserve the book findings and all current decisions. EPIC-17/G04-V02 stay In Progress; V01 Done; V03 Backlog; 56 accepted / 90 held; all 56 Woven and 34 Polo faces remain held. All-seven V02 and V02-before-V03 remain unchanged."
+  }
+]
