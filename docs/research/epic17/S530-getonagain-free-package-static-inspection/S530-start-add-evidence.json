@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3231,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S530-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-start-packet.md",
+    "verified": true,
+    "note": "C:-only static inspection of the official GetonAgain free package for build identity and bundled terms. No execution, install, account/phone, vendor contact, pattern file, CLO action, or V03 change."
+  }
+}

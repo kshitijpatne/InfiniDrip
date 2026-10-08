@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3233,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S530-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-exit-packet.md",
+    "verified": true,
+    "note": "Official GetonAgain ZIP endpoint is confirmed, but the 248.2 MiB package could not be fetched within a practical time: observed about 75 KB/s and stopped with an explicitly incomplete 7.73 MB partial. No package contents or V03 gate are established. CLO was left open and untouched."
+  }
+}

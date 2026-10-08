@@ -2,6 +2,13 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-exit-packet.md`
+  confirms the official package endpoint but records that the 248.2 MiB ZIP
+  transferred at only about 75 KB/s. The transfer was stopped; the 7.73 MB
+  file in the dedicated C: folder is partial and establishes no package
+  contents. No V03 gate changed and CLO was left open/untouched. Board
+  `3231→3233→3235`; V03 remains In Progress. Next: one bounded practical CLO
+  test slice, reconciled with S526's trial-use and local-handling evidence.
 - `docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-exit-packet.md`
   verifies official V2024.1 documentation for ASTM/AAMA import/export, but
   the free `FUZHUANGCAD_MIANFEI_20260306.zip` build is not matched to that

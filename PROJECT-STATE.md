@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 530 GetonAgain package inspection (closed; V03 remains open)
+
+The official `FUZHUANGCAD_MIANFEI_20260306.zip` endpoint returned HTTP 200,
+advertised a 260,318,538-byte archive, and supported ranges. A C:-only transfer
+ran at roughly 75 KB/s and was stopped rather than spending over 50 more
+minutes on this optional lead. The 7,728,860-byte file at
+`C:\G04-CLO-DXF-Exchange\S530-getonagain-free-package-static-inspection\` is
+an incomplete partial with SHA-256
+`381A7B3E9DADABB2E91841EED62A2694F12E09D48481EEE4AC8D16339D29734B`; it is
+not a ZIP/package-content finding. No install, execution, account/phone,
+vendor contact, pattern/CAD transfer, or CLO operation occurred. No V03 gate
+changed. S530 start/exit board replay is `3231→3233→3235`; the full goal is
+still required. Details are in
+`docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-exit-packet.md`.
+
+**Next:** start one bounded practical CLO exchange-test slice without closing
+or reopening the running app. Reconcile S526's documented Trial License
+purpose and local-handling limits against the maintainer's explicit test
+instruction before using G04 product fixtures. Keep every V03 gate held.
+
 ## EPIC-17 / G04 — Slice 529 GetonAgain free-build capability audit (complete; V03 remains open)
 
 Official GetonAgain Garment CAD V2024.1 documentation explicitly covers

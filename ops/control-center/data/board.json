@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3231,
-  "updatedAt": "2026-10-08T20:25:07.563Z",
+  "revision": 3235,
+  "updatedAt": "2026-10-08T20:30:31.338Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11118,6 +11118,16 @@
           "at": "2026-10-08T20:25:07.563Z",
           "actor": "Codex",
           "text": "S529 confirms V2024.1 has documented ASTM/AAMA DXF import/export (manual pp. 242–244), but the free `FUZHUANGCAD_MIANFEI_20260306.zip` package is not version/feature-matched, and its rights/local-data path remain unknown. Next safe step is static C:-only package inspection; no install, phone registration, vendor contact, G04 data, CLO action, or gate change."
+        },
+        {
+          "at": "2026-10-08T20:26:51.900Z",
+          "actor": "Codex",
+          "text": "S530 downloads the vendor-listed free ZIP only into the named C: folder and inspects archive metadata without executing anything. No phone/account, vendor contact, pattern transfer, CLO action, or acceptance change."
+        },
+        {
+          "at": "2026-10-08T20:30:31.338Z",
+          "actor": "Codex",
+          "text": "S530 confirmed the official ZIP is 248.2 MiB. Transfer ran at roughly 75 KB/s, so it was stopped; the 7.73 MB file in the dedicated C: folder is explicitly partial and provides no package-content evidence. No V03 gate changed. Next is the requested bounded CLO practical test, with S526's recorded trial-use/local-handling limits reconciled first; CLO remains open and was untouched."
         }
       ],
       "evidenceRefs": [
@@ -11273,7 +11283,9 @@
         "E-G04-S528-START",
         "E-G04-S528-EXIT",
         "E-G04-S529-START",
-        "E-G04-S529-EXIT"
+        "E-G04-S529-EXIT",
+        "E-G04-S530-START",
+        "E-G04-S530-EXIT"
       ],
       "flagKey": null
     },
@@ -20926,6 +20938,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official GetonAgain V2024.1 manual verifies apparel AAMA/ASTM DXF import and export for that product version. Official free package is dated but not version-matched; applicable rights and local-only handling remain unverified. No app execution, registration, vendor contact, pattern transfer, or gate change."
+    },
+    {
+      "id": "E-G04-S530-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "C:-only static inspection of the official GetonAgain free package for build identity and bundled terms. No execution, install, account/phone, vendor contact, pattern file, CLO action, or V03 change."
+    },
+    {
+      "id": "E-G04-S530-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official GetonAgain ZIP endpoint is confirmed, but the 248.2 MiB package could not be fetched within a practical time: observed about 75 KB/s and stopped with an explicitly incomplete 7.73 MB partial. No package contents or V03 gate are established. CLO was left open and untouched."
     }
   ]
 }
