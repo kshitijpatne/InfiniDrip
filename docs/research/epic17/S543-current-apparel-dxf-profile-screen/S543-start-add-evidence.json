@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3283,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S543-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-start-packet.md",
+    "verified": true,
+    "note": "Screen official standards-owner records for current 2D apparel CAD exchange profiles, edition/version, and disclosed semantics; no vendor contact, purchase, install, exchange, or gate change."
+  }
+}

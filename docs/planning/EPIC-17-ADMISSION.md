@@ -1209,3 +1209,17 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   citation are in the packet. No gates, rights, thresholds, or acceptance
   changed. **Next:** assess another receiver/profile only if exact version,
   semantic rules, and rights are documented.
+
+- **S543 current apparel profile screen (2026-10-08):** from clean S542
+  `78c4718d657de3ae20a7e1fd17006cd4eae1b62f`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; unique
+  S543. Checked official ASTM and ISO records and searched official ANSI/AAMA/
+  AAFA catalog surfaces. ASTM D6673-10 is listed withdrawn in 2019; D6673-04's
+  historical record specifies 2D pieces and grade tables, R13 DXF, and
+  references ANSI/AAMA-292A. No authoritative current status/full text for
+  292A or current successor was located; do not infer absence from this search.
+  ISO modules examined concern generic 2D/3D geometric relationships or datum
+  symbols and are not apparel pattern exchange profiles. No source or gate
+  change. **Next:** complete the three missing Tee/Polo/Woven CLO DXF-AAMA
+  recipe trials to create a same-mode seven-recipe evidence cohort while
+  explicitly holding conformance and all V03 gates.

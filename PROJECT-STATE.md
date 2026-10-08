@@ -1,5 +1,21 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 543 current apparel profile screen (closed; V03 remains open)
+
+Official primary records show ASTM D6673-10 withdrawn in 2019; D6673-04 is
+historical, describes 2D sewn pattern and grade-rule exchange, and requires
+R13 DXF, but is not intended to represent piece relationships or 2D/3D sewn
+geometry. D6673-04 references ANSI/AAMA-292A; this bounded search did not
+locate an authoritative current status or full text for that profile, so it
+remains a candidate, not a proven active standard. The current ISO modules
+examined were generic geometry/symbol modules, not apparel exchange profiles.
+No V03 gate changed.
+
+**Next:** finish Tee, Polo, and Woven in the same CLO DXF-AAMA mode as the four
+S523 recipes to complete a seven-recipe cohort, keeping profile conformance
+unclaimed and all acceptance gates intact. See
+`docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 542 CLO version-selector audit (closed; V03 remains open)
 
 The official CLO export article documents DXF-AAMA, DXF-ASTM, and Standard DXF

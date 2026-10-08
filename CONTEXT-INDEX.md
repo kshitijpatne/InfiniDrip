@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-exit-packet.md`
+  records a primary-source screen: ASTM D6673-10 is withdrawn; D6673-04 is a
+  historical R13 profile; AAMA-292A is referenced by D6673-04 but its current
+  status/full clauses remain unresolved. Generic current ISO STEP modules
+  found do not define apparel-pattern exchange. No V03 gate changed. Next:
+  finish the three missing Tee/Polo/Woven exchanges in the candidate
+  DXF-AAMA mode and preserve all holds.
+- `docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-start-packet.md`
+  defines the bounded standards-owner source screen.
+
 - `docs/research/epic17/S542-clo-version-selector-audit/S542-exit-packet.md`
   compares current official CLO help with the existing hash-pinned 2026.1.310
   export dialog. The documented DXF-AAMA/ASTM/Standard DXF choices do not

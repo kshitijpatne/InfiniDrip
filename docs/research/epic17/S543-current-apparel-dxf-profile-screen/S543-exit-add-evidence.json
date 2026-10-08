@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3285,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S543-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-exit-packet.md",
+    "verified": true,
+    "note": "Primary-source screen found D6673-10 withdrawn and D6673-04 historical/R13, while current AAMA-292A status remains unresolved; generic ISO modules do not define apparel interchange. All V03 gates stay held."
+  }
+}

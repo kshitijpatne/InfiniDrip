@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3283,
-  "updatedAt": "2026-10-08T22:06:14.525Z",
+  "revision": 3287,
+  "updatedAt": "2026-10-08T22:08:38.246Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11248,6 +11248,16 @@
           "at": "2026-10-08T22:06:14.525Z",
           "actor": "Codex",
           "text": "S542 found no exact DXF database-version or ASTM-edition selector in CLO's official export documentation or saved 2026.1.310 export dialog. Keep the S541 conditional version mismatch and all V03 holds; next evaluate a documented, rights-qualified receiver/profile."
+        },
+        {
+          "at": "2026-10-08T22:07:12.495Z",
+          "actor": "Codex",
+          "text": "S543 checks primary standards-owner records for a current, exact apparel pattern-interchange profile that merits a receiver trial. It preserves all-seven V03 gates and does not repeat CLO exchanges."
+        },
+        {
+          "at": "2026-10-08T22:08:38.246Z",
+          "actor": "Codex",
+          "text": "S543 primary-source screen did not establish a current replacement: ASTM D6673-10 is withdrawn, D6673-04 is historical and R13, and AAMA-292A status/full clauses remain unresolved. The bounded next candidate test is finishing the three missing DXF-AAMA recipe exchanges; no profile/conformance claim or gate change."
         }
       ],
       "evidenceRefs": [
@@ -11429,7 +11439,9 @@
         "E-G04-S541-START",
         "E-G04-S541-EXIT",
         "E-G04-S542-START",
-        "E-G04-S542-EXIT"
+        "E-G04-S542-EXIT",
+        "E-G04-S543-START",
+        "E-G04-S543-EXIT"
       ],
       "flagKey": null
     },
@@ -21316,6 +21328,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official CLO docs expose DXF-AAMA/ASTM/Standard DXF but no database-version or standard-edition choice; the saved build dialog likewise shows none. Current CLO route is not evidenced to emit ASTM D6673-04 R13; V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S543-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Screen official standards-owner records for current 2D apparel CAD exchange profiles, edition/version, and disclosed semantics; no vendor contact, purchase, install, exchange, or gate change."
+    },
+    {
+      "id": "E-G04-S543-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Primary-source screen found D6673-10 withdrawn and D6673-04 historical/R13, while current AAMA-292A status remains unresolved; generic ISO modules do not define apparel interchange. All V03 gates stay held."
     }
   ]
 }
