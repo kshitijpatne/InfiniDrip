@@ -1,0 +1,47 @@
+{
+  "startRevision": 2867,
+  "exitRevision": 2871,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "evidence": {
+        "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-start-packet.md",
+        "id": "E-G04-S467-START",
+        "note": "S467 reconciles official English/Chinese free-build DXF claims without install, registration, or fixture transfer; V03 gates unchanged.",
+        "verified": true,
+        "kind": "document"
+      },
+      "expectedRevision": 2867,
+      "itemId": "G04-V03",
+      "type": "addEvidence"
+    },
+    {
+      "evidence": {
+        "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-start-packet.md",
+        "id": "E-EPIC17-S467-START",
+        "note": "S467 checks whether GetonAgain Free has an export-capable profile usable within the no-hosted-service and rights gates.",
+        "verified": true,
+        "kind": "document"
+      },
+      "expectedRevision": 2868,
+      "itemId": "EPIC-17",
+      "type": "addEvidence"
+    },
+    {
+      "expectedRevision": 2869,
+      "actor": "Codex",
+      "epicId": "EPIC-17",
+      "type": "addEpicEvidence",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S467-START"
+    },
+    {
+      "text": "S467 checks official-language differences in GetonAgain Free exchange claims. No install/phone signup/file transfer. Determine whether generic DXF export is documented for free build and whether any AAMA/ASTM export is documented; preserve all V03 gates. See E-G04-S467-START.",
+      "expectedRevision": 2870,
+      "actor": "Codex",
+      "itemId": "G04-V03",
+      "type": "addComment"
+    }
+  ]
+}

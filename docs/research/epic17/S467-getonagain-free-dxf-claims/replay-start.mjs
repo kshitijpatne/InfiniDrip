@@ -1,0 +1,1 @@
+import{readFile}from"node:fs/promises";import{executeBoardCommand}from"../../../../ops/control-center/board-store.mjs";const commands=JSON.parse(await readFile(new URL("./S467-start-board-commands.json",import.meta.url),"utf8"));for(const c of commands){const b=await executeBoardCommand(c);console.log(`${c.type}: revision ${b.revision}`)}

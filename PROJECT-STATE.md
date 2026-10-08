@@ -1,5 +1,9 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 467 reconciles free-version DXF claims
+
+The official GetonAgain free-version pages state generic DXF import/export and AAMA/ASTM import, but do not establish AAMA/ASTM export, on-device handling, or rights. Phone registration and cloud SuperNest are disclosed. No install, registration, fixture transfer, or profile selection occurred. Do not use a fixture until exact build/modes, license, and local-only pattern handling are established. G04-V03 remains In Progress; V01/V02 Done. Board revisions 2867→2871→2875. Packet: `docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md`. **Next:** owner may inspect the installed free build/version and format menu, without loading a pattern; reject it if the required exchange path uses cloud processing or lacks an AAMA/ASTM export mode.
+
 ## EPIC-17 / G04 — Slice 466 qualifies a free CAD import candidate
 
 GetonAgain Garment CAD Free Version is a candidate, not a selected V03 receiver. Its official free-version page explicitly lists AAMA/ASTM DXF import and says phone-number registration is required; it mentions cloud super-nesting. The free page does not establish export parity, local handling, or rights. Do not load S463 fixtures until the installed free build/version, exact export modes, privacy/terms, and local file handling are checked. No install, registration, file transfer, compatibility claim, product change, or acceptance change occurred. V03 remains In Progress behind every admitted rights/profile/fixture/round-trip gate; V01/V02 Done.

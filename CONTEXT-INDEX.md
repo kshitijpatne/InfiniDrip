@@ -1,6 +1,12 @@
 # InfiniDrip context index
 
 ## Current EPIC-17/G04 V03 slice
+
+- `docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md`
+  confirms the official free-version pages claim generic DXF import/export and
+  AAMA/ASTM import, but not apparel-profile export, local handling, or rights.
+  Phone login/cloud SuperNest are disclosed. No files were transferred; V03
+  remains gated. Next is exact-build/mode and local-processing inspection.
 - `docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md`
   qualifies GetonAgain Garment CAD Free Version only as a free import candidate:
   the vendor lists AAMA/ASTM DXF import and phone registration, but free-build

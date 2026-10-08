@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2867,
-  "updatedAt": "2026-10-08T04:43:27.556Z",
+  "revision": 2875,
+  "updatedAt": "2026-10-08T04:45:54.899Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -668,7 +668,9 @@
         "E-EPIC17-S465-START",
         "E-EPIC17-S465-EXIT",
         "E-EPIC17-S466-START",
-        "E-EPIC17-S466-EXIT"
+        "E-EPIC17-S466-EXIT",
+        "E-EPIC17-S467-START",
+        "E-EPIC17-S467-EXIT"
       ]
     },
     {
@@ -4937,7 +4939,9 @@
         "E-EPIC17-S465-START",
         "E-EPIC17-S465-EXIT",
         "E-EPIC17-S466-START",
-        "E-EPIC17-S466-EXIT"
+        "E-EPIC17-S466-EXIT",
+        "E-EPIC17-S467-START",
+        "E-EPIC17-S467-EXIT"
       ],
       "flagKey": null
     },
@@ -10345,6 +10349,16 @@
           "at": "2026-10-08T04:43:27.556Z",
           "actor": "Codex",
           "text": "S466 official-source review: the free GetonAgain page explicitly claims AAMA/ASTM DXF import and requires phone registration; it does not establish free-build export or local handling and mentions cloud super-nesting. No install/registration/fixture transfer. Next, owner may install and report exact version/modes; inspect privacy/local handling before fixture use. All V03 gates remain. See E-G04-S466-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:45:37.133Z",
+          "actor": "Codex",
+          "text": "S467 checks official-language differences in GetonAgain Free exchange claims. No install/phone signup/file transfer. Determine whether generic DXF export is documented for free build and whether any AAMA/ASTM export is documented; preserve all V03 gates. See E-G04-S467-START."
+        },
+        {
+          "at": "2026-10-08T04:45:54.899Z",
+          "actor": "Codex",
+          "text": "S467 reconciles GetonAgain official-language claims: free version lists generic DXF import/export and AAMA/ASTM import, but AAMA/ASTM export and local handling are not established; phone login/cloud SuperNest are disclosed. No install or fixture transfer. Candidate unselected pending exact build, rights and local-processing check; V03 gates unchanged. See E-G04-S467-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10365,7 +10379,9 @@
         "E-G04-S465-START",
         "E-G04-S465-EXIT",
         "E-G04-S466-START",
-        "E-G04-S466-EXIT"
+        "E-G04-S466-EXIT",
+        "E-G04-S467-START",
+        "E-G04-S467-EXIT"
       ],
       "flagKey": null
     },
@@ -18461,6 +18477,42 @@
       "sha256": null,
       "verified": true,
       "note": "S466 identifies GetonAgain Free as an import-capable candidate only; no installation, terms, file transfer, round-trip or compatibility claim. V03 remains active."
+    },
+    {
+      "id": "E-G04-S467-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S467 reconciles official English/Chinese free-build DXF claims without install, registration, or fixture transfer; V03 gates unchanged."
+    },
+    {
+      "id": "E-EPIC17-S467-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S467 checks whether GetonAgain Free has an export-capable profile usable within the no-hosted-service and rights gates."
+    },
+    {
+      "id": "E-G04-S467-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official free-version sources support generic DXF import/export and AAMA/ASTM import claims, but not AAMA/ASTM export, local processing, license or rights; candidate remains unselected."
+    },
+    {
+      "id": "E-EPIC17-S467-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S467 resolves official free-build claims: candidate can be considered for local trial only after exact build, rights and on-device handling are checked; no fixture transferred."
     }
   ]
 }
