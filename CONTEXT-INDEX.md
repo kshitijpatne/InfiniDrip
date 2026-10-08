@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md`
+  records that the official Richpeace V8 package host timed out before
+  transferring any bytes. The portal's 64 MB/2021 listing is not binary
+  integrity, evaluation-rights, local-handling, build, or Windows 11 evidence.
+  No download/install/fixture occurred; V03 remains In Progress and all gates
+  are unchanged. Board `2983→2987→2991`; goal active. Continue only with a
+  safely obtained package and explicit action-time installation approval, or
+  another already accessible rights-cleared local receiver.
+
 - `docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-exit-packet.md`
   and `S481-candidate-matrix.md` reconcile existing V03 candidates against
   rights, local handling, exact apparel profile, round-trip, grading and

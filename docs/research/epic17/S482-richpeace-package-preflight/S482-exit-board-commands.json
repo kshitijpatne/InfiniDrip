@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2987,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S482-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md",
+      "verified": true,
+      "note": "Publisher-hosted Richpeace package timed out before transfer; digest, signature and embedded terms remain unavailable. No install/fixture use; all V03 gates stay in force."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2988,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S482-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md",
+      "verified": true,
+      "note": "S482 could not retrieve the exact Richpeace V8 package for static inspection. V03 remains gated on lawful local receiver access and observed exchange evidence; scope unchanged."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2989,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S482-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2990,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S482's publisher-hosted package request timed out; no binary was saved or inspected. No install is authorized by this slice. Resume only with a safely obtained package plus action-time installation approval, then pass Gate 0 before fixtures."
+  }
+]

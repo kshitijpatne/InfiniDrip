@@ -1,5 +1,28 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 482 Richpeace package preflight
+
+S482 followed the official Richpeace V8 Free English download link to its
+publisher-hosted RAR URL, but the exact binary host timed out on both the
+redirected fetch and a no-body HEAD request (15 seconds). The portal lists a
+64 MB package updated 2021-10-13. No package bytes, digest, signature, exact
+build resource, or embedded terms were available; no default Downloads path
+was used. This does not clear rights, local handling, integrity, or Windows 11
+behavior. No installation, fixture, external transfer, or product change
+occurred. V01/V02 remain Done; G04-V03 and EPIC-17 remain In Progress. All
+acceptance gates, legacy DXF behavior, and protected export byte identities
+remain unchanged. Packet:
+`docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md`.
+
+Start: `2026-10-08 08:03:10 UTC`, clean starting commit S481 `96608bf`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. Board start/exit `2983→2987→2991`; Control Center 42/42 and
+`git diff --check` pass. The goal remains active. **Next:** continue only with
+a safely obtained package plus explicit action-time install approval, then
+pass Gate 0 (rights, local handling, exact build/modes, host behavior) before
+any fixture; otherwise seek an already accessible rights-cleared local
+receiver without weakening V03.
+
 ## EPIC-17 / G04 — Slice 481 receiver candidate/access reconciliation
 
 S481 rechecked the existing S465–S480 candidate evidence against C04's

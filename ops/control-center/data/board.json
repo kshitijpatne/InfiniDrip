@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2983,
-  "updatedAt": "2026-10-08T08:01:57.127Z",
+  "revision": 2991,
+  "updatedAt": "2026-10-08T08:08:20.852Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -697,7 +697,9 @@
         "E-EPIC17-S480-START",
         "E-EPIC17-S480-EXIT",
         "E-EPIC17-S481-START",
-        "E-EPIC17-S481-EXIT"
+        "E-EPIC17-S481-EXIT",
+        "E-EPIC17-S482-START",
+        "E-EPIC17-S482-EXIT"
       ]
     },
     {
@@ -4995,7 +4997,9 @@
         "E-EPIC17-S480-START",
         "E-EPIC17-S480-EXIT",
         "E-EPIC17-S481-START",
-        "E-EPIC17-S481-EXIT"
+        "E-EPIC17-S481-EXIT",
+        "E-EPIC17-S482-START",
+        "E-EPIC17-S482-EXIT"
       ],
       "flagKey": null
     },
@@ -10548,6 +10552,16 @@
           "at": "2026-10-08T08:01:57.127Z",
           "actor": "Codex",
           "text": "S481 identifies no currently qualified receiver. Richpeace V8 is the sole documented local lead, conditional on user-authorized install attempt, terms/local-handling review, exact modes, and unsupported-host behavior. No fixture until preflight passes."
+        },
+        {
+          "at": "2026-10-08T08:03:54.423Z",
+          "actor": "Codex",
+          "text": "S482 checks the exact official V8 package metadata and signature without running it. No installation or fixture use is authorized by this slice."
+        },
+        {
+          "at": "2026-10-08T08:08:20.852Z",
+          "actor": "Codex",
+          "text": "S482's publisher-hosted package request timed out; no binary was saved or inspected. No install is authorized by this slice. Resume only with a safely obtained package plus action-time installation approval, then pass Gate 0 before fixtures."
         }
       ],
       "evidenceRefs": [
@@ -10597,7 +10611,9 @@
         "E-G04-S480-START",
         "E-G04-S480-EXIT",
         "E-G04-S481-START",
-        "E-G04-S481-EXIT"
+        "E-G04-S481-EXIT",
+        "E-G04-S482-START",
+        "E-G04-S482-EXIT"
       ],
       "flagKey": null
     },
@@ -19215,6 +19231,42 @@
       "sha256": null,
       "verified": true,
       "note": "No reviewed receiver currently passes V03 rights/local/profile/round-trip/grade/negative gates. The remaining local lead and its exact conditions are documented; scope unchanged."
+    },
+    {
+      "id": "E-G04-S482-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S482 inspects only the official Richpeace V8 Free English package metadata/signature without executing it. The installer and all exchange-related material stay in C:\\G04-CLO-DXF-Exchange."
+    },
+    {
+      "id": "E-EPIC17-S482-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S482 performs a static pre-install inspection of the official Richpeace V8 package; no execution, fixture use, or V03 gate change."
+    },
+    {
+      "id": "E-G04-S482-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Publisher-hosted Richpeace package timed out before transfer; digest, signature and embedded terms remain unavailable. No install/fixture use; all V03 gates stay in force."
+    },
+    {
+      "id": "E-EPIC17-S482-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S482 could not retrieve the exact Richpeace V8 package for static inspection. V03 remains gated on lawful local receiver access and observed exchange evidence; scope unchanged."
     }
   ]
 }
