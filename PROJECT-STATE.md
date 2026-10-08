@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 554 exit (V03 remains open)
+
+S554 screened new apparel-CAD receivers using publisher sources and the
+requested independent Claude Opus 5.5 research handoff. Optitex PDS is the
+strongest technical lead, but its current manual pages are login-gated and
+the exact DXF profile edition, evaluation rights, local desktop file handling,
+and complete marks/CUT/SEW semantics remain unverified. TUKAcad lists import/
+export only in paid CPE plans; Gerber AccuMark documentation establishes
+capabilities but not current exact semantics or no-cost evaluation access.
+No candidate was installed, contacted, or given pattern data. Maintainer
+written authorization for CLO product-development evaluation and local DXF
+processing is confirmed; this removes the prior CLO-use/locality question.
+All original V03 gates remain held. CLO stays open. See
+`docs/research/epic17/S554-new-receiver-candidate-screen/S554-exit-packet.md`.
+Board replay is 3331→3333; G04-V03 remains In Progress. Next: continue a
+previously untested practical CLO V03 gate using C:-only evidence and preserve
+all-seven/profile/semantic/grade/negative-input/round-trip criteria.
+
 ## EPIC-17 / G04 — Slice 553 exit (V03 remains open)
 
 A single CLO 2026.1.310 Standard DXF export from the already imported S551

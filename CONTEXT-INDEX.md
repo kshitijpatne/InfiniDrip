@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S554-new-receiver-candidate-screen/S554-exit-packet.md`
+  records the bounded receiver scan. Optitex PDS is a promising technical lead,
+  but current manual pages are login-gated and exact profile, evaluation
+  rights, desktop locality, and complete marks remain unknown; TUKAcad lists
+  data import/export only for paid CPE; Gerber docs do not establish current
+  exact semantics or a no-cost evaluation. No candidate qualified and no
+  files were transferred. The maintainer's written CLO product-development
+  and local-processing authorization is confirmed; continue practical CLO
+  gates with the original acceptance unchanged. CLO stays open. Board replay
+  is 3331→3333; next is the next untested CLO V03 gate.
 - `docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-exit-packet.md`
   records a single Standard DXF export from the existing imported Polo mm
   workspace. Its 18 contour residuals exactly equal the existing AAMA output;

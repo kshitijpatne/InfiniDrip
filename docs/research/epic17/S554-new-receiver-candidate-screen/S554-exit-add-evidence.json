@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3331,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S554-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S554-new-receiver-candidate-screen/S554-exit-packet.md",
+    "verified": true,
+    "note": "Optitex PDS is a technical lead but exact profile, trial rights, locality and complete mark semantics are unverified; TUKAcad puts data import/export in paid plans; Gerber capability docs do not establish current exact semantics or no-cost trial access. No new candidate qualifies. CLO use/locality remain confirmed; all V03 gates stay held."
+  }
+}

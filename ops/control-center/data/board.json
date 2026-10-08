@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3329,
-  "updatedAt": "2026-10-08T23:28:30.007Z",
+  "revision": 3333,
+  "updatedAt": "2026-10-08T23:36:08.122Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11363,6 +11363,16 @@
           "at": "2026-10-08T23:28:30.007Z",
           "actor": "Codex",
           "text": "S553's single Standard DXF export from the existing S551-imported Polo workspace matches AAMA exactly for all 18 contour residuals (max absolute difference 0); the same five source indices are omitted. This rules out an AAMA-only exporter explanation but cannot distinguish CLO import/internal geometry from behavior common to both exporters. Keep every V03 hold and qualify a rights-reviewed industrial receiver/profile next."
+        },
+        {
+          "at": "2026-10-08T23:30:40.226Z",
+          "actor": "Codex",
+          "text": "S554 checks only for a new rights- and profile-qualified industrial apparel receiver using publisher primary sources; previously screened candidates stay closed absent a new specific fact. No G04 pattern transfer, install, supplier contact, spending, or acceptance change. Codex owns evidence review."
+        },
+        {
+          "at": "2026-10-08T23:36:08.122Z",
+          "actor": "Codex",
+          "text": "S554's primary-source screen found no new receiver qualified for fixture transfer. Optitex PDS has a promising bidirectional AAMA/ASTM lead, but current help pages are login-gated and exact standard edition, mark semantics, evaluation rights and local file handling remain unverified. TUKAcad lists data import/export only on paid CPE plans; Gerber's public docs do not establish the current exact profile/semantics or no-cost access. No candidate was installed or received pattern files. The maintainer's written CLO product-development and local-processing authorization is already confirmed; continue practical CLO gates with all V03 acceptance unchanged."
         }
       ],
       "evidenceRefs": [
@@ -11567,7 +11577,9 @@
         "E-G04-S552-START",
         "E-G04-S552-EXIT",
         "E-G04-S553-START",
-        "E-G04-S553-EXIT"
+        "E-G04-S553-EXIT",
+        "E-G04-S554-START",
+        "E-G04-S554-EXIT"
       ],
       "flagKey": null
     },
@@ -21661,6 +21673,24 @@
       "sha256": null,
       "verified": true,
       "note": "One Standard DXF export from the same imported Polo workspace exactly matches the AAMA output across all 18 contour residuals; the same five source vertices remain missing. This rules out AAMA-only loss but does not isolate import/internal representation from shared export behavior. All V03 gates remain held."
+    },
+    {
+      "id": "E-G04-S554-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S554-new-receiver-candidate-screen/S554-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Screen only new desktop apparel-CAD candidates using current primary capability, profile, rights and local-handling evidence; reuse prior candidate findings; no data transfer/install/contact/spending or gate changes."
+    },
+    {
+      "id": "E-G04-S554-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S554-new-receiver-candidate-screen/S554-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Optitex PDS is a technical lead but exact profile, trial rights, locality and complete mark semantics are unverified; TUKAcad puts data import/export in paid plans; Gerber capability docs do not establish current exact semantics or no-cost trial access. No new candidate qualifies. CLO use/locality remain confirmed; all V03 gates stay held."
     }
   ]
 }
