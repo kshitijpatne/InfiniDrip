@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 501 Polo import-option retry stopped at UI capture
+
+Started `2026-10-08 15:03:15 UTC` from clean S500 `fe8623a` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor. S500 highest; S501 reserved. Board start `3113→3115`;
+EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal active; primary usage
+16%, weekly 40%.
+
+The fresh CLO launch exposed one startup window, but capture twice failed with
+`foreground window did not report a process id`, including after re-enumeration
+and fresh selection. The four-cell matrix did not run. A graceful close request
+was accepted; process `44612` remained present/responding after seven seconds,
+so closure is unverified and no force-kill was used. Hash-pinned input remains
+under `C:\G04-CLO-DXF-Exchange\S501-polo-import-options`; no output was made.
+V03 remains In Progress with every gate unchanged. See
+`docs/research/epic17/S501-polo-import-options-retry/S501-exit-packet.md`.
+Board `3113→3115→3119`; Control Center tests 42/42, preflight and diff check
+pass. **Next:** do not relaunch until the app window/shutdown path is usable;
+continue independent offline V03 evidence work.
+
 ## EPIC-17 / G04 — Slice 500 Polo contour-loss diagnosis
 
 S500 started `2026-10-08 14:56:43 UTC` from clean S499 `b999d89` on

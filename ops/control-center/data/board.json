@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3113,
-  "updatedAt": "2026-10-08T15:01:33.297Z",
+  "revision": 3119,
+  "updatedAt": "2026-10-08T15:05:09.472Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -721,7 +721,8 @@
         "E-G04-S497-EXIT",
         "E-G04-S498-EXIT",
         "E-G04-S499-EXIT",
-        "E-G04-S500-EXIT"
+        "E-G04-S500-EXIT",
+        "E-G04-S501-EXIT"
       ]
     },
     {
@@ -4623,6 +4624,11 @@
           "at": "2026-10-08T15:01:33.297Z",
           "actor": "Codex",
           "text": "S500 localizes the repeatable Polo output geometry loss without assigning a cause or adding a workaround. Keep G04-V03 In Progress and every V03 gate unchanged. Next: test a single import-option variable only when a responsive CLO UI is available."
+        },
+        {
+          "at": "2026-10-08T15:05:09.472Z",
+          "actor": "Codex",
+          "text": "S501 confirms a repeatable CLO UI automation blocker, not a receiver result. Keep V03 In Progress with every acceptance gate. Continue independent offline evidence; do not relaunch CLO until targetability or normal shutdown is resolved."
         }
       ],
       "evidenceRefs": [
@@ -10816,6 +10822,16 @@
           "at": "2026-10-08T15:01:33.177Z",
           "actor": "Codex",
           "text": "S500 proves the same non-collinear source vertex is omitted from five Polo M CUT contours in both S498 CLO generations; all other vertices match within tolerance. The point-change residual is 0.012736–0.013970 cm with 16.28–17.39° direction change. The import/optimization cause remains untested because S499's UI failed. Preserve the 0.001 cm gate and all V03 holds. See E-G04-S500-EXIT."
+        },
+        {
+          "at": "2026-10-08T15:03:40.209Z",
+          "actor": "Codex",
+          "text": "S501 retries the exact four-profile CLO test only after graceful exit of the prior unresponsive session. It tests import-mode and curve-point optimization effects on the five localized Polo points; no source geometry or tolerance changes, and no compatibility conclusion follows."
+        },
+        {
+          "at": "2026-10-08T15:05:09.359Z",
+          "actor": "Codex",
+          "text": "S501's fresh CLO launch repeated the target-window capture failure after single-window reselection; no import/export ran. Graceful close was accepted but the process remained responding and could not be closed through the UI. Do not infer receiver behavior. Preserve all V03 gates and retry only after usable UI/shutdown recovery. See E-G04-S501-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10915,7 +10931,9 @@
         "E-G04-S499-START",
         "E-G04-S499-EXIT",
         "E-G04-S500-START",
-        "E-G04-S500-EXIT"
+        "E-G04-S500-EXIT",
+        "E-G04-S501-START",
+        "E-G04-S501-EXIT"
       ],
       "flagKey": null
     },
@@ -20064,6 +20082,24 @@
       "sha256": null,
       "verified": true,
       "note": "Both S498 CLO generations omit the same non-collinear Polo M CUT vertex from each of five contours; localized chord residuals 0.012736–0.013970 cm and 16.28–17.39° direction changes exceed the 0.001 cm exact gate. Cause remains unproven; no workaround or acceptance change."
+    },
+    {
+      "id": "E-G04-S501-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S501-polo-import-options-retry/S501-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Retry S499's four-cell Polo import-option matrix after the previous CLO process exited: AAMA/ASTM import crossed with optimization off/on. Hash-pin input; dedicated C: folder; all V03 gates retained."
+    },
+    {
+      "id": "E-G04-S501-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S501-polo-import-options-retry/S501-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Fresh CLO launch repeated foreground window did not report a process id after exact single-window reselection. The four-cell profile matrix did not run. Graceful close was accepted but process remained present/responding; no forced termination. C: input hash pinned; all V03 gates unchanged."
     }
   ]
 }

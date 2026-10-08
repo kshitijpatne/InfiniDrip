@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S501-polo-import-options-retry/S501-exit-packet.md`
+  records a fresh CLO launch where state capture twice returned
+  `foreground window did not report a process id` after re-selection. The
+  planned AAMA/ASTM × optimization matrix did not run. A graceful close request
+  was accepted but the process remained present/responding; no force-kill.
+  Hash-pinned input remains under the dedicated C: path, no export occurred.
+  Board `3113→3115→3119`; V03 gates unchanged.
+
 - `docs/research/epic17/S500-polo-vertex-loss-analysis/S500-exit-packet.md`
   localizes all five S498 Polo M CUT failures to the same single missing source
   vertex per piece across both receiver generations. The omitted points are

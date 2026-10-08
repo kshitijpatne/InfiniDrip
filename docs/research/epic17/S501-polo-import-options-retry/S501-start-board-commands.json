@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3113,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S501-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S501-polo-import-options-retry/S501-start-packet.md",
+      "verified": true,
+      "note": "Retry S499's four-cell Polo import-option matrix after the previous CLO process exited: AAMA/ASTM import crossed with optimization off/on. Hash-pin input; dedicated C: folder; all V03 gates retained."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3114,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S501 retries the exact four-profile CLO test only after graceful exit of the prior unresponsive session. It tests import-mode and curve-point optimization effects on the five localized Polo points; no source geometry or tolerance changes, and no compatibility conclusion follows."
+  }
+]
