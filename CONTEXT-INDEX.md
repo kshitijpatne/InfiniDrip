@@ -2,6 +2,11 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S504-s503-diff-hygiene/S504-exit-packet.md`
+  records a separate closeout follow-up for S503's staged whitespace check.
+  It removes two trailing blank lines, corrects S503's verification record,
+  and runs staged plus unstaged diff checks without rewriting S503. The next
+  practical receiver probe is a bounded CLO Standard DXF Polo M import.
 - `docs/research/epic17/S503-polo-import-options-live/S503-exit-packet.md`
   records four actual CLO 2026.1.310 Polo M import/export cells (AAMA/ASTM ×
   Optimize All Curve Points off/on) using the same C:-confined, hash-pinned

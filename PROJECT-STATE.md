@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 504 S503 closeout hygiene (complete)
+
+Started `2026-10-08 15:41:54 UTC` from clean S503
+`f048f84816cbed9acfd6044a8e445a25c01d1e4c` on `codex/epic-17-g04`;
+refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and
+remains an ancestor. S503 is highest; S504 is reserved. Board revision
+`3129→3132`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. CLO is
+reported available for the next bounded practical receiver probe. Goal-record
+review is due at this boundary.
+
+S504 removed two trailing blank lines reported by the S503 staged diff check,
+corrected S503's verification record, and preserved S503's commit. Staged and
+unstaged diff checks now pass; Control Center passes 42/42; board commands
+validated and replayed. No product source, DXF, gate, threshold, or acceptance
+rule changed. See
+`docs/research/epic17/S504-s503-diff-hygiene/S504-exit-packet.md`.
+
+**Next:** inspect the goal record without changing it; then reserve S505 for
+the one-cell CLO Standard DXF import probe on the unchanged Polo M fixture.
+
 ## EPIC-17 / G04 — Slice 503 Polo import-option matrix (complete)
 
 Started `2026-10-08 15:11:57 UTC` from clean S502 `043dbb3` on
@@ -30,7 +50,9 @@ gates remain in force.
 
 Focused checks: fixture verifier 6 positive + 1 negative; four S503 geometry
 analyses and pairwise comparison; CLO screenshot review; exit preflight/replay;
-Control Center tests; `git diff --check`. This evidence-only slice is not
+Control Center tests; unstaged `git diff --check`. The staged check exposed
+two trailing blank lines; S504 records and corrects them in a separate slice.
+This evidence-only slice is not
 independently releaseable; global tests/coverage/build remain due on the settled
 Epic/PR candidate. Timing: implementation `0m`; focused live CLO work `~16m`;
 geometry analysis `~5m`; durable closeout and focused checks `~7m38s`;

@@ -1,4 +1,18 @@
-## Current evidence and conditional remaining estimate — S503 exit (2026-10-08)
+## Current evidence and conditional remaining estimate — S504 exit (2026-10-08)
+
+S504 follows S503 `f048f84816cbed9acfd6044a8e445a25c01d1e4c` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The sole
+S504 scope was to correct and document two trailing blank lines that the S503
+staged diff check detected, preserving the already-landed S503 commit. The
+correction is complete; board revision is `3129→3132`, Control Center is
+42/42, and staged/unstaged diff checks pass. V01/V02 remain Done; V03 and
+EPIC-17 remain In Progress. **Next:** after the required goal-record review,
+use S505 for the one-cell CLO Standard DXF import diagnostic, preserving
+geometry, rights, format, grade, negative-control, and round-trip acceptance
+gates.
+
+## Historical current evidence — S503 exit (2026-10-08)
 
 S503 follows S502 `043dbb3d0063601c87a9e158b6a4c4ec24c8ee71` on
 `codex/epic-17-g04`; refreshed `origin/main`

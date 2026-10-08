@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3129,
-  "updatedAt": "2026-10-08T15:39:11.851Z",
+  "revision": 3132,
+  "updatedAt": "2026-10-08T15:43:30.867Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10858,6 +10858,16 @@
           "at": "2026-10-08T15:39:11.851Z",
           "actor": "Codex",
           "text": "S503 completed the four-cell CLO Polo M matrix. All cells retain nine source-SEW piece mappings but lose the same five CUT vertices; sampled exact-segment witnesses are 0.0101935–0.0111803 cm against the unchanged 0.001 cm limit. AAMA/ASTM geometry matches across all 94 parsed polylines. Optimizer-on changes four button-mark loops from 12 to 8 vertices (numeric layers recorded without semantic claims). No gate or threshold changed. CLO was closed normally and its absence verified. See S503 exit packet and C:\\G04-CLO-DXF-Exchange\\S503-polo-import-options."
+        },
+        {
+          "at": "2026-10-08T15:43:12.083Z",
+          "actor": "Codex",
+          "text": "S504 is a closeout-only follow-up to S503. Its staged diff check identified two trailing blank lines after the S503 commit command proceeded; this slice records and corrects them without rewriting S503. No product source, exchange output, acceptance, or V03 gate changes."
+        },
+        {
+          "at": "2026-10-08T15:43:30.867Z",
+          "actor": "Codex",
+          "text": "S504 closes the S503 packet hygiene follow-up. The two staged diff-check findings are fixed in a new uniquely numbered commit; S503 history is preserved. Control Center tests pass 42/42 and staged/unstaged diff checks pass. No acceptance or V03 status change; goal remains open."
         }
       ],
       "evidenceRefs": [
@@ -10963,7 +10973,8 @@
         "E-G04-S502-START",
         "E-G04-S502-EXIT",
         "E-G04-S503-START",
-        "E-G04-S503-EXIT"
+        "E-G04-S503-EXIT",
+        "E-G04-S504-EXIT"
       ],
       "flagKey": null
     },
@@ -20166,6 +20177,15 @@
       "sha256": null,
       "verified": true,
       "note": "Four live Polo M CLO import/export trials reproduce the same five CUT contour failures under AAMA/ASTM and curve-optimization off/on. Format has identical ordered geometry; optimizer-on also changes four button-mark loops. All V03 gates remain unchanged; CLO closed normally."
+    },
+    {
+      "id": "E-G04-S504-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S504-s503-diff-hygiene/S504-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S504 separately removes two S503 trailing-blank-line findings and corrects the exact check record without rewriting S503. Staged and unstaged diff checks pass; V03 remains in progress with all gates unchanged."
     }
   ]
 }

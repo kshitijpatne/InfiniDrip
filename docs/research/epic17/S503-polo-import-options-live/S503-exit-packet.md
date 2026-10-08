@@ -87,14 +87,14 @@ off setting; no DXF layer-to-manufacturing-semantics claim is made.
   `0.001 cm` gate.
 - All four screenshot sets and the zoomed mark view were saved under the C:
   evidence root. CLO's normal close was verified by the app inventory.
-- No production behavior or tests changed. The required closeout checks are
-  the S463 fixture verifier, S503 analyzer syntax and four-cell replay,
-  comparison replay, Control Center tests, exit board preflight/replay, and
-  `git diff --check`. S463 fixture verification passed (6 positive, 1
-  negative); all four S503 analyzer replays and pairwise comparison passed;
-  Control Center passed 42/42; board exit preflight passed at revision 3129
-  and validated replay advanced `3127→3129`; the final diff check passed. No
-  global coverage/build gate applies to this
+- No production behavior or tests changed. S463 fixture verification passed
+  (6 positive, 1 negative); all four S503 analyzer replays and pairwise
+  comparison passed; Control Center passed 42/42; board exit preflight passed
+  at revision 3129 and validated replay advanced `3127→3129`. The unstaged
+  diff check passed, but the staged diff check printed two trailing-blank-line
+  findings in the S503 start packet and analyzer after the commit command
+  proceeded. S504 records and corrects that issue in a separate slice without
+  rewriting S503. No global coverage/build gate applies to this
   evidence-only, nonreleaseable slice; retain those gates for the settled Epic
   candidate.
 - No safe independent delegation exists for the stateful CLO matrix; Codex

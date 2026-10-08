@@ -75,4 +75,3 @@ receiver UI matrix.
 **First action:** create the dedicated C: folder and hash-check the input copy,
 then inspect the current CLO window via the computer-use workflow before
 selecting any import option.
-

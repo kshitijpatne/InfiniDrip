@@ -1,0 +1,9 @@
+[
+  {
+    "type": "addComment",
+    "expectedRevision": 3129,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S504 is a closeout-only follow-up to S503. Its staged diff check identified two trailing blank lines after the S503 commit command proceeded; this slice records and corrects them without rewriting S503. No product source, exchange output, acceptance, or V03 gate changes."
+  }
+]
