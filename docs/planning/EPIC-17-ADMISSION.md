@@ -1,4 +1,28 @@
-## Latest V03 CLO API screen — S513 exit (2026-10-08)
+## Latest V03 closure-path reconciliation — S520 exit (2026-10-08)
+
+S520 follows S519 `1f56474` on `codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S520 is
+unique. One current-source pass reconciled the latest S519 CLO test, CLO
+trial terms, and current candidate repositories. The same five Polo CUT
+contours remain outside the unchanged `0.001 cm` gate; no new candidate clears
+rights/local handling and apparel-DXF bidirectional capability. Current
+OpenMarker import works but export remains planned; Open Patterns has no DXF
+writer; Seamly2D cannot import; exact Super V8 documentation lacks local DXF
+export; patternForge claims only its own DXF export and lacks import. No app,
+fixture, installation, account, or external-message action occurred. The
+prepared CLO Support rights/data-handling question is not sent. Board start/
+exit `3191→3193→3195`; V01/V02 remain Done, V03/G04 remain In Progress. No
+acceptance or protected output changed. See
+`docs/research/epic17/S520-v03-closure-path-reconciliation/`.
+
+**Next:** with owner authorization, send the prepared no-attachment question to
+CLO Support once, or proceed from an independently supplied written
+rights-cleared receiver basis. Do not interact with CLO again until a new
+source-backed technical mechanism and the relevant rights/local gate both
+exist. A positive CLO rights answer alone does not clear its measured Polo
+geometry failure.
+
+## Prior V03 CLO API screen — S513 exit (2026-10-08)
 
 S513 follows S512 `91171dae23b45115fa2d5bfc139f85d784747163` on
 `codex/epic-17-g04`; refreshed `origin/main`

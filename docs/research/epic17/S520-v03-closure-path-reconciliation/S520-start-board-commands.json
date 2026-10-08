@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3191,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S520-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S520-v03-closure-path-reconciliation/S520-start-packet.md",
+      "verified": true,
+      "note": "S520 performs one current-source reconciliation of the V03 receiver candidates and exact remaining gates. It makes no app/file operation, installs, messages, gate changes, or compatibility claims. CLO stays open but idle."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3192,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S520 is one consolidated receiver/rights/profile status pass to stop repeating CLO interactions. The live CLO session remains open but idle. Only a candidate with evidence for permitted use, local handling, apparel-DXF import/export, and the required strict round trip can unblock V03; no gates are relaxed."
+  }
+]

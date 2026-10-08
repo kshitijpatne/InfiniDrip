@@ -2,7 +2,25 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current evidence and conditional estimate — S493 (2026-10-08)
+### G04 current evidence and conditional estimate — S520 (2026-10-08)
+
+S459's all-seven V02 acceptance remains Done. S520 reconciles S493–S519 and
+current candidate sources into one V03 exit picture. CLO 2026.1.310 is not a
+selected receiver: S519's only new evidence-led point-retention control still
+leaves the same five Polo CUT contours 0.012741–0.013974 cm from the receiver
+against the unchanged 0.001 cm gate. The current trial terms limit use to
+evaluation/demonstration and exclude commercial/for-profit purposes; the exact
+scope for G04 and file-content locality remain unconfirmed. No current
+alternative clears both rights/local handling and bidirectional
+apparel-DXF capability: Open Patterns has no DXF writer, OpenMarker's export
+is still planned, Seamly2D cannot import DXF, Super V8 does not document local
+DXF output, and patternForge is an export-only work-in-progress generator.
+No receiver/profile is selected; no V03 gate or claim is weakened. The exact
+next external dependency is written rights/data-handling clarification or a
+newly evidenced receiver. CLO remains open and idle; do not repeat its same
+UI case. See `docs/research/epic17/S520-v03-closure-path-reconciliation/`.
+
+### Prior G04 evidence and conditional estimate — S493 (2026-10-08)
 
 S459's all-seven V02 acceptance remains complete. S493 consolidates the actual S475–S478 CLO results: Tee M 6/6 and Woven M 24/24 contour subsets passed the recorded 0.001 cm threshold; Woven's second-generation 114/114 contour comparison also passed. Polo M has five CUT contours with measured deviations above the unchanged threshold. CLO trial rights for this exact product-development use, local-only handling, a clean import without unresolved warnings, numeric layer/mark semantics, grading, malformed-input rejection and independent receiver acceptance remain unproven. No receiver/profile is selected, no V03 gate or claim is weakened, and generic DXF/protected identities remain unchanged. See `docs/research/epic17/S493-v03-evidence-reconciliation/S493-v03-gate-matrix.md`. Next: proceed only when a permitted exact local receiver/build and local-handling basis are evidenced; then continue the specific open profile fixtures. Estimate remains conditional; rights/access delay is unbounded.
 

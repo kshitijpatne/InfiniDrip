@@ -2,6 +2,20 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S520-v03-closure-path-reconciliation/S520-exit-packet.md`
+  gives the consolidated V03 candidate decision and next external dependency.
+  S519's single, measured CLO point-retention trial still fails five Polo CUT
+  contours, so the same UI case is closed to repeats. Current Open Patterns,
+  OpenMarker, Richpeace Super V8, Seamly2D and patternForge evidence reveals no
+  other qualified bidirectional receiver. CLO trial scope and local file
+  handling remain unresolved. The app stays open and idle. Board
+  `3191→3193→3195`; no gate changed.
+- `docs/research/epic17/S520-v03-closure-path-reconciliation/S520-candidate-gate-matrix.md`
+  records source-by-source receiver, rights, local handling and capability
+  status; no current candidate clears all V03 gates.
+- `docs/research/epic17/S520-v03-closure-path-reconciliation/S520-start-packet.md`
+  bounds the one-pass reconciliation; no app, file, install or external
+  message operation.
 - `docs/research/epic17/S519-clo-point-retention-control/S519-exit-packet.md`
   records one narrowly scoped CLO test motivated by a CLO staff suggestion:
   enabling `Import Draw Curve Points` did not change any of the five measured

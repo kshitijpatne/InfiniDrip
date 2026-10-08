@@ -1,5 +1,37 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 520 V03 closure-path reconciliation (complete; V03 remains open)
+
+Started `2026-10-08 18:52:58 UTC` from S519 commit `1f56474` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S520 made
+one current-source pass over V03 candidates to prevent redundant CLO UI work.
+The result is that no currently reviewed receiver clears both the V03
+rights/local-handling gate and the exact apparel-DXF round-trip requirements.
+S519's actual CLO 2026.1.310 Draw Curve Points test still misses the Polo
+0.001 cm gate on the same five CUT contours by 0.012741–0.013974 cm. Current
+official terms reserve a CLO trial for evaluation/demonstration while
+excluding commercial/for-profit purposes; whether this exact pre-launch G04
+test is covered remains unresolved. The current terms also do not prove
+local-only content processing. Open Patterns has no DXF writer; OpenMarker's
+DXF export remains planned; Seamly2D cannot import DXF; Richpeace Super V8
+does not document local DXF export; and the new patternForge repo has an
+exporter but no DXF import or independent receiver role. No app, file,
+installation, account, or external-message action occurred. CLO remains open
+and idle. Board start/exit `3191→3193→3195`; V01/V02 remain Done and V03/G04
+remain In Progress. Focused Control Center tests and `git diff --check` pass;
+no production behavior or acceptance gate changed. See
+`docs/research/epic17/S520-v03-closure-path-reconciliation/S520-exit-packet.md`
+and `S520-candidate-gate-matrix.md`.
+
+Next: obtain written clarification of permitted trial purpose and file-data
+handling from CLO Support, or identify a newly evidenced rights-cleared
+receiver with apparel-DXF import and export. The exact support message is
+prepared in the S520 packet but has not been sent. A favorable CLO rights
+answer would still not fix its measured Polo geometry failure. Keep the strict
+all-seven and `0.001 cm` gates unchanged; keep CLO open without further UI
+interaction.
+
 ## EPIC-17 / G04 — Slice 519 source-point retention control (complete; V03 remains open)
 
 Started `2026-10-08 18:40:10 UTC` from S518 commit `7b20f20` on
