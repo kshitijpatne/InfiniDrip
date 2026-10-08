@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3167,
-  "updatedAt": "2026-10-08T17:53:31.990Z",
+  "revision": 3171,
+  "updatedAt": "2026-10-08T17:59:33.851Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10958,6 +10958,16 @@
           "at": "2026-10-08T17:53:31.990Z",
           "actor": "Codex",
           "text": "S513 identifies CLO's in-app Python API as a promising reproducible route: explicit-path import/export calls can reduce dialog dependence, but profile enums, import format selection, and exact .310 compatibility are undocumented, and the script editor still needs safe UI access. Next, safely run a C:-confined API smoke test without guessing format constants; verify rendered and measured output before any acceptance claim."
+        },
+        {
+          "at": "2026-10-08T17:57:05.737Z",
+          "actor": "Codex",
+          "text": "S514 follows the user's current report that CLO is running. It will attempt only a fresh supported window selection/capture recovery, then stop app input on a mismatch, while checking local version/API components read-only. All V03 gates and C:-only exchange-file rules remain."
+        },
+        {
+          "at": "2026-10-08T17:59:33.851Z",
+          "actor": "Codex",
+          "text": "S514 closes with a concrete helper capture mismatch after one fresh recovery. Keep CLO open while the Epic needs it; do not rerun S503/S505/S507/S508 Standard cases or S503's AAMA-import/ASTM-export matrix. Next: when safely targetable, run one instrumented, C:-confined pilot for the untested AAMA export/reimport path without guessing enum values; continue no-file V03 reconciliation if the helper mismatch persists. Do not claim V03 compatibility or all-seven acceptance before every existing gate passes."
         }
       ],
       "evidenceRefs": [
@@ -11081,7 +11091,9 @@
         "E-G04-S512-START",
         "E-G04-S512-EXIT",
         "E-G04-S513-START",
-        "E-G04-S513-EXIT"
+        "E-G04-S513-EXIT",
+        "E-G04-S514-START",
+        "E-G04-S514-EXIT"
       ],
       "flagKey": null
     },
@@ -20446,6 +20458,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official CLO docs provide in-app ImportDXF and explicit-path no-dialog ExportDXF APIs, but omit import-profile selection and export enum mappings and list SDK 11.0.0 for build 2026.1.224 rather than the installed .310. No script or fixture was run; all V03 gates remain."
+    },
+    {
+      "id": "E-G04-S514-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S514-clo-helper-target-recovery/S514-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S514 records a fresh CLO helper target recovery and read-only installed API-file inspection. Stop if screenshot and selected CLO window disagree; no DXF operation or gate change."
+    },
+    {
+      "id": "E-G04-S514-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S514-clo-helper-target-recovery/S514-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO .310 is running and links DXF API entry points, but selected-window/accessibility identify CLO while both supported captures show Codex; no DXF operation occurred. This is a helper access failure, not a format result. One non-redundant AAMA-export/API pilot remains gated on visually safe targeting and rights/local handling; all V03 gates unchanged."
     }
   ]
 }

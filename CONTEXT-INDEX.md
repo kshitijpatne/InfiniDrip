@@ -2,6 +2,18 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S514-clo-helper-target-recovery/S514-exit-packet.md`
+  closes the fresh app-control check. CLO 2026.1.310 is running and its
+  installed API DLL contains DXF entry points, but the supported target and
+  accessibility identify CLO while both screenshots show Codex. No DXF
+  operation occurred; this is a helper failure, not an exchange result. Do
+  not repeat already measured Standard cases or the AAMA-import/ASTM-export
+  matrix. Next practical target is one instrumented, C:-confined AAMA
+  export/reimport pilot when visual targeting works and rights/local handling
+  is cleared. Keep CLO open until the Epic no longer needs it. Board
+  `3167→3169→3171`; all V03 gates unchanged.
+- `docs/research/epic17/S514-clo-helper-target-recovery/S514-start-packet.md`
+  records the one-recovery bound and read-only exact-install inspection.
 - `docs/research/epic17/S513-clo-api-exchange-path/S513-exit-packet.md`
   records a promising official CLO in-app Python API with explicit-path DXF
   import/export, but import profile selection and export enum mappings are not

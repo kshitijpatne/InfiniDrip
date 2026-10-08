@@ -821,3 +821,13 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
 - **S493 V03 evidence reconciliation (2026-10-08):** from clean S492 `b402d571305e1d1256b091314271257447b5f1f4`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S493 is unique. Matrix reconciles every V03/C04 gate against existing S475–S492 evidence without repeating file operations. CLO Tee M passes 6/6 tested contours; Woven M passes 24/24 and 114/114 intergeneration contours; Polo M passes only 13/18, with five CUT contours measurably above the unchanged 0.001 cm gate. Existing imports showed a seam-allowance notice; rights/local handling, numeric layer semantics, grading, malformed-input, and independent receiver acceptance remain unproven. No receiver/profile selected, no V03 gate or claim changed. Validated board revisions `3064→3066→3071`; Control Center passes `42/42`; docs-only diff leaves protected output identities unchanged. Packet/matrix: `docs/research/epic17/S493-v03-evidence-reconciliation/`. **Next:** only after affirmative permitted-use and local-handling evidence for an exact receiver/build, execute targeted remaining profile fixtures; keep V03 In Progress until every gate passes.
 
 - **S494 S493 packet hygiene (2026-10-08):** from clean S493 `96075a88b152313955eb11e0eae8616569f69a61`; refreshed `origin/main` remains an ancestor; S494 is unique. Staged diff review found extra EOF blank lines in S493's two packet files that the pre-stage check had not seen because they were untracked. S494 removes those blank lines and corrects the S493 verification text; no evidence, acceptance, profile, or status changes. Validated board revisions `3071→3073→3077` preserve EPIC-17/G04-V03 In Progress and V01/V02 Done. **Next:** resume the exact S493 V03 access dependency; require permitted receiver use before further fixture transfer.
+- **S514 CLO control checkpoint:** exact installed CLO 2026.1.310 and DXF API
+  entry-point presence are verified read-only; no practical exchange occurred
+  because the supported capture continued showing Codex while selected-window
+  metadata/accessibility identified CLO. Keep the application open throughout
+  the active goal. Avoid repeating S503/S505/S507/S508 Standard trials and
+  S503's AAMA-import/ASTM-export matrix. Next practical check is one
+  instrumented local AAMA export/reimport pilot with a visually verified CLO
+  target under S503's already authorized local-trial bounds; never guess
+  profile enum values. The technical trial does not itself clear the V03
+  receiver-rights/profile-selection gate or change acceptance.

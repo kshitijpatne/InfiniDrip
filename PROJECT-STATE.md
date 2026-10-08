@@ -1,5 +1,13 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 514 CLO helper target recovery (complete; no exchange performed)
+
+Started `2026-10-08 17:56:30 UTC` from S513 `5ca570087c10aa20ab983b5d4a10fbf1b1fa7e4f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest was 513; S514 is complete. Board start/exit is `3167→3169→3171`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+The supported app inventory found one running CLO 2026.1.310 window (ID `257823880`). On both the initial capture and the single prescribed recovery, target metadata/accessibility identified CLO but the screenshot showed Codex. S514 therefore performed no app input or file operation; this is a concrete helper target/capture failure, not a CLO DXF result. Read-only local inspection confirms the exact `.310` executable and `CLOAPIInterface.dll` with `ImportDXF`/`ExportDXF` symbols, but does not reveal Python bindings or profile enum values. CLO remains open. Do not repeat already measured Standard cases or S503's AAMA-import/ASTM-export matrix. Next: when visual targeting is reliable, run one instrumented C:-confined AAMA export/reimport pilot under S503's already authorized local trial evaluation, without guessed enums; keep the separate V03 receiver-rights/profile selection gate open. If visual targeting remains unreliable, continue independent documentation/reconciliation and preserve the access blocker. See `docs/research/epic17/S514-clo-helper-target-recovery/S514-exit-packet.md`.
+
+Control Center tests pass 42/42; `git diff --check` passes. No production code changed, so no full repository gate is due. The user has asked that CLO stay open while the overall Epic needs it and be closed once at the end; this supersedes earlier per-test closure wording.
+
 ## EPIC-17 / G04 — Slice 513 CLO API exchange path (complete; practical test still pending)
 
 Started `2026-10-08 17:51:56 UTC` from clean S512 commit

@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":3167,"itemId":"G04-V03","evidence":{"id":"E-G04-S514-START","kind":"document","uri":"docs/research/epic17/S514-clo-helper-target-recovery/S514-start-packet.md","verified":true,"note":"S514 records a fresh CLO helper target recovery and read-only installed API-file inspection. Stop if screenshot and selected CLO window disagree; no DXF operation or gate change."}},
+  {"type":"addComment","expectedRevision":3168,"itemId":"G04-V03","actor":"Codex","text":"S514 follows the user's current report that CLO is running. It will attempt only a fresh supported window selection/capture recovery, then stop app input on a mismatch, while checking local version/API components read-only. All V03 gates and C:-only exchange-file rules remain."}
+]

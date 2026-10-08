@@ -13,6 +13,21 @@ review, authorize a commercial-use claim, establish an industrial exchange
 profile, or relax any G04 geometry, mark, grading, negative-input, round-trip,
 all-seven, or export-identity gate.
 
+On 2026-10-08, the maintainer clarified that CLO is an ongoing session for the
+current G04 work: do not close/reopen it between slices or access attempts;
+keep it running while it is still needed, and close it normally once when the
+whole admitted goal is complete. The user requested a single defined practical
+plan with no redundant reruns. S514's one supported recovery produced a
+concrete capture mismatch (CLO target/accessibility paired with a Codex
+screenshot), so no input or file operation followed. This is a desktop-helper
+failure, not evidence of CLO format failure. The next practical operation is a
+single instrumented C:-confined AAMA export/reimport pilot only when the CLO
+surface can be visually verified, under the already granted S503 local-trial
+authorization. That technical trial does not clear the separate V03
+receiver-rights/profile-selection gate. Previously tested Standard cases and
+the AAMA-import/ASTM-export matrix are not to be repeated. The S503
+authorization's C:-only/no-cloud/no-paid-access/no-install bounds still apply.
+
 ## EPIC-17/G04 — Woven technical-flat display decisions confirmed 2026-10-08
 
 The maintainer approved these view-only decisions for G04 V02:
