@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S483-richpeace-super-v8-candidate/S483-exit-packet.md`
+  assesses the publisher's distinct Super V8 as a conditional lead. Official
+  disclosures say genuine-free and HPGL/CUT exchange, with cloud features, but
+  do not document apparel DXF/AAMA/ASTM or Windows 11. A third-party DXF claim
+  is unverified and not an authorized download source. No package/install or
+  fixture use; all V03 gates unchanged. Board `2991→2995→2999`; goal active.
+  Next needs a safely obtained publisher package and explicit action-time
+  installation approval before Gate 0.
+
 - `docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md`
   records that the official Richpeace V8 package host timed out before
   transferring any bytes. The portal's 64 MB/2021 listing is not binary

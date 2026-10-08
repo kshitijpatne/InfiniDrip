@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2991,
-  "updatedAt": "2026-10-08T08:08:20.852Z",
+  "revision": 2999,
+  "updatedAt": "2026-10-08T08:11:55.838Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -699,7 +699,9 @@
         "E-EPIC17-S481-START",
         "E-EPIC17-S481-EXIT",
         "E-EPIC17-S482-START",
-        "E-EPIC17-S482-EXIT"
+        "E-EPIC17-S482-EXIT",
+        "E-EPIC17-S483-START",
+        "E-EPIC17-S483-EXIT"
       ]
     },
     {
@@ -4999,7 +5001,9 @@
         "E-EPIC17-S481-START",
         "E-EPIC17-S481-EXIT",
         "E-EPIC17-S482-START",
-        "E-EPIC17-S482-EXIT"
+        "E-EPIC17-S482-EXIT",
+        "E-EPIC17-S483-START",
+        "E-EPIC17-S483-EXIT"
       ],
       "flagKey": null
     },
@@ -10562,6 +10566,16 @@
           "at": "2026-10-08T08:08:20.852Z",
           "actor": "Codex",
           "text": "S482's publisher-hosted package request timed out; no binary was saved or inspected. No install is authorized by this slice. Resume only with a safely obtained package plus action-time installation approval, then pass Gate 0 before fixtures."
+        },
+        {
+          "at": "2026-10-08T08:10:22.243Z",
+          "actor": "Codex",
+          "text": "S483 is limited to exact-version official-source evidence for Richpeace Garment CAD Super V8; no claims transfer from the distinct V8 evaluation copy, and no package is downloaded or installed."
+        },
+        {
+          "at": "2026-10-08T08:11:55.838Z",
+          "actor": "Codex",
+          "text": "S483 identifies Richpeace Super V8 as a conditional free local-inspection lead, not a qualified receiver. Official exchange disclosure is HPGL/CUT only; DXF/AAMA/ASTM claims occur only in a third-party listing. No download or install; continue only with explicit approval and Gate 0."
         }
       ],
       "evidenceRefs": [
@@ -10613,7 +10627,9 @@
         "E-G04-S481-START",
         "E-G04-S481-EXIT",
         "E-G04-S482-START",
-        "E-G04-S482-EXIT"
+        "E-G04-S482-EXIT",
+        "E-G04-S483-START",
+        "E-G04-S483-EXIT"
       ],
       "flagKey": null
     },
@@ -19267,6 +19283,42 @@
       "sha256": null,
       "verified": true,
       "note": "S482 could not retrieve the exact Richpeace V8 package for static inspection. V03 remains gated on lawful local receiver access and observed exchange evidence; scope unchanged."
+    },
+    {
+      "id": "E-G04-S483-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S483-richpeace-super-v8-candidate/S483-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S483 assesses the distinct publisher-listed Richpeace Garment CAD Super V8 against exact-version rights, local handling, apparel-DXF profile, host, and round-trip gates; no download or install."
+    },
+    {
+      "id": "E-EPIC17-S483-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S483-richpeace-super-v8-candidate/S483-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Version-specific Super V8 source audit only; all V03 acceptance gates and V02 status remain unchanged."
+    },
+    {
+      "id": "E-G04-S483-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S483-richpeace-super-v8-candidate/S483-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official Super V8 evidence supports a genuine-free product and HPGL/CUT exchange, but not apparel DXF/AAMA/ASTM, local-only handling, or Windows 11; a third-party DXF claim remains unverified. V03 gates unchanged."
+    },
+    {
+      "id": "E-EPIC17-S483-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S483-richpeace-super-v8-candidate/S483-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Super V8 remains conditional only; exact apparel CAD profile, rights terms, local handling, host, and round-trip gates remain open."
     }
   ]
 }

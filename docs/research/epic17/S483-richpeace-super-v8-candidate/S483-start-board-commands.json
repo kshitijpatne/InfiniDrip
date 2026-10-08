@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2991,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S483-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S483-richpeace-super-v8-candidate/S483-start-packet.md",
+      "verified": true,
+      "note": "S483 assesses the distinct publisher-listed Richpeace Garment CAD Super V8 against exact-version rights, local handling, apparel-DXF profile, host, and round-trip gates; no download or install."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2992,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S483-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S483-richpeace-super-v8-candidate/S483-start-packet.md",
+      "verified": true,
+      "note": "Version-specific Super V8 source audit only; all V03 acceptance gates and V02 status remain unchanged."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2993,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S483-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2994,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S483 is limited to exact-version official-source evidence for Richpeace Garment CAD Super V8; no claims transfer from the distinct V8 evaluation copy, and no package is downloaded or installed."
+  }
+]

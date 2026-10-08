@@ -1,5 +1,28 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 483 Richpeace Super V8 candidate check
+
+S483 assessed the publisher's distinct Garment CAD Super V8 against V03.
+Richpeace calls this build “genuine free,” but official feature disclosures
+only show HPGL/CUT exchange and do not document apparel DXF/AAMA/ASTM; cloud
+computing and time-limited cloud conversion are disclosed, and Windows 11 is
+not listed. A third-party listing claims DXF and AAMA/ASTM formats and Windows
+11, but package/build provenance, rights, local processing, and exact
+round-trip are unverified; do not use that package. Older V8 evaluation-copy
+manual claims are adjacent-version evidence only. No download, install,
+account, fixture, or external transfer occurred. Super V8 is a conditional
+inspection lead, not a selected receiver. V01/V02 remain Done; V03 and the
+Epic remain In Progress with gates unchanged. Packet:
+`docs/research/epic17/S483-richpeace-super-v8-candidate/S483-exit-packet.md`.
+
+Start: `2026-10-08 08:09:46 UTC` from clean S482 `64da604`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board `2991→2995→2999`; Control Center 42/42; goal `active` and aligned.
+**Next:** only with explicit action-time approval, obtain the publisher's
+official package under `C:\G04-CLO-DXF-Exchange`, inspect it, and, if separately
+approved, attempt a standard install for Gate 0 without account/term acceptance
+or fixtures until rights, exact modes, local handling and host behavior pass.
+
 ## EPIC-17 / G04 — Slice 482 Richpeace package preflight
 
 S482 followed the official Richpeace V8 Free English download link to its
