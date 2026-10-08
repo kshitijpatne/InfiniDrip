@@ -1,6 +1,48 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 490 CLO account grant check
+## EPIC-17 / G04 — Slice 491 TUKAcad trial/profile screen
+
+S491 started `2026-10-08 09:19:30 UTC` from committed S490 `c10a9c3` on
+`codex/epic-17-g04`. Refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S490 was
+highest and S491 is unique. Validated start commands advanced board
+`3052→3054`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal remains
+active and unchanged.
+
+The candidate lead is the vendor's advertised no-cost 14-day TUKAcad Learning
+Edition. This slice will check only official trial/package scope, Windows
+local availability, and exchange-profile directionality. No account,
+checkout/payment, vendor contact, download/install, or fixture use is
+authorized. No source conclusion yet. CLO is closed and is not needed for this
+screen.
+
+S491's official-source matrix and exit packet are in
+`docs/research/epic17/S491-tukacad-trial-profile-screen/`. The vendor advertises
+a free 14-day Learning Edition, but the listed CLE tier does not include
+data import/export; the feature appears under paid CPE. The trial's feature
+unlock, exact apparel-pattern DXF exchange, rights and local file handling
+are not established. No account, checkout, payment, contact, download,
+installation, or fixture use occurred. Do not select it or infer current trial
+terms from a 2021 walkthrough.
+
+Validated board closeout advances `3054→3058`, links the matrix/exit to
+G04-V03 and the exit to EPIC-17, preserving all statuses. Control Center
+passes `42/42`; S491 scripts pass `node --check`; `git diff --check` passes.
+No production code or rendered pattern output changed. See the S491 packet
+for sources, limits and detailed exit evidence.
+
+Elapsed `2m37s` (`09:19:30–09:22:07 UTC`; estimates): official-source review
+`0m45s`; implementation `0m`; focused verification `0m10s`; durable
+packet/board work `1m42s`; external-agent wait `0m`; maintainer-decision time
+`0m`.
+
+Next: screen a single unreviewed apparel software candidate only if current
+official evidence suggests an accessible no-cost Windows path and explicit
+pattern DXF input/output; preserve Gate 0 and round-trip gates.
+
+### Slice 490 CLO account grant check (prior boundary)
+
+### Slice 490 CLO account grant check (prior boundary)
 
 S490 inspected only CLO's visible trial/account notice. It showed CLO
 Standalone OnlineAuth `2026.1.310`, 14 days left, subscription-renewal text,

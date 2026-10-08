@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3054,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S491-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S491-tukacad-trial-profile-screen/S491-source-matrix.md",
+      "verified": true,
+      "note": "Official TUKAcad package and legacy DXF artwork evidence: the published Learning Edition does not list data import/export; the Professional package does. Trial-tier feature unlock and Gate 0 rights/local handling remain unproven."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3055,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S491-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S491-tukacad-trial-profile-screen/S491-exit-packet.md",
+      "verified": true,
+      "note": "S491 rejects TUKAcad CLE as currently documented; no account, checkout, payment, install, fixture, or file operation. V03 gates remain unchanged."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3056,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S491-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3057,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S491 does not select TUKAcad CLE: the official plan does not list data import/export for CLE, and the trial's feature unlock, pattern-exchange profile, rights, and local file handling are unproven. No account or software action occurred. Keep every V03 gate unchanged."
+  }
+]

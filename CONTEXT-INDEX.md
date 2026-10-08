@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S491-tukacad-trial-profile-screen/S491-exit-packet.md`
+  and `S491-source-matrix.md` reject TUKAcad CLE as currently documented. Its
+  no-cost 14-day Learning Edition does not list data import/export; that
+  feature is listed for Professional CPE. A legacy tutorial imports DXF
+  artwork, not a current apparel-pattern profile or a round trip. Trial
+  feature unlock, use rights, and local file handling remain unproven. No
+  account, checkout, payment, download, install, or fixture was used. Board
+  `3052→3054→3058`; G04-V03 and EPIC-17 remain In Progress, V01/V02 Done. Next
+  screen only a new candidate with plausible no-cost local access and
+  explicit pattern DXF input/output.
+
 - `docs/research/epic17/S490-clo-account-grant-check/S490-exit-packet.md`
   closes the read-only inspection of the already-installed CLO trial screen.
   CLO 2026.1.310 displayed 14 days left and renewal text dated 22.10.2026,
