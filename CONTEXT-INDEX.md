@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S510-clo-aama-workspace-recovery/S510-exit-packet.md`
+  records the user-reported running CLO workspace and the fresh desktop-helper
+  failure: the File menu appeared, the import action was rejected as outside
+  the target window, and activation failed with `no monitor found for window`.
+  No DXF was opened and no AAMA result exists. All V03 gates/status remain;
+  retry only with a safely targetable workspace. Board `3151→3153→3155`.
+- `docs/research/epic17/S510-clo-aama-workspace-recovery/S510-start-packet.md`
+  bounds the one fresh workspace access check. No exchange files are opened or
+  written by this slice.
 - `docs/research/epic17/S509-clo-aama-roundtrip/S509-exit-packet.md`
   records that the planned AAMA exchange did not run: CLO's startup information
   dialog could not be controlled and the desktop helper returned

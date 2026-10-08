@@ -1,4 +1,21 @@
-## Latest bounded attempt — S509 exit; AAMA exchange not run (2026-10-08)
+## Latest bounded attempt — S510 exit; AAMA exchange not run (2026-10-08)
+
+S510 followed S509 `18c1318089c169166a31e875c9ca5519a8b4a2ef` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The user
+reported CLO running; a fresh inventory exposed its normal 2D workspace, but
+the Import action was rejected as outside the target window and activation
+recovery failed with `no monitor found for window`. No DXF was opened; this is
+a desktop-control failure, not a format result. Board start/exit
+`3151→3153→3155`; V01/V02 Done and V03/EPIC-17 In Progress, all gates unchanged.
+See `docs/research/epic17/S510-clo-aama-workspace-recovery/S510-exit-packet.md`
+and `S510-start-packet.md`.
+
+**Next:** continue independent V03 receiver/profile qualification. Retry the
+authorized AAMA trial only when supported input can safely target a fresh CLO
+workspace.
+
+## Prior bounded attempt — S509 exit; AAMA exchange not run (2026-10-08)
 
 S509 follows S508 `2ec3867859c169166a31e875c9ca5519a8b4a2ef` on
 `codex/epic-17-g04`; refreshed `origin/main`

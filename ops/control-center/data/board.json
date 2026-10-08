@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3151,
-  "updatedAt": "2026-10-08T17:35:59.219Z",
+  "revision": 3155,
+  "updatedAt": "2026-10-08T17:41:52.025Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10918,6 +10918,16 @@
           "at": "2026-10-08T17:35:59.219Z",
           "actor": "Codex",
           "text": "S509 closes at a verified desktop-control hold. CLO relaunched to a graphics-information/startup pair, but supported clicks/Return did not expose the pattern workspace; a capture returned 'foreground window did not report a process id'. The one allowed fresh-window recovery found a changed one-window set, so no stale interaction followed. The pinned source copy is hash-verified in the C:-only S509 folder, but no DXF was opened and no AAMA result exists. Preserve all V03 gates and status; resume AAMA exchange only when a uniquely inspectable CLO workspace is available."
+        },
+        {
+          "at": "2026-10-08T17:40:48.972Z",
+          "actor": "Codex",
+          "text": "S510 is a bounded recovery check for the authorized CLO AAMA trial. It will distinguish a usable workspace from a desktop-control failure, keep all files within the existing C: evidence root, and preserve all V03 gates/statuses."
+        },
+        {
+          "at": "2026-10-08T17:41:52.025Z",
+          "actor": "Codex",
+          "text": "S510 records the resumed CLO access check: one fresh window exposed the 2D workspace and File menu, but the Import action targeted outside its window; re-enumeration then activation failed with 'no monitor found for window'. No DXF was opened, so this remains a desktop-control failure—not an AAMA result. Keep every V03 gate, all-seven acceptance and status unchanged."
         }
       ],
       "evidenceRefs": [
@@ -11033,7 +11043,9 @@
         "E-G04-S508-START",
         "E-G04-S508-EXIT",
         "E-G04-S509-START",
-        "E-G04-S509-EXIT"
+        "E-G04-S509-EXIT",
+        "E-G04-S510-START",
+        "E-G04-S510-EXIT"
       ],
       "flagKey": null
     },
@@ -20326,6 +20338,24 @@
       "sha256": null,
       "verified": true,
       "note": "S509 did not run AAMA import/export: after launch the CLO graphics notice/startup windows could not be controlled, capture returned 'foreground window did not report a process id', and fresh recovery found a changed one-window set. No DXF opened; this is a desktop-control hold, not an AAMA or CLO format result. All V03 gates/status remain unchanged."
+    },
+    {
+      "id": "E-G04-S510-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S510-clo-aama-workspace-recovery/S510-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S510 follows the user's report that CLO is running and checks whether a fresh workspace exposes the authorized AAMA fixture path. All V03 gates and statuses stay unchanged; no CLO format result is presumed."
+    },
+    {
+      "id": "E-G04-S510-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S510-clo-aama-workspace-recovery/S510-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO exposed its workspace, but the import-menu target was rejected and fresh-window activation failed with 'no monitor found for window'. No DXF opened and no AAMA result exists; all V03 gates/status remain unchanged."
     }
   ]
 }

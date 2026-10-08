@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 510 CLO workspace recovery (complete; no DXF opened)
+
+Started after S509's `2026-10-08 17:35:59 UTC` exit from clean
+`18c1318089c169166a31e875c9ca5519a8b4a2ef` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was S509; S510 is now recorded. Board start/exit is
+`3151→3153→3155`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+After the user reported CLO running, one fresh CLO window exposed the normal
+2D Pattern Window and File menu. The next Import action was rejected as
+outside the target window; fresh-window activation then failed with
+`no monitor found for window`. No DXF opened, so this is a desktop-control
+failure, not an AAMA/CLO result. All gates and acceptance remain unchanged.
+The helper could not safely close CLO; no process kill was used. See
+`docs/research/epic17/S510-clo-aama-workspace-recovery/S510-exit-packet.md`.
+Focused Control Center tests pass 42/42; no production code/tests changed and
+no full gate is due. **Next:** continue independent V03 receiver/profile
+qualification and retry the approved AAMA fixture only with safely targetable
+CLO workspace access.
+
 ## EPIC-17 / G04 — Slice 509 CLO AAMA trial access diagnosis (complete; AAMA test not run)
 
 Started `2026-10-08 17:31:11 UTC` from S508 commit
