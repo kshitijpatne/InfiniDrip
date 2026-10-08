@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2725,
-  "updatedAt": "2026-10-08T00:21:22.833Z",
+  "revision": 2731,
+  "updatedAt": "2026-10-08T02:04:32.680Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -648,7 +648,8 @@
         "E-G04-S449-EXIT",
         "E-G04-S450-EXIT",
         "E-G04-S451-EXIT",
-        "E-G04-S452-EXIT"
+        "E-G04-S452-EXIT",
+        "E-G04-S453-EXIT"
       ]
     },
     {
@@ -4410,6 +4411,11 @@
           "at": "2026-10-08T00:21:22.833Z",
           "actor": "Codex",
           "text": "S452 confirms current HEAD passes `npm run build`; S441's recorded failure is resolved by Slice 444. Board status and V02/V03 gates remain unchanged. Current Woven decision proposals remain pending. Packet: docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md."
+        },
+        {
+          "at": "2026-10-08T02:04:32.680Z",
+          "actor": "Codex",
+          "text": "S453 evidence-only closeout preserves all G04 gates and holds. Current tally remains 56 accepted / 90 held across 73 configurations / 146 faces. The book reviews do not decide Woven view semantics; next is a bounded exact silhouette-mask trial, followed by any necessary maintainer decision."
         }
       ],
       "evidenceRefs": [
@@ -9307,6 +9313,16 @@
           "at": "2026-10-08T00:21:22.653Z",
           "actor": "Codex",
           "text": "S452 reproduced the current merge-candidate build successfully: the S441 TypeScript diagnostics are historical and Slice 444 fixed their renderer narrowing and test typing causes. Production build passes with only the existing large-chunk advisory. No production edits or Woven hold changes were needed."
+        },
+        {
+          "at": "2026-10-08T01:42:55.968Z",
+          "actor": "Codex",
+          "text": "S453 reviews the supplied Kim & Kim and Kershaw menswear books for specific figures that may support the exact Woven front-collar or fixed-band back-view decisions. Work is split across disjoint read-only Claude/OpenCode assignments; no semantics or holds change without verified evidence and approval."
+        },
+        {
+          "at": "2026-10-08T02:04:32.629Z",
+          "actor": "Codex",
+          "text": "S453 reviewed the supplied Kim & Kim first edition and Kershaw menswear book. They provide general construction references but do not settle the source-specific collar visibility or fixed-S370 back layout. Codex's rendered audit found S407's center-to-intersection clip removes continuous neckline inside the open V, not beneath the collar leaves; do not treat it as a valid foreground-collar fix. All 56 Woven and 34 Polo faces remain held."
         }
       ],
       "evidenceRefs": [
@@ -9988,7 +10004,9 @@
         "E-G04-S451-START",
         "E-G04-S451-EXIT",
         "E-G04-S452-START",
-        "E-G04-S452-EXIT"
+        "E-G04-S452-EXIT",
+        "E-G04-S453-START",
+        "E-G04-S453-EXIT"
       ],
       "flagKey": null
     },
@@ -17702,6 +17720,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current HEAD build passes; S441 TypeScript diagnostics were corrected by Slice 444. No code edit was required in S452."
+    },
+    {
+      "id": "E-G04-S453-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S453-supplied-menswear-book-review/G04-SUPPLIED-MENSWEAR-BOOK-REVIEW-S453.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins an evidence-only review of two maintainer-supplied menswear patternmaking books; no Woven decision, mapping, source, hold, or acceptance change."
+    },
+    {
+      "id": "E-G04-S453-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S453-supplied-menswear-book-review/G04-SUPPLIED-MENSWEAR-BOOK-REVIEW-S453.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Two supplied menswear PDFs were reviewed with rendered pages; neither settles the source-specific Woven front/back view decisions. S407's 0.84 cm center-to-intersection clip removes neckline inside the open V, not beneath collar leaves. All holds remain."
     }
   ]
 }
