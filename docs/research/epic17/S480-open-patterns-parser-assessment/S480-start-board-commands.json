@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2967,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S480-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-start-packet.md",
+      "verified": true,
+      "note": "S480 tests the already-reviewed Open Patterns parser as an independent local read-back oracle only. All parser/fixture/output files stay under C:\\G04-CLO-DXF-Exchange; no integration, external upload, or V03 gate change."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2968,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S480-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-start-packet.md",
+      "verified": true,
+      "note": "S480 evaluates a pinned, license-reviewed independent parser path; V03 acceptance and current receiver-rights hold remain unchanged."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2969,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S480-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2970,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S480 assesses the previously identified ISC-licensed Open Patterns parser for bounded local read-back evidence. It does not select it as a CAD receiver, change V03 gates, integrate external code, or authorize any upload."
+  }
+]

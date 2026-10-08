@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2967,
-  "updatedAt": "2026-10-08T07:41:58.021Z",
+  "revision": 2975,
+  "updatedAt": "2026-10-08T07:54:12.947Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -693,7 +693,9 @@
         "E-EPIC17-S478-START",
         "E-EPIC17-S478-EXIT",
         "E-EPIC17-S479-START",
-        "E-EPIC17-S479-EXIT"
+        "E-EPIC17-S479-EXIT",
+        "E-EPIC17-S480-START",
+        "E-EPIC17-S480-EXIT"
       ]
     },
     {
@@ -4987,7 +4989,9 @@
         "E-EPIC17-S478-START",
         "E-EPIC17-S478-EXIT",
         "E-EPIC17-S479-START",
-        "E-EPIC17-S479-EXIT"
+        "E-EPIC17-S479-EXIT",
+        "E-EPIC17-S480-START",
+        "E-EPIC17-S480-EXIT"
       ],
       "flagKey": null
     },
@@ -10520,6 +10524,16 @@
           "at": "2026-10-08T07:41:58.021Z",
           "actor": "Codex",
           "text": "S479 rights review leaves CLO unselected as a V03 receiver/profile. The product-development license scope is not established, and no further CLO pattern trials are planned absent rights evidence. Next use S465–S471 results to qualify or reject a free/local rights-compatible alternative; preserve every V03 and all-seven V02 gate."
+        },
+        {
+          "at": "2026-10-08T07:46:11.475Z",
+          "actor": "Codex",
+          "text": "S480 assesses the previously identified ISC-licensed Open Patterns parser for bounded local read-back evidence. It does not select it as a CAD receiver, change V03 gates, integrate external code, or authorize any upload."
+        },
+        {
+          "at": "2026-10-08T07:54:12.947Z",
+          "actor": "Codex",
+          "text": "S480 confirms the Open Patterns parser cannot parse our three generic fixtures and provides no DXF writer. It is not a receiver or round-trip path; all V03 acceptance and rights gates remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -10565,7 +10579,9 @@
         "E-G04-S478-START",
         "E-G04-S478-EXIT",
         "E-G04-S479-START",
-        "E-G04-S479-EXIT"
+        "E-G04-S479-EXIT",
+        "E-G04-S480-START",
+        "E-G04-S480-EXIT"
       ],
       "flagKey": null
     },
@@ -19111,6 +19127,42 @@
       "sha256": null,
       "verified": true,
       "note": "S479 completes official CLO rights/profile research. No receiver/profile is selected and no G04 gate or claim changes."
+    },
+    {
+      "id": "E-G04-S480-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S480 tests the already-reviewed Open Patterns parser as an independent local read-back oracle only. All parser/fixture/output files stay under C:\\G04-CLO-DXF-Exchange; no integration, external upload, or V03 gate change."
+    },
+    {
+      "id": "E-EPIC17-S480-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S480 evaluates a pinned, license-reviewed independent parser path; V03 acceptance and current receiver-rights hold remain unchanged."
+    },
+    {
+      "id": "E-G04-S480-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S480 rejects Open Patterns as a current fixture reader/round-trip candidate: all three hash-verified generic fixtures throw at the absent dxf.blocks table; source has no DXF writer. No V03 gate or receiver is changed. Runtime evidence and parser checkout remain in C:\\G04-CLO-DXF-Exchange."
+    },
+    {
+      "id": "E-EPIC17-S480-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Independent parser candidate assessed and rejected for current generic fixtures and DXF round-trip; rights-reviewed industrial receiver/profile remains required."
     }
   ]
 }

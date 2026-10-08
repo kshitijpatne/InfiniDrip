@@ -1,5 +1,27 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 480 independent parser assessment
+
+S480 pinned Open Patterns at `1afefdb8e9e01a7a7d7222adef8432d639fcb1b3`,
+checked package/source behavior, and attempted all three hash-verified S463
+generic M fixtures locally. Tee, Polo, and Woven all throw at
+`Object.keys(dxf.blocks)` because these fixtures have no block table. The
+parser requires ASTM/AAMA metadata-tagged blocks and numeric layers; its CLI
+emits JSON/SVG/raster but has no DXF writer. It is rejected as a reader for
+these fixtures and cannot prove V03 round-trip. Parser, runtime, and derived
+evidence are under `C:\G04-CLO-DXF-Exchange`; no fixture was uploaded. No
+V03 gate, all-seven V02 acceptance, legacy DXF behavior, or protected export
+identity changed. Packet:
+`docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md`.
+
+Start: `2026-10-08 07:45:46 UTC` from S479 commit `aa6cf64`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board revision 2967→2971 at start and 2971→2975 at exit. Goal remains active.
+
+**Next:** qualify only an already-reviewed free/local receiver with lawful
+access and an industrial profile; if none exists, record the exact access
+dependency without weakening round-trip acceptance.
+
 ## EPIC-17 / G04 — Slice 479 CLO rights and profile review
 
 S479 reviewed CLO's current published trial/license/software terms and DXF

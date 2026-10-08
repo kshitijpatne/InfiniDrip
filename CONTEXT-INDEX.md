@@ -2,6 +2,19 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md`
+  rejects the pinned Open Patterns parser as a reader for our generic S463
+  fixtures: all three hash-verified Tee/Polo/Woven M inputs throw on absent
+  `dxf.blocks`, and the source/CLI has no DXF writer. It cannot satisfy V03
+  round-trip or receiver selection. No V03 gate, accepted all-seven V02,
+  legacy DXF behavior, or protected identity changed. Parser/runtime/evidence
+  remain under `C:\G04-CLO-DXF-Exchange`; no upload. Board closeout
+  2971→2975; goal active.
+- `C:\G04-CLO-DXF-Exchange\Evidence\S480-open-patterns-parser\parser-results.json`
+  retains exact fixture hashes and the three observed parser exceptions; the
+  C: exchange directory contains the parser checkout and all S480 runtime
+  output.
+
 - `docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md`
   finds the CLO Trial License is limited to evaluation/demonstration and
   excludes commercial/for-profit purposes; the applicable grant/scope for the
