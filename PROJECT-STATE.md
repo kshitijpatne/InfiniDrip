@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 531 CLO malformed DXF control (closed; V03 remains open)
+
+CLO 2026.1.310 (r58944) silently imported a 396-byte malformed synthetic
+DXF-AAMA file with no visible warning/error and omitted its inset `SEW`
+contour; the valid paired control shows both the outer piece and inset contour
+under the same settings. This is a concrete failure of the tested
+malformed-input rejection path, not a full profile or all-version claim. All
+fixtures, saved projects and rendered evidence remain in
+`C:\G04-CLO-DXF-Exchange\S531-clo-negative-input-control\`. No G04 pattern or
+production source was used. No V03 criterion changed or cleared; S526 rights
+and local-data handling, profile/round-trip, semantics, grading and other
+gates remain held. CLO stayed open. Board start/exit replay is recorded in the
+S531 packet (`3235→3237→3239`); the full goal remains active.
+
+**Next:** use the existing CLO session for one local synthetic positive-control
+DXF export/re-import round-trip, recording export mode and exact geometry
+comparison; do not repeat the malformed test or use G04 pattern bytes. Keep
+all V03 gates held and resolve S526's independent rights/data issue before any
+product fixture.
+
 ## EPIC-17 / G04 — Slice 530 GetonAgain package inspection (closed; V03 remains open)
 
 The official `FUZHUANGCAD_MIANFEI_20260306.zip` endpoint returned HTTP 200,

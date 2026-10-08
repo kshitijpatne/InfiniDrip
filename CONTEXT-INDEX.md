@@ -2,6 +2,18 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S531-clo-negative-input-control/S531-exit-packet.md`
+  records a concrete CLO 2026.1.310 DXF-AAMA negative-control failure: the
+  malformed synthetic fixture is silently accepted while its inset `SEW`
+  contour is omitted; a same-settings valid control renders both contours.
+  This is limited to the tested path and does not clear other V03 gates.
+  Evidence stays in the named C: folder, CLO remains open, and no G04 data was
+  used. Board start/exit replay is 3235→3237→3239. Next is one synthetic
+  positive-control export/re-import,
+  without repeating the negative test or using pattern bytes.
+- `docs/research/epic17/S531-clo-negative-input-control/S531-start-packet.md`
+  defines the single non-garment negative-control scope and C:-only boundary.
+
 - `docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-exit-packet.md`
   confirms the official package endpoint but records that the 248.2 MiB ZIP
   transferred at only about 75 KB/s. The transfer was stopped; the 7.73 MB

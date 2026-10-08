@@ -1,3 +1,21 @@
+## Current EPIC-17/G04 V03 practical evidence — S531 exit (2026-10-08)
+
+In the already-running CLO 2026.1.310 (r58944) session, S531 compared a
+synthetic valid DXF-AAMA `CUT`/`SEW` control against the same file with the `0`
+group-code line omitted before the second CUT `VERTEX`. CLO silently accepts
+the malformed input without a warning or error and displays only the outer
+piece boundary; the inset SEW contour shown by the valid control is absent.
+This is a concrete negative-input rejection failure for the tested
+profile/settings, not a global compatibility conclusion. The input and
+rendered hashes and limits are in
+`docs/research/epic17/S531-clo-negative-input-control/S531-exit-packet.md`;
+actual test files and screenshots stay in the C:-only task folder. No G04
+pattern bytes were used, no acceptance changed, and all V03 gates remain held.
+S531 board start/exit replay is 3235→3237→3239 on G04-V03. CLO remains open.
+Next: one synthetic positive-control DXF
+export/re-import in the same session, without repeating S531 or using pattern
+data.
+
 ## Current V03 GetonAgain free-build audit — S529 exit (2026-10-08)
 
 S529 directly reviewed the manufacturer-hosted Garment CAD V2024.1 manual:

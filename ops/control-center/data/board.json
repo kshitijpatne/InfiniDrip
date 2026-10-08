@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3235,
-  "updatedAt": "2026-10-08T20:30:31.338Z",
+  "revision": 3239,
+  "updatedAt": "2026-10-08T20:43:36.111Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11128,6 +11128,16 @@
           "at": "2026-10-08T20:30:31.338Z",
           "actor": "Codex",
           "text": "S530 confirmed the official ZIP is 248.2 MiB. Transfer ran at roughly 75 KB/s, so it was stopped; the 7.73 MB file in the dedicated C: folder is explicitly partial and provides no package-content evidence. No V03 gate changed. Next is the requested bounded CLO practical test, with S526's recorded trial-use/local-handling limits reconciled first; CLO remains open and was untouched."
+        },
+        {
+          "at": "2026-10-08T20:33:58.215Z",
+          "actor": "Codex",
+          "text": "S531 targets the sole outstanding practical CLO negative-input check using one synthetic non-garment malformed DXF. Preserve the existing project and all test files/evidence in the named C: folder; keep CLO open. The trial rights/local-data and every other V03 gate remain unchanged."
+        },
+        {
+          "at": "2026-10-08T20:43:36.111Z",
+          "actor": "Codex",
+          "text": "S531 closes with a concrete DXF-AAMA malformed-input failure in CLO 2026.1.310: silent acceptance and omitted inset SEW geometry versus the matched valid control. No G04 data was used, no criterion/status changed, and all other V03 gates remain. CLO stays open. Next: one synthetic positive-control export/re-import in this session; do not repeat the negative control."
         }
       ],
       "evidenceRefs": [
@@ -11285,7 +11295,9 @@
         "E-G04-S529-START",
         "E-G04-S529-EXIT",
         "E-G04-S530-START",
-        "E-G04-S530-EXIT"
+        "E-G04-S530-EXIT",
+        "E-G04-S531-START",
+        "E-G04-S531-EXIT"
       ],
       "flagKey": null
     },
@@ -20956,6 +20968,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official GetonAgain ZIP endpoint is confirmed, but the 248.2 MiB package could not be fetched within a practical time: observed about 75 KB/s and stopped with an explicitly incomplete 7.73 MB partial. No package contents or V03 gate are established. CLO was left open and untouched."
+    },
+    {
+      "id": "E-G04-S531-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S531-clo-negative-input-control/S531-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One C:-only CLO negative-control test with a synthetic malformed, non-garment DXF; targets only whether the importer visibly rejects malformed input or silently accepts/repairs it. No G04 pattern bytes, no repeated round trips, and no change to other V03 gates."
+    },
+    {
+      "id": "E-G04-S531-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S531-clo-negative-input-control/S531-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO 2026.1.310 silently accepted one malformed synthetic DXF-AAMA control and omitted its inset SEW contour; matched positive control rendered both contours. This fails only the tested negative-input path; all V03 gates and acceptance remain held. Inputs and screenshots stay in the named C: folder; CLO stays open."
     }
   ]
 }

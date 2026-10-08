@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3235,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S531-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S531-clo-negative-input-control/S531-start-packet.md",
+    "verified": true,
+    "note": "One C:-only CLO negative-control test with a synthetic malformed, non-garment DXF; targets only whether the importer visibly rejects malformed input or silently accepts/repairs it. No G04 pattern bytes, no repeated round trips, and no change to other V03 gates."
+  }
+}
