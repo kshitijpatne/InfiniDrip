@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3213,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S525-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md",
+    "verified": true,
+    "note": "Read-only audit of pinned S498 ASTM and S523 AAMA generation-two outputs: 41/41 pieces are uniquely block-identifiable, but layer 8 mixes CUT/SEW in all seven recipes, 78 marks lack a direct exact-geometry match, and five Polo CUT contours still fail. No rights/profile or V03 gate cleared."
+  }
+}

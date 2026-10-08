@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3211,
-  "updatedAt": "2026-10-08T19:46:55.719Z",
+  "revision": 3215,
+  "updatedAt": "2026-10-08T20:03:14.370Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11068,6 +11068,16 @@
           "at": "2026-10-08T19:46:55.719Z",
           "actor": "Codex",
           "text": "S524 is closed as an import-only Pixie Space screen: seven generic base-M inputs rendered without a displayed error, but the app's export menu exposed no destination picker and browser controls could not guarantee a save under C:\\G04-CLO-DXF-Exchange\\S524-independent-local-aama-receiver. Export was deliberately not clicked. No round trip, industrial profile, rights, or V03 gate is cleared. Do not repeat these imports or S523's CLO trials; next receiver experiment requires a distinct sourced mechanism and verifiable C:-only output path. Keep CLO open for G04."
+        },
+        {
+          "at": "2026-10-08T19:53:23.868Z",
+          "actor": "Codex",
+          "text": "S525 is one read-only audit of existing seven-recipe CLO generation-two DXF-AAMA outputs: correlate output blocks/layers/entities to pinned source piece names and CUT/SEW/mark geometry. All new evidence stays in C:\\G04-CLO-DXF-Exchange\\S525-clo-semantic-layer-audit. Do not open, close, or interact with CLO; do not repeat imports/exports, infer meanings from numeric layer order, or change any V03 gate."
+        },
+        {
+          "at": "2026-10-08T20:03:14.370Z",
+          "actor": "Codex",
+          "text": "Correction to the S525 start note: the seven analyzed CLO files are not all DXF-AAMA. Tee/Polo/Woven are the observed DXF-ASTM S498 exports; Fitted/Tank/Skirt/Trouser are the observed DXF-AAMA S523 exports. This static audit maps all 41 piece identities, but numeric layer 8 mixes CUT and SEW across all seven and 78 source marks have no direct exact-geometry match. Five Polo CUT contour failures, rights/profile/local handling, warning, grade, negative-input, and independent receiver gates remain. No CLO UI action or acceptance change."
         }
       ],
       "evidenceRefs": [
@@ -11213,7 +11223,9 @@
         "E-G04-S523-START",
         "E-G04-S523-EXIT",
         "E-G04-S524-START",
-        "E-G04-S524-EXIT"
+        "E-G04-S524-EXIT",
+        "E-G04-S525-START",
+        "E-G04-S525-EXIT"
       ],
       "flagKey": null
     },
@@ -20776,6 +20788,24 @@
       "sha256": null,
       "verified": true,
       "note": "Pixie Space 0.2.0 imported and rendered seven generic base-M recipe DXFs without displayed errors. Export was not attempted because no verifiable C:-only destination was exposed; no round trip/profile qualification is claimed. V03 remains In Progress."
+    },
+    {
+      "id": "E-G04-S525-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S525-clo-semantic-layer-audit/S525-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S525 analyzes already saved S498/S523 generation-two CLO output files against current-source fixtures to resolve empirical layer/piece semantics. No CLO UI operation or new import/export; no gates change."
+    },
+    {
+      "id": "E-G04-S525-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only audit of pinned S498 ASTM and S523 AAMA generation-two outputs: 41/41 pieces are uniquely block-identifiable, but layer 8 mixes CUT/SEW in all seven recipes, 78 marks lack a direct exact-geometry match, and five Polo CUT contours still fail. No rights/profile or V03 gate cleared."
     }
   ]
 }

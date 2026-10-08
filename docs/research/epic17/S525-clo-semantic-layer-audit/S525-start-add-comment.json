@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3212,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S525 is one read-only audit of existing seven-recipe CLO generation-two DXF-AAMA outputs: correlate output blocks/layers/entities to pinned source piece names and CUT/SEW/mark geometry. All new evidence stays in C:\\G04-CLO-DXF-Exchange\\S525-clo-semantic-layer-audit. Do not open, close, or interact with CLO; do not repeat imports/exports, infer meanings from numeric layer order, or change any V03 gate."
+}

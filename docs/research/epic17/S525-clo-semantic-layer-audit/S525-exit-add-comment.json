@@ -1,0 +1,6 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "Correction to the S525 start note: the seven analyzed CLO files are not all DXF-AAMA. Tee/Polo/Woven are the observed DXF-ASTM S498 exports; Fitted/Tank/Skirt/Trouser are the observed DXF-AAMA S523 exports. This static audit maps all 41 piece identities, but numeric layer 8 mixes CUT and SEW across all seven and 78 source marks have no direct exact-geometry match. Five Polo CUT contour failures, rights/profile/local handling, warning, grade, negative-input, and independent receiver gates remain. No CLO UI action or acceptance change."
+}

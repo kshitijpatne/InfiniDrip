@@ -1,4 +1,22 @@
-## Current V03 receiver screen — S524 exit (2026-10-08)
+## Current V03 semantic-evidence audit — S525 exit (2026-10-08)
+
+S525 completed a source-hash-pinned audit of seven saved generation-two CLO
+outputs, keeping the three observed ASTM exports separate from the four
+observed AAMA exports. All 41 pieces map uniquely to output blocks through
+SEW geometry, but layer 8 mixes CUT and SEW in every recipe; the direct matcher
+has five Polo CUT misses and 78 source marks without an exact direct-geometry
+match. This is not proof of data loss, formal profile conformance, or receiver
+qualification. No CLO UI action occurred. All new generated evidence remains
+under `C:\G04-CLO-DXF-Exchange\S525-clo-semantic-layer-audit\`. Exit packet:
+`docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md`.
+
+Start/exit board replay `3211→3213→3215`; EPIC-17/G04-V03 remains In Progress,
+V01/V02 Done. Next: address the S493 V03 rights/local-handling and remaining
+technical gates by a new decision-bearing path; do not repeat the same CLO
+base-M trials. Keep all profile, semantics, Polo, grade, negative-input and
+independent-receiver holds unchanged.
+
+## Previous V03 receiver screen — S524 exit (2026-10-08)
 
 S524 completed one Pixie Space 0.2.0 preview screen. Seven current-source
 generic base-M inputs were locally imported and rendered without displayed

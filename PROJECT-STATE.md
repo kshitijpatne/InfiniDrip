@@ -1,5 +1,38 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 525 CLO layer and piece semantics audit (complete; V03 remains open)
+
+S525 analyzed the already-saved S498 ASTM exports (Tee, Polo, Woven) and S523
+AAMA exports (Fitted, Tank, Trouser, Skirt) against the pinned current-source
+fixtures. It did not operate CLO. All 41 pieces resolve to one output block by
+SEW geometry with expected insert counts, but numeric layer 8 mixes CUT and
+SEW in all seven outputs; additional ASTM layers mix them. The direct matcher
+finds 41/41 SEW outlines and 36/41 CUT outlines; the five misses are Polo's
+existing failures. Of 100 internal mark entities, 22 match exact same-kind
+geometry; 78 have no direct geometry match. This is not itself proof of data
+loss, but does not satisfy source-mark semantics. Keep the semantic and Polo
+holds.
+
+Started `2026-10-08 19:52:36 UTC` from S524 `f5a81c2` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S525 is
+unique. Validated board start/exit replay is `3211→3213→3215`; EPIC-17 and
+G04-V03 remain In Progress; V01/V02 Done. The full audit and limits are in
+`docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md`;
+the deterministic JSON and all CAD files remain under the named C: audit
+folder. Syntax/hash/mapping checks pass, board replay and validation pass,
+and Control Center tests are recorded in the exit packet. No production code
+changed, so changed-code coverage and the full repository gate do not apply.
+
+**Next:** proceed from the existing S493 V03 matrix without another identical
+CLO run. The material blockers are the permitted-use and local-handling basis,
+unresolved import warning, five Polo CUT failures, non-unique CUT/SEW layer
+semantics and direct mark mismatches, native grade evidence, malformed-input
+rejection, and independent receiver/profile acceptance. First select a
+decision-bearing path that can address a listed gate; if it cannot clear
+rights/local handling, do not transfer more fixtures. CLO remains open and
+has not been reopened or polled in S525.
+
 ## EPIC-17 / G04 — Slice 524 independent local receiver screen (complete; V03 remains open)
 
 S524 screened Pixie Space 0.2.0 after S523. Its unsigned browser app imported

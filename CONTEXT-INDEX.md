@@ -2,6 +2,18 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md`
+  closes the read-only audit of existing S498 ASTM and S523 AAMA outputs.
+  Empirical piece identity maps 41/41, but layer 8 mixes CUT/SEW in all seven;
+  78 marks have no direct exact-geometry match and five Polo CUT contours
+  remain failed. This is not a data-loss finding or formal profile claim.
+  Board start/exit `3211→3213→3215`; V01/V02 Done, V03 In Progress. CLO was
+  untouched and remains open. Next work must address a listed V03 gate without
+  replaying the same CLO trials.
+- `docs/research/epic17/S525-clo-semantic-layer-audit/S525-start-packet.md`
+  bounds the exact source/output audit, separates observed ASTM/AAMA cohorts,
+  and pins all new derived files to the dedicated C: folder. It forbids CLO UI
+  operations and acceptance changes.
 - `docs/research/epic17/S524-independent-local-aama-receiver/S524-exit-packet.md`
   closes a single Pixie Space 0.2.0 preview screen: seven generic base-M
   fixtures imported/rendered without displayed errors, but all receipts show
