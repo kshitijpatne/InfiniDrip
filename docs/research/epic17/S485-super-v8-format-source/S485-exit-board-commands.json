@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3011,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S485-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md",
+      "verified": true,
+      "note": "Exact Super V8 publisher-branded source advertises DXF/PLT import and PLT save, but no apparel DXF/AAMA/ASTM export. Linked manual was inaccessible; no receiver/profile/round-trip gate clears."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3012,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S485-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md",
+      "verified": true,
+      "note": "Super V8 is still unqualified: official exact-product output disclosure is PLT, with no verified local apparel-DXF export or round-trip."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3013,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S485-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3014,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S485 confirms Super V8's documented compatibility direction is DXF/PLT import and PLT save; it does not document apparel DXF/AAMA/ASTM export. Keep V03 gated."
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3007,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S485-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-start-packet.md",
+      "verified": true,
+      "note": "S485 reconciles exact Super V8 exchange modes against the manufacturer-branded product page and linked manual; no download/install or fixture."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3008,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S485-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-start-packet.md",
+      "verified": true,
+      "note": "Exact-version directionality of Super V8 apparel interchange only; no gate or scope change."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3009,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S485-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3010,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S485 compares exact Super V8 official import/export directions and manual identity; claims from the distinct V8 evaluation copy remain separate."
+  }
+]

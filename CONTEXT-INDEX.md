@@ -2,6 +2,13 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md`
+  reconciles the manufacturer-branded Super V8 page: DXF/PLT import, PLT save,
+  and cloud conversion for other native CAD files. It does not document exact
+  local apparel DXF/AAMA/ASTM export or round-trip; the linked manual was
+  inaccessible. Candidate remains unqualified. Board `3007→3011→3015`; no
+  product/install/fixture action. All V03 gates unchanged.
+
 - `docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md`
   records the official Super V8 paid SaaS marker flow: marker commands go to
   remote processing and results return locally. Exclude that service. Local

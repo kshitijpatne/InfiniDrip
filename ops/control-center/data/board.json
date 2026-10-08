@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3007,
-  "updatedAt": "2026-10-08T08:14:19.001Z",
+  "revision": 3015,
+  "updatedAt": "2026-10-08T08:19:54.287Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -703,7 +703,9 @@
         "E-EPIC17-S483-START",
         "E-EPIC17-S483-EXIT",
         "E-EPIC17-S484-START",
-        "E-EPIC17-S484-EXIT"
+        "E-EPIC17-S484-EXIT",
+        "E-EPIC17-S485-START",
+        "E-EPIC17-S485-EXIT"
       ]
     },
     {
@@ -5007,7 +5009,9 @@
         "E-EPIC17-S483-START",
         "E-EPIC17-S483-EXIT",
         "E-EPIC17-S484-START",
-        "E-EPIC17-S484-EXIT"
+        "E-EPIC17-S484-EXIT",
+        "E-EPIC17-S485-START",
+        "E-EPIC17-S485-EXIT"
       ],
       "flagKey": null
     },
@@ -10590,6 +10594,16 @@
           "at": "2026-10-08T08:14:19.001Z",
           "actor": "Codex",
           "text": "S484 excludes the publisher-documented paid SaaS marker workflow. It does not establish whether pattern DXF import/export or cloud conversion is local; no V03 gate clears."
+        },
+        {
+          "at": "2026-10-08T08:15:34.712Z",
+          "actor": "Codex",
+          "text": "S485 compares exact Super V8 official import/export directions and manual identity; claims from the distinct V8 evaluation copy remain separate."
+        },
+        {
+          "at": "2026-10-08T08:19:54.287Z",
+          "actor": "Codex",
+          "text": "S485 confirms Super V8's documented compatibility direction is DXF/PLT import and PLT save; it does not document apparel DXF/AAMA/ASTM export. Keep V03 gated."
         }
       ],
       "evidenceRefs": [
@@ -10645,7 +10659,9 @@
         "E-G04-S483-START",
         "E-G04-S483-EXIT",
         "E-G04-S484-START",
-        "E-G04-S484-EXIT"
+        "E-G04-S484-EXIT",
+        "E-G04-S485-START",
+        "E-G04-S485-EXIT"
       ],
       "flagKey": null
     },
@@ -19371,6 +19387,42 @@
       "sha256": null,
       "verified": true,
       "note": "The exact Super V8 paid marker-cloud path is identified and excluded; other exchange data paths remain unverified."
+    },
+    {
+      "id": "E-G04-S485-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S485 reconciles exact Super V8 exchange modes against the manufacturer-branded product page and linked manual; no download/install or fixture."
+    },
+    {
+      "id": "E-EPIC17-S485-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact-version directionality of Super V8 apparel interchange only; no gate or scope change."
+    },
+    {
+      "id": "E-G04-S485-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact Super V8 publisher-branded source advertises DXF/PLT import and PLT save, but no apparel DXF/AAMA/ASTM export. Linked manual was inaccessible; no receiver/profile/round-trip gate clears."
+    },
+    {
+      "id": "E-EPIC17-S485-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Super V8 is still unqualified: official exact-product output disclosure is PLT, with no verified local apparel-DXF export or round-trip."
     }
   ]
 }

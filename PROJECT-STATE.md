@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 485 Super V8 format-source reconciliation
+
+S485 reviewed the publisher-branded Super V8 compatibility statement. It
+advertises DXF/PLT import, PLT save, and cloud conversion for other CAD-native
+files; separately, the English product page lists HPGL/CUT import/export. No
+exact-product apparel DXF/AAMA/ASTM export or local round-trip is documented.
+The linked manual exceeded the web extractor limit (22,136,092 bytes); direct
+retrieval yielded no file and HEAD timed out. No manual contents are claimed.
+Super V8 remains unqualified, and no install/download/account/fixture/cloud
+use occurred. V01/V02 Done; V03/EPIC-17 In Progress; all gates and protected
+exports unchanged. Packet:
+`docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md`.
+
+Start `2026-10-08 08:15:12 UTC` from clean S484 `415d914`; refreshed
+`origin/main` remains an ancestor. Board `3007→3011→3015`; Control Center
+42/42. An action-time install question was pending, but the exact-product
+source now documents import and PLT save only; no install is recommended unless
+the owner still wants a menu-only check. **Next:** continue only toward an
+already accessible rights-cleared local receiver or an explicitly approved
+inspection whose Gate 0 may prove an additional local apparel export path.
+
 ## EPIC-17 / G04 — Slice 484 Super V8 cloud boundary
 
 S484 checked Richpeace's exact-version launch article. It states that Cloud
