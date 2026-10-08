@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3299,
-  "updatedAt": "2026-10-08T22:45:38.334Z",
+  "revision": 3303,
+  "updatedAt": "2026-10-08T22:50:11.032Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11288,6 +11288,16 @@
           "at": "2026-10-08T22:45:38.334Z",
           "actor": "Codex",
           "text": "S546 confirms the S545 AAMA gen1/gen2 outputs repeat the same five Polo CUT contour failures at 0.01274–0.01399 cm against the fixed 0.001 cm gate. S500/S517/S519 already identify the removed source points; the new S546 cross-file parser failed against trusted S500 results and is excluded. Prior CLO controls offer no safe untested preservation switch (S522); do not repeat them. Next qualify a concrete rights-reviewed apparel receiver/profile. All V03 gates remain held."
+        },
+        {
+          "at": "2026-10-08T22:48:16.168Z",
+          "actor": "Codex",
+          "text": "S547 consolidates S523/S545 seven-recipe DXF-AAMA M/default evidence with S538's resolved maintainer authorization and current profile, geometry, semantic, grading and malformed-input findings. The goal is to identify the exact remaining acceptance gates and one evidence-backed next step. No repeated CLO control, data transfer, or acceptance change."
+        },
+        {
+          "at": "2026-10-08T22:50:11.032Z",
+          "actor": "Codex",
+          "text": "S547 reconciles the seven AAMA M/default trials. CLO use/local handling are authorized; this does not resolve profile conformance. Geometry is 77/82 contours passing per generation with five Polo CUT failures; layer 8 mixes CUT and SEW, marks/grades remain unproven, and S531's tested malformed file was silently accepted. Do not repeat the same CLO controls. S548 will statically screen the newly identified Pro2CAD publisher lead for exact build, no-cost rights, Windows/local path, profile, then stop before install/contact/pattern transfer unless all prerequisite evidence passes. Preserve every V03 gate."
         }
       ],
       "evidenceRefs": [
@@ -11477,7 +11487,9 @@
         "E-G04-S545-START",
         "E-G04-S545-EXIT",
         "E-G04-S546-START",
-        "E-G04-S546-EXIT"
+        "E-G04-S546-EXIT",
+        "E-G04-S547-START",
+        "E-G04-S547-EXIT"
       ],
       "flagKey": null
     },
@@ -21436,6 +21448,24 @@
       "sha256": null,
       "verified": true,
       "note": "S546 reconciles S545's same five above-gate Polo CUT contours with S500/S517/S519 history. A new cross-file parser failed against trusted S500 geometry and is explicitly rejected; no new CLO action or gate change. Keep V03 open and qualify a rights- and profile-evidenced alternative before another fixture transfer."
+    },
+    {
+      "id": "E-G04-S547-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S547 reconciles all seven current CLO AAMA M/default recipe runs and every V03 gate into one evidence-linked pass/fail/not-established matrix. No UI or file exchange; no acceptance change."
+    },
+    {
+      "id": "E-G04-S547-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S547 reconciles all seven CLO AAMA M/default recipe trials: 77/82 contours per generation pass 0.001 cm, with five repeat Polo failures; authorization is resolved, while exact profile, CUT/SEW semantics, marks, grades/options, negative-input handling, and independent receiver evidence remain held."
     }
   ]
 }

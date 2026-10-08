@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3301,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S547-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md",
+    "verified": true,
+    "note": "S547 reconciles all seven CLO AAMA M/default recipe trials: 77/82 contours per generation pass 0.001 cm, with five repeat Polo failures; authorization is resolved, while exact profile, CUT/SEW semantics, marks, grades/options, negative-input handling, and independent receiver evidence remain held."
+  }
+}

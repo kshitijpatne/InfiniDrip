@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3300,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S547 consolidates S523/S545 seven-recipe DXF-AAMA M/default evidence with S538's resolved maintainer authorization and current profile, geometry, semantic, grading and malformed-input findings. The goal is to identify the exact remaining acceptance gates and one evidence-backed next step. No repeated CLO control, data transfer, or acceptance change."
+}

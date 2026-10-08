@@ -1,4 +1,20 @@
-## Current EPIC-17/G04 V03 Polo contour diagnosis — S546 exit (2026-10-08)
+## Current EPIC-17/G04 V03 seven-recipe gate reconciliation — S547 exit (2026-10-08)
+
+All seven M/default recipes now have two generations on the core CLO
+DXF-AAMA/centimeter/100%/no-rotation route. Per generation, 77/82 contours
+pass the unchanged 0.001 cm gate and the same five Polo CUT contours fail at
+0.01274–0.01399 cm. Written trial-use/local-processing authorization is
+resolved. Exact industrial edition, CUT/SEW semantics, marks, grading/options,
+malformed-input rejection and independent receiver acceptance remain open.
+The gate-by-gate evidence and next candidate boundary are in
+`docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md`.
+
+**Next:** statically screen the Pro2CAD publisher's AAMA/ASTM bidirectional
+claim, exact build, no-cost evaluation rights, Windows/local handling, and
+profile evidence. Do not install, contact the vendor, transfer patterns, or
+spend money unless the existing scope and evidence permit it.
+
+## Prior EPIC-17/G04 V03 Polo contour diagnosis — S546 exit (2026-10-08)
 
 S546 reconciles S545's five above-gate Polo CUT contours against prior
 validated S500/S517/S519 evidence. Both S545 AAMA generations report the same

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3299,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S547-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-start-packet.md",
+    "verified": true,
+    "note": "S547 reconciles all seven current CLO AAMA M/default recipe runs and every V03 gate into one evidence-linked pass/fail/not-established matrix. No UI or file exchange; no acceptance change."
+  }
+}

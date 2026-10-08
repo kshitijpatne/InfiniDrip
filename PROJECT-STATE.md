@@ -1,5 +1,21 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 547 exit (V03 remains open)
+
+S547 reconciles the seven CLO DXF-AAMA M/default two-generation trials:
+77/82 contours per generation pass 0.001 cm; five Polo CUT contours fail at
+0.01274–0.01399 cm. Written product-development/local-processing permission
+is resolved. Exact industrial profile, CUT/SEW semantics, marks, grading and
+options, malformed-input rejection, and independent receiver acceptance
+remain open. Do not repeat the same CLO point controls. Next statically screen
+the newly surfaced Pro2CAD publisher lead for exact build, rights, Windows and
+local handling, profile and capability before any install/contact/file
+transfer. S547 exit packet and complete matrix:
+`docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md`;
+`V03-CURRENT-GATE-MATRIX-S547.md`. Board start/exit is
+`3299→3301→3303`; focused Control Center tests are recorded. The goal remains
+active and needed.
+
 ## EPIC-17 / G04 — Slice 546 exit (V03 remains open)
 
 S546 reconciled S545's five Polo M/default AAMA CUT contour failures across
@@ -38,7 +54,7 @@ closed; no V03 hold was relaxed.
 The thread goal remains active and needed through admitted V03 completion and
 safe merge; its objective matches this state. No manual resume is needed.
 
-S546 supersedes this immediate next-action note. See its exit packet for the
+S547 supersedes this immediate next-action note. See its exit packet for the
 current next step and preserved V03 holds.
 
 ## EPIC-17 / G04 — Slice 544 CLO target-state mismatch (closed; recovered in S545)

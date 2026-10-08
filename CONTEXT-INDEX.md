@@ -2,6 +2,13 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md`
+  and `V03-CURRENT-GATE-MATRIX-S547.md` are the current consolidated evidence:
+  all seven M/default AAMA recipes have two generations, 77/82 contours pass
+  each generation, and five Polo CUT contours fail. CLO test authorization is
+  resolved. Exact profile, semantics/marks, grading/options, malformed-input
+  rejection and independent receiver acceptance remain open. Next: statically
+  qualify the Pro2CAD lead before any install/contact/file transfer.
 - `docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-start-packet.md`
   records the S546 start; its `S546-exit-packet.md` closes the diagnosis.
   S545 repeats five Polo CUT failures across gen1/gen2. Existing S500/S517/S519
