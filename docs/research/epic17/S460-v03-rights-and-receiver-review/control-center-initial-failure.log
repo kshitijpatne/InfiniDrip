@@ -1,0 +1,244 @@
+
+> InfiniDrip@0.0.1 control-center:test
+> node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs
+
+✔ canonical board validates and summarizes its tracked work (40.4587ms)
+✔ approved UI packages remain planning backlog without adding G04 closure dependencies (2.3401ms)
+✔ S354 reconciliation evidence is linked without changing G04 acceptance status (1.0975ms)
+✖ S355 Woven diagnosis is linked while every G04 acceptance hold remains (4.6881ms)
+✖ S356 rejects the Woven chord-reflection candidate and retains every hold (1.3486ms)
+✖ S357 Polo residual study retains the source ease, threshold, and all holds (1.5164ms)
+✖ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (1.1125ms)
+✖ S359 records the Woven rigid-fit decision boundary without releasing holds (1.3193ms)
+✖ S360 binds the landed S359 commit without changing Polo or Woven holds (1.6179ms)
+✖ S361 evidence remains linked after the current summary reconciliation (1.3598ms)
+✔ malformed board data is rejected instead of repaired (37.9959ms)
+✔ invalid top-level and duplicate records are reported (28.5889ms)
+✔ invalid calendar dates are rejected instead of normalized (25.7597ms)
+✔ contributors can submit review but cannot complete work (0.5056ms)
+✖ closed Epics 14–16 and admitted G04 status match their evidence (14.5155ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (59.5598ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (41.2597ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (2.1168ms)
+✔ executeBoardCommand validates, persists atomically, and rejects stale revisions (343.0744ms)
+✔ writeBoardAtomic validates before opening a temporary file (56.2585ms)
+✔ writeBoardAtomic preserves the original when rename fails and removes its temporary file (111.6411ms)
+✔ a pre-existing lock fails visibly without changing the board (65.0776ms)
+✔ approved role guidance exposes the basic workflow and maintainer override (5.1869ms)
+✔ editItem changes only editable details and increments the revision (158.7468ms)
+✔ maintainer editEpic updates metadata and records the reason on its summary card (156.9932ms)
+✔ maintainer rename keeps dependent work linked and records the old identifier (133.4773ms)
+✔ future epic can be registered in Backlog without implying work has started (44.5594ms)
+✔ createItem validates a new backlog record and records its creation in transition history (39.4072ms)
+✔ createItem rejects missing rationale, invalid fields, and duplicate identifiers (96.5474ms)
+✔ status transitions persist actor guidance, reason, evidence, and delivery date (95.0433ms)
+✔ status commands reject missing reasons, role violations, and evidence-free completion (67.7612ms)
+✔ addEvidence can create or link evidence and addComment records notes (126.8329ms)
+✔ Epic 13 links and closes only the nine evidence-backed phases without rewriting their history (128.8424ms)
+✔ ordinary item edits cannot bypass Epic 13's exact membership boundary (104.1357ms)
+✔ Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure (293.1066ms)
+✔ epic creation, evidence, and closure commands require maintainer authority (129.1923ms)
+✔ imports only explicit verified facts into known evidence (7.6396ms)
+✔ rejects unknown, mismatched, duplicate and unproven facts (3.9423ms)
+✔ localhost API persists commands and rejects stale writers (549.3712ms)
+✔ localhost API creates a schema-valid work item through the shared command layer (347.8919ms)
+✔ service exposes only intended static and referenced evidence routes (133.5664ms)
+✔ malformed commands fail without mutating the board (131.0845ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 34
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2038.9486
+
+✖ failing tests:
+
+test at ops\control-center\app\board.test.mjs:76:1
+✖ S355 Woven diagnosis is linked while every G04 acceptance hold remains (4.6881ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'In Progress'
+  - 'Backlog'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:86:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:91:1
+✖ S356 rejects the Woven chord-reflection candidate and retains every hold (1.3486ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'In Progress'
+  - 'Backlog'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:101:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:105:1
+✖ S357 Polo residual study retains the source ease, threshold, and all holds (1.5164ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'In Progress'
+  - 'Backlog'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:115:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:119:1
+✖ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (1.1125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'In Progress'
+  - 'Backlog'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:131:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:136:1
+✖ S359 records the Woven rigid-fit decision boundary without releasing holds (1.3193ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'In Progress'
+  - 'Backlog'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:153:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:159:1
+✖ S360 binds the landed S359 commit without changing Polo or Woven holds (1.6179ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'In Progress'
+  - 'Backlog'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:179:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:183:1
+✖ S361 evidence remains linked after the current summary reconciliation (1.3598ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'In Progress'
+  - 'Backlog'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:196:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'In Progress',
+    expected: 'Backlog',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:243:1
+✖ closed Epics 14–16 and admitted G04 status match their evidence (14.5155ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'Done',
+      'Done',
+  +   'In Progress'
+  -   'Backlog'
+    ]
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:479:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Done', 'Done', 'In Progress' ],
+    expected: [ 'Done', 'Done', 'Backlog' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

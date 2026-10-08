@@ -1,5 +1,45 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 460 V03 rights/profile evidence (complete)
+
+S459 passed the all-seven digital V02 gate: 73 supported configurations and
+146 live front/back outputs, with all 146 accepted. The canonical board was
+revision 2795 (EPIC-17 In Progress; V01/V02 Done; V03 Backlog). After verifying
+the clean S459 commit `8a437a1e4c738c7ff0f3803cb5a1ea8835bdde2f`, fetching
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, confirming ancestry,
+and reserving unique S460, the dependent V03 work begins. S460 moved G04-V03
+to In Progress through the validated board command layer and closed its
+rights/source review at board revision 2810. Evidence:
+`docs/research/epic17/S460-v03-rights-and-receiver-review/`.
+
+S460 rechecks current official rights/capability sources (including Valentina
+1.1.1 published after S421) and inspects the actual generic DXF writer and
+profile contract. No receiver is selected before rights review and no exact
+format claim is permitted before witnessed representative import/export and
+round trips. No account/trial, payment, terms acceptance, supplier/vendor
+contact, project-file transfer, exporter change or baseline movement is
+authorized. Preserve legacy DXF byte identities and every V02 acceptance gate.
+No no-cost qualified industrial receiver was established. CLO is the strongest
+documented receiver candidate, but its current trial needs owner eligibility,
+account/billing/payment details, auto-starts the paid plan, or requires vendor
+contact for enterprise/academic access. Valentina 1.1.1 adds export evidence
+only; Seamly2D receiving remains unestablished; LibreCAD is generic DXF; and
+OpenMarker is not production-ready and has not implemented export. The actual
+InfiniDrip writer emits generic entities-only geometry without declared units,
+piece IDs/labels or grade data; C04's receiver-specific fixtures remain due.
+V03 stays In Progress and unproven while lawful exact receiver/version access
+is resolved. No receiver is selected and no compatibility claim is made. The
+first Control Center run exposed 8 stale V03=Backlog assertions; the failure
+is retained and current canonical expectations now pass 42/42.
+
+Goal remains active and necessary through V03, final rendered/output review,
+full integrated gates, PR, safe merge, ancestry and any required deployment.
+At least 4–9 V03 slices plus 3–5 final review/merge/deployment slices remain
+(7–14 total), excluding unbounded rights/access delay. This re-estimate counts
+S460 as one of the prior 5–10 V03 slices and reserves separate slices for a
+profile/fixture contract, additive profile output, receiver round trips, and
+V03/final integrated closeout as actual evidence dictates.
+
 ## EPIC-17 / G04 — Slice 459 accepts integrated V02 (complete)
 
 S459 replayed the canonical 73 supported configurations through the current production UI and Chromium renderer and accepted 146/146 FRONT_FLAT/BACK_FLAT outputs across all seven recipes. The audit reports zero technical-flat issues, option mismatches, revision-pair or output-identity mismatches, colorway-revision mismatches, unresolved callout targets, browser errors, or text-box intersections across any SVG layer. It includes 1,048 current callout records and 277 full-text source-POM schedule rows. Representative whole and maximum-zoom outputs were visually reviewed; zoom/pan makes dense annotations readable. Pattern-source omissions and table-only POMs remain explicitly noticed; the canonical fixtures contain no selected artwork asset.

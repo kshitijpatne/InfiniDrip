@@ -1,0 +1,98 @@
+
+> InfiniDrip@0.0.1 control-center:test
+> node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs
+
+✔ canonical board validates and summarizes its tracked work (40.5192ms)
+✔ approved UI packages remain planning backlog without adding G04 closure dependencies (2.0647ms)
+✔ S354 reconciliation evidence is linked without changing G04 acceptance status (1.0781ms)
+✔ S355 Woven diagnosis is linked while every G04 acceptance hold remains (0.9299ms)
+✔ S356 rejects the Woven chord-reflection candidate and retains every hold (1.1523ms)
+✔ S357 Polo residual study retains the source ease, threshold, and all holds (1.7323ms)
+✔ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (2.528ms)
+✔ S359 records the Woven rigid-fit decision boundary without releasing holds (2.2852ms)
+✔ S360 binds the landed S359 commit without changing Polo or Woven holds (1.6149ms)
+✖ S361 evidence remains linked after the current summary reconciliation (3.8546ms)
+✔ malformed board data is rejected instead of repaired (44.4379ms)
+✔ invalid top-level and duplicate records are reported (32.6693ms)
+✔ invalid calendar dates are rejected instead of normalized (29.4752ms)
+✔ contributors can submit review but cannot complete work (0.5758ms)
+✖ closed Epics 14–16 and admitted G04 status match their evidence (9.137ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (72.8744ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (39.1805ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (2.915ms)
+✔ executeBoardCommand validates, persists atomically, and rejects stale revisions (336.8777ms)
+✔ writeBoardAtomic validates before opening a temporary file (68.3381ms)
+✔ writeBoardAtomic preserves the original when rename fails and removes its temporary file (130.0988ms)
+✔ a pre-existing lock fails visibly without changing the board (82.092ms)
+✔ approved role guidance exposes the basic workflow and maintainer override (9.3417ms)
+✔ editItem changes only editable details and increments the revision (125.1843ms)
+✔ maintainer editEpic updates metadata and records the reason on its summary card (163.0316ms)
+✔ maintainer rename keeps dependent work linked and records the old identifier (166.0645ms)
+✔ future epic can be registered in Backlog without implying work has started (61.9415ms)
+✔ createItem validates a new backlog record and records its creation in transition history (34.837ms)
+✔ createItem rejects missing rationale, invalid fields, and duplicate identifiers (122.5434ms)
+✔ status transitions persist actor guidance, reason, evidence, and delivery date (122.2043ms)
+✔ status commands reject missing reasons, role violations, and evidence-free completion (83.6255ms)
+✔ addEvidence can create or link evidence and addComment records notes (155.046ms)
+✔ Epic 13 links and closes only the nine evidence-backed phases without rewriting their history (160.8787ms)
+✔ ordinary item edits cannot bypass Epic 13's exact membership boundary (147.7831ms)
+✔ Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure (447.8711ms)
+✔ epic creation, evidence, and closure commands require maintainer authority (214.2464ms)
+✔ imports only explicit verified facts into known evidence (5.2792ms)
+✔ rejects unknown, mismatched, duplicate and unproven facts (8.1849ms)
+✔ localhost API persists commands and rejects stale writers (660.8156ms)
+✔ localhost API creates a schema-valid work item through the shared command layer (394.011ms)
+✔ service exposes only intended static and referenced evidence routes (197.4943ms)
+✔ malformed commands fail without mutating the board (165.2992ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 40
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2557.8484
+
+✖ failing tests:
+
+test at ops\control-center\app\board.test.mjs:183:1
+✖ S361 evidence remains linked after the current summary reconciliation (3.8546ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /S406's approved view-only collar-over-plackets order remains implemented/. Input:
+  
+  'EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03 acceptance, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:203:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03 acceptance, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.',
+    expected: /S406's approved view-only collar-over-plackets order remains implemented/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:243:1
+✖ closed Epics 14–16 and admitted G04 status match their evidence (9.137ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Preserve V02-before-V03, legacy DXF behavior and protected export identities/. Input:
+  
+  'EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03 acceptance, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.'
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:273:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03 acceptance, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.',
+    expected: /Preserve V02-before-V03, legacy DXF behavior and protected export identities/,
+    operator: 'match',
+    diff: 'simple'
+  }

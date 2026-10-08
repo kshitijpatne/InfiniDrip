@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2795,
-  "updatedAt": "2026-10-08T03:59:25.890Z",
+  "revision": 2810,
+  "updatedAt": "2026-10-08T04:11:35.564Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -654,7 +654,9 @@
         "E-EPIC17-S457-EXIT",
         "E-EPIC17-S458-EXIT",
         "E-EPIC17-S459-START",
-        "E-EPIC17-S459-EXIT"
+        "E-EPIC17-S459-EXIT",
+        "E-EPIC17-S460-START",
+        "E-EPIC17-S460-EXIT"
       ]
     },
     {
@@ -3183,7 +3185,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 is gated on receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.",
+      "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4481,6 +4483,16 @@
           "at": "2026-10-08T03:59:16.893Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim.). Keep the canonical status summary's explicit V02-before-V03 gate visible alongside S459 acceptance."
+        },
+        {
+          "at": "2026-10-08T04:05:13.281Z",
+          "actor": "Codex",
+          "text": "S460 begins admitted V03 after S459 all-seven V02 acceptance. V03 is In Progress for rights/profile evidence and witnessed exchange fixtures. Legacy generic DXF behavior and protected export byte identities remain locked; exact compatibility claims wait for actual import/export/round-trip proof. See E-EPIC17-S460-START."
+        },
+        {
+          "at": "2026-10-08T04:08:39.359Z",
+          "actor": "Codex",
+          "text": "S460 refreshed rights/access evidence and traced the existing writer; no qualifying no-cost industrial apparel receiver or witnessed round trip. Recommended next path is an owner-provided lawful exact local receiver/version, with CLO strongest if licensed access exists. No payment, account, terms, contact or files handled. V03 and its acceptance criteria remain In Progress and unchanged; all-seven V02 and legacy export identities remain accepted/protected. Goal is active; manual resume is not needed. See E-EPIC17-S460-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -4873,7 +4885,9 @@
         "E-G04-S428-EXIT",
         "E-EPIC17-S458-EXIT",
         "E-EPIC17-S459-START",
-        "E-EPIC17-S459-EXIT"
+        "E-EPIC17-S459-EXIT",
+        "E-EPIC17-S460-START",
+        "E-EPIC17-S460-EXIT"
       ],
       "flagKey": null
     },
@@ -10156,7 +10170,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10189,6 +10203,16 @@
           "role": "maintainer",
           "note": "Create the admitted V03 work card under EPIC-17.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-08T04:05:13.132Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "The ordered V02 dependency is Done with all-seven current rendered evidence; begin admitted V03 rights/profile and representative round-trip work.",
+          "evidenceRefs": [
+            "E-G04-S460-START"
+          ]
         }
       ],
       "comments": [
@@ -10201,11 +10225,24 @@
           "at": "2026-10-07T09:33:30.368Z",
           "actor": "Codex",
           "text": "S421 exit: checked official public evidence qualifies no no-cost industrial apparel receiver. CLO documents bidirectional Standard DXF/AAMA/ASTM support but its trial requires payment information and converts to paid access. Valentina's reviewed DXF claim is export-oriented; Seamly2D receiver behavior is not established; LibreCAD is generic DXF only. No selection, install, terms, contact, fixture round-trip or compatibility claim. Keep V03 Backlog pending all-seven V02 and rights-cleared access. See E-G04-S421-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:05:13.210Z",
+          "actor": "Codex",
+          "text": "S460 begins V03 at S459 commit 8a437a1; refreshed origin/main a5af5e1 remains an ancestor. Board revision 2795; G04-V02 is Done across 7 recipes / 73 configs / 146 views. Recheck current primary-source rights/capabilities, including post-S421 releases, and inspect the actual DXF writer/profile contract. No receiver/profile is selected until rights evidence; no account, paid trial, terms, contact, file transfer, exporter change or exact compatibility claim without its gate. See E-G04-S460-START."
+        },
+        {
+          "at": "2026-10-08T04:08:39.303Z",
+          "actor": "Codex",
+          "text": "S460 rights/profile exit: current official sources checked; CLO documents import/export but its Individual trial requires owner account, billing/payment and auto-converts to paid, while enterprise/academic trial needs vendor contact. Valentina 1.1.1 adds export fixes but no documented receiver; Seamly2D import remains unestablished; LibreCAD is generic only; OpenMarker is Apache-2.0 but not production-ready and has no export yet. InfiniDrip emits generic entities-only DXF with no declared units/grade/IDs; protected bytes remain locked. V03 remains In Progress; no receiver selected and no round-trip or compatibility claim. See E-G04-S460-EXIT."
         }
       ],
       "evidenceRefs": [
         "E-G04-S421-START",
-        "E-G04-S421-EXIT"
+        "E-G04-S421-EXIT",
+        "E-G04-S460-START",
+        "E-G04-S460-EXIT",
+        "E-G04-S460-SOURCE-CONTRACT"
       ],
       "flagKey": null
     },
@@ -18022,6 +18059,51 @@
       "sha256": null,
       "verified": true,
       "note": "S459 closes G04 V02 after integrated live-output review across 73 supported configurations / 146 front/back faces. V03 remains gated on rights-reviewed receiver/profile and witnessed round-trip evidence."
+    },
+    {
+      "id": "E-G04-S460-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S460-v03-rights-and-receiver-review/S460-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S460 starts current official-source rights/profile review and inspection of the actual generic DXF/profile contract after all-seven V02 passed; no receiver is preselected."
+    },
+    {
+      "id": "E-EPIC17-S460-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S460-v03-rights-and-receiver-review/S460-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S460 enters the admitted G04-V03 dependent work after S459 accepted all seven recipes; receiver access and round-trip proof remain required."
+    },
+    {
+      "id": "E-G04-S460-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S460 refreshes current official CAD rights/capabilities and traces the actual generic DXF contract. No rights-cleared industrial receiver is selected; CLO needs an owner-authorized licensed access path; V03 remains In Progress and unproven."
+    },
+    {
+      "id": "E-G04-S460-SOURCE-CONTRACT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S460 records actual generic DXF entities and omissions, frozen legacy hashes, C04 fixture criteria, current ASTM withdrawal status, candidate rights limits and a proposed CLO-version-specific profile conditional on lawful access."
+    },
+    {
+      "id": "E-EPIC17-S460-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S460 exit preserves all-seven V02 and all protected DXF identities; V03 remains in progress awaiting an exact lawful local receiver/version to run actual exchange fixtures."
     }
   ]
 }

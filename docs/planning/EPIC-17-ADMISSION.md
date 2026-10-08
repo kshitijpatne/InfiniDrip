@@ -1,3 +1,37 @@
+## Current evidence and conditional remaining estimate — S460 exit (2026-10-08)
+
+S460 started from clean S459 `8a437a1e4c738c7ff0f3803cb5a1ea8835bdde2f`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an
+ancestor; S459 was highest and S460 unique. Board 2795 confirmed all-seven
+V02 Done (73 configurations /146 views) and V03 Backlog. Validated S460 start
+commands advanced 2795→2801 and moved V03 In Progress after the dependency
+passed; evidence exit replay advanced 2801→2808 and the validated Epic summary
+reconciliation advanced to 2810 without changing Epic/V03 In Progress statuses.
+
+Current official-source review qualifies no no-cost industrial apparel
+receiver. CLO is the strongest documented candidate, but its trial requires
+eligible owner account/billing/payment and auto-starts a paid plan, or requires
+vendor contact for enterprise/academic access. Valentina 1.1.1 adds current
+outbound DXF details but does not establish receiving; Seamly2D receiving is
+not established; LibreCAD is generic; OpenMarker (Apache-2.0) is not
+production-ready and its export flow remains planned. The actual writer emits
+generic entities-only DXF without declared units, piece IDs/labels or grade
+data. No receiver/profile is selected, no fixtures have been round-tripped,
+and no compatibility claim is made. V03 acceptance and all-seven V02 remain
+unchanged. Full source facts, candidate limits, fixture gaps, initial test
+failure, validated board commands and current references are in
+`docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md`.
+
+The first Control Center run failed 8 assertions that hard-coded V03=Backlog;
+the failure is preserved, the current-board assertions were corrected, and
+Control Center passes 42/42. No product source/export changed and no global
+gate is due. Goal status was checked: active and still matches its objective;
+no UI resume is needed. The conditional remaining estimate is 4–9 V03 slices
+and 3–5 final review/merge/deployment slices (7–14 total) excluding unbounded
+rights/access delay. **Next:** obtain owner-provided lawful local receiver and
+exact version access, then freeze the profile and begin fixture/round-trip
+proof. No spend/contact/trial is authorized by this record.
+
 ## Current evidence and conditional remaining estimate — S459 (2026-10-08)
 
 S459 has accepted integrated G04 V02: 73 canonical supported configurations and 146 front/back views across all seven recipes passed current production UI/Chromium review. Every face emitted with exact option and paired-revision identity, matching colorway revision, resolved POM targets and no renderer or browser errors. Full-layer rendered text boxes do not intersect; current whole views, dense callout crops and the Polo POM schedule were checked at fit and 250% zoom. G04-V02 is Done; G04-V03 may now start as its dependent task, with all rights/profile/round-trip gates unchanged. See `docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md`.

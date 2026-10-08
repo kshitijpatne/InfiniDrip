@@ -83,7 +83,7 @@ test("S355 Woven diagnosis is linked while every G04 acceptance hold remains", (
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
   assert.equal(epic.dependencies.includes("UIQ-GATE"), false);
   assert.ok(g04.comments.some((comment) => /Slice 355 rejected Woven back seam-layer occlusion/.test(comment.text)));
 });
@@ -98,7 +98,7 @@ test("S356 rejects the Woven chord-reflection candidate and retains every hold",
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
   assert.ok(g04.comments.some((comment) => /Slice 356 rejected the Woven sleeve\/band chord-reflection candidate/.test(comment.text)));
 });
 
@@ -112,7 +112,7 @@ test("S357 Polo residual study retains the source ease, threshold, and all holds
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
   assert.ok(g04.comments.some((comment) => /Slice 357 found no viable Polo source repair/.test(comment.text)));
 });
 
@@ -128,7 +128,7 @@ test("S358 retains the Woven collar hold and records the maintainer's Polo resid
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
   assert.ok(g04.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
   assert.ok(epic.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
 });
@@ -150,7 +150,7 @@ test("S359 records the Woven rigid-fit decision boundary without releasing holds
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
   assert.match(g04.description, /all 73 canonical supported configurations and 146 front\/back faces/);
   assert.ok(g04.comments.some((comment) => /Slice 359 exit: source arc\/chord incompatibility/.test(comment.text)));
   assert.ok(epic.comments.some((comment) => /Slice 359 retains the current 56 accepted \/ 90 held integrated tally/.test(comment.text)));
@@ -176,7 +176,7 @@ test("S360 binds the landed S359 commit without changing Polo or Woven holds", (
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
   assert.match(board.workItems.find((item) => item.id === "G04-V02").description, /0\.25 cm/);
 });
 
@@ -193,7 +193,7 @@ test("S361 evidence remains linked after the current summary reconciliation", ()
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
   assert.equal(board.workItems.find((item) => item.id === "G04-V01").status, "Done");
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
   assert.match(g04.description, /Integrated all-seven V02 accepted at S459/);
   assert.match(g04.description, /exact approved S351 exception/);
   assert.match(g04.description, /all-seven V02/);
@@ -476,7 +476,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S334 verified exit: exact Woven source-edge traversal corrections pass focused 100% coverage and build/.test(comment.text)));
       assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S335 started 2026-10-01 15:24:44 UTC from clean S334 b27a444a/.test(comment.text)));
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
-      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "Done", "Backlog"]);
+      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "Done", "In Progress"]);
       assert.match(admittedWork[1].description, /S406's approved view-only collar-over-plackets order remains implemented/);
       assert.match(admittedWork[1].description, /Integrated all-seven V02 accepted at S459/);
       assert.match(admittedWork[1].description, /exact approved S351 exception/);

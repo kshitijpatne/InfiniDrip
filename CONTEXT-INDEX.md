@@ -1,5 +1,19 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 slice
+
+- `docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md`
+  closes the current rights/source audit after S459's all-seven V02 acceptance.
+  No no-cost industrial apparel receiver is qualified: CLO is documented but
+  account/payment/paid-conversion or vendor-contact gates access; Valentina
+  1.1.1 only adds outbound DXF evidence; Seamly2D receiver support is not
+  established; LibreCAD is generic only; OpenMarker is not production-ready
+  and has no export. Actual InfiniDrip generic DXF omits declared units, IDs,
+  labels and grade data. V03 remains In Progress without a selected receiver
+  or compatibility claim, pending an owner-provided/authorized lawful exact
+  receiver and version. Board revision 2810. The goal is active; no manual
+  resume action is needed.
+
 This repository is the durable source of project context shared by Codex,
 Claude Code, and future development sessions. Chat history and external Project
 Knowledge may add evidence, but must not silently override the documents below.

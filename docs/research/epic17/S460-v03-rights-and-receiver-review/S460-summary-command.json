@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 2809,
+  "itemId": "EPIC-17",
+  "patch": {
+    "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim."
+  }
+}
