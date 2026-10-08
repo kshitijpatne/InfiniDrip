@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3101,
-  "updatedAt": "2026-10-08T14:46:44.266Z",
+  "revision": 3107,
+  "updatedAt": "2026-10-08T14:56:04.754Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -719,7 +719,8 @@
         "E-G04-S495-EXIT",
         "E-G04-S496-EXIT",
         "E-G04-S497-EXIT",
-        "E-G04-S498-EXIT"
+        "E-G04-S498-EXIT",
+        "E-G04-S499-EXIT"
       ]
     },
     {
@@ -4611,6 +4612,11 @@
           "at": "2026-10-08T14:46:44.266Z",
           "actor": "Codex",
           "text": "S498 closes a practical receiver retest, not V03 acceptance. Keep G04-V03 In Progress and all seven-recipe V02/V03 gates unchanged. Next: diagnose the reproduced Polo contour changes and malformed-input tolerance; do not repeat successful Tee/Woven M cycles absent a changed candidate."
+        },
+        {
+          "at": "2026-10-08T14:56:04.754Z",
+          "actor": "Codex",
+          "text": "S499 closed as a concrete CLO window-handle interruption; the import-option hypothesis remains untested. CLO still appears running and could not be closed through File → Quit. V03 remains In Progress. Continue with offline analysis of S498 artifacts; resume the UI matrix only when a usable responsive CLO window is available."
         }
       ],
       "evidenceRefs": [
@@ -10784,6 +10790,16 @@
           "at": "2026-10-08T14:46:44.159Z",
           "actor": "Codex",
           "text": "S498 completed practical CLO import/export/reimport in the already-running UI. Tee/Woven M geometry remains within 0.001 cm through two generations; five Polo CUT contour misses reproduce at 0.01019–0.01119 cm. CLO accepted the missing-EOF negative control without an explicit report. Separate size-file imports do not prove native grading. Preserve every V03 rights/local-handling/profile/semantic/grade/negative/independent-receiver and round-trip gate. See E-G04-S498-EXIT."
+        },
+        {
+          "at": "2026-10-08T14:54:03.267Z",
+          "actor": "Codex",
+          "text": "S499 investigates the reproduced five-contour Polo loss with four controlled CLO local import/export profiles. This tests import mode and curve-point optimization only; it does not relax 0.001 cm, qualify ASTM/AAMA, or clear rights/local-handling/semantics/grade/negative/independent-receiver gates."
+        },
+        {
+          "at": "2026-10-08T14:56:04.668Z",
+          "actor": "Codex",
+          "text": "S499 stopped before importing a file: the relaunched CLO startup window was not a usable app window, and refreshed state capture returned foreground window did not report a process id. No profile matrix or compatibility inference resulted. The pinned input remains in the dedicated C: folder. Preserve all V03 gates; next diagnose S498 point-removal evidence without assuming an import-setting cause."
         }
       ],
       "evidenceRefs": [
@@ -10879,7 +10895,9 @@
         "E-G04-S497-START",
         "E-G04-S497-EXIT",
         "E-G04-S498-START",
-        "E-G04-S498-EXIT"
+        "E-G04-S498-EXIT",
+        "E-G04-S499-START",
+        "E-G04-S499-EXIT"
       ],
       "flagKey": null
     },
@@ -19992,6 +20010,24 @@
       "sha256": null,
       "verified": true,
       "note": "Practical CLO 2026.1.310 retest: Tee/Woven M contours pass two measured generations; Polo five CUT contour failures reproduce in both; CLO accepts missing-EOF negative input without an explicit report; separate Tee XS/M/XL imports do not establish native grading. All existing V03 gates and claims remain unchanged. C: exchange evidence only."
+    },
+    {
+      "id": "E-G04-S499-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S499-clo-polo-import-options/S499-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded local CLO matrix isolating S498's reproduced Polo contour loss: DXF-AAMA/DXF-ASTM imports crossed with curve-point optimization off/on, all else held constant; files confined to dedicated C: folder and all V03 gates preserved."
+    },
+    {
+      "id": "E-G04-S499-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S499-clo-polo-import-options/S499-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The four-profile CLO matrix did not run: the relaunched window became untargetable and capture returned foreground window did not report a process id. No receiver behavior inferred. Dedicated C: input hash checked; all V03 gates retained."
     }
   ]
 }

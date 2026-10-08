@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S499-clo-polo-import-options/S499-exit-packet.md`
+  records why the proposed four-cell import-option matrix did not run: CLO's
+  relaunched startup window became untargetable and refreshed screenshot state
+  returned `foreground window did not report a process id`. No DXF operation
+  occurred; the hash-pinned input remains in the dedicated C: folder. CLO was
+  still listed as running and could not be closed normally. No receiver
+  conclusion follows. Board `3101→3103→3107`; all V03 gates remain.
+
 - `docs/research/epic17/S498-clo-practical-retest/S498-exit-packet.md`
   records direct CLO 2026.1.310 practical import/export/reimport evidence in
   the user's existing responsive session. Tee M and Woven M geometry pass two

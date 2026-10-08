@@ -1,5 +1,38 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 499 CLO window-handle interruption
+
+Started `2026-10-08 14:53:34 UTC` from S498 `01de6cc` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor. S498 was highest; S499 is unique. Board start replay advanced
+`3101→3103`; G04-V03/EPIC-17 remain In Progress, V01/V02 Done. The goal is
+active and matches the admitted objective; primary usage 14%, weekly 39%.
+
+S499's planned four-cell import-profile matrix did not run. CLO was launched,
+but its startup window became untargetable (`window is not a usable app
+window`); after refreshing app/window enumeration, screenshot capture returned
+`foreground window did not report a process id`. One CLO window remained in
+`list_windows` and CLO still reported as running, so normal File → Quit could
+not be reached and shutdown is unverified. The dedicated C: input remains
+hash-pinned; no exchange operation or settings change occurred. This is an
+automation/window-handle interruption, not evidence about CLO's DXF behavior.
+
+S499 exit packet:
+`docs/research/epic17/S499-clo-polo-import-options/S499-exit-packet.md`.
+Board start/exit `3101→3103→3107`; EPIC-17/G04-V03 remain In Progress, V01/V02
+Done. Control Center tests pass 42/42; exit preflight and `git diff --check`
+pass. No full repository/build/coverage run applies to this evidence-only
+slice.
+
+Elapsed estimate (`14:53:34–14:56:13 UTC`): implementation `0m`; focused
+launch/window recovery `1m`; durable evidence/board and focused verification
+`2m`; external-agent waits `0m`; maintainer-decision time `0m`.
+
+**Next:** work offline from S498's captured C: DXFs to characterize the exact
+five Polo point removals without assuming an import-mode cause. Resume the
+UI matrix only after CLO exposes a usable responsive window. CLO may still be
+running; do not claim it was closed.
+
 ## EPIC-17 / G04 — Slice 498 CLO practical V03 retest
 
 S498 started `2026-10-08 14:20:55 UTC` from clean S497 `586fcf3` on

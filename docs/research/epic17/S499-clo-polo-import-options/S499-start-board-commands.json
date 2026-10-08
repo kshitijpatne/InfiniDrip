@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3101,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S499-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S499-clo-polo-import-options/S499-start-packet.md",
+      "verified": true,
+      "note": "Bounded local CLO matrix isolating S498's reproduced Polo contour loss: DXF-AAMA/DXF-ASTM imports crossed with curve-point optimization off/on, all else held constant; files confined to dedicated C: folder and all V03 gates preserved."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3102,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S499 investigates the reproduced five-contour Polo loss with four controlled CLO local import/export profiles. This tests import mode and curve-point optimization only; it does not relax 0.001 cm, qualify ASTM/AAMA, or clear rights/local-handling/semantics/grade/negative/independent-receiver gates."
+  }
+]
