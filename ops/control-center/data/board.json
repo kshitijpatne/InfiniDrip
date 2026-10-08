@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2831,
-  "updatedAt": "2026-10-08T04:15:53.870Z",
+  "revision": 2842,
+  "updatedAt": "2026-10-08T04:22:42.032Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -660,7 +660,9 @@
         "E-EPIC17-S461-START",
         "E-EPIC17-S461-EXIT",
         "E-EPIC17-S462-START",
-        "E-EPIC17-S462-EXIT"
+        "E-EPIC17-S462-EXIT",
+        "E-EPIC17-S463-START",
+        "E-EPIC17-S463-FIXTURES"
       ]
     },
     {
@@ -4512,6 +4514,11 @@
           "at": "2026-10-08T04:15:53.870Z",
           "actor": "Codex",
           "text": "S462 closes the one-line evidence correction; no V03 profile, product source, exports or acceptance changed. Keep the active G04 goal and await owner-provided/authorized exact CAD receiver access before round-trip implementation. See E-EPIC17-S462-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:22:42.032Z",
+          "actor": "Codex",
+          "text": "S463 prepares receiver-independent test inputs; no profile, compatibility, or production-readiness claim is made. Preserve the current access decision and all remaining V03 evidence gates. See E-EPIC17-S463-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -4910,7 +4917,10 @@
         "E-EPIC17-S461-START",
         "E-EPIC17-S461-EXIT",
         "E-EPIC17-S462-START",
-        "E-EPIC17-S462-EXIT"
+        "E-EPIC17-S462-EXIT",
+        "E-EPIC17-S463-START",
+        "E-EPIC17-S463-FIXTURES",
+        "E-EPIC17-S463-EXIT"
       ],
       "flagKey": null
     },
@@ -10278,6 +10288,16 @@
           "at": "2026-10-08T04:15:53.774Z",
           "actor": "Codex",
           "text": "S462 closes the final diff hygiene follow-up without rewriting history. The extra EOF blank line in the S461 start packet was removed; complete staged and unstaged diff checks and Control Center 42/42 pass. V03 remains In Progress pending a lawful exact receiver/version and witnessed round-trip evidence. See E-G04-S462-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:20:17.594Z",
+          "actor": "Codex",
+          "text": "S463 prepares a reproducible generic-DXF fixture set before receiver selection; this is test-input preparation only and cannot establish apparel-CAD compatibility. V03 remains In Progress pending lawful exact receiver/version access and witnessed round-trip proof. See E-G04-S463-START."
+        },
+        {
+          "at": "2026-10-08T04:22:41.946Z",
+          "actor": "Codex",
+          "text": "S463's six valid generic DXFs and one malformed negative control are hash- and structure-verified. The Tee size files are separate single-size DXFs; they do not prove grade interchange. V03 remains In Progress pending the exact lawful receiver/version and observed round trips. See E-G04-S463-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10289,7 +10309,10 @@
         "E-G04-S461-START",
         "E-G04-S461-EXIT",
         "E-G04-S462-START",
-        "E-G04-S462-EXIT"
+        "E-G04-S462-EXIT",
+        "E-G04-S463-START",
+        "E-G04-S463-FIXTURES",
+        "E-G04-S463-EXIT"
       ],
       "flagKey": null
     },
@@ -18223,6 +18246,60 @@
       "sha256": null,
       "verified": true,
       "note": "S462 is documentation-only; V03 remains In Progress awaiting lawful exact receiver/version access and witnessed round trips."
+    },
+    {
+      "id": "E-G04-S463-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S463 prepares a receiver-independent generic-DXF fixture pack; no receiver/profile or compatibility claim is selected."
+    },
+    {
+      "id": "E-EPIC17-S463-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S463 advances V03 fixture preparation while preserving the exact receiver/version rights hold and all admitted acceptance gates."
+    },
+    {
+      "id": "E-G04-S463-FIXTURES",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/fixture-manifest.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Seven receiver-independent generic-DXF fixtures have reproducible source/size inputs, byte hashes, and structure inventory; no receiver compatibility is claimed."
+    },
+    {
+      "id": "E-G04-S463-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S463 prepares receiver-independent fixtures only; V03 stays In Progress pending lawful exact receiver/version access and observed round trips."
+    },
+    {
+      "id": "E-EPIC17-S463-FIXTURES",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/fixture-manifest.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "V03 fixture inputs are prepared and structurally verified; no receiver, profile, or format compatibility claim is established."
+    },
+    {
+      "id": "E-EPIC17-S463-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S463 adds a receiver-independent fixture package while retaining the V03 access, rights, and round-trip gates."
     }
   ]
 }

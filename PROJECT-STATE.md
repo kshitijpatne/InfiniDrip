@@ -1,5 +1,24 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 463 prepares V03 generic-DXF receiver fixtures
+
+S463 adds six valid generic DXFs (simple Tee, marked Polo, marked Woven shirt,
+and separate source-graded Tee XS/M/XL files) plus a malformed negative
+control. The source manifest records recipe inputs, size steps, source commit,
+source-file hashes, DXF structure, byte lengths, and fixture SHA-256 values.
+Regeneration and independent verification pass. The Tee size files are
+separate single-size DXFs; they do not test or prove native multi-size grading.
+No receiver/profile or compatibility claim is selected.
+
+Focused export and protected-identity tests pass 22/22; Control Center passes
+42/42. Validated board revisions 2831→2835→2842 preserve EPIC-17/V03 In
+Progress and V01/V02 Done. Packet and fixtures:
+`docs/research/epic17/S463-v03-receiver-fixture-pack/`. V03 still needs lawful
+access to an exact receiver/build and witnessed import/export/round-trip proof.
+Goal remains active and necessary through final review, required gates, PR,
+safe merge and any deployment. Next: use an owner-provided exact local CAD
+receiver/version to qualify a profile and test these fixtures.
+
 ## EPIC-17 / G04 — Slice 462 closes final evidence diff hygiene
 
 S462 removes one extra EOF blank line from the S461 start packet and corrects

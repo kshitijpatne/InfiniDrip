@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S463-v03-receiver-fixture-pack/S463-exit-packet.md`,
+  `fixture-plan.md`, `fixture-manifest.json`, generator/verifier, and seven
+  fixture DXFs — prepares source-reproducible generic-DXF inputs before exact
+  receiver selection. Six positive fixtures cover Tee, Polo, Woven shirt, and
+  Tee XS/M/XL as separate files; one malformed DXF is the negative control.
+  Regeneration, independent hashes/structure and focused export regression
+  pass. Separate single-size files do not prove multi-size/grade interchange.
+  V03 remains In Progress pending lawful exact receiver/version access and
+  observed round trips; board revision 2842. No compatibility claim is made.
+
 - `docs/research/epic17/S462-final-evidence-diff-hygiene/S462-exit-packet.md`
   closes the S461 packet's last staged diff-check finding. S462 removes one
   extra EOF blank line and records that correction without rewriting history.

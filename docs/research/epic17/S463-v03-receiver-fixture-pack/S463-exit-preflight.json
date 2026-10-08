@@ -1,0 +1,80 @@
+{
+  "startRevision": 2835,
+  "exitRevision": 2842,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "v01Status": "Done",
+  "v02Status": "Done",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2835,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S463-FIXTURES",
+        "kind": "document",
+        "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/fixture-manifest.json",
+        "verified": true,
+        "note": "Seven receiver-independent generic-DXF fixtures have reproducible source/size inputs, byte hashes, and structure inventory; no receiver compatibility is claimed."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2836,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S463-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-exit-packet.md",
+        "verified": true,
+        "note": "S463 prepares receiver-independent fixtures only; V03 stays In Progress pending lawful exact receiver/version access and observed round trips."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2837,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S463-FIXTURES",
+        "kind": "document",
+        "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/fixture-manifest.json",
+        "verified": true,
+        "note": "V03 fixture inputs are prepared and structurally verified; no receiver, profile, or format compatibility claim is established."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2838,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S463-FIXTURES"
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2839,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S463-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-exit-packet.md",
+        "verified": true,
+        "note": "S463 adds a receiver-independent fixture package while retaining the V03 access, rights, and round-trip gates."
+      }
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2840,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S463's six valid generic DXFs and one malformed negative control are hash- and structure-verified. The Tee size files are separate single-size DXFs; they do not prove grade interchange. V03 remains In Progress pending the exact lawful receiver/version and observed round trips. See E-G04-S463-EXIT."
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2841,
+      "itemId": "EPIC-17",
+      "actor": "Codex",
+      "text": "S463 prepares receiver-independent test inputs; no profile, compatibility, or production-readiness claim is made. Preserve the current access decision and all remaining V03 evidence gates. See E-EPIC17-S463-EXIT."
+    }
+  ]
+}

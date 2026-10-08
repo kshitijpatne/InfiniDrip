@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2831,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S463-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-start-packet.md",
+      "verified": true,
+      "note": "S463 prepares a receiver-independent generic-DXF fixture pack; no receiver/profile or compatibility claim is selected."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2832,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S463-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S463-v03-receiver-fixture-pack/S463-start-packet.md",
+      "verified": true,
+      "note": "S463 advances V03 fixture preparation while preserving the exact receiver/version rights hold and all admitted acceptance gates."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2833,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S463-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2834,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S463 prepares a reproducible generic-DXF fixture set before receiver selection; this is test-input preparation only and cannot establish apparel-CAD compatibility. V03 remains In Progress pending lawful exact receiver/version access and witnessed round-trip proof. See E-G04-S463-START."
+  }
+]

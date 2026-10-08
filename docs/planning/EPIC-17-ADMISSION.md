@@ -1,3 +1,30 @@
+## Current evidence and conditional remaining estimate — S463 exit (2026-10-08)
+
+S463 follows S462 `b8462cf6bda2097167ef16c13c3ab49727e2d78e` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S462 was
+highest and S463 is unique. The goal is active and still matches the full
+admitted objective through safe merge/deployment.
+
+The fixture package contains six structurally valid generic DXFs (Tee, Polo,
+Woven shirt, and separately drafted Tee XS/M/XL) plus a deliberately malformed
+negative control. Generator and independent verifier bind source commit,
+inputs, structure, size step and hashes. Focused export/protected identity
+tests pass 22/22; Control Center passes 42/42. Validated board revisions
+2831→2835→2842; G04 V01/V02 Done and V03/EPIC-17 In Progress. The fixture
+size family does not encode a native graded pattern and cannot establish
+multi-size compatibility. See `docs/research/epic17/
+S463-v03-receiver-fixture-pack/`.
+
+V03 remains unproven pending lawful owner-provided access to an exact
+industrial apparel-CAD receiver/version and observed representative
+import/export/round trips, including actual size/grade semantics and the
+negative case. No trial/payment/contact or profile was started. The remaining
+estimate from S460 remains 4–9 V03 slices and 3–5 final review/merge/deployment
+slices (7–14 total), excluding unbounded access delay. **Next:** receive exact
+receiver/build access, then freeze the receiver-specific profile and validate
+the prepared inputs without changing generic export bytes.
+
 ## Current evidence and conditional remaining estimate — S462 exit (2026-10-08)
 
 S462 follows S461 `d487a20afe739768af6f7199b488e3f01a94ff70` on
