@@ -1,5 +1,46 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 487 CLO trial-purpose boundary
+
+S487 rechecked the current official CLO rights sources for the owner's
+reported 14-day trial against future G04 product-development exchange tests.
+The official trial help updated 2026-10-07 says the standard web trial is for
+users eligible for an Individual License; Enterprise and Academic users need
+a separate trial. Additional Terms §5.1.4 continues to limit a trial to
+software-capability evaluation/demonstration and to exclude competitive
+analysis and commercial/for-profit purposes. The Additional Terms page remains
+dated 2024-09-02; General Terms remain dated 2026-03-30.
+
+Public pages do not establish the exact account agreement/class or whether
+this G04 product-development use falls within the trial exclusion or another
+grant. Therefore the published evidence does not affirmatively clear CLO's
+V03 Gate 0; keep CLO excluded for future V03 fixtures. This is a conservative
+evidence hold, not legal advice or a conclusion about past use. Keep S475–S478
+as bounded technical observations only. The independent OpenCode review and
+Codex cross-check are linked in
+`docs/research/epic17/S487-clo-trial-purpose-boundary/`.
+
+No app/account/fixture/file was accessed and no upload or vendor contact
+occurred. CLO was not running in the current app inventory, so no close action
+was needed; browser tabs were left untouched. V01/V02 remain Done and V03 /
+EPIC-17 remain In Progress. All-seven V02 acceptance, every V03 gate, legacy
+DXF behavior, protected export identities, and no-physical/factory claims
+remain unchanged. The goal remains active and its admitted objective is
+unaltered.
+
+Start `2026-10-08 08:37:00 UTC` from clean S486 `b594e41`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Validated board start replay `3025→3027`; exit replay `3027→3032`. Control
+Center 42/42 passed at start and exit. S487 elapsed 6m54s: Codex source review
+and synthesis 1m20s; external-agent process/wait and review 1m25s; durable
+records/board 3m01s; focused verification 1m08s; product implementation 0m;
+maintainer-decision time 0m. **Next:** only proceed with V03 using a separately
+rights-cleared local apparel-CAD receiver/profile or affirmative rights
+evidence for a specific candidate, then pass exact-build/local-handling,
+profile input/output, representative round-trip, grading/options, and
+negative-input checks. Do not repeat broad receiver searches or reopen CLO
+without Gate 0.
+
 ## EPIC-17 / G04 — Slice 486 free/local receiver search
 
 S486 reviewed three new apparel-CAD receiver candidates: iDigit Lite, Fashion

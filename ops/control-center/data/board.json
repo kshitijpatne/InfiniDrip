@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3025,
-  "updatedAt": "2026-10-08T08:35:02.963Z",
+  "revision": 3032,
+  "updatedAt": "2026-10-08T08:43:34.508Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -707,7 +707,8 @@
         "E-EPIC17-S485-START",
         "E-EPIC17-S485-EXIT",
         "E-EPIC17-S486-START",
-        "E-G04-S486-EXIT"
+        "E-G04-S486-EXIT",
+        "E-G04-S487-EXIT"
       ]
     },
     {
@@ -10622,6 +10623,16 @@
           "at": "2026-10-08T08:35:02.963Z",
           "actor": "Codex",
           "text": "S486's next allowed work is source-only review of the unresolved rights scope for the already installed CLO evaluation; this does not authorize reopening the app, uploading data, accounts, or fixtures. Keep CLO unselected unless rights, exact profile, and local handling all pass."
+        },
+        {
+          "at": "2026-10-08T08:37:37.334Z",
+          "actor": "Codex",
+          "text": "S487 is limited to current official CLO rights sources for the exact G04 product-development use. No app/account/file/fixture activity. If public terms do not affirmatively cover it, CLO remains excluded from Gate 0 and V03 stays held."
+        },
+        {
+          "at": "2026-10-08T08:43:34.508Z",
+          "actor": "Codex",
+          "text": "S487 checked the current official CLO terms and trial help. They do not affirmatively clear Gate 0 for future G04 product-development fixtures; CLO remains excluded on the present evidence. All seven-recipe V02 acceptance and V03 gates remain unchanged. Continue only with a separately rights-cleared local apparel-CAD receiver/profile."
         }
       ],
       "evidenceRefs": [
@@ -10683,7 +10694,11 @@
         "E-G04-S486-START",
         "E-G04-S486-EXIT",
         "E-G04-S486-CANDIDATE-MATRIX",
-        "E-G04-S486-OPENCODE-REVIEW"
+        "E-G04-S486-OPENCODE-REVIEW",
+        "E-G04-S487-START",
+        "E-G04-S487-EXIT",
+        "E-G04-S487-CODEX-FINDINGS",
+        "E-G04-S487-OPENCODE-REVIEW"
       ],
       "flagKey": null
     },
@@ -19490,6 +19505,42 @@
       "sha256": null,
       "verified": true,
       "note": "Codex independently verified the read-only OpenCode source scan in its required separate Muse Spark 1.3 xhigh normal-mode worktree; no app, fixture, account, or vendor contact."
+    },
+    {
+      "id": "E-G04-S487-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S487 reviews only current official CLO trial-purpose/license-class sources against the exact G04 product-development use; no app, account, or fixture."
+    },
+    {
+      "id": "E-G04-S487-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current official CLO trial terms and 2026 trial-help eligibility do not affirmatively clear rights Gate 0 for future G04 product-development tests; CLO remains excluded and all gates stay unchanged."
+    },
+    {
+      "id": "E-G04-S487-CODEX-FINDINGS",
+      "kind": "document",
+      "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-codex-rights-findings.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Codex clause matrix separates official trial-purpose text from unknown account/project facts and preserves the no-breach/no-legal-advice boundary."
+    },
+    {
+      "id": "E-G04-S487-OPENCODE-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-opencode-rights-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Codex reviewed the independent exact-model OpenCode clause cross-check, verified official sources, and corrected an unsupported inference about project commercial status."
     }
   ]
 }

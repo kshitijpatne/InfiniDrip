@@ -2,6 +2,22 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S487-clo-trial-purpose-boundary/S487-exit-packet.md`
+  records the current CLO-rights boundary. Official terms still limit trial
+  use to evaluation/demonstration and exclude commercial/for-profit purposes;
+  official trial help updated 2026-10-07 says the standard 14-day web trial
+  is for Individual-eligible users, with separate Enterprise/Academic trials.
+  Public sources do not establish the exact account grant or whether this G04
+  product-development use falls within the exclusion, so they do not
+  affirmatively clear Gate 0. CLO remains excluded for V03 fixtures; no legal
+  or past-breach conclusion is made. Codex source findings and its checked
+  OpenCode cross-review are linked in the S487 folder. No app/account/fixture
+  was accessed. CLO was not running in the current app inventory; no close
+  action was needed. Board `3025→3027→3032`; EPIC-17/G04-V03 remain In
+  Progress and every acceptance gate stays unchanged. Next: only a separately
+  rights-cleared local apparel-CAD receiver/profile or affirmative rights
+  evidence for a candidate; then run exact-build and round-trip gates.
+
 - `docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md`
   closes the bounded S486 new-receiver scan; its linked Codex matrix identifies
   three new apparel-CAD candidates, none meeting V03/C04 gates. iDigit Lite
