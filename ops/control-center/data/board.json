@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3247,
-  "updatedAt": "2026-10-08T20:56:37.979Z",
+  "revision": 3251,
+  "updatedAt": "2026-10-08T20:59:19.895Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11158,6 +11158,16 @@
           "at": "2026-10-08T20:56:37.979Z",
           "actor": "Codex",
           "text": "S533 reconciles authoritative profile evidence with pinned receiver results: ASTM D6673-10 is withdrawn without replacement; CLO's selectable AAMA/ASTM modes do not document an exact normative edition or conformance. S532 geometry is narrow and semantics remain unresolved; S531 malformed-input behavior failed. CLO trial rights/data handling and all-seven qualified round trip remain blocked. No acceptance change. Next requires a documented permitted receiver/profile route; do not repeat synthetic CLO tests or use G04 bytes under the S526 hold."
+        },
+        {
+          "at": "2026-10-08T20:58:11.665Z",
+          "actor": "Codex",
+          "text": "S534 screens the specific Open Patterns parser lead for a lawful local validation or receiver route. Static review only; no installation, execution, CLO use, product data, or V03 acceptance change."
+        },
+        {
+          "at": "2026-10-08T20:59:19.895Z",
+          "actor": "Codex",
+          "text": "S534 screened Open Patterns: the package parses ASTM/AAMA DXF into OPF and renders SVG/PNG but does not write DXF or provide a CAD receiver, so it cannot meet V03 round-trip acceptance. It may be a future one-way cross-check subject to rights review. No install, G04 data, or acceptance change. The next blocker is written CLO product-development permission and acceptable local-data handling, or a different rights-cleared free apparel CAD receiver/profile."
         }
       ],
       "evidenceRefs": [
@@ -11321,7 +11331,9 @@
         "E-G04-S532-START",
         "E-G04-S532-EXIT",
         "E-G04-S533-START",
-        "E-G04-S533-EXIT"
+        "E-G04-S533-EXIT",
+        "E-G04-S534-START",
+        "E-G04-S534-EXIT"
       ],
       "flagKey": null
     },
@@ -21046,6 +21058,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official ASTM records show D6673-10 withdrawn in 2019 without replacement; current CLO help documents DXF-AAMA/ASTM options but not a normative edition/conformance mapping. CLO trial rights/local-only handling, semantic mapping, malformed-input behavior, and full representative fixtures remain held or failed as documented. No gate or acceptance change."
+    },
+    {
+      "id": "E-G04-S534-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S534-open-patterns-parser-screen/S534-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Start one static screen of a specific open-source ASTM/AAMA parser for license, scope, and actual round-trip capability. No install, execution, CLO operation, G04 data, or acceptance change."
+    },
+    {
+      "id": "E-G04-S534-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S534-open-patterns-parser-screen/S534-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Open Patterns is a local ASTM/AAMA DXF-to-OPF parser and renderer, not a CAD receiver or DXF round-trip writer. No install was useful for the admitted receiver gate. No G04 data or acceptance change; all V03 gates remain."
     }
   ]
 }

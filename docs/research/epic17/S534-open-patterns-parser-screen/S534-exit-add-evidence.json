@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3249,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S534-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S534-open-patterns-parser-screen/S534-exit-packet.md",
+    "verified": true,
+    "note": "Open Patterns is a local ASTM/AAMA DXF-to-OPF parser and renderer, not a CAD receiver or DXF round-trip writer. No install was useful for the admitted receiver gate. No G04 data or acceptance change; all V03 gates remain."
+  }
+}

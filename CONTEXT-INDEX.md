@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S534-open-patterns-parser-screen/S534-exit-packet.md`
+  screens Open Patterns' `ksons/astm-parser`. It parses apparel DXF into OPF
+  and renders SVG/PNG, but cannot write DXF or act as a CAD receiver, so it
+  cannot satisfy V03 round-trip acceptance. No install/run or pattern data;
+  possible future one-way cross-check only after rights review. Next is written
+  CLO product-development permission plus local-data basis, or another
+  qualified free apparel CAD receiver. CLO remains open.
+- `docs/research/epic17/S534-open-patterns-parser-screen/S534-start-packet.md`
+  bounds the one-candidate static screen.
 - `docs/research/epic17/S533-apparel-dxf-profile-evidence/S533-exit-packet.md`
   reconciles authoritative profile and existing practical evidence. ASTM
   D6673-10 was withdrawn in 2019 without replacement; CLO's AAMA/ASTM modes

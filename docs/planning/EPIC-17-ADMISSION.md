@@ -1,3 +1,21 @@
+## Current EPIC-17/G04 V03 receiver screen — S534 exit (2026-10-08)
+
+S534 reviewed the specific Open Patterns / `ksons/astm-parser` repository.
+It reads ASTM/AAMA DXF into Open Pattern Format (OPF) and renders SVG/PNG,
+but has no DXF writer or CAD receiver workflow. Schema validation of OPF is
+not a DXF round trip, so this is not a V03 receiver. Package metadata declares
+ISC; complete adoption rights remain unverified. No installation, execution,
+CLO use, G04 data, or acceptance change occurred. The candidate may be kept
+for a one-way independent parser check after rights review. Exit packet:
+`docs/research/epic17/S534-open-patterns-parser-screen/S534-exit-packet.md`.
+
+**Next:** resolve the concrete receiver-rights/data blocker: written CLO
+permission explicitly covering product-development use under the current
+trial plus acceptable local-only handling, or a different free desktop apparel
+CAD receiver with documented profile support and applicable rights. Do not
+use G04 pattern files with CLO under the existing S526 evidence; preserve all
+V03 acceptance gates.
+
 ## Current EPIC-17/G04 V03 profile-evidence reconciliation — S533 exit (2026-10-08)
 
 Official ASTM records show D6673-10 was withdrawn in 2019 without replacement.

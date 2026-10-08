@@ -1,5 +1,21 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 534 Open Patterns receiver screen (closed; V03 remains open)
+
+The `ksons/astm-parser` Open Patterns lead parses ASTM/AAMA DXF into OPF and
+renders SVG/PNG, but has no DXF writer or CAD receiver workflow. Its package
+metadata declares ISC; rights are not fully approved for adoption. It cannot
+pass V03's receiver/profile round-trip gate, so it was not installed or run.
+It remains a possible one-way parser cross-check only. No G04 data, CLO UI,
+code, or acceptance changed. Evidence: `docs/research/epic17/S534-open-patterns-parser-screen/S534-exit-packet.md`.
+Board exit replay is in the packet; CLO remains open.
+
+**Next:** V03 is at a concrete external rights/data gate: obtain written CLO
+permission covering product-development use under the current trial plus an
+acceptable local-data basis, or find a different free desktop apparel-CAD
+receiver with documented profile support and rights. Do not use G04 files in
+CLO under the current S526 evidence. The full goal remains active.
+
 ## EPIC-17 / G04 — Slice 533 apparel DXF profile evidence (closed; V03 remains open)
 
 Authoritative review found ASTM D6673-10 was withdrawn in 2019 without
