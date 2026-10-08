@@ -1,4 +1,18 @@
-## Current EPIC-17/G04 V03 exchange findings — S545 exit (2026-10-08)
+## Current EPIC-17/G04 V03 Polo contour diagnosis — S546 exit (2026-10-08)
+
+S546 reconciles S545's five above-gate Polo CUT contours against prior
+validated S500/S517/S519 evidence. Both S545 AAMA generations report the same
+five piece roles and one-vertex reductions, at 0.01274–0.01399 cm against
+0.001 cm. Existing reports identify the omitted source coordinates; S546's
+new parser failed its S498 retained-vertex assertion in conflict with trusted
+S500, and its result is explicitly rejected. No new CLO UI action or gate
+change occurred. S503/S519/S522 rule out already-tested safe point controls;
+S518 could not measure native pre-export geometry. Stage attribution remains
+unresolved. Next qualify one concrete alternative apparel-CAD receiver/profile
+against primary build, rights, local-handling, geometry/semantic and round-trip
+evidence. Exit packet: `docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-exit-packet.md`.
+
+## Prior EPIC-17/G04 V03 exchange findings — S545 exit (2026-10-08)
 
 S545 recovered the targetable CLO UI and completed two DXF-AAMA centimeter
 cycles for the existing Tee/Polo/Woven M/default fixtures. The unchanged 0.001

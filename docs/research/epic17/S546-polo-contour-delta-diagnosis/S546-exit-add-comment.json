@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3298,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S546 confirms the S545 AAMA gen1/gen2 outputs repeat the same five Polo CUT contour failures at 0.01274–0.01399 cm against the fixed 0.001 cm gate. S500/S517/S519 already identify the removed source points; the new S546 cross-file parser failed against trusted S500 results and is excluded. Prior CLO controls offer no safe untested preservation switch (S522); do not repeat them. Next qualify a concrete rights-reviewed apparel receiver/profile. All V03 gates remain held."
+}

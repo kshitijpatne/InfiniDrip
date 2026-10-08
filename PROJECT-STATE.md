@@ -1,5 +1,20 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 546 exit (V03 remains open)
+
+S546 reconciled S545's five Polo M/default AAMA CUT contour failures across
+both generations against S500/S517/S519. The same five piece roles remain
+over the unchanged 0.001 cm gate, at 0.01274–0.01399 cm. Existing S500/S517/
+S519 evidence identifies the omitted source points. A new S546 cross-file
+parser failed against trusted S500 results and is excluded; no new CLO action
+or setting change occurred. Do not repeat the already-tested CLO point
+controls. Next qualify one specific alternative apparel-CAD receiver/profile
+against primary build, rights, local-handling, geometry and round-trip
+evidence before transferring fixtures. Full V03 gates remain open. Exit:
+`docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-exit-packet.md`.
+S546 board start/exit is `3295→3297→3299`; focused Control Center tests and
+diff checks are recorded in the packet. The goal remains active and needed.
+
 ## EPIC-17 / G04 — Slice 545 exit (V03 remains open)
 
 S545 recovered the targetable existing CLO session and completed two
@@ -23,10 +38,8 @@ closed; no V03 hold was relaxed.
 The thread goal remains active and needed through admitted V03 completion and
 safe merge; its objective matches this state. No manual resume is needed.
 
-**Next:** reserve S546 after refreshing branch/remote history and isolate the
-five Polo cut-contour deltas to the first import or export stage. Preserve the
-0.001 cm gate and all semantic, grading, malformed-input, all-seven and exact
-profile holds. CLO remains open for this work.
+S546 supersedes this immediate next-action note. See its exit packet for the
+current next step and preserved V03 holds.
 
 ## EPIC-17 / G04 — Slice 544 CLO target-state mismatch (closed; recovered in S545)
 

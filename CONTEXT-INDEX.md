@@ -2,6 +2,13 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-start-packet.md`
+  records the S546 start; its `S546-exit-packet.md` closes the diagnosis.
+  S545 repeats five Polo CUT failures across gen1/gen2. Existing S500/S517/S519
+  reports identify the omitted points; the new cross-file parser failed against
+  trusted S500 and is excluded. No CLO settings or gates changed. Next qualify
+  a specific alternate apparel receiver/profile against primary rights/build,
+  local handling, geometry/semantics and round-trip evidence.
 - `docs/research/epic17/S545-clo-target-recovery/S545-exit-packet.md` closes
   the S544 UI-target mismatch and records the actual three-recipe CLO
   DXF-AAMA M/default, two-generation import/export trial. Tee 6/6 and Woven

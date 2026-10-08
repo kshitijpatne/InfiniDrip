@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3295,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S546-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-start-packet.md",
+    "verified": true,
+    "note": "Diagnose the five reproducible above-gate Polo cut-contour deltas from S545 against exact source/gen1/gen2 paths; keep CLO settings and the 0.001 cm threshold fixed and all V03 gates held."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3295,
-  "updatedAt": "2026-10-08T22:36:06.436Z",
+  "revision": 3299,
+  "updatedAt": "2026-10-08T22:45:38.334Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11278,6 +11278,16 @@
           "at": "2026-10-08T22:36:06.436Z",
           "actor": "Codex",
           "text": "S545 recovered the targetable existing CLO window and completed the three-recipe, M/default two-cycle trial. Five Polo cut contours remain above the unchanged 0.001 cm gate; Tee and Woven geometry pass this limited check. Preserve all V03 holds and use S546 to isolate the first-cycle Polo delta before any setting change. See E-G04-S545-EXIT."
+        },
+        {
+          "at": "2026-10-08T22:39:02.776Z",
+          "actor": "Codex",
+          "text": "S546 will localize the five Polo CUT contour deltas found in S545 using the same pinned source, CLO profile and gen1/gen2 outputs. No setting or tolerance changes; preserve all V03 holds. See E-G04-S546-START."
+        },
+        {
+          "at": "2026-10-08T22:45:38.334Z",
+          "actor": "Codex",
+          "text": "S546 confirms the S545 AAMA gen1/gen2 outputs repeat the same five Polo CUT contour failures at 0.01274–0.01399 cm against the fixed 0.001 cm gate. S500/S517/S519 already identify the removed source points; the new S546 cross-file parser failed against trusted S500 results and is excluded. Prior CLO controls offer no safe untested preservation switch (S522); do not repeat them. Next qualify a concrete rights-reviewed apparel receiver/profile. All V03 gates remain held."
         }
       ],
       "evidenceRefs": [
@@ -11465,7 +11475,9 @@
         "E-G04-S544-START",
         "E-G04-S544-EXIT",
         "E-G04-S545-START",
-        "E-G04-S545-EXIT"
+        "E-G04-S545-EXIT",
+        "E-G04-S546-START",
+        "E-G04-S546-EXIT"
       ],
       "flagKey": null
     },
@@ -21406,6 +21418,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO 2026.1.310 completed the two-cycle AAMA centimeter trial for Tee, Polo, and Woven M/default fixtures. The corrected contour diagnostic passes Tee 6/6 and Woven 24/24 at 0.001 cm but finds five Polo cut contours at 0.0127–0.0140 cm in both generations. V03 acceptance and all remaining profile, semantic, grade, malformed-input, and all-seven gates remain held. See C:-only output and rendered evidence in the exit packet."
+    },
+    {
+      "id": "E-G04-S546-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Diagnose the five reproducible above-gate Polo cut-contour deltas from S545 against exact source/gen1/gen2 paths; keep CLO settings and the 0.001 cm threshold fixed and all V03 gates held."
+    },
+    {
+      "id": "E-G04-S546-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S546 reconciles S545's same five above-gate Polo CUT contours with S500/S517/S519 history. A new cross-file parser failed against trusted S500 geometry and is explicitly rejected; no new CLO action or gate change. Keep V03 open and qualify a rights- and profile-evidenced alternative before another fixture transfer."
     }
   ]
 }
