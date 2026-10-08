@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3077,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S495-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S495-clo-layer-semantics-audit/S495-start-packet.md",
+      "verified": true,
+      "note": "S495 performs read-only geometry/layer analysis of existing C: CLO exports and source fixtures; no app operation or file transfer."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3078,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S495 audits the already-exported Tee/Polo/Woven DXFs against source fixture geometry to test whether numeric layer meaning is derivable; no CLO session or file transfer. Preserve rights, V03 acceptance, and all statuses."
+  }
+]

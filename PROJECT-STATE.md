@@ -1,5 +1,42 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 495 existing CLO layer audit and startup check
+
+S495 started `2026-10-08 13:54:13 UTC` from clean S494
+`19272cafa73722124c5ee523f41b7663d80ad1e4` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S494 was highest; S495 is unique. Validated start replay advanced
+board revision `3077→3079`; EPIC-17/G04-V03 stay In Progress, V01/V02 Done.
+
+Hash-pinned read-only analyses of the existing C: Tee/Polo/Woven CLO exports
+confirm that numeric output layers contain multiple coincident representations
+of source contours. The same numeric IDs correlate with both CUT and SEW
+geometry, so geometry/counts do not establish a unique semantic layer map.
+Tee and Woven M contour results remain as previously recorded; Polo remains
+13/18 within the unchanged 0.001 cm gate. A fresh CLO launch at the user's
+request remained at “Creating Scene and Library”; Windows reported
+`Responding: False`. No project opened and no new import/export occurred. That
+launch failure does not negate earlier completed operations or prove format
+incompatibility. The idle process was closed. See
+`docs/research/epic17/S495-clo-layer-semantics-audit/`.
+
+The four existing S475/S476/S477/S478 analyzers passed their recorded hash,
+structure and geometry assertions. No production/test source, pattern geometry,
+DXF fixture/export, protected identity, V03 criterion, or claim changed. Global
+coverage/build gates remain reserved for the settled Epic candidate. The
+validated S495 exit replay links `E-G04-S495-EXIT` to G04-V03 and EPIC-17 and
+keeps their statuses unchanged.
+
+Elapsed-time estimates: implementation `0m`; focused verification `2m`; CLO
+practical startup check and close `3m`; external-agent wait `0m`; maintainer
+decision time `0m`; durable records and board closeout `2m`.
+
+**Next:** continue V03 only with rights-cleared access to the exact receiver
+and local-handling conditions. Keep the Polo tolerance failure and the S493
+rights/local-handling, warning, semantic/marks, grade, malformed-input, and
+independent-receiver gates open. No standards/factory/physical/production
+claim. EPIC-17 stays active.
+
 ## EPIC-17 / G04 — Slice 494 S493 evidence packet hygiene
 
 S494 started `2026-10-08 13:50:04 UTC` from clean S493

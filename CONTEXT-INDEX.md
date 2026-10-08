@@ -2,6 +2,20 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S495-clo-layer-semantics-audit/S495-exit-packet.md`
+  closes the read-only numeric-layer audit against hash-pinned Tee/Polo/Woven
+  DXFs and records a fresh CLO startup that stayed at “Creating Scene and
+  Library”; Windows reported `Responding: False`, so no new exchange was
+  attempted. Existing Tee/Woven contour results and Polo's 13/18 measured
+  result remain unchanged. Numeric layers correlate with both CUT and SEW
+  source geometry and cannot be uniquely interpreted from these observations.
+  No compatibility conclusion or gate changed. Board start/exit
+  `3077→3079→3083`; EPIC-17/G04-V03 In Progress, V01/V02 Done.
+  **Next:** obtain rights-cleared exact receiver access and documented local
+  handling before resuming remaining V03 scenarios.
+
+### Prior V03 slices
+
 - `docs/research/epic17/S494-s493-evidence-hygiene/S494-exit-packet.md`
   records the staged diff-check correction for S493's extra packet EOF
   whitespace. S493's earlier pre-stage check omitted untracked files; S494

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3077,
-  "updatedAt": "2026-10-08T13:51:42.553Z",
+  "revision": 3083,
+  "updatedAt": "2026-10-08T14:02:52.768Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -715,7 +715,8 @@
         "E-G04-S491-EXIT",
         "E-G04-S492-EXIT",
         "E-G04-S493-EXIT",
-        "E-G04-S494-EXIT"
+        "E-G04-S494-EXIT",
+        "E-G04-S495-EXIT"
       ]
     },
     {
@@ -4587,6 +4588,11 @@
           "at": "2026-10-08T13:51:42.553Z",
           "actor": "Codex",
           "text": "S494 corrects only staged documentation hygiene for S493 and records the verification finding. Epic and V03 remain In Progress; V01/V02 remain Done. See E-G04-S494-EXIT."
+        },
+        {
+          "at": "2026-10-08T14:02:52.768Z",
+          "actor": "Codex",
+          "text": "S495 adds read-only numeric-layer evidence and records a concrete nonresponsive CLO startup. Existing Tee/Woven results and the measured Polo failure remain unchanged; no acceptance criteria or claim changed. EPIC-17/G04-V03 remain In Progress, V01/V02 Done. See E-G04-S495-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10720,6 +10726,16 @@
           "at": "2026-10-08T13:51:42.465Z",
           "actor": "Codex",
           "text": "S494 closes the staged-diff hygiene correction: S493's two packet EOFs are normalized and its record accurately discloses the initial pre-stage check limitation. V03 measurements, criteria and status are unchanged. See E-G04-S494-EXIT."
+        },
+        {
+          "at": "2026-10-08T13:55:13.054Z",
+          "actor": "Codex",
+          "text": "S495 audits the already-exported Tee/Polo/Woven DXFs against source fixture geometry to test whether numeric layer meaning is derivable; no CLO session or file transfer. Preserve rights, V03 acceptance, and all statuses."
+        },
+        {
+          "at": "2026-10-08T14:02:52.664Z",
+          "actor": "Codex",
+          "text": "S495 confirms numeric CLO layer IDs cannot be uniquely mapped to CUT/SEW from geometry: coincident copies span the same numeric layers across Tee, Polo and Woven. Polo remains 13/18 within 0.001 cm. A new CLO launch remained at Creating Scene and Library and Windows reported Responding: False; no fresh exchange occurred. This does not negate earlier successful runs or establish format incompatibility. V03 gates/status unchanged. See E-G04-S495-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10807,7 +10823,9 @@
         "E-G04-S493-MATRIX",
         "E-G04-S493-EXIT",
         "E-G04-S494-START",
-        "E-G04-S494-EXIT"
+        "E-G04-S494-EXIT",
+        "E-G04-S495-START",
+        "E-G04-S495-EXIT"
       ],
       "flagKey": null
     },
@@ -19848,6 +19866,24 @@
       "sha256": null,
       "verified": true,
       "note": "S494 removes the extra S493 packet EOF blank lines and accurately records that staged diff review found them; no acceptance or evidence changed."
+    },
+    {
+      "id": "E-G04-S495-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S495-clo-layer-semantics-audit/S495-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S495 performs read-only geometry/layer analysis of existing C: CLO exports and source fixtures; no app operation or file transfer."
+    },
+    {
+      "id": "E-G04-S495-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S495-clo-layer-semantics-audit/S495-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S495 rechecked existing hash-pinned CLO DXFs: numeric layers duplicate source-correlated CUT/SEW geometry without a unique semantic mapping; Polo's five tolerance failures remain; a fresh CLO launch stalled and the process reported not responding, so no new exchange was attempted."
     }
   ]
 }
