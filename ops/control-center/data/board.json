@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3303,
-  "updatedAt": "2026-10-08T22:50:11.032Z",
+  "revision": 3307,
+  "updatedAt": "2026-10-08T22:53:30.216Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11298,6 +11298,16 @@
           "at": "2026-10-08T22:50:11.032Z",
           "actor": "Codex",
           "text": "S547 reconciles the seven AAMA M/default trials. CLO use/local handling are authorized; this does not resolve profile conformance. Geometry is 77/82 contours passing per generation with five Polo CUT failures; layer 8 mixes CUT and SEW, marks/grades remain unproven, and S531's tested malformed file was silently accepted. Do not repeat the same CLO controls. S548 will statically screen the newly identified Pro2CAD publisher lead for exact build, no-cost rights, Windows/local path, profile, then stop before install/contact/pattern transfer unless all prerequisite evidence passes. Preserve every V03 gate."
+        },
+        {
+          "at": "2026-10-08T22:51:24.849Z",
+          "actor": "Codex",
+          "text": "S548 evaluates the specific Pro2CAD AAMA/ASTM import/export publisher lead against exact build, rights, Windows 11/local handling, profile and round-trip gates using public primary sources only. No download, install, contact, purchase or pattern transfer."
+        },
+        {
+          "at": "2026-10-08T22:53:30.216Z",
+          "actor": "Codex",
+          "text": "S548 screened official Pro2CAD publisher materials. AAMA/ASTM DXF import/export are documented, but manual v2.1.101 does not match demo v2.2.101; Windows 11, demo product-development rights, local-only handling, and exact profile edition are unproven. No download/install/contact/data transfer. Maintainer's written confirmation resolves CLO trial-use/local processing only. Keep all V03 gates and holds unchanged; next use one targeted CLO investigation of the repeat Polo geometry and CUT/SEW semantic failures without repeating settings matrices. See S548 exit packet."
         }
       ],
       "evidenceRefs": [
@@ -11489,7 +11499,9 @@
         "E-G04-S546-START",
         "E-G04-S546-EXIT",
         "E-G04-S547-START",
-        "E-G04-S547-EXIT"
+        "E-G04-S547-EXIT",
+        "E-G04-S548-START",
+        "E-G04-S548-EXIT"
       ],
       "flagKey": null
     },
@@ -21466,6 +21478,24 @@
       "sha256": null,
       "verified": true,
       "note": "S547 reconciles all seven CLO AAMA M/default recipe trials: 77/82 contours per generation pass 0.001 cm, with five repeat Polo failures; authorization is resolved, while exact profile, CUT/SEW semantics, marks, grades/options, negative-input handling, and independent receiver evidence remain held."
+    },
+    {
+      "id": "E-G04-S548-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Screen the publisher's current Pro2CAD build, license, Windows/local-handling, profile, and round-trip evidence from public primary sources only. No download/install/contact/purchase or pattern transfer; preserve V03 gates."
+    },
+    {
+      "id": "E-G04-S548-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Publisher-source screen finds Pro2CAD is not qualified for executable use: demo v2.2.101/manual v2.1.101 mismatch, Windows 11, product-development demo rights, local-only handling, and exact profile edition are unproven. CLO user-confirmed rights/local processing remain resolved; all S547 V03 failures and gates stay unchanged."
     }
   ]
 }

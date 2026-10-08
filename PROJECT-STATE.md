@@ -1,20 +1,20 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 547 exit (V03 remains open)
+## EPIC-17 / G04 — Slice 548 exit (V03 remains open)
 
-S547 reconciles the seven CLO DXF-AAMA M/default two-generation trials:
-77/82 contours per generation pass 0.001 cm; five Polo CUT contours fail at
-0.01274–0.01399 cm. Written product-development/local-processing permission
-is resolved. Exact industrial profile, CUT/SEW semantics, marks, grading and
-options, malformed-input rejection, and independent receiver acceptance
-remain open. Do not repeat the same CLO point controls. Next statically screen
-the newly surfaced Pro2CAD publisher lead for exact build, rights, Windows and
-local handling, profile and capability before any install/contact/file
-transfer. S547 exit packet and complete matrix:
-`docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md`;
-`V03-CURRENT-GATE-MATRIX-S547.md`. Board start/exit is
-`3299→3301→3303`; focused Control Center tests are recorded. The goal remains
-active and needed.
+S548 screened Pro2CAD from publisher-hosted sources and did not download,
+install, contact the vendor, or transfer pattern data. AAMA/ASTM import/export
+are documented, but the public manual v2.1.101 does not match the demo v2.2.101;
+Windows 11 support, no-cost product-development rights, local-only processing,
+and an exact normative profile edition remain unproven. The maintainer's
+written confirmation resolves CLO trial-use and local-DXF processing only.
+Pro2CAD is not qualified for executable use in G04. V03 remains In Progress;
+all S547 seven-recipe outcomes and acceptance gates remain unchanged. Next:
+use one targeted investigation on the already authorized CLO evidence for the
+repeat Polo contour loss and CUT/SEW semantic ambiguity; do not repeat the same
+settings matrix. See `docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md`.
+Board start/exit is `3303→3305→3307`; focused verification results are in
+the exit packet. The thread goal remains active and needed through safe merge.
 
 ## EPIC-17 / G04 — Slice 546 exit (V03 remains open)
 

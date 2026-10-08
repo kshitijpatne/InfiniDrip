@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md`
+  closes the public-source Pro2CAD screen. Import/export are advertised, but the
+demo/manual version mismatch and Windows 11, product-development demo rights,
+local-only handling, and exact profile edition remain unproven. No download,
+install, contact, or file transfer. CLO trial-use/local processing are
+maintainer-confirmed. Keep all V03 gates. Next: one targeted investigation of
+Polo contour loss and CUT/SEW semantic ambiguity using retained authorized CLO
+evidence; do not repeat the settings matrix.
 - `docs/research/epic17/S547-v03-seven-recipe-gate-reconciliation/S547-exit-packet.md`
   and `V03-CURRENT-GATE-MATRIX-S547.md` are the current consolidated evidence:
   all seven M/default AAMA recipes have two generations, 77/82 contours pass
@@ -1942,4 +1950,4 @@ product decisions, and unresolved questions:
 - `F:\tank-sketches\290184313-T-shirt-Poloshirt-Cad-Drawing.pdf` — Polo V2 research input for collar/stand, placket, longer-back/side-vent, sleeve-rib, and Polo-specific grading questions; its assignment-specific values are not universal formulas.
 
 These references do not authorize physical sampling. Physical validation is on
-hold until the maintainer explicitly reopens it.
+hold until the maintainer explicitly reopens it.\n

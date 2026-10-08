@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3303,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S548-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-start-packet.md",
+    "verified": true,
+    "note": "Screen the publisher's current Pro2CAD build, license, Windows/local-handling, profile, and round-trip evidence from public primary sources only. No download/install/contact/purchase or pattern transfer; preserve V03 gates."
+  }
+}

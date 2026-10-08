@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3305,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S548-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md",
+    "verified": true,
+    "note": "Publisher-source screen finds Pro2CAD is not qualified for executable use: demo v2.2.101/manual v2.1.101 mismatch, Windows 11, product-development demo rights, local-only handling, and exact profile edition are unproven. CLO user-confirmed rights/local processing remain resolved; all S547 V03 failures and gates stay unchanged."
+  }
+}
