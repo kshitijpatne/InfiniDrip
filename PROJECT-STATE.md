@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 537 no-cost local CAD trial screen (closed; V03 remains open)
+
+The current official-source pass found one new potential desktop trial:
+PatternSmith lists AAMA import and generic DXF export, a 30-day all-feature
+trial without a credit card, and a `$1,500/year` post-trial license. Its
+trial form requires name/email/company and privacy consent; its 2018 privacy
+policy allows product usage data including product specifications but does
+not establish local-only pattern handling or AAMA/ASTM export. OROX CAD-X,
+CAD4Fashion, and Pro2CAD claim apparel AAMA/ASTM exchange but have no verified
+no-cost no-contact path in the official sources checked. OpenCAD2D is generic
+2D DXF CAD. No signup, contact, download, install, or file transfer occurred.
+Evidence: `docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-exit-packet.md`.
+Board exit replay is recorded in that packet.
+
+**Next:** PatternSmith trial access would cross the no-supplier-contact
+boundary and disclose personal/business data; no pattern fixture may be used
+without a local-handling basis and applicable rights. Obtain explicit
+maintainer authorization before any trial-form submission. Otherwise keep the
+scope and V03 gates unchanged and pursue another already-authorized route.
+EPIC-17 remains In Progress; V01/V02 Done, V03 In Progress.
+
 ## EPIC-17 / G04 — Slice 536 Polo AAMA vertex-preservation probe (closed; V03 remains open)
 
 The maintainer attested written confirmation for CLO product-development

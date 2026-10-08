@@ -2,6 +2,18 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-exit-packet.md`
+  screens newly surfaced public CAD leads. PatternSmith offers a 30-day
+  no-card trial and lists AAMA import/generic DXF export, but signup requires
+  personal/business details; its privacy policy does not establish
+  local-only pattern handling, and AAMA/ASTM export is not documented. Other
+  reviewed apparel CAD leads lack a verified no-cost no-contact path. No
+  signup, contact, download, install or G04 file transfer occurred; no V03
+  gate changed. Next is a specific maintainer decision before crossing the
+  no-supplier-contact boundary for trial access.
+- `docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-start-packet.md`
+  records the bounded official-source-only scope.
+
 - `docs/research/epic17/S536-polo-aama-vertex-preservation/S536-exit-packet.md`
   records the authorized local CLO 2026.1.310 DXF-AAMA import/export probe of
   a geometry-identical R2000 `LWPOLYLINE` Polo M fixture. All nine pieces

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3259,
-  "updatedAt": "2026-10-08T21:30:03.561Z",
+  "revision": 3263,
+  "updatedAt": "2026-10-08T21:35:02.049Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11188,6 +11188,16 @@
           "at": "2026-10-08T21:30:03.561Z",
           "actor": "Codex",
           "text": "S536 closes the geometry-identical LWPOLYLINE encoding trial: it does not resolve Polo's five CUT-outline losses in CLO AAMA exchange. Do not repeat this encoding or the failed Polo AAMA→ASTM path. V03 remains In Progress with profile, all-seven, round-trip, grading, and semantic gates unchanged. The maintainer confirms written trial-use and handling permission; CLO stays open for G04."
+        },
+        {
+          "at": "2026-10-08T21:34:06.318Z",
+          "actor": "Codex",
+          "text": "S537 screens only newly surfaced official-source CAD leads for exact apparel DXF direction, no-cost acquisition, and public handling evidence. No duplicate CLO tests, contact, signup, installation, or G04 file transfer. V03 acceptance and existing holds remain unchanged."
+        },
+        {
+          "at": "2026-10-08T21:35:02.049Z",
+          "actor": "Codex",
+          "text": "S537's only new free-trial lead is PatternSmith: AAMA import is listed, but only generic DXF export is listed; its trial requires a personal/business-data form and its privacy policy does not guarantee local-only file handling. No request was submitted. OROX/CAD4Fashion/Pro2CAD have no verified no-cost no-contact path; generic OpenCAD2D lacks apparel-profile claims. V03 stays In Progress."
         }
       ],
       "evidenceRefs": [
@@ -11357,7 +11367,9 @@
         "E-G04-S535-START",
         "E-G04-S535-EXIT",
         "E-G04-S536-START",
-        "E-G04-S536-EXIT"
+        "E-G04-S536-EXIT",
+        "E-G04-S537-START",
+        "E-G04-S537-EXIT"
       ],
       "flagKey": null
     },
@@ -21136,6 +21148,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO 2026.1.310 AAMA import/export of an exact-geometry R2000 LWPOLYLINE Polo M derivative rendered all nine pieces and preserved all nine SEW outlines, but the same five CUT contours lose one vertex and measure 0.012741–0.013974 cm against the unchanged 0.001 cm gate. Four of nine CUT contours pass. No V03 gate or compatibility claim changed; CLO remains open."
+    },
+    {
+      "id": "E-G04-S537-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begin a bounded official-source screen for newly surfaced no-cost local CAD trial candidates; no signup, vendor contact, install, or pattern use. Prior CLO and receiver evidence is reused; V03 gates stay unchanged."
+    },
+    {
+      "id": "E-G04-S537-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official-source screen found PatternSmith's 30-day no-card trial and AAMA import/generic DXF export, but trial signup transmits personal/business details and its 2018 privacy policy does not establish local-only pattern handling. No signup/contact/download/installation occurred; no new candidate qualifies and no V03 gate changed."
     }
   ]
 }
