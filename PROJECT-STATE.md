@@ -1,5 +1,9 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 455 reviews remaining supplied sewing books (in progress)
+
+S455 started 2026-10-08 02:26 UTC from clean S454 `16ea64244dc211d01232c23b9d2be87fec3a82e6` on `codex/epic-17-g04`; freshly fetched `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 454; S455 is unique. Board revision 2748→2750 records the evidence-only start; EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; 56 accepted / 90 held over 73 configurations / 146 faces. Goal is active. Usage at start: primary 14%, weekly 24%. The proposal-only S454 mask still awaits the maintainer choice and is not implemented; S442 fixed S370 bands and holds remain. S455 reviews the five remaining user-supplied books for exact page-specific G04 evidence and broader product value, with disjoint Claude/OpenCode title ownership and Codex verification. No product changes, approvals, V02 status/acceptance changes, V03 work, or hold changes are authorized by this research. Packet: `docs/research/epic17/S455-supplied-sewing-book-review/G04-REMAINING-SUPPLIED-SEWING-BOOK-REVIEW-S455.md`.
+
 ## EPIC-17 / G04 — Slice 454 completes exact Woven collar-mask proposal
 
 S454 started 2026-10-08 02:07 UTC from clean S453 `383560ca737494025a07daacad4637ce3c1e7bff` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 453; S454 is unique. Board start replay 2731→2733 and exit/evidence/compatibility replays 2733→2748; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog; tally 56 accepted / 90 held over 73 configurations / 146 faces. Goal remains active and aligned. Usage at start: 10% primary / 24% weekly.
