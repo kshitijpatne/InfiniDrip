@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2907,
-  "updatedAt": "2026-10-08T04:59:00.095Z",
+  "revision": 2911,
+  "updatedAt": "2026-10-08T05:51:37.663Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -678,7 +678,8 @@
         "E-EPIC17-S470-START",
         "E-EPIC17-S470-EXIT",
         "E-EPIC17-S471-START",
-        "E-EPIC17-S471-EXIT"
+        "E-EPIC17-S471-EXIT",
+        "E-EPIC17-S472-CLO-CANDIDATE"
       ]
     },
     {
@@ -4957,7 +4958,8 @@
         "E-EPIC17-S470-START",
         "E-EPIC17-S470-EXIT",
         "E-EPIC17-S471-START",
-        "E-EPIC17-S471-EXIT"
+        "E-EPIC17-S471-EXIT",
+        "E-EPIC17-S472-CLO-CANDIDATE"
       ],
       "flagKey": null
     },
@@ -10415,6 +10417,11 @@
           "at": "2026-10-08T04:59:00.095Z",
           "actor": "Codex",
           "text": "S471 found no reviewed free receiver that both works for Windows 11 and meets V03 inside the local/no-hosted scope. Seamly2D lacks DXF import; OpenMarker lacks export; garment.dev is hosted/invite-only. Richpeace V8 remains the strongest exchange lead but Windows 11 support is unlisted. See E-G04-S471-EXIT."
+        },
+        {
+          "at": "2026-10-08T05:51:37.663Z",
+          "actor": "Codex",
+          "text": "S472 qualifies owner-reported CLO 2026.1.310 as a candidate: official docs list Windows 11 25H2 support and DXF-AAMA/DXF-ASTM import/export. The standard trial auto-converts to paid unless canceled and its Individual-license eligibility must apply. Actual menus/local handling remain unverified; no fixture was opened. Owner Gate 0 checklist: docs/research/epic17/S472-clo-receiver-qualification/clo-receiver-preflight.md."
         }
       ],
       "evidenceRefs": [
@@ -10445,7 +10452,8 @@
         "E-G04-S470-START",
         "E-G04-S470-EXIT",
         "E-G04-S471-START",
-        "E-G04-S471-EXIT"
+        "E-G04-S471-EXIT",
+        "E-G04-S472-CLO-CANDIDATE"
       ],
       "flagKey": null
     },
@@ -18721,6 +18729,24 @@
       "sha256": null,
       "verified": true,
       "note": "S471 rules out the reviewed free alternatives without changing the admitted V03 rights, local processing, profile or round-trip gates."
+    },
+    {
+      "id": "E-G04-S472-CLO-CANDIDATE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S472-clo-receiver-qualification/S472-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S472 qualifies owner-reported CLO 2026.1.310 as a candidate from official Win11 25H2 and apparel-DXF import/export docs; rights, active menu modes and local processing remain unverified, so no S463 fixture was opened."
+    },
+    {
+      "id": "E-EPIC17-S472-CLO-CANDIDATE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S472-clo-receiver-qualification/S472-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S472 retains V03 rights, local-processing, profile and round-trip gates while qualifying CLO 2026.1.310 for preflight only."
     }
   ]
 }

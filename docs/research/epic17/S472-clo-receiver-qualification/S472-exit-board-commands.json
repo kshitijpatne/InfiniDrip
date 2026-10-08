@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2907,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S472-CLO-CANDIDATE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S472-clo-receiver-qualification/S472-exit-packet.md",
+      "verified": true,
+      "note": "S472 qualifies owner-reported CLO 2026.1.310 as a candidate from official Win11 25H2 and apparel-DXF import/export docs; rights, active menu modes and local processing remain unverified, so no S463 fixture was opened."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2908,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S472-CLO-CANDIDATE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S472-clo-receiver-qualification/S472-exit-packet.md",
+      "verified": true,
+      "note": "S472 retains V03 rights, local-processing, profile and round-trip gates while qualifying CLO 2026.1.310 for preflight only."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2909,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S472-CLO-CANDIDATE"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2910,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S472 qualifies owner-reported CLO 2026.1.310 as a candidate: official docs list Windows 11 25H2 support and DXF-AAMA/DXF-ASTM import/export. The standard trial auto-converts to paid unless canceled and its Individual-license eligibility must apply. Actual menus/local handling remain unverified; no fixture was opened. Owner Gate 0 checklist: docs/research/epic17/S472-clo-receiver-qualification/clo-receiver-preflight.md."
+  }
+]

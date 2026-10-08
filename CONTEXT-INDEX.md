@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S472-clo-receiver-qualification/S472-exit-packet.md`
+  qualifies the owner-reported installed CLO 2026.1.310 as a candidate because
+  official documentation supports Windows 11 25H2 and apparel-DXF
+  import/export. This is not a selected receiver or tested profile: trial
+  rights/eligibility, no-charge renewal state, exact installed menus and
+  local-only handling remain unknown. No fixture was opened. The owner-only
+  Gate 0 checklist is in `clo-receiver-preflight.md`; keep V03 held until it
+  passes.
+
 - `docs/research/epic17/S471-free-receiver-alternatives/S471-exit-packet.md`
   finds no reviewed free candidate that meets Windows 11, apparel-DXF
   import/export, and G04's local/no-hosted scope together. V03 remains gated;

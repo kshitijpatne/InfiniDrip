@@ -1,5 +1,34 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 472 qualifies CLO receiver candidate; Gate 0 pending
+
+The owner reports CLO downloaded/signed in at version `2026.1.310`. Current
+official CLO documentation supports Windows 11 25H2 and names Standard DXF,
+DXF-AAMA, and DXF-ASTM import/export. This makes CLO a candidate for a bounded
+receiver proof, not a selected receiver or proven format profile. The standard
+14-day Individual trial requires payment setup and automatically starts the
+chosen paid subscription unless canceled; user eligibility and trial/renewal
+state are unknown. Exact installed menus and local-only file handling are also
+unverified. No S463 fixture was opened or sent anywhere; no account or billing
+state was inspected or changed. G04-V03 stays In Progress with all rights,
+local-processing, exact-profile and round-trip gates unchanged.
+
+S472 refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, which
+remains an ancestor of clean start commit `79de026ff27ec1b692f2770c5f72172a409bc087`;
+S472 is unique. Board revision 2907 at start; EPIC-17 In Progress, V01/V02
+Done, V03 In Progress. Validated board exit revision 2911;
+`npm run control-center:test` passes 42/42 and `git diff --check` passes.
+Packet and owner checklist:
+`docs/research/epic17/S472-clo-receiver-qualification/`.
+
+**Next:** the owner completes Gate 0 in `clo-receiver-preflight.md`: confirm
+the Individual-license eligibility and a no-charge/cancel-before-renewal state
+without sharing billing data, then report the About version, actual import and
+export menu modes, and whether file operations stay local. Open no fixture
+until every check passes. If the Individual license does not apply or the
+trial cannot be kept no-charge, stop CLO testing; do not contact the vendor or
+use a hosted service in this Epic.
+
 ## EPIC-17 / G04 — Slice 471 screens free receiver alternatives
 
 A focused current-source review found no free alternative that both works on

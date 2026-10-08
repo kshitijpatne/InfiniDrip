@@ -1,0 +1,20 @@
+{
+  "startRevision": 2907,
+  "exitRevision": 2911,
+  "epicStatus": "In Progress",
+  "workItems": [
+    {
+      "id": "G04-V01",
+      "status": "Done"
+    },
+    {
+      "id": "G04-V02",
+      "status": "Done"
+    },
+    {
+      "id": "G04-V03",
+      "status": "In Progress"
+    }
+  ],
+  "commandCount": 4
+}
