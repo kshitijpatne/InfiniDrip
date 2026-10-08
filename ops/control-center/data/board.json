@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2731,
-  "updatedAt": "2026-10-08T02:04:32.680Z",
+  "revision": 2748,
+  "updatedAt": "2026-10-08T02:21:52.013Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S448 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 blockers are 28 Woven front neckline/collar contacts under the continuous base seam and 28 Woven back sleeve crossings under fixed S370 band positions. S443's Claude Opus 5.5 xhigh research and Codex review found no source-backed fix under those decisions; S447's 13-value taper study found no viable source candidate. Polo has no current local output blocker per S436 but remains held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF, and protected export identities. V03 additionally requires a rights-cleared receiver/profile and representative round-trip evidence; S421 did not qualify a no-cost industrial apparel receiver. Current record: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical summary: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S449's targeted construction-reference review found useful general menswear drawings but none specific to Woven source revision 14:14; no face or acceptance advanced. The maintainer authorized a proposal-only study. Next: derive exact-source in-memory candidate proposals and compare all 28 option outputs before any separately approved production change. S449 record: docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md.",
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 freshly replayed all 28 Woven FRONT_FLAT options at live-draft:woven-shirt:14:14 and produced a candidate-only mask from the actual projected upper/under-collar silhouettes. It removes the repeated front contact in rendered trial output but hides 13.2536–14.4041 cm of continuous source neckline per side, conflicting with S425; maintainer decision pending. No production mapping or face release. The 28 Woven back sleeve crossings remain held under fixed S370 bands. Polo has no current local output blocker per S436 but remains held by all-seven V02. V02 requires every applicable topology, joins, overlaps, POMs, colorway, option and rendered gate across all seven recipes; preserve the 0.25 cm Polo gate, V02-before-V03, legacy DXF and protected export identities. V03 remains gated by V02 and rights-cleared receiver/profile plus representative round-trip evidence. Current handoff: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. No fit, factory acceptance, or production-readiness claim. Historical decision references required by the Control Center regression contract: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved view-only collar-over-plackets order remains implemented.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -649,7 +649,8 @@
         "E-G04-S450-EXIT",
         "E-G04-S451-EXIT",
         "E-G04-S452-EXIT",
-        "E-G04-S453-EXIT"
+        "E-G04-S453-EXIT",
+        "E-G04-S454-EXIT"
       ]
     },
     {
@@ -3178,7 +3179,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S448 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. V02's remaining output blockers are 28 Woven fronts with collar/neckline contacts under the continuous body seam and 28 Woven backs with sleeve crossings under fixed S370 band positions. S443's exact-model research and S447's 13-value source-taper study found no verified fix under current decisions. Polo has no current local output blocker per S436, but stays held by all-seven V02. V03 remains gated by V02 plus rights-cleared receiver/profile and representative round-trip evidence. Preserve legacy DXF, protected export identities, every V02 criterion and all holds. Current evidence is in docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical verified context: Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S426's corrected full-label replay reports zero source-label or marker-label overlaps across all 17 exact Polo options. S406's approved Woven collar-over-plackets display remains implemented. Preserve all-seven V02, V02-before-V03.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 replayed all 28 Woven fronts at live-draft:woven-shirt:14:14 and measured a leaf-silhouette mask that removes the recurring contact but hides 13.2536–14.4041 cm of source neckline per side, conflicting with S425. Explicit decision pending; no production mapping or face release. The 28 Woven backs remain held under fixed S370 band positions. Polo has no current local output blocker per S436 but all 34 faces remain held by all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF and protected export identities. V03 additionally requires a rights-cleared receiver/profile and representative round-trip evidence. Current packet: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S426's corrected full-label replay reports zero source-label or marker-label overlaps. Preserve all-seven V02, V02-before-V03. S406's approved Woven collar-over-plackets display remains implemented.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4416,6 +4417,21 @@
           "at": "2026-10-08T02:04:32.680Z",
           "actor": "Codex",
           "text": "S453 evidence-only closeout preserves all G04 gates and holds. Current tally remains 56 accepted / 90 held across 73 configurations / 146 faces. The book reviews do not decide Woven view semantics; next is a bounded exact silhouette-mask trial, followed by any necessary maintainer decision."
+        },
+        {
+          "at": "2026-10-08T02:18:36.845Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 freshly replayed all 28 Woven FRONT_FLAT options at live-draft:woven-shirt:14:14 and produced a candidate-only mask from the actual projected upper/under-collar silhouettes. It removes the repeated front contact in rendered trial output but hides 13.2536–14.4041 cm of continuous source neckline per side, conflicting with S425; maintainer decision pending. No production mapping or face release. The 28 Woven back sleeve crossings remain held under fixed S370 bands. Polo has no current local output blocker per S436 but remains held by all-seven V02. V02 requires every applicable topology, joins, overlaps, POMs, colorway, option and rendered gate across all seven recipes; preserve the 0.25 cm Polo gate, V02-before-V03, legacy DXF and protected export identities. V03 remains gated by V02 and rights-cleared receiver/profile plus representative round-trip evidence. Current handoff: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. No fit, factory acceptance, or production-readiness claim.). Refresh the canonical Epic summary to reflect the S454 current-output mask trial and the pending S425 decision while preserving all V02/V03 gates and holds."
+        },
+        {
+          "at": "2026-10-08T02:18:37.227Z",
+          "actor": "Codex",
+          "text": "S454 completed a proposal-only Woven foreground-mask study. Decision pending on whether to supersede S425 with the exact projected leaf-silhouette mask; the 28 Woven backs remain held under S442/S370. All 56 Woven and 34 Polo faces remain held; V02 all-seven and V03 rights/round-trip gates unchanged."
+        },
+        {
+          "at": "2026-10-08T02:21:09.509Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 freshly replayed all 28 Woven FRONT_FLAT options at live-draft:woven-shirt:14:14 and produced a candidate-only mask from the actual projected upper/under-collar silhouettes. It removes the repeated front contact in rendered trial output but hides 13.2536–14.4041 cm of continuous source neckline per side, conflicting with S425; maintainer decision pending. No production mapping or face release. The 28 Woven back sleeve crossings remain held under fixed S370 bands. Polo has no current local output blocker per S436 but remains held by all-seven V02. V02 requires every applicable topology, joins, overlaps, POMs, colorway, option and rendered gate across all seven recipes; preserve the 0.25 cm Polo gate, V02-before-V03, legacy DXF and protected export identities. V03 remains gated by V02 and rights-cleared receiver/profile plus representative round-trip evidence. Current handoff: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. No fit, factory acceptance, or production-readiness claim. Historical decision references required by the Control Center regression contract: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved view-only collar-over-plackets order remains implemented.). Preserve the Control Center regression contract while retaining the S454 proposal-only Woven decision record."
         }
       ],
       "evidenceRefs": [
@@ -7503,7 +7519,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. Current S448 state: V01 Done, V02 In Progress, V03 Backlog. The only local output blockers are 28 Woven front neckline/collar contacts under the continuous base seam and 28 Woven back sleeve crossings with S370 band-detail positions fixed. S443 found no source-backed view fix under those choices; S447's 13-value taper matrix found no viable candidate. Polo has no current local output blocker per S436 but all 34 faces remain held under all-seven V02. Preserve all acceptance criteria, the 0.25 cm gate, V02-before-V03, legacy DXF, protected exports and every view hold. Historical S448: no source geometry, mapping, acceptance or view release was authorized; next was to obtain authority for a bounded proposal-only Woven source-design study. S449: the maintainer has authorized the proposal-only study; its targeted reference review found no pattern-specific external drawing that settles the custom collar visibility or sleeve placement. Next: derive bounded exact-source in-memory candidates, with production changes separately gated by exact proposal approval. S449 packet: docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md. Historical verified context: S381 found no evidence supporting a false Woven back-hem gap. S419 tested a 2–3-arc Polo H locator across 17 options. All 56 Woven and 34 Polo faces remain held. S426's corrected full-label replay reports zero source-label or marker-label overlaps across all 17 exact Polo options. S406's approved Woven collar-over-plackets order remains implemented. The maintainer keeps the Woven body neckline continuous. Preserve all-seven V02, V02-before-V03. Preserve all-seven V02, keep V03 gated.",
+      "description": "Current S454 tally: 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. V01 Done; V02 In Progress; V03 Backlog. Woven fronts: candidate-only same-revision mask from actual projected upper/under-collar fill paths clears the recurring contact in 28 rendered options, but visually hides 13.2536–14.4041 cm of source neckline per side and conflicts with S425. Await explicit decision; no production mapping or face release. Woven backs: retain all 28 holds and the approved S370 band positions. Polo: no current local renderer blocker per S436; retain all 34 holds under all-seven V02. Preserve every V02 criterion, the 0.25 cm Polo gate, V02-before-V03, legacy DXF, protected export identities and all face holds. S454 packet/matrix/render evidence: docs/research/epic17/S454-woven-foreground-mask-study/. Historical decision checks remain linked: S381 found no evidence supporting a false Woven back-hem gap. S419 tested a 2–3-arc Polo H locator across 17 options. S406's approved Woven collar-over-plackets order remains implemented. The maintainer keeps the Woven body neckline continuous. Preserve all-seven V02, keep V03 gated. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -9323,6 +9339,16 @@
           "at": "2026-10-08T02:04:32.629Z",
           "actor": "Codex",
           "text": "S453 reviewed the supplied Kim & Kim first edition and Kershaw menswear book. They provide general construction references but do not settle the source-specific collar visibility or fixed-S370 back layout. Codex's rendered audit found S407's center-to-intersection clip removes continuous neckline inside the open V, not beneath the collar leaves; do not treat it as a valid foreground-collar fix. All 56 Woven and 34 Polo faces remain held."
+        },
+        {
+          "at": "2026-10-08T02:07:55.103Z",
+          "actor": "Codex",
+          "text": "S454 tests whether a foreground collar mask can be derived from actual same-revision leaf silhouette coverage across all 28 Woven front outputs. S453 showed S407's center-to-contact clip deletes neckline inside the open V; S425's continuous seam and all face holds remain controlling pending a concrete reviewed trial."
+        },
+        {
+          "at": "2026-10-08T02:18:37.183Z",
+          "actor": "Codex",
+          "text": "S454's same-revision rendered trial masks the body neckline only inside the actual projected upper/under-collar fills. The two contact stations coincide with mask starts to within 0.000196 cm across 28 options. It leaves 0.5034–1.2838 cm visible per side in the open V, hides 13.2536–14.4041 cm per side, and conflicts with S425. Candidate only: no production code or acceptance/hold change. Await the decision in the S454 packet."
         }
       ],
       "evidenceRefs": [
@@ -10006,7 +10032,11 @@
         "E-G04-S452-START",
         "E-G04-S452-EXIT",
         "E-G04-S453-START",
-        "E-G04-S453-EXIT"
+        "E-G04-S453-EXIT",
+        "E-G04-S454-START",
+        "E-G04-S454-COVERAGE-MATRIX",
+        "E-G04-S454-TRIAL-RENDERED",
+        "E-G04-S454-EXIT"
       ],
       "flagKey": null
     },
@@ -17738,6 +17768,42 @@
       "sha256": null,
       "verified": true,
       "note": "Two supplied menswear PDFs were reviewed with rendered pages; neither settles the source-specific Woven front/back view decisions. S407's 0.84 cm center-to-intersection clip removes neckline inside the open V, not beneath collar leaves. All holds remain."
+    },
+    {
+      "id": "E-G04-S454-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a proposal-only exact-revision study of which body neckline intervals are geometrically covered by projected collar leaves; does not change S425, source/view code, face holds, or acceptance."
+    },
+    {
+      "id": "E-G04-S454-COVERAGE-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/silhouette-coverage-matrix.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Same-revision SVG fill-geometry measurements for both mirrored body neckline paths in all 28 current Woven front options; leaf-covered intervals and source-joined stand boundary are distinguished."
+    },
+    {
+      "id": "E-G04-S454-TRIAL-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/leaf-mask-trial/rendered/woven-shirt-default-collar-detail.png",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Chromium candidate-only default crop: retains neckline through the open V and masks it only under same-revision upper/under-collar filled silhouettes. The full 28-option PNG set is adjacent."
+    },
+    {
+      "id": "E-G04-S454-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact current-renderer 28-option baseline, source-bound leaf-fill coverage matrix, candidate-only 28-option rendered mask trial, and explicit S425 tradeoff. No production mapping, acceptance or face hold changed."
     }
   ]
 }

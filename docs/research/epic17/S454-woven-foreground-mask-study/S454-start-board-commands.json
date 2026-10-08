@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2731,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S454-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md",
+      "verified": true,
+      "note": "Starts a proposal-only exact-revision study of which body neckline intervals are geometrically covered by projected collar leaves; does not change S425, source/view code, face holds, or acceptance."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2732,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S454 tests whether a foreground collar mask can be derived from actual same-revision leaf silhouette coverage across all 28 Woven front outputs. S453 showed S407's center-to-contact clip deletes neckline inside the open V; S425's continuous seam and all face holds remain controlling pending a concrete reviewed trial."
+  }
+]

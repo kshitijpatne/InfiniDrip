@@ -1,0 +1,79 @@
+[
+  {
+    "type": "editEpic",
+    "expectedRevision": 2733,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Refresh the canonical Epic summary to reflect the S454 current-output mask trial and the pending S425 decision while preserving all V02/V03 gates and holds.",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 freshly replayed all 28 Woven FRONT_FLAT options at live-draft:woven-shirt:14:14 and produced a candidate-only mask from the actual projected upper/under-collar silhouettes. It removes the repeated front contact in rendered trial output but hides 13.2536–14.4041 cm of continuous source neckline per side, conflicting with S425; maintainer decision pending. No production mapping or face release. The 28 Woven back sleeve crossings remain held under fixed S370 bands. Polo has no current local output blocker per S436 but remains held by all-seven V02. V02 requires every applicable topology, joins, overlaps, POMs, colorway, option and rendered gate across all seven recipes; preserve the 0.25 cm Polo gate, V02-before-V03, legacy DXF and protected export identities. V03 remains gated by V02 and rights-cleared receiver/profile plus representative round-trip evidence. Current handoff: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. No fit, factory acceptance, or production-readiness claim."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2734,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Current S454 tally: 56 accepted / 90 held across 73 configurations / 146 faces. V01 Done; V02 In Progress; V03 Backlog. Woven fronts: candidate-only same-revision mask from actual projected upper/under-collar fill paths clears the recurring contact in 28 rendered options, but visually hides 13.2536–14.4041 cm of source neckline per side and conflicts with S425. Await explicit decision; no production mapping or face release. Woven backs: retain all 28 holds and the approved S370 band positions. Polo: no current local renderer blocker per S436; retain all 34 holds under all-seven V02. Preserve every V02 criterion, the 0.25 cm Polo gate, V02-before-V03, legacy DXF, protected export identities and all face holds. S454 packet/matrix/render evidence: docs/research/epic17/S454-woven-foreground-mask-study/."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2735,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S454-COVERAGE-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/silhouette-coverage-matrix.json",
+      "verified": true,
+      "note": "Same-revision SVG fill-geometry measurements for both mirrored body neckline paths in all 28 current Woven front options; leaf-covered intervals and source-joined stand boundary are distinguished."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2736,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S454-TRIAL-RENDERED",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/leaf-mask-trial/rendered/woven-shirt-default-collar-detail.png",
+      "verified": true,
+      "note": "Chromium candidate-only default crop: retains neckline through the open V and masks it only under same-revision upper/under-collar filled silhouettes. The full 28-option PNG set is adjacent."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2737,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S454-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md",
+      "verified": true,
+      "note": "Exact current-renderer 28-option baseline, source-bound leaf-fill coverage matrix, candidate-only 28-option rendered mask trial, and explicit S425 tradeoff. No production mapping, acceptance or face hold changed."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2738,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-G04-S454-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2739,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S454's same-revision rendered trial masks the body neckline only inside the actual projected upper/under-collar fills. The two contact stations coincide with mask starts to within 0.000196 cm across 28 options. It leaves 0.5034–1.2838 cm visible per side in the open V, hides 13.2536–14.4041 cm per side, and conflicts with S425. Candidate only: no production code or acceptance/hold change. Await the decision in the S454 packet."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2740,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S454 completed a proposal-only Woven foreground-mask study. Decision pending on whether to supersede S425 with the exact projected leaf-silhouette mask; the 28 Woven backs remain held under S442/S370. All 56 Woven and 34 Polo faces remain held; V02 all-seven and V03 rights/round-trip gates unchanged."
+  }
+]
