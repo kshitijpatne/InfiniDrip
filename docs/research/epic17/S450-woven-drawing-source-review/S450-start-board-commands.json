@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2707,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S450-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md",
+      "verified": true,
+      "note": "Starts a bounded review of authoritative technical drawings for the two held Woven V02 blockers; no implementation or hold change is authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2708,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S450 reviews only reliable drawings that may resolve the held Woven collar-line and sleeve/back-view questions. It preserves all-seven V02, fixed S370 details, all holds and V02-before-V03; references may inform but do not prove source-specific semantics."
+  }
+]

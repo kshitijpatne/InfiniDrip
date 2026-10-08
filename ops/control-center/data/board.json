@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2707,
-  "updatedAt": "2026-10-08T00:07:21.036Z",
+  "revision": 2713,
+  "updatedAt": "2026-10-08T00:13:37.614Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -645,7 +645,8 @@
         "E-G04-S440-MATRIX",
         "E-G04-S440-CLAUDE",
         "E-G04-S448-EXIT",
-        "E-G04-S449-EXIT"
+        "E-G04-S449-EXIT",
+        "E-G04-S450-EXIT"
       ]
     },
     {
@@ -4392,6 +4393,11 @@
           "at": "2026-10-08T00:07:21.036Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S448 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 blockers are 28 Woven front neckline/collar contacts under the continuous base seam and 28 Woven back sleeve crossings under fixed S370 band positions. S443's Claude Opus 5.5 xhigh research and Codex review found no source-backed fix under those decisions; S447's 13-value taper study found no viable source candidate. Polo has no current local output blocker per S436 but remains held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF, and protected export identities. V03 additionally requires a rights-cleared receiver/profile and representative round-trip evidence; S421 did not qualify a no-cost industrial apparel receiver. Current record: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical summary: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S449's targeted construction-reference review found useful general menswear drawings but none specific to Woven source revision 14:14; no face or acceptance advanced. The maintainer authorized a proposal-only study. Next: derive exact-source in-memory candidate proposals and compare all 28 option outputs before any separately approved production change. S449 record: docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md.). Retain the admission-packet link required by the Control Center summary regression contract while keeping the S449 research update."
+        },
+        {
+          "at": "2026-10-08T00:13:37.614Z",
+          "actor": "Codex",
+          "text": "S450 is closed as a bounded technical-drawing source review. G04 V02 blockers, acceptance gates, statuses and all face holds remain unchanged. S450 research packet: docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md."
         }
       ],
       "evidenceRefs": [
@@ -9259,6 +9265,16 @@
           "at": "2026-10-08T00:06:44.878Z",
           "actor": "Codex",
           "text": "S449 qualifies public and licensed Woven construction-drawing references but finds no external sheet for this exact source revision. The references inform, but do not prove, candidate semantics. The study is authorized and remains proposal-only; all seven-recipe acceptance, every hold, the 0.25 cm gate and V02-before-V03 remain unchanged."
+        },
+        {
+          "at": "2026-10-08T00:13:08.170Z",
+          "actor": "Codex",
+          "text": "S450 reviews only reliable drawings that may resolve the held Woven collar-line and sleeve/back-view questions. It preserves all-seven V02, fixed S370 details, all holds and V02-before-V03; references may inform but do not prove source-specific semantics."
+        },
+        {
+          "at": "2026-10-08T00:13:37.545Z",
+          "actor": "Codex",
+          "text": "S450 found an additional peer-reviewed shirt pattern-piece drawing and qualified it alongside industry collar and university sleeve drawings. None establishes source-specific Woven collar line visibility or a paired sleeve/band arrangement under fixed S370 positions. Keep the affected faces held; use these sources as candidate-review comparators only."
         }
       ],
       "evidenceRefs": [
@@ -9934,7 +9950,9 @@
         "E-G04-S448-START",
         "E-G04-S448-EXIT",
         "E-G04-S449-START",
-        "E-G04-S449-EXIT"
+        "E-G04-S449-EXIT",
+        "E-G04-S450-START",
+        "E-G04-S450-EXIT"
       ],
       "flagKey": null
     },
@@ -17594,6 +17612,24 @@
       "sha256": null,
       "verified": true,
       "note": "Qualifies reliable Woven collar/sleeve construction drawing resources and their pattern-specific limits; preserves every V02 gate, status, and hold."
+    },
+    {
+      "id": "E-G04-S450-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded review of authoritative technical drawings for the two held Woven V02 blockers; no implementation or hold change is authorized."
+    },
+    {
+      "id": "E-G04-S450-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Qualifies the SAGE shirt-pattern figure, Müller collar construction drawings and Cornell sleeve sequence against the exact Woven blocker needs; no source-specific fix is proven."
     }
   ]
 }

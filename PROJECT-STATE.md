@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 450 Woven technical-drawing source review completed
+
+S450 started 2026-10-08 00:12:39 UTC from clean S449 `4bfc6eea8ab8b04852acb31899b2424bc096ab47` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 449; S450 is unique. Board revision 2707 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, 56 accepted / 90 held over 73 configurations / 146 faces. The current goal is active and still matches the admitted objective.
+
+The maintainer authorized a proposal-only Woven source-design study and requested reliable technical drawings for the two remaining Woven V02 blocker classes. S450 verified the peer-reviewed SAGE Figure 2 shirt pattern-piece layout, M. Müller & Sohn collar-with-stand construction drawings, and Cornell University's shirt-sleeve draping sequence, with their exact evidentiary limits. The SAGE drawing is a useful piece inventory/orientation comparator; none establishes source-revision-specific collar visible-line semantics or a truthful paired sleeve/band layout under fixed S370 positions. No source-backed fix was found. No source, geometry, stitch, projection, test, hold, criterion, export, or CAD profile changed.
+
+Packet: `docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md`. Validated board start replay 2707→2709 and exit replay 2709→2713; EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog and tally remains 56 accepted / 90 held. `npm run control-center:test` passes 42/42; start/exit preflight and replay, board status/evidence checks, script/JSON validation, and `git diff --check` pass. No production coverage, build, export, or browser gate was due for this source-review/documentation slice. Goal review at this boundary confirms status active and objective unchanged.
+
+Elapsed 00:12:39–00:13:28 UTC (49s): source and drawing qualification ~20s; packet/state/board work ~18s; focused verification ~11s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. **Next action:** continue the authorized exact-source in-memory study against all 28 Woven options; produce candidate overlays with seam/POM/footprint impacts. Do not implement an unapproved semantic mapping or release any Woven face.
+
 ## EPIC-17 / G04 — Slice 449 Woven construction-reference review completed
 
 S449 started 2026-10-08 00:03:15 UTC from clean S448 `f2c9906c05faff13063ece74d4f9aa1913dab1fa` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 448; S449 is unique. Canonical board revision 2699 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, 56 accepted / 90 held over 73 options / 146 faces. `get_goal` reports the admitted objective active. Usage was 0% primary / 22% weekly.

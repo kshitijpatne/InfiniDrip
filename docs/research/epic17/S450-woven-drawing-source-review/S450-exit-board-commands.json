@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2709,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S450-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md",
+      "verified": true,
+      "note": "Qualifies the SAGE shirt-pattern figure, Müller collar construction drawings and Cornell sleeve sequence against the exact Woven blocker needs; no source-specific fix is proven."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2710,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-G04-S450-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2711,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S450 found an additional peer-reviewed shirt pattern-piece drawing and qualified it alongside industry collar and university sleeve drawings. None establishes source-specific Woven collar line visibility or a paired sleeve/band arrangement under fixed S370 positions. Keep the affected faces held; use these sources as candidate-review comparators only."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2712,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S450 is closed as a bounded technical-drawing source review. G04 V02 blockers, acceptance gates, statuses and all face holds remain unchanged. S450 research packet: docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md."
+  }
+]
