@@ -1,4 +1,22 @@
-## Latest bounded test — S508 exit (2026-10-08)
+## Latest bounded attempt — S509 exit; AAMA exchange not run (2026-10-08)
+
+S509 follows S508 `2ec3867859c169166a31e875c9ca5519a8b4a2ef` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board start
+replay `3147→3149` and exit `3149→3151` preserve V01/V02 Done and V03/EPIC-17
+In Progress. The intended CLO AAMA exchange did not run: its graphics notice
+and startup splash did not yield a usable workspace, the desktop helper returned
+`foreground window did not report a process id`, and fresh recovery found a
+changed one-window inventory. No DXF was opened. This is not an AAMA/CLO format
+finding. The source copy hash is verified in the C:-only folder. No V03 gate is
+cleared or relaxed. See
+`docs/research/epic17/S509-clo-aama-roundtrip/S509-exit-packet.md` and
+`S509-start-packet.md`.
+
+**Next:** continue independent V03 evidence/research. Resume the AAMA trial
+after a uniquely inspectable CLO workspace is available.
+
+## Previous bounded test — S508 exit (2026-10-08)
 
 S508 follows S507 `d4a113ac3c340afc412c6458973d460b22014d9c` on
 `codex/epic-17-g04`; refreshed `origin/main`

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3147,
-  "updatedAt": "2026-10-08T17:29:19.938Z",
+  "revision": 3151,
+  "updatedAt": "2026-10-08T17:35:59.219Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10908,6 +10908,16 @@
           "at": "2026-10-08T17:29:19.938Z",
           "actor": "Codex",
           "text": "S508 closes as a bounded practical Standard DXF diagnosis. Correct 100%/centimeter reimport and re-export complete without an error dialog, but the second-generation file reimports as a narrow stack of overlapping outlines. It contains 36 pattern-block inserts and 141 LWPOLYLINE records versus 9 inserts and 59 polylines in generation one; exact source contour matching yields 0/18 at 0.001 cm. The earlier 1000% reimport was a unit-confounded exploratory run and is excluded. Reject only this tested Standard path for this fixture/settings; preserve all V03 and all-seven gates."
+        },
+        {
+          "at": "2026-10-08T17:32:25.778Z",
+          "actor": "Codex",
+          "text": "S509 begins a bounded practical CLO 2026.1.310 DXF-AAMA round-trip diagnosis after the corrected Standard path failed and the ASTM round trip lost records. Use only the hash-pinned Polo M file, AAMA for import/export/reimport, and the S503-compatible 100%/centimeter, orientation, grain, notch and optimization settings. This neither selects a receiver/profile nor clears rights, grade, negative-control, source-geometry, all-seven, or complete round-trip gates. Keep all files under C:\\G04-CLO-DXF-Exchange\\S509-polo-aama-roundtrip."
+        },
+        {
+          "at": "2026-10-08T17:35:59.219Z",
+          "actor": "Codex",
+          "text": "S509 closes at a verified desktop-control hold. CLO relaunched to a graphics-information/startup pair, but supported clicks/Return did not expose the pattern workspace; a capture returned 'foreground window did not report a process id'. The one allowed fresh-window recovery found a changed one-window set, so no stale interaction followed. The pinned source copy is hash-verified in the C:-only S509 folder, but no DXF was opened and no AAMA result exists. Preserve all V03 gates and status; resume AAMA exchange only when a uniquely inspectable CLO workspace is available."
         }
       ],
       "evidenceRefs": [
@@ -11021,7 +11031,9 @@
         "E-G04-S507-START",
         "E-G04-S507-EXIT",
         "E-G04-S508-START",
-        "E-G04-S508-EXIT"
+        "E-G04-S508-EXIT",
+        "E-G04-S509-START",
+        "E-G04-S509-EXIT"
       ],
       "flagKey": null
     },
@@ -20296,6 +20308,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO Standard DXF completes import/export but fails the corrected Polo M 100% round trip: second-generation output reimports as visibly stacked contours; generation two has 141 LWPOLYLINE records versus 59 in generation one and no exact source-contour matches under the unchanged matcher. No receiver/profile, rights, grade, negative-control, or all-seven gate is cleared."
+    },
+    {
+      "id": "E-G04-S509-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S509-clo-aama-roundtrip/S509-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S509 tests only the previously untried CLO DXF-AAMA export/reimport path on the hash-pinned Polo M fixture. It preserves 100%/centimeter import and export settings, source geometry, and every existing V03/all-seven gate. AAMA's UI label does not establish rights or format conformance."
+    },
+    {
+      "id": "E-G04-S509-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S509-clo-aama-roundtrip/S509-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S509 did not run AAMA import/export: after launch the CLO graphics notice/startup windows could not be controlled, capture returned 'foreground window did not report a process id', and fresh recovery found a changed one-window set. No DXF opened; this is a desktop-control hold, not an AAMA or CLO format result. All V03 gates/status remain unchanged."
     }
   ]
 }

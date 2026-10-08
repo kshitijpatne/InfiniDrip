@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 509 CLO AAMA trial access diagnosis (complete; AAMA test not run)
+
+Started `2026-10-08 17:31:11 UTC` from S508 commit
+`2ec3867859c169166a31e875c9ca5519a8b4a2ef` on `codex/epic-17-g04`.
+Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S508 is highest; S509 is reserved. Board start replay is
+`3147→3149`; V01/V02 are Done and V03/EPIC-17 remain In Progress.
+
+The planned AAMA exchange did not run. After launch, CLO exposed a graphics
+information notice above a startup splash; supported clicks/Return did not
+reach the workspace. Capture returned `foreground window did not report a
+process id`, then fresh recovery found a changed one-window inventory. No DXF
+was opened. The pinned source copy is hash-verified in the C:-only S509 folder.
+This is a desktop-control access failure, not an AAMA/CLO exchange result. The
+last inventory reports CLO still running; a normal close could not be performed
+after the helper failure. All V03 gates/status remain unchanged. See
+`docs/research/epic17/S509-clo-aama-roundtrip/S509-exit-packet.md`.
+Validated board exit is `3149→3151`; V01/V02 remain Done, V03/EPIC-17 remain In
+Progress. **Next:** continue independent V03 evidence/research, and resume the
+AAMA trial when a uniquely inspectable CLO workspace is available.
+
 ## EPIC-17 / G04 — Slice 508 CLO Standard DXF export/reimport diagnosis (complete)
 
 Started `2026-10-08 16:59:03 UTC` from S507 commit

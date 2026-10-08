@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S509-clo-aama-roundtrip/S509-exit-packet.md`
+  records that the planned AAMA exchange did not run: CLO's startup information
+  dialog could not be controlled and the desktop helper returned
+  `foreground window did not report a process id`; no DXF was opened. This is
+  not an AAMA/CLO format finding. The C:-only source copy hash is verified;
+  every V03 gate/status remains. Board `3149→3151`.
+- `docs/research/epic17/S509-clo-aama-roundtrip/S509-start-packet.md`
+  defines the bounded CLO `DXF-AAMA` import/export/reimport trial for the
+  hash-pinned Polo M fixture. It targets the export path not exercised by
+  S503's AAMA-import/ASTM-export matrix.
 - `docs/research/epic17/S508-polo-standard-export-roundtrip/S508-exit-packet.md`
   closes the corrected, user-authorized CLO Standard DXF test. The 100% /
   centimeter two-generation import/export completed without a dialog error,

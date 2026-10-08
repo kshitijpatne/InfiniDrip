@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3147,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S509-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S509-clo-aama-roundtrip/S509-start-packet.md",
+      "verified": true,
+      "note": "S509 tests only the previously untried CLO DXF-AAMA export/reimport path on the hash-pinned Polo M fixture. It preserves 100%/centimeter import and export settings, source geometry, and every existing V03/all-seven gate. AAMA's UI label does not establish rights or format conformance."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3148,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S509 begins a bounded practical CLO 2026.1.310 DXF-AAMA round-trip diagnosis after the corrected Standard path failed and the ASTM round trip lost records. Use only the hash-pinned Polo M file, AAMA for import/export/reimport, and the S503-compatible 100%/centimeter, orientation, grain, notch and optimization settings. This neither selects a receiver/profile nor clears rights, grade, negative-control, source-geometry, all-seven, or complete round-trip gates. Keep all files under C:\\G04-CLO-DXF-Exchange\\S509-polo-aama-roundtrip."
+  }
+]

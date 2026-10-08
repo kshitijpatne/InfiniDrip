@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3149,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S509-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S509-clo-aama-roundtrip/S509-exit-packet.md",
+      "verified": true,
+      "note": "S509 did not run AAMA import/export: after launch the CLO graphics notice/startup windows could not be controlled, capture returned 'foreground window did not report a process id', and fresh recovery found a changed one-window set. No DXF opened; this is a desktop-control hold, not an AAMA or CLO format result. All V03 gates/status remain unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3150,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S509 closes at a verified desktop-control hold. CLO relaunched to a graphics-information/startup pair, but supported clicks/Return did not expose the pattern workspace; a capture returned 'foreground window did not report a process id'. The one allowed fresh-window recovery found a changed one-window set, so no stale interaction followed. The pinned source copy is hash-verified in the C:-only S509 folder, but no DXF was opened and no AAMA result exists. Preserve all V03 gates and status; resume AAMA exchange only when a uniquely inspectable CLO workspace is available."
+  }
+]
