@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-exit-packet.md`
+  and `S481-candidate-matrix.md` reconcile existing V03 candidates against
+  rights, local handling, exact apparel profile, round-trip, grading and
+  negative-input gates. None currently passes them all. Richpeace V8 Free
+  English remains the strongest local lead, conditional on explicit install
+  authorization, evaluation terms/local handling, and behavior on this
+  Windows 11 host. No fixture is allowed before Gate 0 passes; no criteria are
+  weakened. Board 2979→2983; goal active.
+
 - `docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md`
   rejects the pinned Open Patterns parser as a reader for our generic S463
   fixtures: all three hash-verified Tee/Polo/Woven M inputs throw on absent

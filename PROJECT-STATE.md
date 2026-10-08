@@ -1,5 +1,29 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 481 receiver candidate/access reconciliation
+
+S481 rechecked the existing S465–S480 candidate evidence against C04's
+unchanged rights, local-processing, apparel import/export, actual round-trip,
+grade and negative-case gates. No candidate currently passes all gates.
+Richpeace Garment CAD V8.0 Free Version-English remains the strongest local
+lead, but evaluation rights/local processing are undocumented and its official
+page lists Windows XP/7/8/10, not this Windows 11 host. No app was installed.
+Before fixtures, a user-authorized standard installation attempt or another
+rights-cleared supported receiver is required, followed by displayed-terms,
+local handling and exact-mode checks. Stop on any failure and do not weaken
+V03. Packet/matrix:
+`docs/research/epic17/S481-v03-candidate-access-reconciliation/`.
+
+Start: `2026-10-08 07:56:44 UTC` from S480 `6dc1cab`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board start
+2975→2979; exit 2979→2983. Goal remains active; latest goal-record inspection
+found matching objective and active status.
+
+**Next:** await explicit authorization for the conditional Richpeace V8
+installation attempt or owner-provided supported, rights-cleared receiver
+access. Only then perform Gate 0 before any fixture; otherwise continue only
+independent V03 preparation and keep the Epic open.
+
 ## EPIC-17 / G04 — Slice 480 independent parser assessment
 
 S480 pinned Open Patterns at `1afefdb8e9e01a7a7d7222adef8432d639fcb1b3`,

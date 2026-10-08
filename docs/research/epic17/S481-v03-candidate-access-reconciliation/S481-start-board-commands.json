@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2975,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S481-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-start-packet.md",
+      "verified": true,
+      "note": "S481 reconciles previously researched receiver candidates and exact V03 gates; no candidate is presumed rights-cleared or compatible, no receiver is installed/used, and no acceptance is changed."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2976,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S481-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-start-packet.md",
+      "verified": true,
+      "note": "S481 performs a bounded reconciliation of existing V03 receiver research and current access gates without altering the admitted objective."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2977,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S481-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2978,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S481 reconciles already-reviewed candidate evidence against exact rights, local-handling, profile, round-trip, grading and negative-case gates. No install, upload, or V03 acceptance change is in scope."
+  }
+]

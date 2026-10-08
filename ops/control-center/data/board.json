@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2975,
-  "updatedAt": "2026-10-08T07:54:12.947Z",
+  "revision": 2983,
+  "updatedAt": "2026-10-08T08:01:57.127Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -695,7 +695,9 @@
         "E-EPIC17-S479-START",
         "E-EPIC17-S479-EXIT",
         "E-EPIC17-S480-START",
-        "E-EPIC17-S480-EXIT"
+        "E-EPIC17-S480-EXIT",
+        "E-EPIC17-S481-START",
+        "E-EPIC17-S481-EXIT"
       ]
     },
     {
@@ -4991,7 +4993,9 @@
         "E-EPIC17-S479-START",
         "E-EPIC17-S479-EXIT",
         "E-EPIC17-S480-START",
-        "E-EPIC17-S480-EXIT"
+        "E-EPIC17-S480-EXIT",
+        "E-EPIC17-S481-START",
+        "E-EPIC17-S481-EXIT"
       ],
       "flagKey": null
     },
@@ -10534,6 +10538,16 @@
           "at": "2026-10-08T07:54:12.947Z",
           "actor": "Codex",
           "text": "S480 confirms the Open Patterns parser cannot parse our three generic fixtures and provides no DXF writer. It is not a receiver or round-trip path; all V03 acceptance and rights gates remain unchanged."
+        },
+        {
+          "at": "2026-10-08T07:57:56.591Z",
+          "actor": "Codex",
+          "text": "S481 reconciles already-reviewed candidate evidence against exact rights, local-handling, profile, round-trip, grading and negative-case gates. No install, upload, or V03 acceptance change is in scope."
+        },
+        {
+          "at": "2026-10-08T08:01:57.127Z",
+          "actor": "Codex",
+          "text": "S481 identifies no currently qualified receiver. Richpeace V8 is the sole documented local lead, conditional on user-authorized install attempt, terms/local-handling review, exact modes, and unsupported-host behavior. No fixture until preflight passes."
         }
       ],
       "evidenceRefs": [
@@ -10581,7 +10595,9 @@
         "E-G04-S479-START",
         "E-G04-S479-EXIT",
         "E-G04-S480-START",
-        "E-G04-S480-EXIT"
+        "E-G04-S480-EXIT",
+        "E-G04-S481-START",
+        "E-G04-S481-EXIT"
       ],
       "flagKey": null
     },
@@ -19163,6 +19179,42 @@
       "sha256": null,
       "verified": true,
       "note": "Independent parser candidate assessed and rejected for current generic fixtures and DXF round-trip; rights-reviewed industrial receiver/profile remains required."
+    },
+    {
+      "id": "E-G04-S481-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S481 reconciles previously researched receiver candidates and exact V03 gates; no candidate is presumed rights-cleared or compatible, no receiver is installed/used, and no acceptance is changed."
+    },
+    {
+      "id": "E-EPIC17-S481-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S481 performs a bounded reconciliation of existing V03 receiver research and current access gates without altering the admitted objective."
+    },
+    {
+      "id": "E-G04-S481-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S481 finds no candidate currently satisfies all V03 gates. Richpeace V8 remains conditional on user-authorized installation, exact evaluation rights/local handling, and Windows host behavior; no gate is weakened."
+    },
+    {
+      "id": "E-EPIC17-S481-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "No reviewed receiver currently passes V03 rights/local/profile/round-trip/grade/negative gates. The remaining local lead and its exact conditions are documented; scope unchanged."
     }
   ]
 }
