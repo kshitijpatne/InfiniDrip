@@ -145,7 +145,7 @@ test("S359 records the Woven rigid-fit decision boundary without releasing holds
   }
   assert.equal(g04.status, "In Progress");
   assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
-  assert.match(g04.description, /All 56 Woven and 34 Polo faces remain held/);
+  assert.match(g04.description, /112 accepted \/ 34 held/);
   assert.ok(g04.comments.some((comment) => /Slice 359 exit: source arc\/chord incompatibility/.test(comment.text)));
   assert.ok(epic.comments.some((comment) => /Slice 359 retains the current 56 accepted \/ 90 held integrated tally/.test(comment.text)));
 });
@@ -186,13 +186,13 @@ test("S361 evidence remains linked after the current summary reconciliation", ()
   assert.equal(g04.status, "In Progress");
   assert.equal(board.workItems.find((item) => item.id === "G04-V01").status, "Done");
   assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "Backlog");
-  assert.match(g04.description, /S381 found no evidence supporting a false Woven back-hem gap/);
-  assert.match(g04.description, /S419 tested a 2–3-arc Polo H locator across 17 options/);
-  assert.match(g04.description, /All 56 Woven and 34 Polo faces remain held/);
+  assert.match(g04.description, /Current S457 tally: 112 accepted \/ 34 held/);
+  assert.match(g04.description, /S457 Woven front\/back matrix passes 28\/28 options/);
+  assert.match(g04.description, /held at the 0.68 cm sleeve-cap residual against the unchanged 0.25 cm threshold/);
   assert.match(g04.description, /all-seven V02/);
-  assert.match(epicCard.description, /56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+  assert.match(epicCard.description, /112 accepted \/ 34 held across 73 configurations \/ 146 faces/);
   assert.match(epicCard.description, /S406's approved Woven collar-over-plackets display remains implemented/);
-  assert.ok(g04.comments.some((comment) => /four mirrored band intersections in 26 backs and eight/.test(comment.text)));
+  assert.ok(g04.evidenceRefs.includes("E-G04-S457-EXIT"));
 });
 
 test("malformed board data is rejected instead of repaired", () => {
@@ -255,12 +255,12 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     if (id === "EPIC-17") {
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
-      assert.match(epic.description, /Latest integrated tally remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(epic.description, /Current S457 tally: 112 accepted \/ 34 held across 73 configurations \/ 146 faces/);
       assert.match(epic.description, /S425 implements the approved Polo H display/);
-      assert.match(epic.description, /The Woven body neckline remains continuous by maintainer decision/);
+      assert.match(epic.description, /S457's view mask preserves the source neckline geometry while hiding only leaf-covered strokes/);
       assert.match(epic.description, /S406's approved view-only collar-over-plackets order remains implemented/);
-      assert.match(card.description, /Latest verified tally remains 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
-      assert.match(card.description, /S426's corrected full-label replay reports zero source-label or marker-label overlaps/);
+      assert.match(card.description, /Current S457 status: 112 accepted \/ 34 held across 73 configurations \/ 146 faces/);
+      assert.match(card.description, /S457 Woven front\/back matrix passes 28\/28 options/);
       assert.match(card.description, /Preserve all-seven V02, V02-before-V03/);
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S420-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S420-EXIT"));
@@ -467,10 +467,9 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
       assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "In Progress", "Backlog"]);
       assert.match(admittedWork[1].description, /S406's approved Woven collar-over-plackets order remains implemented/);
-      assert.match(admittedWork[1].description, /S419 tested a 2–3-arc Polo H locator across 17 options/);
-      assert.match(admittedWork[1].description, /The maintainer keeps the Woven body neckline continuous/);
-      assert.match(admittedWork[1].description, /All 56 Woven and 34 Polo faces remain held/);
-      assert.match(admittedWork[1].description, /Preserve all-seven V02, keep V03 gated/);
+      assert.match(admittedWork[1].description, /S457 Woven front\/back matrix passes 28\/28 options/);
+      assert.match(admittedWork[1].description, /The 34 Polo faces remain held at the 0.68 cm sleeve-cap residual/);
+      assert.match(admittedWork[1].description, /Preserve all-seven V02, V02-before-V03/);
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-START"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-OUTPUT-REPLAY"));
@@ -504,7 +503,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-RECONCILIATION"));
       assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9/.test(comment.text)));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-START"));
-      assert.match(admittedWork[1].description, /latest verified integrated tally is 56 accepted \/ 90 held across 73 configurations \/ 146 faces/);
+      assert.match(admittedWork[1].description, /Current S457 tally: 112 accepted \/ 34 held across 73 configurations \/ 146 faces/);
       assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
       assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));

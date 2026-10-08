@@ -175,8 +175,11 @@ describe("assembleTechnicalFlatRoles", () => {
     expect(backAssembly.joinedStitchLabels).toContain("Woven sleeve-cap ease");
     const capRight = sleeve.edges.find((edge) => edge.name === "capRight")!;
     const backArmhole = woven.roles.back!.edges.find((edge) => edge.name === "armholeLower")!;
-    const mappedBackCapEnd = transformFlatPoint(edgePoint(capRight, 1), { ...backAssembly.transforms.sleeve!, mirrorX: false });
-    const backUnderarm = transformFlatPoint(edgePoint(backArmhole, 1), { ...backAssembly.transforms.back!, mirrorX: false });
+    expect(backAssembly.transforms.sleeve?.mirrorX).toBe(true);
+    const mappedBackCapEnd = transformFlatPoint(edgePoint(capRight, 1), { ...backAssembly.transforms.sleeve!,
+      mirrorX: backAssembly.transforms.sleeve!.mirrorX ?? false });
+    const backUnderarm = transformFlatPoint(edgePoint(backArmhole, 1), { ...backAssembly.transforms.back!,
+      mirrorX: backAssembly.transforms.back!.mirrorX ?? false });
     expect(Math.hypot(mappedBackCapEnd.x - backUnderarm.x, mappedBackCapEnd.y - backUnderarm.y)).toBeLessThan(1e-8);
 
     const staleProjection = { ...projection, faces: projection.faces.map((face) => face.kind !== "FRONT_FLAT" ? face : {

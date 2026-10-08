@@ -144,22 +144,33 @@ describe("approved Woven front view conventions", () => {
     const buttonOuter = "pattern:woven-shirt:role:buttonPlacket:edge:outerRaw";
     const buttonholeTop = "pattern:woven-shirt:role:buttonholePlacket:edge:top";
     const buttonholeOuter = "pattern:woven-shirt:role:buttonholePlacket:edge:outerRaw";
+    const neckline = "pattern:woven-shirt:role:front:edge:neckline";
     const button = path("button", "buttonPlacket", [buttonTop, buttonOuter, "pattern:woven-shirt:role:buttonPlacket:edge:bottom"]);
     const buttonhole = path("buttonhole", "buttonholePlacket", [buttonholeTop, buttonholeOuter]);
     const shoulderA = path("shoulder-a", "front", [frontEdge]);
     const shoulderB = path("shoulder-b", "front", [frontEdge]);
+    const necklineA = { ...path("neckline-a", "front", [neckline]), sourceEdgeIds: undefined,
+      layer: "SEAM" as const, feature: "seam" as const,
+      source: { sourceClass: "PATTERN_DERIVED" as const, sourceId: neckline, revisionId } };
+    const necklineB = { ...path("neckline-b", "front", [neckline]), sourceEdgeIds: undefined,
+      layer: "SEAM" as const, feature: "seam" as const,
+      source: { sourceClass: "PATTERN_DERIVED" as const, sourceId: neckline, revisionId } };
     const callout: FlatCalloutPrimitive = { kind: "callout", id: "pom", layer: "CALLOUT", feature: "pom",
       source: { sourceClass: "PATTERN_DERIVED", sourceId: "pom:woven-shirt:finished-placket-width", revisionId }, text: "width",
       anchor: { primitiveId: "button", point: { x: 0, y: 0 }, sourceEntityId: buttonTop }, labelAt: { x: 2, y: 2 } };
     const unmapped = { ...shoulderA, id: "unmapped-path", sourceEdgeIds: undefined };
-    const result = applyWovenFrontApprovedViewClips([button, buttonhole, shoulderA, shoulderB, unmapped, callout], revisionId);
+    const result = applyWovenFrontApprovedViewClips([button, buttonhole, shoulderA, shoulderB, necklineA, necklineB, unmapped, callout], revisionId);
     expect(result.issues).toEqual([]);
     const clipped = result.primitives.filter((primitive): primitive is FlatPathPrimitive => primitive.kind === "path" && primitive.viewClip !== undefined);
-    expect(clipped).toHaveLength(6);
+    expect(clipped).toHaveLength(8);
     expect(clipped.find((primitive) => primitive.viewClip?.decisionId === "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION")?.viewClip?.roleIds)
       .toEqual(["outerStand"]);
+    expect(clipped.filter((primitive) => primitive.viewClip?.decisionId === "G04-S457-WOVEN-NECKLINE-LEAF-MASK"))
+      .toHaveLength(2);
+    expect(clipped.find((primitive) => primitive.viewClip?.decisionId === "G04-S457-WOVEN-NECKLINE-LEAF-MASK")?.viewClip?.roleIds)
+      .toEqual(["underCollar", "upperCollar"]);
     expect(result.primitives.find((primitive) => primitive.id === "button")?.kind).toBe("path");
-    const missingInput = [button, buttonhole, shoulderA];
+    const missingInput = [button, buttonhole, shoulderA, necklineA];
     const missing = applyWovenFrontApprovedViewClips(missingInput, revisionId);
     expect(missing.issues.length).toBeGreaterThan(0);
     expect(missing.primitives).toBe(missingInput);

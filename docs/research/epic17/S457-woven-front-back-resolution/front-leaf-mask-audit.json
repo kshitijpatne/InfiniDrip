@@ -1,0 +1,739 @@
+{
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "necklineStrokeInstances": 56,
+  "exactDecisionMaskInstances": 56,
+  "missingMaskInstances": 0,
+  "minVisibleOpenVLengthCm": 0.5088121795654297,
+  "maxVisibleOpenVLengthCm": 1.2865679397583007,
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.182894706726074,
+          "firstLeafCoverageDistanceCm": 0.8438822350502014,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.182894706726074,
+          "firstLeafCoverageDistanceCm": 0.8438822350502014,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 15.246620178222656,
+          "firstLeafCoverageDistanceCm": 0.8461874198913574,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 15.246620178222656,
+          "firstLeafCoverageDistanceCm": 0.8461874198913574,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.5088121795654297,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.5088121795654297,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 1.1920742492675782,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 1.1920742492675782,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 1.2865679397583007,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 1.2865679397583007,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.6323808517456054,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.6323808517456054,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8431744689941406,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "necklinePaths": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8722494506835937,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:view-clip-neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "maskId": "view-clip-G04-S457-WOVEN-NECKLINE-LEAF-MASK-underCollar-upperCollar",
+          "lengthCm": 14.537490844726562,
+          "firstLeafCoverageDistanceCm": 0.8722494506835937,
+          "transitionsIntoLeafMask": true,
+          "exactDecisionMask": true
+        }
+      ]
+    }
+  ]
+}

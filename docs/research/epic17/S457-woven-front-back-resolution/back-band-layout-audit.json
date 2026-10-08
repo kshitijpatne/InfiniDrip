@@ -1,0 +1,602 @@
+{
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "minimumLeftOutwardMovementCm": 20.573700000000002,
+  "maximumLeftOutwardMovementCm": 22.4315,
+  "minimumRightOutwardMovementCm": 20.573700000000002,
+  "maximumRightOutwardMovementCm": 22.4315,
+  "minimumViewBoxWidthCm": 105.5474,
+  "maximumViewBoxWidthCm": 111.8849,
+  "minimumViewBoxIncreaseOverS401Cm": 41.14739999999999,
+  "maximumViewBoxIncreaseOverS401Cm": 44.863,
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 22.4315,
+      "rightOutwardMovementCm": 22.4315,
+      "leftBox": {
+        "minX": -53.9315,
+        "maxX": -50.9315,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.9315,
+        "maxX": 53.9315,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 109.263,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 44.863
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 20.573700000000002,
+      "rightOutwardMovementCm": 20.573700000000002,
+      "leftBox": {
+        "minX": -52.0737,
+        "maxX": -49.0737,
+        "minY": 15.8626,
+        "maxY": 52.8626
+      },
+      "rightBox": {
+        "minX": 49.0737,
+        "maxX": 52.0737,
+        "minY": 15.8626,
+        "maxY": 52.8626
+      },
+      "svgViewBoxWidthCm": 105.5474,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 41.14739999999999
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -52.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 52.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 105.8849,
+      "baselineS401ViewBoxWidthCm": 62.4,
+      "viewBoxIncreaseOverS401Cm": 43.4849
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -55.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 55.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 111.8849,
+      "baselineS401ViewBoxWidthCm": 68.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "leftOutwardMovementCm": 21.7425,
+      "rightOutwardMovementCm": 21.7425,
+      "leftBox": {
+        "minX": -53.2425,
+        "maxX": -50.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "rightBox": {
+        "minX": 50.2425,
+        "maxX": 53.2425,
+        "minY": 17,
+        "maxY": 54
+      },
+      "svgViewBoxWidthCm": 107.8849,
+      "baselineS401ViewBoxWidthCm": 64.4,
+      "viewBoxIncreaseOverS401Cm": 43.484899999999996
+    }
+  ]
+}

@@ -70,6 +70,18 @@ Source-to-view identity reads complete colon-delimited `role`, `mark`, and
 example, `sleeve` and `sleeveBand`) from inheriting the other role's placement
 or moving its geometry and anchored annotations.
 
+Slice 457 adds two approved Woven view conventions bound to the exact pattern
+revision. FRONT_FLAT clips the source `front.neckline` strokes only inside the
+rendered upper/under collar leaf fills, leaving the open-V segment visible.
+BACK_FLAT reflects the sleeve pair on local Y and relocates the two source-scale
+detached band details outward to clear the sleeve silhouettes. Neither mapping
+changes piece cut geometry, stitch topology, POMs, option values, or source
+revision. The back layout expands its viewBox by 41.1474–44.863 cm over the
+prior fixed-band output. Source-wide option and rendered audits are in
+`docs/research/epic17/S457-woven-front-back-resolution/`. Woven's 56 faces pass
+their local checks; integrated V02 remains open on 34 held Polo faces and its
+all-seven recipe gate. The Polo residual remains 0.68 cm against 0.25 cm.
+
 Slice 434 adds Polo's source-bound J/FG presentation without moving either
 source measurement. The J key stays anchored to `outerStand.frontEnd`; one FG
 ring is centered at `outerStand.frontNeckline` and groups three independent

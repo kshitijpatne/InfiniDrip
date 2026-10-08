@@ -380,6 +380,7 @@ function pathSubpaths(primitive: Extract<TechnicalFlatPrimitive, { kind: "path" 
  * Missing or ambiguous source subpaths fail closed. */
 export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalFlatPrimitive[], revisionId: string) {
   const rules = [
+    { source: "pattern:woven-shirt:role:front:edge:neckline", decisionId: "G04-S457-WOVEN-NECKLINE-LEAF-MASK", roles: ["underCollar", "upperCollar"] },
     { source: "pattern:woven-shirt:role:front:edge:shoulder", decisionId: "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION", roles: ["outerStand"] },
     { source: "pattern:woven-shirt:role:buttonPlacket:edge:top", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["outerStand", "underCollar", "upperCollar"] },
     { source: "pattern:woven-shirt:role:buttonPlacket:edge:outerRaw", decisionId: "G04-S406-WOVEN-COLLAR-OVER-PLACKETS", roles: ["pocket", "outerStand", "underCollar", "upperCollar"] },
@@ -390,14 +391,20 @@ export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalF
   const targets = new Map<string, { owner: Extract<TechnicalFlatPrimitive, { kind: "path" }>;
     clipped: Map<number, (typeof rules)[number]> }>();
   for (const rule of rules) {
-    const owners = primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> => primitive.kind === "path" && primitive.source.revisionId === revisionId
-      && primitive.sourceEdgeIds !== undefined && primitive.sourceEdgeIds.includes(rule.source));
+    const wholePrimitiveSource = rule.source === "pattern:woven-shirt:role:front:edge:neckline";
+    const owners = primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> => primitive.kind === "path"
+      && primitive.source.revisionId === revisionId
+      && (wholePrimitiveSource ? primitive.layer === "SEAM" && primitive.feature === "seam"
+        && (primitive.source.sourceId === rule.source || primitive.sourceEdgeIds?.includes(rule.source) === true)
+        : primitive.sourceEdgeIds !== undefined && primitive.sourceEdgeIds.includes(rule.source)));
     const occurrences = owners.flatMap((owner) => pathSubpaths(owner).map((commands, groupIndex) => ({ owner,
-      commands, groupIndex, sourceEdgeId: owner.sourceEdgeIds![groupIndex] })).filter((item) => item.sourceEdgeId === rule.source));
+      commands, groupIndex, sourceEdgeId: owner.sourceEdgeIds?.[groupIndex]
+        ?? (wholePrimitiveSource && owner.source.sourceId === rule.source ? rule.source : undefined) }))
+      .filter((item) => item.sourceEdgeId === rule.source));
     const expectedCount = rule.source.includes(":role:front:") ? 2 : 1;
     if (occurrences.length !== expectedCount || occurrences.some((item) => !item.sourceEdgeId)) {
       issues.push({ stage: "transform", sourceId: rule.source,
-        message: `Approved Woven view clipping requires ${expectedCount} exact same-revision assembled ${rule.source.split(":")[rule.source.split(":").length - 1]} edge instance(s); this face is withheld.` });
+        message: `Approved Woven view clipping requires ${expectedCount} exact same-revision assembled ${rule.source.split(":")[rule.source.split(":").length - 1]} edge instance(s); found ${occurrences.length} from ${owners.length} source path(s) [${owners.map((owner) => owner.id).join(", " )}], so this face is withheld.` });
       continue;
     }
     for (const item of occurrences) {
@@ -413,7 +420,8 @@ export function applyWovenFrontApprovedViewClips(primitives: readonly TechnicalF
   for (const [ownerId, target] of targets) {
     const groups = pathSubpaths(target.owner);
     // A target can only be added by the exact-edge filter above.
-    const sourceIds = target.owner.sourceEdgeIds!;
+    const sourceIds = target.owner.sourceEdgeIds
+      ?? groups.map(() => target.owner.source.sourceId);
     const calloutEdges = primitives.filter((primitive): primitive is FlatCalloutPrimitive => primitive.kind === "callout"
       && primitive.anchor.primitiveId === ownerId && primitive.anchor.sourceEntityId !== undefined)
       .map((primitive) => primitive.anchor.sourceEntityId!);

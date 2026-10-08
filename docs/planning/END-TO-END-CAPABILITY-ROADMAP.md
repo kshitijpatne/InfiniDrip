@@ -2,6 +2,10 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
+### G04 current evidence and conditional estimate — S457 (2026-10-08)
+
+The roadmap's original G04 row is a planning baseline. At the verified S457 boundary, Woven's 56 faces pass local V02 checks; the integrated tally is 112 accepted / 34 held over 73 configurations / 146 faces. All 34 remaining held requests are Polo, blocked by the 0.68 cm sleeve-cap residual against the 0.25 cm gate; V02's all-seven criterion remains open. V03 is gated until V02 passes and still needs rights-cleared receiver/profile and observed round-trip evidence. Current conditional remaining estimate: 2–6 V02 slices, 5–10 V03 slices, and 3–5 final-review/merge/deployment slices (10–21 total), excluding unbounded rights/access waits or additional maintainer decisions. See `docs/planning/EPIC-17-ADMISSION.md` and the S457 packet for the active handoff; re-estimate after Polo diagnosis and V03 rights review.
+
 ## Authority, scheduling, and completion rules
 
 | ID | Decision / rule | Operational consequence |

@@ -105,7 +105,8 @@ export interface FlatProjectionReversedStitchEdge {
 export interface FlatProjectionLocalYReflection {
   readonly axis: "LOCAL_Y";
   readonly basis: "APPROVED_VIEW_CONVENTION";
-  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP";
+  readonly decisionId: "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR" | "G04-S333-POLO-SLEEVE-VIEW-MAP"
+    | "G04-S457-WOVEN-BACK-LOCAL-Y-REFLECTION";
 }
 
 /** Maintainer-approved display of the Woven stand/body base interface. The
@@ -494,6 +495,10 @@ function wovenSleeveProjection(kind: TechnicalFlatViewKind, block: Block, treatm
     viewPairReflection: { axisRoleId: kind === "FRONT_FLAT" ? "front" : "back", edgeId: yokeAxis,
       axis: "ASSEMBLED_BODY_CENTER", source: "WOVEN_SHIRT_PHYSICAL_ROLES",
       decisionId: "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR", quantity: 2 },
+    ...(kind === "BACK_FLAT" ? { localYReflection: {
+      axis: "LOCAL_Y" as const, basis: "APPROVED_VIEW_CONVENTION" as const,
+      decisionId: "G04-S457-WOVEN-BACK-LOCAL-Y-REFLECTION" as const,
+    } } : {}),
     viewBoundaries: [viewBoundary],
   };
 }
@@ -1685,7 +1690,7 @@ function validateRole(
     }
   }
   const localYReflection = mappingRole.localYReflection;
-  const requiresBackSleeveReflection = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo")
+  const requiresBackSleeveReflection = (recipeId === "tee" || recipeId === "fitted" || recipeId === "polo" || recipeId === "woven-shirt")
     && faceKind === "BACK_FLAT" && roleId === "sleeve";
   if (localYReflection !== undefined || requiresBackSleeveReflection) {
     const capLeft = block.roles.sleeve?.edges.find((edge) => edge.name === "capLeft");
@@ -1698,7 +1703,8 @@ function validateRole(
     const exactReflection = isRecord(localYReflection) && localYReflection.axis === "LOCAL_Y"
       && localYReflection.basis === "APPROVED_VIEW_CONVENTION"
       && localYReflection.decisionId === (recipeId === "polo"
-        ? "G04-S333-POLO-SLEEVE-VIEW-MAP" : "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR");
+        ? "G04-S333-POLO-SLEEVE-VIEW-MAP" : recipeId === "woven-shirt"
+          ? "G04-S457-WOVEN-BACK-LOCAL-Y-REFLECTION" : "G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR");
     if (!requiresBackSleeveReflection || !validSourceJoin || !exactReflection) {
       issues.push({ code: "INVALID_LOCAL_Y_REFLECTION", sourceId,
         message: "The back sleeve local-Y view reflection requires the exact sewn cap-to-side source joins and admitted face mapping." });

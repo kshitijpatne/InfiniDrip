@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2754,
-  "updatedAt": "2026-10-08T02:48:57.420Z",
+  "revision": 2760,
+  "updatedAt": "2026-10-08T03:13:56.338Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 freshly replayed all 28 Woven FRONT_FLAT options at live-draft:woven-shirt:14:14 and produced a candidate-only mask from the actual projected upper/under-collar silhouettes. It removes the repeated front contact in rendered trial output but hides 13.2536–14.4041 cm of continuous source neckline per side, conflicting with S425; maintainer decision pending. No production mapping or face release. The 28 Woven back sleeve crossings remain held under fixed S370 bands. Polo has no current local output blocker per S436 but remains held by all-seven V02. V02 requires every applicable topology, joins, overlaps, POMs, colorway, option and rendered gate across all seven recipes; preserve the 0.25 cm Polo gate, V02-before-V03, legacy DXF and protected export identities. V03 remains gated by V02 and rights-cleared receiver/profile plus representative round-trip evidence. Current handoff: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. No fit, factory acceptance, or production-readiness claim. Historical decision references required by the Control Center regression contract: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved view-only collar-over-plackets order remains implemented.",
+      "description": "EPIC-17/G04 remains In Progress through the admitted V01→V02→V03 sequence and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S457 tally: 112 accepted / 34 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S457 Woven front/back matrix passes 28/28 options at live-draft:woven-shirt:14:14 using the maintainer-approved same-revision collar-leaf mask and local-Y back sleeve view with source-scale detached band clearance. Woven's 56 faces pass their local gates; Polo's 34 remain held because the sleeve-cap residual is 0.68 cm against the 0.25 cm gate. V02 requires all supported options and front/back checks for all seven recipes; preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 still requires a rights-cleared receiver/version/profile and representative observed import/export/round-trip evidence before any exact format claim. S425 implements the approved Polo H display. S457's view mask preserves the source neckline geometry while hiding only leaf-covered strokes. S406's approved view-only collar-over-plackets order remains implemented. No fit, factory acceptance or production-readiness claim.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -650,7 +650,8 @@
         "E-G04-S451-EXIT",
         "E-G04-S452-EXIT",
         "E-G04-S453-EXIT",
-        "E-G04-S454-EXIT"
+        "E-G04-S454-EXIT",
+        "E-EPIC17-S457-EXIT"
       ]
     },
     {
@@ -3179,7 +3180,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 replayed all 28 Woven fronts at live-draft:woven-shirt:14:14 and measured a leaf-silhouette mask that removes the recurring contact but hides 13.2536–14.4041 cm of source neckline per side, conflicting with S425. Explicit decision pending; no production mapping or face release. The 28 Woven backs remain held under fixed S370 band positions. Polo has no current local output blocker per S436 but all 34 faces remain held by all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF and protected export identities. V03 additionally requires a rights-cleared receiver/profile and representative round-trip evidence. Current packet: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S426's corrected full-label replay reports zero source-label or marker-label overlaps. Preserve all-seven V02, V02-before-V03. S406's approved Woven collar-over-plackets display remains implemented.",
+      "description": "Current S457 status: 112 accepted / 34 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S457 Woven front/back matrix passes 28/28 options at live-draft:woven-shirt:14:14. Woven's 56 faces pass local checks; Polo's 34 remain held at 0.68 cm versus the 0.25 cm residual gate. Preserve all-seven V02, V02-before-V03, legacy DXF behavior and protected export identities. V03 still requires a rights-cleared receiver/profile and observed representative import/export/round-trip evidence. Admission: docs/planning/EPIC-17-ADMISSION.md. S425 implements the approved Polo H display. S457's view mask preserves the source neckline geometry while hiding only leaf-covered strokes. S406's approved Woven collar-over-plackets display remains implemented. No fit, factory acceptance or production-readiness claim.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4432,6 +4433,11 @@
           "at": "2026-10-08T02:21:09.509Z",
           "actor": "Maintainer",
           "text": "Updated Epic metadata (description: Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S454 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S454 freshly replayed all 28 Woven FRONT_FLAT options at live-draft:woven-shirt:14:14 and produced a candidate-only mask from the actual projected upper/under-collar silhouettes. It removes the repeated front contact in rendered trial output but hides 13.2536–14.4041 cm of continuous source neckline per side, conflicting with S425; maintainer decision pending. No production mapping or face release. The 28 Woven back sleeve crossings remain held under fixed S370 bands. Polo has no current local output blocker per S436 but remains held by all-seven V02. V02 requires every applicable topology, joins, overlaps, POMs, colorway, option and rendered gate across all seven recipes; preserve the 0.25 cm Polo gate, V02-before-V03, legacy DXF and protected export identities. V03 remains gated by V02 and rights-cleared receiver/profile plus representative round-trip evidence. Current handoff: docs/research/epic17/S454-woven-foreground-mask-study/G04-WOVEN-FOREGROUND-MASK-STUDY-S454.md. No fit, factory acceptance, or production-readiness claim. Historical decision references required by the Control Center regression contract: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved view-only collar-over-plackets order remains implemented.). Preserve the Control Center regression contract while retaining the S454 proposal-only Woven decision record."
+        },
+        {
+          "at": "2026-10-08T03:13:07.085Z",
+          "actor": "Maintainer",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through the admitted V01→V02→V03 sequence and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S457 tally: 112 accepted / 34 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S457 Woven front/back matrix passes 28/28 options at live-draft:woven-shirt:14:14 using the maintainer-approved same-revision collar-leaf mask and local-Y back sleeve view with source-scale detached band clearance. Woven's 56 faces pass their local gates; Polo's 34 remain held because the sleeve-cap residual is 0.68 cm against the 0.25 cm gate. V02 requires all supported options and front/back checks for all seven recipes; preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 still requires a rights-cleared receiver/version/profile and representative observed import/export/round-trip evidence before any exact format claim. S425 implements the approved Polo H display. S457's view mask preserves the source neckline geometry while hiding only leaf-covered strokes. S406's approved view-only collar-over-plackets order remains implemented. No fit, factory acceptance or production-readiness claim.). Record S457's verified Woven face-level progress and current all-seven V02/V03 gates."
         }
       ],
       "evidenceRefs": [
@@ -7519,7 +7525,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Current S454 tally: 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. V01 Done; V02 In Progress; V03 Backlog. Woven fronts: candidate-only same-revision mask from actual projected upper/under-collar fill paths clears the recurring contact in 28 rendered options, but visually hides 13.2536–14.4041 cm of source neckline per side and conflicts with S425. Await explicit decision; no production mapping or face release. Woven backs: retain all 28 holds and the approved S370 band positions. Polo: no current local renderer blocker per S436; retain all 34 holds under all-seven V02. Preserve every V02 criterion, the 0.25 cm Polo gate, V02-before-V03, legacy DXF, protected export identities and all face holds. S454 packet/matrix/render evidence: docs/research/epic17/S454-woven-foreground-mask-study/. Historical decision checks remain linked: S381 found no evidence supporting a false Woven back-hem gap. S419 tested a 2–3-arc Polo H locator across 17 options. S406's approved Woven collar-over-plackets order remains implemented. The maintainer keeps the Woven body neckline continuous. Preserve all-seven V02, keep V03 gated. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces.",
+      "description": "Current S457 tally: 112 accepted / 34 held across 73 configurations / 146 faces. V01 Done; V02 In Progress; V03 Backlog. S457 Woven front/back matrix passes 28/28 options at live-draft:woven-shirt:14:14: all 28 fronts and 28 backs emit with zero compile/renderer/browser errors, exact POM schedule, 56/56 exact leaf masks, visible open-V segment, zero back sleeve crossings, no body-fill penetration, two band details per option and 1 cm minimum clearance. Woven's 56 faces pass their local V02 gates. The 34 Polo faces remain held at the 0.68 cm sleeve-cap residual against the unchanged 0.25 cm threshold. Preserve all-seven V02, V02-before-V03, legacy DXF behavior, protected export byte identities and V03 rights/profile/round-trip gates. S425 implements the approved Polo H display; S406's approved Woven collar-over-plackets order remains implemented. Evidence: docs/research/epic17/S457-woven-front-back-resolution/S457-exit-packet.md.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -9364,6 +9370,11 @@
           "at": "2026-10-08T02:48:57.420Z",
           "actor": "Codex",
           "text": "S456 closes the S455 supplied-book review in a separate unique follow-up commit because the original S455 commit is shared by delegated worktrees and remains unchanged. Board evidence and the S455/S456 packets preserve the book findings and all current decisions. EPIC-17/G04-V02 stay In Progress; V01 Done; V03 Backlog; 56 accepted / 90 held; all 56 Woven and 34 Polo faces remain held. All-seven V02 and V02-before-V03 remain unchanged."
+        },
+        {
+          "at": "2026-10-08T03:13:07.381Z",
+          "actor": "Codex",
+          "text": "S457 implements only the maintainer-approved Woven front leaf mask and back local-Y sleeve view with cleared source-scale band details. Current production/Chromium evidence passes 28/28 Woven options on both faces. Woven's 56 face requests pass local V02 checks; the integrated tally is 112 accepted / 34 held. Keep all 34 Polo faces held at 0.68 cm versus the 0.25 cm gate. V02 remains In Progress until all seven recipes pass integrated review; V03 remains Backlog and gated by V02 plus rights/profile/round-trip evidence. No source cut geometry or stitch graph changed."
         }
       ],
       "evidenceRefs": [
@@ -10054,7 +10065,8 @@
         "E-G04-S454-EXIT",
         "E-G04-S455-START",
         "E-G04-S455-BOOK-REVIEW",
-        "E-G04-S456-S455-CLOSEOUT"
+        "E-G04-S456-S455-CLOSEOUT",
+        "E-G04-S457-EXIT"
       ],
       "flagKey": null
     },
@@ -17849,6 +17861,24 @@
       "sha256": null,
       "verified": true,
       "note": "S456 closes S455's supplied-book review in a uniquely numbered follow-up, preserving the original S455 commit shared by delegated worktrees. No product, scope, gate, or face-hold change."
+    },
+    {
+      "id": "E-EPIC17-S457-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S457-woven-front-back-resolution/S457-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S457 resolves and verifies the approved Woven front/back view conventions over all 28 options. This is Woven face-level progress only; V02 remains In Progress on 34 Polo holds and all-seven review, and V03 remains gated."
+    },
+    {
+      "id": "E-G04-S457-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S457-woven-front-back-resolution/S457-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Verified actual-renderer Woven front/back matrix and scoped V02 closeout; preserves the 34 Polo holds and all-seven gate."
     }
   ]
 }

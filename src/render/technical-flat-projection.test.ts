@@ -101,7 +101,20 @@ describe("validateTechnicalFlatProjectionMap", () => {
       receiverInterval: [0, 0.5], axisRoleId: "back", axisEdgeId: "centerBack", quantity: 2,
       rotationDegrees: 90, minimumClearanceCm: 1,
     });
+    const backSleeve = authored.faces.find((face) => face.kind === "BACK_FLAT")!.roles
+      .find((role) => role.roleId === "sleeve")!;
+    expect(backSleeve.localYReflection).toEqual({ axis: "LOCAL_Y", basis: "APPROVED_VIEW_CONVENTION",
+      decisionId: "G04-S457-WOVEN-BACK-LOCAL-Y-REFLECTION" });
+    expect(authored.faces.find((face) => face.kind === "FRONT_FLAT")!.roles
+      .find((role) => role.roleId === "sleeve")!.localYReflection).toBeUndefined();
     expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, authored)).toEqual([]);
+    const malformedReflection = structuredClone(authored) as unknown as { faces: Array<{ kind: string; roles: Array<{
+      roleId: string; localYReflection?: { decisionId: string };
+    }> }> };
+    malformedReflection.faces.find((face) => face.kind === "BACK_FLAT")!.roles.find((role) => role.roleId === "sleeve")!
+      .localYReflection!.decisionId = "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR";
+    expect(validateTechnicalFlatProjectionMap("woven-shirt", block, REVISION, malformedReflection))
+      .toContainEqual(expect.objectContaining({ code: "INVALID_LOCAL_Y_REFLECTION", sourceId: "BACK_FLAT:sleeve" }));
     const malformed = structuredClone(authored) as unknown as { faces: Array<{ kind: string; roles: Array<{
       roleId: string; wovenDetachedBandDetailRepresentation?: { receiverInterval: number[] };
     }> }> };
