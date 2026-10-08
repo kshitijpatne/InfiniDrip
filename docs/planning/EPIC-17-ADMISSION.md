@@ -1,4 +1,26 @@
-## Current EPIC-17/G04 V03 practical trial — S544 exit (2026-10-08)
+## Current EPIC-17/G04 V03 exchange findings — S545 exit (2026-10-08)
+
+S545 recovered the targetable CLO UI and completed two DXF-AAMA centimeter
+cycles for the existing Tee/Polo/Woven M/default fixtures. The unchanged 0.001
+cm geometric gate passes 6/6 Tee and 24/24 Woven closed contours. It fails
+five Polo CUT contours at 0.0127–0.0140 cm in both generations. An initial
+equal-vertex-count diagnostic exaggerated some misses; the corrected symmetric
+vertex-to-path comparison reveals this smaller but real above-gate residual.
+Its first-cycle source (CLO import or export) is not isolated. Visible reviews
+show major piece retention only, not semantic/grade acceptance. No setting or
+V03 gate changed. Written product-development permission and local DXF
+handling are confirmed. See `docs/research/epic17/S545-clo-target-recovery/S545-exit-packet.md`.
+
+**Next:** isolate the five first-cycle Polo cut deltas before testing any
+setting change; retain all V03 rights/profile, all-seven, semantics, grade,
+negative-input and round-trip gates. Then complete remaining recipe coverage.
+
+The validated start/exit board replay is `3291→3293→3295`; Control Center
+tests pass 42/42 and the working diff check passes. Elapsed 21m28s: diagnostic
+tool 3m, CLO exchange/render 10m, geometry reconciliation 4m, focused
+verification/records/board 4m28s, agent waits 0m, maintainer decisions 0m.
+
+## Prior EPIC-17/G04 V03 practical trial — S544 exit (2026-10-08)
 
 S544 confirmed the three missing source DXFs for Tee, Polo, and Woven against
 their exact S498 hashes and copied them into the named C:-only trial folder.

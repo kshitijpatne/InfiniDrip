@@ -2,15 +2,31 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S545-clo-target-recovery/S545-exit-packet.md` closes
+  the S544 UI-target mismatch and records the actual three-recipe CLO
+  DXF-AAMA M/default, two-generation import/export trial. Tee 6/6 and Woven
+  24/24 source contours pass the unchanged 0.001 cm geometric screen; five
+  Polo cut contours remain at 0.0127–0.0140 cm in both generations. This does
+  not isolate import versus export or establish semantics, grade behavior,
+  malformed-input handling, an exact profile, or industrial compatibility.
+  Rights/local handling are confirmed. V03 stays In Progress; next isolate
+  the first-cycle Polo delta before changing any setting. Exit board replay
+  and 42/42 Control Center verification are recorded in the packet.
+- `docs/research/epic17/S545-clo-target-recovery/analyze-tee-roundtrip.mjs`
+  is the current diagnostic for Tee/Polo/Woven closed contour distances. Its
+  input, output, rendered, and JSON evidence remain on C: in
+  `C:\\G04-CLO-DXF-Exchange\\S544-aama-three-recipe-roundtrip`; see the exit
+  packet for output hashes and known limitations.
+- `docs/research/epic17/S545-clo-target-recovery/preflight-start.mjs`,
+  `preflight-exit.mjs`, and their command records validate the start and exit
+  board mutations through the canonical command layer.
 - `docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md`
   records the three missing Tee/Polo/Woven DXF-AAMA fixtures copied and
   hash-verified in the dedicated C: folder. CLO 2026.1.310 remained open, but
   a fresh visible-window screenshot showed only the synthetic canvas while
-  accessibility repeatedly reported an invisible Export DXF modal; Escape,
-  refresh, and a supported Raise attempt did not reconcile the state. No
-  exchange occurred, no V03 gate changed, and output/evidence folders remain
-  empty. Next: resume the same pinned inputs only after a fresh supported
-  computer-use observation yields a visible, targetable CLO state.
+  accessibility repeatedly reported an invisible Export DXF modal. S545
+  recovered this state using a new observation and completed the exchange;
+  see its exit packet for the Polo geometry blocker and current next action.
 - `docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-start-packet.md`
   defines the same-mode three-recipe completion trial and the C:-only file
   boundary.

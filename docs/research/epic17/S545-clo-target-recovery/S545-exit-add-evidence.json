@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3293,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S545-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S545-clo-target-recovery/S545-exit-packet.md",
+    "verified": true,
+    "note": "CLO 2026.1.310 completed the two-cycle AAMA centimeter trial for Tee, Polo, and Woven M/default fixtures. The corrected contour diagnostic passes Tee 6/6 and Woven 24/24 at 0.001 cm but finds five Polo cut contours at 0.0127–0.0140 cm in both generations. V03 acceptance and all remaining profile, semantic, grade, malformed-input, and all-seven gates remain held. See C:-only output and rendered evidence in the exit packet."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3291,
-  "updatedAt": "2026-10-08T22:13:37.353Z",
+  "revision": 3295,
+  "updatedAt": "2026-10-08T22:36:06.436Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11268,6 +11268,16 @@
           "at": "2026-10-08T22:13:37.353Z",
           "actor": "Codex",
           "text": "S544 stopped before exchange after visible screenshot/accessibility mismatch persisted through supported refresh and Raise failed. Inputs remain hash-pinned under C:; no output or acceptance change. Resume same trial after fresh targetable CLO state."
+        },
+        {
+          "at": "2026-10-08T22:15:11.158Z",
+          "actor": "Codex",
+          "text": "S545 starts with one fresh supported observation of the existing CLO session. Use the saved S544 inputs only after visible and accessible target states agree; otherwise stop and preserve the concrete UI mismatch."
+        },
+        {
+          "at": "2026-10-08T22:36:06.436Z",
+          "actor": "Codex",
+          "text": "S545 recovered the targetable existing CLO window and completed the three-recipe, M/default two-cycle trial. Five Polo cut contours remain above the unchanged 0.001 cm gate; Tee and Woven geometry pass this limited check. Preserve all V03 holds and use S546 to isolate the first-cycle Polo delta before any setting change. See E-G04-S545-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11453,7 +11463,9 @@
         "E-G04-S543-START",
         "E-G04-S543-EXIT",
         "E-G04-S544-START",
-        "E-G04-S544-EXIT"
+        "E-G04-S544-EXIT",
+        "E-G04-S545-START",
+        "E-G04-S545-EXIT"
       ],
       "flagKey": null
     },
@@ -21376,6 +21388,24 @@
       "sha256": null,
       "verified": true,
       "note": "S544 hash-verified and copied the three source DXFs to the named C: folder but stopped before import/export because the visible CLO screenshot showed only the synthetic canvas while accessibility reported an invisible Export DXF modal; no exchange or gate change."
+    },
+    {
+      "id": "E-G04-S545-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S545-clo-target-recovery/S545-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begin one fresh supported observation of the running CLO process; proceed with S544's hash-pinned same-mode fixtures only if the visible window and accessible controls agree. Rights and local handling are confirmed."
+    },
+    {
+      "id": "E-G04-S545-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S545-clo-target-recovery/S545-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO 2026.1.310 completed the two-cycle AAMA centimeter trial for Tee, Polo, and Woven M/default fixtures. The corrected contour diagnostic passes Tee 6/6 and Woven 24/24 at 0.001 cm but finds five Polo cut contours at 0.0127–0.0140 cm in both generations. V03 acceptance and all remaining profile, semantic, grade, malformed-input, and all-seven gates remain held. See C:-only output and rendered evidence in the exit packet."
     }
   ]
 }

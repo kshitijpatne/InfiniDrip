@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3291,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S545-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S545-clo-target-recovery/S545-start-packet.md",
+    "verified": true,
+    "note": "Begin one fresh supported observation of the running CLO process; proceed with S544's hash-pinned same-mode fixtures only if the visible window and accessible controls agree. Rights and local handling are confirmed."
+  }
+}

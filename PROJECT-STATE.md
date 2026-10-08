@@ -1,6 +1,34 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 544 CLO target-state mismatch (closed; V03 remains open)
+## EPIC-17 / G04 — Slice 545 exit (V03 remains open)
+
+S545 recovered the targetable existing CLO session and completed two
+DXF-AAMA import/export cycles for the three C:-only M/default fixtures. The
+corrected point-to-polyline diagnostic finds Tee 6/6 and Woven 24/24 contours
+within 0.001 cm, while five Polo cut contours remain at 0.0127–0.0140 cm in
+both generations. The first-cycle discrepancy is reproducible, but the trial
+does not isolate import versus export as its cause. No production code, source
+pattern, profile setting, or acceptance gate changed. The UI rendered all
+major pieces without an obvious gross loss; semantic/grade/output acceptance
+is not established. Rights and local handling are confirmed in writing.
+Detailed evidence and exact limitations:
+`docs/research/epic17/S545-clo-target-recovery/S545-exit-packet.md` and its
+C:-only evidence folder `C:\\G04-CLO-DXF-Exchange\\S544-aama-three-recipe-roundtrip`.
+S545 began from `016b13c`; refreshed `origin/main` `a5af5e1` remains an
+ancestor. G04-V03 remains In Progress; V01/V02 remain Done.
+S545's validated exit evidence/comment advanced the board `3293→3295`; the
+complete start/exit sequence is `3291→3293→3295`. Focused Control Center
+tests pass 42/42; Node syntax/analysis and `git diff --check` pass. S545 is
+closed; no V03 hold was relaxed.
+The thread goal remains active and needed through admitted V03 completion and
+safe merge; its objective matches this state. No manual resume is needed.
+
+**Next:** reserve S546 after refreshing branch/remote history and isolate the
+five Polo cut-contour deltas to the first import or export stage. Preserve the
+0.001 cm gate and all semantic, grading, malformed-input, all-seven and exact
+profile holds. CLO remains open for this work.
+
+## EPIC-17 / G04 — Slice 544 CLO target-state mismatch (closed; recovered in S545)
 
 S544 hash-verified and copied the missing Tee, Polo, and Woven DXF-AAMA
 fixtures from the exact S498 inputs into
@@ -13,11 +41,8 @@ not a format result. All V03 requirements and holds remain unchanged; CLO is
 left open. Exit evidence:
 `docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md`.
 
-**Next:** take one fresh supported observation of the existing CLO process.
-Proceed with the same pinned fixtures only if visible controls and
-accessibility targets agree. If the mismatch persists, preserve the files and
-diagnose the computer-use bridge without repeating the trial or claiming a
-DXF result.
+S545's fresh observation matched the visible file picker/import controls to
+the accessible target state and completed the previously blocked fixture run.
 
 ## EPIC-17 / G04 — Slice 543 current apparel profile screen (closed; V03 remains open)
 
