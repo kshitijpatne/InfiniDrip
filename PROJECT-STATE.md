@@ -1,6 +1,44 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 492 Style3D Studio access/DXF screen
+## EPIC-17 / G04 — Slice 493 V03 evidence reconciliation
+
+S493 started `2026-10-08 13:45:59 UTC` from clean S492
+`b402d571305e1d1256b091314271257447b5f1f4` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S492 was highest and S493 is unique. The goal record is active.
+Start board revision 3064; EPIC-17/G04-V03 remain In Progress and V01/V02 Done.
+
+S493 maps every admitted V03/C04 gate to current source and measured evidence.
+Existing CLO practical tests are mixed: Tee M 6/6 contours within the 0.001 cm
+gate (max `0.0000160001 cm`); Woven M 24/24 (max `0.000074 cm`) and 114/114
+second-generation contour comparisons (max `0.000031 cm`); Polo M 13/18, with
+five CUT contours failing the threshold by witnessed lower bounds
+`0.01019–0.01118 cm`. The app operations completed without import/export error
+dialogs, but the imports displayed an unresolved seam-allowance notice. CLO
+rights are not affirmatively cleared for this product-development fixture
+use; numeric layers, grade semantics, negative-input handling, local-only
+processing and full receiver acceptance remain unproven. S493 performs no new
+CLO file/account operation and selects no profile. Full matrix and evidence
+limits: `docs/research/epic17/S493-v03-evidence-reconciliation/`.
+
+Validated board start replay advanced `3064→3066`; exit replay advanced
+`3066→3071`, linking the matrix and exit to G04-V03 and the exit to EPIC-17
+without changing statuses. `npm run control-center:test -- --run` passed
+`42/42`; S493 scripts pass `node --check`; `git diff --check` passes. No
+production source/test, fixture, export bytes or protected identity changed,
+so no production coverage/build/export/full gate is due for this docs-only
+slice. No physical/factory/production-readiness claim is made.
+
+Elapsed estimates: evidence review/reconciliation `8m`; docs and board closeout
+`5m`; focused verification approximately `1m`; implementation `0m`;
+external-agent wait `0m`; maintainer-decision time `0m`.
+
+Next: continue V03 only after permitted use and local handling are established
+for an exact receiver/build; then close Polo geometry, warning, layer/mark,
+grade, negative-input and inspection gates with the frozen profile. Keep all
+criteria unchanged.
+
+### Slice 492 — Style3D Studio access/DXF screen
 
 S492 started `2026-10-08 09:22:45 UTC` from committed S491 `172c2fd` on
 `codex/epic-17-g04`. Refreshed `origin/main`

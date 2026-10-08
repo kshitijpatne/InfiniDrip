@@ -2,6 +2,18 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S493-v03-evidence-reconciliation/S493-exit-packet.md`
+  and `S493-v03-gate-matrix.md` reconcile every admitted V03/C04 gate against
+  current rights research and actual S475–S478 CLO results. Tee M and Woven M
+  contour subsets passed; Polo M has five measured CUT-contour failures above
+  the unchanged 0.001 cm threshold. CLO import emitted a seam-allowance
+  notice; numeric-layer semantics, grade, negative-input and independent
+  receiver acceptance remain unproven. S479/S487/S490 do not establish
+  affirmative trial rights for this exact product-development use. S493 did
+  not repeat file operations or select a profile. V03 and EPIC-17 remain In
+  Progress; V01/V02 remain Done; board revision 3071. Next requires permitted
+  access to an exact local receiver before remaining receiver tests.
+
 - `docs/research/epic17/S492-style3d-dxf-access/S492-exit-packet.md` and
   `S492-source-matrix.md` reject Style3D Free for G04. The desktop app has
   pattern DXF IO in some configurations, but the Free plan lists DXF import

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3064,
-  "updatedAt": "2026-10-08T09:24:34.132Z",
+  "revision": 3071,
+  "updatedAt": "2026-10-08T13:49:22.183Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -713,7 +713,8 @@
         "E-G04-S489-EXIT",
         "E-G04-S490-EXIT",
         "E-G04-S491-EXIT",
-        "E-G04-S492-EXIT"
+        "E-G04-S492-EXIT",
+        "E-G04-S493-EXIT"
       ]
     },
     {
@@ -4575,6 +4576,11 @@
           "at": "2026-10-08T04:26:07.182Z",
           "actor": "Codex",
           "text": "S464's limited local host check found no receiver to use. Keep G04-V03 In Progress and retain its exact rights and round-trip acceptance gates. The active goal remains necessary; see E-EPIC17-S464-EXIT."
+        },
+        {
+          "at": "2026-10-08T13:49:22.183Z",
+          "actor": "Codex",
+          "text": "S493 completes a V03/C04 evidence reconciliation, not V03 acceptance. Actual receiver evidence is mixed; preserve G04-V03 and Epic In Progress, all-seven V02 Done, legacy DXF behavior and protected exports. Next requires rights-cleared exact local receiver access before remaining profile fixtures; see E-G04-S493-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10688,6 +10694,16 @@
           "at": "2026-10-08T09:24:34.132Z",
           "actor": "Codex",
           "text": "S492 rejects Style3D Free for G04: its listed free-tier exports omit DXF and its Free Version terms restrict use to personal learning while prohibiting commercial/profit and organization use. The paid/other configurations are not evaluated. No account, file, trial, or software action occurred; keep V03 gates unchanged."
+        },
+        {
+          "at": "2026-10-08T13:47:21.136Z",
+          "actor": "Codex",
+          "text": "S493 evidence-only reconciliation starts from refreshed S492 state. It will distinguish actual CLO contour results from rights/profile, semantics, grading and negative-input evidence. Preserve V03 In Progress and all admitted gates; no repeated file transfer while Gate 0 is unresolved."
+        },
+        {
+          "at": "2026-10-08T13:49:22.111Z",
+          "actor": "Codex",
+          "text": "S493 maps every V03/C04 acceptance gate to existing evidence. CLO Tee and Woven contour subsets pass, Polo has five measured CUT-contour failures above 0.001 cm, and rights/local-only handling, clean import, semantic layers, grade, malformed-input and complete receiver acceptance remain unresolved. No status, threshold or claim changed. See E-G04-S493-MATRIX and E-G04-S493-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10770,7 +10786,10 @@
         "E-G04-S491-EXIT",
         "E-G04-S492-START",
         "E-G04-S492-MATRIX",
-        "E-G04-S492-EXIT"
+        "E-G04-S492-EXIT",
+        "E-G04-S493-START",
+        "E-G04-S493-MATRIX",
+        "E-G04-S493-EXIT"
       ],
       "flagKey": null
     },
@@ -19766,6 +19785,33 @@
       "sha256": null,
       "verified": true,
       "note": "S492 rejects Style3D Free as a G04 receiver; no account/software/file action occurred. Rights, DXF export, local-only handling, exact profile, and round-trip gates remain."
+    },
+    {
+      "id": "E-G04-S493-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S493-v03-evidence-reconciliation/S493-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S493 reconciles existing CLO technical trials against every admitted V03/C04 gate; no new file use or receiver selection while rights remain unresolved."
+    },
+    {
+      "id": "E-G04-S493-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S493-v03-evidence-reconciliation/S493-v03-gate-matrix.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Gate-by-gate V03/C04 reconciliation of actual CLO Tee/Polo/Woven results, rights, warnings, profile semantics, grade, negative-input and receiver-inspection evidence."
+    },
+    {
+      "id": "E-G04-S493-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S493-v03-evidence-reconciliation/S493-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S493 preserves V03 gates/status: actual Tee and Woven subsets pass, Polo M has five measured tolerance failures, CLO rights remain unproven, and semantic/grade/negative gates remain open."
     }
   ]
 }

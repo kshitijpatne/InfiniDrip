@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3064,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S493-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S493-v03-evidence-reconciliation/S493-start-packet.md",
+      "verified": true,
+      "note": "S493 reconciles existing CLO technical trials against every admitted V03/C04 gate; no new file use or receiver selection while rights remain unresolved."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3065,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S493 evidence-only reconciliation starts from refreshed S492 state. It will distinguish actual CLO contour results from rights/profile, semantics, grading and negative-input evidence. Preserve V03 In Progress and all admitted gates; no repeated file transfer while Gate 0 is unresolved."
+  }
+]
