@@ -1,5 +1,29 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 529 GetonAgain free-build capability audit (complete; V03 remains open)
+
+Official GetonAgain Garment CAD V2024.1 documentation explicitly covers
+apparel DXF-AAMA/ASTM import and export. The manufacturer's free download is
+identified as `FUZHUANGCAD_MIANFEI_20260306.zip`, but its page requires phone
+registration/login and does not establish that this free package is V2024.1
+or has its documented exchange controls. Applicable use rights and local-only
+file behavior remain unknown. The official manual was saved for exact-page
+review only under `C:\G04-CLO-DXF-Exchange\S529-getonagain-free-build-capability-audit\`.
+No installer was downloaded, no account/phone/vendor contact or pattern file
+was used, and CLO was untouched. No V03 gate changed.
+
+Started `2026-10-08 20:21:21 UTC` from S528 `5dc6af0` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S529 is
+unique. Board start/exit replay is `3227→3229→3231`; EPIC-17/G04-V03 remain In
+Progress; V01/V02 Done. The goal remains active and accurate. See
+`docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-exit-packet.md`.
+
+**Next:** static inspection of the official free package may establish its
+version and bundled terms without executing it. Do not register a phone,
+contact the vendor, run the app, or use pattern data while rights/local
+handling remain unresolved.
+
 ## EPIC-17 / G04 — Slice 528 scope reconciliation (complete; V03 remains open)
 
 S528 corrected S527's proposed garment.dev invite request against the

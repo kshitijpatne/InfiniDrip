@@ -1,4 +1,23 @@
-## Current V03 candidate scope reconciliation — S528 exit (2026-10-08)
+## Current V03 GetonAgain free-build audit — S529 exit (2026-10-08)
+
+S529 directly reviewed the manufacturer-hosted Garment CAD V2024.1 manual:
+pp. 242–244 document ASTM/AAMA import and export, including graded-size and
+RUL options. The official free package is named
+`FUZHUANGCAD_MIANFEI_20260306.zip` and requires phone registration/login, but
+the public sources do not identify it as V2024.1 or confirm those controls in
+that package. No applicable free-build terms or local-only data guarantee was
+found. No download/install, account/phone, external inquiry, pattern transfer,
+or CLO action occurred. No V03 gate changed. The source copy, hash, exact
+evidence, and limits are in
+`docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-exit-packet.md`.
+
+Board start/exit `3227→3229→3231`; G04-V03 remains In Progress, V01/V02 Done.
+**Next:** a bounded C:-only static inspection of the official free package
+can establish its build identity and bundled terms without running it. Keep
+phone registration, execution, vendor contact, and pattern files held pending
+rights and local handling.
+
+## Previous V03 candidate scope reconciliation — S528 exit (2026-10-08)
 
 S528 corrected S527's proposed garment.dev invite request against the
 admitted non-goal excluding hosted services. garment.dev's DXF-AAMA/ASTM

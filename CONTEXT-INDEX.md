@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-exit-packet.md`
+  verifies official V2024.1 documentation for ASTM/AAMA import/export, but
+  the free `FUZHUANGCAD_MIANFEI_20260306.zip` build is not matched to that
+  version. Rights and local-only handling remain unknown. A manual copy/hash
+  is kept only in the named C: folder. No download/install/account/pattern/CLO
+  action; board `3227→3229→3231`; all V03 gates remain.
+- `docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-start-packet.md`
+  limits the audit to official build-specific sources and rights/data handling.
+- `docs/research/epic17/S528-candidate-scope-reconciliation/S528-exit-packet.md`
+  corrects S527's next-action suggestion: garment.dev is a hosted service and
+  is outside the admitted scope. Do not request an invite.
 - `docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-exit-packet.md`
   records a one-pass official-source search. S528 corrects the proposed next
   step: garment.dev is a hosted service, expressly out of G04 scope, and no
