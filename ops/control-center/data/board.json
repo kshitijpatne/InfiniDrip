@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3179,
-  "updatedAt": "2026-10-08T18:16:20.476Z",
+  "revision": 3183,
+  "updatedAt": "2026-10-08T18:22:57.867Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10988,6 +10988,16 @@
           "at": "2026-10-08T18:16:20.476Z",
           "actor": "Codex",
           "text": "S516 closes the practical AAMA trial with a concrete strict-gate failure: five Polo M CUT contours exceed 0.001 cm by exact-segment witnesses. The same local export re-imported and rendered, but this does not pass fidelity, grading, rights/profile or all-seven acceptance. CLO stays open for G04. Continue with a new numbered slice focused on the measured contour-loss cause and lawful profile evidence; do not repeat the same case or weaken gates."
+        },
+        {
+          "at": "2026-10-08T18:18:52.348Z",
+          "actor": "Codex",
+          "text": "S517 is a bounded forensic diagnosis of the five unchanged-gate S516 contour losses. Reuse the current AAMA fixture/output, identify the altered geometry and what can be attributed from available evidence, then choose one specific next action or record the limit. Do not rerun the case in CLO or broaden into another format/options matrix."
+        },
+        {
+          "at": "2026-10-08T18:22:57.867Z",
+          "actor": "Codex",
+          "text": "S517 rules out global scale and coordinate-precision explanations: five paths each omit one contour point and shortcut its neighbors; other vertices remain within 0.000024 cm. Existing S503 AAMA/ASTM import and optimizer cells and S516 AAMA export all retain the same five losses. The saved output cannot distinguish CLO import-time from export-time simplification. Next: one cause-isolation attempt that saves and measures the CLO native project before a single DXF export; stop if that project does not expose exact outlines. No repeated matrix or acceptance change."
         }
       ],
       "evidenceRefs": [
@@ -11117,7 +11127,9 @@
         "E-G04-S515-START",
         "E-G04-S515-EXIT",
         "E-G04-S516-START",
-        "E-G04-S516-EXIT"
+        "E-G04-S516-EXIT",
+        "E-G04-S517-START",
+        "E-G04-S517-EXIT"
       ],
       "flagKey": null
     },
@@ -20536,6 +20548,24 @@
       "sha256": null,
       "verified": true,
       "note": "S516 used the already-running CLO 2026.1.310 UI once for a C:-confined Polo M AAMA import/export/re-import. No app error; all nine source SEW roles map to receiver blocks and render. Five CUT contours lose one vertex and exceed the unchanged 0.001 cm gate (0.01019–0.01118 cm). No second-generation repeat; all V03 rights, profile, grading, all-seven and round-trip gates remain."
+    },
+    {
+      "id": "E-G04-S517-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S517 diagnoses the five exact S516 CLO AAMA cut-contour losses using the existing C:-confined fixture/output and analyzer plus narrowly relevant source paths. No repeat UI trial, source change, tolerance change, or implementation; record stage-attribution limits and one targeted next experiment."
+    },
+    {
+      "id": "E-G04-S517-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S517 identifies one dropped source CUT vertex per failing path and its receiver shortcut: back index 13 (0.012741 cm); outer/inner stand, upper/under collar index 14 (0.012977–0.013974 cm). Other vertices are within 0.000024 cm; input is 3-decimal, output 6-decimal, imports are 100% cm with identity inserts. This is localized simplification, but the unobserved pre-export geometry leaves import-vs-export stage unresolved. No settings tested, code or gate changed."
     }
   ]
 }

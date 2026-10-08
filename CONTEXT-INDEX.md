@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-exit-packet.md`
+  pinpoints one source CUT vertex per S516 failing path removed and replaced
+  by a shortcut (0.01274–0.01397 cm deviation); all remaining vertices are
+  within 0.000024 cm and source/output precision is 3/6 decimal places. This
+  rules out global scale/precision, but saved outputs cannot distinguish CLO
+  import from export simplification. S503 toggles and S516's AAMA export show
+  the same five losses. Next is one native-project-before-export cause test;
+  stop if the native project exposes no measurable contours. Board
+  `3179→3181→3183`.
+- `docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-start-packet.md`
+  bounds this no-UI paired-file diagnosis; no gate or source change.
 - `docs/research/epic17/S516-clo-foreground-activation/S516-exit-packet.md`
   records the one live CLO 2026.1.310 AAMA export/re-import on the pinned
   Polo M fixture. The operation rendered without a CLO error and all nine

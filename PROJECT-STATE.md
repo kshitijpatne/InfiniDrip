@@ -1,5 +1,31 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 517 contour-loss diagnosis (complete; V03 remains open)
+
+Started `2026-10-08 18:17:16 UTC` from S516 commit
+`890e09a8058db7b23181212ed145addf3f466283`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. A replayable
+analysis of the exact S516 C:-confined fixture/output identifies one omitted
+source CUT vertex per failing piece and the receiver shortcut between its
+neighbors. Deviations are 0.0127407 cm (back), 0.0129774 cm (outer stand),
+0.0139742 cm (inner stand), 0.0129902 cm (upper collar), and 0.0129989 cm
+(under collar). Every other source vertex on those paths remains within
+0.000024 cm. Source coordinates have three decimal places; receiver output
+has six; insert transforms are identity and CLO imported centimeters at 100%.
+This is localized point removal/smoothing, not a global scaling/rounding
+pattern. S503's tested AAMA/ASTM import and point-optimization choices plus
+S516 AAMA export leave the same five contours failing. Because no pre-export
+CLO geometry was captured, import-time versus export-time removal remains
+unresolved. No production behavior or gates changed. Board start/exit
+`3179→3181→3183`; V03/EPIC-17 remain In Progress; V01/V02 remain Done.
+
+Next: S518 performs one cause-isolation import, saves the native CLO project
+before one export, and inspects whether its exact outline data can distinguish
+import-time from export-time simplification. Stop without another matrix if
+the native project does not expose measurable contour geometry. CLO remains
+open and idle until needed. See
+`docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 516 CLO AAMA round trip (complete; V03 remains open)
 
 Started `2026-10-08 18:05:49 UTC` from clean S515 commit
