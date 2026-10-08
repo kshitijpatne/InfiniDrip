@@ -1,5 +1,29 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 508 CLO Standard DXF export/reimport diagnosis (complete)
+
+Started `2026-10-08 16:59:03 UTC` from S507 commit
+`d4a113ac3c340afc412c6458973d460b22014d9c` on `codex/epic-17-g04`.
+Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S507 is highest; S508 is reserved. Board start is `3143→3145`;
+G04-V01/V02 Done and V03/EPIC-17 In Progress.
+
+S508 tested plain CLO Standard DXF with the same hash-pinned Polo M source.
+Correct centimeter/100% reimport and second export completed without a CLO
+error dialog, but the second-generation file reimports into a visibly stacked
+overlap. Its 36 pattern-block inserts and 141 LWPOLYLINE records differ from
+generation one's 9 inserts/59 polylines; the unchanged source matcher found
+0/18 exact source contour matches at `0.001 cm`. The initial 1000%-reimport
+exploration is unit-confounded and excluded. CLO was closed normally after
+evidence capture. This rejects only the tested Standard path for this fixture;
+it does not select a V03 profile or clear rights/local handling, grade,
+negative-control, all-seven fixture, or round-trip gates. See
+`docs/research/epic17/S508-polo-standard-export-roundtrip/S508-exit-packet.md`.
+Validated board exit is `3145→3147`; V01/V02 remain Done, V03/EPIC-17 remain In
+Progress. No production code, source geometry, acceptance, or export baseline
+changed. **Next:** reserve S509 from refreshed Git/board state and test another
+concrete CLO DXF mode only as a bounded diagnosis; preserve every V03 gate.
+
 ## EPIC-17 / G04 — Slice 507 CLO Standard DXF scale diagnostic (complete)
 
 Started `2026-10-08 16:37:25 UTC` from S506 commit

@@ -2,6 +2,19 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S508-polo-standard-export-roundtrip/S508-exit-packet.md`
+  closes the corrected, user-authorized CLO Standard DXF test. The 100% /
+  centimeter two-generation import/export completed without a dialog error,
+  but the second-generation import visibly stacks outlines and yields 141
+  polylines versus 59 in generation one; exact source-contour matching is
+  0/18. Reject only this tested path/fixture; retain every V03 and all-seven
+  gate. Board `3145→3147`; V03 remains In Progress.
+- `docs/research/epic17/S508-polo-standard-export-roundtrip/S508-start-packet.md`
+  starts a controlled CLO 2026.1.310 Standard DXF export/reimport test against
+  S507's six-of-100 ASTM round-trip loss. The pinned Polo M source and all
+  import/export settings stay fixed except export/reimport mode. The test
+  checked source-scale geometry and entity retention only; all independent V03
+  rights, profile, grade, negative-control and all-seven gates remain.
 - `docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-exit-packet.md`
   closes the user-authorized, C:-confined CLO Standard DXF 1000% inverse-scale
   trial. The nine tested Polo M piece bounds return to source size, but five

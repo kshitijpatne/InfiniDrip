@@ -1,4 +1,26 @@
-## Latest slice — S507 exit (2026-10-08)
+## Latest bounded test — S508 exit (2026-10-08)
+
+S508 follows S507 `d4a113ac3c340afc412c6458973d460b22014d9c` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board start
+replay `3143→3145` keeps V01/V02 Done and V03/EPIC-17 In Progress. S508 uses
+the user's authorization for practical CLO testing to isolate S507's concrete
+six-of-100 ASTM round-trip loss. Correct centimeter/100% Standard reimport and
+second export completed without a CLO error dialog, but the second-generation
+reimport visibly stacks outlines; output changes from 9 inserts/59 polylines to
+36 inserts/141 polylines, with 0/18 exact source contour matches at `0.001 cm`.
+The exploratory 1000%-reimport run is unit-confounded and excluded. This rejects
+only the tested Standard path/fixture, not CLO generally. V03 criteria,
+rights/profile/local handling, grade, negative-control and all-seven gates are
+unchanged. Validated board replay `3145→3147`. See
+`docs/research/epic17/S508-polo-standard-export-roundtrip/S508-exit-packet.md`
+and `S508-start-packet.md`.
+
+**Next:** reserve S509 from refreshed Git/board state and test another concrete
+CLO DXF mode only as a bounded diagnosis. Do not claim V03 acceptance from a
+successful import/export dialog or relax any gate.
+
+## Historical latest slice — S507 exit (2026-10-08)
 
 S507 follows S506 `968c72644bd6dde9e7ca8e13764dee0c5b155878` on
 `codex/epic-17-g04`; refreshed `origin/main`

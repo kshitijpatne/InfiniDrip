@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3145,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S508-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S508-polo-standard-export-roundtrip/S508-exit-packet.md",
+      "verified": true,
+      "note": "CLO Standard DXF completes import/export but fails the corrected Polo M 100% round trip: second-generation output reimports as visibly stacked contours; generation two has 141 LWPOLYLINE records versus 59 in generation one and no exact source-contour matches under the unchanged matcher. No receiver/profile, rights, grade, negative-control, or all-seven gate is cleared."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3146,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S508 closes as a bounded practical Standard DXF diagnosis. Correct 100%/centimeter reimport and re-export complete without an error dialog, but the second-generation file reimports as a narrow stack of overlapping outlines. It contains 36 pattern-block inserts and 141 LWPOLYLINE records versus 9 inserts and 59 polylines in generation one; exact source contour matching yields 0/18 at 0.001 cm. The earlier 1000% reimport was a unit-confounded exploratory run and is excluded. Reject only this tested Standard path for this fixture/settings; preserve all V03 and all-seven gates."
+  }
+]
