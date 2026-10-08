@@ -2,22 +2,27 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md` records
+  the witnessed local CLO 2026.1.310 Tee import/native reopen/DXF-ASTM export/
+  matching reimport. All round-trip files and captures remain in
+  `C:\G04-CLO-DXF-Exchange`. Six source contours match with maximum
+  per-coordinate delta 0.0000160001 cm against the unchanged 0.001 cm C04
+  limit. Output duplicates coincident CUT geometry on six numeric-layer
+  polylines and SEW geometry on two; the reimport renders the expected pieces
+  and contours, but numeric layer semantics and generalized fidelity remain
+  open. This proves one fixture's observed behavior only. V03 stays In
+  Progress pending rights/scope review and representative Polo/Woven/graded
+  round trips. No ASTM conformance or broad compatibility claim.
+
 - `docs/research/epic17/S474-tee-geometry-oracle/S474-exit-packet.md`
   extracts the exact six serialized Tee CUT/SEW polylines and all 190
-  quantized vertices from the S473 copy into
-  `tee-expected-geometry.json`, with piece-order association, bounds and
-  source hash. Its focused tests pass 3/3. This is only the source baseline;
-  no CLO output exists yet. Use it for C04's 0.001 cm comparison after the
-  owner completes the native trial.
+  quantized vertices from the S473 copy into `tee-expected-geometry.json`,
+  with piece-order association, bounds and source hash. Its focused tests pass
+  3/3. It is the source baseline used by S475's numeric comparison.
 
 - `docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-exit-packet.md`
-  records the owner-reported CLO 2026.1.310 all-features free trial (14 days)
-  and local-file handling. Supplied screenshots show only the top-level
-  `File > Import > DXF` and `File > Export > DXF` menu entries, not dialog
-  profile/unit settings. A hash-verified Tee copy and local operator runbook
-  are prepared; no receiver output has been returned and no compatibility
-  claim is made. The next owner action is one local synthetic Tee import,
-  reopen, and DXF export within the reported trial window.
+  records the original owner-reported CLO trial context and the prepared
+  synthetic Tee fixture. S475 supersedes its “no receiver output” state.
 
 - `docs/research/epic17/S472-clo-receiver-qualification/S472-exit-packet.md`
   qualifies the owner-reported installed CLO 2026.1.310 as a candidate because

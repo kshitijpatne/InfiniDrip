@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2927,
-  "updatedAt": "2026-10-08T06:07:34.815Z",
+  "revision": 2935,
+  "updatedAt": "2026-10-08T06:21:31.905Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -683,7 +683,9 @@
         "E-EPIC17-S473-START",
         "E-EPIC17-S473-EXIT",
         "E-EPIC17-S474-START",
-        "E-EPIC17-S474-EXIT"
+        "E-EPIC17-S474-EXIT",
+        "E-EPIC17-S475-START",
+        "E-EPIC17-S475-EXIT"
       ]
     },
     {
@@ -4967,7 +4969,9 @@
         "E-EPIC17-S473-START",
         "E-EPIC17-S473-EXIT",
         "E-EPIC17-S474-START",
-        "E-EPIC17-S474-EXIT"
+        "E-EPIC17-S474-EXIT",
+        "E-EPIC17-S475-START",
+        "E-EPIC17-S475-EXIT"
       ],
       "flagKey": null
     },
@@ -10450,6 +10454,16 @@
           "at": "2026-10-08T06:07:34.815Z",
           "actor": "Codex",
           "text": "S474 extracts a SHA-bound oracle for the S473 Tee input: six closed CUT/SEW polylines, 190 vertices, source order/piece association and bounds. Focused tests pass 3/3. This is an input baseline only; actual CLO output and C04 round-trip acceptance remain pending."
+        },
+        {
+          "at": "2026-10-08T06:16:34.463Z",
+          "actor": "Codex",
+          "text": "S475 records the actual CLO 2026.1.310 Tee import/native save/reopen/DXF-ASTM export and matching ASTM reimport. The receiver files are confined to C:\\G04-CLO-DXF-Exchange. CLO reported seam allowances imported in Custom mode. Entity-by-entity C04 comparison and rendered assessment remain pending; V03 is still In Progress."
+        },
+        {
+          "at": "2026-10-08T06:21:31.905Z",
+          "actor": "Codex",
+          "text": "S475 passes the C04 coordinate threshold for six Tee contours (max 0.0000161 cm) in one observed CLO DXF-ASTM round trip. It also exposes duplicate coincident layer representations that need semantic review. Rights/scope, Polo/Woven, grade, and broader round-trip evidence remain. V03 and EPIC-17 remain In Progress; no conformance claim."
         }
       ],
       "evidenceRefs": [
@@ -10485,7 +10499,9 @@
         "E-G04-S473-START",
         "E-G04-S473-EXIT",
         "E-G04-S474-START",
-        "E-G04-S474-EXIT"
+        "E-G04-S474-EXIT",
+        "E-G04-S475-START",
+        "E-G04-S475-EXIT"
       ],
       "flagKey": null
     },
@@ -18851,6 +18867,42 @@
       "sha256": null,
       "verified": true,
       "note": "S474 prepares exact serialized Tee geometry for C04's 0.001 cm round-trip comparison; the CLO import/export result remains pending."
+    },
+    {
+      "id": "E-G04-S475-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S475 records a single local CLO Tee ASTM trial; receiver files remain only in C:\\G04-CLO-DXF-Exchange. Numeric output comparison and rendered review are pending; V03 gates remain unchanged."
+    },
+    {
+      "id": "E-EPIC17-S475-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S475 performs and analyzes an actual CLO ASTM round trip for one hash-identified Tee fixture; profile compatibility and G04 V03 remain unproven pending exact output evidence."
+    },
+    {
+      "id": "E-G04-S475-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S475 witnessed one local CLO Tee DXF-ASTM round trip. Six source contours match within 0.0000161 cm, below the 0.001 cm C04 limit, and reimport renders expected pieces. Numeric-layer duplicate semantics, rights review, Polo/Woven and grade evidence remain open; V03 stays In Progress."
+    },
+    {
+      "id": "E-EPIC17-S475-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S475 closes a local Tee receiver trial and identifies its exact geometry result and remaining V03 gates without asserting general format compatibility or ASTM conformance."
     }
   ]
 }

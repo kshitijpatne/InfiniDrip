@@ -1,39 +1,41 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 474 prepares exact Tee round-trip comparison
+## EPIC-17 / G04 — Slice 475 verifies one local CLO Tee round trip
 
-The owner reports CLO 2026.1.310 is available with all features during a free
-14-day trial and confirms ordinary DXF operations use local files. No
-subscription/account settings were inspected or changed; no paid use is
-authorized. The supplied screenshots show version `2026.1.310 (r58944)` and
-top-level `File > Import > DXF` / `File > Export > DXF` only. S473 prepared a
-hash-verified copy of the synthetic standard-M Tee input and a local operator
-runbook. No CLO import/export result is in the shared folder yet.
+S475 used CLO `2026.1.310 (r58944)` to import the S463 standard-M Tee, save and
+reopen a native project, export `DXF-ASTM`, and reimport it with matching
+`DXF-ASTM`. All DXF, native-project, screenshot, and analysis files remain in
+`C:\G04-CLO-DXF-Exchange`. The exact input hash still matches the S474 oracle.
+All six source CUT/SEW contours match closed output polylines with maximum
+per-coordinate delta `0.0000160001 cm`, within C04's 0.001 cm limit. Three
+pieces and inner/outer contours are visible after reimport; CLO reports seam
+allowances are retained in Custom mode.
 
-S474 starts from clean S473 commit `852cabea299b64015c9ef91222f4aad27cc99ce8`;
-refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an
-ancestor. Highest slice 473; S474 is unique. Board revision 2919 at start;
-validated start replay 2919→2923. EPIC-17 and G04-V03 remain In Progress,
-V01/V02 Done. Usage primary 3%; ordinary work allowed.
+The export contains 24 closed polylines across three piece blocks: each source
+CUT contour has six coincident output representations across numeric layers,
+and each source SEW contour has two. The reimport shows no extra visible
+strokes, but this one sample does not resolve numeric-layer semantics or prove
+general semantic fidelity. V03 remains In Progress; rights/scope review,
+Polo/Woven, grading, and other representative round trips remain. No
+compatibility or ASTM conformance claim. V01/V02 remain Done; the admitted
+all-seven V02 acceptance, export identities, and V03 gates are unchanged.
 
-S474 extracts the exact S473 Tee copy into
-`docs/research/epic17/S474-tee-geometry-oracle/tee-expected-geometry.json`:
-six closed polylines, 190 coordinate pairs, three source-piece associations,
-layers, bounds, raw serialized coordinate strings, source SHA and the explicit
-external centimeter basis (the file itself declares no units). Focused oracle
-tests pass 3/3. This prepares, but does not perform, C04's receiver comparison.
-The S463 source fixtures, generic DXF behavior and protected export identities
-remain unchanged.
+S475 began from clean commit `d34f6f32dd75b5043ca52faf6414273e54f36d86`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S474 was highest and S475 unique at start. Board revision 2927
+advanced to 2931 on start replay; the validated exit replay advances it to
+2935 while EPIC-17 and G04-V03 remain In Progress. Focused output analysis
+passes all six outline matches. No production code, source geometry, tests,
+protected export identity or baseline changed. See
+`docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md` and the C:
+folder inventory there. The start packet transparently records that desktop
+actions began before it was written.
 
-**Next:** stage the verified input in `C:\G04-CLO-DXF-Exchange` and use only
-that dedicated C: folder for CLO import, native save/reopen, DXF export and
-screenshots. Within the reported free window, select centimeters if asked and
-record actual dialog profile/settings and warnings. Compare actual entities,
-layers, outlines, bounds and coordinates to the S474 oracle under C04's 0.001
-cm limit. No receiver profile, round-trip pass, standards conformance or
-compatibility claim is made. Evidence packets:
-`docs/research/epic17/S473-clo-local-roundtrip-preflight/` and
-`docs/research/epic17/S474-tee-geometry-oracle/`.
+**Next:** reserve S476 after refreshing branch/board state. Resolve the output
+layer-multiplicity interpretation and complete the exact CLO rights/scope
+review; then trial a separate representative fixture only within
+`C:\G04-CLO-DXF-Exchange`. Do not infer Polo/Woven or graded-size support from
+this Tee result.
 
 ## EPIC-17 / G04 — Slice 471 screens free receiver alternatives
 
