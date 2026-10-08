@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3217,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S526-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S526-clo-trial-rights-check/S526-exit-packet.md",
+    "verified": true,
+    "note": "Current CLO Additional Terms state Trial Purposes exclude commercial and for-profit purposes. G04 is product development, so the standard CLO trial does not affirmatively authorize further exchange tests. Current general/privacy terms also do not establish local-only file handling. No app action or gate change."
+  }
+}

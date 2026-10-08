@@ -1,5 +1,37 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 526 CLO trial rights review (complete; V03 remains open)
+
+S526 reviewed current official CLO terms and privacy pages without operating
+the app. CLO Additional Terms §5.1.4 limit the standard trial to evaluation /
+demonstration and expressly exclude commercial and for-profit purposes. G04
+is an InfiniDrip product-development effort; the standard trial therefore
+does not affirmatively authorize further G04 fixture tests. This is a project
+interpretation of the clause, not a legal opinion. CLO's separate Individual
+license may allow qualifying one-person commercial use, but this does not
+override the narrower trial-purpose restriction. General Terms allow automatic
+Internet connections/remote authentication and license Content Analytics;
+privacy terms do not prove a local-only standalone DXF path or prove that
+specific pattern bytes were sent. Keep rights and local-handling gates open.
+
+Started `2026-10-08 20:05:50 UTC` from S525 `288e77c` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S526 is
+unique. Validated board start/exit replay is `3215→3217→3219`; EPIC-17 and
+G04-V03 remain In Progress; V01/V02 Done. Evidence and official source dates
+are in `docs/research/epic17/S526-clo-trial-rights-check/S526-exit-packet.md`.
+No CLO UI, account, file, or network action occurred; no code changed.
+`preflight-exit.mjs`, canonical board validation at 3219, and
+`git diff --check` pass; `npm run control-center:test` passes 42/42. Full
+production coverage/build gates do not apply to this read-only review.
+
+**Next:** do not run another CLO pattern test absent written authorization
+covering this product-development use and acceptable file handling. No
+independently qualified no-cost apparel receiver is currently documented; V03
+remains open pending a permitted receiver/profile and complete geometry,
+semantic, grade, negative-input, and round-trip evidence. CLO remains open
+while G04 still needs it.
+
 ## EPIC-17 / G04 — Slice 525 CLO layer and piece semantics audit (complete; V03 remains open)
 
 S525 analyzed the already-saved S498 ASTM exports (Tee, Polo, Woven) and S523

@@ -1,4 +1,23 @@
-## Current V03 semantic-evidence audit — S525 exit (2026-10-08)
+## Current V03 rights review — S526 exit (2026-10-08)
+
+The current CLO Additional Terms §5.1.4 limit Trial Licenses to evaluation and
+demonstration and exclude commercial/for-profit purposes. Because G04 is
+product development for InfiniDrip, the standard trial does not affirmatively
+authorize more G04 pattern tests; this is a project interpretation, not legal
+advice. CLO Individual licensing may cover qualifying one-person commercial
+use, but it does not supersede the narrower trial clause. General Terms allow
+automatic internet connections and remote authentication and license Content
+Analytics; the privacy terms do not prove local-only DXF handling or prove a
+specific pattern was transmitted. No app, account, or pattern action occurred.
+Exit packet: `docs/research/epic17/S526-clo-trial-rights-check/S526-exit-packet.md`.
+
+Board start/exit `3215→3217→3219`; EPIC-17/G04-V03 remain In Progress,
+V01/V02 Done. **Next:** no further CLO fixture test until applicable written
+use rights and acceptable data handling are established. No independent
+qualified no-cost apparel receiver is currently documented, so preserve all
+V03 holds and criteria.
+
+## Previous V03 semantic-evidence audit — S525 exit (2026-10-08)
 
 S525 completed a source-hash-pinned audit of seven saved generation-two CLO
 outputs, keeping the three observed ASTM exports separate from the four

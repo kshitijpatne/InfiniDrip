@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3215,
-  "updatedAt": "2026-10-08T20:03:14.370Z",
+  "revision": 3219,
+  "updatedAt": "2026-10-08T20:09:07.430Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11078,6 +11078,16 @@
           "at": "2026-10-08T20:03:14.370Z",
           "actor": "Codex",
           "text": "Correction to the S525 start note: the seven analyzed CLO files are not all DXF-AAMA. Tee/Polo/Woven are the observed DXF-ASTM S498 exports; Fitted/Tank/Skirt/Trouser are the observed DXF-AAMA S523 exports. This static audit maps all 41 piece identities, but numeric layer 8 mixes CUT and SEW across all seven and 78 source marks have no direct exact-geometry match. Five Polo CUT contour failures, rights/profile/local handling, warning, grade, negative-input, and independent receiver gates remain. No CLO UI action or acceptance change."
+        },
+        {
+          "at": "2026-10-08T20:06:36.428Z",
+          "actor": "Codex",
+          "text": "S526 reviews only current official CLO terms/privacy evidence for trial use and local-file handling, reconciled with S479/S487/S490/S503/S493. No app interaction, new pattern transfer, or repeated exchange test. Keep all V03 gates unchanged."
+        },
+        {
+          "at": "2026-10-08T20:09:07.430Z",
+          "actor": "Codex",
+          "text": "S526 found the current CLO Trial License clause defines Trial Purposes as evaluation/demo but excludes commercial and for-profit purposes. Individual paid licensing may allow qualifying one-person commercial use; that does not erase the trial restriction. General Terms allow automatic Internet connections/remote authentication, and Work Product Content Analytics is licensed; privacy terms do not prove local-only handling. Do not run new CLO pattern tests until appropriate written rights and local-handling authority exist. Keep every V03 acceptance criterion unchanged; CLO remains open and untouched."
         }
       ],
       "evidenceRefs": [
@@ -11225,7 +11235,9 @@
         "E-G04-S524-START",
         "E-G04-S524-EXIT",
         "E-G04-S525-START",
-        "E-G04-S525-EXIT"
+        "E-G04-S525-EXIT",
+        "E-G04-S526-START",
+        "E-G04-S526-EXIT"
       ],
       "flagKey": null
     },
@@ -20806,6 +20818,24 @@
       "sha256": null,
       "verified": true,
       "note": "Read-only audit of pinned S498 ASTM and S523 AAMA generation-two outputs: 41/41 pieces are uniquely block-identifiable, but layer 8 mixes CUT/SEW in all seven recipes, 78 marks lack a direct exact-geometry match, and five Polo CUT contours still fail. No rights/profile or V03 gate cleared."
+    },
+    {
+      "id": "E-G04-S526-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S526-clo-trial-rights-check/S526-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One read-only review of current official CLO trial-purpose, product-use, and file-handling terms against S493 Gate 0. No CLO app action, account operation, pattern transfer, or acceptance change."
+    },
+    {
+      "id": "E-G04-S526-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S526-clo-trial-rights-check/S526-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current CLO Additional Terms state Trial Purposes exclude commercial and for-profit purposes. G04 is product development, so the standard CLO trial does not affirmatively authorize further exchange tests. Current general/privacy terms also do not establish local-only file handling. No app action or gate change."
     }
   ]
 }

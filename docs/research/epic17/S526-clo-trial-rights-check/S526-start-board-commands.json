@@ -1,0 +1,20 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3215,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S526-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S526-clo-trial-rights-check/S526-start-packet.md",
+      "verified": true,
+      "note": "One read-only review of current official CLO trial-purpose, product-use, and file-handling terms against S493 Gate 0. No CLO app action, account operation, pattern transfer, or acceptance change."
+    }
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S526 reviews only current official CLO terms/privacy evidence for trial use and local-file handling, reconciled with S479/S487/S490/S503/S493. No app interaction, new pattern transfer, or repeated exchange test. Keep all V03 gates unchanged."
+  }
+]

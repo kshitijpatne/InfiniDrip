@@ -1,0 +1,20 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3217,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S526-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S526-clo-trial-rights-check/S526-exit-packet.md",
+      "verified": true,
+      "note": "Current CLO Additional Terms state Trial Purposes exclude commercial and for-profit purposes. G04 is product development, so the standard CLO trial does not affirmatively authorize further exchange tests. Current general/privacy terms also do not establish local-only file handling. No app action or gate change."
+    }
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S526 found the current CLO Trial License clause defines Trial Purposes as evaluation/demo but excludes commercial and for-profit purposes. Individual paid licensing may allow qualifying one-person commercial use; that does not erase the trial restriction. General Terms allow automatic Internet connections/remote authentication, and Work Product Content Analytics is licensed; privacy terms do not prove local-only handling. Do not run new CLO pattern tests until appropriate written rights and local-handling authority exist. Keep every V03 acceptance criterion unchanged; CLO remains open and untouched."
+  }
+]

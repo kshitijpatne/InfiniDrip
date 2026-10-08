@@ -2,6 +2,16 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S526-clo-trial-rights-check/S526-exit-packet.md`
+  checks current official CLO terms. The standard Trial License excludes
+  commercial/for-profit purposes; G04's product-development tests are not
+  affirmatively authorized by the trial. Connectivity, remote authentication,
+  and Content Analytics provisions also do not establish local-only pattern
+  handling. No CLO UI/file action occurred; no V03 gate changed. Board
+  `3215→3217→3219`; V03 remains In Progress. Require applicable written rights
+  and a compatible data-handling basis before another fixture test.
+- `docs/research/epic17/S526-clo-trial-rights-check/S526-start-packet.md`
+  bounds the one-pass public-source review and forbids CLO/account/file action.
 - `docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md`
   closes the read-only audit of existing S498 ASTM and S523 AAMA outputs.
   Empirical piece identity maps 41/41, but layer 8 mixes CUT/SEW in all seven;
