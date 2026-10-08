@@ -50,9 +50,13 @@ until the permitted-use and local-handling gates are resolved.
   `3066→3071`. EPIC-17 and V03 statuses remain In Progress. Matrix and exit
   are linked to G04-V03; exit is also linked to EPIC-17.
 - `npm run control-center:test -- --run` passed `42/42` after the start replay.
-  S493 scripts pass `node --check`; `git diff --check` passes. Documentation-
-  only changes mean no production-code coverage, build, export identity, or
-  full repository gate is due in this slice.
+  S493 scripts pass `node --check`. The pre-stage `git diff --check` inspected
+  tracked changes only and did not include the new packet files; the actual
+  staged check found an extra EOF blank line in each S493 start/exit packet.
+  S494 records and corrects that finding; do not treat S493's initial
+  diff-check statement as a clean staged result. Documentation-only changes
+  mean no production-code coverage, build, export identity, or full repository
+  gate is due in this slice.
 - No production source/test, DXF fixture, CLO file, export baseline or
   protected byte identity changed.
 
@@ -65,4 +69,3 @@ verification approximately `1m`; implementation `0m`; external-agent wait
 and permitted local handling are evidenced; then run the specific remaining
 fixture/profile gates in this matrix. If no such access appears, keep G04-V03
 In Progress and preserve these exact measured failures and holds.
-

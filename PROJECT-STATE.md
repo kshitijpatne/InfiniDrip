@@ -1,5 +1,29 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 494 S493 evidence packet hygiene
+
+S494 started `2026-10-08 13:50:04 UTC` from clean S493
+`96075a88b152313955eb11e0eae8616569f69a61` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S493 was highest; S494 is unique. Board start/exit revisions
+`3071→3073→3077`; EPIC-17 and G04-V03 are In Progress, V01/V02 Done; goal
+active.
+
+The staged review found extra EOF blank lines in the S493 start and exit
+packets; the earlier pre-stage diff check omitted those untracked files. S494
+removes only that whitespace and corrects S493's exit packet to state the
+actual check history. No result, fixture, product code, profile, claim,
+acceptance gate, or protected output changes. S493 remains a separate landed
+slice and its initial diff-check statement is explicitly superseded by this
+correction record.
+
+### Slice 493 — V03 evidence reconciliation
+
+`git diff --check` initially ran before the new S493 packet files were staged,
+so it did not inspect them; staged review then found the EOF whitespace that
+S494 fixes. The other S493 measurements and V03 status are unchanged. See
+`docs/research/epic17/S494-s493-evidence-hygiene/`.
+
 ## EPIC-17 / G04 — Slice 493 V03 evidence reconciliation
 
 S493 started `2026-10-08 13:45:59 UTC` from clean S492
@@ -24,8 +48,9 @@ limits: `docs/research/epic17/S493-v03-evidence-reconciliation/`.
 Validated board start replay advanced `3064→3066`; exit replay advanced
 `3066→3071`, linking the matrix and exit to G04-V03 and the exit to EPIC-17
 without changing statuses. `npm run control-center:test -- --run` passed
-`42/42`; S493 scripts pass `node --check`; `git diff --check` passes. No
-production source/test, fixture, export bytes or protected identity changed,
+`42/42`; S493 scripts pass `node --check`. The first pre-stage diff check did
+not inspect the untracked packet files; the staged check found extra EOF
+whitespace, fixed in S494. No production source/test, fixture, export bytes or protected identity changed,
 so no production coverage/build/export/full gate is due for this docs-only
 slice. No physical/factory/production-readiness claim is made.
 

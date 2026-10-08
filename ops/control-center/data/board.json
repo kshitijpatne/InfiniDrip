@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3071,
-  "updatedAt": "2026-10-08T13:49:22.183Z",
+  "revision": 3077,
+  "updatedAt": "2026-10-08T13:51:42.553Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -714,7 +714,8 @@
         "E-G04-S490-EXIT",
         "E-G04-S491-EXIT",
         "E-G04-S492-EXIT",
-        "E-G04-S493-EXIT"
+        "E-G04-S493-EXIT",
+        "E-G04-S494-EXIT"
       ]
     },
     {
@@ -4581,6 +4582,11 @@
           "at": "2026-10-08T13:49:22.183Z",
           "actor": "Codex",
           "text": "S493 completes a V03/C04 evidence reconciliation, not V03 acceptance. Actual receiver evidence is mixed; preserve G04-V03 and Epic In Progress, all-seven V02 Done, legacy DXF behavior and protected exports. Next requires rights-cleared exact local receiver access before remaining profile fixtures; see E-G04-S493-EXIT."
+        },
+        {
+          "at": "2026-10-08T13:51:42.553Z",
+          "actor": "Codex",
+          "text": "S494 corrects only staged documentation hygiene for S493 and records the verification finding. Epic and V03 remain In Progress; V01/V02 remain Done. See E-G04-S494-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10704,6 +10710,16 @@
           "at": "2026-10-08T13:49:22.111Z",
           "actor": "Codex",
           "text": "S493 maps every V03/C04 acceptance gate to existing evidence. CLO Tee and Woven contour subsets pass, Polo has five measured CUT-contour failures above 0.001 cm, and rights/local-only handling, clean import, semantic layers, grade, malformed-input and complete receiver acceptance remain unresolved. No status, threshold or claim changed. See E-G04-S493-MATRIX and E-G04-S493-EXIT."
+        },
+        {
+          "at": "2026-10-08T13:50:29.138Z",
+          "actor": "Codex",
+          "text": "S494 addresses the actual staged-diff finding from S493: two packet files had an extra EOF blank line; the earlier unstaged check did not include untracked files. Correct only packet hygiene and verification wording; acceptance, evidence, and statuses remain unchanged."
+        },
+        {
+          "at": "2026-10-08T13:51:42.465Z",
+          "actor": "Codex",
+          "text": "S494 closes the staged-diff hygiene correction: S493's two packet EOFs are normalized and its record accurately discloses the initial pre-stage check limitation. V03 measurements, criteria and status are unchanged. See E-G04-S494-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10789,7 +10805,9 @@
         "E-G04-S492-EXIT",
         "E-G04-S493-START",
         "E-G04-S493-MATRIX",
-        "E-G04-S493-EXIT"
+        "E-G04-S493-EXIT",
+        "E-G04-S494-START",
+        "E-G04-S494-EXIT"
       ],
       "flagKey": null
     },
@@ -19812,6 +19830,24 @@
       "sha256": null,
       "verified": true,
       "note": "S493 preserves V03 gates/status: actual Tee and Woven subsets pass, Polo M has five measured tolerance failures, CLO rights remain unproven, and semantic/grade/negative gates remain open."
+    },
+    {
+      "id": "E-G04-S494-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S494-s493-evidence-hygiene/S494-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S494 corrects S493 packet EOF whitespace and records the staged diff-check finding without rewriting slice history."
+    },
+    {
+      "id": "E-G04-S494-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S494-s493-evidence-hygiene/S494-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S494 removes the extra S493 packet EOF blank lines and accurately records that staged diff review found them; no acceptance or evidence changed."
     }
   ]
 }

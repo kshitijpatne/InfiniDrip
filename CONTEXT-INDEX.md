@@ -2,6 +2,13 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S494-s493-evidence-hygiene/S494-exit-packet.md`
+  records the staged diff-check correction for S493's extra packet EOF
+  whitespace. S493's earlier pre-stage check omitted untracked files; S494
+  removes the extra blank lines and corrects the verification record without
+  changing V03 evidence or acceptance. Validated board revision 3077; status
+  remains V03/EPIC-17 In Progress, V01/V02 Done.
+
 - `docs/research/epic17/S493-v03-evidence-reconciliation/S493-exit-packet.md`
   and `S493-v03-gate-matrix.md` reconcile every admitted V03/C04 gate against
   current rights research and actual S475–S478 CLO results. Tee M and Woven M

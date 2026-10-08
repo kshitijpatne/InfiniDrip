@@ -65,4 +65,3 @@ package to delegate. Keep all existing C: fixture files untouched. The next
 action after closeout is to proceed only if an applicable written grant or a
 different rights-cleared exact local receiver is evidenced; otherwise retain
 V03 In Progress and the measured CLO failures without weakening acceptance.
-
