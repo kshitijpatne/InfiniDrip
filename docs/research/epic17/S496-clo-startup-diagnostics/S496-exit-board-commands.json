@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3085,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S496-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S496-clo-startup-diagnostics/S496-exit-packet.md",
+      "verified": true,
+      "note": "S496 found successful CLO authentication and no matching Windows crash event, but reproduced a second startup hang before the pattern workspace; no settings or exchange files changed and no new import/export occurred."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3086,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S496-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3087,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S496 reproduced CLO failing to reach a usable workspace: authentication succeeded, startup advanced to Loading CLO, then Windows reported Responding: False. No matching Windows Application error/crash record or crash dump was found; no import/export was attempted. This is an environment startup hold, not evidence of DXF incompatibility. Prior Tee/Woven passes and Polo 5-contour failure remain unchanged; all V03 gates remain. See E-G04-S496-EXIT."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3088,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S496 adds read-only startup diagnostics and a reproduced CLO workspace hang. It does not change V03 scope, prior round-trip outcomes, or any acceptance gate. EPIC-17/G04-V03 remain In Progress; V01/V02 Done. See E-G04-S496-EXIT."
+  }
+]

@@ -1,5 +1,40 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 496 CLO startup diagnostics
+
+S496 started `2026-10-08 14:04:17 UTC` from clean S495
+`7927620c4f14a6eecbecf1df31d47c471d7284e0` on `codex/epic-17-g04`;
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+S495 was highest; S496 is unique. Start board replay advanced
+`3083→3085`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done.
+
+Read-only local logs show CLO authentication succeeded on two launches; the
+second advanced from “Creating Scene and Library” to “Loading CLO” but then
+Windows reported `Responding: False` before the pattern workspace appeared.
+The bounded Windows Application log contained no matching error/crash record;
+no crash dump was present. CLO's integrated graphics warning was observed but
+no settings were changed. No import/export occurred in S496; the idle app was
+closed. This reproduces a concrete startup/environment hold, not DXF
+incompatibility. Prior successful Tee/Woven subsets and the measured Polo
+failure remain unchanged. See
+`docs/research/epic17/S496-clo-startup-diagnostics/`.
+
+No source/test/product code, pattern geometry, DXF fixture/export, protected
+identity, V03 criterion, account, system setting, or local-handling condition
+changed. Process/log checks and durable exit replay are recorded in S496; the
+board keeps EPIC-17/G04-V03 In Progress. Full repository/coverage/build gates
+remain due only on the settled integrated Epic candidate.
+
+Elapsed estimates: implementation `0m`; local logs/event/process diagnostics
+`2m`; practical CLO launch checks and close `2m`; external-agent wait `0m`;
+maintainer-decision time `0m`; durable records and board closeout `1m`.
+
+**Next:** use a responsive rights-cleared exact receiver/build with documented
+local handling before further exchange. Keep the measured Polo failure and all
+unproven import-warning, semantic/marks, grade, negative-input and independent
+receiver gates open. No standards/factory/physical/production claim. Goal
+remains active.
+
 ## EPIC-17 / G04 — Slice 495 existing CLO layer audit and startup check
 
 S495 started `2026-10-08 13:54:13 UTC` from clean S494

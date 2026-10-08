@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3083,
-  "updatedAt": "2026-10-08T14:02:52.768Z",
+  "revision": 3089,
+  "updatedAt": "2026-10-08T14:09:24.475Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -716,7 +716,8 @@
         "E-G04-S492-EXIT",
         "E-G04-S493-EXIT",
         "E-G04-S494-EXIT",
-        "E-G04-S495-EXIT"
+        "E-G04-S495-EXIT",
+        "E-G04-S496-EXIT"
       ]
     },
     {
@@ -4593,6 +4594,11 @@
           "at": "2026-10-08T14:02:52.768Z",
           "actor": "Codex",
           "text": "S495 adds read-only numeric-layer evidence and records a concrete nonresponsive CLO startup. Existing Tee/Woven results and the measured Polo failure remain unchanged; no acceptance criteria or claim changed. EPIC-17/G04-V03 remain In Progress, V01/V02 Done. See E-G04-S495-EXIT."
+        },
+        {
+          "at": "2026-10-08T14:09:24.475Z",
+          "actor": "Codex",
+          "text": "S496 adds read-only startup diagnostics and a reproduced CLO workspace hang. It does not change V03 scope, prior round-trip outcomes, or any acceptance gate. EPIC-17/G04-V03 remain In Progress; V01/V02 Done. See E-G04-S496-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10736,6 +10742,16 @@
           "at": "2026-10-08T14:02:52.664Z",
           "actor": "Codex",
           "text": "S495 confirms numeric CLO layer IDs cannot be uniquely mapped to CUT/SEW from geometry: coincident copies span the same numeric layers across Tee, Polo and Woven. Polo remains 13/18 within 0.001 cm. A new CLO launch remained at Creating Scene and Library and Windows reported Responding: False; no fresh exchange occurred. This does not negate earlier successful runs or establish format incompatibility. V03 gates/status unchanged. See E-G04-S495-EXIT."
+        },
+        {
+          "at": "2026-10-08T14:04:39.550Z",
+          "actor": "Codex",
+          "text": "S496 diagnoses the concrete S495 CLO startup stall through local logs and bounded Windows Application events only. No app/system settings or exchange files will be changed; V03 gates and statuses remain unchanged."
+        },
+        {
+          "at": "2026-10-08T14:09:24.358Z",
+          "actor": "Codex",
+          "text": "S496 reproduced CLO failing to reach a usable workspace: authentication succeeded, startup advanced to Loading CLO, then Windows reported Responding: False. No matching Windows Application error/crash record or crash dump was found; no import/export was attempted. This is an environment startup hold, not evidence of DXF incompatibility. Prior Tee/Woven passes and Polo 5-contour failure remain unchanged; all V03 gates remain. See E-G04-S496-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10825,7 +10841,9 @@
         "E-G04-S494-START",
         "E-G04-S494-EXIT",
         "E-G04-S495-START",
-        "E-G04-S495-EXIT"
+        "E-G04-S495-EXIT",
+        "E-G04-S496-START",
+        "E-G04-S496-EXIT"
       ],
       "flagKey": null
     },
@@ -19884,6 +19902,24 @@
       "sha256": null,
       "verified": true,
       "note": "S495 rechecked existing hash-pinned CLO DXFs: numeric layers duplicate source-correlated CUT/SEW geometry without a unique semantic mapping; Polo's five tolerance failures remain; a fresh CLO launch stalled and the process reported not responding, so no new exchange was attempted."
+    },
+    {
+      "id": "E-G04-S496-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S496-clo-startup-diagnostics/S496-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S496 performs read-only local diagnostics of the S495 nonresponsive CLO startup; no app settings, account, or exchange file will be changed."
+    },
+    {
+      "id": "E-G04-S496-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S496-clo-startup-diagnostics/S496-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S496 found successful CLO authentication and no matching Windows crash event, but reproduced a second startup hang before the pattern workspace; no settings or exchange files changed and no new import/export occurred."
     }
   ]
 }

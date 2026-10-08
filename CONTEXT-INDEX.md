@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S496-clo-startup-diagnostics/S496-exit-packet.md`
+  records two authenticated CLO launches that did not reach the pattern
+  workspace; the second advanced to “Loading CLO” before Windows reported
+  `Responding: False`. No matching Application crash/error event, dump, import,
+  or export was found in S496. No settings or exchange files changed. This is
+  a reproduced local startup hold, not DXF incompatibility. Prior successful
+  Tee/Woven subsets and Polo's measured 5-contour failure remain unchanged.
+  Board `3083→3085→3089`; EPIC-17/G04-V03 In Progress, V01/V02 Done. **Next:**
+  use an available responsive receiver only after exact rights and local
+  handling are established.
+
 - `docs/research/epic17/S495-clo-layer-semantics-audit/S495-exit-packet.md`
   closes the read-only numeric-layer audit against hash-pinned Tee/Polo/Woven
   DXFs and records a fresh CLO startup that stayed at “Creating Scene and
