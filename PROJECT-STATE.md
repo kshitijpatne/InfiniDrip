@@ -1,31 +1,30 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 477 Polo output diagnosis
+## EPIC-17 / G04 — Slice 478 Woven generation-two reimport
 
-S477 closed the Polo mismatch-attribution diagnostic. Matching each source
-SEW contour to its unique CLO block resolved the apparent 2.000004 cm and
-9.298007 cm CUT mismatches as wrong CUT/SEW associations from a same-vertex
-matcher. The five correct CUT candidates have 32–53 vertices versus 33–54 in
-source and witnessed 0.01019–0.01118 cm deviation, still above the unchanged
-0.001 cm gate. The five strict CUT round trips therefore remain unproven; no
-receiver profile or compatibility claim is made. Packet:
-`docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-exit-packet.md`.
+S478 reimported S477's Woven M generation-two DXF in CLO `2026.1.310 (r58944)`
+using DXF-AAMA, centimeters, 100%, no rotation, original grain, and the prior
+notch settings. The live 2D result showed twelve distinct pieces. The native
+project, raw CLO 2D snapshot, and white-background inspection composite are
+saved only under `C:\G04-CLO-DXF-Exchange`. The hash-bound analyzer confirms
+12 piece blocks/inserts, 114/114 same-block/layer contours within 0.001 cm of
+the previous CLO export (maximum delta 0.000031 cm), and source matches for
+24/24 outlines within 0.001 cm (maximum delta 0.000074 cm). The output still
+uses AC1009 without `$INSUNITS` and contains repeated contours on numeric
+layers. This fixture does not prove layer meaning, standards conformance, or
+industrial compatibility. V03 remains In Progress; V02 acceptance, legacy DXF
+behavior, and protected identities are unchanged. Packet:
+`docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md`.
 
-Codex rendered and inspected overlays from hash-bound S463 Polo M source and
-S476 CLO output; files stay in `C:\G04-CLO-DXF-Exchange\Evidence`. A direct CLO
-UI re-export from the Woven reimported project also stays in that exchange
-folder and does not count as a second reimport pass. No product, geometry,
-exporter, protected identity, V02/V03 criterion, or acceptance status changed.
-The OpenCode source-only review completed at exact required settings and is
-summarized in the S477 packet. Board start revision 2943 advanced to 2947 and
-the validated exit replay advanced 2947→2951; EPIC-17 and G04 V03 remain In
-Progress. Control Center tests pass 42/42; board preflight/exit verification,
-script syntax, and `git diff --check` pass. No production code changed. The goal
-remains active and aligned with EPIC-17.
+Start: `2026-10-08 07:15:28 UTC`; S477 `68cc8f35423463fbc6dc54165c97816776fde105`
+was clean on `codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S478 began from
+board revision 2951 and its validated exit replay advances it from 2955 to
+2959. The goal remains active and aligned.
 
-**Next:** continue V03 rights/profile qualification and independent receiver
-round-trip evidence gates. Keep claims fail-closed; preserve exact byte
-identities and all V02/V03 acceptance requirements.
+**Next:** continue the admitted V03 rights/profile and receiver evidence work
+from S476–S478. Preserve the 0.001 cm evidence threshold, numeric-layer
+ambiguity, no-compatibility-claim limit, and all other V03 gates.
 
 ## EPIC-17 / G04 — Slice 476 tests representative CLO fixtures
 

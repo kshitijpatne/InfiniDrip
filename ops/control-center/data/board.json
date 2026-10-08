@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2951,
-  "updatedAt": "2026-10-08T07:13:04.936Z",
+  "revision": 2959,
+  "updatedAt": "2026-10-08T07:30:24.541Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -689,7 +689,9 @@
         "E-EPIC17-S476-START",
         "E-EPIC17-S476-EXIT",
         "E-EPIC17-S477-START",
-        "E-EPIC17-S477-EXIT"
+        "E-EPIC17-S477-EXIT",
+        "E-EPIC17-S478-START",
+        "E-EPIC17-S478-EXIT"
       ]
     },
     {
@@ -4979,7 +4981,9 @@
         "E-EPIC17-S476-START",
         "E-EPIC17-S476-EXIT",
         "E-EPIC17-S477-START",
-        "E-EPIC17-S477-EXIT"
+        "E-EPIC17-S477-EXIT",
+        "E-EPIC17-S478-START",
+        "E-EPIC17-S478-EXIT"
       ],
       "flagKey": null
     },
@@ -10492,6 +10496,16 @@
           "at": "2026-10-08T07:13:04.936Z",
           "actor": "Codex",
           "text": "S477's hash-bound source/output analysis corrected the Polo mismatch attribution: exact-SEW associations identify all nine CLO piece blocks, and each of five CUT outlines is near its correct block contour but exceeds the unchanged 0.001 cm gate with a measured >0.01 cm witness. No geometry/export change or V03 pass is claimed. Next: continue the remaining rights/profile and receiver round-trip evidence gates."
+        },
+        {
+          "at": "2026-10-08T07:16:36.913Z",
+          "actor": "Codex",
+          "text": "S478 is a bounded local CLO UI test of reimporting the C:-only Woven DXF re-exported from an earlier CLO reimport project. It will record actual settings, visible 2D results, and hash-bound comparison only. This does not select a standard/profile, satisfy broader V03 acceptance, or claim compatibility."
+        },
+        {
+          "at": "2026-10-08T07:30:24.541Z",
+          "actor": "Codex",
+          "text": "S478 reimported the hash-bound Woven generation-two DXF in the CLO UI and saved a native project under C:\\G04-CLO-DXF-Exchange. Twelve piece blocks/inserts and 114/114 same-block/layer contours persisted within 0.001 cm; the maximum cyclic vertex delta was 0.000031 cm. All 24 source outlines retain an output match within 0.001 cm. The numeric-layer mapping, rights/profile, other option/grade/recipe cases, and V03 acceptance remain open; this is not an ASTM conformance or general compatibility claim."
         }
       ],
       "evidenceRefs": [
@@ -10533,7 +10547,9 @@
         "E-G04-S476-START",
         "E-G04-S476-EXIT",
         "E-G04-S477-START",
-        "E-G04-S477-EXIT"
+        "E-G04-S477-EXIT",
+        "E-G04-S478-START",
+        "E-G04-S478-EXIT"
       ],
       "flagKey": null
     },
@@ -19007,6 +19023,42 @@
       "sha256": null,
       "verified": true,
       "note": "S477 resolves Polo contour attribution against the actual CLO export but leaves all five strict-tolerance CUT failures and every V03 rights, profile, and receiver gate unchanged."
+    },
+    {
+      "id": "E-G04-S478-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S478 uses the CLO UI to reimport S477's C:-only Woven generation-two DXF and inspect the actual output. Only receiver-trial files are saved under C:\\G04-CLO-DXF-Exchange; V03 claims/gates remain unchanged."
+    },
+    {
+      "id": "E-EPIC17-S478-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S478 is a bounded second-generation Woven CLO DXF reimport trial; no product behavior, acceptance criteria, or compatibility claim changes."
+    },
+    {
+      "id": "E-G04-S478-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S478 reimported S477's Woven M DXF in CLO 2026.1.310: 12 piece blocks/inserts remain, all 114 same-block/layer contours match the prior export within 0.001 cm, and source geometry matches 24/24 contours. Numeric layer semantics, rights, profile conformance, and broader V03 gates remain open."
+    },
+    {
+      "id": "E-EPIC17-S478-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S478 provides hash-bound evidence for one additional Woven M CLO DXF generation only. V03 remains In Progress; no standards, industrial compatibility, physical-fit, or factory-acceptance claim is made."
     }
   ]
 }

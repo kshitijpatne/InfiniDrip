@@ -2,6 +2,22 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md`
+  closes the bounded Woven M CLO generation-two DXF reimport. The live 2D
+  output showed twelve pieces; hash-bound matching confirms 114/114
+  same-block/layer contours within 0.001 cm of the prior CLO export and source
+  matches for all 24/24 contours. The raw CLO snapshot, inspection composite,
+  native project and DXFs remain in `C:\G04-CLO-DXF-Exchange`. The output still
+  declares AC1009 without `$INSUNITS`; numeric layer semantics, standards
+  conformance, rights/profile acceptance, other configurations and industrial
+  interoperability remain open. S478 began at commit `68cc8f3`; its validated
+  board closeout advances revision 2955 to 2959. Goal remains active.
+
+- `docs/research/epic17/S478-woven-generation-two-reimport/analyze-woven-roundtrip.mjs`
+  hash-pins the Woven M source, first CLO export, and second-generation DXF;
+  checks block/entity counts and same-layer cyclic/reverse vertex geometry; and
+  writes its output only into the C: exchange evidence folder.
+
 - `docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-exit-packet.md`
   closes the five Polo M CUT association diagnosis. Source SEW geometry
   identifies all nine CLO blocks; corrected CUT comparisons have witnessed

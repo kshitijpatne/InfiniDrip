@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2955,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S478-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md",
+      "verified": true,
+      "note": "S478 reimported S477's Woven M DXF in CLO 2026.1.310: 12 piece blocks/inserts remain, all 114 same-block/layer contours match the prior export within 0.001 cm, and source geometry matches 24/24 contours. Numeric layer semantics, rights, profile conformance, and broader V03 gates remain open."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2956,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S478-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md",
+      "verified": true,
+      "note": "S478 provides hash-bound evidence for one additional Woven M CLO DXF generation only. V03 remains In Progress; no standards, industrial compatibility, physical-fit, or factory-acceptance claim is made."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2957,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S478-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2958,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S478 reimported the hash-bound Woven generation-two DXF in the CLO UI and saved a native project under C:\\G04-CLO-DXF-Exchange. Twelve piece blocks/inserts and 114/114 same-block/layer contours persisted within 0.001 cm; the maximum cyclic vertex delta was 0.000031 cm. All 24 source outlines retain an output match within 0.001 cm. The numeric-layer mapping, rights/profile, other option/grade/recipe cases, and V03 acceptance remain open; this is not an ASTM conformance or general compatibility claim."
+  }
+]
