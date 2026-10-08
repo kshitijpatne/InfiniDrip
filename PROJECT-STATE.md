@@ -1,5 +1,24 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 544 CLO target-state mismatch (closed; V03 remains open)
+
+S544 hash-verified and copied the missing Tee, Polo, and Woven DXF-AAMA
+fixtures from the exact S498 inputs into
+`C:\\G04-CLO-DXF-Exchange\\S544-aama-three-recipe-roundtrip`. No import or
+export occurred. The running CLO 2026.1.310 window capture showed only its
+synthetic canvas while accessibility repeatedly reported an Export DXF modal;
+refresh, Escape, and a supported Raise attempt did not reconcile the visible
+and accessible state. This is a concrete computer-use targetability blocker,
+not a format result. All V03 requirements and holds remain unchanged; CLO is
+left open. Exit evidence:
+`docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md`.
+
+**Next:** take one fresh supported observation of the existing CLO process.
+Proceed with the same pinned fixtures only if visible controls and
+accessibility targets agree. If the mismatch persists, preserve the files and
+diagnose the computer-use bridge without repeating the trial or claiming a
+DXF result.
+
 ## EPIC-17 / G04 — Slice 543 current apparel profile screen (closed; V03 remains open)
 
 Official primary records show ASTM D6673-10 withdrawn in 2019; D6673-04 is

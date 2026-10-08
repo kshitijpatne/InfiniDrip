@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3287,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S544-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-start-packet.md",
+    "verified": true,
+    "note": "Begin the missing Tee/Polo/Woven DXF-AAMA generation-1→generation-2 recipe trials to complete the seven-recipe same-menu cohort; all exchange/evidence files stay under the named C: folder."
+  }
+}

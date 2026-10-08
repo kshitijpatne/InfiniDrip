@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3287,
-  "updatedAt": "2026-10-08T22:08:38.246Z",
+  "revision": 3291,
+  "updatedAt": "2026-10-08T22:13:37.353Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11258,6 +11258,16 @@
           "at": "2026-10-08T22:08:38.246Z",
           "actor": "Codex",
           "text": "S543 primary-source screen did not establish a current replacement: ASTM D6673-10 is withdrawn, D6673-04 is historical and R13, and AAMA-292A status/full clauses remain unresolved. The bounded next candidate test is finishing the three missing DXF-AAMA recipe exchanges; no profile/conformance claim or gate change."
+        },
+        {
+          "at": "2026-10-08T22:09:43.710Z",
+          "actor": "Codex",
+          "text": "S544 runs the three missing M/default recipes through the same CLO DXF-AAMA mode used for S523's four recipes. It tests a specific remaining profile path without asserting conformance or changing any V03 gate."
+        },
+        {
+          "at": "2026-10-08T22:13:37.353Z",
+          "actor": "Codex",
+          "text": "S544 stopped before exchange after visible screenshot/accessibility mismatch persisted through supported refresh and Raise failed. Inputs remain hash-pinned under C:; no output or acceptance change. Resume same trial after fresh targetable CLO state."
         }
       ],
       "evidenceRefs": [
@@ -11441,7 +11451,9 @@
         "E-G04-S542-START",
         "E-G04-S542-EXIT",
         "E-G04-S543-START",
-        "E-G04-S543-EXIT"
+        "E-G04-S543-EXIT",
+        "E-G04-S544-START",
+        "E-G04-S544-EXIT"
       ],
       "flagKey": null
     },
@@ -21346,6 +21358,24 @@
       "sha256": null,
       "verified": true,
       "note": "Primary-source screen found D6673-10 withdrawn and D6673-04 historical/R13, while current AAMA-292A status remains unresolved; generic ISO modules do not define apparel interchange. All V03 gates stay held."
+    },
+    {
+      "id": "E-G04-S544-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begin the missing Tee/Polo/Woven DXF-AAMA generation-1→generation-2 recipe trials to complete the seven-recipe same-menu cohort; all exchange/evidence files stay under the named C: folder."
+    },
+    {
+      "id": "E-G04-S544-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S544 hash-verified and copied the three source DXFs to the named C: folder but stopped before import/export because the visible CLO screenshot showed only the synthetic canvas while accessibility reported an invisible Export DXF modal; no exchange or gate change."
     }
   ]
 }

@@ -2,6 +2,19 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md`
+  records the three missing Tee/Polo/Woven DXF-AAMA fixtures copied and
+  hash-verified in the dedicated C: folder. CLO 2026.1.310 remained open, but
+  a fresh visible-window screenshot showed only the synthetic canvas while
+  accessibility repeatedly reported an invisible Export DXF modal; Escape,
+  refresh, and a supported Raise attempt did not reconcile the state. No
+  exchange occurred, no V03 gate changed, and output/evidence folders remain
+  empty. Next: resume the same pinned inputs only after a fresh supported
+  computer-use observation yields a visible, targetable CLO state.
+- `docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-start-packet.md`
+  defines the same-mode three-recipe completion trial and the C:-only file
+  boundary.
+
 - `docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-exit-packet.md`
   records a primary-source screen: ASTM D6673-10 is withdrawn; D6673-04 is a
   historical R13 profile; AAMA-292A is referenced by D6673-04 but its current

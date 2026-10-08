@@ -1,3 +1,20 @@
+## Current EPIC-17/G04 V03 practical trial — S544 exit (2026-10-08)
+
+S544 confirmed the three missing source DXFs for Tee, Polo, and Woven against
+their exact S498 hashes and copied them into the named C:-only trial folder.
+It did not reach import/export: CLO's visible window capture showed only the
+synthetic canvas while accessibility repeatedly reported an Export DXF modal.
+Refresh, Escape, and supported Raise did not reconcile that state. No
+candidate profile, round-trip, or acceptance gate is cleared; all holds stay
+in force and CLO remains open. The start/exit board records are in
+`docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md`.
+
+**Next:** begin with a fresh supported observation of the already-running CLO
+window. Operate only when its visible and accessible states agree; then run
+the same hash-pinned DXF-AAMA fixtures through import/export and inspect
+geometry, grading, semantics, malformed-input behavior, and rendered output.
+Do not infer compatibility from the currently blocked S544.
+
 ## Current EPIC-17/G04 V03 local receiver availability — S535 exit (2026-10-08)
 
 S535 checked registered apps, relevant Program Files directories, Start-menu
