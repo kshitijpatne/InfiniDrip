@@ -1,5 +1,47 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 498 CLO practical V03 retest
+
+S498 started `2026-10-08 14:20:55 UTC` from clean S497 `586fcf3` on
+`codex/epic-17-g04`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. S497 was highest;
+S498 is unique. Board start replay advanced `3095→3097`; G04-V03 stayed In
+Progress and V01/V02 Done. The goal record was inspected at this boundary:
+status is active and the objective still matches the admitted Epic; it is not
+stale and no UI resume is needed.
+
+The maintainer-authorized CLO 2026.1.310 (r58944) practical run completed in
+the existing responsive UI. Tee M and Woven M source outlines survive two
+DXF-ASTM export/reimport generations within 0.001 cm (Tee max
+`0.0000160001 cm`; Woven max `0.000074 cm`, with 114/114 Woven
+same-block/same-layer generation comparisons). Polo's five CUT contour
+failures reproduce in both generations, with exact-segment witness lower
+bounds `0.01019–0.01119 cm`, above the unchanged threshold. CLO accepted the
+deliberately missing terminal EOF control and rendered the three Tee pieces
+without an error/warning; this fails the negative-control gate. Separate Tee
+XS/M/XL imports succeeded but do not test native grade nesting. The UI showed
+a seam-allowance/Custom-mode information notice on valid imports. Screenshots,
+hashes, and reports remain under
+`C:\G04-CLO-DXF-Exchange\S498-practical-retest`. CLO was closed with File →
+Quit after testing.
+
+No V03 acceptance claim: industrial-profile conformance, declared units,
+layer/mark semantics, native grading, rights/local-only processing and an
+independent receiver remain unproven; Polo geometry and malformed-input
+behavior fail their gates. V03 remains In Progress with all gates intact.
+See `docs/research/epic17/S498-clo-practical-retest/S498-exit-packet.md`.
+Full repo coverage/build/browser/output gates remain due on the settled Epic
+candidate; this evidence-only slice has no production-code change.
+
+Elapsed estimate (`14:20:55–14:45 UTC`): implementation `0m`; focused CLO and
+geometry verification `20m`; durable records/board/closeout `4m`; external
+agent waits `0m`; maintainer-decision time `0m`.
+
+**Next:** retain all V03 holds and prioritize a bounded investigation of why
+CLO drops one vertex from five Polo cut contours and tolerates the missing EOF
+marker. Do not spend another slice repeating successful Tee/Woven M round
+trips.
+
 ## EPIC-17 / G04 — Slice 497 CLO startup diagnosis
 
 S497 started `2026-10-08 14:11:53 UTC` from clean S496

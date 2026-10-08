@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S498-clo-practical-retest/S498-exit-packet.md`
+  records direct CLO 2026.1.310 practical import/export/reimport evidence in
+  the user's existing responsive session. Tee M and Woven M geometry pass two
+  measured generations at 0.001 cm, while Polo's five CUT contour failures
+  reproduce. CLO silently accepts the missing-EOF negative control; separate
+  Tee XS/M/XL imports do not prove native grade nesting. The valid-import
+  seam-allowance notice, absent `$INSUNITS`, ambiguous numeric layers, and
+  unproven rights/local handling/profile/independent receiver keep V03 gated.
+  All exchange files and screenshots are on C: under the named S498 folder;
+  CLO was closed after the run. Board `3095→3097→3101`; goal remains active.
+
 - `docs/research/epic17/S497-clo-startup-official-diagnostics/S497-exit-packet.md`
   records a read-only official-source/ACL diagnosis. CLO lists insufficient
   write rights as a possible unresponsive-launch condition, but local ACL/cache

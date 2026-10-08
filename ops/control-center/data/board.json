@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3095,
-  "updatedAt": "2026-10-08T14:20:12.582Z",
+  "revision": 3101,
+  "updatedAt": "2026-10-08T14:46:44.266Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -718,7 +718,8 @@
         "E-G04-S494-EXIT",
         "E-G04-S495-EXIT",
         "E-G04-S496-EXIT",
-        "E-G04-S497-EXIT"
+        "E-G04-S497-EXIT",
+        "E-G04-S498-EXIT"
       ]
     },
     {
@@ -4605,6 +4606,11 @@
           "at": "2026-10-08T14:20:12.582Z",
           "actor": "Codex",
           "text": "S497 closes an official-source startup diagnosis, not a receiver qualification. V03 remains In Progress with its existing rights, semantics, grades, negative-case, independent-receiver and measured round-trip gates unchanged. Next: inspect the already-running CLO UI in S498 and continue scoped exchange scenarios if it is responsive."
+        },
+        {
+          "at": "2026-10-08T14:46:44.266Z",
+          "actor": "Codex",
+          "text": "S498 closes a practical receiver retest, not V03 acceptance. Keep G04-V03 In Progress and all seven-recipe V02/V03 gates unchanged. Next: diagnose the reproduced Polo contour changes and malformed-input tolerance; do not repeat successful Tee/Woven M cycles absent a changed candidate."
         }
       ],
       "evidenceRefs": [
@@ -10768,6 +10774,16 @@
           "at": "2026-10-08T14:20:12.490Z",
           "actor": "Codex",
           "text": "S497 reviewed official CLO startup guidance and local ACLs. Disk write access is a plausible but unconfirmed cause; the exact Intel driver article does not match the delayed post-login stall. No fix, setting change, import/export, or V03 gate was verified. The maintainer reports CLO is now running; S498 will first inspect its current window, then continue practical tests only if a responsive workspace is present."
+        },
+        {
+          "at": "2026-10-08T14:21:54.574Z",
+          "actor": "Codex",
+          "text": "S498 will inspect the already-running CLO window and, if a responsive workspace is present, retest the existing Tee/Polo/Woven M fixtures using new outputs under C:\\G04-CLO-DXF-Exchange\\S498-practical-retest. Preserve the 0.001 cm gate, all warnings/failures, and every rights/local-handling/semantics/grade/negative/independent-receiver hold."
+        },
+        {
+          "at": "2026-10-08T14:46:44.159Z",
+          "actor": "Codex",
+          "text": "S498 completed practical CLO import/export/reimport in the already-running UI. Tee/Woven M geometry remains within 0.001 cm through two generations; five Polo CUT contour misses reproduce at 0.01019–0.01119 cm. CLO accepted the missing-EOF negative control without an explicit report. Separate size-file imports do not prove native grading. Preserve every V03 rights/local-handling/profile/semantic/grade/negative/independent-receiver and round-trip gate. See E-G04-S498-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10861,7 +10877,9 @@
         "E-G04-S496-START",
         "E-G04-S496-EXIT",
         "E-G04-S497-START",
-        "E-G04-S497-EXIT"
+        "E-G04-S497-EXIT",
+        "E-G04-S498-START",
+        "E-G04-S498-EXIT"
       ],
       "flagKey": null
     },
@@ -19956,6 +19974,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official CLO guidance does not establish a verified fix for the reproduced startup stall. Disk-write rights are a plausible but unconfirmed hypothesis; no ACL/settings/driver change or V03 gate change. Maintainer reports CLO is now running; S498 will inspect the existing window before any exchange operation."
+    },
+    {
+      "id": "E-G04-S498-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S498-clo-practical-retest/S498-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Maintainer reports CLO is now running and explicitly authorizes practical local import/export testing; inspect the existing window before testing, keep all exchange files under C:\\G04-CLO-DXF-Exchange, preserve all V03 gates and claim limits."
+    },
+    {
+      "id": "E-G04-S498-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S498-clo-practical-retest/S498-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Practical CLO 2026.1.310 retest: Tee/Woven M contours pass two measured generations; Polo five CUT contour failures reproduce in both; CLO accepts missing-EOF negative input without an explicit report; separate Tee XS/M/XL imports do not establish native grading. All existing V03 gates and claims remain unchanged. C: exchange evidence only."
     }
   ]
 }
