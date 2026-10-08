@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S465-free-browser-receiver-candidate/S465-exit-packet.md`
+  identifies Pixie Space preview 0.2.0 as a free, no-login/local-first
+  candidate for a witnessed receiver trial, based on its public disclosures
+  and the live UI. No S463 fixture was imported because the current Codex
+  browser surface did not expose a local file chooser. Its menu says `DXF —
+  AAMA (ASTM D-6959)`; ASTM identifies D6959 as a withdrawn plotting-device
+  format, not apparel pattern interchange. No receiver/profile selection,
+  fixture result or compatibility claim is made. V03 remains In Progress;
+  next is a local same-version fixture open/export and inspection or another
+  lawful receiver path.
+
 - `docs/research/epic17/S464-local-receiver-availability/S464-exit-packet.md`
   records a bounded, read-only Windows search of uninstall metadata,
   Program Files, Appx names and Start-menu shortcuts. No apparel-CAD receiver

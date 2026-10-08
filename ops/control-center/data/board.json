@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2851,
-  "updatedAt": "2026-10-08T04:26:07.182Z",
+  "revision": 2859,
+  "updatedAt": "2026-10-08T04:37:48.410Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -664,7 +664,9 @@
         "E-EPIC17-S463-START",
         "E-EPIC17-S463-FIXTURES",
         "E-EPIC17-S464-START",
-        "E-EPIC17-S464-EXIT"
+        "E-EPIC17-S464-EXIT",
+        "E-EPIC17-S465-START",
+        "E-EPIC17-S465-EXIT"
       ]
     },
     {
@@ -4929,7 +4931,9 @@
         "E-EPIC17-S463-FIXTURES",
         "E-EPIC17-S463-EXIT",
         "E-EPIC17-S464-START",
-        "E-EPIC17-S464-EXIT"
+        "E-EPIC17-S464-EXIT",
+        "E-EPIC17-S465-START",
+        "E-EPIC17-S465-EXIT"
       ],
       "flagKey": null
     },
@@ -10317,6 +10321,16 @@
           "at": "2026-10-08T04:26:07.116Z",
           "actor": "Codex",
           "text": "S464 found no apparel-CAD candidate in the standard local discovery surfaces checked. V03 still needs owner-provided lawful exact receiver/version access and witnessed round trips; no compatibility claim or acceptance change. See E-G04-S464-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:36:54.070Z",
+          "actor": "Codex",
+          "text": "S465 checks the free Pixie Space browser candidate after the maintainer asked to consider an online option. Its self-reported local-only and AAMA/DXF claims are hypotheses to verify, not receiver selection or compatibility evidence. Keep all V03 rights, fixtures, grade, and round-trip gates unchanged. See E-G04-S465-START."
+        },
+        {
+          "at": "2026-10-08T04:37:48.410Z",
+          "actor": "Codex",
+          "text": "S465 qualifies Pixie Space 0.2.0 only as a free local-first candidate for a witnessed test. No S463 fixture was imported; current Codex browser controls could not operate the file chooser. Its menu labels AAMA with ASTM D-6959, which is a withdrawn plotting-device format, not proof of apparel pattern interchange. No profile, rights conclusion, compatibility claim or acceptance change. Preserve all V03 gates. See E-G04-S465-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10333,7 +10347,9 @@
         "E-G04-S463-FIXTURES",
         "E-G04-S463-EXIT",
         "E-G04-S464-START",
-        "E-G04-S464-EXIT"
+        "E-G04-S464-EXIT",
+        "E-G04-S465-START",
+        "E-G04-S465-EXIT"
       ],
       "flagKey": null
     },
@@ -18357,6 +18373,42 @@
       "sha256": null,
       "verified": true,
       "note": "V03 remains In Progress: the current host exposes no receiver candidate in the standard locations checked, and lawful exact-version access remains owner-provided."
+    },
+    {
+      "id": "E-G04-S465-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S465 screens a free local-first browser CAD candidate; no receiver/profile selected and no product fixture uploaded or compatibility claim made."
+    },
+    {
+      "id": "E-EPIC17-S465-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S465 tests whether a free browser receiver candidate can safely satisfy admitted V03 without altering the rights/profile/round-trip gates."
+    },
+    {
+      "id": "E-G04-S465-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Pixie Space 0.2.0 is a free/local-first candidate but no fixture round trip or rights/profile selection is proven; ASTM D-6959 menu label is not a valid apparel interchange conformance claim."
+    },
+    {
+      "id": "E-EPIC17-S465-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S465 found a free local-first browser CAD candidate for a witnessed test; it does not close G04 V03, select a profile, or prove compatibility."
     }
   ]
 }

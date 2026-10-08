@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 465 identifies a free browser receiver candidate
+
+Pixie Space 0.2.0 is a free, no-install/no-login local-first candidate for a
+witnessed V03 test. Its own site says drawing files stay in the browser and
+are not uploaded. The live menu offered generic DXF and `DXF — AAMA (ASTM
+D-6959)`. ASTM's official catalog identifies D6959 as a withdrawn sewn-product
+plotting-device format, not an apparel pattern interchange format; do not
+claim ASTM conformance from that menu label. Pixie's present grade behavior is
+not established. I attempted File → Open in the Codex browser, but no local
+file chooser appeared; no S463 fixture was loaded or transmitted and no actual
+round trip is proven. No profile is selected and V03 acceptance is unchanged.
+
+S465 board revisions 2851→2855→2859; EPIC-17/V03 remain In Progress; V01/V02
+remain Done. Packet: `docs/research/epic17/S465-free-browser-receiver-candidate/`.
+**Next:** perform a witnessed local open/export of S463 inputs in the exact
+0.2.0 preview (or obtain another lawful receiver path), then inspect and
+independently compare the re-export; preserve the grade, rights, negative,
+identity, and protected-export gates. Goal is active and still required through
+the final review, gates, safe merge and any required deployment.
+
 ## EPIC-17 / G04 — Slice 464 confirms no standard local receiver is exposed
 
 Read-only checks of HKLM 64/32-bit and HKCU uninstall entries, conventional

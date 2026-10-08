@@ -1,0 +1,47 @@
+{
+  "startRevision": 2855,
+  "exitRevision": 2859,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2855,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S465-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-exit-packet.md",
+        "verified": true,
+        "note": "Pixie Space 0.2.0 is a free/local-first candidate but no fixture round trip or rights/profile selection is proven; ASTM D-6959 menu label is not a valid apparel interchange conformance claim."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2856,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S465-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-exit-packet.md",
+        "verified": true,
+        "note": "S465 found a free local-first browser CAD candidate for a witnessed test; it does not close G04 V03, select a profile, or prove compatibility."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2857,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S465-EXIT"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2858,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S465 qualifies Pixie Space 0.2.0 only as a free local-first candidate for a witnessed test. No S463 fixture was imported; current Codex browser controls could not operate the file chooser. Its menu labels AAMA with ASTM D-6959, which is a withdrawn plotting-device format, not proof of apparel pattern interchange. No profile, rights conclusion, compatibility claim or acceptance change. Preserve all V03 gates. See E-G04-S465-EXIT."
+    }
+  ]
+}
