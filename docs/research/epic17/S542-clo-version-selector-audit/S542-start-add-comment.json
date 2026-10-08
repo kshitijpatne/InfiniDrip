@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3280,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S542 checks whether CLO's documented DXF export format choices expose an exact database version or normative edition; evidence-only review, no repeat exchange or gate change."
+}

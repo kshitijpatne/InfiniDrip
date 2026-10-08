@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S542-clo-version-selector-audit/S542-exit-packet.md`
+  compares current official CLO help with the existing hash-pinned 2026.1.310
+  export dialog. The documented DXF-AAMA/ASTM/Standard DXF choices do not
+  expose an exact DXF database version or normative edition; no R13 selector
+  is visible. This narrows the current CLO route but does not prove hidden
+  controls or whole-standard nonconformance. No gate changed. Next: locate a
+  different documented and rights-qualified receiver/profile.
+- `docs/research/epic17/S542-clo-version-selector-audit/S542-start-packet.md`
+  and the screenshot hash define the bounded documentation review; no new CLO
+  operation occurred.
+
 - `docs/research/epic17/S541-dxf-header-profile-audit/S541-exit-packet.md`
   audits all seven hash-pinned S498/S523 second-generation recipe DXFs. Each
   declares `AC1009` (R11/R12) and omits `$INSUNITS`; this conditionally

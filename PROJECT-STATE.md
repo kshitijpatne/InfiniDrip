@@ -1,5 +1,21 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 542 CLO version-selector audit (closed; V03 remains open)
+
+The official CLO export article documents DXF-AAMA, DXF-ASTM, and Standard DXF
+format labels, plus scale/units and other settings, but no DXF database version
+or normative edition selector. The saved CLO 2026.1.310 dialog also shows no
+version field (screenshot hash recorded in the S542 packet). Thus the tested
+menu flow is not an evidenced path to select ASTM D6673-04's required R13
+(`AC1012`), consistent with S541's finding that all seven pinned outputs are
+`AC1009`. This does not establish whether undocumented controls exist or what
+the CLO menu claims normatively. No exchange or gate changed; V03 remains In
+Progress and CLO stays open.
+
+**Next:** identify another published, rights-qualified CAD receiver/profile
+with a documented database version and apparel semantic contract. Evidence:
+`docs/research/epic17/S542-clo-version-selector-audit/S542-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 541 DXF header/profile audit (closed; V03 remains open)
 
 S541 rechecked all seven pinned second-generation S498/S523 recipe outputs.

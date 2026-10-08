@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3282,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S542 found no exact DXF database-version or ASTM-edition selector in CLO's official export documentation or saved 2026.1.310 export dialog. Keep the S541 conditional version mismatch and all V03 holds; next evaluate a documented, rights-qualified receiver/profile."
+}

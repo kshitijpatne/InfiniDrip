@@ -1194,3 +1194,18 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   protected identity changed. **Next:** confirm from CLO's documented mode or
   settings whether an exact edition or DXF-version selector exists; preserve
   all V03 holds.
+
+- **S542 CLO version-selector evidence (2026-10-08):** from clean S541
+  `5cdb1471747152729784b726b3e2ab32f3bd3225`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; unique
+  S542. The current official CLO DXF Import/Export help lists DXF-AAMA,
+  DXF-ASTM, and Standard DXF as export format choices and describes the other
+  settings without identifying a database-version selector or normative
+  edition. The existing saved CLO 2026.1.310 export dialog shows the same
+  structure; its C:-only screenshot hash is recorded in the S542 packet. No
+  new import/export or file write. This does not prove undocumented controls
+  absent or that the mode claims D6673-04; the tested route is not evidenced
+  to emit the required R13 version. Focused board replay/test and exact source
+  citation are in the packet. No gates, rights, thresholds, or acceptance
+  changed. **Next:** assess another receiver/profile only if exact version,
+  semantic rules, and rights are documented.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3279,
-  "updatedAt": "2026-10-08T22:03:54.829Z",
+  "revision": 3283,
+  "updatedAt": "2026-10-08T22:06:14.525Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11238,6 +11238,16 @@
           "at": "2026-10-08T22:03:54.829Z",
           "actor": "Codex",
           "text": "S541 confirms all seven saved recipe outputs are AC1009 (R11/R12) and omit $INSUNITS; the three DXF-ASTM-menu files conditionally conflict with ASTM D6673-04's stated R13 requirement. This narrows but does not establish whole-standard nonconformance or clear V03."
+        },
+        {
+          "at": "2026-10-08T22:05:25.454Z",
+          "actor": "Codex",
+          "text": "S542 checks whether CLO's documented DXF export format choices expose an exact database version or normative edition; evidence-only review, no repeat exchange or gate change."
+        },
+        {
+          "at": "2026-10-08T22:06:14.525Z",
+          "actor": "Codex",
+          "text": "S542 found no exact DXF database-version or ASTM-edition selector in CLO's official export documentation or saved 2026.1.310 export dialog. Keep the S541 conditional version mismatch and all V03 holds; next evaluate a documented, rights-qualified receiver/profile."
         }
       ],
       "evidenceRefs": [
@@ -11417,7 +11427,9 @@
         "E-G04-S540-START",
         "E-G04-S540-EXIT",
         "E-G04-S541-START",
-        "E-G04-S541-EXIT"
+        "E-G04-S541-EXIT",
+        "E-G04-S542-START",
+        "E-G04-S542-EXIT"
       ],
       "flagKey": null
     },
@@ -21286,6 +21298,24 @@
       "sha256": null,
       "verified": true,
       "note": "All seven hash-pinned S498/S523 exports declare AC1009 (R11/R12), with no $INSUNITS. Three DXF-ASTM-menu outputs conflict conditionally with D6673-04's R13 requirement; no full-standard nonconformance claim or gate change."
+    },
+    {
+      "id": "E-G04-S542-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S542-clo-version-selector-audit/S542-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Check official CLO export documentation and existing saved dialog evidence for an exact DXF version/edition selector; no app operation or exchange."
+    },
+    {
+      "id": "E-G04-S542-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S542-clo-version-selector-audit/S542-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official CLO docs expose DXF-AAMA/ASTM/Standard DXF but no database-version or standard-edition choice; the saved build dialog likewise shows none. Current CLO route is not evidenced to emit ASTM D6673-04 R13; V03 gates unchanged."
     }
   ]
 }
