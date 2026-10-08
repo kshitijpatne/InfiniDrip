@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3175,
-  "updatedAt": "2026-10-08T18:04:14.793Z",
+  "revision": 3179,
+  "updatedAt": "2026-10-08T18:16:20.476Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10978,6 +10978,16 @@
           "at": "2026-10-08T18:04:14.793Z",
           "actor": "Codex",
           "text": "S515 closes the official source refresh; it removes API-version speculation but does not produce exchange evidence. Do not download mismatched SDK .224 or repeat prior format trials. Next: one menu/dialog-selected AAMA export→AAMA reimport→second-generation check on existing Polo M fixture, all artifacts under C:\\G04-CLO-DXF-Exchange, only when the supported capture visibly matches the still-running CLO window. Continue independent V03 gate reconciliation meanwhile."
+        },
+        {
+          "at": "2026-10-08T18:06:24.666Z",
+          "actor": "Codex",
+          "text": "S516 uses the computer-use API's explicit foreground activation on the already-running CLO window, then one matching-screenshot check. If safe, perform only the outstanding AAMA export/reimport pilot; otherwise preserve the access issue and continue independent work. No closing or relaunching CLO."
+        },
+        {
+          "at": "2026-10-08T18:16:20.476Z",
+          "actor": "Codex",
+          "text": "S516 closes the practical AAMA trial with a concrete strict-gate failure: five Polo M CUT contours exceed 0.001 cm by exact-segment witnesses. The same local export re-imported and rendered, but this does not pass fidelity, grading, rights/profile or all-seven acceptance. CLO stays open for G04. Continue with a new numbered slice focused on the measured contour-loss cause and lawful profile evidence; do not repeat the same case or weaken gates."
         }
       ],
       "evidenceRefs": [
@@ -11105,7 +11115,9 @@
         "E-G04-S514-START",
         "E-G04-S514-EXIT",
         "E-G04-S515-START",
-        "E-G04-S515-EXIT"
+        "E-G04-S515-EXIT",
+        "E-G04-S516-START",
+        "E-G04-S516-EXIT"
       ],
       "flagKey": null
     },
@@ -20506,6 +20518,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current official CLO docs still list SDK 11.0.0 for .224, omit import-profile selection, and leave ExportDxfOption's integer format mapping unspecified. Path-only ExportDXF opens its documented options dialog, offering a no-guess export choice for the authorized local AAMA pilot when the UI can be safely targeted. No SDK or fixture operation; all V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S516-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S516-clo-foreground-activation/S516-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S516 keeps the current CLO process open and tries the supported explicit foreground activation before one fresh capture; if it matches, run one AAMA export/reimport/second-generation Polo M trial under the existing C:-only authorization. No old DXF cases repeat; acceptance remains unchanged."
+    },
+    {
+      "id": "E-G04-S516-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S516-clo-foreground-activation/S516-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S516 used the already-running CLO 2026.1.310 UI once for a C:-confined Polo M AAMA import/export/re-import. No app error; all nine source SEW roles map to receiver blocks and render. Five CUT contours lose one vertex and exceed the unchanged 0.001 cm gate (0.01019–0.01118 cm). No second-generation repeat; all V03 rights, profile, grading, all-seven and round-trip gates remain."
     }
   ]
 }

@@ -1,5 +1,20 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — CLO AAMA round-trip result recorded (S516)
+
+On 2026-10-08, the already-running CLO 2026.1.310 trial was used once through
+the visible UI for an AAMA import/export/re-import of the pinned Polo M
+fixture. The output rendered and its nine source sewing outlines map to nine
+receiver blocks, but five CUT contours each lose one vertex; exact-segment
+deviation witnesses of 0.01019–0.01118 cm exceed the unchanged 0.001 cm gate.
+This is concrete evidence that this tested local profile path does not meet
+Polo cut fidelity. Do not repeat the same test, infer industrial-profile
+conformance, select CLO as the rights-cleared receiver, or alter acceptance
+from this trial. V03 still requires all-seven fixtures, grade/mark/layer and
+negative-control evidence, rights review, and a passing representative
+round-trip. Keep CLO running during G04 and close it only when the admitted
+goal is complete. See the S516 exit packet.
+
 ## EPIC-17/G04 — Bounded local CLO evaluation authorization (S503)
 
 On 2026-10-08, the maintainer explicitly authorized practical DXF

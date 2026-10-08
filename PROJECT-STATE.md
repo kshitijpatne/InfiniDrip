@@ -1,5 +1,33 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 516 CLO AAMA round trip (complete; V03 remains open)
+
+Started `2026-10-08 18:05:49 UTC` from clean S515 commit
+`aef45f3b42f79b2c9a4fa4d94b9d9c3a2a311a98` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+S516 activated the already-running CLO 2026.1.310 window and completed one
+local AAMA import → AAMA export → AAMA re-import cycle for the hash-pinned
+Polo M fixture. The export is 148,000 bytes, SHA-256
+`bb5d4d572f51cb30eeb9ef983c3d600757117f8a9c0863a1146b33409ce55ed1`.
+All nine source sewing outlines associate with receiver blocks and all nine
+pieces render without a CLO format error. Five cut contours each lose one
+vertex; exact-segment witnesses of 0.01019–0.01118 cm exceed the unchanged
+0.001 cm limit. The round trip therefore fails strict geometry fidelity; no
+second-generation repetition was run. This is a measured CLO profile result,
+not a reason to relax the gate. Output, rendered evidence, and analyzer
+diagnostics are confined to `C:\\G04-CLO-DXF-Exchange\\S516-clo-aama-roundtrip`.
+No production code, export baseline, or acceptance criterion changed. CLO
+remains open per maintainer direction. Board start/exit `3175→3177→3179`;
+V01/V02 remain Done and V03/EPIC-17 remain In Progress. Focused Control Center
+tests pass 42/42; board preflight/replay and `git diff --check` pass. No full
+repository gate applies to this evidence-only slice.
+
+Next: reserve S517 from refreshed refs/history. Investigate the measured
+contour-loss cause and lawful industrial-profile evidence without repeating
+this same CLO case. Preserve all-seven, rights, grading, semantic fidelity,
+round-trip, legacy DXF, and protected export-identity gates. See
+`docs/research/epic17/S516-clo-foreground-activation/S516-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 515 CLO exact-build API/profile screen (complete; no exchange performed)
 
 Started `2026-10-08 18:01:24 UTC` from clean S514 `eb0696be4f2045cd88aa0d7351d64dd956a2feec`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest was 514; S515 is complete. Board start/exit is `3171→3173→3175`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.

@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S516-clo-foreground-activation/S516-exit-packet.md`
+  records the one live CLO 2026.1.310 AAMA export/re-import on the pinned
+  Polo M fixture. The operation rendered without a CLO error and all nine
+  source sewing outlines map to receiver blocks, but five cut outlines exceed
+  the unchanged 0.001 cm gate (one vertex lost; 0.01019–0.01118 cm witnesses).
+  No second-generation repeat was run after this concrete failure. All-seven,
+  grading, rights/profile, semantic fidelity, and industrial conformance gates
+  remain open; CLO stays running. Board `3175→3177→3179`.
+- `docs/research/epic17/S516-clo-foreground-activation/S516-start-packet.md`
+  limits the practical UI work to one verified, C:-confined AAMA trial; no
+  app relaunch or redundant format/scale reruns.
 - `docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-exit-packet.md`
   rechecks CLO's current official API pages: newest listed SDK is for .224,
   not installed .310; import options lack a documented profile selector; and
