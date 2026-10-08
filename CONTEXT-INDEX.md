@@ -2,6 +2,21 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-exit-packet.md`
+  closes the user-authorized, C:-confined CLO Standard DXF 1000% inverse-scale
+  trial. The nine tested Polo M piece bounds return to source size, but five
+  CUT contours still exceed `0.001 cm` and the ASTM round trip omits six of
+  100 polylines. Rights/profile, grade, negative-control, round-trip, and
+  all-seven gates remain. A later startup recheck hit a desktop-helper process
+  ID error before any file operation; it is not a CLO exchange finding. V03
+  remains In Progress. Board `3141→3143`.
+- `docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-start-packet.md`
+  starts one user-authorized, C:-confined CLO diagnostic changing only the
+  Standard DXF import scale from S505's 100% to the evidence-derived inverse
+  factor of 1000%, then checks ASTM export/reimport at original scale. S505's
+  five Polo contours, six missing round-trip records, and all V03
+  rights/profile/grade/negative/all-seven gates remain unchanged. No other
+  scale-factor guesses were in scope; see the exit packet for measured results.
 - `docs/research/epic17/S506-v03-rights-candidate-recheck/S506-exit-packet.md`
   records Codex's source-verified synthesis and the independent exact-model
   OpenCode review. Richpeace V8 Free English and V10 Demo Free have no

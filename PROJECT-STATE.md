@@ -1,5 +1,27 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 507 CLO Standard DXF scale diagnostic (complete)
+
+Started `2026-10-08 16:37:25 UTC` from S506 commit
+`968c72644bd6dde9e7ca8e13764dee0c5b155878` on `codex/epic-17-g04`.
+Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S507 is closed as the latest assigned slice. The validated board
+advanced `3139→3141→3143`; EPIC-17/G04-V03 remain In Progress and V01/V02 Done.
+The goal remains required through safe merge/deployment.
+
+S507 used the S503 maintainer authorization for C:-confined practical CLO
+DXF import/export evaluation. Standard DXF import at 1000% restored the nine
+hash-pinned Polo M piece bounds in this tested configuration, but five CUT
+contours remain above the unchanged `0.001 cm` threshold and ASTM round trip
+retains only 94 of 100 polylines. A later startup check encountered a
+desktop-helper process-ID error before any new pattern/file operation; this is
+not a CLO DXF result. No acceptance or baseline changed. Source copy, projects,
+outputs, screenshots and analysis are confined to
+`C:\\G04-CLO-DXF-Exchange\\S507-clo-standard-scale-diagnostic`. See the linked
+S507 start and exit packets. **Next:** reserve S508 from refreshed Git and
+board state; pursue only an exact receiver/profile whose rights and local
+handling can be established, retaining all V03 gates.
+
 ## EPIC-17 / G04 — Slice 506 receiver rights/local-handling recheck (complete)
 
 S506 closed from S505 `54f2b15563e08d1c5df3643c8614a4f5fe2d41a5`; refreshed

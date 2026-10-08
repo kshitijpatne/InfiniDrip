@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3139,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S507-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-start-packet.md",
+      "verified": true,
+      "note": "S507 tests one evidence-derived inverse-scale hypothesis: change only the CLO Standard DXF Polo M import scale from 100% to 1000%, then compare first ASTM output and an ASTM round trip at original scale. Existing user authorization covers bounded local CLO import/export evaluation; all rights/profile, geometry, grade, negative, round-trip and all-seven gates remain unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3140,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S507 is one targeted diagnostic of the exact 0.1x scale loss from S505. It changes only first-import scale to 1000%; source DXF and all other settings/acceptance thresholds stay fixed. Evidence is confined to C:\\G04-CLO-DXF-Exchange\\S507-clo-standard-scale-diagnostic. This does not select CLO, clear rights/profile or round-trip gates, or release V03."
+  }
+]

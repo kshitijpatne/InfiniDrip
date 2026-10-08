@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3141,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S507-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-exit-packet.md",
+      "verified": true,
+      "note": "CLO Standard DXF import at 1000% restores bounds for this Polo M file, but five CUT contours still exceed the unchanged 0.001 cm threshold and the ASTM reimport/export drops six polylines. Does not select CLO or clear V03 rights, profile, grade, negative-control, round-trip, or all-seven gates."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3142,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S507 closes as a bounded practical diagnosis, not V03 acceptance: 1000% Standard import fixes the measured 0.1x bounds in this one source/configuration, but five CUT contour witnesses remain above 0.001 cm and six of 100 first-export polylines disappear on ASTM round trip. A later startup check hit a desktop-helper process-id error before any additional file operation; that is not a CLO exchange result. Preserve all V03 gates and status. Next: only pursue a receiver/profile with established rights and local handling, then verify representative fixtures and every unchanged gate."
+  }
+]

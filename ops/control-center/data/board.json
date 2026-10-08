@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3139,
-  "updatedAt": "2026-10-08T16:31:07.375Z",
+  "revision": 3143,
+  "updatedAt": "2026-10-08T16:54:23.399Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10888,6 +10888,16 @@
           "at": "2026-10-08T16:31:07.375Z",
           "actor": "Codex",
           "text": "S506 closes with no rights/local-handling-qualified receiver. Keep V03 In Progress and all acceptance gates unchanged. The next bounded action is an explicitly authorized, C-drive-confined Richpeace V8 Gate 0 install/terms preflight; do not accept terms or open a fixture until the actual build, rights and local handling are established. CLO was reported running by the user; no CLO interaction occurred in S506."
+        },
+        {
+          "at": "2026-10-08T16:38:09.546Z",
+          "actor": "Codex",
+          "text": "S507 is one targeted diagnostic of the exact 0.1x scale loss from S505. It changes only first-import scale to 1000%; source DXF and all other settings/acceptance thresholds stay fixed. Evidence is confined to C:\\G04-CLO-DXF-Exchange\\S507-clo-standard-scale-diagnostic. This does not select CLO, clear rights/profile or round-trip gates, or release V03."
+        },
+        {
+          "at": "2026-10-08T16:54:23.399Z",
+          "actor": "Codex",
+          "text": "S507 closes as a bounded practical diagnosis, not V03 acceptance: 1000% Standard import fixes the measured 0.1x bounds in this one source/configuration, but five CUT contour witnesses remain above 0.001 cm and six of 100 first-export polylines disappear on ASTM round trip. A later startup check hit a desktop-helper process-id error before any additional file operation; that is not a CLO exchange result. Preserve all V03 gates and status. Next: only pursue a receiver/profile with established rights and local handling, then verify representative fixtures and every unchanged gate."
         }
       ],
       "evidenceRefs": [
@@ -10997,7 +11007,9 @@
         "E-G04-S504-EXIT",
         "E-G04-S505-EXIT",
         "E-G04-S506-START",
-        "E-G04-S506-EXIT"
+        "E-G04-S506-EXIT",
+        "E-G04-S507-START",
+        "E-G04-S507-EXIT"
       ],
       "flagKey": null
     },
@@ -20236,6 +20248,24 @@
       "sha256": null,
       "verified": true,
       "note": "Codex-verified S506 source synthesis plus exact-model OpenCode review: neither Richpeace V8 Free English nor V10 Demo Free establishes evaluation permission or local-only handling. V03 rights/access gate stays open; no criteria or status changed."
+    },
+    {
+      "id": "E-G04-S507-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S507 tests one evidence-derived inverse-scale hypothesis: change only the CLO Standard DXF Polo M import scale from 100% to 1000%, then compare first ASTM output and an ASTM round trip at original scale. Existing user authorization covers bounded local CLO import/export evaluation; all rights/profile, geometry, grade, negative, round-trip and all-seven gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S507-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO Standard DXF import at 1000% restores bounds for this Polo M file, but five CUT contours still exceed the unchanged 0.001 cm threshold and the ASTM reimport/export drops six polylines. Does not select CLO or clear V03 rights, profile, grade, negative-control, round-trip, or all-seven gates."
     }
   ]
 }

@@ -1,4 +1,21 @@
-## Current evidence and conditional remaining estimate — S506 exit (2026-10-08)
+## Latest slice — S507 exit (2026-10-08)
+
+S507 follows S506 `968c72644bd6dde9e7ca8e13764dee0c5b155878` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Validated
+board replay `3139→3141→3143` keeps V01/V02 Done and V03/EPIC-17 In Progress.
+The user-authorized CLO Standard DXF inverse-scale test restores bounds for the
+nine-piece Polo M fixture at 1000% import, but five CUT contour witnesses
+remain above `0.001 cm` and ASTM round trip omits six of 100 polylines. A later
+app-startup check hit a desktop-helper process-ID error before any file
+operation; it is not a DXF finding. Rights/profile, native grading,
+negative-control, round-trip, and all-seven fixture gates remain unchanged.
+No acceptance, source geometry, or protected export identity changed. See
+`docs/research/epic17/S507-clo-standard-scale-diagnostic/S507-exit-packet.md`.
+**Next:** reserve S508 from refreshed Git/board state and pursue only a
+rights/local-handling-qualified industrial receiver/profile.
+
+## Historical current evidence and conditional estimate — S506 exit (2026-10-08)
 
 S506 follows S505 `54f2b15563e08d1c5df3643c8614a4f5fe2d41a5` on
 `codex/epic-17-g04`; refreshed `origin/main`
