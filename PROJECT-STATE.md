@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 511 public DXF profile evidence (complete; no profile selected)
+
+Started `2026-10-08 17:44:22 UTC` from S510 commit
+`ac4b8eaea8ffa668a914fa5665b08a371d7668e2` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was S510; S511 is complete. Board start/exit is
+`3155→3157→3159`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+Official sources establish ANSI/AAMA-292's 2002 withdrawal and ASTM D6673-10's
+2019 withdrawal without replacement. ASTM's public scope summary describes
+two-dimensional piece geometry and separately encoded grade rules but does
+not encode piece-to-piece/2D-3D relations. NISTIR 5969 describes AAMA-292 as an
+interim format whose grade identifiers referred to growth values elsewhere.
+CLO's current help names AAMA/ASTM/Standard modes and grading/Rule File options
+but provides no complete numeric layer map or receiver conformance proof. No
+receiver/profile selected and no acceptance changed. See
+`docs/research/epic17/S511-public-dxf-profile-evidence/S511-exit-packet.md`.
+The next action is exact receiver/build/profile qualification plus measured
+round-trip evidence; retry CLO AAMA when the helper can safely target its live
+window. No code changed; Control Center tests pass 42/42.
+
 ## EPIC-17 / G04 — Slice 510 CLO workspace recovery (complete; no DXF opened)
 
 Started after S509's `2026-10-08 17:35:59 UTC` exit from clean

@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S511-public-dxf-profile-evidence/S511-exit-packet.md`
+  records official evidence: ANSI/AAMA-292 was withdrawn in 2002, ASTM
+  D6673-10 was withdrawn without replacement in 2019, and current CLO help
+  documents AAMA/ASTM menu options but no exact layer map/conformance or
+  independent receiver round trip. This does not select a profile; all V03
+  gates/status stay unchanged. Board `3155→3157→3159`.
+- `docs/research/epic17/S511-public-dxf-profile-evidence/S511-start-packet.md`
+  bounds the official-source search to profile facts needed by V03 and
+  preserves the current gates.
 - `docs/research/epic17/S510-clo-aama-workspace-recovery/S510-exit-packet.md`
   records the user-reported running CLO workspace and the fresh desktop-helper
   failure: the File menu appeared, the import action was rejected as outside

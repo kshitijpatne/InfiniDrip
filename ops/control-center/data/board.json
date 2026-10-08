@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3155,
-  "updatedAt": "2026-10-08T17:41:52.025Z",
+  "revision": 3159,
+  "updatedAt": "2026-10-08T17:46:27.157Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10928,6 +10928,16 @@
           "at": "2026-10-08T17:41:52.025Z",
           "actor": "Codex",
           "text": "S510 records the resumed CLO access check: one fresh window exposed the 2D workspace and File menu, but the Import action targeted outside its window; re-enumeration then activation failed with 'no monitor found for window'. No DXF was opened, so this remains a desktop-control failure—not an AAMA result. Keep every V03 gate, all-seven acceptance and status unchanged."
+        },
+        {
+          "at": "2026-10-08T17:44:41.029Z",
+          "actor": "Codex",
+          "text": "S511 starts a bounded official-source check for publicly verifiable AAMA/ASTM apparel DXF profile semantics and CLO's exact published scope. It will distinguish inspectable technical evidence from catalog labels or licensed-only details and will not change any V03 gate."
+        },
+        {
+          "at": "2026-10-08T17:46:27.157Z",
+          "actor": "Codex",
+          "text": "S511 found primary-source evidence that known apparel DXF standards are legacy/withdrawn while current CLO help documents menu settings but not an exact layer map or conformance. Preserve all V03 gates; require exact receiver/build evidence and measured round trip before selecting a profile or claiming compatibility."
         }
       ],
       "evidenceRefs": [
@@ -11045,7 +11055,9 @@
         "E-G04-S509-START",
         "E-G04-S509-EXIT",
         "E-G04-S510-START",
-        "E-G04-S510-EXIT"
+        "E-G04-S510-EXIT",
+        "E-G04-S511-START",
+        "E-G04-S511-EXIT"
       ],
       "flagKey": null
     },
@@ -20356,6 +20368,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO exposed its workspace, but the import-menu target was rejected and fresh-window activation failed with 'no monitor found for window'. No DXF opened and no AAMA result exists; all V03 gates/status remain unchanged."
+    },
+    {
+      "id": "E-G04-S511-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S511-public-dxf-profile-evidence/S511-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S511 searches only official standards-body/vendor sources for public technical detail needed to verify an industrial apparel DXF profile. Rights, licensed content, V03 gates and acceptance stay unchanged."
+    },
+    {
+      "id": "E-G04-S511-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S511-public-dxf-profile-evidence/S511-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official sources show ANSI/AAMA-292 withdrawn in 2002, ASTM D6673-10 withdrawn without replacement in 2019, and current CLO documentation naming modes without publishing exact layer semantics or an independent round trip. No receiver/profile or V03 gate changed."
     }
   ]
 }

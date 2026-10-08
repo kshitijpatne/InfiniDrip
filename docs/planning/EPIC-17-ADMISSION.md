@@ -1,4 +1,22 @@
-## Latest bounded attempt — S510 exit; AAMA exchange not run (2026-10-08)
+## Latest V03 profile evidence — S511 exit (2026-10-08)
+
+S511 follows S510 `ac4b8eaea8ffa668a914fa5665b08a371d7668e2` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Official
+sources report ANSI/AAMA-292's 2002 withdrawal and ASTM D6673-10's 2019
+withdrawal without replacement. ASTM's public summary describes pattern-piece
+DXF plus separate ASCII grade rules and excludes piece relationships; CLO's
+current help lists named modes/settings but no exact layer map or
+receiver-conformance proof. No profile was selected and no V03 gate changed.
+Board start/exit `3155→3157→3159`; V01/V02 Done, V03/EPIC-17 In Progress.
+See `docs/research/epic17/S511-public-dxf-profile-evidence/S511-exit-packet.md`
+and `S511-start-packet.md`.
+
+**Next:** qualify an exact rights-reviewed receiver/build and profile and
+prove imports/round trips against the unchanged gates; retry CLO AAMA only
+with safely targetable workspace access.
+
+## Prior bounded attempt — S510 exit; AAMA exchange not run (2026-10-08)
 
 S510 followed S509 `18c1318089c169166a31e875c9ca5519a8b4a2ef` on
 `codex/epic-17-g04`; refreshed `origin/main`
