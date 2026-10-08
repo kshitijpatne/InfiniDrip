@@ -2,6 +2,15 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S513-clo-api-exchange-path/S513-exit-packet.md`
+  records a promising official CLO in-app Python API with explicit-path DXF
+  import/export, but import profile selection and export enum mappings are not
+  documented and exact API compatibility with installed 2026.1.310 is not
+  established. The script editor still requires safe UI control. No script or
+  fixture result; board `3163→3165→3167`, gates unchanged.
+- `docs/research/epic17/S513-clo-api-exchange-path/S513-start-packet.md`
+  bounds the source check; it does not authorize UI operation, SDK installation,
+  or acceptance changes.
 - `docs/research/epic17/S512-open-source-cad-format-screen/S512-exit-packet.md`
   records the official Seamly2D project/community screen. Though currently
   released for Windows under GPLv3+, Seamly2D does not open/import DXF, so it

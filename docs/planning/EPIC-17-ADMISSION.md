@@ -1,4 +1,25 @@
-## Latest V03 receiver screen — S512 exit (2026-10-08)
+## Latest V03 CLO API screen — S513 exit (2026-10-08)
+
+S513 follows S512 `91171dae23b45115fa2d5bfc139f85d784747163` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. CLO's official
+API documents explicit-path `ImportDXF` and no-dialog `ExportDXF` overloads,
+but the import format selector and export enum values are unspecified. The
+public SDK page maps v11.0.0 to CLO 2026.1.224, not installed 2026.1.310; API
+compatibility and behavior remain untested. The script editor requires
+interactive in-app execution, which S510 could not safely target. No script,
+fixture, gate, or rights decision changed. Board start/exit `3163→3165→3167`;
+V01/V02 Done, V03/EPIC-17 In Progress. Control Center tests pass 42/42. See
+`docs/research/epic17/S513-clo-api-exchange-path/S513-exit-packet.md` and
+`S513-start-packet.md`.
+
+**Next:** with supported CLO UI access, attempt an exact-build API smoke test
+under the named C: evidence folder. Do not guess format selectors; get actual
+dialog/profile selection only through documented settings, then inspect
+rendered and measured reimport output. All rights, exact profile, round-trip,
+grading, negative-input and all-seven gates remain required.
+
+## Prior V03 receiver screen — S512 exit (2026-10-08)
 
 S512 follows S511 `e49b57fc3fab13fe96845d10fb0c553657276aa5` on
 `codex/epic-17-g04`; refreshed `origin/main`

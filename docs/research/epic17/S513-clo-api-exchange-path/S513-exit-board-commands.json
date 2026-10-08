@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":3165,"itemId":"G04-V03","evidence":{"id":"E-G04-S513-EXIT","kind":"document","uri":"docs/research/epic17/S513-clo-api-exchange-path/S513-exit-packet.md","verified":true,"note":"Official CLO docs provide in-app ImportDXF and explicit-path no-dialog ExportDXF APIs, but omit import-profile selection and export enum mappings and list SDK 11.0.0 for build 2026.1.224 rather than the installed .310. No script or fixture was run; all V03 gates remain."}},
+  {"type":"addComment","expectedRevision":3166,"itemId":"G04-V03","actor":"Codex","text":"S513 identifies CLO's in-app Python API as a promising reproducible route: explicit-path import/export calls can reduce dialog dependence, but profile enums, import format selection, and exact .310 compatibility are undocumented, and the script editor still needs safe UI access. Next, safely run a C:-confined API smoke test without guessing format constants; verify rendered and measured output before any acceptance claim."}
+]
+
+\n

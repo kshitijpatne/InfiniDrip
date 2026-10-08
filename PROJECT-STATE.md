@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 513 CLO API exchange path (complete; practical test still pending)
+
+Started `2026-10-08 17:51:56 UTC` from clean S512 commit
+`91171dae23b45115fa2d5bfc139f85d784747163` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was 512; S513 is complete. Board start/exit is `3163→3165→3167`;
+V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+CLO's official API documents `ImportDXF(path, options)` and an explicit-path
+`ExportDXF(path, options)` overload that avoids the export-options dialog.
+However, the published options omit the import profile selector and do not map
+the export format integer to AAMA/ASTM/Standard. The SDK page lists CLO
+2026.1.224, not the installed 2026.1.310, and the in-app script editor still
+needs safe desktop control. No script or fixture was run; this is an API lead,
+not an exchange result. The next action is a C:-confined API smoke test when
+the supported UI can be controlled, without guessing profile constants. See
+`docs/research/epic17/S513-clo-api-exchange-path/S513-exit-packet.md`.
+Control Center tests pass 42/42; `git diff --check` passes. No production code
+changed; the full repository gate is not due.
+
 ## EPIC-17 / G04 — Slice 512 Seamly2D receiver screen (complete; candidate rejected)
 
 Started `2026-10-08 17:47:40 UTC` from clean S511 commit
