@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3242,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S532 closes with a narrowly passing synthetic geometry round trip but unresolved profile semantics: duplicate CUT entities, CUT/SEW mixed on layer 8, and a Custom-mode seam-allowance notice. S531's malformed-input failure remains. No G04 fixture or acceptance/gate change; all original V03 gates remain. Keep CLO open. Next: reconcile the V03 matrix and identify a receiver/profile with verified rights, local handling, and apparel semantics; do not repeat this fixture or use G04 bytes under S526's unresolved hold."
+}

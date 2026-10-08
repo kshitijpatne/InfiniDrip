@@ -1,3 +1,25 @@
+## Current EPIC-17/G04 V03 practical evidence — S532 exit (2026-10-08)
+
+S532 completed one synthetic non-garment DXF-AAMA import/export/re-import in
+the already-running CLO 2026.1.310 session. Two exports retained the simple
+CUT/SEW geometry within 0.000004 cm, but the DXF duplicates CUT geometry,
+mixes CUT and SEW on numeric layer 8, and re-import shows a Custom-mode seam
+allowance notice. This is a narrow positive geometry result, not industrial
+profile qualification. S531's malformed-input silent acceptance remains a
+concrete negative-input failure. Rights/trial-purpose, local handling,
+industrial apparel profile, seven-recipe fixtures, grades, and semantic
+round-trip remain unverified. No G04 pattern data, product code, or acceptance
+criteria changed. V03 and EPIC-17 remain In Progress; V01/V02 remain Done.
+All files are in the S532 C:-only folder. Details and hashes:
+`docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-exit-packet.md`.
+Board replay and focused validation are in that packet. Keep CLO open.
+
+**Next:** reconcile the complete V03 evidence matrix and choose a receiver /
+profile route only if its exact build, rights, local file handling, and
+apparel semantics can be verified. Do not repeat the same synthetic trial or
+use G04 pattern bytes under the unresolved S526 gate. Preserve the existing
+V03 acceptance unchanged.
+
 ## Current EPIC-17/G04 V03 practical evidence — S531 exit (2026-10-08)
 
 In the already-running CLO 2026.1.310 (r58944) session, S531 compared a
@@ -12,9 +34,8 @@ rendered hashes and limits are in
 actual test files and screenshots stay in the C:-only task folder. No G04
 pattern bytes were used, no acceptance changed, and all V03 gates remain held.
 S531 board start/exit replay is 3235→3237→3239 on G04-V03. CLO remains open.
-Next: one synthetic positive-control DXF
-export/re-import in the same session, without repeating S531 or using pattern
-data.
+S532 later completed one synthetic positive-control round trip in the same
+session; see its current evidence entry above.
 
 ## Current V03 GetonAgain free-build audit — S529 exit (2026-10-08)
 

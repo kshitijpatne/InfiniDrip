@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 532 CLO synthetic DXF-AAMA round trip (closed; V03 remains open)
+
+One synthetic non-garment CUT/SEW fixture was imported, exported twice, and
+re-imported in the same CLO 2026.1.310 session. Both exports retained contour
+geometry within 0.000004 cm, below the slice's 0.001 cm screening threshold;
+the re-import showed both outlines. The output nevertheless duplicates CUT
+geometry across numeric layers and mixes CUT/SEW on layer 8, and CLO reports
+seam allowances imported in Custom mode. This is a narrow geometry result, not
+profile/semantic qualification. S531's malformed-input silent-acceptance
+failure remains. Rights/use purpose, local handling, industrial profile,
+seven-recipe fixtures, grading, and semantic round-trip remain held; no G04
+data was used and no gate or acceptance changed. Evidence and output hashes:
+`docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S532-synthetic-roundtrip\`. Board exit replay is
+recorded in that packet. The Epic goal remains active; CLO stays open.
+
+**Next:** reconcile the V03 evidence matrix and unchanged gates, then identify
+an exact receiver/profile whose permitted use, local handling, and apparel
+semantics can be verified. Do not repeat this fixture or use G04 bytes under
+the unresolved S526 trial-purpose/data gate.
+
 ## EPIC-17 / G04 — Slice 531 CLO malformed DXF control (closed; V03 remains open)
 
 CLO 2026.1.310 (r58944) silently imported a 396-byte malformed synthetic

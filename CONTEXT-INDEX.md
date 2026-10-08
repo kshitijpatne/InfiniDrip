@@ -2,15 +2,27 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-exit-packet.md`
+  closes one synthetic non-garment DXF-AAMA round trip in the same running
+  CLO session. Both generations preserve this simple CUT/SEW geometry within
+  0.000004 cm, but output duplicates CUT entities and mixes CUT/SEW on layer
+  8; re-import also reports Custom-mode seam allowances. This is not an
+  industrial profile or semantic pass. S531 malformed-input failure and all
+  rights, local-handling, all-seven, grading and semantic gates remain. No G04
+  data or acceptance change; all evidence is in the dedicated C: folder. Board
+  exit is in the packet; CLO remains open. Next: reconcile V03 gates and
+  identify a legally usable, local, apparel-semantic receiver/profile. Do not
+  repeat the same fixture or use G04 bytes under the S526 hold.
+- `docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-start-packet.md`
+  records the bounded test scope, settings and C:-only evidence boundary.
 - `docs/research/epic17/S531-clo-negative-input-control/S531-exit-packet.md`
   records a concrete CLO 2026.1.310 DXF-AAMA negative-control failure: the
   malformed synthetic fixture is silently accepted while its inset `SEW`
   contour is omitted; a same-settings valid control renders both contours.
   This is limited to the tested path and does not clear other V03 gates.
   Evidence stays in the named C: folder, CLO remains open, and no G04 data was
-  used. Board start/exit replay is 3235→3237→3239. Next is one synthetic
-  positive-control export/re-import,
-  without repeating the negative test or using pattern bytes.
+  used. Board start/exit replay is 3235→3237→3239. S532 separately completed
+  one synthetic positive-control export/re-import; see its packet above.
 - `docs/research/epic17/S531-clo-negative-input-control/S531-start-packet.md`
   defines the single non-garment negative-control scope and C:-only boundary.
 

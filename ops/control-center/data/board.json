@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3239,
-  "updatedAt": "2026-10-08T20:43:36.111Z",
+  "revision": 3243,
+  "updatedAt": "2026-10-08T20:52:32.231Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11138,6 +11138,16 @@
           "at": "2026-10-08T20:43:36.111Z",
           "actor": "Codex",
           "text": "S531 closes with a concrete DXF-AAMA malformed-input failure in CLO 2026.1.310: silent acceptance and omitted inset SEW geometry versus the matched valid control. No G04 data was used, no criterion/status changed, and all other V03 gates remain. CLO stays open. Next: one synthetic positive-control export/re-import in this session; do not repeat the negative control."
+        },
+        {
+          "at": "2026-10-08T20:45:06.741Z",
+          "actor": "Codex",
+          "text": "S532 begins one synthetic positive-control DXF-AAMA export and fresh re-import in the same CLO session. Inspect exact profile/settings and compare source/exported geometry. Keep all files in the named C: folder; no G04 bytes or acceptance change. Preserve the S531 malformed-input failure and every other V03 hold."
+        },
+        {
+          "at": "2026-10-08T20:52:32.231Z",
+          "actor": "Codex",
+          "text": "S532 closes with a narrowly passing synthetic geometry round trip but unresolved profile semantics: duplicate CUT entities, CUT/SEW mixed on layer 8, and a Custom-mode seam-allowance notice. S531's malformed-input failure remains. No G04 fixture or acceptance/gate change; all original V03 gates remain. Keep CLO open. Next: reconcile the V03 matrix and identify a receiver/profile with verified rights, local handling, and apparel semantics; do not repeat this fixture or use G04 bytes under S526's unresolved hold."
         }
       ],
       "evidenceRefs": [
@@ -11297,7 +11307,9 @@
         "E-G04-S530-START",
         "E-G04-S530-EXIT",
         "E-G04-S531-START",
-        "E-G04-S531-EXIT"
+        "E-G04-S531-EXIT",
+        "E-G04-S532-START",
+        "E-G04-S532-EXIT"
       ],
       "flagKey": null
     },
@@ -20986,6 +20998,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO 2026.1.310 silently accepted one malformed synthetic DXF-AAMA control and omitted its inset SEW contour; matched positive control rendered both contours. This fails only the tested negative-input path; all V03 gates and acceptance remain held. Inputs and screenshots stay in the named C: folder; CLO stays open."
+    },
+    {
+      "id": "E-G04-S532-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One positive-control synthetic DXF-AAMA import/export/fresh re-import in the already-running CLO session. All test files and evidence remain under the named C: folder; no G04 data; all V03 gates remain held."
+    },
+    {
+      "id": "E-G04-S532-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One synthetic DXF-AAMA round trip in the existing CLO session retained simple CUT/SEW geometry within 0.000004 cm; output duplicates CUT geometry and mixes CUT/SEW on layer 8, with a Custom-mode seam-allowance notice. S531 malformed-input failure and all V03 rights/profile/semantics/all-seven gates remain. No G04 data; CLO stays open."
     }
   ]
 }
