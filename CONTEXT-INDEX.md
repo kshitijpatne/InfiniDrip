@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S521-librecad-receiver-preflight/S521-exit-packet.md`
+  closes a one-pass screen of LibreCAD 2.2.1.5 as a free, GPLv2 generic DXF
+  R12 candidate. It is general 2D CAD, not apparel CAD or an industrial
+  profile qualification; a passing pilot would add only generic format
+  evidence and cannot complete V03. The app is not installed, no download or
+  run was authorized, and all planned exchange evidence is C:-confined. CLO
+  remains open and untouched. Board `3195→3197→3199`; V01/V02 Done and V03 In
+  Progress. The next concrete step is authorization to install/run this
+  candidate once or owner confirmation that it is installed.
+- `docs/research/epic17/S521-librecad-receiver-preflight/S521-start-packet.md`
+  bounds the one-pass pilot and its exact generic-DXF evidentiary limit.
 - `docs/research/epic17/S520-v03-closure-path-reconciliation/S520-exit-packet.md`
   gives the consolidated V03 candidate decision and next external dependency.
   S519's single, measured CLO point-retention trial still fails five Polo CUT

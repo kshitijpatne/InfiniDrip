@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3197,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S521-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S521-librecad-receiver-preflight/S521-exit-packet.md",
+      "verified": true,
+      "note": "S521 preflights LibreCAD 2.2.1.5 as a free general-purpose DXF R12 candidate, not apparel CAD or an industrial-profile qualification. One C:-confined generic round-trip plan is documented; the app is not installed and no download/run was authorized or performed. V03 gates remain unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3198,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S521 defines one bounded LibreCAD 2.2.1.5 R12 test and its exact evidentiary limit. A pass would show only generic DXF behavior for the tested fixtures, not an apparel industrial profile or G04 completion. Await authorization to download/run the free official build, or owner confirmation that it has been installed. CLO stays open and untouched; do not repeat the S519 path."
+  }
+]

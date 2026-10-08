@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3195,
-  "updatedAt": "2026-10-08T18:55:26.647Z",
+  "revision": 3199,
+  "updatedAt": "2026-10-08T19:02:22.263Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11028,6 +11028,16 @@
           "at": "2026-10-08T18:55:26.647Z",
           "actor": "Codex",
           "text": "One-pass V03 candidate reconciliation is complete. Stop repeated CLO UI checks: S519's actual output still fails the Polo 0.001 cm geometry gate, and S520 found no alternate candidate with demonstrated rights plus apparel-DXF import/export. The only new external fact that can clear CLO Gate 0 is a written answer on permitted local evaluation and data handling; the prepared message was not sent. CLO remains open and idle."
+        },
+        {
+          "at": "2026-10-08T19:01:10.231Z",
+          "actor": "Codex",
+          "text": "One possible independent candidate has been identified: LibreCAD stable 2.2.1.5 (GPLv2), with documented generic DXF read/write and R12 support. It is not an apparel CAD or standards certificate. No files or installer were downloaded. Proposed next test is one C:-confined all-seven R12 round trip with fixed settings and the existing 0.001 cm gate; await maintainer authorization before software installation/execution. CLO stays open and untouched."
+        },
+        {
+          "at": "2026-10-08T19:02:22.263Z",
+          "actor": "Codex",
+          "text": "S521 defines one bounded LibreCAD 2.2.1.5 R12 test and its exact evidentiary limit. A pass would show only generic DXF behavior for the tested fixtures, not an apparel industrial profile or G04 completion. Await authorization to download/run the free official build, or owner confirmation that it has been installed. CLO stays open and untouched; do not repeat the S519 path."
         }
       ],
       "evidenceRefs": [
@@ -11165,7 +11175,9 @@
         "E-G04-S519-START",
         "E-G04-S519-EXIT",
         "E-G04-S520-START",
-        "E-G04-S520-EXIT"
+        "E-G04-S520-EXIT",
+        "E-G04-S521-START",
+        "E-G04-S521-EXIT"
       ],
       "flagKey": null
     },
@@ -20656,6 +20668,24 @@
       "sha256": null,
       "verified": true,
       "note": "S520 reconciles current official CLO terms and current source repositories with existing measured tests. No currently reviewed candidate clears permission, local handling, apparel-DXF bidirectional capability and the unchanged all-seven round-trip gates. No UI, file, install, account, or external-message action occurred; CLO remains open and idle."
+    },
+    {
+      "id": "E-G04-S521-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S521-librecad-receiver-preflight/S521-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S521 screens LibreCAD 2.2.1.5 as a free generic DXF receiver candidate and prepares one all-seven round-trip protocol. It is not apparel CAD or an AAMA/ASTM conformance claim. No download/install or CLO interaction has occurred; one test requires maintainer approval."
+    },
+    {
+      "id": "E-G04-S521-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S521-librecad-receiver-preflight/S521-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S521 preflights LibreCAD 2.2.1.5 as a free general-purpose DXF R12 candidate, not apparel CAD or an industrial-profile qualification. One C:-confined generic round-trip plan is documented; the app is not installed and no download/run was authorized or performed. V03 gates remain unchanged."
     }
   ]
 }

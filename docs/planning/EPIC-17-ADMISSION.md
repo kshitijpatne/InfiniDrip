@@ -1,4 +1,23 @@
-## Latest V03 closure-path reconciliation — S520 exit (2026-10-08)
+## Latest V03 receiver preflight — S521 exit (2026-10-08)
+
+S521 follows S520 `b78ef47`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. LibreCAD
+2.2.1.5 is a free GPLv2 general-purpose DXF R12 candidate, not apparel CAD
+and not evidence of an industrial apparel exchange profile. A single planned
+all-seven generic round trip could test exact build behavior, but cannot alone
+complete V03. The software is not installed and no download/run was
+authorized. Planned fixture/output location is restricted to
+`C:\G04-CLO-DXF-Exchange\S521-librecad-r12-receiver\`; CLO remains open and
+untouched. Board `3195→3197→3199`; V01/V02 remain Done, V03/G04 In Progress;
+all gates unchanged. Packet: `docs/research/epic17/S521-librecad-receiver-preflight/`.
+
+**Next:** authorize the one official free download/run or confirm the named
+build is installed, then execute the packet's fixed generic-R12 trial once.
+Do not describe a pass as an apparel-profile qualification. Continue requiring
+separate rights/local-handling, industrial-profile, semantic/grade,
+negative-input, and round-trip evidence.
+
+## Prior V03 closure-path reconciliation — S520 exit (2026-10-08)
 
 S520 follows S519 `1f56474` on `codex/epic-17-g04`; refreshed `origin/main`
 `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S520 is

@@ -1,5 +1,32 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 521 LibreCAD receiver preflight (complete; V03 remains open)
+
+Started `2026-10-08 18:59:38 UTC` from S520 commit `b78ef47` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S521 screened
+LibreCAD 2.2.1.5 as a free, GPLv2 general-purpose DXF R12 candidate and
+recorded one fixed all-seven generic round-trip plan. LibreCAD is not apparel
+CAD and the reviewed sources do not establish an industrial garment profile,
+apparel grading semantics, or factory acceptance; a successful pilot cannot
+by itself satisfy V03. The program is not installed. No download, install,
+launch, or CLO interaction occurred. Exchange files/captures are confined to
+`C:\G04-CLO-DXF-Exchange\S521-librecad-r12-receiver\`. The only pending
+decision is whether to authorize one free official download/run, or for the
+owner to install the named build and confirm it is available. Board
+`3195→3197→3199`; V01/V02 remain Done and V03/G04 remain In Progress. All
+acceptance, `0.001 cm` thresholds, protected export identities, and claim
+limits are unchanged. Focused Control Center tests pass 42/42 and
+`git diff --check` passes; see
+`docs/research/epic17/S521-librecad-receiver-preflight/S521-exit-packet.md`.
+
+Next: obtain that one installation authorization/confirmation before running
+the packet's one bounded generic-R12 pilot. A pass would be recorded only as
+LibreCAD 2.2.1.5 generic DXF behavior; continue to require separate evidence
+for the admitted industrial apparel-profile, rights/local-handling,
+semantic/grade, negative-input, and round-trip gates. Do not repeat S519's
+measured CLO point-retention path; keep CLO open until G04 is complete.
+
 ## EPIC-17 / G04 — Slice 520 V03 closure-path reconciliation (complete; V03 remains open)
 
 Started `2026-10-08 18:52:58 UTC` from S519 commit `1f56474` on
