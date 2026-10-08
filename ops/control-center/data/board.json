@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3317,
-  "updatedAt": "2026-10-08T23:07:58.342Z",
+  "revision": 3321,
+  "updatedAt": "2026-10-08T23:16:26.052Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11333,6 +11333,16 @@
           "at": "2026-10-08T23:07:58.342Z",
           "actor": "Codex",
           "text": "S550 stopped before any DXF import/export because the visible Windows Save File picker did not match CLO's accessibility state and no separate picker window was returned. The user has confirmed product-development use and local DXF processing; neither is a blocker. No format conclusion or gate change. Keep CLO open and resume only when the visible picker and actionable UI controls are consistently targetable."
+        },
+        {
+          "at": "2026-10-08T23:10:10.313Z",
+          "actor": "Codex",
+          "text": "S551 attempts one screenshot-coordinate recovery of the visible CLO Save File picker, then a single previously prepared Polo AAMA-mm import/export if the save and import controls are verifiably targetable. Preserve the current CLO project copy under C:\\G04-CLO-DXF-Exchange\\S551-polo-unit-invariance-ui-recovery; keep CLO running, all files C:-only, and all V03 gates unchanged."
+        },
+        {
+          "at": "2026-10-08T23:16:26.052Z",
+          "actor": "Codex",
+          "text": "S551's CLO DXF-AAMA millimeter round trip reproduced the same five Polo CUT contour losses as both centimeter runs; 13/18 contours pass and five remain 0.01274–0.01397 cm over the unchanged 0.001 cm gate. Numeric units alone are ruled out as the cause. Screenshot-coordinate interaction recovered the visible Save/Open pickers; CLO stays open. User authorization and local handling are confirmed. Profile, CUT/SEW/mark, grade/options, malformed-input and all-seven gates remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -11531,7 +11541,9 @@
         "E-G04-S549-EXIT",
         "E-G04-S549-POINT-MAP",
         "E-G04-S550-START",
-        "E-G04-S550-EXIT"
+        "E-G04-S550-EXIT",
+        "E-G04-S551-START",
+        "E-G04-S551-EXIT"
       ],
       "flagKey": null
     },
@@ -21571,6 +21583,24 @@
       "sha256": null,
       "verified": true,
       "note": "The mm exchange did not begin: CLO showed a Windows Save File picker while accessibility exposed the underlying CLO save prompt and no picker controls. Rights/local handling are user-confirmed; this is a UI-targetability result, not a format failure. All V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S551-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Attempt one prepared Polo cm/mm AAMA differential using only the visibly exposed screenshot-coordinate controls to recover CLO's native Save File picker. Preserve the open project and store every file in the named C: folder; stop on any unverified input."
+    },
+    {
+      "id": "E-G04-S551-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Completed the authorized CLO DXF-AAMA mm control. After inverse unit conversion, 13/18 contours pass and the same five Polo CUT contours fail as in both cm generations (0.01274–0.01397 cm); unit representation alone does not explain the loss. Render and hashes are in the C:-only S551 evidence folder. No V03 gate changes."
     }
   ]
 }

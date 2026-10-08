@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md`
+  records the completed CLO 2026.1.310 DXF-AAMA millimeter control. Screenshot-
+  coordinate targeting saved the existing session copy and completed one
+  mm import/export without an error. After inverse scaling, 13/18 contours
+  pass and the same five Polo CUT contours fail as in both prior cm generations
+  at 0.01274–0.01397 cm. Numeric unit representation alone is ruled out as
+  the cause. The all-seven V03/profile/semantics/grade/negative-input gates
+  remain unchanged. All DXFs and rendered evidence are C:-only under
+  `C:\\G04-CLO-DXF-Exchange\\S551-polo-unit-invariance-ui-recovery`; CLO stays
+  open. Next: diagnose the repeated short-edge loss without changing geometry
+  or the 0.001 cm acceptance, then address remaining all-seven blockers.
 - `docs/research/epic17/S550-polo-unit-invariance-control/S550-exit-packet.md`
   closes a repeated but concretely observed CLO UI-targetability issue. The
   previously hidden Export DXF state was gone and the screenshot/accessibility
@@ -12,7 +23,9 @@
   local DXF processing, so neither is a blocker. Two verified inputs are in
   `C:\\G04-CLO-DXF-Exchange\\S550-polo-unit-invariance-control`. Keep CLO open;
   resume the one mm unit-invariance trial only when the file picker is
-  consistently targetable. All V03 gates remain unchanged.
+  consistently targetable. S551 later recovered the visible native pickers
+  using screenshot-coordinate interaction and completed the millimeter test;
+  see S551 for the output and geometry evidence. All V03 gates remain unchanged.
 - `docs/research/epic17/S549-polo-unit-invariance-control/S549-exit-packet.md`
   records an exact cm-to-mm Polo fixture and maps both current AAMA generations
   to the same five dropped vertices (back 13, collar pieces 14), all following
