@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3209,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S524-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S524-independent-local-aama-receiver/S524-exit-packet.md",
+      "verified": true,
+      "note": "Pixie Space 0.2.0 imported and rendered seven generic base-M recipe DXFs without displayed errors. Export was not attempted because no verifiable C:-only destination was exposed; no round trip/profile qualification is claimed. V03 remains In Progress."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3210,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S524 is closed as an import-only Pixie Space screen: seven generic base-M inputs rendered without a displayed error, but the app's export menu exposed no destination picker and browser controls could not guarantee a save under C:\\G04-CLO-DXF-Exchange\\S524-independent-local-aama-receiver. Export was deliberately not clicked. No round trip, industrial profile, rights, or V03 gate is cleared. Do not repeat these imports or S523's CLO trials; next receiver experiment requires a distinct sourced mechanism and verifiable C:-only output path. Keep CLO open for G04."
+  }
+]

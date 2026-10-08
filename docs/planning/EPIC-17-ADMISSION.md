@@ -1,3 +1,22 @@
+## Current V03 receiver screen — S524 exit (2026-10-08)
+
+S524 completed one Pixie Space 0.2.0 preview screen. Seven current-source
+generic base-M inputs were locally imported and rendered without displayed
+format errors; every receipt reports zero blocks/inserts. Its AAMA export menu
+provides no visible destination selection, and the available browser control
+cannot guarantee a save to the required named C: folder. No export was
+clicked; no round trip or geometry result exists. Pixie's local/AAMA claims
+are self-reported and do not qualify an industrial profile, rights, or
+semantics. No V03 gates changed. CLO remained open and untouched. Exit packet:
+`docs/research/epic17/S524-independent-local-aama-receiver/S524-exit-packet.md`.
+
+S524 start/exit board replay: `3207→3209→3211`; G04-V03 and EPIC-17 remain In
+Progress. **Next:** pursue only a new, decision-bearing receiver/profile
+mechanism with a verified C:-only output path. Do not repeat S524's seven
+imports or the completed CLO base-M matrix. Preserve the known Polo contour
+failure, rights/local-processing uncertainty, warning, semantics, grade and
+negative-input gates unchanged.
+
 ## Latest CLO recipe-coverage evidence — S523 exit (2026-10-08)
 
 S523 follows S522 `079ca9f`; refreshed `origin/main`

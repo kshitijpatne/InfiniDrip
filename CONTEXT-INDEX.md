@@ -2,6 +2,17 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S524-independent-local-aama-receiver/S524-exit-packet.md`
+  closes a single Pixie Space 0.2.0 preview screen: seven generic base-M
+  fixtures imported/rendered without displayed errors, but all receipts show
+  zero blocks/inserts. Export was not clicked because no destination picker or
+  controllable C:-only download path was available. No round trip, geometry,
+  industrial profile, rights, or semantic gate is cleared. Board
+  `3207→3209→3211`; V01/V02 Done, V03 In Progress. Do not repeat these imports
+  or the completed CLO base-M cases. Next requires a distinct sourced
+  receiver/profile mechanism with a verified C:-only output path.
+- `docs/research/epic17/S524-independent-local-aama-receiver/S524-start-packet.md`
+  bounds the candidate check and its no-account/no-cloud/C:-only stop rules.
 - `docs/research/epic17/S522-clo-import-control-evidence-screen/S522-exit-packet.md`
   checks current official CLO DXF controls against S503/S517/S519. The only
   documented untested point-deletion control removes points without grading

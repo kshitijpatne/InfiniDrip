@@ -1,5 +1,30 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 524 independent local receiver screen (complete; V03 remains open)
+
+S524 screened Pixie Space 0.2.0 after S523. Its unsigned browser app imported
+and rendered the seven generic base-M InfiniDrip DXFs without a displayed
+format error. Receipts show zero blocks/inserts for every recipe; piece
+identity is not established. No export or round trip was performed: the File
+menu's AAMA export action exposed no destination picker and the available
+browser control could not guarantee saving to the required
+`C:\G04-CLO-DXF-Exchange\S524-independent-local-aama-receiver\` folder.
+Export was not clicked. Public local-first/profile statements remain
+self-reported; no profile, rights, local-only processing, geometry, marks,
+grade, or negative-input gate is cleared. No output file or account/network
+workflow was used. CLO was not touched and remains open.
+
+Start `2026-10-08 19:34:18 UTC` from S523 `c3b3ee4`; refreshed
+`origin/main` remains an ancestor. Board start `3207→3209`; validated S524
+exit evidence/comment are linked at `3209→3211`. EPIC-17/G04-V03 remains In
+Progress; V01/V02 Done. Evidence: `docs/research/epic17/S524-independent-local-aama-receiver/S524-exit-packet.md`.
+
+No production code changed. Focused fixture/evidence review, board preflight,
+canonical validation, Control Center tests, and `git diff --check` are recorded
+in the exit packet. **Next:** pursue only a new, decision-bearing V03 path
+with a known C:-only save route. Do not replay S524 imports or the completed
+CLO base-M cases. Keep CLO open until the Epic no longer needs it.
+
 ## EPIC-17 / G04 — Slice 523 remaining-recipe CLO round trips (complete; V03 remains open)
 
 Started `2026-10-08 19:10:56 UTC` from S522 commit `079ca9f` on

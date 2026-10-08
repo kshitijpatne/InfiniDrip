@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3207,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S524-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S524-independent-local-aama-receiver/S524-start-packet.md",
+    "verified": true,
+    "note": "S524 screens one newly identified independent AAMA candidate. Start with current source, rights and data-flow evidence; run local C:-confined fixture checks only if no sign-in/cloud transfer is required. No V03 gates change."
+  }
+}
