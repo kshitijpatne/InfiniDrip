@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3135,
-  "updatedAt": "2026-10-08T16:16:06.070Z",
+  "revision": 3139,
+  "updatedAt": "2026-10-08T16:31:07.375Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10878,6 +10878,16 @@
           "at": "2026-10-08T16:16:06.070Z",
           "actor": "Codex",
           "text": "S505's actual CLO Standard DXF Polo M test rendered all nine pieces, but all nine exports are one tenth the source dimensions under centimeter interpretation; five known CUT contour losses remain. A second import/export drops six polyline records. This rejects the tested path without selecting a CLO industrial profile or changing any V03 gate. Projects, renders, hashes and exact comparisons are confined to the named C: folder; CLO is closed. Next: resolve receiver rights/access/profile evidence before more pattern trials."
+        },
+        {
+          "at": "2026-10-08T16:21:42.238Z",
+          "actor": "Codex",
+          "text": "S506 is a bounded official-source recheck of the existing Richpeace V8/V10 leads, not another general receiver search. No install, terms acceptance, contact, or pattern/fixture operation is authorized. Exact V03 rights, local handling, profile, grade, negative-control, round-trip and all-seven gates remain in force."
+        },
+        {
+          "at": "2026-10-08T16:31:07.375Z",
+          "actor": "Codex",
+          "text": "S506 closes with no rights/local-handling-qualified receiver. Keep V03 In Progress and all acceptance gates unchanged. The next bounded action is an explicitly authorized, C-drive-confined Richpeace V8 Gate 0 install/terms preflight; do not accept terms or open a fixture until the actual build, rights and local handling are established. CLO was reported running by the user; no CLO interaction occurred in S506."
         }
       ],
       "evidenceRefs": [
@@ -10985,7 +10995,9 @@
         "E-G04-S503-START",
         "E-G04-S503-EXIT",
         "E-G04-S504-EXIT",
-        "E-G04-S505-EXIT"
+        "E-G04-S505-EXIT",
+        "E-G04-S506-START",
+        "E-G04-S506-EXIT"
       ],
       "flagKey": null
     },
@@ -20206,6 +20218,24 @@
       "sha256": null,
       "verified": true,
       "note": "S505 completed live CLO Standard DXF Polo M import/render, ASTM export, ASTM reimport/render and second ASTM export after a fresh unique window became available. All nine first-export piece bounds were about 0.1x the source under centimeter interpretation; five known CUT contour deviations remain. The second round trip drops six polyline records (three closed shapes duplicated on two unidentified numeric layers). C-only hashes, screenshots, projects and geometry analysis are in the packet evidence folder. CLO was closed normally. The tested Standard DXF configuration fails exchange gates; rights/profile, grade, negative-control, representative round-trip, all-seven and protected-export gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S506-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S506-v03-rights-candidate-recheck/S506-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S506 rechecks official rights, privacy/local handling, host support and apparel-DXF documentation for the previously identified Richpeace V8 Free English and V10 Demo Free candidates. It performs no installation, terms acceptance, file transfer or fixture test and changes no V03 gate. OpenCode receives a disjoint official-source audit in exact Muse Spark 1.3 xhigh normal mode; Codex owns synthesis and verification."
+    },
+    {
+      "id": "E-G04-S506-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S506-v03-rights-candidate-recheck/S506-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Codex-verified S506 source synthesis plus exact-model OpenCode review: neither Richpeace V8 Free English nor V10 Demo Free establishes evaluation permission or local-only handling. V03 rights/access gate stays open; no criteria or status changed."
     }
   ]
 }

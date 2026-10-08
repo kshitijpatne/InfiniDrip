@@ -2,6 +2,26 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S506-v03-rights-candidate-recheck/S506-exit-packet.md`
+  records Codex's source-verified synthesis and the independent exact-model
+  OpenCode review. Richpeace V8 Free English and V10 Demo Free have no
+  established evaluation permission or local-only file handling. V8 remains
+  a documentation-only import/export lead; V10 demo product text documents
+  import only and its linked portal binary identity is ambiguous. V03 and all
+  unchanged gates remain In Progress. No software/file operation occurred.
+  Next is explicit authorization for the bounded, C:-confined V8 Gate 0
+  installation/terms preflight; see `CODEX-SOURCE-CHECK.md` and
+  `OPENCODE-FINDINGS.md` in the same packet directory.
+- `docs/research/epic17/S506-v03-rights-candidate-recheck/S506-start-packet.md`
+  starts a bounded official-source recheck of the already evaluated Richpeace
+  V8 Free English and V10 Demo Free candidates for evaluation/use rights,
+  local file handling, Windows 11 support, and documented apparel DXF
+  capabilities. No install, terms acceptance, vendor contact, fixture trial,
+  hosted processing, or acceptance change is in scope. OpenCode's exact Muse
+  Spark 1.3 xhigh normal-mode audit has disjoint source-rights ownership; Codex
+  verifies and synthesizes results. S506 closed with validated board exit;
+  V03 remains In Progress. No candidate's rights or local handling passed
+  Gate 0. Board start revision `3135→3137`.
 - `docs/research/epic17/S505-polo-standard-dxf/S505-exit-packet.md`
   records the completed live CLO Standard DXF Polo M import/export and
   round-trip probe. All nine pieces export at one tenth of source dimensions;

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3137,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S506-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S506-v03-rights-candidate-recheck/S506-exit-packet.md",
+      "verified": true,
+      "note": "Codex-verified S506 source synthesis plus exact-model OpenCode review: neither Richpeace V8 Free English nor V10 Demo Free establishes evaluation permission or local-only handling. V03 rights/access gate stays open; no criteria or status changed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3138,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S506 closes with no rights/local-handling-qualified receiver. Keep V03 In Progress and all acceptance gates unchanged. The next bounded action is an explicitly authorized, C-drive-confined Richpeace V8 Gate 0 install/terms preflight; do not accept terms or open a fixture until the actual build, rights and local handling are established. CLO was reported running by the user; no CLO interaction occurred in S506."
+  }
+]

@@ -1,5 +1,34 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 506 receiver rights/local-handling recheck (complete)
+
+S506 closed from S505 `54f2b15563e08d1c5df3643c8614a4f5fe2d41a5`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+The validated board moved from start revision `3135→3137` through the S506
+exit replay; G04-V03 and EPIC-17 remain In Progress, V01/V02 Done. The EPIC
+goal is still Active and required through safe merge/deployment.
+
+The bounded official-source review and separate exact-model OpenCode audit
+found no applicable Richpeace evaluation grant or local-only desktop file
+handling statement for V8 Free English or V10 Demo Free. V8's “full function
+evaluation copy” wording is unscoped marketing; the product page lists XP/7/8/10
+and only S468's previously reviewed manual documents AAMA/ASTM import and ASTM
+export. V10 Demo Free lists XP/7/8/10 and DXF/AAMA/ASTM/AutoCAD import but no
+apparel-format export; its exact demo label and linked portal binary identity
+are unresolved. Richpeace America website privacy and separate Richpeace cloud
+product pages do not establish data handling for these desktop builds. No
+download/install, terms acceptance, vendor contact, fixture access, or file
+transfer occurred. The user reported CLO running; Codex did not interact with
+or close it during S506. No V03 acceptance changed. See
+`docs/research/epic17/S506-v03-rights-candidate-recheck/S506-exit-packet.md`.
+
+**Next:** request explicit authorization for a standard, C:-confined Richpeace
+V8 Gate 0 installation/terms preflight on this Windows 11 host. Do not accept
+terms or open a fixture; stop unless displayed terms, actual build, local
+handling and modes establish a lawful next step. No vendor contact without a
+scope revision. If Gate 0 does not clear, retain V03 In Progress and its exact
+receiver-rights/access blocker.
+
 ## EPIC-17 / G04 — Slice 505 Standard DXF CLO probe (complete; candidate rejected)
 
 Started `2026-10-08 15:46:12 UTC` from clean S504

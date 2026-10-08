@@ -114,15 +114,16 @@ Polo M source revision and centimeter interpretation. Closeout verification:
   after staging below.
 
 S505 started `2026-10-08 15:46:12 UTC` from S504
-`1111b9e2504fac3e400d5a4c1da8252627b2f712` and closed
-`2026-10-08 16:17:10 UTC` (30m58s) on `codex/epic-17-g04`. Refreshed
+`1111b9e2504fac3e400d5a4c1da8252627b2f712` and closed with commit
+`54f2b15563e08d1c5df3643c8614a4f5fe2d41a5` at `2026-10-08 16:18:11 UTC`
+(31m59s) on `codex/epic-17-g04`. Refreshed
 `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
 The S504 boundary review found the EPIC goal Active and still
 needed through merge and deployment; the record was not changed or resumed.
 Board start was `3132→3133`; exit replay is `3133→3135`. Unique slice number:
 S505. Elapsed categories: implementation `0m`; focused UI/geometry
-verification `~23m`; durable packet, board replay and focused checks `~7m58s`;
-external-agent waits `0m`; maintainer-decision time `0m` (approximately 30m58s
+verification `~23m`; durable packet, board replay and focused checks `~8m59s`;
+external-agent waits `0m`; maintainer-decision time `0m` (approximately 31m59s
 total).
 
 **Next:** refresh Git and board state, then reserve S506. First reconcile

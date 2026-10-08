@@ -1,4 +1,36 @@
-## Current evidence and conditional remaining estimate — S505 exit (2026-10-08)
+## Current evidence and conditional remaining estimate — S506 exit (2026-10-08)
+
+S506 follows S505 `54f2b15563e08d1c5df3643c8614a4f5fe2d41a5` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The bounded
+official-source audit of Richpeace V8 Free English and V10 Demo Free, plus an
+independent exact-model OpenCode review, found no candidate with established
+permission for this product-development DXF evaluation or local-only file
+handling. V8 is a manual-documented apparel import/export lead only; its
+official page lists Windows XP/7/8/10, and the manual does not establish
+conformance or observed round trip. The V10 demo product page lists the same
+OS generations and describes DXF/AAMA/ASTM/AutoCAD import but no apparel-format
+export; the linked portal binary's edition identity is ambiguous. The
+Richpeace America website privacy statement and cloud disclosures for other
+Richpeace products do not establish data handling for either desktop build.
+No software/file operation, supplier contact, terms acceptance, or V03 gate
+change occurred. CLO was reported running by the user; Codex did not interact
+with it during S506. See
+`docs/research/epic17/S506-v03-rights-candidate-recheck/S506-exit-packet.md`.
+
+V03 remains blocked before any fixture trial by exact-build use-rights and
+local-handling evidence. The next bounded path is explicit authorization for
+the S481 normal official Richpeace V8 Gate 0 installation/terms preflight on
+the current Windows 11 host, with all installation/exchange-related files in
+a named C: folder, no terms acceptance, and no fixture open until rights and
+locality are established. It does not pass V03 by itself. Retain the conditional
+3–6 fixture/round-trip slices only if Gate 0 qualifies; retain 3–5 final
+integrated review, merge and deployment slices. Rights/access waits remain
+unbounded and this is not a date commitment. **Next:** obtain the explicit
+installation authorization; preserve all-seven V02, V03 rights/profile/grade/
+negative/round-trip and legacy export gates.
+
+## Historical current evidence — S505 exit (2026-10-08)
 
 S505 follows S504 `1111b9e2504fac3e400d5a4c1da8252627b2f712` on
 `codex/epic-17-g04`; refreshed `origin/main`
