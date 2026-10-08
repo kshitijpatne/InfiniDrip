@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2715,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S451-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S451-woven-decision-proposals/G04-WOVEN-BLOCKER-DECISION-PROPOSALS-S451.md",
+      "verified": true,
+      "note": "Reconciles the exact Woven source, previous all-option output evidence, qualified drawing research and prior view decisions; no implementation or acceptance changes."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2716,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-G04-S451-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2717,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S451 confirms both remaining all-seven blockers are Woven: 28 fronts under the continuous neckline decision, and 28 backs under the fixed S370 band layout. The only already-rendered trials that clear them contradict those decisions; no new construction drawing resolves the custom semantics. The packet presents exact, quantified view-only trial choices; all holds remain pending maintainer direction."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2718,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S451 is a bounded Woven blocker decision packet only. It preserves the admitted all-seven V02 gate, V02-before-V03, every hold and all non-goals. The goal remains active; the next action depends on whether the maintainer reopens either exact prior view choice. Packet: docs/research/epic17/S451-woven-decision-proposals/G04-WOVEN-BLOCKER-DECISION-PROPOSALS-S451.md."
+  }
+]
