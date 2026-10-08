@@ -1,6 +1,44 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 488 GRAFIS and AccuMark source screen
+## EPIC-17 / G04 — Slice 489 StyleCAD and Optitex access screen
+
+S489 checked the no-cost access path only for StyleCAD and Optitex, candidates
+already included in S464's installed-app inventory. StyleCAD's public PDS
+demo does not establish a local trial license; quote-based PDS pricing lists
+generic DXF import/export, while the reviewed sources do not establish free
+local rights or exact AAMA/ASTM export behavior. Optitex's explicit free trial
+applies to hosted OPTINEDCloud, while local PDS installation is license-key
+gated. Neither clears V03 Gate 0 on current public evidence. This is not proof
+that a private exception cannot exist. Codex independently reviewed the exact
+OpenCode report and primary sources. No installer, account, trial, vendor,
+fixture, or CAD file was accessed.
+
+The Windows app inventory showed CLO installed but not running (no windows);
+Chrome's CLO page remained open and untouched. CLO was unnecessary for this
+source-only check. Validated board closeout is revision `3047` from
+`3041→3047`; G04-V03 and EPIC-17 remain In Progress, V01/V02 Done. After one
+transient Windows `EPERM` during the third board rename, the partial board was
+validated and the state-aware replay verified already-persisted commands
+before completing the remaining ones. `npm run control-center:test` passes
+`42/42` on settled revision 3047; all four S489 scripts pass `node --check`;
+`git diff --check` passes. No production code changed; the full repository
+gate remains for the settled Epic/PR candidate. See the S489 exit, matrix,
+Codex review, and replay diagnostic in
+`docs/research/epic17/S489-local-cad-trial-access/`.
+
+Elapsed `8m58s` (`08:59:44–09:08:42 UTC`; category estimates): primary source
+research `1m45s`; independent OpenCode wait/review `3m15s`; Codex
+cross-review/app-state check `2m`; focused verification and replay diagnosis
+`1m`; durable record/board work `0m58s`; implementation `0m`; rendered/output
+review `0m`; maintainer-decision time `0m`.
+
+Next action: acquire or identify a rights-cleared local receiver and exact
+build. Before opening fixtures, document Gate 0 rights and local file
+handling; then qualify the exact apparel profile and test representative
+round trips. If the no-paid-software preference remains, no receiver found in
+S464–S489 currently qualifies; preserve V03's hold and every gate.
+
+### Slice 488 GRAFIS and AccuMark source screen (prior boundary)
 
 S488 screened GRAFIS and Gerber AccuMark against V03's unchanged rights,
 Windows-local handling, exact apparel-profile, round-trip, grade, and

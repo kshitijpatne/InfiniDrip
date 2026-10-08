@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3039,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S489-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S489-local-cad-trial-access/S489-start-packet.md",
+      "verified": true,
+      "note": "S489 narrowly checks whether official StyleCAD/Optitex demo or trial access can provide a rights-cleared no-cost local apparel-CAD receiver path; no download, account, trial acceptance, or fixtures."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3040,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S489 checks only official StyleCAD/Optitex local demo, license, and trial-access paths. Prior S464 already covered installation discovery and S486 covered general format availability; this slice tests only whether no-cost rights/access plus local exchange could qualify. No app, download, account, trial, or fixture use."
+  }
+]

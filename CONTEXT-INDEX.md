@@ -2,6 +2,20 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S489-local-cad-trial-access/S489-exit-packet.md`
+  closes the narrow StyleCAD/Optitex access check, with the Codex source
+  matrix, exact-model OpenCode report, cross-review, and board-replay
+  diagnostic. StyleCAD's web demo is not documented as a local trial grant;
+  its paid/quote PDS lists generic DXF import/export, not an exact no-cost
+  AAMA/ASTM path. Optitex's explicit free trial is hosted OPTINEDCloud; its
+  local PDS needs a license key. Neither clears Gate 0 on reviewed evidence.
+  No installer/account/trial/file was used. The Windows app inventory showed
+  CLO already not running; its Chrome page was left untouched. Board
+  `3041→3047`; all G04 statuses and V03 gates remain unchanged. Next: obtain
+  rights-cleared access to an exact local receiver/build, then document rights
+  and file handling before fixtures. If the no-paid-software preference
+  remains, keep V03 held; no reviewed candidate currently qualifies.
+
 - `docs/research/epic17/S488-grafis-accumark-source-screen/S488-exit-packet.md`
   closes the focused GRAFIS/AccuMark source screen. GRAFIS's free training
   edition disables pattern import/export; AccuMark's reviewed sources require
