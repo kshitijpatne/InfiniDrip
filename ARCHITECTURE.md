@@ -1001,6 +1001,9 @@ fresh maintainer approval and must keep the app's own checks and return to the
 existing layout if the helper cannot offer a safe result. See the
 [Epic 8 exit report](docs/release/EPIC-8-EXIT-REPORT.md).
 
+## G04 technical-flat presentation
+
+The seven supported pattern recipes can render front and back technical flats from one live pattern revision. The renderer preserves source piece/entity identity and coordinates, maps declared construction through revision-bound view metadata, places colorway fills in the declared layer order, and binds POM callouts to same-face source geometry. Unsupported source features and table-only POMs are reported as notices rather than invented. A zoomable canvas supports close inspection of dense construction schedules. S459 reviewed 73 supported configurations and 146 views; it accepted digital V02 output only. It does not establish physical sewing, fit, factory acceptance, or industrial CAD interoperability. CAD receiver/profile rights and round-trip proof remain V03 work; the generic legacy DXF contract remains protected.
 ## What is outside the current product
 
 Accounts, profiles, a hosted database, cloud sync, monitoring, email, and

@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 2794,
+  "itemId": "G04-V02",
+  "patch": {
+    "description": "Integrated all-seven V02 accepted at S459. Current production UI/Chromium replay covers all 73 canonical supported configurations and 146 front/back faces across seven recipes; zero issue/hold rows, invalid option values, revision-pair/identity/colorway/POM-target mismatch, browser errors, or all-layer rendered text intersections. S406's approved view-only collar-over-plackets order remains implemented and the S457 Woven front/back mappings remain in output. Source omissions and table-only POM values stay explicitly disclosed. V01/V02 Done. Preserve all-seven scope, the unchanged 0.25 cm gate and exact approved S351 exception, V02-before-V03, legacy DXF behavior, protected export byte identities and no physical/factory claim. See docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md."
+  }
+}

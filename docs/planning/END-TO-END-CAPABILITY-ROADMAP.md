@@ -2,10 +2,9 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current evidence and conditional estimate — S458 (2026-10-08)
+### G04 current evidence and conditional estimate — S459 (2026-10-08)
 
-The roadmap's original G04 row is a planning baseline. At the verified S458 boundary, Woven's 56 faces and Polo's 34 faces have passed their local checks; the integrated tally is 112 accepted / 34 pending the combined all-seven V02 review over 73 configurations / 146 faces. The previous Polo 0.68 cm-vs-0.25 cm blocker was a stale summary: the exact maintainer-approved S351 exception applies to the same-revision Polo sleeve-ease relation, while the 0.25 cm gate remains for all other relations. V02's all-seven criterion remains open. V03 is gated until V02 passes and still needs rights-cleared receiver/profile and observed round-trip evidence. Conditional remaining estimate from S458: 1–3 V02 integration/review slices, 5–10 V03 slices, and 3–5 final-review/merge/deployment slices (9–18 total), excluding unbounded rights/access waits or additional maintainer decisions. See `docs/planning/EPIC-17-ADMISSION.md` and the S458 packet for the active handoff; re-estimate after integrated V02 review and V03 rights review.
-
+S459 accepts integrated V02: all seven recipes and 73 canonical configurations / 146 front/back outputs pass current UI/Chromium review with zero technical-flat issues, option/revision/colorway/POM-target mismatches, browser failures, or text-box intersections across all layers. The exact S351 Polo exception remains limited to its approved same-revision relation; the 0.25 cm gate still applies elsewhere. G04-V02 is Done; V03 may now start as the dependent capability but remains gated on receiver/profile rights and witnessed representative round-trip evidence. Conditional remaining estimate from S459: 5–10 V03 slices and 3–5 final-review/merge/deployment slices (8–15 total), excluding unbounded rights/access waits or further maintainer decisions. See `docs/planning/EPIC-17-ADMISSION.md` and the S459 packet; re-estimate after V03 rights review.
 ## Authority, scheduling, and completion rules
 
 | ID | Decision / rule | Operational consequence |

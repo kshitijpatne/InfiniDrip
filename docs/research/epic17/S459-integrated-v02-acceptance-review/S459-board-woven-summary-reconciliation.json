@@ -1,0 +1,21 @@
+[
+  {
+    "type": "editEpic",
+    "expectedRevision": 2790,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Retain the exact verified Woven local acceptance summary in the canonical board while recording integrated V02 completion.",
+    "patch": {
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2791,
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 is gated on receiver/profile rights review and witnessed representative round-trip evidence. Preserve legacy DXF, protected export identities, final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim."
+    }
+  }
+]

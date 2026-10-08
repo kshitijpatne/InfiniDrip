@@ -1,0 +1,29 @@
+[
+  {
+    "type": "editEpic",
+    "expectedRevision": 2787,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Keep the canonical Epic card linked to its admission packet and current S459 V02 acceptance after the work-card transition.",
+    "patch": {
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's approved S457 front mask/back sleeve reflection and S406's approved collar-over-plackets order remain implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2788,
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's approved S457 front mask/back sleeve reflection and S406's approved collar-over-plackets order remain implemented. V03 is gated on receiver/profile rights review and witnessed representative round-trip evidence. Preserve legacy DXF, protected export identities, final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2789,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated all-seven V02 accepted at S459. Current production UI/Chromium replay covers all 73 canonical supported configurations and 146 front/back faces across seven recipes; zero issue/hold rows, invalid option values, revision-pair/identity/colorway/POM-target mismatch, browser errors, or all-layer rendered text intersections. Approved S406 Woven collar-over-plackets and S457 front/back mappings remain in output. Source omissions and table-only POM values stay explicitly disclosed. V01/V02 Done. Preserve all-seven scope, the unchanged 0.25 cm gate and exact approved S351 exception, V02-before-V03, legacy DXF behavior, protected export byte identities and no physical/factory claim. See docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md."
+    }
+  }
+]

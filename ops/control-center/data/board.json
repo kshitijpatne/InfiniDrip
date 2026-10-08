@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2773,
-  "updatedAt": "2026-10-08T03:29:04.992Z",
+  "revision": 2795,
+  "updatedAt": "2026-10-08T03:59:25.890Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. S458 current tally: 112 locally accepted / 34 pending integrated all-seven acceptance across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The former S457/board claim of a 0.68 cm Polo sleeve-cap residual against 0.25 cm was stale: current 17-option/34-face production replay verifies the exact approved S351 relation exception with zero such diagnostics; every other relation retains the 0.25 cm gate. Polo current revisions, output paths, 13 keyed POM/full-text rows per front and full-label audit pass local checks; final all-seven acceptance is still pending. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 needs rights-reviewed receiver/version/profile and representative observed round-trip evidence before exact format claims. No physical-fit, factory-acceptance or production-readiness claim. Current status/evidence: docs/research/epic17/S458-polo-current-output-reconciliation/S458-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -652,7 +652,9 @@
         "E-G04-S453-EXIT",
         "E-G04-S454-EXIT",
         "E-EPIC17-S457-EXIT",
-        "E-EPIC17-S458-EXIT"
+        "E-EPIC17-S458-EXIT",
+        "E-EPIC17-S459-START",
+        "E-EPIC17-S459-EXIT"
       ]
     },
     {
@@ -3181,7 +3183,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. S458 current tally: 112 locally accepted / 34 pending integrated all-seven acceptance across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The former S457/board claim of a 0.68 cm Polo sleeve-cap residual against 0.25 cm was stale: current 17-option/34-face production replay verifies the exact approved S351 relation exception with zero such diagnostics; every other relation retains the 0.25 cm gate. Polo current revisions, output paths, 13 keyed POM/full-text rows per front and full-label audit pass local checks; final all-seven acceptance is still pending. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 needs rights-reviewed receiver/version/profile and representative observed round-trip evidence before exact format claims. No physical-fit, factory-acceptance or production-readiness claim. Current status/evidence: docs/research/epic17/S458-polo-current-output-reconciliation/S458-exit-packet.md.",
+      "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 is gated on receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4454,6 +4456,31 @@
           "at": "2026-10-08T03:27:53.269Z",
           "actor": "Codex",
           "text": "S458 corrects stale S457 status: Polo's 0.68 cm-vs-0.25 cm residual is not an active blocker under the exact approved S351 same-revision mapping. Current all-17-option production replay and audits pass Polo local checks. Preserve 34 face requests as pending the integrated all-seven V02 review; no acceptance criteria or threshold changed. V03 remains gated. Evidence E-EPIC17-S458-EXIT."
+        },
+        {
+          "at": "2026-10-08T03:57:50.612Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 result and evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 remains gated on exact receiver/profile rights review and witnessed representative import/export/round-trip evidence before exact compatibility claims. Preserve legacy DXF behavior, every protected export byte identity, final full-repository verification, origin/main ancestry and required automatic deployment. No physical-fit, factory-acceptance or production-readiness claim.). Record the verified integrated V02 exit while preserving EPIC-17 In Progress through V03 and safe merge."
+        },
+        {
+          "at": "2026-10-08T03:57:51.291Z",
+          "actor": "Codex",
+          "text": "S459 V02 exit: all 146 front/back requests across seven recipes and 73 configurations are accepted on current output evidence. EPIC-17 remains In Progress; V03 is the next gated capability. No exact CAD format claim until rights review and receiver round-trip proof. Board evidence: E-EPIC17-S459-EXIT."
+        },
+        {
+          "at": "2026-10-08T03:58:36.475Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's approved S457 front mask/back sleeve reflection and S406's approved collar-over-plackets order remain implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim.). Keep the canonical Epic card linked to its admission packet and current S459 V02 acceptance after the work-card transition."
+        },
+        {
+          "at": "2026-10-08T03:59:06.096Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim.). Retain the exact verified Woven local acceptance summary in the canonical board while recording integrated V02 completion."
+        },
+        {
+          "at": "2026-10-08T03:59:16.893Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim.). Keep the canonical status summary's explicit V02-before-V03 gate visible alongside S459 acceptance."
         }
       ],
       "evidenceRefs": [
@@ -4844,7 +4871,9 @@
         "E-G04-S426-EXIT",
         "E-G04-S427-EXIT",
         "E-G04-S428-EXIT",
-        "E-EPIC17-S458-EXIT"
+        "E-EPIC17-S458-EXIT",
+        "E-EPIC17-S459-START",
+        "E-EPIC17-S459-EXIT"
       ],
       "flagKey": null
     },
@@ -7524,10 +7553,10 @@
       "title": "G04 V02: live front/back vector flats",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-09-29",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-08",
       "priority": "P0",
       "risk": "high",
       "owner": "Codex",
@@ -7542,7 +7571,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Current S458 tally: 112 locally accepted / 34 pending integrated all-seven acceptance across 73 configurations / 146 faces. S457’s 0.68 cm-vs-0.25 cm Polo residual hold reason was stale: the approved S351 exception applies to the exact same-revision Polo sleeve-ease arclength mapping; the 0.25 cm gate remains for every other relation. Current actual production/Chromium replay covers all 17 Polo options / 34 faces with zero compiler/renderer/browser issues, zero exact S351 residual diagnostics, zero revision/path-identity differences, 13 keyed POM rows per front, and zero full-label rectangle collisions. Polo local checks pass; preserve all-seven V02 and keep face requests pending integrated review. V01 Done; V02 In Progress; V03 Backlog and gated. S406's approved view-only collar-over-plackets order remains implemented. Preserve legacy DXF and protected export identities. V03 still requires a rights-cleared receiver/version/profile and observed import/export round-trip evidence. No fit, factory-acceptance or production-readiness claim. Evidence: docs/research/epic17/S458-polo-current-output-reconciliation/S458-exit-packet.md.",
+      "description": "Integrated all-seven V02 accepted at S459. Current production UI/Chromium replay covers all 73 canonical supported configurations and 146 front/back faces across seven recipes; zero issue/hold rows, invalid option values, revision-pair/identity/colorway/POM-target mismatch, browser errors, or all-layer rendered text intersections. S406's approved view-only collar-over-plackets order remains implemented and the S457 Woven front/back mappings remain in output. Source omissions and table-only POM values stay explicitly disclosed. V01/V02 Done. Preserve all-seven scope, the unchanged 0.25 cm gate and exact approved S351 exception, V02-before-V03, legacy DXF behavior, protected export byte identities and no physical/factory claim. See docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md.",
       "expectation": "Live vector output stays aligned with the same pattern and style revision and remains readable across all supported options.",
       "acceptanceCriteria": [
         "Render front/back vector views for all seven recipes and supported option combinations from one pattern/revision.",
@@ -7595,6 +7624,16 @@
           "role": "maintainer",
           "note": "Resume admitted V02 work with the linked G04-owned source-to-view projection-mapping contract; no cut geometry changes",
           "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-08T03:57:51.098Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "All seven recipes and 73 supported configurations / 146 front/back faces pass the current production-output V02 review and documented acceptance gates.",
+          "evidenceRefs": [
+            "E-G04-S459-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -9402,6 +9441,16 @@
           "at": "2026-10-08T03:26:13.055Z",
           "actor": "Codex",
           "text": "S458 closes the stale 0.68 cm-vs-0.25 cm Polo hold claim. Current production/Chromium replay passes all 17 supported options / 34 faces at same-revision front/back pairs; audits find zero exact S351 residual diagnostics, revision mismatches, path differences or full-label overlaps. Polo local checks pass; keep all 34 requests pending integrated all-seven V02 review. General 0.25 cm gate remains unchanged. V02 In Progress; V03 remains gated. See E-G04-S458-EXIT."
+        },
+        {
+          "at": "2026-10-08T03:33:15.502Z",
+          "actor": "Codex",
+          "text": "S459 starts at S458 commit a26a25b, clean on codex/epic-17-g04; refreshed origin/main a5af5e13 is an ancestor. Board revision 2773; 112 locally accepted / 34 pending integrated all-seven review. Review the exact 73-case/146-face fixture through current production UI/Chromium, retain exact approved view mappings and every acceptance gate, and do not begin V03 before integrated V02 passes."
+        },
+        {
+          "at": "2026-10-08T03:57:51.195Z",
+          "actor": "Codex",
+          "text": "S459 accepts integrated V02: 146/146 front/back outputs across all seven recipes and 73 canonical supported configurations; zero technical-flat issues, browser failures, option/revision/identity/colorway/callout-target mismatches, or text-box intersections across any output layer. S460 may begin the dependent V03 work only after fresh branch/board checks; V03 still requires rights-reviewed receiver/profile and witnessed import/export/round-trip evidence. See E-G04-S459-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10095,7 +10144,9 @@
         "E-G04-S456-S455-CLOSEOUT",
         "E-G04-S457-EXIT",
         "E-G04-S458-START",
-        "E-G04-S458-EXIT"
+        "E-G04-S458-EXIT",
+        "E-G04-S459-START",
+        "E-G04-S459-EXIT"
       ],
       "flagKey": null
     },
@@ -17935,6 +17986,42 @@
       "sha256": null,
       "verified": true,
       "note": "S458 corrects the stale Polo residual blocker statement using current same-revision production output and audits."
+    },
+    {
+      "id": "E-G04-S459-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S459 starts integrated seven-recipe V02 output review at current source/options, covering all 73 configurations and 146 front/back requests without changing acceptance criteria."
+    },
+    {
+      "id": "E-EPIC17-S459-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S459 begins current integrated all-seven V02 acceptance review following S458 Polo status correction."
+    },
+    {
+      "id": "E-G04-S459-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S459 current-production Chromium review accepts all seven recipes and all 73 configurations / 146 faces: zero renderer/browser issues, option/revision/colorway/POM-target mismatches or all-layer text intersections."
+    },
+    {
+      "id": "E-EPIC17-S459-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S459 closes G04 V02 after integrated live-output review across 73 supported configurations / 146 front/back faces. V03 remains gated on rights-reviewed receiver/profile and witnessed round-trip evidence."
     }
   ]
 }

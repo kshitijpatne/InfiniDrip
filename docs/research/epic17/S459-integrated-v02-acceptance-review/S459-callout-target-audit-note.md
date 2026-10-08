@@ -1,0 +1,5 @@
+# S459 callout target audit correction
+
+The first 73-configuration browser replay emitted all 146 faces with no page/console/request errors, but its newly added callout-target check reported 51 misses, all on the 17 Polo fronts. Inspection of the actual SVGs showed that Polo callouts may declare several exact geometry entity IDs in one `data-callout-target` value, separated by `|`. The initial audit compared that combined string to a single entity ID, so it reported a false miss for three multi-target callouts in each front.
+
+The corrected audit splits each declared target and checks every member against an exact emitted `data-entity-id` in the same SVG. Rechecking the 146 captured production SVGs finds zero missing/empty targets (`S459-callout-target-diagnosis.json`). This is an audit-method correction only; no production source, pattern topology, callout data or acceptance criterion changed. The full browser matrix is replayed with the corrected check so the final matrix and final console summary agree.
