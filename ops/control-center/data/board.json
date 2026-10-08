@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 2842,
-  "updatedAt": "2026-10-08T04:22:42.032Z",
+  "revision": 2851,
+  "updatedAt": "2026-10-08T04:26:07.182Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -662,7 +662,9 @@
         "E-EPIC17-S462-START",
         "E-EPIC17-S462-EXIT",
         "E-EPIC17-S463-START",
-        "E-EPIC17-S463-FIXTURES"
+        "E-EPIC17-S463-FIXTURES",
+        "E-EPIC17-S464-START",
+        "E-EPIC17-S464-EXIT"
       ]
     },
     {
@@ -4519,6 +4521,11 @@
           "at": "2026-10-08T04:22:42.032Z",
           "actor": "Codex",
           "text": "S463 prepares receiver-independent test inputs; no profile, compatibility, or production-readiness claim is made. Preserve the current access decision and all remaining V03 evidence gates. See E-EPIC17-S463-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:26:07.182Z",
+          "actor": "Codex",
+          "text": "S464's limited local host check found no receiver to use. Keep G04-V03 In Progress and retain its exact rights and round-trip acceptance gates. The active goal remains necessary; see E-EPIC17-S464-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -4920,7 +4927,9 @@
         "E-EPIC17-S462-EXIT",
         "E-EPIC17-S463-START",
         "E-EPIC17-S463-FIXTURES",
-        "E-EPIC17-S463-EXIT"
+        "E-EPIC17-S463-EXIT",
+        "E-EPIC17-S464-START",
+        "E-EPIC17-S464-EXIT"
       ],
       "flagKey": null
     },
@@ -10298,6 +10307,16 @@
           "at": "2026-10-08T04:22:41.946Z",
           "actor": "Codex",
           "text": "S463's six valid generic DXFs and one malformed negative control are hash- and structure-verified. The Tee size files are separate single-size DXFs; they do not prove grade interchange. V03 remains In Progress pending the exact lawful receiver/version and observed round trips. See E-G04-S463-EXIT."
+        },
+        {
+          "at": "2026-10-08T04:25:13.674Z",
+          "actor": "Codex",
+          "text": "S464 checks for an already installed receiver without reading activation or license data. An installed app alone will not count as rights/access evidence. V03 remains In Progress. See E-G04-S464-START."
+        },
+        {
+          "at": "2026-10-08T04:26:07.116Z",
+          "actor": "Codex",
+          "text": "S464 found no apparel-CAD candidate in the standard local discovery surfaces checked. V03 still needs owner-provided lawful exact receiver/version access and witnessed round trips; no compatibility claim or acceptance change. See E-G04-S464-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10312,7 +10331,9 @@
         "E-G04-S462-EXIT",
         "E-G04-S463-START",
         "E-G04-S463-FIXTURES",
-        "E-G04-S463-EXIT"
+        "E-G04-S463-EXIT",
+        "E-G04-S464-START",
+        "E-G04-S464-EXIT"
       ],
       "flagKey": null
     },
@@ -18300,6 +18321,42 @@
       "sha256": null,
       "verified": true,
       "note": "S463 adds a receiver-independent fixture package while retaining the V03 access, rights, and round-trip gates."
+    },
+    {
+      "id": "E-G04-S464-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S464-local-receiver-availability/S464-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S464 performs a read-only installed CAD receiver name/version check; no license details, trial, install, or file transfer are inspected or initiated."
+    },
+    {
+      "id": "E-EPIC17-S464-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S464-local-receiver-availability/S464-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S464 is a bounded local receiver availability audit with no external contact, spending, installation, or license-data access."
+    },
+    {
+      "id": "E-G04-S464-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S464-local-receiver-availability/S464-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only checks of standard uninstall entries, Program Files, Appx metadata and Start-menu shortcuts found no apparel-CAD receiver candidate; no license data was inspected."
+    },
+    {
+      "id": "E-EPIC17-S464-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S464-local-receiver-availability/S464-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "V03 remains In Progress: the current host exposes no receiver candidate in the standard locations checked, and lawful exact-version access remains owner-provided."
     }
   ]
 }

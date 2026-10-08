@@ -1,3 +1,24 @@
+## Current evidence and conditional remaining estimate — S464 exit (2026-10-08)
+
+S464 follows S463 `8e4cdfa63ca3c903dfcd5275b6759022b5fad0ee` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S463 was
+highest and S464 is unique. Read-only Windows checks found no relevant
+apparel-CAD product in standard uninstall records, conventional Program Files,
+Appx names or Start-menu shortcuts. Search false positives were narrowed and
+rechecked. No license or activation data was accessed. Board revisions
+2842→2846→2851; Control Center passes 42/42; V01/V02 Done and V03 In Progress.
+See `docs/research/epic17/S464-local-receiver-availability/`.
+
+The local host check does not remove the V03 access gate. Preserve the accepted
+V02, all-seven scope, receiver-rights review, profile-specific fixture and
+round-trip gates, generic DXF behavior, protected export identities and all
+non-goals. The prepared S463 inputs do not establish native multi-size grading.
+**Next:** the product owner must provide lawful local access to an exact
+industrial apparel-CAD receiver/build with permission for local fixtures;
+then freeze its profile and record observed import/export behavior. No trial,
+spending, supplier/vendor contact, or format claim is authorized.
+
 ## Current evidence and conditional remaining estimate — S463 exit (2026-10-08)
 
 S463 follows S462 `b8462cf6bda2097167ef16c13c3ab49727e2d78e` on

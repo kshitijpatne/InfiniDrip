@@ -2,6 +2,14 @@
 
 ## Current EPIC-17/G04 V03 slice
 
+- `docs/research/epic17/S464-local-receiver-availability/S464-exit-packet.md`
+  records a bounded, read-only Windows search of uninstall metadata,
+  Program Files, Appx names and Start-menu shortcuts. No apparel-CAD receiver
+  candidate/version was exposed; license/activation data was not inspected.
+  V03 remains In Progress pending lawful owner-provided exact receiver/build
+  access; board revision 2851. S463's prepared generic-DXF fixtures remain
+  ready, but do not prove compatibility or native grade exchange.
+
 - `docs/research/epic17/S463-v03-receiver-fixture-pack/S463-exit-packet.md`,
   `fixture-plan.md`, `fixture-manifest.json`, generator/verifier, and seven
   fixture DXFs — prepares source-reproducible generic-DXF inputs before exact

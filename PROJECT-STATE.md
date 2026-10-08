@@ -1,5 +1,22 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 464 confirms no standard local receiver is exposed
+
+Read-only checks of HKLM 64/32-bit and HKCU uninstall entries, conventional
+Program Files directories, Appx package names and common Start-menu shortcut
+names found no apparel-pattern CAD receiver candidate. Loose-string false
+matches (FL Cloud for CLO; Notepad for PAD) were eliminated by token-aware
+patterns. No application, license, activation, credentials, trial, user files,
+or network shares were inspected. This is bounded to standard discovery
+surfaces, not a claim that no app exists in any custom folder or machine.
+
+Validated board revisions 2842→2846→2851; Control Center passes 42/42. V01/V02
+remain Done; EPIC-17/V03 remain In Progress. No product or exporter changes.
+S464 packet: `docs/research/epic17/S464-local-receiver-availability/`.
+V03 still needs owner-provided lawful access to an exact receiver/build before
+profile selection and witnessed round trips. The active goal remains needed
+through the final gates and safe merge.
+
 ## EPIC-17 / G04 — Slice 463 prepares V03 generic-DXF receiver fixtures
 
 S463 adds six valid generic DXFs (simple Tee, marked Polo, marked Woven shirt,
