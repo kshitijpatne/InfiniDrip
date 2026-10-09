@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3542,
-  "updatedAt": "2026-10-09T10:01:18.835Z",
+  "revision": 3546,
+  "updatedAt": "2026-10-09T10:16:56.584Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11898,6 +11898,16 @@
           "at": "2026-10-09T10:01:18.835Z",
           "actor": "Codex",
           "text": "S602's limited independent review found no documented new short-corner fix. Codex confirmed the suggested flags duplicate S503/S519 coverage or are counter-indicated by S522. Keep every V03 gate unchanged. Next use S567's source-derived waistband SEW grade test only if current CLO UI/accessibility state agrees."
+        },
+        {
+          "at": "2026-10-09T10:06:17.626Z",
+          "actor": "Codex",
+          "text": "S603 follows S567's source-derived grading plan after S602 observed a coherent CLO main window. Work only on a verified C:-confined copy of the S565 disposable project; grade the exact waistband SEW path, preserve S601, and keep all other V03 holds. Stop if target path/size identity is ambiguous."
+        },
+        {
+          "at": "2026-10-09T10:16:56.584Z",
+          "actor": "Codex",
+          "text": "S603's CLO Edit Grading selection remained ambiguous: the UI exposed 20.0 mm X / 0.0 mm Y at each step, while source SEW points require different X/Y deltas. No grade values were entered and no exchange was run. Keep V03 gates and all-seven acceptance unchanged. S604 should choose a distinct remaining evidence-capable gate; do not repeat S603 unless internal-line point identity can be established before input."
         }
       ],
       "evidenceRefs": [
@@ -12200,7 +12210,9 @@
         "E-G04-S601-START",
         "E-G04-S601-EXIT",
         "E-G04-S602-START",
-        "E-G04-S602-EXIT"
+        "E-G04-S602-EXIT",
+        "E-G04-S603-START",
+        "E-G04-S603-EXIT"
       ],
       "flagKey": null
     },
@@ -23176,6 +23188,24 @@
       "sha256": null,
       "verified": true,
       "note": "Independent review found no sourced new short-corner remedy; Codex verified the proposed UI option combination was already tested or counter-indicated. No exchange, edit, or gate change. Next bounded work is the existing source-backed waistband grading test only if live CLO state is coherent."
+    },
+    {
+      "id": "E-G04-S603-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S603-waistband-sew-grading-trial/S603-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S603 tests only S567's exact source-derived grading deltas on the S565 saved disposable waistband project, using the still-open CLO process. Compare CUT/SEW for XS–XL at 0.001 cm. No source, product, legacy output or V03 acceptance changes."
+    },
+    {
+      "id": "E-G04-S603-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S603-waistband-sew-grading-trial/S603-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S603 fail-closed: the visible waistband internal line was not semantically distinguishable from CUT grading in CLO; the selected values (20,0 mm) did not match source SEW increments. No grade edit/export/import occurred; no V03 gate clears. Screenshot and hash are in the C:-confined packet."
     }
   ]
 }

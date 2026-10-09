@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3545,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S603's CLO Edit Grading selection remained ambiguous: the UI exposed 20.0 mm X / 0.0 mm Y at each step, while source SEW points require different X/Y deltas. No grade values were entered and no exchange was run. Keep V03 gates and all-seven acceptance unchanged. S604 should choose a distinct remaining evidence-capable gate; do not repeat S603 unless internal-line point identity can be established before input."
+}

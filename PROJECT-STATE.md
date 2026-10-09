@@ -1,6 +1,27 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 602 exit; V03 remains open
+## EPIC-17 / G04 — Slice 603 exit; V03 remains open
+
+S603 opened only the byte-verified copy of the S565 disposable CLO project in
+the existing CLO 2026.1.310 process. The waistband's inset four-sided internal
+line was visible, but Edit Grading did not establish that the apparent
+endpoints were internal-line points: the selected-point table showed 20.0 mm X
+and 0.0 mm Y at each size step, rather than the source sewn-line deltas. The
+selection could still be a CUT point. No grading values were changed; no project
+was saved and no DXF exchange was performed. The trial is held, and no V03 gate
+clears. Evidence, screenshot hash and limits: `docs/research/epic17/S603-waistband-sew-grading-trial/S603-exit-packet.md`.
+
+Validated board exit is recorded at board revision 3546 in the S603 packet and
+command replay. V02 remains Done; V03 and EPIC-17 remain In Progress. Keep all-seven acceptance,
+the 0.001 cm contour gate, V02-before-V03 order, legacy DXF behavior, protected
+export identities, and every V03 hold unchanged. No production code changed;
+the Control Center suite and `git diff --check` are the focused closeout checks.
+CLO remains open in the same session. At S604, refresh the current V03 gate
+matrix and select a distinct remaining gate that new evidence can resolve. Do
+not repeat the S603 UI selection unless a trustworthy method establishes sewn-
+path segment identity before grading input.
+
+## Prior EPIC-17 / G04 — Slice 602 exit; V03 remains open
 
 S602 commissioned an independent, read-only Claude Opus 5.5 review of the
 five repeated Polo CUT short-corner losses. It found no evidence-backed new

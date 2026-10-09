@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3542,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S603-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S603-waistband-sew-grading-trial/S603-start-packet.md",
+    "verified": true,
+    "note": "S603 tests only S567's exact source-derived grading deltas on the S565 saved disposable waistband project, using the still-open CLO process. Compare CUT/SEW for XS–XL at 0.001 cm. No source, product, legacy output or V03 acceptance changes."
+  }
+}
