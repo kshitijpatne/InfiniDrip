@@ -1,4 +1,21 @@
-## Current EPIC-17/G04 V03 scripting-route screen — S569 exit (2026-10-09)
+## Current EPIC-17/G04 V03 CLO profile capability cross-check — S570 exit (2026-10-09)
+
+The current official CLO help page documents AAMA/ASTM menu modes, one size
+group per export, grades in DXF or a Rule File, and 2026.1 seam-allowance
+conversion. It does not specify an exact normative edition, CUT/SEW layer map,
+marks, or receiver-specific acceptance; no V03 gate is cleared. The current
+visible CLO workspace and accessibility Export DXF dialog still disagree, so
+no app action or exchange was safe. This is an automation-control issue, not a
+format failure; the user's written trial-use/local-processing confirmation is
+settled. See
+`docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-exit-packet.md`.
+
+**Next:** analyze a distinct additive exchange-profile design against the
+retained geometry, semantics and grade failures, preserving legacy DXF and
+protected byte identities. Do not repeat generic profile research, known
+exchanges, or UI clicks against the contradictory surface. Keep CLO open.
+
+## Prior EPIC-17/G04 V03 scripting-route screen — S569 exit (2026-10-09)
 
 Official CLO documentation describes its in-app Python editor and DXF
 import/export APIs. The documented grading setter targets pattern-outline

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3395,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S570-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-exit-packet.md",
+    "verified": true,
+    "note": "Current first-party CLO help documents AAMA/ASTM modes and DXF/Rule File grading choices but no exact edition or CUT/SEW/mark semantic mapping. Fresh screenshot/accessibility conflict is preserved under the C:-only S570 evidence folder. No exchange or gate changed; G04-V03 remains In Progress."
+  }
+}

@@ -1,6 +1,39 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 569 exit; V03 remains open
+## EPIC-17 / G04 — Slice 570 exit; V03 remains open
+
+The current first-party CLO DXF help documents AAMA/ASTM menu modes, one size
+group per export, grading in DXF or a separate Rule File, and the 2026.1
+automatic conversion of imported seam allowance to locked Custom Seam
+Allowance. It does not name an exact standards edition, CUT/SEW layer mapping,
+mark semantics, or a receiver-specific acceptance profile. This confirms menu
+capability only; it clears no V03 gate. Current docs and retained round-trip
+evidence are reconciled in
+`docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-exit-packet.md`.
+
+A fresh screenshot of the still-running CLO 2026.1.310 shows the workspace;
+the separate accessibility tree reports an Export DXF dialog and settings.
+The two observations conflict, and activation reported that user input was
+detected. No app input or exchange followed. The screenshot and accessibility
+JSON are preserved in the named C:-only S570 evidence folder. This is an
+automation-control issue, not a format failure. User-confirmed trial-use and
+local-processing authorization remains settled. All V03 gates remain held.
+
+S570 started from clean S569 `c6dda6f`; refreshed `origin/main` remained an
+ancestor. Board replay is 3393→3395→3397. Focused Control Center tests and
+`git diff --check` pass; no production code changed and full coverage is not
+due. Elapsed 1m46s (03:40:10–03:41:56 UTC): source/evidence review ~15s,
+live capture/evidence save ~20s, packet/board/focused verification and
+integrity review ~71s; implementation 0m, external-agent waits 0m,
+maintainer-decision time 0m.
+
+**Next:** analyze whether a narrowly scoped additive exchange profile can
+address retained geometry, semantics and grade failures without changing the
+legacy DXF stream or protected identities. Do not repeat broad profile
+searches, known exchanges or UI clicks against the contradictory surface.
+Keep CLO open; all V03 gates remain in force.
+
+## Prior EPIC-17 / G04 — Slice 569 exit; V03 remains open
 
 Official CLO materials document an in-app Python editor and DXF APIs, but the
 published grading setter is limited to pattern-outline points. The public API

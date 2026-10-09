@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3393,
-  "updatedAt": "2026-10-09T03:33:10.013Z",
+  "revision": 3397,
+  "updatedAt": "2026-10-09T03:41:52.384Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11523,6 +11523,16 @@
           "at": "2026-10-09T03:33:10.013Z",
           "actor": "Codex",
           "text": "S569 closes the script-route screen: official Python API documentation provides internal-shape point reads but documents grading setters for outline points only; the listed SDK build (.224) does not match installed .310. The fresh window capture again shows the workspace while accessibility reports Export DXF, so no script or UI input is safe. This is not a format failure and clears no receiver/profile, geometry, semantics, marks, options, grading, malformed-input, seven-recipe or round-trip gate. Continue with a distinct offline V03 evidence item; do not repeat an exchange/API screen. See E-G04-S569-EXIT."
+        },
+        {
+          "at": "2026-10-09T03:40:33.024Z",
+          "actor": "Codex",
+          "text": "S570 compares CLO's current first-party DXF-AAMA/ASTM help claims to already measured seven-recipe, layer, grade, malformed-input and round-trip evidence. It records one current read-only window observation; do not repeat prior exchange or click attempts. No gate or scope changes."
+        },
+        {
+          "at": "2026-10-09T03:41:52.384Z",
+          "actor": "Codex",
+          "text": "S570 closes this current-help cross-check: CLO documents AAMA/ASTM menu modes and DXF/Rule File grading but no exact edition, layer semantics, or measured profile. The current screenshot shows the workspace while accessibility reports Export DXF; no UI input or exchange was safe. Authorization remains settled. This clears no V03 gate and is not a format failure. Continue with one distinct offline source/output design analysis; do not repeat profile searches or known exchanges. See E-G04-S570-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11759,7 +11769,9 @@
         "E-G04-S568-START",
         "E-G04-S568-EXIT",
         "E-G04-S569-START",
-        "E-G04-S569-EXIT"
+        "E-G04-S569-EXIT",
+        "E-G04-S570-START",
+        "E-G04-S570-EXIT"
       ],
       "flagKey": null
     },
@@ -22141,6 +22153,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official CLO docs show an in-app Python editor and an outline-point grading setter, but no documented internal-shape grading setter; the published SDK targets .224, not installed .310. A fresh CLO capture again shows workspace while accessibility reports Export DXF. No UI input or exchange followed. API route not qualified; all V03 gates remain held."
+    },
+    {
+      "id": "E-G04-S570-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S570 cross-checks current official CLO DXF profile/grade documentation against retained V03 evidence and makes a fresh read-only CLO window observation. No UI input or exchange is authorized from contradictory screenshot/accessibility state; all gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S570-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current first-party CLO help documents AAMA/ASTM modes and DXF/Rule File grading choices but no exact edition or CUT/SEW/mark semantic mapping. Fresh screenshot/accessibility conflict is preserved under the C:-only S570 evidence folder. No exchange or gate changed; G04-V03 remains In Progress."
     }
   ]
 }
