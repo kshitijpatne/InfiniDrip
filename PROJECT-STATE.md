@@ -1,6 +1,44 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 594 exit; V03 remains open
+## EPIC-17 / G04 — Slice 595 exit; V03 remains open
+
+S595 independently proved a periodic degree-1 SPLINE representation of the
+five difficult Polo M CUT contours against the original source: 1,603 samples,
+all source edges once, exact closure, and 0 cm source residual. The authorized
+CLO 2026.1.310 DXF-AAMA import/export returned nine pieces; its measured
+round-trip passes 4/9 CUTs and all 9/9 SEWs, while back, both stands, and both
+pointed collar CUTs fail the unchanged `0.001 cm` gate. The exact periodic
+encoding is rejected for this tested receiver; no internal CLO cause is
+inferred and no V03 gate changes. The full nine-piece 2D snapshot is gross
+presence evidence only. Permission for product-development use and local
+processing is confirmed in writing; all trial artifacts remain under
+`C:\G04-CLO-DXF-Exchange\S595-polo-periodic-spline-roundtrip\` and CLO stays
+open. No production code, geometry, export baseline, or protected identity
+changed. Details and hashes:
+`docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S595.md`.
+
+Validated board exit `3508→3512` links `E-G04-S595-EXIT`; a stale summary
+wording assertion was corrected through validated replay `3512→3514`.
+EPIC-17 and V03 remain In Progress and V02 remains Done. The Control Center suite passes
+42/42; all changed S595 scripts pass `node --check`; board clone preflight,
+CLI replay, artifact hashes and `git diff --check` pass. No production code
+changed, so changed-code coverage is N/A and the full repository gate remains
+due on the settled integrated Epic/PR candidate. S595 elapsed `21m36s`
+(`08:24:23–08:45:59 UTC`): candidate/source proof `4m25s`; CLO import/export
+`6m01s`; output analysis `1m55s`; PDF/snapshot/rendered inspection `2m02s`;
+documentation, focused tests, board and closeout `7m13s`, including the
+diagnosed summary assertion correction; external-agent waits `0m`;
+maintainer-decision time `0m`. S595 is recorded by the landed commit
+subject `Slice 595: test periodic Polo SPLINE round trip`.
+
+Next S596: inspect existing source, CLO output and prior candidate analyses to
+identify one source- and receiver-measurable entity-translation or processing-
+stage question before another receiver trial. Do not repeat periodic/closed-
+bit variants, alter geometry/settings or weaken any V03 gate. The goal remains
+active through verified PR merge and any required deployment. CLO stays open.
+
+## Prior EPIC-17 / G04 — Slice 594 exit; V03 remains open
 
 S594 hash-pinned the original Polo M source, the five S591 degree-1 SPLINEs,
 the S592 closed-bit derivative and both source preflight reports. Its

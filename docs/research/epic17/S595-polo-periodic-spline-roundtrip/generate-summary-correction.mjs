@@ -1,0 +1,13 @@
+import assert from "node:assert/strict";
+import { readFile, writeFile } from "node:fs/promises";
+
+const directory = "docs/research/epic17/S595-polo-periodic-spline-roundtrip";
+const board = JSON.parse(await readFile("ops/control-center/data/board.json", "utf8"));
+assert.equal(board.revision, 3512, "refusing stale S595 summary correction");
+const description = "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Maintainer authorization for CLO product-development use and local-only file handling is recorded. S595 independently proves five Polo M periodic degree-1 SPLINE inputs source-exact (1,603 samples; 0 cm residual); one CLO 2026.1.310 DXF-AAMA generation returns nine pieces, passes 4/9 CUT and 9/9 SEW, and fails five CUT contours (back, both stands, both pointed collars) under 0.001 cm. The periodic encoding is rejected for this tested receiver; no CLO cause is inferred and no V03 gate clears. See docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md and V03-CURRENT-GATE-MATRIX-S595.md. Next S596 must identify a specific source- and receiver-measurable entity-translation/stage question before another trial. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every rights/profile/identity/semantics/marks/grades/negative/repeated-round-trip gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.";
+const commands = [
+  { type: "editEpic", expectedRevision: 3512, epicId: "EPIC-17", actor: "Codex", role: "maintainer", reason: "Keep the summary's preserved-gates wording aligned with the existing Control Center regression assertion.", patch: { description } },
+  { type: "editItem", expectedRevision: 3513, itemId: "EPIC-17", patch: { description } },
+];
+for (const [index, command] of commands.entries()) await writeFile(`${directory}/S595-summary-correction-${index + 1}.json`, `${JSON.stringify(command, null, 2)}\n`);
+console.log("Wrote the two S595 summary-correction commands for revisions 3512→3514.");

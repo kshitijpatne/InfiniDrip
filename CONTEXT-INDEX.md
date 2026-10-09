@@ -1,6 +1,30 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S594 exit
+## Current EPIC-17/G04 V03 boundary — S595 exit
+
+- S595's exact periodic degree-1 SPLINE candidate replaces only five Polo M
+  CUT POLYLINEs; independent evaluation checks 1,603 parameters and every
+  source edge once at 0 cm maximum source residual. Authorized local CLO
+  2026.1.310 DXF-AAMA round trip returns nine pieces, passes 4/9 CUT and 9/9
+  SEW, and fails five CUTs (back, both stands, both pointed collars) under the
+  unchanged 0.001 cm gate. This candidate is rejected for the tested receiver;
+  no cause is inferred and no V03 gate clears. The 2D snapshot establishes
+  gross presence only. All-seven, identity, semantics, marks, grading/options,
+  malformed-input and repeated-round-trip gates remain.
+- Exit packet and current gate matrix:
+  `docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md`
+  and `docs/research/epic17/S595-polo-periodic-spline-roundtrip/V03-CURRENT-GATE-MATRIX-S595.md`.
+  CLO permission/local handling are settled; every exchange file is under the
+  named S595 C: folder. CLO remains open.
+- Validated board exit `3508→3512` links `E-G04-S595-EXIT`; a stale summary
+  assertion was fixed through validated replay `3512→3514`. Control Center
+  tests pass 42/42, scripts/hash checks and `git diff --check` pass. Epic and
+  V03 remain In Progress; V02 remains Done. Next S596: inspect current and
+  prior source/output evidence for one measurable entity-translation or
+  processing-stage question before another receiver trial. Do not repeat
+  closed-bit/periodic variants or change the 0.001 cm/all-seven gates.
+
+## Prior EPIC-17/G04 V03 boundary — S594 exit
 
 - S594 hash-pinned original S536 Polo M source, the five S591 degree-1 SPLINEs,
   the S592 closed-flag derivative and both preflight reports. An independent

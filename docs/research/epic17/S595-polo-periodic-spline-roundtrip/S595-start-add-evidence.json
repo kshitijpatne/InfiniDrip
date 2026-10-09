@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3506,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S595-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-start-packet.md",
+    "verified": true,
+    "note": "S595 prepares one documented periodic degree-1 SPLINE candidate for five Polo CUT contours. Mandatory cyclic-curve/source preflight must pass before the single authorized CLO trial; all V03 gates remain."
+  }
+}
