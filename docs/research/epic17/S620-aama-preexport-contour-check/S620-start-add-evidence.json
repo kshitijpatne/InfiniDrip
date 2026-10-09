@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3614,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S620-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S620-aama-preexport-contour-check/S620-start-packet.md",
+    "verified": true,
+    "note": "S620 uses the existing hash-pinned S574 after-AAMA-import/before-export CLO project and output for a getter-only native geometry comparison; no exchange rerun or gate change."
+  }
+}

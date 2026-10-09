@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3615,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S620 reuses the saved S574 AAMA import-stage project and existing gen1 output to determine whether the five short-edge CUT losses already exist in pre-export native geometry. This is a read-only, C:-only evidence check; no new exchange or criterion change. See E-G04-S620-START."
+}

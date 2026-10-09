@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 620 exit; V03 remains open
+
+S620 reuses the saved S574 AAMA import-stage project. Its nine CLO native point lists match all 9 source SEW outlines within 0.000014 cm and none of the source CUT outlines within the unchanged 0.001 cm gate; the AAMA gen1 block contours carry forward the exposed native geometry. CLO calls the shapes “Base Line” and does not document DXF layer/stage semantics, so the internal mechanism and output numeric-layer roles remain unproven. Exit packet and hash-pinned C:-only report: `docs/research/epic17/S620-aama-preexport-contour-check/S620-exit-packet.md`; board replay 3614→3616→3618. EPIC-17/G04-V03 remains In Progress; V02 remains Done and all gates/holds are unchanged.
+
+Next: one evidence-driven AAMA import test with CLO's “swap cut and sewing lines” enabled; query native geometry before exporting. If CUT geometry still fails, stop this CLO AAMA route and use the next qualified receiver/profile candidate. S620 started 13:25:39 UTC and closed 13:34:42 UTC (9m03s): CLO/UI evidence collection and analysis about 5m; focused verification and durable records/board closeout about 4m03s; external waits 0; maintainer-decision time 0. CLO remains open.
+
+## EPIC-17 / G04 — Slice 620 start record
+
+S620's hash-pinned AAMA import-stage study is specified in `docs/research/epic17/S620-aama-preexport-contour-check/S620-start-packet.md`; validated board start replay 3614→3616.
+
 ## EPIC-17 / G04 — Slice 619 exit; V03 remains open
 
 S619's hash-pinned read-only comparison shows all five reduced S617 CUT contours (back, both collar stands, both pointed collars) already present in CLO's pre-export native point lists and then matched in ASTM output within 0.000023 cm. This localizes the loss before or at the imported/native representation for this fixture; CLO's `Base Line` API labels do not document DXF source-layer identity or stage semantics, so no internal mechanism is claimed. Evidence/report hashes, comparison details, and limits are in `docs/research/epic17/S619-s617-import-stage-geometry/S619-exit-packet.md`; C:-only evidence remains under `C:\G04-CLO-DXF-Exchange\S619-s617-import-stage-geometry\Evidence\`. Board start/exit replay: 3610→3612→3614. EPIC-17/G04-V03 remains In Progress, G04-V02 Done; all V03 criteria and holds remain unchanged.

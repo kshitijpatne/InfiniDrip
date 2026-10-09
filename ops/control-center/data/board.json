@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3614,
-  "updatedAt": "2026-10-09T13:23:42.761Z",
+  "revision": 3618,
+  "updatedAt": "2026-10-09T13:34:05.797Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12068,6 +12068,16 @@
           "at": "2026-10-09T13:23:42.761Z",
           "actor": "Codex",
           "text": "S619 localized the five missing S617 CUT vertices to before or at CLO's imported/native pattern representation for this fixture: all five reduced pre-export point lists match exported ASTM CUT contours within 0.000023 cm. The API calls shapes Base Line but does not document original layer or stage semantics, so no internal import mechanism or layer identity is claimed. V03 gates and holds remain unchanged; see E-G04-S619-EXIT."
+        },
+        {
+          "at": "2026-10-09T13:26:45.962Z",
+          "actor": "Codex",
+          "text": "S620 reuses the saved S574 AAMA import-stage project and existing gen1 output to determine whether the five short-edge CUT losses already exist in pre-export native geometry. This is a read-only, C:-only evidence check; no new exchange or criterion change. See E-G04-S620-START."
+        },
+        {
+          "at": "2026-10-09T13:34:05.797Z",
+          "actor": "Codex",
+          "text": "S620 localized the S574 AAMA fixture's CUT mismatch before export: the saved native point lists track source SEW (9/9 within tolerance) and no source CUT (0/9 within tolerance); output block contours carry forward native geometry. CLO API/layer semantics remain undocumented, so no mechanism or numeric layer role is claimed. All V03 criteria and holds remain unchanged; see E-G04-S620-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12408,7 +12418,9 @@
         "E-G04-S618-START",
         "E-G04-S618-EXIT",
         "E-G04-S619-START",
-        "E-G04-S619-EXIT"
+        "E-G04-S619-EXIT",
+        "E-G04-S620-START",
+        "E-G04-S620-EXIT"
       ],
       "flagKey": null
     },
@@ -23726,6 +23738,24 @@
       "sha256": null,
       "verified": true,
       "note": "Hash-pinned read-only match shows the five S617 reduced CUT contours already present in CLO's pre-export native point lists; the ASTM exporter carried them forward. CLO API stage/layer semantics remain undocumented. No V03 criterion or hold changed."
+    },
+    {
+      "id": "E-G04-S620-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S620-aama-preexport-contour-check/S620-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S620 uses the existing hash-pinned S574 after-AAMA-import/before-export CLO project and output for a getter-only native geometry comparison; no exchange rerun or gate change."
+    },
+    {
+      "id": "E-G04-S620-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S620-aama-preexport-contour-check/S620-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S574 AAMA pre-export native point lists match 9/9 source SEW paths and 0/9 CUT paths within 0.001 cm. Existing output contours carry forward native geometry. CLO layer/stage semantics remain undocumented; V03 gates unchanged."
     }
   ]
 }

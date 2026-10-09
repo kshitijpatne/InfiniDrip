@@ -1,5 +1,9 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S620 exit
+
+- S620 found the saved S574 AAMA native point lists match 9/9 source SEW outlines and 0/9 source CUT outlines within 0.001 cm; already-produced output contours carry forward the native geometry. This localizes the fixture's CUT mismatch to import/profile-stage geometry or role selection before export but does not prove CLO's internal mechanism or numeric layer semantics. No exchange rerun; report and hashes: `docs/research/epic17/S620-aama-preexport-contour-check/S620-exit-packet.md`, with generated evidence under `C:\G04-CLO-DXF-Exchange\S620-aama-preexport-contour-check\Evidence\`. Board replay 3614→3616→3618. V02 remains Done; V03/EPIC-17 remain In Progress and all holds are unchanged. Next run one controlled AAMA import with “swap cut and sewing lines” enabled, then check native CUT geometry before export.
+
 ## Current EPIC-17/G04 V03 boundary — S619 exit
 
 - S619's exact comparison finds all five reduced S617 CUT contours already present in CLO's pre-export native point lists and matches the exported ASTM contours within 0.000023 cm. This localizes their loss before or at imported/native representation for this fixture; the API's `Base Line` label does not establish original DXF layer or stage semantics. No exchange rerun; report and hashes are in `docs/research/epic17/S619-s617-import-stage-geometry/S619-exit-packet.md`, with generated evidence under `C:\G04-CLO-DXF-Exchange\S619-s617-import-stage-geometry\Evidence\`. Board replay 3610→3612→3614. V02 remains Done; V03/EPIC-17 remain In Progress and every acceptance hold is unchanged. Next choose a distinct, evidence-based receiver/profile or import workflow; no repeated unit/scale permutations on this fixture.
