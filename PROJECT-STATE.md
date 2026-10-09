@@ -1,5 +1,15 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 619 exit; V03 remains open
+
+S619's hash-pinned read-only comparison shows all five reduced S617 CUT contours (back, both collar stands, both pointed collars) already present in CLO's pre-export native point lists and then matched in ASTM output within 0.000023 cm. This localizes the loss before or at the imported/native representation for this fixture; CLO's `Base Line` API labels do not document DXF source-layer identity or stage semantics, so no internal mechanism is claimed. Evidence/report hashes, comparison details, and limits are in `docs/research/epic17/S619-s617-import-stage-geometry/S619-exit-packet.md`; C:-only evidence remains under `C:\G04-CLO-DXF-Exchange\S619-s617-import-stage-geometry\Evidence\`. Board start/exit replay: 3610→3612→3614. EPIC-17/G04-V03 remains In Progress, G04-V02 Done; all V03 criteria and holds remain unchanged.
+
+Next: select a distinct evidence-based receiver/profile or import workflow to address pre-export contour loss; do not repeat unit/scale changes on this fixture. No exchange was repeated and no product code/geometry/threshold/acceptance or protected export identity changed. CLO remains open during active G04. S619 elapsed 17m03s (13:06:49–13:23:52 UTC): analysis implementation/evidence interpretation about 7m; focused verification and packet/state/board closeout about 10m03s; external waits 0; maintainer-decision time 0. Full repository gate remains for the settled integrated Epic/PR candidate.
+
+## EPIC-17 / G04 — Slice 619 start record
+
+S619 bounded question and read-only C:-only setup: `docs/research/epic17/S619-s617-import-stage-geometry/S619-start-packet.md`; validated board start replay 3610→3612.
+
 ## EPIC-17 / G04 — Slice 618 exit; V03 remains open
 
 S618 corrected S617 closeout records only: its verified end is commit `bc0064c4` at 13:01:01 UTC, with 17m25s elapsed from 12:43:36 UTC; the extra EOF blank line in this state file is removed. S617's explicit-unit CLO result and all G04/V03 holds are unchanged. Start/exit board replay: 3606→3608→3610; focused Control Center tests pass 42/42, S617 C:-evidence preflight passes, and `git diff --check` passes. See `docs/research/epic17/S618-s617-closeout-correction/S618-exit-packet.md`. No product code changed; full repository gate remains for integrated Epic/PR.

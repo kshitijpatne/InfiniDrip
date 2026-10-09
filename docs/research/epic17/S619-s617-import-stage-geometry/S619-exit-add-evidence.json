@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3612,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S619-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S619-s617-import-stage-geometry/S619-exit-packet.md",
+    "verified": true,
+    "note": "Hash-pinned read-only match shows the five S617 reduced CUT contours already present in CLO's pre-export native point lists; the ASTM exporter carried them forward. CLO API stage/layer semantics remain undocumented. No V03 criterion or hold changed."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3610,
-  "updatedAt": "2026-10-09T13:03:57.480Z",
+  "revision": 3614,
+  "updatedAt": "2026-10-09T13:23:42.761Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12058,6 +12058,16 @@
           "at": "2026-10-09T13:03:57.480Z",
           "actor": "Codex",
           "text": "S618 is a documentation-only correction, recorded in E-G04-S618-EXIT. S617 timing now ends at commit bc0064c4 (13:01:01 UTC, total 17m25s), PROJECT-STATE.md EOF whitespace is clean, and its evidence preflight remains reusable after board advancement. The S617 CLO finding and every V03 hold remain unchanged."
+        },
+        {
+          "at": "2026-10-09T13:07:14.106Z",
+          "actor": "Codex",
+          "text": "S619 reuses the saved S617 post-import/pre-export CLO project to check whether its stored pattern contours preserve the five source CUT short-edge vertices. This can distinguish import-stage from later loss without another CLO exchange. Read-only, C:-only analysis; V03 gates and all holds remain. See E-G04-S619-START."
+        },
+        {
+          "at": "2026-10-09T13:23:42.761Z",
+          "actor": "Codex",
+          "text": "S619 localized the five missing S617 CUT vertices to before or at CLO's imported/native pattern representation for this fixture: all five reduced pre-export point lists match exported ASTM CUT contours within 0.000023 cm. The API calls shapes Base Line but does not document original layer or stage semantics, so no internal import mechanism or layer identity is claimed. V03 gates and holds remain unchanged; see E-G04-S619-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12396,7 +12406,9 @@
         "E-G04-S617-EXIT",
         "E-G04-S617-MATRIX",
         "E-G04-S618-START",
-        "E-G04-S618-EXIT"
+        "E-G04-S618-EXIT",
+        "E-G04-S619-START",
+        "E-G04-S619-EXIT"
       ],
       "flagKey": null
     },
@@ -23696,6 +23708,24 @@
       "sha256": null,
       "verified": true,
       "note": "S618 corrects S617's close timestamp/elapsed ledger and removes the extra PROJECT-STATE.md EOF blank line. S617 results and all G04/V03 holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S619-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S619-s617-import-stage-geometry/S619-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S619 inspects the saved S617 pre-export CLO scene offline to locate the five short-edge CUT vertex losses at import versus later processing; no repeat exchange or gate change."
+    },
+    {
+      "id": "E-G04-S619-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S619-s617-import-stage-geometry/S619-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Hash-pinned read-only match shows the five S617 reduced CUT contours already present in CLO's pre-export native point lists; the ASTM exporter carried them forward. CLO API stage/layer semantics remain undocumented. No V03 criterion or hold changed."
     }
   ]
 }

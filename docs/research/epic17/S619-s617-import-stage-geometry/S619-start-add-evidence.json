@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3610,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S619-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S619-s617-import-stage-geometry/S619-start-packet.md",
+    "verified": true,
+    "note": "S619 inspects the saved S617 pre-export CLO scene offline to locate the five short-edge CUT vertex losses at import versus later processing; no repeat exchange or gate change."
+  }
+}

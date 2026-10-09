@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3613,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S619 localized the five missing S617 CUT vertices to before or at CLO's imported/native pattern representation for this fixture: all five reduced pre-export point lists match exported ASTM CUT contours within 0.000023 cm. The API calls shapes Base Line but does not document original layer or stage semantics, so no internal import mechanism or layer identity is claimed. V03 gates and holds remain unchanged; see E-G04-S619-EXIT."
+}
