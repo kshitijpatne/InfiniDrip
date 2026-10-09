@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3696,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S639-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S639-clo-native-button-dxf-probe/S639-start-packet.md",
+    "verified": true,
+    "note": "Reserves S639 for one evidence-led CLO-native Button/Buttonhole DXF probe after the S637 circle and ARC imports both failed visible-mark checks. It will compare native CLO output and one clean reimport/render on a disposable Woven-project copy; no alternative entity or settings permutation, no production change, and no V03 gate/threshold/hold/status changes. All receiver files stay in the named C: S639 folder; CLO remains open."
+  }
+}

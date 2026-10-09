@@ -1,5 +1,34 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 639 closed; V03 remains In Progress
+
+S639 performed one CLO-native Button/Buttonhole DXF-AAMA export and clean
+reimport using an isolated copy of the S637 Woven project. The export emitted
+the native button as a 24-vertex polygon with approximately 1.0 cm radius,
+not the source technical mark circle of 0.15 cm radius; it emitted a slot-like
+buttonhole instead of the source point. Both centers shifted about 0.07616 cm
+(0.7616 mm), around 76× the unchanged 0.001 cm geometry limit. CLO cleanly
+imported 12 pieces with no DXF error. The live reimport 2D window remains
+zoom-cropped, so detailed reimport readability is unverified. This closes
+only the native-trim hypothesis; it clears no V03 gate or hold. CLO remains
+open. Complete evidence, limitations, hashes and timing are in
+`docs/research/epic17/S639-clo-native-button-dxf-probe/S639-exit-packet.md`.
+
+S639 began at clean S638 commit
+`5ce4942845899d8d8dac23c36925fb6bfda3fd14`; start replay was 3696→3698, then
+one stale UI-stop note advanced the board to revision 3699. Exit replay adds
+verified evidence and a correction comment through the validated command
+layer. G04-V01/V02 remain Done; G04-V03/EPIC-17 remain In Progress. No V03
+profile/rights, units, source geometry, mark semantics, grading, malformed
+input, repeated exchange, readability, all-seven scope, thresholds, legacy
+DXF, protected export identities, or final gates are weakened. The current
+next action is to select one evidence-led, non-repeating V03 hypothesis from
+the remaining gate matrix; do not repeat CLO native-trim, circle or quarter-
+arc mark trials. The goal was re-read at this boundary and is active with
+wording aligned to the admitted objective; it remains needed through merge.
+No physical-fit, factory-acceptance or production-readiness claim is
+supported.
+
 ## EPIC-17 / G04 — Slice 638 closed; V03 profile decision pending
 
 S638 reconciled the current V03 gate matrix through S637 and checked current

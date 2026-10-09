@@ -1,5 +1,28 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S639 closed
+
+S639's isolated CLO 2026.1.310 DXF-AAMA trial exported one native Button and
+Buttonhole and cleanly reimported 12 Woven pieces. Source mark geometry was not
+preserved: the button became a 24-vertex, roughly 1.0 cm radius polygon
+instead of a source circle of 0.15 cm radius; the buttonhole became a
+slot-like trim instead of a source point. Both center offsets are about
+0.07616 cm, above the unchanged 0.001 cm limit. The live import render remains
+zoom-cropped, so detailed output readability is unverified. This is a measured
+negative result for that CLO-native-trim hypothesis and clears no V03 gate.
+All artifacts, hashes, procedure, exact bounds, and gate disposition are in
+`docs/research/epic17/S639-clo-native-button-dxf-probe/S639-exit-packet.md`;
+start packet and command replays are beside it. Raw exchange files remain in
+`C:\G04-CLO-DXF-Exchange\S639-clo-native-button-dxf-probe\`.
+
+The CLO process/window is confirmed present and shows the imported project;
+CLO remains open. The prior UI-stop board comment describes an earlier
+interruption and is superseded by S639's exit evidence/comment. Board exit
+replay adds only evidence and a factual correction. V01/V02 remain Done,
+V03/EPIC-17 remain In Progress, and all thresholds, all-seven requirements,
+export identities and holds are unchanged. Use a new, evidence-led hypothesis
+only; do not repeat native Button/Buttonhole, circle, or quarter-ARC trials.
+
 ## Current EPIC-17/G04 V03 boundary — S638 exit
 
 S638 verified from official primary sources that ANSI/AAMA 292-1993 was
