@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3398,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S571 asks Codex to attribute existing Polo M/default input and output deltas using trusted hashes/analyzers and Claude Opus 5.5 to audit only relevant primary public profile sources. No pattern data leaves the local machine; no exchange/UI attempt or acceptance change. Codex retains integration and review."
+}

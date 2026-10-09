@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3397,
-  "updatedAt": "2026-10-09T03:41:52.384Z",
+  "revision": 3401,
+  "updatedAt": "2026-10-09T03:53:00.630Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11533,6 +11533,16 @@
           "at": "2026-10-09T03:41:52.384Z",
           "actor": "Codex",
           "text": "S570 closes this current-help cross-check: CLO documents AAMA/ASTM menu modes and DXF/Rule File grading but no exact edition, layer semantics, or measured profile. The current screenshot shows the workspace while accessibility reports Export DXF; no UI input or exchange was safe. Authorization remains settled. This clears no V03 gate and is not a format failure. Continue with one distinct offline source/output design analysis; do not repeat profile searches or known exchanges. See E-G04-S570-EXIT."
+        },
+        {
+          "at": "2026-10-09T03:45:41.761Z",
+          "actor": "Codex",
+          "text": "S571 asks Codex to attribute existing Polo M/default input and output deltas using trusted hashes/analyzers and Claude Opus 5.5 to audit only relevant primary public profile sources. No pattern data leaves the local machine; no exchange/UI attempt or acceptance change. Codex retains integration and review."
+        },
+        {
+          "at": "2026-10-09T03:53:00.630Z",
+          "actor": "Codex",
+          "text": "S571 closes the source/profile attribution audit. The input matches the current source-generated Polo M fixture; five CUT contours fail the unchanged 0.001 cm gate in both CLO generations. Existing evidence proves the combined path fails, but does not isolate product writer vs CLO import vs CLO export. No exact normative industrial profile is documented by current CLO help, and ASTM D6673-10 is withdrawn. Rights/local processing are settled. All V03 gates remain unchanged. Next: if fresh CLO visual/accessibility observations agree, inspect the five corners before export; otherwise send no input and continue independent profile/semantics work. See E-G04-S571-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11771,7 +11781,9 @@
         "E-G04-S569-START",
         "E-G04-S569-EXIT",
         "E-G04-S570-START",
-        "E-G04-S570-EXIT"
+        "E-G04-S570-EXIT",
+        "E-G04-S571-START",
+        "E-G04-S571-EXIT"
       ],
       "flagKey": null
     },
@@ -22171,6 +22183,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current first-party CLO help documents AAMA/ASTM modes and DXF/Rule File grading choices but no exact edition or CUT/SEW/mark semantic mapping. Fresh screenshot/accessibility conflict is preserved under the C:-only S570 evidence folder. No exchange or gate changed; G04-V03 remains In Progress."
+    },
+    {
+      "id": "E-G04-S571-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S571-v03-closure-path-audit/S571-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S571 traces retained source-to-CLO Polo contour evidence and requests a read-only Claude Opus 5.5 primary-source audit in a separate worktree, without pattern/DXF transfer or UI retries. It will decide whether evidence supports an additive route or requires a specific hold; all V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S571-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S571 reconciles the source-generated Polo M fixture, both existing CLO generations, current CLO/ASTM profile evidence and semantics/grade gates. Five CUT contours fail the unchanged 0.001 cm tolerance in both generations; stage attribution and exact industrial profile remain unproven. Rights/local handling are settled. No criterion or product code changes."
     }
   ]
 }

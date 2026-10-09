@@ -1,4 +1,27 @@
-## Current EPIC-17/G04 V03 CLO profile capability cross-check — S570 exit (2026-10-09)
+## Current EPIC-17/G04 V03 closure-path audit — S571 exit (2026-10-09)
+
+S571 confirms the S544 Polo M input is byte-identical to S559's current
+source-generated M fixture. The established analyzer reports the same five
+CUT contours over 0.001 cm in both CLO generations, each with one fewer
+vertex. This is a repeatable failure of the tested combined path, but existing
+evidence cannot attribute it to the product writer, CLO import, or CLO export.
+The current generic writer has no size/grade relationship input. Current CLO
+help does not identify a normative AAMA/ASTM edition or complete semantic
+mapping; ASTM's current catalog lists D6673-10 as withdrawn in 2019. No exact
+industrial profile is qualified. The malformed-input failure and all other
+profile, semantics, marks, grade, and all-seven evidence gates remain as
+recorded. No criterion, tolerance, code, test, or export identity changed.
+See `docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md`.
+
+S571 started at S570 `6af2c4a`, refreshed `origin/main` `a5af5e1` remained an
+ancestor, and S571 is unique. Validated board replay is 3397→3399→3401;
+G04-V03 remains In Progress. Control Center passes 42/42 and `git diff
+--check` passes. No production source/tests changed, so full global coverage
+is not due. Next is one targeted, C:-confined pre-export geometry observation
+of the five known Polo CUT corners if a fresh CLO UI state is targetable; if
+not, make no app input and continue independent profile/semantics evidence.
+
+## Prior EPIC-17/G04 V03 CLO profile capability cross-check — S570 exit (2026-10-09)
 
 The current official CLO help page documents AAMA/ASTM menu modes, one size
 group per export, grades in DXF or a Rule File, and 2026.1 seam-allowance

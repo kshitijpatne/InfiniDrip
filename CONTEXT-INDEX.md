@@ -1,6 +1,28 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S569 exit
+## Current EPIC-17/G04 V03 boundary — S571 exit
+
+- `docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md`
+  reconciles source writer, hash-pinned Polo input and two CLO generations,
+  profile research, and prior semantics/grade evidence. The input is the
+  current source-generated M file; five CUT contours fail the unchanged
+  0.001 cm tolerance in both generations. The combined path is at fault, but
+  stage attribution remains unresolved. CLO's documented modes lack a named
+  normative edition/full semantic map; ASTM D6673-10 is withdrawn. No V03
+  criterion changes or profile selection follows. Next: if a fresh CLO
+  observation is targetable, inspect the five corners before export; otherwise
+  send no input and continue independent profile/semantics evidence.
+- S571 board replay is 3397→3399→3401. Rights/local processing are settled;
+  V03 remains In Progress with all gates unchanged.
+
+## Prior EPIC-17/G04 V03 boundary — S570 exit
+
+- `docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-exit-packet.md`
+  documents current CLO DXF menu capabilities and the latest mismatched
+  screenshot/accessibility state. It clears no V03 gate and is not a format
+  failure.
+
+## Prior EPIC-17/G04 V03 boundary — S569 exit
 
 - `docs/research/epic17/S569-clo-python-api-grade-capability/S569-exit-packet.md`
   screens the official CLO Python API against the installed 2026.1.310 build.

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3400,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S571 closes the source/profile attribution audit. The input matches the current source-generated Polo M fixture; five CUT contours fail the unchanged 0.001 cm gate in both CLO generations. Existing evidence proves the combined path fails, but does not isolate product writer vs CLO import vs CLO export. No exact normative industrial profile is documented by current CLO help, and ASTM D6673-10 is withdrawn. Rights/local processing are settled. All V03 gates remain unchanged. Next: if fresh CLO visual/accessibility observations agree, inspect the five corners before export; otherwise send no input and continue independent profile/semantics work. See E-G04-S571-EXIT."
+}

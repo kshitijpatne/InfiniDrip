@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3397,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S571-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S571-v03-closure-path-audit/S571-start-packet.md",
+    "verified": true,
+    "note": "S571 traces retained source-to-CLO Polo contour evidence and requests a read-only Claude Opus 5.5 primary-source audit in a separate worktree, without pattern/DXF transfer or UI retries. It will decide whether evidence supports an additive route or requires a specific hold; all V03 gates remain unchanged."
+  }
+}

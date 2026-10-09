@@ -1,6 +1,39 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 570 exit; V03 remains open
+## EPIC-17 / G04 — Slice 571 exit; V03 remains open
+
+S571 reconciled the hash-pinned product writer and CLO round-trip evidence.
+The Polo source input exactly matches S559's product-generated M fixture, and
+the five CUT contours remain above the unchanged 0.001 cm tolerance in both
+CLO generations. Existing evidence proves a repeated defect in the tested
+combined source→CLO→DXF route, but cannot locate the change in the product
+writer, CLO import, or CLO export. `src/export/dxf.ts` directly confirms the
+current writer has no grade-group/size-relation input. Official CLO help names
+menu modes without a normative edition or full semantic map; ASTM's current
+catalog lists D6673-10 as withdrawn. No exact industrial profile is qualified.
+Rights and local processing are settled. Every other V03 hold remains, with
+the S531 malformed-input case still failed for its tested control. No code,
+test, export baseline, or acceptance changed. Evidence and exact next action:
+`docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md`.
+
+S571 started from `6af2c4a` with refreshed `origin/main` `a5af5e1` an
+ancestor; unique slice 571 was reserved. Board replay 3397→3399→3401 keeps
+G04-V03 In Progress. Control Center tests pass 42/42 and `git diff --check`
+passes. No production source/tests changed, so the full repository gate is
+not due. Elapsed 7m01s: evidence/source verification 3m10s; external-agent
+wait 1m31s; durable records, board replay and focused checks 2m20s; production
+implementation 0m; maintainer decision time 0m.
+
+**Next:** begin S572 with a fresh safe observation of the already-running CLO
+session. If visual and accessible state agree, perform a C:-confined
+pre-export geometry observation of only the five known Polo CUT corners and
+compare against saved gen1/gen2. This isolates import versus export only if
+the native observation exposes the measured geometry; do not repeat the
+unchanged round trip. If the UI state remains inconsistent or cannot expose
+the geometry, send no input and record that limit, then continue independent
+profile/semantics work. All V03 gates and CLO-open instruction remain active.
+
+## Prior EPIC-17 / G04 — Slice 570 exit; V03 remains open
 
 The current first-party CLO DXF help documents AAMA/ASTM menu modes, one size
 group per export, grading in DXF or a separate Rule File, and the 2026.1
