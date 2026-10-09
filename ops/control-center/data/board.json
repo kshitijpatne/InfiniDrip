@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3377,
-  "updatedAt": "2026-10-09T03:16:29.119Z",
+  "revision": 3381,
+  "updatedAt": "2026-10-09T03:23:02.213Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11483,6 +11483,16 @@
           "at": "2026-10-09T03:16:29.119Z",
           "actor": "Codex",
           "text": "S565 diagnosed the S564 waistband mismatch: the selected CLO left-side CUT vertices carried +20 mm steps although source mapping keeps them fixed, so both sides translated and the width stayed XS. In a disposable CLO project, zeroing only the left CUT increments while retaining +20 mm on the right produced CUT matches for XS/S/M/L/XL within 0.001 cm. Larger-size SEW residuals remain 2.0/2.5/2.915463/2.915463 cm; the nearest L/XL candidates are not semantically identified. CLO re-import rendered one waistband outline, not a five-size overlay, and reported absent seam allowances/Custom mode. This is partial diagnostic evidence only. Keep all V03 profile, recipe-coverage, semantic, malformed-input and round-trip gates held. See E-G04-S565-EXIT. Next: inspect source-to-CLO SEW identity in S566 without changing thresholds or product geometry."
+        },
+        {
+          "at": "2026-10-09T03:19:08.433Z",
+          "actor": "Codex",
+          "text": "S566 investigates the still-failing S565 waistband SEW contour by read-only inspection of the saved CLO project, output entities/layers and source topology. The current desktop capture and accessibility tree disagree about an Export DXF dialog, matching prior recorded helper failures; no CLO input or repeat export will be attempted while they disagree. This slice changes no pattern, product code or V03 gate. All acceptance holds remain."
+        },
+        {
+          "at": "2026-10-09T03:23:02.213Z",
+          "actor": "Codex",
+          "text": "S566's output comparison sharpens the S565 failure: every S/M/L/XL waistband block has a candidate matching the XS source sew shape within 0.000015 cm, but no candidate matches its size's source sew contour within 0.001 cm. This supports an ungraded base-size-shaped internal path in the output, while numeric layer IDs do not prove the path's semantic identity and cannot locate whether import/edit/export lost the grade. The saved CLO archive's XML is environment-only and core geometry payloads are opaque binary. The visible capture/accessibility modal still disagree, so no UI input or repeated export was sent. Keep all V03 holds. See E-G04-S566-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11711,7 +11721,9 @@
         "E-G04-S564-START",
         "E-G04-S564-EXIT",
         "E-G04-S565-START",
-        "E-G04-S565-EXIT"
+        "E-G04-S565-EXIT",
+        "E-G04-S566-START",
+        "E-G04-S566-EXIT"
       ],
       "flagKey": null
     },
@@ -22021,6 +22033,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO 2026.1.310 corrected the source-mapped waistband CUT side offsets in a disposable Size Group 1 trial. DXF-ASTM/Graded Nest CUT matches all five source sizes within 0.001 cm; larger-size SEW contours fail (2.0–2.915463 cm nearest residuals). Re-import shows one outline, not a five-size overlay. No product source changed; V03 remains held."
+    },
+    {
+      "id": "E-G04-S566-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S566-clo-sew-line-attribution/S566-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S566 is a read-only attribution study of S565's larger-size waistband SEW residuals. It will compare saved CLO project contents and DXF output with the source CUT/SEW paths under the unchanged 0.001 cm gate. The visible CLO screenshot and accessibility tree currently disagree, so no UI input or repeat export is authorized in this slice; all V03 holds remain."
+    },
+    {
+      "id": "E-G04-S566-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S566-clo-sew-line-attribution/S566-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only S565 DXF analysis finds a candidate matching the XS source SEW shape within 0.000015 cm in every larger-size block, while no candidate matches the larger-size source SEW contours within 0.001 cm. Numeric output layers do not prove semantics; source of loss is unresolved. The saved CLO project exposes no decodable grading map, and its UI capture/accessibility states disagree, so no UI input was sent. V03 remains held."
     }
   ]
 }

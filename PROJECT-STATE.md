@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 566 exit; V03 remains open
+
+S566's source/output comparison finds a candidate within 0.000015 cm of the
+base XS source SEW contour in every S/M/L/XL waistband block, while no
+candidate matches those sizes' source SEW shape within 0.001 cm. This
+indicates that an ungraded base-sized internal shape persists in larger
+blocks, but numeric DXF layer identity does not establish that it is the
+semantic SEW line or whether import, edit or export lost grading. The saved
+CLO project has an Environment-only XML and opaque binary pattern payload.
+The current app screenshot and accessibility tree disagree on an Export DXF
+modal; S566 sent no UI input and made no repeat export. No V03 gate passes or
+changes. Durable report, script and limitations are in
+`docs/research/epic17/S566-clo-sew-line-attribution/S566-exit-packet.md`.
+
+S566 started from S565 `0a7b4ca`; refreshed `origin/main` `a5af5e1` was an
+ancestor. Board start/exit replay is 3377→3379→3381. CLO remains open for G04.
+Next: pursue source/profile evidence independent of the mismatched UI surface;
+resume a CLO grading-point inspection only when visual and accessibility
+observations agree. No production code or test changed; no full repository
+gate was due.
+
 ## EPIC-17 / G04 — Slice 565 exit; V03 remains open
 
 S565 corrected a disposable CLO Size Group 1 waistband trial after confirming

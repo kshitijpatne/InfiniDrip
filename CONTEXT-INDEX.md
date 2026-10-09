@@ -1,5 +1,22 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S566 exit
+
+- `docs/research/epic17/S566-clo-sew-line-attribution/S566-exit-packet.md`
+  records an offline source/output attribution of the S565 waistband result.
+  In S/M/L/XL, one output candidate matches the XS source SEW shape within
+  0.000015 cm, while none match the larger size's sew shape within 0.001 cm.
+  This strongly indicates an ungraded base-shaped internal path, but the
+  numeric DXF layer does not prove semantic identity or whether import/edit/
+  export lost the grade. The CLO project XML exposes environment settings
+  only; binary geometry is not decoded. Current CLO screenshot and
+  accessibility states disagree, so no UI input or repeated export was sent.
+  Every V03 gate remains held.
+- S566 board replay is 3377→3379→3381. CLO remains open. Next: pursue
+  source/profile evidence that does not depend on the mismatched UI capture;
+  resume a CLO grading-point inspection only when visible and accessibility
+  state agree.
+
 ## Current EPIC-17/G04 V03 boundary — S565 exit
 
 - `docs/research/epic17/S565-clo-grade-state-diagnosis/S565-exit-packet.md`

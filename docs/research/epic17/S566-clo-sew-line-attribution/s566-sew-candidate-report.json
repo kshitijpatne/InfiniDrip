@@ -1,0 +1,373 @@
+{
+  "title": "S566 source-SEW versus CLO graded-nest candidate attribution",
+  "sourceAnalysis": {
+    "path": "C:/G04-CLO-DXF-Exchange/S565-clo-grade-state-diagnosis/s565-corrected-sizegroup1-analysis.json",
+    "sha256": "fa6330473157de458b36b4060d245097e128f63ca8f58377b50ab6a299a84c81",
+    "receiver": "CLO 2026.1.310 (r58944)",
+    "exportSha256": "31d6047e361b614781954d0f9a0858c3a80bfa4e6d61bc309e4d86e545476dc6"
+  },
+  "unchangedContourGateCm": 0.001,
+  "method": "Compare ordered closed contours symmetrically by maximum point-to-segment distance after anchoring each contour at its first vertex, matching the S564 analyzer method.",
+  "sizes": [
+    {
+      "size": "XS",
+      "sourceSewVertices": [
+        {
+          "x": 59,
+          "y": 70.5
+        },
+        {
+          "x": 102,
+          "y": 70.5
+        },
+        {
+          "x": 102,
+          "y": 67
+        },
+        {
+          "x": 59,
+          "y": 67
+        }
+      ],
+      "expectedSewWidthCm": 43,
+      "nearestCandidateToCurrentSew": {
+        "candidateIndex": 6,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 58.999992,
+            "y": 70.499985
+          },
+          {
+            "x": 101.999992,
+            "y": 70.5
+          },
+          {
+            "x": 101.999992,
+            "y": 67
+          },
+          {
+            "x": 58.999992,
+            "y": 66.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 0.000015000000004761205,
+        "residualToBaseXsSewCm": 0.000015000000004761205
+      },
+      "nearestCandidateToBaseXsSew": {
+        "candidateIndex": 6,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 58.999992,
+            "y": 70.499985
+          },
+          {
+            "x": 101.999992,
+            "y": 70.5
+          },
+          {
+            "x": 101.999992,
+            "y": 67
+          },
+          {
+            "x": 58.999992,
+            "y": 66.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 0.000015000000004761205,
+        "residualToBaseXsSewCm": 0.000015000000004761205
+      },
+      "candidateCount": 8
+    },
+    {
+      "size": "S",
+      "sourceSewVertices": [
+        {
+          "x": 61,
+          "y": 72
+        },
+        {
+          "x": 106,
+          "y": 72
+        },
+        {
+          "x": 106,
+          "y": 68.5
+        },
+        {
+          "x": 61,
+          "y": 68.5
+        }
+      ],
+      "expectedSewWidthCm": 45,
+      "nearestCandidateToCurrentSew": {
+        "candidateIndex": 4,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 60.999992,
+            "y": 70.499985
+          },
+          {
+            "x": 103.999992,
+            "y": 70.5
+          },
+          {
+            "x": 103.999992,
+            "y": 67
+          },
+          {
+            "x": 60.999992,
+            "y": 66.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 2.0000000000562426,
+        "residualToBaseXsSewCm": 0.000015000000004761205
+      },
+      "nearestCandidateToBaseXsSew": {
+        "candidateIndex": 4,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 60.999992,
+            "y": 70.499985
+          },
+          {
+            "x": 103.999992,
+            "y": 70.5
+          },
+          {
+            "x": 103.999992,
+            "y": 67
+          },
+          {
+            "x": 60.999992,
+            "y": 66.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 2.0000000000562426,
+        "residualToBaseXsSewCm": 0.000015000000004761205
+      },
+      "candidateCount": 5
+    },
+    {
+      "size": "M",
+      "sourceSewVertices": [
+        {
+          "x": 63,
+          "y": 73.5
+        },
+        {
+          "x": 110,
+          "y": 73.5
+        },
+        {
+          "x": 110,
+          "y": 70
+        },
+        {
+          "x": 63,
+          "y": 70
+        }
+      ],
+      "expectedSewWidthCm": 47,
+      "nearestCandidateToCurrentSew": {
+        "candidateIndex": 3,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 62.999992,
+            "y": 71.999985
+          },
+          {
+            "x": 107.499992,
+            "y": 72
+          },
+          {
+            "x": 107.499992,
+            "y": 66
+          },
+          {
+            "x": 62.999992,
+            "y": 65.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 2.5,
+        "residualToBaseXsSewCm": 2.915463085038979
+      },
+      "nearestCandidateToBaseXsSew": {
+        "candidateIndex": 4,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 62.999992,
+            "y": 70.499985
+          },
+          {
+            "x": 105.999992,
+            "y": 70.5
+          },
+          {
+            "x": 105.999992,
+            "y": 67
+          },
+          {
+            "x": 62.999992,
+            "y": 66.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 4.000000000028118,
+        "residualToBaseXsSewCm": 0.000015000000004761205
+      },
+      "candidateCount": 5
+    },
+    {
+      "size": "L",
+      "sourceSewVertices": [
+        {
+          "x": 65,
+          "y": 75
+        },
+        {
+          "x": 114,
+          "y": 75
+        },
+        {
+          "x": 114,
+          "y": 71.5
+        },
+        {
+          "x": 65,
+          "y": 71.5
+        }
+      ],
+      "expectedSewWidthCm": 49,
+      "nearestCandidateToCurrentSew": {
+        "candidateIndex": 0,
+        "outputLayer": "1",
+        "vertices": [
+          {
+            "x": 58.999992,
+            "y": 71.999985
+          },
+          {
+            "x": 109.499992,
+            "y": 72
+          },
+          {
+            "x": 109.499992,
+            "y": 66
+          },
+          {
+            "x": 58.999992,
+            "y": 65.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 2.915463085038979,
+        "residualToBaseXsSewCm": 7.905689407017269
+      },
+      "nearestCandidateToBaseXsSew": {
+        "candidateIndex": 4,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 64.999992,
+            "y": 70.499985
+          },
+          {
+            "x": 107.999992,
+            "y": 70.5
+          },
+          {
+            "x": 107.999992,
+            "y": 67
+          },
+          {
+            "x": 64.999992,
+            "y": 66.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 6.0000000000187494,
+        "residualToBaseXsSewCm": 0.000015000000004761205
+      },
+      "candidateCount": 5
+    },
+    {
+      "size": "XL",
+      "sourceSewVertices": [
+        {
+          "x": 67,
+          "y": 76.5
+        },
+        {
+          "x": 118,
+          "y": 76.5
+        },
+        {
+          "x": 118,
+          "y": 73
+        },
+        {
+          "x": 67,
+          "y": 73
+        }
+      ],
+      "expectedSewWidthCm": 51,
+      "nearestCandidateToCurrentSew": {
+        "candidateIndex": 0,
+        "outputLayer": "1",
+        "vertices": [
+          {
+            "x": 58.999992,
+            "y": 71.999985
+          },
+          {
+            "x": 111.499992,
+            "y": 72
+          },
+          {
+            "x": 111.499992,
+            "y": 66
+          },
+          {
+            "x": 58.999992,
+            "y": 65.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 2.915463085038979,
+        "residualToBaseXsSewCm": 9.823437534805478
+      },
+      "nearestCandidateToBaseXsSew": {
+        "candidateIndex": 4,
+        "outputLayer": "8",
+        "vertices": [
+          {
+            "x": 66.999992,
+            "y": 70.499985
+          },
+          {
+            "x": 109.999992,
+            "y": 70.5
+          },
+          {
+            "x": 109.999992,
+            "y": 67
+          },
+          {
+            "x": 66.999992,
+            "y": 66.999985
+          }
+        ],
+        "residualToCurrentSizeSewCm": 8.000000000014062,
+        "residualToBaseXsSewCm": 0.000015000000004761205
+      },
+      "candidateCount": 5
+    }
+  ],
+  "findings": [
+    "For each S/M/L/XL role block, one emitted candidate is within 0.000015 cm of the XS source SEW shape after layout-origin alignment.",
+    "No emitted candidate in S/M/L/XL is within 0.001 cm of that size’s source SEW contour.",
+    "This is geometric attribution only. Numeric output layer IDs and entity order do not establish that the XS-shaped candidate is semantically the receiver’s SEW line."
+  ]
+}
