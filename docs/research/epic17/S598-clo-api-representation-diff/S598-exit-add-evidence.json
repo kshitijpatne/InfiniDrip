@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3524,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S598-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S598-clo-api-representation-diff/S598-exit-packet.md",
+    "verified": true,
+    "note": "S598 compares pinned S580 connected-LINE and S597 periodic-SPLINE CLO line-info captures against their common exact Polo source. The getter output changes by representation/context, but does not prove curve loss or assign CUT/SEW semantics; no V03 gate is cleared."
+  }
+}

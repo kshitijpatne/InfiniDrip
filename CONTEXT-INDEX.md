@@ -1,6 +1,26 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S597 exit
+## Current EPIC-17/G04 V03 boundary — S598 exit
+
+- S598 compared the pinned S580 connected-LINE and S597 periodic-SPLINE
+  `GetPatternLineInfo` captures against their common Polo M R12 source. S580
+  returned eight paths near source SEW contours and none near CUT; S597
+  returned three literal source CUT-layer matches and two SEW matches, but
+  none of the five source-exact periodic SPLINE CUT contours appeared within
+  the 0.01 mm diagnostic screen. Getter line counts differ at observation
+  slots 1, 7 and 8. This proves representation/project-context-sensitive API
+  output, not CLO curve loss or import/export stage; API indexes and literal
+  source DXF layer names do not assign physical identity or CLO semantics.
+  S574 and S595 measured round trips remain controlling; S595 has five CUT
+  failures and every V03 gate remains open.
+- S598 exit packet and current matrix:
+  `docs/research/epic17/S598-clo-api-representation-diff/S598-exit-packet.md`
+  and `V03-CURRENT-GATE-MATRIX-S598.md`. The machine report is in the named
+  C: folder; CLO remains open. Next: stop further `GetPatternLineInfo`
+  surveying and test whether the pre-export API evidence relates to the saved
+  S595 output; if not, advance to another explicit V03 acceptance item.
+
+## Prior EPIC-17/G04 V03 boundary — S597 exit
 
 - S597 reset only the computer-use helper, not CLO, then obtained a coherent
   screenshot/accessibility view of the existing CLO 2026.1.310 scene and ran

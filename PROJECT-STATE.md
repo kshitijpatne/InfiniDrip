@@ -1,6 +1,30 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 597 exit; V03 remains open
+## EPIC-17 / G04 — Slice 598 exit; V03 remains open
+
+S598 compared the existing S580 connected-LINE and S597 periodic-SPLINE
+`GetPatternLineInfo` captures. The fixtures trace to the same byte-pinned Polo
+M R12 source, and their source proofs preserve the CUT contour geometry. In
+the S580 capture, eight getter paths screen near literal source SEW contours
+and none near CUT contours. In S597, five screen near source contours: three
+literal CUT-layer and two SEW-layer matches. None of the five source-exact
+periodic-SPLINE CUT contours is within the 0.01 mm diagnostic screen of any
+getter path. Line counts also differ at slots 1, 7, and 8. These results show
+representation/context-sensitive getter output, not whether CLO discarded
+the curves; the API does not assign manufacturing roles or stage semantics.
+No new CLO action or exchange occurred, and no V03 gate changed. The S574
+and S595 measured round trips remain the receiver evidence; S595 still fails
+five Polo CUT contours. Details and C:-only report:
+`docs/research/epic17/S598-clo-api-representation-diff/` and
+`C:\G04-CLO-DXF-Exchange\S598-clo-api-representation-diff\`.
+
+Validated board exit and focused verification are in the S598 packet.
+EPIC-17/G04-V03 remain In Progress; V02 remains Done. CLO stays open. Next
+stop API-based stage attribution and inspect whether the S595 pre-export
+observations can be tied to its saved exported DXF; if not, continue directly
+to the next remaining V03 acceptance item without repeating this getter.
+
+## Prior EPIC-17 / G04 — Slice 597 exit; V03 remains open
 
 S597 recovered a coherent CLO 2026.1.310 window without restarting CLO and
 ran the planned allowlisted, read-only `GetPatternLineInfo` capture once on

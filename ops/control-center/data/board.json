@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3522,
-  "updatedAt": "2026-10-09T09:02:56.309Z",
+  "revision": 3526,
+  "updatedAt": "2026-10-09T09:11:23.849Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11848,6 +11848,16 @@
           "at": "2026-10-09T09:02:56.309Z",
           "actor": "Codex",
           "text": "S597 recovered a coherent accessibility/screenshot view without restarting CLO and ran one allowlisted read-only GetPatternLineInfo query against the existing S595 pre-export scene. All nine line sequences close continuously and their endpoint bounds equal the API boxes. Direct diagnostic screening finds five source-contour proximities (three literal source CUT-layer, two SEW-layer); indexes 1, 3, 7 and 8 have no direct match. The comparison is not the V03 contour gate and does not identify API roles, garment-piece identity, or processing stage. No DXF exchange, project/pattern mutation, settings change, product code or export identity changed. Keep every V03 gate, including five S595 Polo CUT failures, open."
+        },
+        {
+          "at": "2026-10-09T09:06:55.322Z",
+          "actor": "Codex",
+          "text": "S598 is an evidence-only comparison of the S580 connected-LINE and S597 periodic-SPLINE CLO GetPatternLineInfo captures. First verify common source geometry, pinned hashes, and profile context; then compare lines, bounds, closure and direct-frame geometry by per-capture API slot without assigning stable piece identity or CUT/SEW semantics. No new CLO action, file exchange, mutation, or acceptance change."
+        },
+        {
+          "at": "2026-10-09T09:11:23.849Z",
+          "actor": "Codex",
+          "text": "S598 verifies both prior API captures trace to the same source-exact Polo M geometry. S580's getter paths match eight literal source SEWs and no CUTs; S597's match three literal CUT-layer contours and two SEWs, while none of its five periodic-SPLINE target contours directly matches. Counts differ at observation slots 1, 7 and 8. This confirms representation/context-sensitive API output only; it cannot prove CLO discarded SPLINEs or locate an import/export stage. Do not repeat this getter. S574/S595 actual round-trip failures remain; preserve all V03 gates and the fixed threshold."
         }
       ],
       "evidenceRefs": [
@@ -12140,7 +12150,9 @@
         "E-G04-S596-START",
         "E-G04-S596-EXIT",
         "E-G04-S597-START",
-        "E-G04-S597-EXIT"
+        "E-G04-S597-EXIT",
+        "E-G04-S598-START",
+        "E-G04-S598-EXIT"
       ],
       "flagKey": null
     },
@@ -23026,6 +23038,24 @@
       "sha256": null,
       "verified": true,
       "note": "S597 records the coherent CLO read-only line-info query on the saved periodic-SPLINE scene. Nine returned outlines are closed with matching bounds; five directly screen near literal source contours and four do not. This diagnostic assigns no CUT/SEW semantics or garment identities and clears no V03 gate."
+    },
+    {
+      "id": "E-G04-S598-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S598-clo-api-representation-diff/S598-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S598 compares already-captured CLO GetPatternLineInfo results from line-chain and periodic-SPLINE Polo imports against their hash-pinned common R12 source; it performs no new CLO exchange and changes no V03 gate."
+    },
+    {
+      "id": "E-G04-S598-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S598-clo-api-representation-diff/S598-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S598 compares pinned S580 connected-LINE and S597 periodic-SPLINE CLO line-info captures against their common exact Polo source. The getter output changes by representation/context, but does not prove curve loss or assign CUT/SEW semantics; no V03 gate is cleared."
     }
   ]
 }

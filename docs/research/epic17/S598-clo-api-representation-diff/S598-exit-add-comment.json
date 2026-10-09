@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3525,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S598 verifies both prior API captures trace to the same source-exact Polo M geometry. S580's getter paths match eight literal source SEWs and no CUTs; S597's match three literal CUT-layer contours and two SEWs, while none of its five periodic-SPLINE target contours directly matches. Counts differ at observation slots 1, 7 and 8. This confirms representation/context-sensitive API output only; it cannot prove CLO discarded SPLINEs or locate an import/export stage. Do not repeat this getter. S574/S595 actual round-trip failures remain; preserve all V03 gates and the fixed threshold."
+}

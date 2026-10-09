@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3522,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S598-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S598-clo-api-representation-diff/S598-start-packet.md",
+    "verified": true,
+    "note": "S598 compares already-captured CLO GetPatternLineInfo results from line-chain and periodic-SPLINE Polo imports against their hash-pinned common R12 source; it performs no new CLO exchange and changes no V03 gate."
+  }
+}

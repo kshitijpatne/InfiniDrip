@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3523,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S598 is an evidence-only comparison of the S580 connected-LINE and S597 periodic-SPLINE CLO GetPatternLineInfo captures. First verify common source geometry, pinned hashes, and profile context; then compare lines, bounds, closure and direct-frame geometry by per-capture API slot without assigning stable piece identity or CUT/SEW semantics. No new CLO action, file exchange, mutation, or acceptance change."
+}
