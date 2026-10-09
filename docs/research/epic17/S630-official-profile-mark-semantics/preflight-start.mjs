@@ -1,0 +1,16 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+const dir="docs/research/epic17/S630-official-profile-mark-semantics";
+const packet=await readFile(`${dir}/S630-start-packet.md`,"utf8");
+const board=JSON.parse(await readFile("ops/control-center/data/board.json","utf8"));
+assert.match(packet,/Slice 630 start/u);
+assert.equal(board.revision,3660);
+assert.equal(board.workItems.find(x=>x.id==="G04-V02")?.status,"Done");
+for(const id of ["G04-V03","EPIC-17"])assert.equal(board.workItems.find(x=>x.id===id)?.status,"In Progress");
+assert(!board.evidence.some(x=>x.id==="E-G04-S630-START"));
+assert.equal(execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim(),"8a45420b96f8513f02348aabe19d5b247c57aba1");
+execFileSync("git",["merge-base","--is-ancestor","origin/main","HEAD"]);
+const max=Number(execFileSync("git",["log","--all","--format=%s"],{encoding:"utf8"}).split(/\r?\n/u).map(s=>/^Slice (\d+):/u.exec(s)?.[1]).filter(Boolean).map(Number).reduce((a,b)=>Math.max(a,b),0));
+assert.equal(max,629);
+console.log("S630 start preflight passed: clean S629 base, refreshed origin/main ancestry, unique slice 630, board 3660 and statuses unchanged.");

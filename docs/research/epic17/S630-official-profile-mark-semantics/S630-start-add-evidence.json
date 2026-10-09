@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3660,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S630-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S630-official-profile-mark-semantics/S630-start-packet.md",
+    "verified": true,
+    "note": "Starts a bounded official-source audit of CLO DXF options, ASTM D6673 public record/status and the public NISTIR 5969 apparel pattern information model. It will not repeat a CLO operation or infer a normative mark mapping; all V03 requirements, rights, all-seven criteria and statuses remain unchanged."
+  }
+}

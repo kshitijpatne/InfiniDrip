@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3660,
-  "updatedAt": "2026-10-09T17:43:54.778Z",
+  "revision": 3664,
+  "updatedAt": "2026-10-09T17:57:31.438Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12168,6 +12168,16 @@
           "at": "2026-10-09T17:43:54.778Z",
           "actor": "Codex",
           "text": "S629 closes its bounded mark-geometry audit against the unchanged, hash-pinned S628 Woven size-M CLO DXF-AAMA export. All 13 source lines have separate open two-vertex output polylines within 0.001 cm, but coincident outline roles and numeric output layers do not preserve apparel semantics. Eight button circles become 12-vertex closed polylines whose maximum chord sagitta 0.005113 cm exceeds the unchanged 0.001 cm gate; eight source buttonhole points have no distinct output point marks. Existing overview renders do not establish detailed legibility. No new CLO operation, criteria change, source/geometry change, or gate clearance. Keep V03 In Progress with all existing holds. See E-G04-S629-EXIT."
+        },
+        {
+          "at": "2026-10-09T17:47:49.605Z",
+          "actor": "Codex",
+          "text": "S630 checks the official public CLO DXF import/export documentation, ASTM D6673 catalog/product record and NISTIR 5969 apparel information model to determine whether a sourced, rights-accessible DXF-AAMA mark encoding justifies another concrete receiver test. It will distinguish normative profile claims from UI labels, historical catalog entries, research models, and the measured S628/S629 CLO output. No new CLO run, standard purchase, source/geometry edit, or gate/status change is in scope. Keep all existing V03 holds. See E-G04-S630-START."
+        },
+        {
+          "at": "2026-10-09T17:57:31.438Z",
+          "actor": "Codex",
+          "text": "S630 closed as an official-source audit. CLO's menu help does not specify a profile edition or button mark mapping; ASTM D6673-10 is withdrawn with no replacement and the public record omits entity/layer clauses; NISTIR 5969 is a 1997 STEP/EXPRESS model, not a DXF-AAMA encoding. Its inspected mark figure is typed point/location and defines no button circle/radius. S628 AC1009 is R11/R12, while D6673-10's public scope names Version 13. No source-backed conversion hypothesis, gate, threshold, status or acceptance changes. Next inspect the already existing S617 ASTM-labeled output and saved render offline, then select any further receiver operation only from concrete observed evidence. See E-G04-S630-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12534,7 +12544,9 @@
         "E-G04-S628-START",
         "E-G04-S628-EXIT",
         "E-G04-S629-START",
-        "E-G04-S629-EXIT"
+        "E-G04-S629-EXIT",
+        "E-G04-S630-START",
+        "E-G04-S630-EXIT"
       ],
       "flagKey": null
     },
@@ -24086,6 +24098,24 @@
       "sha256": null,
       "verified": true,
       "note": "Hash-pinned audit of 29 source MARK_* entities in the existing S628 Woven size-M CLO export: 13/13 lines match separate open two-vertex output polylines geometrically; 8 circles are approximated with 0/8 within the unchanged 0.001 cm whole-curve gate; 8 buttonhole points have no distinct point representation. This is one fixture and clears no profile, apparel semantics, or full V03 gate. All acceptance and holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S630-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S630-official-profile-mark-semantics/S630-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded official-source audit of CLO DXF options, ASTM D6673 public record/status and the public NISTIR 5969 apparel pattern information model. It will not repeat a CLO operation or infer a normative mark mapping; all V03 requirements, rights, all-seven criteria and statuses remain unchanged."
+    },
+    {
+      "id": "E-G04-S630-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S630-official-profile-mark-semantics/S630-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official CLO/ASTM/NIST evidence and the inspected NIST diagrams provide no authorized, specific encoding for S629's lost/approximated button marks; S628 AC1009 is R11/R12, below the Version 13 DXF named by D6673-10. Claude Opus 5.5 independently agrees. No gate changes. Next audit existing S617 ASTM-labeled output and rendered evidence offline before considering another CLO operation."
     }
   ]
 }

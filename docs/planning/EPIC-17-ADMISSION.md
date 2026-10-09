@@ -1,3 +1,18 @@
+**S630 exit:** the official CLO help, ASTM D6673-10 public record, visually
+inspected NISTIR 5969 figures and independent Claude Opus 5.5 xhigh review
+provide no authorized, specific encoding for S629's lost/approximated circle
+and point marks. NISTIR is a historical STEP/EXPRESS model; its mark feature
+stores a typed point/location but is not a DXF-AAMA layer map. The tested
+S628 CLO output is AC1009/R11-R12, not the Version 13 DXF named by D6673-10's
+public scope. No CLO operation, acceptance/gate change or compatibility claim
+occurred. Board start/exit replay `3660→3662→3664` preserves V02 Done and
+V03/Epic In Progress. Start, source audit, reviewer return and exit packet:
+`docs/research/epic17/S630-official-profile-mark-semantics/`. Next reserve
+S631 after refreshing state, then offline-audit the existing S617 CLO
+DXF-ASTM output and saved reimport render against its hash-pinned source
+before deciding whether another UI operation is justified. Maintain all V03
+gates, all-seven acceptance, and the settled local CLO authorization.
+
 **S629 exit:** Slice 629 audited 29 `MARK_*` entities in the existing,
 hash-pinned S628 Woven size-M CLO DXF-AAMA output. Thirteen line geometries
 map to separate open two-vertex polylines within `0.001 cm`; eight button

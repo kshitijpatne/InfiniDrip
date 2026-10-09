@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S629 exit
+## Current EPIC-17/G04 V03 boundary — S630 closed; V03 remains open
+
+- S630's official CLO/ASTM/NIST source audit and inspected NISTIR diagrams
+  identify no authorized, specific DXF encoding for S629's circle/point mark
+  failures. ASTM D6673-10 is withdrawn with no replacement in the official
+  record; CLO's mode label supplies no edition or mark map; NISTIR 5969 is a
+  historical STEP/EXPRESS research model, not a normative DXF map. Its
+  AAMA-292 discussion names AutoCAD Version 11; D6673-10's public scope names
+  Version 13. The pinned S628 CLO output records AC1009 (R11/R12). Claude
+  Opus 5.5 xhigh independently agrees. No gate changed. Full docket, reviewer
+  return, and exit packet:
+  `docs/research/epic17/S630-official-profile-mark-semantics/`. Validated
+  board closeout revision 3664 retains V02 Done and V03/Epic In Progress.
+  Next reserve S631 after refreshing Git/history/board, then audit the
+  already-existing S617 CLO DXF-ASTM export and its saved reimport render
+  offline against its hash-pinned source before deciding whether another CLO
+  operation is justified. No duplicate trial; keep every V03 gate, all-seven
+  acceptance, protected export identities and the active CLO session.
+
+## Prior EPIC-17/G04 V03 boundary — S629 exit
 
 - S629 audited 29 source `MARK_*` entities in the unchanged, hash-pinned S628
   Woven size-M CLO DXF-AAMA output. All 13 LINEs map geometrically to separate
@@ -12,9 +31,9 @@
   V03 gate. Evidence, helper and independent Claude Opus 5.5 review are in
   `docs/research/epic17/S629-clo-mark-geometry-audit/`; raw reports and DXFs
   remain under `C:\G04-CLO-DXF-Exchange\`. Board exit 3660 preserves V02 Done
-  and V03/Epic In Progress. Next: S630 will inspect official receiver
-  documentation and primary standard semantics before any further round trip.
-  CLO remains open.
+  and V03/Epic In Progress. S630 has now closed that official-source audit;
+  its documented findings and next action are in the current S630 boundary
+  above. CLO remains open.
 
 - S628's one-fixture CLO 2026.1.310 DXF-AAMA test found 12 unique BLOCKs and
   12 resolving INSERTs after export. CLO appends `_M` to the literal block

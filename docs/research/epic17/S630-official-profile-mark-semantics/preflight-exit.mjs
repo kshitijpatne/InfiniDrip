@@ -1,0 +1,20 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+
+const dir="docs/research/epic17/S630-official-profile-mark-semantics";
+const packet=await readFile(`${dir}/S630-exit-packet.md`,"utf8");
+const audit=await readFile(`${dir}/profile-mark-source-audit.md`,"utf8");
+const review=await readFile(`${dir}/claude-review-return.md`,"utf8");
+const board=JSON.parse(await readFile("ops/control-center/data/board.json","utf8"));
+assert.equal(board.revision,3664);
+assert.equal(board.workItems.find(x=>x.id==="G04-V02")?.status,"Done");
+for(const id of ["G04-V03","EPIC-17"])assert.equal(board.workItems.find(x=>x.id===id)?.status,"In Progress");
+assert(board.evidence.some(x=>x.id==="E-G04-S630-START"));
+assert(board.evidence.some(x=>x.id==="E-G04-S630-EXIT"&&x.verified));
+assert.match(packet,/None supports a concrete, rights-accessible\s+mapping/u);
+assert.match(audit,/Figure 2\.9/u);
+assert.match(audit,/AC1009/u);
+assert.match(review,/WORK FINISHED/u);
+assert.match(packet,/Next:\*\* S631/u);
+console.log("S630 post-replay preflight passed at board revision 3664; source findings, explicit review completion, and unchanged V03 statuses verified.");

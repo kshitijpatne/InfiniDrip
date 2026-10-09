@@ -1,27 +1,44 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 629 closed; V03 remains open
+## EPIC-17 / G04 — Slice 630 closed; V03 remains open
+
+S630 started `2026-10-09 17:46:54 UTC` from clean S629 commit
+`8a45420b96f8513f02348aabe19d5b247c57aba1`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Validated
+board start/exit replay was `3660→3662→3664`, preserving V02 Done and V03/Epic
+In Progress. The official-source audit found no rights-accessible, specific
+mark encoding to justify another CLO permutation. The NISTIR 5969 diagrams
+were visually checked; the model is typed point/location semantics, not a DXF
+layer map. The 1997 report describes AAMA-292 with R11-era DXF; D6673-10's
+public scope names R13, while the pinned S628 output header is AC1009/R11-R12.
+Claude Opus 5.5 xhigh independently returned `WORK FINISHED` and agreed there
+is no sourced circle/point conversion rule. No CLO operation, product-code or
+geometry change, criterion/tolerance change, or gate clearance occurred. The
+maintainer reconfirmed written authority for InfiniDrip DXF evaluation and
+local processing; CLO remains open. Full audit/reviewer return/exit packet:
+`docs/research/epic17/S630-official-profile-mark-semantics/`. Next: reserve S631
+from refreshed state and audit the already-existing S617 CLO DXF-ASTM export
+and saved reimport output offline against its pinned source, then choose any
+new CLO operation only from the resulting measured gap. All V03 gates and
+all-seven acceptance remain unchanged.
+
+## Verified prior boundary — Slice 629 closed; V03 remains open
 
 S629 started `2026-10-09 17:26:38 UTC` from clean S628 commit
-`f5e284fcdd1a11e63ac161c938a1218aab5997bf`. Refreshed `origin/main`
-`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S628 was
-highest and S629 unique. Board exit revision 3660 preserves G04-V02 Done and
-G04-V03/EPIC-17 In Progress. The hash-pinned audit of the existing S628 Woven
-size-M CLO export confirms 13/13 separate open two-vertex line geometries
-within `0.001 cm`, eight circle-to-12-vertex-polyline conversions with zero
-whole-curve passes at the threshold, and zero distinct output POINT markers
-for eight source buttonhole points. Four line marks coincide with both CUT
-and SEW contours; numeric output layers do not retain source semantics. Saved
-overviews do not prove detailed legibility. Claude Opus 5.5 xhigh read-only
-review independently agrees. No CLO operation, production code, source
-geometry, acceptance, threshold, or V03 gate changed. Full packet, analyzer,
-preflight, and reviewer return are in
+`f5e284fcdd1a11e63ac161c938a1218aab5997bf`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor and S628 was
+highest. The hash-pinned audit of the existing S628 Woven size-M CLO export
+confirms 13/13 separate open two-vertex line geometries within `0.001 cm`,
+eight circle-to-12-vertex-polyline conversions with zero whole-curve passes at
+the threshold, and zero distinct output POINT markers for eight source
+buttonhole points. Four line marks coincide with CUT and SEW contours; numeric
+output layers do not retain source semantics. Saved overviews do not prove
+detailed legibility. Claude Opus 5.5 xhigh read-only review independently
+agrees. No CLO operation, production code, source geometry, acceptance,
+threshold, or V03 gate changed. Packet, analyzer and reviewer return:
 `docs/research/epic17/S629-clo-mark-geometry-audit/`; raw C:-only evidence is
-under `C:\G04-CLO-DXF-Exchange\`. S629 exit evidence/comment were applied
-through the validated board CLI. Next reserve S630 after fresh Git/history/
-board checks to inspect authoritative receiver/profile and mark-semantics
-documentation before any more empirical conversion. Keep CLO open through the
-Epic; preserve every V03 hold and all-seven requirement.
+under `C:\G04-CLO-DXF-Exchange\`. Validated board exit revision 3660 preserved
+V02 Done and V03/Epic In Progress.
 
 ## Verified prior boundary — Slice 628 closed; V03 remains open
 
