@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3344,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S557 closes the retained mark/render and source-backed grade-fixture audit. It corrects S556: a second receiver is not an admitted V03 gate; same-app round trip is permissible if the exact profile, rights review, and every technical gate pass. No current gate is cleared. Five Polo contours, mixed CUT/SEW layers, incomplete mark/grade/options evidence, malformed-input failure, and exact-profile qualification remain open."
+}

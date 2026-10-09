@@ -2,21 +2,30 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 gate picture — S556 (2026-10-08)
+### G04 current V03 gate picture — S557 (2026-10-08)
 
-S556 reconciles S547/S554/S555 and confirms the maintainer's written
-authorization for product-development DXF evaluation and local CLO processing;
-those project-level concerns are settled. V03 is not passed: the all-seven
-M/default, two-generation CLO cohort is limited evidence; five Polo CUT
-contours fail the unchanged 0.001 cm tolerance; tested outputs mix CUT/SEW on
-layer 8; source marks and grade/options remain incomplete; S531's tested
-malformed input was silently accepted; exact industrial-profile evidence and
-an independently qualified receiver remain absent. No acceptance, cost,
-physical, factory, or production-readiness gate is relaxed. Current matrix:
-`docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`.
-Next, inspect retained source/output marks and rendered files, and verify
-whether genuine multi-size/grade fixtures with source truth exist, without
-repeating known CLO scenarios. CLO stays open while needed.
+S557 audits retained seven-recipe CLO DXF-AAMA files and rendered evidence and
+checks the repository's grade/export path. The current cohort contains
+41/41 unique piece identities, nine mixed CUT/SEW semantic layers, 100 source
+mark entities (22 direct geometry matches; 78 without direct matches, not
+proven lost), and M/default only. The current DXF UI path exports a selected
+size; no source-backed multi-size/grade DXF fixture exists. All seven current
+generation-two DXFs identify `$ACADVER=AC1009`, which is a DXF database
+version, not an AAMA conformance statement.
+
+S557 corrects S556's extra independent-receiver requirement: G04's admitted
+criterion requires a documented, rights-reviewed profile and representative
+round trip, but does not require a second app. A same-app round trip can count
+if every gate passes; no current technical hold is cleared. Five Polo CUT
+contours still fail the 0.001 cm limit, CUT/SEW layer semantics remain
+ambiguous, mark/grade/options evidence is incomplete, S531's malformed input
+was silently accepted, and the exact industrial profile remains unqualified.
+The user's CLO product-development and local-processing authorization is
+settled. No scope, acceptance, cost, physical, factory, or production-
+readiness gate is relaxed. See the S557 exit packet, scope correction, and
+updated current matrix under `docs/research/epic17/S557-mark-and-grade-evidence-audit/`.
+Next: qualify the precise CLO DXF-AAMA profile/build using current authoritative
+evidence; do not repeat known scenarios. CLO stays open while needed.
 
 ### G04 current evidence and conditional estimate — S520 (2026-10-08)
 

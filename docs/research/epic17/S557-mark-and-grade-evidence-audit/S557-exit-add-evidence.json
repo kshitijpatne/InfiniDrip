@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3343,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S557-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S557-mark-and-grade-evidence-audit/S557-exit-packet.md",
+    "verified": true,
+    "note": "Hash-pinned retained-file audit: 41/41 unique piece identities, nine mixed CUT/SEW layers, 78/100 unmatched source marks (not proven lost), no source-backed graded DXF fixture; corrects S556's unadmitted second-receiver gate. All V03 holds remain."
+  }
+}

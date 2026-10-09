@@ -1,6 +1,51 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 556 current V03 reconciliation
+## EPIC-17 / G04 — Slice 557 exit; V03 remains open
+
+S557 completed a hash-pinned review of the retained seven-recipe CLO
+DXF-AAMA cohort, rendered captures, and the source-backed grade path. The
+report is C:-only at
+`C:\G04-CLO-DXF-Exchange\S557-mark-and-grade-evidence-audit\Evidence`;
+SHA-256 is `F5A0EB518E24EA5F061AB5F7C39CEFF4B68D701BD81B9A27A6E204A0D5203584`,
+and two deterministic audit runs produced identical reports. Seven current
+generation-two files all have `$ACADVER=AC1009` (a database-version fact, not
+AAMA conformance). The cohort retains 41/41 unique SEW-piece identities and
+nine mixed CUT/SEW semantic layers. Of 100 source mark entities, 22 directly
+match by geometry and 78 do not; the unmatched count does not prove loss.
+Gross renders show the large pieces but cannot verify small marks. All
+fixtures are M/default. The app's current DXF path exports one selected-size
+piece set, and there is no genuine multi-size/grade DXF fixture with source
+truth. Grades/options remain unestablished.
+
+S557 corrects an overconstraint in S556: the admitted V03 criterion does not
+require a second CAD application. A same-app CLO round trip may count if its
+exact industrial profile is documented, rights-reviewed, and all other
+technical gates pass. See `docs/research/epic17/S557-mark-and-grade-evidence-audit/S557-scope-correction.md`;
+S556's historical packet is preserved. This correction does not clear any
+technical gate. Five Polo CUT contours still fail the 0.001 cm gate; CUT/SEW
+layers are ambiguous; marks are incomplete; grade/options are unproven; the
+tested malformed input was silently accepted; and the exact industrial
+profile is unknown. The user's written authorization for CLO product-
+development evaluation and local DXF processing remains settled.
+
+No CLO UI operation or new import/export was performed; the current
+visible/accessibility mismatch was not used. CLO stays open. No source,
+pattern, production code, tests, acceptance, geometry tolerance, protected
+export identity, or legacy behavior changed. No physical-fit, factory, or
+production-readiness claim is made. Board revisions: 3341 start, 3343 after
+start replay, 3345 after exit replay; G04-V03 remains In Progress. Audit
+twice deterministic; `node --check` passed; Control Center tests 42/42;
+`git diff --check` and canonical board validation passed. No full repository
+gate is due because production code/tests are unchanged. Active goal remains
+needed and aligned with completing G04 through safe merge.
+
+Next: qualify CLO's exact DXF-AAMA profile/build from current authoritative
+publisher evidence, with no repeated geometry/unit/malformed tests. If profile
+qualification fails, preserve holds and evaluate only an evidence-backed
+alternate route. A second receiver is optional assurance, not a G04 exit
+dependency. Detailed packet: `docs/research/epic17/S557-mark-and-grade-evidence-audit/S557-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 556 current V03 reconciliation (historical)
 
 S556 started from clean S555 commit `3f723622e9dacc85ee8896dfd17a97c1a07b92f5`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The active G04 worktree is `C:\Users\kshit\.codex\worktrees\epic-17-g04\designApp`; `F:\designApp` is a stale coordinator checkout. Start board revision 3337; validated S556 start replay reaches 3339. G04-V03 remains In Progress.
 
