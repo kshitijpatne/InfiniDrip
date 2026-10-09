@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3657,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S629 reuses the existing S628 Woven size-M source and CLO DXF-AAMA export to measure source MARK_* geometry against the corresponding one-size output BLOCKs. Use direct coordinates, explicit per-entity match rules, and the existing 0.001 cm threshold; do not fit transforms or infer meaning from numeric CLO layers. Ambiguous flattened/generated geometry stays unresolved. No second import/export, profile claim, mark-semantic claim, or V03 gate changes. Product-development use and local processing are authorized; all other V03 holds remain. See E-G04-S629-START."
+}

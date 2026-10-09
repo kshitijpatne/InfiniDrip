@@ -1,6 +1,20 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S628 exit
+## Current EPIC-17/G04 V03 boundary — S629 exit
+
+- S629 audited 29 source `MARK_*` entities in the unchanged, hash-pinned S628
+  Woven size-M CLO DXF-AAMA output. All 13 LINEs map geometrically to separate
+  open two-vertex output polylines within `0.001 cm`, but four coincide with
+  CUT/SEW boundaries and output numeric layers retain no source role. Eight
+  button CIRCLEs become 12-vertex polylines whose chord sagitta exceeds the
+  threshold; eight buttonhole POINTs have no distinct output point markers.
+  The overview renders do not prove detailed mark readability. This clears no
+  V03 gate. Evidence, helper and independent Claude Opus 5.5 review are in
+  `docs/research/epic17/S629-clo-mark-geometry-audit/`; raw reports and DXFs
+  remain under `C:\G04-CLO-DXF-Exchange\`. Board exit 3660 preserves V02 Done
+  and V03/Epic In Progress. Next: S630 will inspect official receiver
+  documentation and primary standard semantics before any further round trip.
+  CLO remains open.
 
 - S628's one-fixture CLO 2026.1.310 DXF-AAMA test found 12 unique BLOCKs and
   12 resolving INSERTs after export. CLO appends `_M` to the literal block
@@ -18,8 +32,9 @@
   `C:\G04-CLO-DXF-Exchange\S628-named-block-piece-identity-pilot\`.
   CLO-use and local-processing authorization are confirmed; CLO remains open.
   Board closeout preserves G04-V02 Done and G04-V03/EPIC-17 In Progress.
-  Next reserve S629 after refreshing branch/history/board; address a distinct,
-  evidence-backed rights/profile or all-seven representative exchange gap.
+  Next action is S629, which reuses the S628 input/output to audit source
+  `MARK_*` geometry by corresponding piece block; its start packet is
+  `docs/research/epic17/S629-clo-mark-geometry-audit/S629-start-packet.md`.
   Keep all V02/V03 gates and holds unchanged.
 
 ## Prior EPIC-17/G04 V03 boundary — S627 exit

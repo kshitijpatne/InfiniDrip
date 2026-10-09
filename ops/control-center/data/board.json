@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3656,
-  "updatedAt": "2026-10-09T17:15:53.423Z",
+  "revision": 3660,
+  "updatedAt": "2026-10-09T17:43:54.778Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12158,6 +12158,16 @@
           "at": "2026-10-09T17:15:53.423Z",
           "actor": "Codex",
           "text": "S628 completed one local CLO 2026.1.310 DXF-AAMA named-block round trip on the repaired Woven sideVentDepth=0 size-M fixture. The exported DXF has 12 unique BLOCK definitions and 12 resolving INSERT references. CLO appends _M to the literal names; the PIECE NAME payloads and clean-project reimport tree preserve all twelve source role names. Source-bound CUT and SEW vertex lists pass for all 12 pieces at the unchanged 0.001 cm gate (maximum residual 0.0007416873 mm), and the rendered reimport shows all twelve pieces. This is bounded one-fixture generic-DXF identity and geometry evidence only; output is AC1009/R12 and unitless, and the test establishes no normative apparel profile/rights, revision, grades, manufacturing-mark semantics, all-seven representative exchange, or V03 closure. Keep V02 Done, V03 and EPIC-17 In Progress, and all gates and holds unchanged. See E-G04-S628-EXIT and the S628 exit packet."
+        },
+        {
+          "at": "2026-10-09T17:27:36.450Z",
+          "actor": "Codex",
+          "text": "S629 reuses the existing S628 Woven size-M source and CLO DXF-AAMA export to measure source MARK_* geometry against the corresponding one-size output BLOCKs. Use direct coordinates, explicit per-entity match rules, and the existing 0.001 cm threshold; do not fit transforms or infer meaning from numeric CLO layers. Ambiguous flattened/generated geometry stays unresolved. No second import/export, profile claim, mark-semantic claim, or V03 gate changes. Product-development use and local processing are authorized; all other V03 holds remain. See E-G04-S629-START."
+        },
+        {
+          "at": "2026-10-09T17:43:54.778Z",
+          "actor": "Codex",
+          "text": "S629 closes its bounded mark-geometry audit against the unchanged, hash-pinned S628 Woven size-M CLO DXF-AAMA export. All 13 source lines have separate open two-vertex output polylines within 0.001 cm, but coincident outline roles and numeric output layers do not preserve apparel semantics. Eight button circles become 12-vertex closed polylines whose maximum chord sagitta 0.005113 cm exceeds the unchanged 0.001 cm gate; eight source buttonhole points have no distinct output point marks. Existing overview renders do not establish detailed legibility. No new CLO operation, criteria change, source/geometry change, or gate clearance. Keep V03 In Progress with all existing holds. See E-G04-S629-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12522,7 +12532,9 @@
         "E-G04-S627-EXIT",
         "E-G04-S627-MATRIX",
         "E-G04-S628-START",
-        "E-G04-S628-EXIT"
+        "E-G04-S628-EXIT",
+        "E-G04-S629-START",
+        "E-G04-S629-EXIT"
       ],
       "flagKey": null
     },
@@ -24056,6 +24068,24 @@
       "sha256": null,
       "verified": true,
       "note": "One CLO DXF-AAMA Woven zero-vent named-block pilot preserves 12 distinct role labels and passes all 12 CUT/SEW pairs at 0.001 cm (max 0.0007416873 mm); CLO appends _M to literal BLOCK/INSERT tokens. This is one-size generic DXF evidence, not industrial-profile rights, revision/grade/mark semantics, all-seven exchange, or full V03 acceptance. All gates and statuses unchanged. Raw evidence is restricted to the named C: folder."
+    },
+    {
+      "id": "E-G04-S629-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S629-clo-mark-geometry-audit/S629-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Audits source MARK_* geometry against the already-produced, hash-pinned S628 CLO DXF-AAMA output for one repaired Woven size-M fixture. No new receiver operation or layer-semantic inference; exact 0.001 cm, all-seven, profile, mark semantics, grades and all other V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S629-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S629-clo-mark-geometry-audit/S629-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Hash-pinned audit of 29 source MARK_* entities in the existing S628 Woven size-M CLO export: 13/13 lines match separate open two-vertex output polylines geometrically; 8 circles are approximated with 0/8 within the unchanged 0.001 cm whole-curve gate; 8 buttonhole points have no distinct point representation. This is one fixture and clears no profile, apparel semantics, or full V03 gate. All acceptance and holds remain unchanged."
     }
   ]
 }

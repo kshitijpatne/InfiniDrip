@@ -1,3 +1,16 @@
+**S629 exit:** Slice 629 audited 29 `MARK_*` entities in the existing,
+hash-pinned S628 Woven size-M CLO DXF-AAMA output. Thirteen line geometries
+map to separate open two-vertex polylines within `0.001 cm`; eight button
+circles become closed 12-vertex polylines with zero whole-curve passes at the
+same limit; eight source buttonhole points have no distinct output point
+markers. Numeric layers and coincident geometry do not preserve source mark
+meaning. This fixture clears no V03 gate. Validated board closeout at revision
+3660 keeps V02 Done and V03/Epic In Progress. Exit packet:
+`docs/research/epic17/S629-clo-mark-geometry-audit/S629-exit-packet.md`.
+Next: reserve S630 for official receiver/profile and mark-semantics review,
+before any additional receiver experiment. Keep every admitted gate and
+all-seven criterion unchanged.
+
 ## Current verified boundary — S627 exit (2026-10-09)
 
 S627 repairs the Woven zero-depth vent source degeneracy and passes focused

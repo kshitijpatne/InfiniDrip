@@ -1,6 +1,29 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 628 closed; V03 remains open
+## EPIC-17 / G04 — Slice 629 closed; V03 remains open
+
+S629 started `2026-10-09 17:26:38 UTC` from clean S628 commit
+`f5e284fcdd1a11e63ac161c938a1218aab5997bf`. Refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S628 was
+highest and S629 unique. Board exit revision 3660 preserves G04-V02 Done and
+G04-V03/EPIC-17 In Progress. The hash-pinned audit of the existing S628 Woven
+size-M CLO export confirms 13/13 separate open two-vertex line geometries
+within `0.001 cm`, eight circle-to-12-vertex-polyline conversions with zero
+whole-curve passes at the threshold, and zero distinct output POINT markers
+for eight source buttonhole points. Four line marks coincide with both CUT
+and SEW contours; numeric output layers do not retain source semantics. Saved
+overviews do not prove detailed legibility. Claude Opus 5.5 xhigh read-only
+review independently agrees. No CLO operation, production code, source
+geometry, acceptance, threshold, or V03 gate changed. Full packet, analyzer,
+preflight, and reviewer return are in
+`docs/research/epic17/S629-clo-mark-geometry-audit/`; raw C:-only evidence is
+under `C:\G04-CLO-DXF-Exchange\`. S629 exit evidence/comment were applied
+through the validated board CLI. Next reserve S630 after fresh Git/history/
+board checks to inspect authoritative receiver/profile and mark-semantics
+documentation before any more empirical conversion. Keep CLO open through the
+Epic; preserve every V03 hold and all-seven requirement.
+
+## Verified prior boundary — Slice 628 closed; V03 remains open
 
 S628 began from clean S627 commit `95d30bd9bedfa5b2d08940234756458238de89bb`;
 refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was its
