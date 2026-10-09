@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3443,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S582-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S582-clo-runtime-api-inventory/S582-exit-packet.md",
+    "verified": true,
+    "note": "Exact-build read-only inventory returned 217 pattern_api public names. It confirms actual presence/absence of relevant methods; no getter was called and no V03 acceptance gate clears. C-only result/script/screenshot hashes are recorded."
+  }
+}

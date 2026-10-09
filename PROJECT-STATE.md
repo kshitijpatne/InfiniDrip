@@ -1,30 +1,31 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 581 exit; V03 remains open
+## EPIC-17 / G04 — Slice 582 exit; V03 remains open
 
-One exact-build, read-only CLO 2026.1.310 run confirmed that
-`pattern_api.GetInternalShapeInformation` is absent from the installed module:
-the exact AttributeError occurred for all nine indexed patterns. Public API
-documentation lists the method, but that does not establish runtime
-availability in this build. No shape geometry was returned; the result cannot
-attribute CUT loss to import, internal representation, API exposure, or
-export. No V03 gate clears and every acceptance criterion remains unchanged.
-Raw JSON and rendered evidence are hash-recorded in
-`docs/research/epic17/S581-clo-internal-shape-info/S581-exit-packet.md` and
+One read-only runtime namespace inventory in CLO 2026.1.310 returned 217
+public `pattern_api` names. It confirms that `GetPatternInformation`,
+`GetPatternInputInformation`, `GetPatternInternalShapePoints`,
+`GetPatternBaselinePoints`, `GetPatternOutlinePoints`, and
+`GetPatternLineInfo` are exposed, while `GetInternalShapeInformation` and
+`GetInnerShapeList` are absent. This is API-name evidence only; it confirms no
+geometry, import stage, or CUT/SEW meaning. No V03 gate clears or changes.
+Raw JSON, script and rendered evidence are hash-recorded in
+`docs/research/epic17/S582-clo-runtime-api-inventory/S582-exit-packet.md` and
 the specifically named C: folder.
 
-Canonical board revision 3441 after validated S581 exit replay leaves G04-V02
-Done and G04-V03 In Progress (exit replay 3439→3441). Focused verification:
-result schema/error checks, `npm run control-center:test`, and
-`git diff --check`. No production source/tests changed, so the integrated full
+Canonical board revision 3445 after validated S582 exit replay leaves G04-V02
+Done and G04-V03 In Progress (exit replay 3443→3445). The captured JSON and
+hash checks, `npm run control-center:test` and `git diff --check` are the
+focused gates. No production source/tests changed; the integrated full
 repository gate remains for the settled PR candidate. Goal remains active and
 aligned to EPIC-17/G04 through safe merge. CLO remains open.
 
-**Next:** reserve S582 and inventory the actual installed `pattern_api` names
-related to pattern lines, outlines and shapes using a read-only query. Use
-that exact-build result to select any further documented getter; do not repeat
-the absent method, guess API names, relax the fixed 0.001 cm gate, or change
-acceptance.
+**Next:** reserve S583 and query both documented, exact-build-present JSON
+information getters (`GetPatternInformation` and
+`GetPatternInputInformation`) across the same nine patterns. This is the
+last bounded API-information probe; after it, prioritize direct V03 exchange
+acceptance evidence, without guessing more method names, relaxing the
+0.001 cm threshold, or changing acceptance.
 
 ## Prior EPIC-17 / G04 — Slice 579 exit
 

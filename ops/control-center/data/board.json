@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3441,
-  "updatedAt": "2026-10-09T05:26:32.176Z",
+  "revision": 3445,
+  "updatedAt": "2026-10-09T05:34:41.351Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11643,6 +11643,16 @@
           "at": "2026-10-09T05:26:32.176Z",
           "actor": "Codex",
           "text": "S581's single CLO 2026.1.310 read-only run returned the exact AttributeError `module 'pattern_api' has no attribute 'GetInternalShapeInformation'` for all nine indexed patterns. Public documentation does not establish that the getter exists in this installed build. No geometry, import/export stage, compatibility gate, tolerance, or acceptance criterion is inferred or changed. CLO remains open. Next S582 inventories actual read-only pattern_api names before selecting any further runtime call. See E-G04-S581-EXIT."
+        },
+        {
+          "at": "2026-10-09T05:29:12.141Z",
+          "actor": "Codex",
+          "text": "S582 performs one exact-build, read-only inventory of names actually exposed by pattern_api after S581 found the documented GetInternalShapeInformation absent in CLO 2026.1.310. No candidate method is called in this slice; any future query must be supported by both the inventory and first-party documentation. All V02/V03 gates and claims remain unchanged. See E-G04-S582-START."
+        },
+        {
+          "at": "2026-10-09T05:34:41.351Z",
+          "actor": "Codex",
+          "text": "S582 ran one read-only dir(pattern_api) inventory in CLO 2026.1.310 and captured 217 public names. GetPatternInformation, GetPatternInputInformation, GetPatternInternalShapePoints, GetPatternBaselinePoints, GetPatternOutlinePoints and GetPatternLineInfo are exposed; GetInnerShapeList and GetInternalShapeInformation are not. No getter was invoked and no geometry or acceptance claim changes. Next S583 makes one bounded call to the two documented JSON information getters across the nine existing imported patterns, then the work returns to direct V03 exchange acceptance checks. See E-G04-S582-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11903,7 +11913,9 @@
         "E-G04-S580-START",
         "E-G04-S580-EXIT",
         "E-G04-S581-START",
-        "E-G04-S581-EXIT"
+        "E-G04-S581-EXIT",
+        "E-G04-S582-START",
+        "E-G04-S582-EXIT"
       ],
       "flagKey": null
     },
@@ -22501,6 +22513,24 @@
       "sha256": null,
       "verified": true,
       "note": "One exact-build read-only probe found pattern_api.GetInternalShapeInformation absent from CLO 2026.1.310 for all nine patterns. C-only JSON and rendered screenshot hashes are recorded. No geometry or V03 acceptance gate is cleared or changed."
+    },
+    {
+      "id": "E-G04-S582-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S582-clo-runtime-api-inventory/S582-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One read-only exact-build inventory of public pattern_api names, motivated by S581's concrete missing-method result; no undocumented method invocation or geometry/acceptance claim."
+    },
+    {
+      "id": "E-G04-S582-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S582-clo-runtime-api-inventory/S582-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact-build read-only inventory returned 217 pattern_api public names. It confirms actual presence/absence of relevant methods; no getter was called and no V03 acceptance gate clears. C-only result/script/screenshot hashes are recorded."
     }
   ]
 }

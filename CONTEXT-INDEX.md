@@ -1,19 +1,21 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S581 exit
+## Current EPIC-17/G04 V03 boundary — S582 exit
 
-- S581 exit packet:
-  `docs/research/epic17/S581-clo-internal-shape-info/S581-exit-packet.md`.
-  One exact-build, read-only query found
-  `GetInternalShapeInformation` absent from CLO 2026.1.310's `pattern_api`
-  for all nine patterns, despite its public documentation. No shape geometry
-  was returned and no import/export-stage attribution or V03 gate is cleared.
-  Raw JSON and rendered screenshot are hash-recorded in the packet and C:
-  evidence folder. Board replay 3439→3441 keeps V02 Done and V03 In Progress.
-- Next: reserve S582 and inspect the exact-build read-only `pattern_api`
-  namespace for documented line/outline/shape getters before choosing another
-  runtime query. Do not repeat the absent method, guess names, relax the
-  0.001 cm gate, or change V03 acceptance. CLO remains open.
+- S582 exit packet:
+  `docs/research/epic17/S582-clo-runtime-api-inventory/S582-exit-packet.md`.
+  One exact-build read-only inventory returned 217 public names. It confirms
+  availability of the two per-pattern JSON information getters and the
+  internal-point/baseline/outline/line getters, but not `GetInnerShapeList` or
+  `GetInternalShapeInformation`. Names alone establish no geometry, units,
+  role semantics, stage attribution or V03 gate. C-only output/script/screenshot
+  hashes are recorded. Board replay 3443→3445 keeps V02 Done and V03 In
+  Progress.
+- Next: reserve S583 and inspect the actual JSON fields returned by
+  `GetPatternInformation` and `GetPatternInputInformation` across the nine
+  imported patterns; then prioritize the remaining direct exchange checks.
+  Preserve every acceptance gate and the fixed 0.001 cm threshold. CLO remains
+  open.
 
 ## Prior EPIC-17/G04 V03 boundary — S579 exit
 
