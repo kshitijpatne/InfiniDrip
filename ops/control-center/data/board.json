@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3558,
-  "updatedAt": "2026-10-09T10:48:08.829Z",
+  "revision": 3562,
+  "updatedAt": "2026-10-09T10:55:36.564Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11938,6 +11938,16 @@
           "at": "2026-10-09T10:48:08.829Z",
           "actor": "Codex",
           "text": "S606 geometrically maps CLO pattern indexes 0–2 and child shape 2 to the exact S565/S567 source SEW paths, while child shapes 0/1 match CUT paths within 0.0000683 mm. API units and labels do not establish semantic identity or GUI grade selection, so S603 and every V03 gate stay held. Next inspect only the mapped waistband path in CLO and trial source-derived grades only if target selection is unambiguous; otherwise choose another pending V03 gate. See E-G04-S606-EXIT."
+        },
+        {
+          "at": "2026-10-09T10:51:09.701Z",
+          "actor": "Codex",
+          "text": "S607 narrows the remaining practical CLO check to the S606-mapped S565 waistband SEW path. First establish unambiguous selected-point identity; fail closed with no edits if ambiguous. If clear, apply only S567 source-derived SEW deltas to the disposable project, export/reimport once as DXF-ASTM Graded Nest in cm/100%/Do Not Rotate, and compare all five CUT/SEW sizes at 0.001 cm with rendered evidence. All-seven V03 acceptance and every other gate remain unchanged. See E-G04-S607-START."
+        },
+        {
+          "at": "2026-10-09T10:55:36.564Z",
+          "actor": "Codex",
+          "text": "S607 failed closed at the UI precondition: Edit Grading shows 20.0 mm X steps on the selected outer CUT corner; two attempts at the S606-mapped internal SEW endpoint did not select it or change that table. No grade, project or DXF was changed, saved or exported. This is bounded to this project/workflow and clears no V03 gate. Next select a distinct pending V03 question from the current matrix; do not repeat settled probes. See E-G04-S607-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12248,7 +12258,9 @@
         "E-G04-S605-START",
         "E-G04-S605-EXIT",
         "E-G04-S606-START",
-        "E-G04-S606-EXIT"
+        "E-G04-S606-EXIT",
+        "E-G04-S607-START",
+        "E-G04-S607-EXIT"
       ],
       "flagKey": null
     },
@@ -23296,6 +23308,24 @@
       "sha256": null,
       "verified": true,
       "note": "Read-only CLO input-info coordinates uniquely correspond to all three exact S565 source CUT/SEW contours within 0.0000683 mm. This is geometric correspondence only; no V03 gate clears and the S603 grading ambiguity remains held."
+    },
+    {
+      "id": "E-G04-S607-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S607 checks whether the exact S606 source-matched waistband SEW path can be unambiguously graded in the existing CLO disposable project; then, only if confirmed, one source-derived five-size DXF-ASTM export/reimport is compared at 0.001 cm. No product source or acceptance changes."
+    },
+    {
+      "id": "E-G04-S607-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "With CLO Edit Grading active, clicks at the S606-mapped waistband SEW endpoint did not select it; the visible 20 mm per-step grade remains on the outer CUT corner. No values or files were changed and no export was attempted; retain grading and all other V03 holds."
     }
   ]
 }

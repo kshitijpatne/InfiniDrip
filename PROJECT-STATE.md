@@ -1,5 +1,36 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 607 exit; V03 remains open
+
+S607 closed at its fail-closed selection precondition. The open CLO
+2026.1.310 S565 project showed the outer waistband CUT corner selected with
+20 mm X steps per size; clicking the S606-mapped internal SEW endpoint twice
+did not change selection/table. No grade, project, source or DXF was changed,
+saved, imported or exported. This is one bounded UI-workflow failure, not a
+general CLO limitation. C:-only screenshot/accessibility evidence and hashes:
+`docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-exit-packet.md`.
+
+Board start/exit replay: `3558→3560→3562`; G04-V02 remains Done and
+G04-V03/EPIC-17 remain In Progress. Next refresh the matrix and identify a
+non-repeated, directly measurable V03 gate; all acceptance and holds remain
+unchanged. Keep CLO open while G04 testing continues.
+
+## S607 start scope (closed)
+
+S606 closed at `b00abc87` with exact-project path correspondence. Board
+revision is 3558; G04-V02 remains Done and G04-V03/EPIC-17 remain In Progress.
+S607 is uniquely reserved after refresh; `origin/main` is still an ancestor.
+Use the already open CLO 2026.1.310 S565 corrected-sizegroup1 disposable
+project to inspect the mapped waistband internal sewn path. Do not enter grade
+values unless UI selection is unambiguously the path matching source SEW.
+If confirmed, apply only the S567 five-size source deltas to this disposable
+project, export once as DXF-ASTM / Graded Nest / cm / 100% / Do Not Rotate to
+the S607 C:-only folder, then reimport and compare all five CUT and SEW
+contours at `0.001 cm` and inspect the rendered output. Any ambiguity/failure
+keeps the hold. Product authorization and local-only processing are confirmed;
+no production source change, compatibility claim, or acceptance change. See
+`docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-start-packet.md`.
+
 ## EPIC-17 / G04 — Slice 606 exit; V03 remains open
 
 S606 closed at the current branch boundary with read-only geometric identity

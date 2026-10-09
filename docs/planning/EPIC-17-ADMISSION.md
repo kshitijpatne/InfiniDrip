@@ -1,4 +1,35 @@
-## Latest verified boundary — S606 (2026-10-09)
+## Current verified boundary — S607 exit (2026-10-09)
+
+S607 tried to select the exact S606-mapped waistband SEW endpoint with CLO's
+Edit Grading tool. The active selected outer CUT point retained 20 mm X grade
+steps, and two clicks at the SEW endpoint did not select it or change the
+table. No grade, project or DXF file changed. This preserves the specific
+S603 grading hold without making a claim about every CLO workflow. Do not
+repeat the selection query. Next use the current evidence matrix to select a
+different, non-repeated V03 gate. See
+`docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-exit-packet.md`.
+
+Board start/exit replay was `3558→3560→3562`; all-seven V02, V03 acceptance,
+profile, semantics, marks, grade/options, negative-input, round-trip and
+rendered-output criteria remain unchanged. The user-confirmed CLO
+product-development and local-only processing authority remains settled.
+
+## Prior slice — S607 start (2026-10-09)
+
+S607 is reserved from S606 `b00abc87` after refreshing `origin/main` at
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`; the worktree was clean and board
+revision 3558 preserved V02 Done and V03/EPIC-17 In Progress. Inspect the
+already open CLO waistband's source-matched internal sewn path. Grade only if
+the selected target is unambiguous; use source-derived S567 deltas solely in
+the disposable project, export/reimport once with the existing DXF-ASTM graded
+nest profile, compare all five CUT/SEW contours at `0.001 cm` and inspect
+rendered output. Otherwise retain the hold. All files must remain under
+`C:\\G04-CLO-DXF-Exchange\\S607-clo-waistband-sew-grade-trial`.
+No source-pattern change, acceptance modification, or exact-compatibility
+claim is authorized. Full start packet:
+`docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-start-packet.md`.
+
+## Prior verified boundary — S606 exit (2026-10-09)
 
 S606's read-only `GetPatternInputInformation` coordinates map all three
 S565/S567 source CUT/SEW contours within `0.0000683 mm`, using only cyclic

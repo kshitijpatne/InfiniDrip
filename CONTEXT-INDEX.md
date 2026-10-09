@@ -1,5 +1,35 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S607 exit
+
+- S607 observed CLO Edit Grading on the S565 waistband: the selected outer
+  CUT corner has 20 mm X grade steps; two clicks at the S606-mapped inset SEW
+  endpoint did not select it or change that table. The screenshot and
+  accessibility capture are saved on C: with hashes in the S607 exit packet.
+  No value, geometry, project file or DXF changed. This specific grade route
+  remains held; it does not prove all CLO grade workflows fail. Do not repeat
+  this selection query. Next choose a genuinely untested V03 gate from the
+  current matrix. See
+  `docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-exit-packet.md`.
+- User-confirmed CLO product-development use and local-only handling remain
+  settled. All-seven acceptance, V02-before-V03, the 0.001 cm gate, legacy DXF
+  behavior and protected export identities remain unchanged. Preserve every
+  remaining V03 profile, semantics, marks, grade/options, negative-input,
+  round-trip and rendered-output hold.
+
+## S607 start scope (closed)
+
+- S606 maps the open S565 CLO garment's three pattern records and child-shape
+  geometry to its exact source CUT/SEW contours within `0.0000683 mm`; this is
+  geometry correspondence, not API semantics or grading-selection evidence.
+  S607 observes the existing CLO grading UI for the mapped waistband internal
+  path and, only if unambiguously selected, performs the disposable source-
+  derived grade and one DXF-ASTM export/reimport check. All output stays in the
+  named C: exchange folder. No product source/geometry changes or V03 gate
+  relaxations. If selection is ambiguous or output fails the exact five-size
+  `0.001 cm` CUT/SEW comparison, retain the hold. Packet:
+  `docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-start-packet.md`.
+
 ## Current EPIC-17/G04 V03 boundary — S606 exit
 
 - S606 geometrically matched `GetPatternInputInformation` output from all

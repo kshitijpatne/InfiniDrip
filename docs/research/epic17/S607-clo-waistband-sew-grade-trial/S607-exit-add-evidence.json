@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3560,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S607-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-exit-packet.md",
+    "verified": true,
+    "note": "With CLO Edit Grading active, clicks at the S606-mapped waistband SEW endpoint did not select it; the visible 20 mm per-step grade remains on the outer CUT corner. No values or files were changed and no export was attempted; retain grading and all other V03 holds."
+  }
+}
