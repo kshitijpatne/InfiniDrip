@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S563 exit
+## Current EPIC-17/G04 V03 boundary — S564 exit; S565 next
+
+- `docs/research/epic17/S564-clo-native-size-group-probe/S564-exit-packet.md`
+  records two actual CLO 2026.1.310 DXF-ASTM / Graded Nest exports and a
+  same-app re-import. Correct XS/S/M/L/XL block labels did not preserve graded
+  geometry: 6/6 XS contours pass the 0.001 cm gate, only 1/6 contours pass for
+  each S/M/L/XL, and maximum residuals are 2/4/6/8 cm. Waistband output width
+  stays 44.5 cm for all sizes despite visible 20 mm step offsets. CLO
+  re-import renders one coincident outline and states seam allowances are
+  absent/Custom mode is used. This disproves the tested group setup, not every
+  correctly authored CLO graded-DXF path. C:-only exchange/render evidence is
+  in `C:\G04-CLO-DXF-Exchange\S564-clo-native-size-group-probe`.
+- Start/exit board replay is 3369→3371→3373. V03 remains In Progress, V02 is
+  complete, and every V03 criterion stays unchanged and held. CLO remains
+  open. Next: reserve S565 and diagnose the mismatch between the selected
+  source-mapped point offsets, group membership, and actual exported geometry
+  using the saved trial project. Do not repeat the same export without a
+  verified state change.
+
+## Prior EPIC-17/G04 V03 boundary — S563 exit
 
 - `docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-exit-packet.md`
   records a real CLO 2026.1.310 DXF-ASTM / Graded Nest export and re-import

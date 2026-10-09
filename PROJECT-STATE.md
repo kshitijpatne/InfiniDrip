@@ -1,6 +1,38 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 563 exit; V03 remains open
+## EPIC-17 / G04 — Slice 564 exit; V03 remains open
+
+S564 tested CLO 2026.1.310's native Size Group route with exact source-derived
+Skirt XS/S/M/L/XL values and the S562 point map. CLO emitted correctly named
+role/size blocks from separate front/back and waistband groups, but the
+geometry did not follow the source grades: 6/6 XS contours pass the unchanged
+0.001 cm gate, while only 1/6 contours pass for each S/M/L/XL. Maximum
+residuals are 2/4/6/8 cm. The waistband remains 44.5 cm in every emitted size,
+against source widths 44.5/46.5/48.5/50.5/52.5 cm despite visible 20 mm step
+offsets in the CLO point editor. Re-import renders one coincident outline and
+shows a notice that seam allowances are absent and the outlines use Custom
+mode. Exact results and C:-only evidence are in
+`docs/research/epic17/S564-clo-native-size-group-probe/S564-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S564-clo-native-size-group-probe`.
+
+This is a concrete mismatch in the tested group/assignment/export path; it is
+not proof that CLO cannot process a correctly authored graded DXF. No
+product source, pattern geometry, legacy export behavior, protected identity,
+V03 gate, or acceptance criterion changed. CLO remains open. S564 board start
+and exit replay 3369→3371→3373 use the validated command layer. Focused
+analyzer and syntax checks pass; the source geometry gate fails as recorded.
+No product tests or global coverage gate were due.
+
+**Next:** reserve S565 after refreshing origin/history and board. Inspect the
+saved CLO trial project, exact selected grading points and group membership
+against S562's source point map. Determine why visible 20 mm step offsets do
+not alter emitted size contours. Do not change production source or acceptance
+gates; run another receiver export only after point assignment and application
+state are directly established. V03 remains In Progress; every remaining
+profile, all-seven-recipe, semantic, marks, malformed-input, and round-trip
+gate remains held.
+
+## Prior EPIC-17 / G04 — Slice 563 exit; V03 remains open
 
 S563 tested the source-generated Skirt XS/S/M/L/XL files in the running CLO
 2026.1.310 session. The native DXF-ASTM import accepted the selected cohort;

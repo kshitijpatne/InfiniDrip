@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3370,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S564 tests a separate native CLO Size Group route documented in current CLO Help: named size groups, point grading, DXF-ASTM grading export, and same-app re-import using exact source-derived Skirt sizes only. S563's multi-file Open result did not form a grade group. No pattern source, product export, syntax, or V03 gate changes; stop rather than invent any unmatched point rules. All exchange files remain under C:\\G04-CLO-DXF-Exchange\\S564-clo-native-size-group-probe."
+}

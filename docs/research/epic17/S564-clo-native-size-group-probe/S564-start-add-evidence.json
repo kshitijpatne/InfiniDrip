@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3369,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S564-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S564-clo-native-size-group-probe/S564-start-packet.md",
+    "verified": true,
+    "note": "Test CLO's official native Size Group workflow using only exact source-derived Skirt XS/S/M/L/XL point deltas. Build a labeled CLO group and verify DXF-ASTM graded export/re-import against every source contour; stop if mapping is not source-exact. S563's separate-file Open route made XS geometry labeled M. All gates remain unchanged and all exchange files stay in the named C:-only folder."
+  }
+}

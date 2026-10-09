@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3369,
-  "updatedAt": "2026-10-09T00:55:23.588Z",
+  "revision": 3373,
+  "updatedAt": "2026-10-09T02:50:09.299Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11463,6 +11463,16 @@
           "at": "2026-10-09T00:55:23.588Z",
           "actor": "Codex",
           "text": "S563 completed an actual local CLO 2026.1.310 DXF-ASTM round trip from five source-generated Skirt size files. The DXF-ASTM/Graded Nest output contains blocks 0_M, 1_M, 2_M. Geometry matches all six XS contours within the unchanged 0.001 cm gate (max 0.000017 cm) and none of S/M/L/XL; re-import shows three piece roles. This tested multi-file Open route fails size/grade identity. It does not prove a correctly authored graded DXF/Rule File cannot work. No V03 gate or acceptance changes; next establish the exact lawful source-backed CLO graded-DXF input representation, using S562's point map, without guessing syntax."
+        },
+        {
+          "at": "2026-10-09T00:59:30.225Z",
+          "actor": "Codex",
+          "text": "S564 tests a separate native CLO Size Group route documented in current CLO Help: named size groups, point grading, DXF-ASTM grading export, and same-app re-import using exact source-derived Skirt sizes only. S563's multi-file Open result did not form a grade group. No pattern source, product export, syntax, or V03 gate changes; stop rather than invent any unmatched point rules. All exchange files remain under C:\\G04-CLO-DXF-Exchange\\S564-clo-native-size-group-probe."
+        },
+        {
+          "at": "2026-10-09T02:50:09.299Z",
+          "actor": "Codex",
+          "text": "S564 completed a practical CLO 2026.1.310 native Size Group DXF-ASTM/Graded Nest trial. Separate front/back and waistband groups emitted correctly labeled XS/S/M/L/XL block names, but combined geometry only matches 6/6 XS contours and 1/6 at each larger size under the unchanged 0.001 cm gate; max residuals are 2/4/6/8 cm. The waistband stays 44.5 cm wide across all output blocks versus source widths 44.5/46.5/48.5/50.5/52.5 cm, despite visible 20 mm per-step offsets on selected corners. CLO re-import renders one coincident outline and reports no seam allowance/Custom mode. This is a concrete workflow mismatch, not proof the product format is unsupported. Next: inspect the saved C:-folder project and exact assignment/point application state before any corrected export. No gate changes; see E-G04-S564-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11687,7 +11697,9 @@
         "E-G04-S562-START",
         "E-G04-S562-EXIT",
         "E-G04-S563-START",
-        "E-G04-S563-EXIT"
+        "E-G04-S563-EXIT",
+        "E-G04-S564-START",
+        "E-G04-S564-EXIT"
       ],
       "flagKey": null
     },
@@ -21961,6 +21973,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO DXF-ASTM/Graded Nest accepted the Skirt XS/S/M/L/XL trial but emitted three M-labeled blocks. The output matches all 6 XS contours within 0.001 cm (max 0.000017 cm) and 0/6 contours for S/M/L/XL; re-import renders three piece roles, not five grade identities. Tested route fails size-group gate; all V03 gates remain held."
+    },
+    {
+      "id": "E-G04-S564-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S564-clo-native-size-group-probe/S564-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Test CLO's official native Size Group workflow using only exact source-derived Skirt XS/S/M/L/XL point deltas. Build a labeled CLO group and verify DXF-ASTM graded export/re-import against every source contour; stop if mapping is not source-exact. S563's separate-file Open route made XS geometry labeled M. All gates remain unchanged and all exchange files stay in the named C:-only folder."
+    },
+    {
+      "id": "E-G04-S564-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S564-clo-native-size-group-probe/S564-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Practical CLO native size-group trial exported front/back and waistband as separate DXF-ASTM/Graded Nest files. All 6 XS contours match at 0.001 cm, but only 1/6 contours pass for each S/M/L/XL; maximum residuals are 2/4/6/8 cm. The waistband remains XS width in every block despite visible 20 mm step offsets; CLO re-import renders one coincident outline and reports absent seam allowances/Custom mode. V03 remains held."
     }
   ]
 }
