@@ -1,5 +1,28 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 643 closed; V03 remains In Progress
+
+S643 reconciled the five Polo CUT failures with the current recipe and all 17
+S380 STANDARD_M option rows. Source code shows the back-neckline CUT region is
+unaffected by Polo options; the four collar back/base regions are unchanged
+except for a rigid vertical translation when `standHeight` changes. The
+current S634 trace measures up to `0.013974 cm` deviation if the missed
+vertices are removed, beyond the unchanged `0.001 cm` exchange gate. No source
+repair is recommended or authorized; no product source, tolerance, or
+acceptance criterion changed. S642's CLO result remains 9/9 identities, 9/9
+SEW contours and 4/9 CUT contours passing, with the same five CUT failures
+before export. The updated gate matrix and full analysis are in
+`docs/research/epic17/S643-polo-cut-loss-decision-study/`.
+
+Validated S643 start/exit board replay is `3714→3716→3718`; G04-V01/V02 remain
+Done and V03/Epic remain In Progress. Focused Control Center checks passed
+42/42; no production code changed and the full integrated repository gate
+remains due. Next, reserve S644 and inspect existing receiver research for one
+distinct, eligible local apparel-CAD route capable of retaining these source
+coordinates; do not repeat tested CLO modes/entities or delete source points.
+CLO remains open with the saved S642 project. No physical-fit, factory
+acceptance, or production-readiness claim is made.
+
 ## EPIC-17 / G04 — Slice 642 closed; V03 remains In Progress
 
 S642 tested one source-exact new mechanism: putting each Polo M piece's

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3716,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S643-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S643-polo-cut-loss-decision-study/S643-exit-packet.md",
+    "verified": true,
+    "note": "S643 reconciles the five persistent CLO Polo CUT failures with current source and all 17 S380 option rows. The affected source regions are invariant except for rigid collar translation; removing the missed points changes generated CUT geometry by 0.012741–0.013974 cm, exceeding the unchanged 0.001 cm gate. No source repair is recommended or implemented. S642's five pre-export CUT failures, all-seven scope, profile/rights gates, thresholds, holds and statuses remain unchanged. See exit packet and S643 V03 matrix."
+  }
+}

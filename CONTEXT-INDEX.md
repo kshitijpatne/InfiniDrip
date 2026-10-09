@@ -1,5 +1,26 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S643 closed
+
+S643 inspected the five recurrent Polo CUT features in current source and all
+17 S380 option rows. The back neckline is independent of Polo options; the
+four collar back/base paths retain the same curve under `standHeight`
+translation, while other collar options affect front or exterior paths. The
+S634 maximum chord deviation from removing a missed CUT vertex is
+`0.013974 cm`, above the unchanged `0.001 cm` gate. No source repair is
+supported or implemented. S642 still shows nine piece-role identities
+retained but five of nine CUT contours failing in CLO DXF-AAMA before export.
+Updated full V03 matrix and evidence are in
+`docs/research/epic17/S643-polo-cut-loss-decision-study/`.
+
+Board replay `3714→3716→3718` preserves V01/V02 Done and V03/EPIC-17 In
+Progress. Next, review existing receiver research for a distinct, eligible
+local apparel-CAD receiver/profile route that can preserve source geometry;
+otherwise record the concrete availability/rights dependency. Keep the source
+geometry, `0.001 cm` gate, all-seven requirement, and all holds unchanged.
+CLO remains open; do not repeat tested modes/entity encodings. No physical fit,
+factory acceptance, or production-readiness claim is supported.
+
 ## Current EPIC-17/G04 V03 boundary — S642 closed
 
 S642 applied S628's successful named `BLOCK` / identity `INSERT` grouping to

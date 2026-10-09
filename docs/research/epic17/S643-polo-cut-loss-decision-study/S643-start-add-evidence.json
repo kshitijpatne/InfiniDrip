@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3714,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S643-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S643-polo-cut-loss-decision-study/S643-start-packet.md",
+    "verified": true,
+    "note": "Reserves S643 for a proposal-only source/topology study of the five persistent Polo CUT losses, with all-option impact and an updated V03 gate matrix. No pattern/source change, candidate implementation, acceptance adjustment, or repeat CLO trial is authorized by this packet. Preserve all-seven scope, tolerance, rights/profile and every hold."
+  }
+}
