@@ -1,6 +1,35 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 568 exit; V03 remains open
+## EPIC-17 / G04 — Slice 569 exit; V03 remains open
+
+Official CLO materials document an in-app Python editor and DXF APIs, but the
+published grading setter is limited to pattern-outline points. The public API
+index exposes an internal-shape point reader, not a setter for grading those
+points. The listed SDK is for CLO 2026.1.224, not the installed 2026.1.310;
+no version-mismatched API was run. A fresh screenshot of the running CLO
+window again shows the workspace while accessibility reports an Export DXF
+child dialog. No input or file operation followed. The scripting route is not
+qualified to replace S568's practical grade test, and the capture mismatch is
+not evidence of a format failure. User-confirmed trial-use/local-processing
+authorization remains settled. All V03 acceptance gates remain held. Details
+and official links are in
+`docs/research/epic17/S569-clo-python-api-grade-capability/S569-exit-packet.md`.
+
+S569 started from clean S568 `f0e1254`; refreshed `origin/main` `a5af5e1`
+was an ancestor. Board replay is 3389→3391→3393. Focused Control Center tests
+and `git diff --check` pass. No product code or test changed; full repository
+gate was not due. Elapsed 2m02s (03:31:22–03:33:24 UTC): official API/build
+research ~50s; desktop observation ~10s; records, board and focused checks
+~62s; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next:** take a distinct offline V03 evidence action from the current
+candidate/profile matrix; do not repeat CLO exchange or API research. Resume
+the source-derived CLO grade test only after screenshot and accessibility
+observations agree or version-matched support is independently established.
+Keep CLO running; all V03 rights/profile, geometry/semantics, marks, options,
+grading, malformed-input, all-seven and round-trip gates remain in force.
+
+## Prior EPIC-17 / G04 — Slice 568 exit; V03 remains open
 
 S568 followed the documented modal/window inventory. It returned one CLO
 top-level window and no separately targetable modal. A fresh capture shows

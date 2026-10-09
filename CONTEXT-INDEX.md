@@ -1,6 +1,18 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S568 exit
+## Current EPIC-17/G04 V03 boundary — S569 exit
+
+- `docs/research/epic17/S569-clo-python-api-grade-capability/S569-exit-packet.md`
+  screens the official CLO Python API against the installed 2026.1.310 build.
+  It documents a script editor and outline-point grade setter, but no
+  internal-shape grade setter; the listed SDK is for .224. A fresh capture
+  again shows the workspace while accessibility reports Export DXF. No input
+  or file operation followed; all V03 gates remain held.
+- S569 board replay is 3389→3391→3393. CLO remains open. Next: pursue a
+  distinct offline V03 evidence item from the existing profile/candidate
+  matrix; do not repeat the API screen or any prior exchange.
+
+## Prior EPIC-17/G04 V03 boundary — S568 exit
 
 - `docs/research/epic17/S568-sew-line-grade-trial/S568-exit-packet.md`
   records the prescribed CLO window check: one top-level window, no separate

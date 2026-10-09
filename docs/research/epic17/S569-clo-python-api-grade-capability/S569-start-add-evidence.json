@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3389,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S569-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S569-clo-python-api-grade-capability/S569-start-packet.md",
+    "verified": true,
+    "note": "S569 checks first-party CLO Python/API capabilities and exact-build support against S515/S568 without repeating an exchange. One read-only current-window capture is allowed; no UI input or file operation if screenshot/accessibility disagree. All V03 gates remain unchanged."
+  }
+}

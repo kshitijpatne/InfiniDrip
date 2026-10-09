@@ -1,3 +1,22 @@
+## Current EPIC-17/G04 V03 scripting-route screen — S569 exit (2026-10-09)
+
+Official CLO documentation describes its in-app Python editor and DXF
+import/export APIs. The documented grading setter targets pattern-outline
+points; the public API index has a reader for internal-shape points but no
+documented setter for grading them. The SDK listing targets 2026.1.224, not
+the installed 2026.1.310. A fresh capture still shows CLO's workspace while
+accessibility reports an Export DXF child dialog, so no script or UI input was
+safe. The Python path is not qualified to replace the source-derived sew-line
+test. This is not a receiver-format failure and clears no V03 gate. The
+maintainer's written confirmation for trial product-development use and local
+DXF processing remains settled. See
+`docs/research/epic17/S569-clo-python-api-grade-capability/S569-exit-packet.md`.
+
+**Next:** continue a distinct offline V03 evidence item from the existing
+receiver/profile matrix. Do not repeat an exchange or the API screen. Keep CLO
+open and retain the practical sew-line test for a trustworthy app observation
+or a version-matched supported route.
+
 ## Current EPIC-17/G04 V03 seven-recipe gate reconciliation — S547 exit (2026-10-08)
 
 All seven M/default recipes now have two generations on the core CLO
