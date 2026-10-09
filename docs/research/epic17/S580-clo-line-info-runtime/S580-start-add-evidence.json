@@ -1,0 +1,1 @@
+{"type":"addEvidence","expectedRevision":3433,"itemId":"G04-V03","evidence":{"id":"E-G04-S580-START","kind":"document","uri":"docs/research/epic17/S580-clo-line-info-runtime/S580-start-packet.md","verified":true,"note":"One exact-build read-only GetPatternLineInfo test across the nine S574 imported pieces; no setters/export/project save and no gate change."}}

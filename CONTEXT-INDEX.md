@@ -1,18 +1,30 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S579 exit
+## Current EPIC-17/G04 V03 boundary — S580 exit
 
-- S579 exit packet: `docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md`.
-  Official docs identify `GetPatternLineInfo(index)`, a read-only outline-line
-  JSON getter with pattern identity, bounds, line counts, endpoints and
-  lengths. It merits one exact-build test after S578 returned empty outline
-  point arrays. No app action or acceptance change occurred. Board transition
-  3429→3431→3433 keeps V02 Done and V03 In Progress.
-- Next: in S580, call only `GetPatternLineInfo` for the nine current S574
-  pieces; record its JSON under the named C: slice folder and compare the
-  returned geometry to the pinned source where frame/semantics support it.
-  No setters, DXF re-export, project save, or gate relaxation. CLO remains
-  open.
+- S580 exit packet:
+  `docs/research/epic17/S580-clo-line-info-runtime/S580-exit-packet.md`.
+  Exact-build read-only `GetPatternLineInfo` returned nine closed/continuous
+  paths. Under direct documented cm-to-mm conversion and the unchanged
+  0.001 cm threshold, eight match source contours labeled SEW and zero match
+  source CUT; one tiny four-line result has no direct source match. This is
+  geometry correspondence, not CLO role semantics or stage attribution. No
+  V03 gate clears; all criteria remain unchanged. C:-only JSON, comparison,
+  and rendered evidence are hash-recorded in S580. Board replay 3435→3437
+  keeps V02 Done and V03 In Progress.
+- Next: reserve S581 and test only the documented read-only
+  `GetPatternInternalShapePoints` route for source CUT visibility. Respect
+  its separate coordinate frame, require evidenced mapping, preserve the
+  0.001 cm gate, and keep CLO open. No export/re-save, source mutation, or
+  acceptance change.
+
+## Prior EPIC-17/G04 V03 boundary — S579 exit
+
+- S579 official-documentation screen identified the read-only
+  `GetPatternLineInfo(index)` boundary query with identity, bounds, counts,
+  endpoints and lengths. It does not promise curve controls or CUT/SEW roles.
+  Its exact-build runtime check is S580; see
+  `docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md`.
 
 ## Prior EPIC-17/G04 V03 boundary — S578 exit
 

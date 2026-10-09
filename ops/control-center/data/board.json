@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3433,
-  "updatedAt": "2026-10-09T05:03:56.420Z",
+  "revision": 3437,
+  "updatedAt": "2026-10-09T05:18:47.286Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11623,6 +11623,16 @@
           "at": "2026-10-09T05:03:56.420Z",
           "actor": "Codex",
           "text": "S579 found a distinct documented boundary query, GetPatternLineInfo, that returns outline-line coordinates/lengths and merits one exact-build read-only test after S578's empty point output. Internal-shape points use a separate pseudo-bbox frame; stitch getters do not promise edge geometry. See E-G04-S579-EXIT; no gate changed."
+        },
+        {
+          "at": "2026-10-09T05:05:26.012Z",
+          "actor": "Codex",
+          "text": "S580 tests only documented read-only GetPatternLineInfo in the existing CLO .310 session to recover outline endpoints/lengths after S578's empty point getter, comparing only where source/frame evidence permits. No geometry changes, DXF re-export, project save, or gate relaxation. See E-G04-S580-START."
+        },
+        {
+          "at": "2026-10-09T05:18:47.286Z",
+          "actor": "Codex",
+          "text": "S580 completed the one-run, read-only CLO GetPatternLineInfo probe. It returns continuous, closed paths for all nine patterns; eight match source-SEW geometry, zero match source-CUT geometry, and one four-line result has no direct source match at the fixed 0.001 cm gate. No V03 gate is cleared or relaxed, and no import/export, save, pattern mutation, or CUT/SEW semantic inference occurred. Goal remains active. Next: S581 tests the distinct read-only internal-shape points getter with an evidenced frame only. See E-G04-S580-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11879,7 +11889,9 @@
         "E-G04-S578-START",
         "E-G04-S578-EXIT",
         "E-G04-S579-START",
-        "E-G04-S579-EXIT"
+        "E-G04-S579-EXIT",
+        "E-G04-S580-START",
+        "E-G04-S580-EXIT"
       ],
       "flagKey": null
     },
@@ -22441,6 +22453,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official CLO docs expose GetPatternLineInfo: read-only outline-line JSON with pattern identity, bounds, endpoints, lengths and ordered line IDs. This is the next .310 runtime candidate; no app action or gate change."
+    },
+    {
+      "id": "E-G04-S580-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S580-clo-line-info-runtime/S580-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One exact-build read-only GetPatternLineInfo test across the nine S574 imported pieces; no setters/export/project save and no gate change."
+    },
+    {
+      "id": "E-G04-S580-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S580-clo-line-info-runtime/S580-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact-build CLO read-only line-info evidence: 8/9 returned paths geometrically match source SEW contours and 0/9 match source CUT within unchanged 0.001 cm; no V03 gate clears. C-only raw output, comparison, and live screenshot are hash-recorded."
     }
   ]
 }

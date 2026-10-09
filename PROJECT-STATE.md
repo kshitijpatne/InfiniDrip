@@ -1,23 +1,39 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 579 exit; V03 remains open
+## EPIC-17 / G04 — Slice 580 exit; V03 remains open
 
-Official CLO API docs contain another read-only boundary query:
-`GetPatternLineInfo(index)` returns outline line identities/count, bounding
-box, start/end/mid coordinates, and lengths. This is a concrete alternative to
-S578's empty `GetPatternOutlinePoints` result. It does not promise curve
-control points or CUT/SEW roles. Internal-shape point getters use a distinct
-pseudo-bounding-box frame; stitch getters expose group/property data but their
-documented returns do not promise edge coordinates. S579 makes no app call.
-See `docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md`.
+In CLO 2026.1.310, the documented read-only `GetPatternLineInfo(index)` query
+returned successful, continuous, closed line data for all nine indexed
+patterns. Direct comparison at the fixed 0.001 cm threshold found eight
+source-Sew contour matches and zero source-CUT matches; index 3 has a
+3.0001 mm square-like result with no direct source match. The CLO API does
+not encode source layer meaning, and the probe cannot attribute the prior CUT
+loss to import, internal representation, API exposure, or export. No V03
+acceptance gate is cleared and all criteria remain unchanged. Full result,
+hashes and C:-only rendered/API evidence are in
+`docs/research/epic17/S580-clo-line-info-runtime/S580-exit-packet.md`.
 
-Canonical board revision 3433 leaves EPIC-17/G04-V03 In Progress and V02
-Done. `npm run control-center:test` passes 42/42; `git diff --check` passes.
-No production source/tests changed, so the full repository gate is not due.
+Canonical board revision 3437 after validated S580 exit replay leaves G04-V02
+Done and G04-V03 In Progress (exit replay 3435→3437). Focused verification:
+analyzer syntax and schema/geometry checks, `npm run control-center:test`, and
+`git diff --check`. No production source/tests changed, so the full repository
+gate is not due. The goal remains active and aligned to the EPIC-17/G04
+objective.
 
-**Next:** one read-only `GetPatternLineInfo` run over the nine S574 pieces in
-the already-running CLO session, then compare its actual data with source CUT
-geometry without assuming role/frame or lowering 0.001 cm.
+**Next:** reserve S581 and use the distinct read-only
+`GetPatternInternalShapePoints` API in the existing CLO session. Test whether
+source CUT geometry is exposed as internal shape points, accounting only for
+an evidenced coordinate frame and retaining the 0.001 cm gate. Keep CLO open.
+
+## Prior EPIC-17 / G04 — Slice 579 exit
+
+Official CLO API docs identify `GetPatternLineInfo(index)`, a read-only
+boundary query returning line identities/count, bounding box, endpoints,
+midpoints, and lengths. The API does not promise curve control points or
+CUT/SEW roles. Internal-shape point getters use a distinct pseudo-bounding-box
+frame; stitch getters expose group/property data but do not promise edge
+coordinates. S579 makes no app call. See
+`docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md`.
 
 ## Prior EPIC-17 / G04 — Slice 578 exit
 
