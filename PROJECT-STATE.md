@@ -1,29 +1,30 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 580 exit; V03 remains open
+## EPIC-17 / G04 — Slice 581 exit; V03 remains open
 
-In CLO 2026.1.310, the documented read-only `GetPatternLineInfo(index)` query
-returned successful, continuous, closed line data for all nine indexed
-patterns. Direct comparison at the fixed 0.001 cm threshold found eight
-source-Sew contour matches and zero source-CUT matches; index 3 has a
-3.0001 mm square-like result with no direct source match. The CLO API does
-not encode source layer meaning, and the probe cannot attribute the prior CUT
-loss to import, internal representation, API exposure, or export. No V03
-acceptance gate is cleared and all criteria remain unchanged. Full result,
-hashes and C:-only rendered/API evidence are in
-`docs/research/epic17/S580-clo-line-info-runtime/S580-exit-packet.md`.
+One exact-build, read-only CLO 2026.1.310 run confirmed that
+`pattern_api.GetInternalShapeInformation` is absent from the installed module:
+the exact AttributeError occurred for all nine indexed patterns. Public API
+documentation lists the method, but that does not establish runtime
+availability in this build. No shape geometry was returned; the result cannot
+attribute CUT loss to import, internal representation, API exposure, or
+export. No V03 gate clears and every acceptance criterion remains unchanged.
+Raw JSON and rendered evidence are hash-recorded in
+`docs/research/epic17/S581-clo-internal-shape-info/S581-exit-packet.md` and
+the specifically named C: folder.
 
-Canonical board revision 3437 after validated S580 exit replay leaves G04-V02
-Done and G04-V03 In Progress (exit replay 3435→3437). Focused verification:
-analyzer syntax and schema/geometry checks, `npm run control-center:test`, and
-`git diff --check`. No production source/tests changed, so the full repository
-gate is not due. The goal remains active and aligned to the EPIC-17/G04
-objective.
+Canonical board revision 3441 after validated S581 exit replay leaves G04-V02
+Done and G04-V03 In Progress (exit replay 3439→3441). Focused verification:
+result schema/error checks, `npm run control-center:test`, and
+`git diff --check`. No production source/tests changed, so the integrated full
+repository gate remains for the settled PR candidate. Goal remains active and
+aligned to EPIC-17/G04 through safe merge. CLO remains open.
 
-**Next:** reserve S581 and use the distinct read-only
-`GetPatternInternalShapePoints` API in the existing CLO session. Test whether
-source CUT geometry is exposed as internal shape points, accounting only for
-an evidenced coordinate frame and retaining the 0.001 cm gate. Keep CLO open.
+**Next:** reserve S582 and inventory the actual installed `pattern_api` names
+related to pattern lines, outlines and shapes using a read-only query. Use
+that exact-build result to select any further documented getter; do not repeat
+the absent method, guess API names, relax the fixed 0.001 cm gate, or change
+acceptance.
 
 ## Prior EPIC-17 / G04 — Slice 579 exit
 

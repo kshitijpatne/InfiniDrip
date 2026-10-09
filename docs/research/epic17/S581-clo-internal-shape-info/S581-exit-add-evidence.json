@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3439,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S581-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S581-clo-internal-shape-info/S581-exit-packet.md",
+    "verified": true,
+    "note": "One exact-build read-only probe found pattern_api.GetInternalShapeInformation absent from CLO 2026.1.310 for all nine patterns. C-only JSON and rendered screenshot hashes are recorded. No geometry or V03 acceptance gate is cleared or changed."
+  }
+}

@@ -1,22 +1,19 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S580 exit
+## Current EPIC-17/G04 V03 boundary — S581 exit
 
-- S580 exit packet:
-  `docs/research/epic17/S580-clo-line-info-runtime/S580-exit-packet.md`.
-  Exact-build read-only `GetPatternLineInfo` returned nine closed/continuous
-  paths. Under direct documented cm-to-mm conversion and the unchanged
-  0.001 cm threshold, eight match source contours labeled SEW and zero match
-  source CUT; one tiny four-line result has no direct source match. This is
-  geometry correspondence, not CLO role semantics or stage attribution. No
-  V03 gate clears; all criteria remain unchanged. C:-only JSON, comparison,
-  and rendered evidence are hash-recorded in S580. Board replay 3435→3437
-  keeps V02 Done and V03 In Progress.
-- Next: reserve S581 and test only the documented read-only
-  `GetPatternInternalShapePoints` route for source CUT visibility. Respect
-  its separate coordinate frame, require evidenced mapping, preserve the
-  0.001 cm gate, and keep CLO open. No export/re-save, source mutation, or
-  acceptance change.
+- S581 exit packet:
+  `docs/research/epic17/S581-clo-internal-shape-info/S581-exit-packet.md`.
+  One exact-build, read-only query found
+  `GetInternalShapeInformation` absent from CLO 2026.1.310's `pattern_api`
+  for all nine patterns, despite its public documentation. No shape geometry
+  was returned and no import/export-stage attribution or V03 gate is cleared.
+  Raw JSON and rendered screenshot are hash-recorded in the packet and C:
+  evidence folder. Board replay 3439→3441 keeps V02 Done and V03 In Progress.
+- Next: reserve S582 and inspect the exact-build read-only `pattern_api`
+  namespace for documented line/outline/shape getters before choosing another
+  runtime query. Do not repeat the absent method, guess names, relax the
+  0.001 cm gate, or change V03 acceptance. CLO remains open.
 
 ## Prior EPIC-17/G04 V03 boundary — S579 exit
 
