@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3416,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S575 confirms no acceptable source CUT path survives in the hash-pinned CLO gen1 file across closed/open polylines, LINE/open-fragment components, blocks, layers, and INSERT transforms. This closes only the alternate-entity hypothesis for that file; it does not identify whether input or export caused the change. Keep all V03 technical gates and all-seven V02 scope/holds. Next: isolate source-versus-receiver stage with a distinct evidence-led diagnostic; no repeated LINE trial or tolerance change. See E-G04-S575-EXIT."
+}

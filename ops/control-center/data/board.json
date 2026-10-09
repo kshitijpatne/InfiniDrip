@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3413,
-  "updatedAt": "2026-10-09T04:31:32.113Z",
+  "revision": 3417,
+  "updatedAt": "2026-10-09T04:42:50.626Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11573,6 +11573,16 @@
           "at": "2026-10-09T04:31:32.113Z",
           "actor": "Codex",
           "text": "S574 is a measured no-go for this line-chain candidate: CLO imports/exports/re-imports and renders nine pieces, but 9/9 source CUT contours miss the fixed 0.001 cm gate against their matched piece blocks. Nine SEW contour geometries match, though output layer meaning is ambiguous. Generation two was not run. The next action is to trace CUT/SEW role/entity mapping in gen1 before another representation trial; no acceptance or hold changed. See E-G04-S574-EXIT."
+        },
+        {
+          "at": "2026-10-09T04:37:26.807Z",
+          "actor": "Codex",
+          "text": "S575 maps source CUT paths to the already-produced S574 generation-one DXF's full entity inventory. It tests whether CUT geometry survives in alternate output entity forms before any new receiver trial; the 0.001 cm gate, V03/V02 scope and all holds stay unchanged."
+        },
+        {
+          "at": "2026-10-09T04:42:50.626Z",
+          "actor": "Codex",
+          "text": "S575 confirms no acceptable source CUT path survives in the hash-pinned CLO gen1 file across closed/open polylines, LINE/open-fragment components, blocks, layers, and INSERT transforms. This closes only the alternate-entity hypothesis for that file; it does not identify whether input or export caused the change. Keep all V03 technical gates and all-seven V02 scope/holds. Next: isolate source-versus-receiver stage with a distinct evidence-led diagnostic; no repeated LINE trial or tolerance change. See E-G04-S575-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11819,7 +11829,9 @@
         "E-G04-S573-START",
         "E-G04-S573-EXIT",
         "E-G04-S574-START",
-        "E-G04-S574-EXIT"
+        "E-G04-S574-EXIT",
+        "E-G04-S575-START",
+        "E-G04-S575-EXIT"
       ],
       "flagKey": null
     },
@@ -22291,6 +22303,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO 2026.1.310 accepted, exported and re-imported the Polo M connected-LINE diagnostic and rendered nine pieces, but the unchanged 0.001 cm geometry comparison found 0/9 source CUT contours within gate against their corresponding output blocks; 9/9 SEW contours have exact geometry matches, with duplicate candidate layers. Generation two was not run. Rights/local handling remain settled, but CUT/SEW mapping and other V03 gates stay held. See the C:-only DXF, saved projects, rendered snapshot and JSON analysis."
+    },
+    {
+      "id": "E-G04-S575-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S575-polo-output-entity-map/S575-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only audit of the saved S574 Polo gen1 DXF to locate each source CUT contour across closed/open polylines, LINE chains, blocks and layers. It uses same-piece SEW geometry as an association cross-check, preserves 0.001 cm and all acceptance gates, and does not repeat CLO or change production."
+    },
+    {
+      "id": "E-G04-S575-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S575-polo-output-entity-map/S575-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Entity-by-entity audit of S574 gen1 finds no source CUT path within 0.001 cm in any output block or path entity. Unique paired-SEW paths associate all nine blocks; isolated POINTs are not contour paths. The combined source-to-CLO route remains failed without stage attribution. All V03/V02 gates stay unchanged. C:-only JSON report and hashes are documented in the exit packet."
     }
   ]
 }

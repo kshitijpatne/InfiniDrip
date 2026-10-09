@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3413,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S575-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S575-polo-output-entity-map/S575-start-packet.md",
+    "verified": true,
+    "note": "Read-only audit of the saved S574 Polo gen1 DXF to locate each source CUT contour across closed/open polylines, LINE chains, blocks and layers. It uses same-piece SEW geometry as an association cross-check, preserves 0.001 cm and all acceptance gates, and does not repeat CLO or change production."
+  }
+}

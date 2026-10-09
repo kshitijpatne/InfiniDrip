@@ -1,34 +1,43 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 574 exit; V03 remains open
+## EPIC-17 / G04 — Slice 575 exit; V03 remains open
 
-S574 practically tested one Polo M CUT representation in the authorized local
-CLO 2026.1.310 session. DXF-AAMA imported and rendered the connected LINE
-derivative; CLO exported and re-imported generation one and rendered nine
-pieces. The unchanged 0.001 cm comparison failed for all nine source CUT
-contours against closed contours in their corresponding output blocks; all
-nine source SEW contours have exact candidates, with duplicate candidates in
-eight blocks and unresolved numeric layer meanings. No second generation was
-run. This is a concrete geometry/semantic blocker, not a rights or local
-processing concern. No compatibility/conformance claim follows.
+S575 starts from clean S574 commit 96787c16cfb557c19d902e21edac3b2801837037.
+Refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an
+ancestor. Slice 575 is unique; board start replay 3413→3415 keeps G04-V03
+In Progress.
 
-The exact input, derivative, output, project and rendered-output hashes,
-profiles, warnings and measurements are in
-docs/research/epic17/S574-polo-line-chain-representation/S574-exit-packet.md
-and the C:-only evidence folder. Keep the active CLO session open. No
-production source, tests, generic/legacy DXF behavior, protected export
-identities, acceptance scope or tolerance changed. V01/V02 remain Done and
-unchanged; G04-V03 remains In Progress, all technical V03 gates remain held.
+S575 exhaustively maps the S574 generation-one DXF's path-bearing entities
+against source Polo M CUT/SEW pairs. Each source SEW uniquely identifies one
+output block; none of the nine source CUT contours has a within-0.001 cm
+candidate in any of the nine blocks across closed/open polylines, direct LINEs,
+same-layer open fragments, cross-layer open fragments, or all-path-layer
+connected networks. Two trouser-leg blocks have three
+isolated POINT markers coincident with CUT vertices; those points do not form
+an ordered contour. The file has no curved path entities or nonzero polyline
+bulges; numeric layers remain unnamed. Exact report and analysis method:
+docs/research/epic17/S575-polo-output-entity-map/S575-exit-packet.md and the
+C:-only report it hashes. This establishes no acceptable CUT path survives in
+the saved gen1 file; it does not attribute the transformation to CLO import or
+export. No repeat CLO action, production source/test, garment geometry,
+tolerance, acceptance, or claim changed. All V03 and all-seven V02 holds stay.
+The rights/local handling confirmation remains settled; CLO stays open.
 
-S574 started 2026-10-09 04:11:27 UTC from S573 52b0adec; refreshed origin/main
-a5af5e1 remains an ancestor; slice 574 is unique. Board replay
-3409→3411→3413. The slice packet records the focused Control Center
-verification and diff check, the elapsed-time breakdown, and next action.
+**Next:** scope a distinct diagnosis of source-DXF versus receiver stages using
+the newly confirmed entity omission; no repeated connected-LINE trial and no
+tolerance change. Keep legacy DXF behavior, protected export identities,
+0.001 cm threshold and all-seven V02 acceptance unchanged.
 
-**Next:** inspect the actual gen1 entity/layer mapping against the source CUT
-and SEW path identities to establish where the CUT contours went. Use that
-evidence to decide on one technically justified next experiment. Keep the
-0.001 cm threshold, all-seven acceptance and export identities unchanged.
+## Prior EPIC-17 / G04 — Slice 574 exit
+
+S574's connected-LINE candidate imported/exported/re-imported in CLO and
+rendered nine pieces. Its gen1 geometry audit found 0/9 source CUT paths within
+0.001 cm against closed contours in their associated blocks; nine SEW contours
+have exact candidates, but duplicated output geometry and numeric layer
+semantics remain unresolved. Generation two was withheld. No acceptance or
+V03 hold changed. Full evidence:
+docs/research/epic17/S574-polo-line-chain-representation/S574-exit-packet.md.
+Slice 574 landed as 96787c16cfb557c19d902e21edac3b2801837037.
 
 ## Prior EPIC-17 / G04 — Slice 573 exit
 

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3414,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S575 maps source CUT paths to the already-produced S574 generation-one DXF's full entity inventory. It tests whether CUT geometry survives in alternate output entity forms before any new receiver trial; the 0.001 cm gate, V03/V02 scope and all holds stay unchanged."
+}

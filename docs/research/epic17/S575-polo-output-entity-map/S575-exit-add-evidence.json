@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3415,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S575-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S575-polo-output-entity-map/S575-exit-packet.md",
+    "verified": true,
+    "note": "Entity-by-entity audit of S574 gen1 finds no source CUT path within 0.001 cm in any output block or path entity. Unique paired-SEW paths associate all nine blocks; isolated POINTs are not contour paths. The combined source-to-CLO route remains failed without stage attribution. All V03/V02 gates stay unchanged. C:-only JSON report and hashes are documented in the exit packet."
+  }
+}

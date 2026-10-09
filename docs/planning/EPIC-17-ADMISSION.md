@@ -1,4 +1,37 @@
-## Current EPIC-17/G04 V03 boundary — S573 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S575 exit (2026-10-09)
+
+S575 exhaustively mapped source Polo M CUT/SEW pairs against S574's actual
+generation-one DXF. Unique exact SEW contours associated every source pair
+with one output block. None of the nine source CUT contours has a path within
+0.001 cm in any output block across closed/open POLYLINE, LINE, same-layer
+and cross-layer open entity paths, or all-path-layer connected networks. Two
+trouser-leg pairs have three isolated POINT markers
+coincident with CUT vertices; isolated POINT entities do not encode an ordered
+contour. No curved path entities or nonzero polyline bulges occur, and numeric
+layers remain semantically unnamed. Thus the saved gen1 file lacks acceptable
+CUT geometry; the combined source→CLO route fails, but this does not attribute
+the change specifically to CLO import or export. No CLO rerun, production
+source, geometry, tolerance, V03/V02 acceptance, or compatibility claim
+changed. Rights/local processing remain settled; CLO remains open. All gates
+and holds remain unchanged.
+
+Start/exit board revisions are recorded in the packet; G04-V03 stays In
+Progress. The full C:-only report, SHA-pinned inputs, candidate details,
+verification, timing, and next action are in
+`docs/research/epic17/S575-polo-output-entity-map/S575-exit-packet.md`.
+
+## Prior EPIC-17/G04 V03 boundary — S574 exit (2026-10-09)
+
+S574 proved CLO accepted/rendered the source-derived connected LINE
+representation and generation-one output, but 0/9 source CUT paths matched a
+closed contour within 0.001 cm; nine paired SEW paths have exact geometry
+candidates, with duplicated candidates and output layer semantics unresolved.
+Generation two was withheld. Rights/local processing are settled; no
+acceptance criteria or claims changed. Evidence:
+docs/research/epic17/S574-polo-line-chain-representation/S574-exit-packet.md.
+S574 landed as 96787c16cfb557c19d902e21edac3b2801837037.
+
+## Prior EPIC-17/G04 V03 boundary — S573 exit (2026-10-09)
 
 S573 reconciles the S558 gate picture with S557–S572. The named profile
 identity `CLO 2026.1.310 / DXF-AAMA` and local/product-development
