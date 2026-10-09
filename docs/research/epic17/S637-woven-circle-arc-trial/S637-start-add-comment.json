@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3689,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S637 tests a new, measured CLO mark-geometry hypothesis only: the S629 Woven CIRCLE→12-point-polyline output exceeds 0.001 cm by 0.005113 cm sagitta. One C:-only derivative replaces each of eight CIRCLEs with four exact quarter-ARCs; all other entities and settings stay fixed. Query native full-circle/CUT/SEW geometry and inspect detailed rendered marks; no export unless all applicable pre-export gates pass. This is a practical entity-encoding check, not a profile-conformance claim. Preserve all V03 holds. See E-G04-S637-START."
+}

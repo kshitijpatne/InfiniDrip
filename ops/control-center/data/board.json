@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3688,
-  "updatedAt": "2026-10-09T20:22:53.227Z",
+  "revision": 3692,
+  "updatedAt": "2026-10-09T20:52:36.469Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12238,6 +12238,16 @@
           "at": "2026-10-09T20:22:53.227Z",
           "actor": "Codex",
           "text": "S636 varied only CLO's DXF import mode from S635 Standard to DXF-ASTM, keeping the hash-pinned S617 source revision, coordinate-identical CUT-LWPOLYLINE derivative, CLO build, settings, identity binding and 0.001 cm geometry gate fixed. Both runs return four exact CUT passes and the same five omitted vertices with 0.012736–0.013970 cm joined-chord deviations, so the completed CLO import matrix does not justify another format/settings permutation for these points. DXF-ASTM import returned nine identities without API errors; the button-placket child-shape count differs (S635 9/S636 6), retained only as an unexplained diagnostic. Actual scene and five rendered contour comparisons are reviewed and hash-pinned. Stop-before-export honored; no source/export/acceptance/status/hold change. See E-G04-S636-EXIT."
+        },
+        {
+          "at": "2026-10-09T20:32:43.802Z",
+          "actor": "Codex",
+          "text": "S637 tests a new, measured CLO mark-geometry hypothesis only: the S629 Woven CIRCLE→12-point-polyline output exceeds 0.001 cm by 0.005113 cm sagitta. One C:-only derivative replaces each of eight CIRCLEs with four exact quarter-ARCs; all other entities and settings stay fixed. Query native full-circle/CUT/SEW geometry and inspect detailed rendered marks; no export unless all applicable pre-export gates pass. This is a practical entity-encoding check, not a profile-conformance claim. Preserve all V03 holds. See E-G04-S637-START."
+        },
+        {
+          "at": "2026-10-09T20:52:36.469Z",
+          "actor": "Codex",
+          "text": "S637 tested one bounded source-exact mark-encoding hypothesis in the existing CLO session. Eight Woven MARK_BUTTON circles became 32 exact quarter-arcs with every other parsed entity unchanged. DXF-AAMA import returned 12 named patterns and zero API errors, but the native query exposes no independently identifiable button-mark records and the actual 1:1 CLO snapshot/detail omits all seven placket buttons and the stand mark. This is a measured rendered-mark failure; no export or round trip was attempted. No setting permutation, source/product geometry, profile claim, threshold, V03 gate, status, or hold changed. See E-G04-S637-EXIT and its hash-pinned C:-only evidence."
         }
       ],
       "evidenceRefs": [
@@ -12618,7 +12628,9 @@
         "E-G04-S635-START",
         "E-G04-S635-EXIT",
         "E-G04-S636-START",
-        "E-G04-S636-EXIT"
+        "E-G04-S636-EXIT",
+        "E-G04-S637-START",
+        "E-G04-S637-EXIT"
       ],
       "flagKey": null
     },
@@ -24296,6 +24308,24 @@
       "sha256": null,
       "verified": true,
       "note": "Final CLO LWPOLYLINE × DXF-ASTM matrix cell reproduces S635 Standard's four CUT passes/five failures on the same source revision and exact CUT representation at 0.001 cm. Actual CLO project/API data, overview and five rendered contours are hash-pinned in the C:-only S636 folder. Button-placket child shape count differs (9 vs 6) and is recorded without semantic interpretation. Packet stop-before-export honored; no DXF export or gate/status/hold change. CLO CUT permutation path is complete; next select a distinct receiver/profile from documented rights and exchange evidence."
+    },
+    {
+      "id": "E-G04-S637-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S637-woven-circle-arc-trial/S637-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves a single C:-confined CLO DXF-AAMA trial converting only eight source Woven button CIRCLEs to four exact same-layer quarter-ARCs each, based on S629's measured 0.005113 cm native circle sagitta. Native CUT/SEW/marks and detailed render are checked first; export remains fail-closed. No production geometry or V03 hold changes."
+    },
+    {
+      "id": "E-G04-S637-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S637-woven-circle-arc-trial/S637-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One CLO DXF-AAMA import of the disposable eight-CIRCLE→32-quarter-ARC Woven derivative returned 12 named patterns with no API errors, but the actual CLO 1:1 overview/detail omitted the expected placket buttons and stand mark; native API exposed no separate mark records. Pre-export mark gate failed, so no DXF export/round trip occurred. CLO evidence is hash-pinned under the C:-only S637 folder. V03 gates/holds and all statuses are unchanged."
     }
   ]
 }

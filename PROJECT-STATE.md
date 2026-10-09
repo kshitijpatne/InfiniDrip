@@ -1,6 +1,41 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 636 closed; V03 remains open
+## EPIC-17 / G04 — Slice 637 closed; V03 remains open
+
+S637 tested one bounded alternative for S629's Woven button-circle fidelity
+failure in the already open CLO 2026.1.310 session. Eight source
+`MARK_BUTTON` circles were represented as 32 exact same-center/radius
+quarter-arcs; all other parsed entities were unchanged. DXF-AAMA import
+returned 12 named pieces with zero native-query errors. However, the native
+query exposes no separate button-mark records, and the actual 1:1 CLO
+overview/detail omit the seven placket buttons and stand mark. The rendered
+mark gate therefore fails; no DXF export/round trip was attempted. This is an
+observed output failure and does not assert an internal CLO cause. All C:-only
+input/project/query/render hashes, live import settings and disposition are in
+`docs/research/epic17/S637-woven-circle-arc-trial/S637-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S637-woven-circle-arc-trial\`. No production or
+pattern geometry, threshold, acceptance, status, hold, or profile claim
+changed. V01/V02 remain Done; V03/EPIC-17 remain In Progress. Board replay was
+`3688→3690→3692`; CLO remains open.
+
+S637 started `2026-10-09 20:32:00 UTC` after S636 commit
+`04c37f4da6e4acde7add2638c63643361686c5d9`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+The slice was unique. Focused derivative/hash checks, native-query inspection,
+actual rendered review, validated Control Center tests/replay, and
+`git diff --check` pass; the mark-visibility acceptance of this trial fails.
+No production-code coverage applies. Approximate elapsed time was 20 minutes:
+fixture and setup 3m, CLO import/query/save/render 12m, focused verification
+and visual review 2m, durable closeout 3m, agent waits 0m, maintainer decision
+time 0m. The landed commit subject is `Slice 637: test CLO quarter-arc button
+marks`. Full repo tests/100% coverage and integrated build/browser/output
+gates remain for the settled Epic/PR candidate.
+
+**Next action:** reconcile this measured mark-render failure with the active
+V03 gate matrix and select one distinct receiver/profile gate that has a
+documented, rights-reviewable path. Do not repeat the CLO button entity
+encoding or import-setting permutations without new source evidence. Preserve
+all V03 holds, the all-seven scope, and the `0.001 cm` geometry threshold.
 
 S636 completed the final CLO LWPOLYLINE × DXF-ASTM CUT import cell using the
 existing CLO 2026.1.310 session and the same source revision and derivative

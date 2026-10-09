@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3690,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S637-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S637-woven-circle-arc-trial/S637-exit-packet.md",
+    "verified": true,
+    "note": "One CLO DXF-AAMA import of the disposable eight-CIRCLE→32-quarter-ARC Woven derivative returned 12 named patterns with no API errors, but the actual CLO 1:1 overview/detail omitted the expected placket buttons and stand mark; native API exposed no separate mark records. Pre-export mark gate failed, so no DXF export/round trip occurred. CLO evidence is hash-pinned under the C:-only S637 folder. V03 gates/holds and all statuses are unchanged."
+  }
+}

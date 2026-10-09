@@ -1,17 +1,23 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 slice — S635 in progress
+## Current EPIC-17/G04 V03 boundary — S637 exit
 
-S634's trace tied five recurrent Polo CUT losses to `back.neckline`,
-`backCollar`, and `backCollarBase` allowance samples, including a
-0.0456–0.0470 cm offset step near a 1 cm allowance; the receiver deviation is
-0.01274–0.01397 cm at the unchanged `0.001 cm` gate. No source change or hold
-release. S635 is testing one coordinate-identical encoding change—nine CUT
-POLYLINEs to LWPOLYLINEs—in the existing CLO Standard import workflow. No
-export until native geometry passes; a failed import stops the path. Start
-packet: `docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-start-packet.md`.
-Board start replay is 3680→3682; V01/V02 Done, V03/Epic In Progress. Keep CLO
-open and all V03 holds unchanged.
+S637 tested a single source-exact Woven button-mark representation in the
+existing CLO 2026.1.310 session: eight `MARK_BUTTON` circles became 32
+same-center/radius quarter-arcs, with all other parsed DXF entities unchanged.
+CLO DXF-AAMA import returned 12 named patterns and no native-query errors, but
+the actual 1:1 CLO overview/detail omitted all seven placket buttons and the
+stand mark; the query did not expose separate mark records. The visible-mark
+gate failed, so no export or round trip was attempted. This is a concrete
+receiver/output failure, not an inference about CLO internals. Hashes, render
+settings and verification are in
+`docs/research/epic17/S637-woven-circle-arc-trial/S637-exit-packet.md`; raw
+evidence is confined to `C:\G04-CLO-DXF-Exchange\S637-woven-circle-arc-trial\`.
+Validated board replay was 3688→3690→3692. V01/V02 remain Done, V03/Epic
+remain In Progress, and all V03 holds and thresholds are unchanged. Keep the
+existing CLO session open. Next select a distinct blocking gate from the
+current V03 evidence and rights/profile record; do not repeat the ARC trial or
+vary CLO settings without a new bounded hypothesis.
 
 ## Prior EPIC-17/G04 V03 boundary — S634 exit
 
