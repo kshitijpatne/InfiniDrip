@@ -1,25 +1,26 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S583 exit
+## Current EPIC-17/G04 V03 boundary — S584 exit
 
-- S583 exit packet:
-  `docs/research/epic17/S583-clo-pattern-info-getters/S583-exit-packet.md`.
-  Both documented JSON getters returned parseable values for all nine
-  CLO 2026.1.310 pattern indexes. A constrained geometry comparison finds
-  eight indexed paths matching literal source SEW contours and zero matching
-  CUT. One index is an unmatched 3 mm diamond, and repeated shapes prevent
-  one-to-one piece identity. The getter schema does not establish which
-  import/export stage the observed project represents. C-only input/output/
-  screenshot hashes and the comparison method are recorded. Board replay
-  3447→3449 leaves V02 Done and V03 In Progress.
-- Next: S584 uses the saved, hash-pinned S574 post-input-import/pre-export
-  project in the existing CLO session, and captures `GetPatternInputInformation`
-  once before any export. Compare it with S583 and S574/S575 to isolate whether
-  the same point geometry is present before export. Do not survey more APIs,
-  infer stage from a getter label, relax the 0.001 cm gate, or alter V03 scope.
-  CLO remains open.
+- S584 exit packet:
+  `docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md`.
+  In the hash-pinned S574 post-input-import/pre-export CLO project, all nine
+  documented `GetPatternInputInformation` calls and JSON parses succeeded.
+  Fixed comparison yields eight source-SEW candidates, zero literal-CUT
+  candidates, one unmatched diamond, and repeated-shape identity ambiguity.
+  S583 has the same indexes, counts and candidate sets; corresponding points
+  differ by at most 0.000244140625 mm. The raw getter data is not identical and
+  its public schema does not define CUT/SEW or stage semantics. Thus this
+  geometry observation is present pre-export, but import/export causation is
+  not inferred. S574/S575 separately measure the generation-one output CUT
+  failure. All V03 gates remain unchanged; V02 remains Done; CLO stays open.
+- Next: S585 reconciles the confirmed rights/local-processing basis with the
+  existing DXF-ASTM and DXF-AAMA Polo results and S584's pre-export data to
+  decide whether any tested CLO profile/settings can meet the fixed geometry
+  and full V03 gates. Do not repeat known exchanges or API surveys. Close CLO
+  only on measured evidence; preserve every acceptance criterion.
 
-## Prior EPIC-17/G04 V03 boundary — S579 exit
+## Prior EPIC-17/G04 V03 boundary — S579 exit## Prior EPIC-17/G04 V03 boundary — S579 exit
 
 - S579 official-documentation screen identified the read-only
   `GetPatternLineInfo(index)` boundary query with identity, bounds, counts,

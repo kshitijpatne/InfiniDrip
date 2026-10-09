@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3452,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S584 opened the hash-pinned S574 post-import/pre-export project in the existing CLO session and ran GetPatternInputInformation once for each of nine patterns; all calls and JSON parses succeeded. At the fixed 0.001 cm gate, eight indexes match literal source SEW contours, none match source CUT, index 3 remains unmatched, and repeated shapes keep identity ambiguous. The same indexes, counts, source-candidate sets, and geometry result occur in S583; corresponding points differ by at most 0.000244 mm, while raw/parsed getter records are not identical. This confirms the observed getter paths exist in the saved pre-export project, but the getter documents no CUT/SEW or pipeline-stage contract. S574/S575 separately show the actual generation-one DXF misses all source CUT contours at the unchanged gate. No technical compatibility gate clears, and V03 scope remains unchanged. See E-G04-S584-EXIT."
+}

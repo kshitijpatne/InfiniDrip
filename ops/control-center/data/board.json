@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3449,
-  "updatedAt": "2026-10-09T05:46:50.705Z",
+  "revision": 3453,
+  "updatedAt": "2026-10-09T06:06:29.671Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11663,6 +11663,16 @@
           "at": "2026-10-09T05:46:50.705Z",
           "actor": "Codex",
           "text": "S583 made one run of GetPatternInformation and GetPatternInputInformation across nine CLO 2026.1.310 pattern indexes. All 18 calls returned parseable JSON. Under a fixed scale and translation-only geometry comparison, eight indexed paths match literal source SEW contours within 0.001 cm; none match source CUT. Index 3 returns an unmatched 3 mm diamond, while repeated rectangular/44-point shapes prevent one-to-one identity proof. The getter schema does not establish import/export stage, so no causal attribution or V03 gate clears. Next S584 compares one read-only input-information capture from the hash-pinned saved pre-export S574 project to isolate whether the same pattern-path result exists before export. See E-G04-S583-EXIT."
+        },
+        {
+          "at": "2026-10-09T05:48:33.517Z",
+          "actor": "Codex",
+          "text": "S584 opens the hash-pinned S574 post-input-import/pre-export project in the existing CLO 2026.1.310 session and captures GetPatternInputInformation once across nine indexes. This isolates whether S583's pattern point geometry is already present before export. CLO stays open. No import/export or project save is performed, and no stage cause or V03 gate is presumed. See E-G04-S584-START."
+        },
+        {
+          "at": "2026-10-09T06:06:29.671Z",
+          "actor": "Codex",
+          "text": "S584 opened the hash-pinned S574 post-import/pre-export project in the existing CLO session and ran GetPatternInputInformation once for each of nine patterns; all calls and JSON parses succeeded. At the fixed 0.001 cm gate, eight indexes match literal source SEW contours, none match source CUT, index 3 remains unmatched, and repeated shapes keep identity ambiguous. The same indexes, counts, source-candidate sets, and geometry result occur in S583; corresponding points differ by at most 0.000244 mm, while raw/parsed getter records are not identical. This confirms the observed getter paths exist in the saved pre-export project, but the getter documents no CUT/SEW or pipeline-stage contract. S574/S575 separately show the actual generation-one DXF misses all source CUT contours at the unchanged gate. No technical compatibility gate clears, and V03 scope remains unchanged. See E-G04-S584-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11927,7 +11937,9 @@
         "E-G04-S582-START",
         "E-G04-S582-EXIT",
         "E-G04-S583-START",
-        "E-G04-S583-EXIT"
+        "E-G04-S583-EXIT",
+        "E-G04-S584-START",
+        "E-G04-S584-EXIT"
       ],
       "flagKey": null
     },
@@ -22561,6 +22573,24 @@
       "sha256": null,
       "verified": true,
       "note": "Two exact-build read-only JSON getters returned nine records each. Constrained geometry comparison finds eight indexed point paths matching literal source SEW contours, zero matching CUT, one unmatched 3 mm diamond, and repeated-shape identity ambiguity. No import/export stage or V03 gate is inferred."
+    },
+    {
+      "id": "E-G04-S584-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S584-preexport-clo-input-isolation/S584-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One pre-export stage-isolation check from the hash-pinned saved S574 input-import project using a single documented read-only getter across nine patterns; no export, changes, stage attribution, or gate relaxation."
+    },
+    {
+      "id": "E-G04-S584-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The hash-pinned S574 post-input-import/pre-export project returned nine successful GetPatternInputInformation records. Fixed comparison finds eight literal-SEW candidates, zero literal-CUT candidates, and index 3 unmatched; the same candidate sets occur in S583 with a maximum corresponding-point delta of 0.000244 mm. Getter semantics do not establish CUT/SEW roles or causation. S574/S575 still record the concrete gen1 CUT-path failure; no V03 gate clears."
     }
   ]
 }

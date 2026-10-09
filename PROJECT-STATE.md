@@ -1,35 +1,40 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 583 exit; V03 remains open
+## EPIC-17 / G04 — Slice 584 exit; V03 remains open
 
-In one run against the existing CLO 2026.1.310 project, the documented
-`GetPatternInformation` and `GetPatternInputInformation` getters returned
-parseable JSON for all nine indexes (18 calls, no errors). The first getter
-returned metadata only. The second returned line and point lists; compared at
-the fixed 0.001 cm tolerance against the pinned S574 Polo M fixture, eight
-indexed paths have at least one literal SEW-contour candidate and zero have a
-CUT-contour candidate. Index 3 is an unmatched 3 mm diamond; repeated
-rectangles/44-point contours leave piece identity ambiguous. This schema
-doesn't establish import/export stage, so the result does not attribute the
-known CUT loss. Details, method constraints, and C-only hashes are in
-`docs/research/epic17/S583-clo-pattern-info-getters/S583-exit-packet.md`.
+S584 opened the hash-pinned S574 Polo M project saved after input import and
+before export in the running CLO 2026.1.310 session, then ran the documented
+`GetPatternInputInformation(index)` getter once across its nine patterns. All
+calls and JSON parses succeeded. At the unchanged 0.001 cm geometry gate,
+eight indexes match literal source SEW contours, zero match literal CUT, and
+index 3 remains unmatched. Indexes 4, 7 and 8 retain repeated-shape identity
+ambiguity. Against S583, counts and source-candidate sets match, while
+corresponding points differ by at most 0.000244140625 mm; raw/parsed getter
+records are not identical. The returned field has no documented CUT/SEW or
+pipeline-stage semantics. This shows the observed getter geometry exists in
+the selected pre-export project, but does not assign import/export causation.
+S574/S575 independently record the concrete generation-one DXF CUT-path
+failure. No V03 gate clears or changes. Full method, exact hashes, rendered
+screenshots and inference limits are in
+`docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md`.
 
-Canonical board revision 3449 after validated S583 exit replay leaves G04-V02
-Done and G04-V03 In Progress (exit replay 3447→3449). JSON/schema, constrained
-geometry-comparison, screenshot-hash, `npm run control-center:test`, board
-preflight/replay/status, and `git diff --check` are focused gates. No product
-source/tests changed; the full repository gate remains reserved for the
-settled PR candidate. Goal remains active and aligned to EPIC-17/G04 through
-safe merge. CLO remains open.
+Canonical board revision 3453 after validated S584 exit replay leaves
+G04-V02 Done and G04-V03 In Progress. JSON/project hash, point/candidate
+comparison, screenshot hashes, focused Control Center tests 42/42,
+board preflight/replay/status, and `git diff --check` are focused gates. No
+production source/tests changed; the full repository gate remains reserved
+for the settled PR candidate. Goal remains active and aligned to EPIC-17/G04
+through safe merge. CLO remains open.
 
-**Next:** S584 loads the saved and hash-pinned S574 pre-export imported project
-in the current CLO session and captures its input-information getter once
-before export. Compare with S583 and the pinned S574/S575 results to isolate
-whether the same pattern paths are already present before export. This is a
-single stage-isolation check, not a broader API survey. No stage attribution,
-gate relaxation, or V03 scope change is presumed.
+**Next:** S585 reconciles the now-settled rights confirmation with existing
+S498 DXF-ASTM and S574/S575 DXF-AAMA Polo measurements plus the S584
+pre-export observation. Decide from those records whether any tested CLO
+profile/settings can meet the unchanged Polo/V03 gates; do not repeat a known
+exchange, API survey, or S574 generation-one run. If none can pass, close the
+CLO candidate on measured evidence and continue the admitted V03 work without
+weakening criteria.
 
-## Prior EPIC-17 / G04 — Slice 579 exit
+## Prior EPIC-17 / G04 — Slice 579 exit## Prior EPIC-17 / G04 — Slice 579 exit
 
 Official CLO API docs identify `GetPatternLineInfo(index)`, a read-only
 boundary query returning line identities/count, bounding box, endpoints,
