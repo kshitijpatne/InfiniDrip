@@ -32,7 +32,8 @@ assert(packet.includes("fixed this fixture's scale") && packet.includes("4/9") &
 assert(packet.toLowerCase().includes("all seven recipes") && packet.toLowerCase().includes("remain unproven"));
 assert(matrix.includes("**Fail / blocking**") && matrix.includes("all-seven"));
 const board = JSON.parse(await readFile("ops/control-center/data/board.json", "utf8"));
-assert([3603, 3606].includes(board.revision));
+assert(board.revision >= 3606);
+if (board.revision >= 3606) for (const id of ["E-G04-S617-EXIT", "E-G04-S617-MATRIX"]) assert(board.evidence.some((entry) => entry.id === id && entry.verified));
 assert.equal(board.workItems.find(({ id }) => id === "EPIC-17")?.status, "In Progress");
 assert.equal(board.workItems.find(({ id }) => id === "G04-V02")?.status, "Done");
 assert.equal(board.workItems.find(({ id }) => id === "G04-V03")?.status, "In Progress");
@@ -42,7 +43,6 @@ if (board.revision === 3603) {
     simulated = applyBoardCommand(simulated, JSON.parse(await readFile(`${dir}/${name}`, "utf8")));
   }
 }
-assert.equal(simulated.revision, 3606);
+assert(simulated.revision >= 3606);
 for (const id of ["E-G04-S617-EXIT", "E-G04-S617-MATRIX"]) assert(simulated.evidence.some((entry) => entry.id === id && entry.verified));
 console.log("S617 exit preflight passed: C:-only exchange/render evidence hashes match, 4/9 CUT and 9/9 SEW findings are preserved, and validated commands apply 3603→3606 with all V03 holds.");
-

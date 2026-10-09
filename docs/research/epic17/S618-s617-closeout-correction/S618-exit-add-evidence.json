@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3608,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S618-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S618-s617-closeout-correction/S618-exit-packet.md",
+    "verified": true,
+    "note": "S618 corrects S617's close timestamp/elapsed ledger and removes the extra PROJECT-STATE.md EOF blank line. S617 results and all G04/V03 holds remain unchanged."
+  }
+}
