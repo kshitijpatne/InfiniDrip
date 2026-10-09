@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3720,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S644-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S644-local-receiver-route-screen/S644-exit-packet.md",
+    "verified": true,
+    "note": "S644 reconciles S548/S554/S641 and screens PatternSoft, MPattern, and OpenMarker against public primary sources. None meets local, no-cost, two-way apparel CAD interchange: PatternSoft lacks documented DXF exchange, MPattern editor export/save requires paid Cloud, and OpenMarker has import but export is planned and it is not production-ready. No data was transferred or software installed. CLO's S642 geometry failure and S643 no-source-repair result remain; all V03 gates/holds and statuses are unchanged."
+  }
+}

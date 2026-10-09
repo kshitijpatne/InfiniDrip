@@ -1,5 +1,25 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S644 closed
+
+S644 screened prior receiver evidence plus newer no-cost/local candidates.
+PatternSoft does not document DXF exchange; MPattern's browser editor requires
+paid Cloud for export/save; OpenMarker documents local DXF import but is not
+production-ready and has export planned. No new candidate qualifies for a
+local two-way industrial apparel profile under current constraints. CLO use
+remains authorized, but its S642 Polo import fails five CUT contours at the
+unchanged `0.001 cm` gate. S643 found no source repair supported by current
+pattern evidence. Full gate matrix and citations are in
+`docs/research/epic17/S644-local-receiver-route-screen/`.
+
+Validated board replay `3718→3720→3722` leaves V01/V02 Done and V03/Epic In
+Progress. Next, inspect existing product-side profile/export work for a
+previously untested source-exact representation; do not repeat completed CLO
+trials. If no falsifiable in-scope route remains, record receiver access as an
+external dependency. Keep all-seven acceptance, source geometry, tolerance,
+legacy DXF, and all V03 holds unchanged. CLO remains open; no physical fit,
+factory acceptance, or production-readiness claim is supported.
+
 ## Current EPIC-17/G04 V03 boundary — S643 closed
 
 S643 inspected the five recurrent Polo CUT features in current source and all

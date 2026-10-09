@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3718,
-  "updatedAt": "2026-10-09T22:59:34.522Z",
+  "revision": 3722,
+  "updatedAt": "2026-10-09T23:06:02.071Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12318,6 +12318,16 @@
           "at": "2026-10-09T22:59:34.522Z",
           "actor": "Codex",
           "text": "S643 closed the source-option study without repeating CLO. Across all 17 existing S380 Polo M option rows, the five failed CUT regions are unchanged except for rigid collar translation with standHeight. Removing the missed vertices would alter current product CUT geometry by up to 0.013974 cm, above the fixed 0.001 cm exchange gate; code and pattern-specific evidence do not establish physical redundancy. No repair is recommended. The S643 matrix reconciles S642 (9/9 role identities, 13/18 contours passing, pre-export fail) and keeps every V03 gate/hold unchanged. Next identify one distinct eligible local apparel-CAD receiver/profile route; preserve source geometry and do not repeat tested CLO settings/entities. See E-G04-S643-EXIT."
+        },
+        {
+          "at": "2026-10-09T23:01:45.097Z",
+          "actor": "Codex",
+          "text": "S644 screens existing receiver evidence for one distinct eligible local apparel-CAD route that can preserve the exact Polo CUT geometry now documented in S643. Official product/license sources only for genuinely new candidates; no software installation, supplier contact, upload, repeated CLO permutations, source edit, threshold/scope change, or hold release. See E-G04-S644-START."
+        },
+        {
+          "at": "2026-10-09T23:06:02.071Z",
+          "actor": "Codex",
+          "text": "S644 found no new receiver eligible under the current local/no-cost/no-contact boundary. PatternSoft documents only PDF/SVG output; MPattern imports AAMA/ASTM DXF but editor export/save requires paid Cloud; OpenMarker imports DXF but is not production-ready and its export flow is planned. No product data was loaded. CLO remains the only confirmed authorized local receiver but S642's five Polo CUTs fail before export; S643 shows deleting those source features breaches the unchanged 0.001 cm gate. All V03 acceptance and holds remain. See E-G04-S644-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12712,7 +12722,9 @@
         "E-G04-S642-START",
         "E-G04-S642-EXIT",
         "E-G04-S643-START",
-        "E-G04-S643-EXIT"
+        "E-G04-S643-EXIT",
+        "E-G04-S644-START",
+        "E-G04-S644-EXIT"
       ],
       "flagKey": null
     },
@@ -24516,6 +24528,24 @@
       "sha256": null,
       "verified": true,
       "note": "S643 reconciles the five persistent CLO Polo CUT failures with current source and all 17 S380 option rows. The affected source regions are invariant except for rigid collar translation; removing the missed points changes generated CUT geometry by 0.012741–0.013974 cm, exceeding the unchanged 0.001 cm gate. No source repair is recommended or implemented. S642's five pre-export CUT failures, all-seven scope, profile/rights gates, thresholds, holds and statuses remain unchanged. See exit packet and S643 V03 matrix."
+    },
+    {
+      "id": "E-G04-S644-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S644-local-receiver-route-screen/S644-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S644 to reconcile existing receiver research and verify any genuinely new no-cost, local, rights-eligible apparel CAD exchange route after S643 confirmed the five Polo CUT source features must be preserved. Documentation-only; no installation, supplier contact, cloud use, product/source change, acceptance change, CLO repetition, or hold release."
+    },
+    {
+      "id": "E-G04-S644-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S644-local-receiver-route-screen/S644-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S644 reconciles S548/S554/S641 and screens PatternSoft, MPattern, and OpenMarker against public primary sources. None meets local, no-cost, two-way apparel CAD interchange: PatternSoft lacks documented DXF exchange, MPattern editor export/save requires paid Cloud, and OpenMarker has import but export is planned and it is not production-ready. No data was transferred or software installed. CLO's S642 geometry failure and S643 no-source-repair result remain; all V03 gates/holds and statuses are unchanged."
     }
   ]
 }

@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 644 closed; no eligible alternate receiver found
+
+S644 reconciled prior receiver screens and checked newer candidate sources.
+PatternSoft is local but documents PDF/SVG output, not apparel DXF exchange;
+MPattern's browser editor imports DXF but requires paid Cloud to export/save;
+OpenMarker imports DXF locally but is not production-ready and has export
+planned. None qualifies for the admitted local two-way industrial profile.
+Existing CLO use remains authorized, but S642's five Polo CUT failures and
+S643's no-source-repair conclusion remain. No acceptance, geometry, or hold
+changed. Full evidence and gate matrix: `docs/research/epic17/S644-local-receiver-route-screen/`.
+
+Board replay `3718→3720→3722` preserves V01/V02 Done and V03/Epic In Progress;
+focused Control Center checks pass 42/42. Next, reserve S645 and inspect the
+existing product-side profile/export work for any untested source-exact route;
+do not repeat completed CLO entity, spline, grouping, unit, or setting trials.
+If no falsifiable in-scope route exists, record the receiver-access dependency
+without changing the all-seven scope, `0.001 cm` gate, or any other hold. CLO
+remains open. No physical-fit, factory-acceptance, or production-readiness
+claim is made.
+
 ## EPIC-17 / G04 — Slice 643 closed; V03 remains In Progress
 
 S643 reconciled the five Polo CUT failures with the current recipe and all 17
