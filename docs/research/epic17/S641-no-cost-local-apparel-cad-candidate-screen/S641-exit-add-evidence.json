@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3708,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S641-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S641-no-cost-local-apparel-cad-candidate-screen/S641-exit-packet.md",
+    "verified": true,
+    "note": "S641 screened official public evidence for Seamly2D, garment.dev and CAD4Fashion without installs, contact, spending or file transfer. Seamly2D documents no DXF import; garment.dev is hosted; CAD4Fashion is relevant but public no-cost local evaluation/product-use rights are unverified and obtaining access would require prohibited vendor contact. No newly screened route qualifies under current constraints. Existing V03 gates, all-seven scope, thresholds and holds remain unchanged. See packet for sources and reconciliation with CLO/OpenCAD Studio evidence."
+  }
+}

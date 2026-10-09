@@ -1,5 +1,38 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 641 closed; V03 remains In Progress
+
+S641 screened official public evidence for three distinct apparel-CAD
+candidates under the existing no-cost/local/no-hosted/no-supplier-contact
+constraints. No new candidate qualifies: Seamly2D documents DXF export but no
+DXF import; garment.dev is a hosted service with some server-side DXF and
+grading operations; CAD4Fashion documents relevant apparel DXF modes and
+local/network file handling but public sources do not establish a no-cost
+local evaluation or rights for this product-development use. Accessing the
+CAD4Fashion demo requires vendor contact, which this slice did not make.
+This bounded screen is not proof that no qualifying receiver exists.
+
+The V03 gate matrix and every gate/hold remain unchanged. CLO stays the
+maintainer-authorized local empirical receiver, but S620–S622 and S635–S640
+already record failures for the tested receiver/profile/geometry/mark
+permutations; S640's connected-LINE subset is explicitly not a novel entity
+family. S641 performed no install, file transfer, export/import, source or
+acceptance change. The S641 packet and primary-source links are at
+`docs/research/epic17/S641-no-cost-local-apparel-cad-candidate-screen/`.
+Validated board closeout is revision 3710; V01/V02 remain Done and V03/EPIC-17
+remain In Progress. CLO remains open. No physical-fit, factory-acceptance, or
+production-readiness claim is supported.
+
+S641 began at `2026-10-09 22:23:42 UTC` from S640 commit
+`5c971baf26690d977c423175ef6167412f0c7a29`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Start replay
+was `3706→3708`; exit replay is recorded in S641's packet and command files.
+No production-code coverage applies. Focused Control Center tests and board
+preflight passed. Do not repeat a CLO setting/entity permutation without a
+distinct, falsifiable hypothesis tied to an open V03 criterion. Next identify
+such a test from the remaining evidence or record the exact missing receiver/
+profile authority; no acceptance change is implied.
+
 ## EPIC-17 / G04 — Slice 640 closed; V03 remains In Progress
 
 S640 isolated the five affected Polo CUT contours as connected, ordered
