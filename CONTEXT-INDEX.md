@@ -1,6 +1,23 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S585 exit
+## Current EPIC-17/G04 V03 boundary — S586 exit
+
+- S585 closed at `4befb327bc027d8573b578fe1f696796af7c9bb0`; its bounded
+  tested-profile disposition is in
+  `docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md`.
+- S586 hash-checked seven source and seven CLO DXFs. The product encodes CUT
+  and SEW separately but lacks explicit units, stable piece/revision identity,
+  serialized mark IDs/labels, and native grade relationships. Five unmatched
+  Polo CUT contours remain measured failures; 78 marks without direct matches
+  are not proof of loss. No acceptance, source behavior, or legacy bytes
+  changed. Exit packet:
+  `docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md`.
+- Board exit replay is 3459→3461; G04-V02 Done and G04-V03/EPIC-17 In
+  Progress. Next S587 defines an additive source/profile contract from
+  retained evidence before any new export. The goal remains active and
+  aligned; CLO remains open.
+
+## Prior EPIC-17/G04 V03 boundary — S585 exit
 
 - S584 closed at commit `2d1ed375558cacdd541921a71ce02590582781ea`; see
   `docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md`.

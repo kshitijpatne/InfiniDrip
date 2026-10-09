@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3457,
-  "updatedAt": "2026-10-09T06:13:51.465Z",
+  "revision": 3461,
+  "updatedAt": "2026-10-09T06:23:07.218Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11683,6 +11683,16 @@
           "at": "2026-10-09T06:13:51.465Z",
           "actor": "Codex",
           "text": "S585 hash-checked 14 existing C:-only artifacts and reviewed the saved Standard DXF render. Each tested CLO output choice has a measured Polo failure: Standard DXF visibly collapses on second import; AAMA/ASTM and AAMA/AAMA routes retain five CUT vertices beyond 0.001 cm; the connected-LINE AAMA trial misses all nine CUTs. S584's pre-export getter remains semantically/stage ambiguous. CLO 2026.1.310 is closed as a candidate for these tested configurations only, not as a general CLO/DXF incompatibility claim. Rights/local processing and named profile identity remain settled; no technical V03 gate clears or changes. See E-G04-S585-EXIT."
+        },
+        {
+          "at": "2026-10-09T06:15:58.620Z",
+          "actor": "Codex",
+          "text": "S586 audits the current product DXF writer against the seven hash-pinned M/default recipe outputs and S573's remaining V03 gates. It maps source pieces, CUT/SEW, marks, units, layer/entity content, and size/grade evidence to determine whether a concrete source/profile defect exists. This is read-only: no production edit, regeneration, CLO action, or gate relaxation. See E-G04-S586-START."
+        },
+        {
+          "at": "2026-10-09T06:23:07.218Z",
+          "actor": "Codex",
+          "text": "S586 separates product-source omissions from receiver observations. The selected-size writer has no explicit units, stable identity, mark IDs/labels, or grade relationships; these are profile-contract work, not a demonstrated cause of the five Polo CUT corner losses. CUT/SEW are already separate at source, while CLO mixes them in nine output layers. 78 marks lack direct geometry matches, which does not prove loss. Next: produce a source/profile-backed additive contract before any changed export; preserve legacy DXF and all V03 gates. See E-G04-S586-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11951,7 +11961,9 @@
         "E-G04-S584-START",
         "E-G04-S584-EXIT",
         "E-G04-S585-START",
-        "E-G04-S585-EXIT"
+        "E-G04-S585-EXIT",
+        "E-G04-S586-START",
+        "E-G04-S586-EXIT"
       ],
       "flagKey": null
     },
@@ -22621,6 +22633,24 @@
       "sha256": null,
       "verified": true,
       "note": "Hash-checked existing CLO Standard, AAMA/ASTM, and AAMA Polo evidence shows every tested output path fails the unchanged geometry/round-trip gate or renders collapsed outlines. CLO is closed only as a candidate for these tested configurations; V03 gates remain."
+    },
+    {
+      "id": "E-G04-S586-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S586-product-dxf-source-map/S586-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only source-to-output audit of the existing seven recipe M/default DXF fixtures against the V03 gate matrix; no production edits, DXF regeneration, CLO action, or gate change."
+    },
+    {
+      "id": "E-G04-S586-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S586 hash-checked seven source and seven CLO generation-two DXFs. The product writer explicitly separates CUT/SEW, but omits units, stable piece/revision identity, mark IDs/labels, and native grade relationships. Five unmatched Polo CUT contours remain independently measured failures; 78 non-direct mark matches are not proof of loss. No acceptance or source behavior changed."
     }
   ]
 }

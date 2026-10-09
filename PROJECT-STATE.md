@@ -1,6 +1,23 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 585 exit; V03 remains open
+## EPIC-17 / G04 — Slice 586 exit; V03 remains open
+
+S586 hash-checked the seven M/default source DXFs and seven retained CLO
+DXF-AAMA generation-two outputs. The product source separates CUT and SEW but
+does not serialize explicit units, stable piece/revision identity, mark
+IDs/labels, or native grade relationships. Five Polo CUT contours have no
+direct receiver match and remain independently measured geometry failures;
+78 unmatched mark geometries are not proof of loss. Nine CLO output layers
+mix observed CUT/SEW semantics. No criterion, gate, threshold, baseline,
+legacy DXF, source geometry, or protected byte identity changed. Details:
+`docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md`.
+
+Validated board exit replay is 3459→3461. G04-V02 remains Done;
+G04-V03/EPIC-17 remains In Progress. Next S587 defines the additive
+source/profile contract from retained evidence before any changed export.
+The goal remains active and aligned; CLO stays open.
+
+## Prior EPIC-17 / G04 — Slice 585 exit; V03 remains open
 
 S585 reconciled and hash-checked existing CLO evidence. The Standard DXF
 second-generation render collapses outlines; AAMA-import/ASTM-export variants

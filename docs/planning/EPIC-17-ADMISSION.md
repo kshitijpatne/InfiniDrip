@@ -1,3 +1,20 @@
+## Current EPIC-17/G04 V03 source-map audit — S586 exit (2026-10-09)
+
+S586 hash-checked the seven source and seven receiver M/default DXFs. The
+product writer encodes CUT and SEW separately but lacks explicit units, stable
+piece/revision identity, serialized mark IDs/labels, and native grade
+relationships. Five Polo CUT contours remain measured geometry failures;
+78 marks without direct same-kind/geometry matches are not proof of loss.
+Nine CLO output layers mix observed CUT/SEW semantics. The audit does not
+attribute the Polo loss to the source writer. No V03 criterion, legacy writer,
+protected bytes, threshold, source geometry, or claim changed. See:
+`docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md`.
+
+Board start/exit replay is 3457→3459→3461; G04-V02 remains Done and
+G04-V03/EPIC-17 remains In Progress. Next S587 defines an additive
+source/profile contract from retained evidence before any changed export.
+Rights and local processing remain settled; CLO stays open.
+
 ## Current EPIC-17/G04 V03 boundary — S585 exit (2026-10-09)
 
 S585 hash-checked and reconciled saved CLO Standard, AAMA/ASTM and AAMA
