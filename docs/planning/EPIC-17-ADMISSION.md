@@ -1,3 +1,19 @@
+## Current EPIC-17/G04 V03 boundary — S585 exit (2026-10-09)
+
+S585 hash-checked and reconciled saved CLO Standard, AAMA/ASTM and AAMA
+Polo outputs plus the S584 pre-export observation. The tested Standard
+second-generation render collapses; AAMA/ASTM and AAMA routes fail the fixed
+Polo CUT gate; connected-LINE AAMA input misses all nine CUTs. CLO 2026.1.310
+is closed only as a candidate for these tested configurations, not generally.
+Rights/local handling and narrow profile identity remain supported. The
+getter does not identify CUT/SEW semantics or pipeline stage. No V03 gate or
+claim changes. Board 3453→3455→3457 preserves EPIC-17/G04-V03 In Progress and
+G04-V01/V02 Done. Packet:
+`docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md`.
+Next S586 audits product-emitted recipe DXF entities against the remaining V03
+matrix for a specific source/profile mapping defect before any code change or
+new receiver test.
+
 ## Current EPIC-17/G04 V03 boundary — S577 exit (2026-10-09)
 
 The current official SDK page still maps SDK 11.0.0 to CLO 2026.1.224, not

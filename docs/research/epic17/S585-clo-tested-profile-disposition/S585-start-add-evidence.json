@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3453,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S585-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S585-clo-tested-profile-disposition/S585-start-packet.md",
+    "verified": true,
+    "note": "Evidence-only reconciliation of previously tested CLO Standard, AAMA, ASTM, and line-chain paths against unchanged Polo/V03 gates. No rerun, UI action, threshold/scope change, or universal compatibility claim."
+  }
+}

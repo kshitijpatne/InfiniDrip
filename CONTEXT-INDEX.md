@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S584 exit
+## Current EPIC-17/G04 V03 boundary — S585 exit
+
+- S584 closed at commit `2d1ed375558cacdd541921a71ce02590582781ea`; see
+  `docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md`.
+- S585 exit packet:
+  `docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md`.
+  Hash-checked the existing Standard, AAMA/ASTM and AAMA outputs, connected-
+  LINE input, and S584 pre-export evidence. Each tested CLO output choice has
+  a measured Polo geometry or usable-round-trip failure. CLO 2026.1.310 is
+  closed only as a candidate for those tested configurations; the result is
+  not generalized to other CLO versions/settings or DXF. Rights/local handling
+  and narrow profile identity remain supported; technical V03 gates remain.
+- Current board revision 3457; G04-V02 Done, G04-V03 and EPIC-17 In Progress.
+- The active goal remains active and matches the admitted Epic; do not pause or
+  replace it. CLO remains open.
+- Next: S586 audits product-emitted seven-recipe DXF entities against the
+  remaining gate matrix for a specific source/profile mapping issue before any
+  code change or further receiver test.
+
+## Prior EPIC-17/G04 V03 boundary — S584 exit
 
 - S584 exit packet:
   `docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md`.

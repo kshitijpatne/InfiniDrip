@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3453,
-  "updatedAt": "2026-10-09T06:06:29.671Z",
+  "revision": 3457,
+  "updatedAt": "2026-10-09T06:13:51.465Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11673,6 +11673,16 @@
           "at": "2026-10-09T06:06:29.671Z",
           "actor": "Codex",
           "text": "S584 opened the hash-pinned S574 post-import/pre-export project in the existing CLO session and ran GetPatternInputInformation once for each of nine patterns; all calls and JSON parses succeeded. At the fixed 0.001 cm gate, eight indexes match literal source SEW contours, none match source CUT, index 3 remains unmatched, and repeated shapes keep identity ambiguous. The same indexes, counts, source-candidate sets, and geometry result occur in S583; corresponding points differ by at most 0.000244 mm, while raw/parsed getter records are not identical. This confirms the observed getter paths exist in the saved pre-export project, but the getter documents no CUT/SEW or pipeline-stage contract. S574/S575 separately show the actual generation-one DXF misses all source CUT contours at the unchanged gate. No technical compatibility gate clears, and V03 scope remains unchanged. See E-G04-S584-EXIT."
+        },
+        {
+          "at": "2026-10-09T06:09:57.151Z",
+          "actor": "Codex",
+          "text": "S585 reconciles existing CLO Standard DXF, AAMA/ASTM, DXF-AAMA, and source line-chain Polo measurements with S584's pre-export observation. It determines only whether any tested configuration can meet the unchanged Polo and V03 gates. No CLO operation is repeated, no stage cause or generalized incompatibility is inferred, and all acceptance criteria remain. See E-G04-S585-START."
+        },
+        {
+          "at": "2026-10-09T06:13:51.465Z",
+          "actor": "Codex",
+          "text": "S585 hash-checked 14 existing C:-only artifacts and reviewed the saved Standard DXF render. Each tested CLO output choice has a measured Polo failure: Standard DXF visibly collapses on second import; AAMA/ASTM and AAMA/AAMA routes retain five CUT vertices beyond 0.001 cm; the connected-LINE AAMA trial misses all nine CUTs. S584's pre-export getter remains semantically/stage ambiguous. CLO 2026.1.310 is closed as a candidate for these tested configurations only, not as a general CLO/DXF incompatibility claim. Rights/local processing and named profile identity remain settled; no technical V03 gate clears or changes. See E-G04-S585-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11939,7 +11949,9 @@
         "E-G04-S583-START",
         "E-G04-S583-EXIT",
         "E-G04-S584-START",
-        "E-G04-S584-EXIT"
+        "E-G04-S584-EXIT",
+        "E-G04-S585-START",
+        "E-G04-S585-EXIT"
       ],
       "flagKey": null
     },
@@ -22591,6 +22603,24 @@
       "sha256": null,
       "verified": true,
       "note": "The hash-pinned S574 post-input-import/pre-export project returned nine successful GetPatternInputInformation records. Fixed comparison finds eight literal-SEW candidates, zero literal-CUT candidates, and index 3 unmatched; the same candidate sets occur in S583 with a maximum corresponding-point delta of 0.000244 mm. Getter semantics do not establish CUT/SEW roles or causation. S574/S575 still record the concrete gen1 CUT-path failure; no V03 gate clears."
+    },
+    {
+      "id": "E-G04-S585-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S585-clo-tested-profile-disposition/S585-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Evidence-only reconciliation of previously tested CLO Standard, AAMA, ASTM, and line-chain paths against unchanged Polo/V03 gates. No rerun, UI action, threshold/scope change, or universal compatibility claim."
+    },
+    {
+      "id": "E-G04-S585-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Hash-checked existing CLO Standard, AAMA/ASTM, and AAMA Polo evidence shows every tested output path fails the unchanged geometry/round-trip gate or renders collapsed outlines. CLO is closed only as a candidate for these tested configurations; V03 gates remain."
     }
   ]
 }

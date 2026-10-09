@@ -1,6 +1,26 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 584 exit; V03 remains open
+## EPIC-17 / G04 — Slice 585 exit; V03 remains open
+
+S585 reconciled and hash-checked existing CLO evidence. The Standard DXF
+second-generation render collapses outlines; AAMA-import/ASTM-export variants
+and AAMA round trip fail the unchanged 0.001 cm Polo CUT gate on the same five
+corners; the connected-LINE AAMA route misses all nine CUT paths. The S584
+pre-export getter has no documented CUT/SEW or stage semantics. Thus CLO
+2026.1.310 is closed as a candidate for the tested G04 configurations only;
+no universal incompatibility or import/export-stage claim is made. Rights,
+local file handling, and the narrow named-profile identity remain settled.
+Full findings and hashes:
+`docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md`.
+
+Canonical board revision 3457 leaves G04-V02 Done and G04-V03/EPIC-17 In
+Progress. The goal remains active and aligned; CLO remains open. The focused
+Control Center suite passes 42/42; five S585 scripts, 14 artifact hashes,
+nine getter records, validated board replay/preflight, and `git diff --check`
+pass. No production source/tests changed; full repository gates remain due on
+the settled candidate.
+
+## Prior EPIC-17 / G04 — Slice 584 exit; V03 remains open
 
 S584 opened the hash-pinned S574 Polo M project saved after input import and
 before export in the running CLO 2026.1.310 session, then ran the documented
@@ -26,13 +46,12 @@ production source/tests changed; the full repository gate remains reserved
 for the settled PR candidate. Goal remains active and aligned to EPIC-17/G04
 through safe merge. CLO remains open.
 
-**Next:** S585 reconciles the now-settled rights confirmation with existing
-S498 DXF-ASTM and S574/S575 DXF-AAMA Polo measurements plus the S584
-pre-export observation. Decide from those records whether any tested CLO
-profile/settings can meet the unchanged Polo/V03 gates; do not repeat a known
-exchange, API survey, or S574 generation-one run. If none can pass, close the
-CLO candidate on measured evidence and continue the admitted V03 work without
-weakening criteria.
+**Next:** S586 audits the product-emitted seven-recipe DXF entities against
+the remaining V03 gate matrix. Identify whether a concrete source/profile
+mapping defect can be corrected in a separate professional profile while
+preserving the legacy writer and byte identities. No code change or new CLO
+test until the source audit yields a specific measurable mechanism. Preserve
+all technical gates and acceptance criteria.
 
 ## Prior EPIC-17 / G04 — Slice 579 exit## Prior EPIC-17 / G04 — Slice 579 exit
 
