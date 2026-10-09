@@ -1,5 +1,20 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S648 closed
+
+S648 copied the exact S646 OpenCAD R14 Polo M first output into a C:-only
+prepared-input directory and verified its exact SHA-256. Its source-bound
+baseline is nine named pieces / 56 entities, centimeter units, CUT/SEW/MARK,
+and zero residual across two generic OpenCAD generations. This is custody
+only, not receiver/profile qualification. GetonAgain rights/locality remain
+unverified; it was not installed or run and no fixture was imported. CLO was
+not repeated. S640 is already closed with five failed Polo CUT contours at
+the fixed `0.001 cm` pre-export gate. S639/S640 no longer represent the live
+worktree boundary; the latest closed slice is S648. Next: reconcile V03 gates
+and author a prioritized completion plan before reserving any experiment.
+See `docs/research/epic17/S648-getonagain-fixture-preflight/` and S647's
+candidate matrix. All V03 acceptance, all-seven scope, protected identities,
+legacy behavior and holds remain unchanged.
 ## Current EPIC-17/G04 V03 boundary — S647 closed
 
 S647 screened the newly identified GetonAgain Garment CAD V2024.1 from

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3734,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S648-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S648-getonagain-fixture-preflight/S648-start-packet.md",
+    "verified": true,
+    "note": "Reserves S648 to prepare and hash-verify the existing S646 Polo M R14 file in a dedicated C:-only GetonAgain evidence directory, and define the candidate import/stop criteria. No candidate install/run, account, file import/export, CLO repeat, status/gate/hold change, or source change."
+  }
+}

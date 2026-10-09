@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3734,
-  "updatedAt": "2026-10-09T23:47:37.211Z",
+  "revision": 3738,
+  "updatedAt": "2026-10-09T23:51:29.062Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12358,6 +12358,16 @@
           "at": "2026-10-09T23:47:37.211Z",
           "actor": "Codex",
           "text": "S647 found GetonAgain Garment CAD V2024.1 to be a credible apparel DXF/AAMA candidate based on its manual and vendor catalog, but not eligible for a fixture test yet: official sources do not establish trial rights for this product-development evaluation or local-only handling, and its site advertises cloud conversion for other formats. No installer/account/vendor contact/fixture import occurred. V03 remains In Progress with all gates/holds unchanged. See E-G04-S647-EXIT."
+        },
+        {
+          "at": "2026-10-09T23:49:35.664Z",
+          "actor": "Codex",
+          "text": "S648 prepares a hash-pinned copy of the exact S646 Polo M R14 result under a dedicated C:-only folder, with predeclared import settings and fail-closed contour/identity/marks/render gates. This preserves progress while GetonAgain trial rights and local handling remain unverified. No install, account, fixture import, or CLO repeat. See E-G04-S648-START."
+        },
+        {
+          "at": "2026-10-09T23:51:29.062Z",
+          "actor": "Codex",
+          "text": "S648 closes the offline C:-only fixture preflight: exact S646 R14 Polo M first output copied byte-identically (153647 bytes, SHA-256 ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461), with its 9-piece/56-entity/unit/layer baseline. No receiver import or CLO operation occurred; GetonAgain rights/locality remain unverified and every V03 gate/hold is unchanged. S640 is already closed with five CUT failures before export. Next is a bounded evidence reconciliation/plan, not another experiment. See E-G04-S648-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12760,7 +12770,9 @@
         "E-G04-S646-START",
         "E-G04-S646-EXIT",
         "E-G04-S647-START",
-        "E-G04-S647-EXIT"
+        "E-G04-S647-EXIT",
+        "E-G04-S648-START",
+        "E-G04-S648-EXIT"
       ],
       "flagKey": null
     },
@@ -24636,6 +24648,24 @@
       "sha256": null,
       "verified": true,
       "note": "First-party screen finds GetonAgain Garment CAD V2024.1 technically promising (apparel CAD, ASTM/AAMA DXF import/export, free/15-day trial) but not yet rights/locality qualified. It advertises cloud conversion for other CAD formats; direct DXF locality and trial rights remain unknown. No installer or G04 file was opened. All V03 gates and holds remain."
+    },
+    {
+      "id": "E-G04-S648-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S648-getonagain-fixture-preflight/S648-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S648 to prepare and hash-verify the existing S646 Polo M R14 file in a dedicated C:-only GetonAgain evidence directory, and define the candidate import/stop criteria. No candidate install/run, account, file import/export, CLO repeat, status/gate/hold change, or source change."
+    },
+    {
+      "id": "E-G04-S648-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S648-getonagain-fixture-preflight/S648-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S648's C:-only copy of the exact S646 Polo M R14 first output is 153647 bytes and SHA-256 ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461, byte-identical to source; S646 geometry baseline and manifest retained. Custody-only: no GetonAgain/CLO import, rights still unverified, no V03 gate or hold changes. S640 was already closed with five CUT failures before export."
     }
   ]
 }

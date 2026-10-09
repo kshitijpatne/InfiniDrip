@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3736,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S648-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S648-getonagain-fixture-preflight/S648-exit-packet.md",
+    "verified": true,
+    "note": "S648's C:-only copy of the exact S646 Polo M R14 first output is 153647 bytes and SHA-256 ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461, byte-identical to source; S646 geometry baseline and manifest retained. Custody-only: no GetonAgain/CLO import, rights still unverified, no V03 gate or hold changes. S640 was already closed with five CUT failures before export."
+  }
+}

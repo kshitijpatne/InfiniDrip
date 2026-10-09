@@ -1,5 +1,31 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 648 closed; V03 decision plan next
+
+S648 completes the already-started fixture-custody preflight. The exact S646
+Polo M R14 first output is copied byte-identically (153,647 bytes; SHA-256
+`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`) into
+`C:\G04-CLO-DXF-Exchange\S648-getonagain-fixture-preflight\`; the supporting
+S646 9-piece/56-entity geometry report is copied and hash-recorded. This did
+not install/run GetonAgain, create an account, import/export any file, or
+repeat CLO. Candidate rights and file locality are still unverified. S640 was
+already closed: its connected-LINE test fails five Polo CUTs at `0.001 cm`
+before export. The user's S639/S640 handoff is therefore stale relative to
+the live branch; no test remained running or needed continuation.
+
+The next action is to reconcile each V03 gate from actual evidence and write a
+prioritized completion plan before reserving another experiment. The plan
+must explicitly decide whether any receiver/profile is eligible, distinguish
+vendor-specific empirical behavior from standards conformance, reuse the
+hash-pinned fixture and existing matrices, and state a decisive test and stop
+condition for each blocker group. All seven recipes/options/grades, rights,
+units, geometry, identity/relationships, marks, malformed-input rejection,
+repeatability, readable rendered output, protected identities and legacy DXF
+remain unchanged gates. V01/V02 remain Done; V03/Epic remain In Progress.
+GetonAgain is a candidate only pending rights/local handling and explicit
+installation/run authorization; do not open the fixture before those are
+verified. Evidence: `docs/research/epic17/S648-getonagain-fixture-preflight/`.
+No physical-fit, factory-acceptance or production-readiness claim is made.
 ## EPIC-17 / G04 — Slice 647 closed; V03 remains blocked on receiver/profile access
 
 S647 found one new credible apparel-CAD candidate: GetonAgain Garment CAD
