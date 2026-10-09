@@ -53,6 +53,13 @@ shared views, checks and planning
        digital files to save
 ```
 
+For Woven `sideVentDepth=0`, the front and back drafts join the side seam
+directly to the curved hem: the degenerate vent edge and `VENT TOP` marker do
+not exist, and the side-vent POM has no geometry anchor. Positive vent depths
+retain the explicit vent edge and marker. The zero-depth case is represented
+as a closed construction rather than a zero-length open seam, preventing the
+seam-allowance offset from generating non-finite cut coordinates.
+
 ### Live technical flats (EPIC-17/G04)
 
 The advanced **Technical flat** canvas view turns the current recipe draft into

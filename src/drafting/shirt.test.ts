@@ -1,9 +1,41 @@
 import { describe, expect, it } from "vitest";
-import { edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
+import { blockPieces, edgeEnd, edgeLength, edgeStart, pieceEdge, rolePiece, stitchChecks, STANDARD_M } from "./index";
 import { point } from "../geometry";
-import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
+import { seamAllowance } from "../render/allowance";
+import { addWovenShirtCollar, addWovenShirtHemVent, addWovenShirtPlackets, addWovenShirtYoke, draftWovenShirt, draftWovenShirtBody, draftWovenShirtCollar, draftWovenShirtPlackets, draftWovenShirtPocket, draftWovenShirtSleeves, draftWovenShirtYoke, frontButtonPositions, wovenHipStationY, wovenShirtAllowances, wovenShirtGuidance, WOVEN_SHIRT_ALLOWANCES, WOVEN_SHIRT_BODY_STITCHES, WOVEN_SHIRT_COLLAR_STITCHES, WOVEN_SHIRT_POMS } from "./shirt";
 
 describe("woven shirt body", () => {
+  it("closes a zero-depth vent without a degenerate edge, marker, or non-finite cut coordinates", () => {
+    const block = draftWovenShirt(STANDARD_M, { sideVentDepth: 0 });
+    expect(WOVEN_SHIRT_POMS.find((pom) => pom.label === "Side vent depth")?.anchorAvailable?.(block)).toBe(false);
+    const pieces = blockPieces(block);
+    for (const role of ["front", "back"]) {
+      const piece = block.roles[role];
+      expect(piece.edges.some((edge) => edge.name === "vent")).toBe(false);
+      expect(piece.marks?.some((mark) => mark.name === "ventTop") ?? false).toBe(false);
+      const side = pieceEdge(piece, "sideLower");
+      const hem = pieceEdge(piece, "hem");
+      expect(edgeEnd(side)).toEqual(edgeStart(hem));
+      const cut = seamAllowance(piece, WOVEN_SHIRT_ALLOWANCES);
+      expect(cut.every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y))).toBe(true);
+    }
+    expect(pieces.flatMap((piece) => seamAllowance(piece, WOVEN_SHIRT_ALLOWANCES))
+      .every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y))).toBe(true);
+    expect(stitchChecks(block, block.stitches).every((check) => check.ok)).toBe(true);
+  });
+
+  it("preserves a nonzero vent edge and exact vent-top mark geometry", () => {
+    const block = draftWovenShirt(STANDARD_M, { sideVentDepth: 0.5 });
+    expect(WOVEN_SHIRT_POMS.find((pom) => pom.label === "Side vent depth")?.anchorAvailable?.(block)).toBe(true);
+    const front = block.roles.front;
+    const back = block.roles.back;
+    for (const piece of [front, back]) {
+      const vent = pieceEdge(piece, "vent");
+      expect(edgeLength(vent)).toBe(0.5);
+      expect(piece.marks?.find((mark) => mark.name === "ventTop")).toMatchObject({ at: edgeStart(vent) });
+    }
+  });
+
   it("applies the selected hem-turn allowance only to the two body hems", () => {
     expect(wovenShirtAllowances(1.25).byPieceEdge).toMatchObject({
       "woven front": { hem: 1.25 }, "woven back lower": { hem: 1.25 },

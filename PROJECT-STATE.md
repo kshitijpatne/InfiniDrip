@@ -1,6 +1,41 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 626 exit; V03 remains open
+## EPIC-17 / G04 — Slice 627 exit; V03 remains open
+
+S627 repairs Woven's supported `sideVentDepth=0` source defect. The side and
+curved hem now meet at the original landmark without a degenerate vent edge,
+vent-top marker, or unavailable POM anchor; zero-depth allowances, packed DXF,
+and stitch checks are finite, while the 0.5 cm control retains its explicit
+vent and marker. The final source snapshot is SHA-256
+`0448F4BF9E41DBD4D990A1BF6696C77CAF8DCEE98CC75A933704AB168915DF3E`; all 73
+canonical size-M option rows pass two Open CAD Studio v2026.40.1 R14
+generations at `0.001 cm`, including CUT/SEW/`MARK_*` inventory and geometry,
+and all second generations are byte-identical. One CLO 2026.1.310 DXF-AAMA
+Woven zero-vent import/export/reimport passed all 12 CUT and SEW point-list
+comparisons with maximum `0.000685514 mm` residual, and the reimport render
+shows the twelve pieces without gross damage. CLO's AC1009 output has no
+`$INSUNITS`; numeric pattern names and this single-fixture round trip do not
+establish apparel profile conformance, grade/mark/identity semantics, or the
+all-seven V03 gate. Validated board exit keeps V02 Done and V03/EPIC-17 In
+Progress. Exit packet, S627 gate matrix, timing and exact raw-evidence paths:
+`docs/research/epic17/S627-woven-zero-vent-source-repair/S627-exit-packet.md`,
+`docs/research/epic17/S627-woven-zero-vent-source-repair/V03-CURRENT-GATE-MATRIX-S627.md`,
+and `C:\G04-CLO-DXF-Exchange\S627-woven-zero-vent-source-repair\`.
+
+The next action is to reserve S628 after refreshing `origin/main`, branch
+history, board revision, unique slice number, and dirty state, then select one
+evidence-backed, rights-reviewable industrial apparel receiver/profile
+hypothesis before another multi-option campaign. Keep every V03 criterion,
+hold and threshold unchanged. CLO stays open while EPIC-17 is active.
+
+S627 starts 2026-10-09 15:40:30 UTC from S626 commit
+`d46927ca4647cf1f3915ceddd4938480aef3dc76`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Worktree was
+initially clean, highest slice was 626, and validated start replay was
+3647→3649. Full start scope and gates are in
+`docs/research/epic17/S627-woven-zero-vent-source-repair/S627-start-packet.md`.
+
+## Prior boundary — Slice 626 exit; V03 remains open
 
 S626 started 2026-10-09 15:24:36 UTC from committed S625 `1317d5dd4d721edf5139cacd7f4c8bdd935b6217`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. It ran all 73 S459-accepted S330 size-M option rows through two local Open CAD Studio v2026.40.1 R14 generations. All 73 reopens were byte-identical; 72 valid source rows passed exact CUT/SEW and named `MARK_*` geometry comparison (0 cm residual). The remaining canonical Woven zero-side-vent option generated NaN coordinates in source DXF because a degenerate vent edge receives a 1 cm allowance; the receiver accepts and normalizes this invalid fixture. No `$INSUNITS` contract or full option-wide receiver-render pass was established. Diagnosis, gate matrix, hashes and C:-only evidence are in `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/` and `C:\G04-CLO-DXF-Exchange\S626-opencad-all-options-r14-roundtrip\`. V02 remains Done; V03/EPIC-17 remain In Progress. S627's next action is a narrowly scoped source repair for the supported zero-depth Woven vent, with finite-geometry and nonzero-control checks followed by a full 73-case rerun; no gate changes. CLO remains open.
 

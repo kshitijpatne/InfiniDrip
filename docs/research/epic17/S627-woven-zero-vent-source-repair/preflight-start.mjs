@@ -1,0 +1,20 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+
+const dir = "docs/research/epic17/S627-woven-zero-vent-source-repair";
+const packet = await readFile(`${dir}/S627-start-packet.md`, "utf8");
+const board = JSON.parse(await readFile("ops/control-center/data/board.json", "utf8"));
+const head = (await import("node:child_process")).execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+const subject = (await import("node:child_process")).execFileSync("git", ["show", "-s", "--format=%s", "HEAD"], { encoding: "utf8" }).trim();
+assert(head === "d46927ca4647cf1f3915ceddd4938480aef3dc76" || subject.startsWith("Slice 627:"));
+assert([3647, 3649, 3652].includes(board.revision));
+assert.equal(board.workItems.find((item) => item.id === "G04-V02")?.status, "Done");
+assert.equal(board.workItems.find((item) => item.id === "G04-V03")?.status, "In Progress");
+assert.equal(board.workItems.find((item) => item.id === "EPIC-17")?.status, "In Progress");
+assert.equal(board.evidence.some((item) => item.id === "E-G04-S626-EXIT"), true);
+assert.equal(board.evidence.some((item) => item.id === "E-G04-S627-START"), board.revision >= 3649);
+assert.equal(board.evidence.some((item) => item.id === "E-G04-S627-EXIT"), board.revision === 3652);
+assert.match(packet, /zero-length `vent` edge with a 1 cm seam allowance/);
+assert.match(packet, /all 73 canonical supported-option rows/);
+assert.match(packet, /0\.001 cm/);
+console.log(`S627 start preflight passed at board ${board.revision}; HEAD is S626 d46927ca; statuses unchanged.`);

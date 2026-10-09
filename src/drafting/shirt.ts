@@ -321,17 +321,19 @@ function curvedHemAndVent(piece: Piece, ventDepth: number): Piece {
   const ventTop = point(sideEnd.x, sideEnd.y - ventDepth);
   const updatedEdges = piece.edges.flatMap((edge): Edge[] => {
     if (edge.name === "sideLower") {
+      if (ventDepth === 0) return [edge];
       return [{ kind: "line", name: "sideLower", start: edgeStart(edge), end: ventTop }];
     }
     if (edge.name === "hem") {
-      return [
+      const curvedHem: Edge = { kind: "curve", name: "hem", curve: {
+        start: sideEnd,
+        control1: point((sideEnd.x * 0.66), sideEnd.y + 1),
+        control2: point((sideEnd.x * 0.33), sideEnd.y + 1),
+        end: edgeEnd(edge),
+      } };
+      return ventDepth === 0 ? [curvedHem] : [
         { kind: "line", name: "vent", start: ventTop, end: sideEnd },
-        { kind: "curve", name: "hem", curve: {
-          start: sideEnd,
-          control1: point((sideEnd.x * 0.66), sideEnd.y + 1),
-          control2: point((sideEnd.x * 0.33), sideEnd.y + 1),
-          end: edgeEnd(edge),
-        } },
+        curvedHem,
       ];
     }
     return [edge];
@@ -339,7 +341,7 @@ function curvedHemAndVent(piece: Piece, ventDepth: number): Piece {
   return {
     ...piece,
     edges: updatedEdges,
-    marks: [
+    marks: ventDepth === 0 ? piece.marks : [
       ...(piece.marks ?? []),
       pointMark("placementPoint", "ventTop", ventTop, "VENT TOP"),
     ],
@@ -576,7 +578,7 @@ export const WOVEN_SHIRT_POMS: readonly Pom[] = [
     label: "Side vent depth", tolerance: 0.3,
     measure: (b) => edgeLength(pieceEdge(b.roles.front, "vent")),
     anchor: (b) => pomEdgeMidpoint(b, "front", "vent"), anchorRoleId: "front", anchorEdgeId: "vent",
-    anchorAvailable: (b) => edgeLength(pieceEdge(b.roles.front, "vent")) > 0,
+    anchorAvailable: (b) => b.roles.front.edges.some((edge) => edge.name === "vent" && edgeLength(edge) > 0),
     viewDimension: { kind: "edge-length", view: "FRONT_FLAT", roleId: "front", edgeId: "vent" },
   },
 ];

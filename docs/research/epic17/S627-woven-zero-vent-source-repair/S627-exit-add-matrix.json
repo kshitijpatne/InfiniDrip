@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3650,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S627-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S627-woven-zero-vent-source-repair/V03-CURRENT-GATE-MATRIX-S627.md",
+    "verified": true,
+    "note": "Updated V03 dispositions after the final-source 73-row R14 screen and one CLO DXF-AAMA Woven zero-vent round trip. Records bounded positive results and remaining rights/profile, units, identity/marks, grades, malformed-input, and option-wide rendered holds. No acceptance, threshold, or Epic status changed."
+  }
+}

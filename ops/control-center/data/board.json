@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3647,
-  "updatedAt": "2026-10-09T15:38:45.640Z",
+  "revision": 3652,
+  "updatedAt": "2026-10-09T16:35:08.948Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12138,6 +12138,16 @@
           "at": "2026-10-09T15:38:45.640Z",
           "actor": "Codex",
           "text": "S626 exercised all 73 canonical size-M supported-option fixtures in two local Open CAD Studio R14 generations. Every second-generation file is byte-identical; 72 valid source rows preserve CUT/SEW and named marks exactly. The supported Woven sideVentDepth=0 source row contains NaNs because a zero-length vent edge receives a 1 cm seam allowance; Open CAD accepts it and rewrites it as degenerate geometry, so it is not a pass and exposes an additional malformed-input hold. Source/options/round-trip evidence is bounded general-CAD only; unit semantics and option-wide receiver plots remain open. No V03 gate or all-seven criterion clears or changes. Next S627 repairs and verifies the source degeneracy, then reruns all 73 rows. V02 remains Done; V03 and EPIC-17 remain In Progress. See E-G04-S626-EXIT and E-G04-S626-MATRIX."
+        },
+        {
+          "at": "2026-10-09T15:41:07.760Z",
+          "actor": "Codex",
+          "text": "S627 targets one source defect discovered by the full supported-option screen: Woven sideVentDepth=0 emits a zero-length vent edge with positive allowance, producing NaN coordinates across the DXF; the R14 receiver silently accepts and normalizes it. The bounded fix removes only that degenerate zero-depth vent edge/top marker, preserves all nonzero vent geometry and the stitch graph, adds focused finite-geometry coverage, then reruns all 73 canonical options at 0.001 cm. A single CLO Woven AAMA pre-export trial is conditional on the already-running UI and a passing native-geometry/render gate. No criterion/status changes or industrial-profile claim. See E-G04-S627-START."
+        },
+        {
+          "at": "2026-10-09T16:35:08.948Z",
+          "actor": "Codex",
+          "text": "S627 closes the supported Woven sideVentDepth=0 source NaN defect: no degenerate vent edge/marker remains, the side-to-hem join and allowance coordinates are finite, and the 0.5 cm vent control is unchanged. A regenerated final-source matrix passes 73/73 R14 geometry/mark conversions and byte-identical reopens. One CLO DXF-AAMA Woven zero-vent round trip also matches all 12 CUT/SEW point lists within 0.000685514 mm and renders all twelve pieces without gross damage. These are bounded receiver observations; no industrial profile, unit semantics, stable identity, grading, negative-input, all-seven CLO, or full V03 criterion is declared passed. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress. Preserve every gate and hold. See E-G04-S627-EXIT and E-G04-S627-MATRIX; landed slice commit subject: Slice 627: repair Woven zero-depth vent geometry."
         }
       ],
       "evidenceRefs": [
@@ -12497,7 +12507,10 @@
         "E-G04-S625-MATRIX",
         "E-G04-S626-START",
         "E-G04-S626-EXIT",
-        "E-G04-S626-MATRIX"
+        "E-G04-S626-MATRIX",
+        "E-G04-S627-START",
+        "E-G04-S627-EXIT",
+        "E-G04-S627-MATRIX"
       ],
       "flagKey": null
     },
@@ -23986,6 +23999,33 @@
       "sha256": null,
       "verified": true,
       "note": "Current V03 matrix reconciles S624-S626: 72 valid source options have exact geometry/mark R14 results, 1 supported Woven zero-vent source case is malformed and accepted by receiver, 73/73 reopen files are byte-identical. Industrial profile, unit semantics, identity, grade, negative-input, and option-render gates remain open; all-seven acceptance and thresholds unchanged."
+    },
+    {
+      "id": "E-G04-S627-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S627-woven-zero-vent-source-repair/S627-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S626 isolated a supported Woven sideVentDepth=0 source NaN defect: a zero-length vent edge with 1 cm allowance poisons the DXF. S627 narrowly removes that degenerate edge/marker at zero only, protects nonzero construction, proves finite source geometry, reruns all 73 canonical options through two local R14 generations, and conditionally performs one bounded CLO Woven AAMA pre-export gate. All V03 criteria and threshold remain unchanged."
+    },
+    {
+      "id": "E-G04-S627-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S627-woven-zero-vent-source-repair/S627-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Repairs Woven sideVentDepth=0 without a degenerate vent edge/marker; finite geometry and unchanged 0.5 cm control pass. Regenerated final-source 73-row R14 matrix passes CUT/SEW/MARK_* at 0.001 cm with byte-identical reopens. One CLO DXF-AAMA Woven zero-vent round trip also passes 12-piece CUT/SEW geometry and rendered review; it does not qualify an industrial profile or clear full V03. All gates unchanged."
+    },
+    {
+      "id": "E-G04-S627-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S627-woven-zero-vent-source-repair/V03-CURRENT-GATE-MATRIX-S627.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Updated V03 dispositions after the final-source 73-row R14 screen and one CLO DXF-AAMA Woven zero-vent round trip. Records bounded positive results and remaining rights/profile, units, identity/marks, grades, malformed-input, and option-wide rendered holds. No acceptance, threshold, or Epic status changed."
     }
   ]
 }

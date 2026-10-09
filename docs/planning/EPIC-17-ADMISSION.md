@@ -1,4 +1,21 @@
-## Current verified boundary — S626 exit (2026-10-09)
+## Current verified boundary — S627 exit (2026-10-09)
+
+S627 repairs the Woven zero-depth vent source degeneracy and passes focused
+100% changed-file coverage. The regenerated final-source 73-option cohort
+passes two local R14 conversions, CUT/SEW/`MARK_*` comparisons at `0.001 cm`,
+and byte-identical second generations. One already-running CLO 2026.1.310
+DXF-AAMA Woven zero-vent round trip matches all 12 CUT/SEW point lists within
+`0.000685514 mm` and has a reviewed rendered reimport; this bounded result does
+not qualify an industrial receiver/profile or any full V03 gate. The corrected
+manifest pins the actual dirty S627 source snapshot. G04-V02 remains Done;
+G04-V03 and EPIC-17 remain In Progress with acceptance unchanged. Start, exit,
+current matrix and C:-only raw evidence are linked from
+`docs/research/epic17/S627-woven-zero-vent-source-repair/`. The next action is
+to reserve S628 after a fresh branch/history/board audit and select one
+evidence-backed, rights-reviewable industrial apparel receiver/profile
+hypothesis before another multi-option exchange campaign.
+
+## Prior verified boundary — S626 exit (2026-10-09)
 
 S626 tested the exact S459-accepted 73-row/32-option size-M matrix in two
 local Open CAD Studio v2026.40.1 R14 generations. All 73 reopen outputs were
