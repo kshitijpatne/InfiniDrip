@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3562,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S608-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S608-clo-input-side-stage-diagnosis/S608-start-packet.md",
+    "verified": true,
+    "note": "S608 will query the exact saved S595 input-side CLO scene read-only and compare its returned geometry with hash-pinned source, periodic input, and receiver output to attribute only uniquely matched contour differences; no grade, save, export, source edit, or gate change."
+  }
+}

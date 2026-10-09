@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3562,
-  "updatedAt": "2026-10-09T10:55:36.564Z",
+  "revision": 3566,
+  "updatedAt": "2026-10-09T11:12:34.401Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11948,6 +11948,16 @@
           "at": "2026-10-09T10:55:36.564Z",
           "actor": "Codex",
           "text": "S607 failed closed at the UI precondition: Edit Grading shows 20.0 mm X steps on the selected outer CUT corner; two attempts at the S606-mapped internal SEW endpoint did not select it or change that table. No grade, project or DXF was changed, saved or exported. This is bounded to this project/workflow and clears no V03 gate. Next select a distinct pending V03 question from the current matrix; do not repeat settled probes. See E-G04-S607-EXIT."
+        },
+        {
+          "at": "2026-10-09T11:00:50.349Z",
+          "actor": "Codex",
+          "text": "S608 uses the saved S595 input-side scene confirmed by S601 for one read-only GetPatternInputInformation query. It compares only source-specific, uniquely matched coordinates against hash-pinned input and output to determine whether this fixture's measured changes are already present before export. Missing/ambiguous paths are reported as unattributable. No grade, save, exchange, production edit, or V03 gate/status change. See E-G04-S608-START."
+        },
+        {
+          "at": "2026-10-09T11:12:34.401Z",
+          "actor": "Codex",
+          "text": "S608 queried the saved S595 input-side project with no API errors and bound all nine pieces by exact SEW geometry. Four known passing CUT contours have an in-gate returned-path match; the five failed CUTs do not. Since the getter does not document CUT/SEW or complete-contour semantics, this cannot attribute the failure to import or export. No V03 gate clears. Next consolidate current matrix and audit prior profile/fixture evidence before authorizing a distinct practical test. See E-G04-S608-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12260,7 +12270,9 @@
         "E-G04-S606-START",
         "E-G04-S606-EXIT",
         "E-G04-S607-START",
-        "E-G04-S607-EXIT"
+        "E-G04-S607-EXIT",
+        "E-G04-S608-START",
+        "E-G04-S608-EXIT"
       ],
       "flagKey": null
     },
@@ -23326,6 +23338,24 @@
       "sha256": null,
       "verified": true,
       "note": "With CLO Edit Grading active, clicks at the S606-mapped waistband SEW endpoint did not select it; the visible 20 mm per-step grade remains on the outer CUT corner. No values or files were changed and no export was attempted; retain grading and all other V03 holds."
+    },
+    {
+      "id": "E-G04-S608-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S608-clo-input-side-stage-diagnosis/S608-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S608 will query the exact saved S595 input-side CLO scene read-only and compare its returned geometry with hash-pinned source, periodic input, and receiver output to attribute only uniquely matched contour differences; no grade, save, export, source edit, or gate change."
+    },
+    {
+      "id": "E-G04-S608-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S608-clo-input-side-stage-diagnosis/S608-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only query of the S601-confirmed S595 input-side CLO scene: all nine SEW identities match, but no API-returned path matches the five failed CUTs within 0.001 cm. Because CLO does not document the getter's path semantics, import-versus-export cause remains unattributable; all V03 holds remain."
     }
   ]
 }

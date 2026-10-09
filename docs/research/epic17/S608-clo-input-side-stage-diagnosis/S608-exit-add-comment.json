@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3565,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S608 queried the saved S595 input-side project with no API errors and bound all nine pieces by exact SEW geometry. Four known passing CUT contours have an in-gate returned-path match; the five failed CUTs do not. Since the getter does not document CUT/SEW or complete-contour semantics, this cannot attribute the failure to import or export. No V03 gate clears. Next consolidate current matrix and audit prior profile/fixture evidence before authorizing a distinct practical test. See E-G04-S608-EXIT."
+}

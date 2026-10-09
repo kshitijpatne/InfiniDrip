@@ -2,7 +2,23 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 gate picture — S594 (2026-10-09)
+### G04 current V03 gate picture — S608 (2026-10-09)
+
+S608 queried the saved, S601-confirmed S595 input-side CLO project with the
+documented `GetPatternInputInformation` getter. Nine patterns were returned
+without API errors; source-SEW geometry uniquely bound each piece. The four
+S595 CUTs that already pass have in-gate candidate paths, while none of the
+five failed periodic-SPLINE CUTs has a returned path matching source within
+the unchanged `0.001 cm` gate. The API does not document the path roles or
+guarantee complete contour exposure, so this result does not attribute the
+output discrepancies to CLO import or export. S595 remains 4/9 CUT pass,
+5/9 CUT fail, 9/9 SEW pass; all seven-recipe/profile/semantics/identity/marks/
+grades/negative/repeated-round-trip gates remain open. Keep V02 Done and V03 /
+EPIC-17 In Progress. Next consolidate the current evidence matrix and audit
+prior profile/fixture trials for an untested, measurable path before another
+receiver operation. See `docs/research/epic17/S608-clo-input-side-stage-diagnosis/`.
+
+### Prior G04 V03 gate picture — S594 (2026-10-09)
 
 S594 independently evaluated the hash-pinned S591/S592 degree-1 SPLINE
 entities against the original source POLYLINE geometry. Ten target entities

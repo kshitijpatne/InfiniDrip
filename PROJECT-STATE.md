@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 608 exit; V03 remains open
+
+S608 queried the S601-confirmed saved S595 input-side CLO 2026.1.310 project
+with `GetPatternInputInformation`: nine patterns, 36 candidate point paths,
+zero API errors. Unique source-SEW matches bind all nine pattern identities.
+The four already passing S595 CUT contours each have a candidate path within
+the unchanged 0.001 cm gate. None of the five failed periodic-SPLINE CUTs has
+a returned path within that gate. CLO does not document these returned path
+roles or guarantee complete contour exposure; the query cannot attribute the
+measured output failure to import versus export. S595 remains 4/9 CUT pass,
+5/9 fail, and 9/9 SEW pass. No V03 acceptance gate clears. Full evidence and
+hashes: `docs/research/epic17/S608-clo-input-side-stage-diagnosis/S608-exit-packet.md`.
+
+Validated board replay: `3562→3564` start, `3564→3566` exit. V02 remains Done;
+V03/EPIC-17 remain In Progress. Refresh and consolidate the V03 matrix, then
+audit prior receiver/profile trials for a genuinely untested, measurable
+route before any further CLO operation. Preserve every V03 gate, the 0.001 cm
+threshold, legacy DXF behavior and protected export identities. Keep CLO
+running during G04 work.
+
 ## EPIC-17 / G04 — Slice 607 exit; V03 remains open
 
 S607 closed at its fail-closed selection precondition. The open CLO
