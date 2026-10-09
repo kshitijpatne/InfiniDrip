@@ -1,31 +1,33 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 582 exit; V03 remains open
+## EPIC-17 / G04 — Slice 583 exit; V03 remains open
 
-One read-only runtime namespace inventory in CLO 2026.1.310 returned 217
-public `pattern_api` names. It confirms that `GetPatternInformation`,
-`GetPatternInputInformation`, `GetPatternInternalShapePoints`,
-`GetPatternBaselinePoints`, `GetPatternOutlinePoints`, and
-`GetPatternLineInfo` are exposed, while `GetInternalShapeInformation` and
-`GetInnerShapeList` are absent. This is API-name evidence only; it confirms no
-geometry, import stage, or CUT/SEW meaning. No V03 gate clears or changes.
-Raw JSON, script and rendered evidence are hash-recorded in
-`docs/research/epic17/S582-clo-runtime-api-inventory/S582-exit-packet.md` and
-the specifically named C: folder.
+In one run against the existing CLO 2026.1.310 project, the documented
+`GetPatternInformation` and `GetPatternInputInformation` getters returned
+parseable JSON for all nine indexes (18 calls, no errors). The first getter
+returned metadata only. The second returned line and point lists; compared at
+the fixed 0.001 cm tolerance against the pinned S574 Polo M fixture, eight
+indexed paths have at least one literal SEW-contour candidate and zero have a
+CUT-contour candidate. Index 3 is an unmatched 3 mm diamond; repeated
+rectangles/44-point contours leave piece identity ambiguous. This schema
+doesn't establish import/export stage, so the result does not attribute the
+known CUT loss. Details, method constraints, and C-only hashes are in
+`docs/research/epic17/S583-clo-pattern-info-getters/S583-exit-packet.md`.
 
-Canonical board revision 3445 after validated S582 exit replay leaves G04-V02
-Done and G04-V03 In Progress (exit replay 3443→3445). The captured JSON and
-hash checks, `npm run control-center:test` and `git diff --check` are the
-focused gates. No production source/tests changed; the integrated full
-repository gate remains for the settled PR candidate. Goal remains active and
-aligned to EPIC-17/G04 through safe merge. CLO remains open.
+Canonical board revision 3449 after validated S583 exit replay leaves G04-V02
+Done and G04-V03 In Progress (exit replay 3447→3449). JSON/schema, constrained
+geometry-comparison, screenshot-hash, `npm run control-center:test`, board
+preflight/replay/status, and `git diff --check` are focused gates. No product
+source/tests changed; the full repository gate remains reserved for the
+settled PR candidate. Goal remains active and aligned to EPIC-17/G04 through
+safe merge. CLO remains open.
 
-**Next:** reserve S583 and query both documented, exact-build-present JSON
-information getters (`GetPatternInformation` and
-`GetPatternInputInformation`) across the same nine patterns. This is the
-last bounded API-information probe; after it, prioritize direct V03 exchange
-acceptance evidence, without guessing more method names, relaxing the
-0.001 cm threshold, or changing acceptance.
+**Next:** S584 loads the saved and hash-pinned S574 pre-export imported project
+in the current CLO session and captures its input-information getter once
+before export. Compare with S583 and the pinned S574/S575 results to isolate
+whether the same pattern paths are already present before export. This is a
+single stage-isolation check, not a broader API survey. No stage attribution,
+gate relaxation, or V03 scope change is presumed.
 
 ## Prior EPIC-17 / G04 — Slice 579 exit
 

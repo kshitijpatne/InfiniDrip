@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3445,
-  "updatedAt": "2026-10-09T05:34:41.351Z",
+  "revision": 3449,
+  "updatedAt": "2026-10-09T05:46:50.705Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11653,6 +11653,16 @@
           "at": "2026-10-09T05:34:41.351Z",
           "actor": "Codex",
           "text": "S582 ran one read-only dir(pattern_api) inventory in CLO 2026.1.310 and captured 217 public names. GetPatternInformation, GetPatternInputInformation, GetPatternInternalShapePoints, GetPatternBaselinePoints, GetPatternOutlinePoints and GetPatternLineInfo are exposed; GetInnerShapeList and GetInternalShapeInformation are not. No getter was invoked and no geometry or acceptance claim changes. Next S583 makes one bounded call to the two documented JSON information getters across the nine existing imported patterns, then the work returns to direct V03 exchange acceptance checks. See E-G04-S582-EXIT."
+        },
+        {
+          "at": "2026-10-09T05:35:51.464Z",
+          "actor": "Codex",
+          "text": "S583 queries only the two documented, exact-build-present JSON information getters over the nine existing CLO patterns. Their schemas are unspecified, so fields will be recorded literally and compared only with hash-pinned source/output evidence; no stage or geometry claim is presumed. All V02/V03 gates remain unchanged. See E-G04-S583-START."
+        },
+        {
+          "at": "2026-10-09T05:46:50.705Z",
+          "actor": "Codex",
+          "text": "S583 made one run of GetPatternInformation and GetPatternInputInformation across nine CLO 2026.1.310 pattern indexes. All 18 calls returned parseable JSON. Under a fixed scale and translation-only geometry comparison, eight indexed paths match literal source SEW contours within 0.001 cm; none match source CUT. Index 3 returns an unmatched 3 mm diamond, while repeated rectangular/44-point shapes prevent one-to-one identity proof. The getter schema does not establish import/export stage, so no causal attribution or V03 gate clears. Next S584 compares one read-only input-information capture from the hash-pinned saved pre-export S574 project to isolate whether the same pattern-path result exists before export. See E-G04-S583-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11915,7 +11925,9 @@
         "E-G04-S581-START",
         "E-G04-S581-EXIT",
         "E-G04-S582-START",
-        "E-G04-S582-EXIT"
+        "E-G04-S582-EXIT",
+        "E-G04-S583-START",
+        "E-G04-S583-EXIT"
       ],
       "flagKey": null
     },
@@ -22531,6 +22543,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact-build read-only inventory returned 217 pattern_api public names. It confirms actual presence/absence of relevant methods; no getter was called and no V03 acceptance gate clears. C-only result/script/screenshot hashes are recorded."
+    },
+    {
+      "id": "E-G04-S583-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S583-clo-pattern-info-getters/S583-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One bounded exact-build query of two documented, runtime-present read-only JSON information getters across the nine existing CLO patterns; no geometry or acceptance gate inference."
+    },
+    {
+      "id": "E-G04-S583-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S583-clo-pattern-info-getters/S583-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Two exact-build read-only JSON getters returned nine records each. Constrained geometry comparison finds eight indexed point paths matching literal source SEW contours, zero matching CUT, one unmatched 3 mm diamond, and repeated-shape identity ambiguity. No import/export stage or V03 gate is inferred."
     }
   ]
 }

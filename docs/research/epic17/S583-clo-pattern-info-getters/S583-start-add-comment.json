@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3446,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S583 queries only the two documented, exact-build-present JSON information getters over the nine existing CLO patterns. Their schemas are unspecified, so fields will be recorded literally and compared only with hash-pinned source/output evidence; no stage or geometry claim is presumed. All V02/V03 gates remain unchanged. See E-G04-S583-START."
+}

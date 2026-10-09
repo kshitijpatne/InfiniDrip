@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3448,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S583 made one run of GetPatternInformation and GetPatternInputInformation across nine CLO 2026.1.310 pattern indexes. All 18 calls returned parseable JSON. Under a fixed scale and translation-only geometry comparison, eight indexed paths match literal source SEW contours within 0.001 cm; none match source CUT. Index 3 returns an unmatched 3 mm diamond, while repeated rectangular/44-point shapes prevent one-to-one identity proof. The getter schema does not establish import/export stage, so no causal attribution or V03 gate clears. Next S584 compares one read-only input-information capture from the hash-pinned saved pre-export S574 project to isolate whether the same pattern-path result exists before export. See E-G04-S583-EXIT."
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3445,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S583-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S583-clo-pattern-info-getters/S583-start-packet.md",
+    "verified": true,
+    "note": "One bounded exact-build query of two documented, runtime-present read-only JSON information getters across the nine existing CLO patterns; no geometry or acceptance gate inference."
+  }
+}

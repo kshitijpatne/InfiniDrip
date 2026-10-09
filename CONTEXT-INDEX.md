@@ -1,21 +1,23 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S582 exit
+## Current EPIC-17/G04 V03 boundary — S583 exit
 
-- S582 exit packet:
-  `docs/research/epic17/S582-clo-runtime-api-inventory/S582-exit-packet.md`.
-  One exact-build read-only inventory returned 217 public names. It confirms
-  availability of the two per-pattern JSON information getters and the
-  internal-point/baseline/outline/line getters, but not `GetInnerShapeList` or
-  `GetInternalShapeInformation`. Names alone establish no geometry, units,
-  role semantics, stage attribution or V03 gate. C-only output/script/screenshot
-  hashes are recorded. Board replay 3443→3445 keeps V02 Done and V03 In
-  Progress.
-- Next: reserve S583 and inspect the actual JSON fields returned by
-  `GetPatternInformation` and `GetPatternInputInformation` across the nine
-  imported patterns; then prioritize the remaining direct exchange checks.
-  Preserve every acceptance gate and the fixed 0.001 cm threshold. CLO remains
-  open.
+- S583 exit packet:
+  `docs/research/epic17/S583-clo-pattern-info-getters/S583-exit-packet.md`.
+  Both documented JSON getters returned parseable values for all nine
+  CLO 2026.1.310 pattern indexes. A constrained geometry comparison finds
+  eight indexed paths matching literal source SEW contours and zero matching
+  CUT. One index is an unmatched 3 mm diamond, and repeated shapes prevent
+  one-to-one piece identity. The getter schema does not establish which
+  import/export stage the observed project represents. C-only input/output/
+  screenshot hashes and the comparison method are recorded. Board replay
+  3447→3449 leaves V02 Done and V03 In Progress.
+- Next: S584 uses the saved, hash-pinned S574 post-input-import/pre-export
+  project in the existing CLO session, and captures `GetPatternInputInformation`
+  once before any export. Compare it with S583 and S574/S575 to isolate whether
+  the same point geometry is present before export. Do not survey more APIs,
+  infer stage from a getter label, relax the 0.001 cm gate, or alter V03 scope.
+  CLO remains open.
 
 ## Prior EPIC-17/G04 V03 boundary — S579 exit
 

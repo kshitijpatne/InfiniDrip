@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3447,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S583-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S583-clo-pattern-info-getters/S583-exit-packet.md",
+    "verified": true,
+    "note": "Two exact-build read-only JSON getters returned nine records each. Constrained geometry comparison finds eight indexed point paths matching literal source SEW contours, zero matching CUT, one unmatched 3 mm diamond, and repeated-shape identity ambiguity. No import/export stage or V03 gate is inferred."
+  }
+}
