@@ -1,6 +1,23 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S598 exit
+## Current EPIC-17/G04 V03 boundary — S599 exit
+
+- S599 joined the S597 pre-export API/source-contour screen to S595's actual
+  CLO DXF-AAMA result by source contour ordinal and S595's source-SEW block
+  binding. Three of four passing CUTs had a direct getter match; the passing
+  button placket did not. None of five failing CUTs matched. Since API absence
+  also occurs for a passing CUT, this getter cannot classify acceptance or
+  attribute a change to importer, internal model, API exposure, or exporter.
+  Actual S595 round trip remains 4/9 CUT pass, 5/9 fail, 9/9 SEW pass at
+  0.001 cm; all V03 gates remain open.
+- S599 exit packet and current matrix:
+  `docs/research/epic17/S599-clo-api-vs-export-evidence/S599-exit-packet.md`
+  and `V03-CURRENT-GATE-MATRIX-S599.md`. The pinned join is in the named C:
+  folder. No new CLO operation occurred; CLO remains open. Next stop API
+  stage-attribution attempts and advance another V03 acceptance item using
+  source/export evidence.
+
+## Prior EPIC-17/G04 V03 boundary — S598 exit
 
 - S598 compared the pinned S580 connected-LINE and S597 periodic-SPLINE
   `GetPatternLineInfo` captures against their common Polo M R12 source. S580

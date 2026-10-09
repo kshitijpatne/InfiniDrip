@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3528,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S599-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S599-clo-api-vs-export-evidence/S599-exit-packet.md",
+    "verified": true,
+    "note": "S599 correlates S597 pre-export API CUT matches with S595 actual round-trip: 3/4 passing CUTs are directly matched, one passing CUT is absent, and no failing CUT is matched. Absence cannot classify failure or stage; no V03 gate changes."
+  }
+}

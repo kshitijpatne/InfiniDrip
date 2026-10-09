@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3527,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S599 checks whether S597 pre-export GetPatternLineInfo source-contour matches distinguish S595 passing from failing CUT contours. Join only by pinned source ordinal and S595's source-SEW block binding; do not assign API index identity or CUT/SEW semantics. If any passing CUT is absent, close API stage-attribution work and move to other V03 acceptance evidence. No new CLO action, exchange, or gate change."
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3526,
-  "updatedAt": "2026-10-09T09:11:23.849Z",
+  "revision": 3530,
+  "updatedAt": "2026-10-09T09:15:55.203Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11858,6 +11858,16 @@
           "at": "2026-10-09T09:11:23.849Z",
           "actor": "Codex",
           "text": "S598 verifies both prior API captures trace to the same source-exact Polo M geometry. S580's getter paths match eight literal source SEWs and no CUTs; S597's match three literal CUT-layer contours and two SEWs, while none of its five periodic-SPLINE target contours directly matches. Counts differ at observation slots 1, 7 and 8. This confirms representation/context-sensitive API output only; it cannot prove CLO discarded SPLINEs or locate an import/export stage. Do not repeat this getter. S574/S595 actual round-trip failures remain; preserve all V03 gates and the fixed threshold."
+        },
+        {
+          "at": "2026-10-09T09:13:34.786Z",
+          "actor": "Codex",
+          "text": "S599 checks whether S597 pre-export GetPatternLineInfo source-contour matches distinguish S595 passing from failing CUT contours. Join only by pinned source ordinal and S595's source-SEW block binding; do not assign API index identity or CUT/SEW semantics. If any passing CUT is absent, close API stage-attribution work and move to other V03 acceptance evidence. No new CLO action, exchange, or gate change."
+        },
+        {
+          "at": "2026-10-09T09:15:55.203Z",
+          "actor": "Codex",
+          "text": "S599 proves the S597 GetPatternLineInfo screen is not a complete CUT-presence or output pass/fail signal: three passing S595 CUTs have a direct getter match, one passing button placket does not, and none of five failing CUTs matches. Absence therefore cannot identify a failing CUT or locate the pipeline stage. Stop API stage-attribution work; use actual DXF round-trip evidence for subsequent V03 work. Preserve all V03 gates and the fixed threshold."
         }
       ],
       "evidenceRefs": [
@@ -12152,7 +12162,9 @@
         "E-G04-S597-START",
         "E-G04-S597-EXIT",
         "E-G04-S598-START",
-        "E-G04-S598-EXIT"
+        "E-G04-S598-EXIT",
+        "E-G04-S599-START",
+        "E-G04-S599-EXIT"
       ],
       "flagKey": null
     },
@@ -23056,6 +23068,24 @@
       "sha256": null,
       "verified": true,
       "note": "S598 compares pinned S580 connected-LINE and S597 periodic-SPLINE CLO line-info captures against their common exact Polo source. The getter output changes by representation/context, but does not prove curve loss or assign CUT/SEW semantics; no V03 gate is cleared."
+    },
+    {
+      "id": "E-G04-S599-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S599-clo-api-vs-export-evidence/S599-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S599 joins existing S597 pre-export API/source matches to S595 measured CUT round-trip results by source contour ordinal; it performs no new CLO operation or exchange and preserves all V03 gates."
+    },
+    {
+      "id": "E-G04-S599-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S599-clo-api-vs-export-evidence/S599-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S599 correlates S597 pre-export API CUT matches with S595 actual round-trip: 3/4 passing CUTs are directly matched, one passing CUT is absent, and no failing CUT is matched. Absence cannot classify failure or stage; no V03 gate changes."
     }
   ]
 }

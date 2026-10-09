@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3526,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S599-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S599-clo-api-vs-export-evidence/S599-start-packet.md",
+    "verified": true,
+    "note": "S599 joins existing S597 pre-export API/source matches to S595 measured CUT round-trip results by source contour ordinal; it performs no new CLO operation or exchange and preserves all V03 gates."
+  }
+}

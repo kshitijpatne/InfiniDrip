@@ -1,6 +1,27 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 598 exit; V03 remains open
+## EPIC-17 / G04 — Slice 599 exit; V03 remains open
+
+S599 joined S597's read-only pre-export source-contour matches to S595's
+source-bound CLO DXF-AAMA CUT round-trip outcomes. Three of the four passing
+CUT contours had a direct pre-export getter match. The passing button placket
+did not. None of the five failed CUT contours had a direct getter match.
+Because getter absence also occurs for a passing CUT, this API cannot classify
+pass/fail or attribute geometry loss to import, internal representation,
+getter exposure, or export. The concrete S595 result remains 4/9 CUT pass,
+5/9 fail and 9/9 SEW pass at the unchanged 0.001 cm threshold. No CLO call,
+new exchange, product source, or acceptance criterion changed. S599 exit
+packet and matrix: `docs/research/epic17/S599-clo-api-vs-export-evidence/`;
+the JSON join is in `C:\G04-CLO-DXF-Exchange\S599-clo-api-vs-export-evidence\`.
+
+Validated board exit and focused checks are recorded in the S599 packet.
+EPIC-17/G04-V03 remain In Progress; V02 remains Done. CLO remains open. Next
+stop API stage-attribution work and pursue a separate V03 gate from actual
+source/export evidence, preserving all five Polo CUT failures and all other
+holds. The goal remains active through reviewed PR merge and any required
+deployment.
+
+## Prior EPIC-17 / G04 — Slice 598 exit; V03 remains open
 
 S598 compared the existing S580 connected-LINE and S597 periodic-SPLINE
 `GetPatternLineInfo` captures. The fixtures trace to the same byte-pinned Polo

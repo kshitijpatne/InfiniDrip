@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3529,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S599 proves the S597 GetPatternLineInfo screen is not a complete CUT-presence or output pass/fail signal: three passing S595 CUTs have a direct getter match, one passing button placket does not, and none of five failing CUTs matches. Absence therefore cannot identify a failing CUT or locate the pipeline stage. Stop API stage-attribution work; use actual DXF round-trip evidence for subsequent V03 work. Preserve all V03 gates and the fixed threshold."
+}
