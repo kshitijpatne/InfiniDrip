@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S602 exit
+## Current EPIC-17/G04 V03 boundary — S604 exit
+
+- S604 reviewed current CLO Set Grading help, CLO staff guidance and the CLO
+  API list. None documents a reliable, version-specific cue to distinguish an
+  internal-line segment point from a CUT-outline point in Edit Grading. The
+  current API list exposes read-only internal-shape and outline geometry
+  getters, but its explicit point-grading setter is for outline points. S603's
+  ambiguous waistband selection remains held; no V03 gate changes.
+- S604 exit packet:
+  `docs/research/epic17/S604-clo-internal-grade-selection-research/S604-exit-packet.md`.
+  Product-development permission and local-only file handling are settled.
+  CLO stayed open; no UI/file operation occurred.
+- Next S605: use only read-only geometry getters, if present in the current
+  runtime, to identify the saved S565 waistband CUT outline and internal SEW
+  path against S567 source geometry before any grading input. If runtime or
+  source matching is ambiguous, preserve the hold. All-seven coverage,
+  0.001 cm contour threshold, V02-before-V03, legacy DXF and protected export
+  identities remain unchanged.
+
+## Prior EPIC-17/G04 V03 boundary — S602 exit
 
 - S602 commissioned a read-only Claude Opus 5.5 review for a documented,
   materially new solution to the five exact Polo corner omissions. It found no
@@ -13,11 +32,9 @@
   result and S601 actual output render remain controlling. S602 packet:
   `docs/research/epic17/S602-short-edge-fix-independent-review/`.
 - S602 freshly captured the live CLO 2026.1.310 2D scene. Screenshot and
-  accessibility both show the main workspace with no modal/spinner. Next:
-  S603 verifies and opens a copy of the saved S565 project in the same running
-  session, then executes only S567's source-derived five-size waistband SEW
-  grade test if the target line and controls remain unambiguous. Preserve the
-  S601 scene/project and every unrelated V03 hold.
+  accessibility both show the main workspace with no modal/spinner. S603 then
+  performed the bounded fail-closed waistband selection trial; S604 documented
+  why it remains ambiguous.
 
 ## Prior EPIC-17/G04 V03 boundary — S601 exit
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3546,
-  "updatedAt": "2026-10-09T10:16:56.584Z",
+  "revision": 3550,
+  "updatedAt": "2026-10-09T10:26:46.537Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11908,6 +11908,16 @@
           "at": "2026-10-09T10:16:56.584Z",
           "actor": "Codex",
           "text": "S603's CLO Edit Grading selection remained ambiguous: the UI exposed 20.0 mm X / 0.0 mm Y at each step, while source SEW points require different X/Y deltas. No grade values were entered and no exchange was run. Keep V03 gates and all-seven acceptance unchanged. S604 should choose a distinct remaining evidence-capable gate; do not repeat S603 unless internal-line point identity can be established before input."
+        },
+        {
+          "at": "2026-10-09T10:20:55.404Z",
+          "actor": "Codex",
+          "text": "S604 checks only whether primary CLO documentation gives a reliable, version-relevant cue for selecting internal sewn-line segment points in Edit Grading, following S603's ambiguous result. No UI trial or geometry change. Keep all V03 gates and seven-recipe criteria unchanged; if no trustworthy cue is documented, retain the grade hold and move to a distinct evidence-capable gate."
+        },
+        {
+          "at": "2026-10-09T10:26:46.537Z",
+          "actor": "Codex",
+          "text": "S604 found no reliable version-specific CLO selection cue for internal-line grading. Current API docs offer read-only outline/internal-shape geometry getters, but the documented grading setter targets outline points only. S603 remains held. Next S605 checks exact-project path identity with read-only getters only; no grading input or exchange until the paths are unambiguously identified. All V03 gates and acceptance criteria remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -12212,7 +12222,9 @@
         "E-G04-S602-START",
         "E-G04-S602-EXIT",
         "E-G04-S603-START",
-        "E-G04-S603-EXIT"
+        "E-G04-S603-EXIT",
+        "E-G04-S604-START",
+        "E-G04-S604-EXIT"
       ],
       "flagKey": null
     },
@@ -23206,6 +23218,24 @@
       "sha256": null,
       "verified": true,
       "note": "S603 fail-closed: the visible waistband internal line was not semantically distinguishable from CUT grading in CLO; the selected values (20,0 mm) did not match source SEW increments. No grade edit/export/import occurred; no V03 gate clears. Screenshot and hash are in the C:-confined packet."
+    },
+    {
+      "id": "E-G04-S604-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S604-clo-internal-grade-selection-research/S604-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S604 is a bounded primary-source review of a specific unresolved CLO Edit Grading selection-identity question from S603. No UI input, grading edit or exchange. All V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S604-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S604-clo-internal-grade-selection-research/S604-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Primary CLO help/API sources provide no version-specific cue to identify a selected internal sewn-line grading point. Preserve the S603 hold; S605 first uses read-only exact-project geometry getters to identify CUT and internal-shape paths before any grading decision. No V03 gate clears."
     }
   ]
 }

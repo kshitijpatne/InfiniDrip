@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3547,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S604 checks only whether primary CLO documentation gives a reliable, version-relevant cue for selecting internal sewn-line segment points in Edit Grading, following S603's ambiguous result. No UI trial or geometry change. Keep all V03 gates and seven-recipe criteria unchanged; if no trustworthy cue is documented, retain the grade hold and move to a distinct evidence-capable gate."
+}

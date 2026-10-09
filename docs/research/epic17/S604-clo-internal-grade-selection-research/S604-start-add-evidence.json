@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3546,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S604-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S604-clo-internal-grade-selection-research/S604-start-packet.md",
+    "verified": true,
+    "note": "S604 is a bounded primary-source review of a specific unresolved CLO Edit Grading selection-identity question from S603. No UI input, grading edit or exchange. All V03 gates remain unchanged."
+  }
+}

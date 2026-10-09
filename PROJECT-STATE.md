@@ -1,6 +1,26 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 603 exit; V03 remains open
+## EPIC-17 / G04 — Slice 604 exit; V03 remains open
+
+S604's current CLO help, staff guidance and API reference review found no
+reliable, version-specific cue for distinguishing an internal sewn-line point
+from a CUT-outline point in Edit Grading. The official API reference exposes
+read-only internal-shape and outline geometry getters, while the documented
+per-point grading setter is for outline points; the API docs do not establish
+compatibility with CLO 2026.1.310. Keep S603's waistband grade trial held. S604
+performed no CLO UI input, grade edit, save, or exchange. See
+`docs/research/epic17/S604-clo-internal-grade-selection-research/S604-exit-packet.md`.
+
+The immediate next step is S605: query only read-only internal-shape and
+outline geometry in the existing exact CLO session, if supported, and compare
+each path with S567's source CUT/SEW geometry. No grading mutation is
+authorized by that inspection. If unavailable or ambiguous, retain the hold.
+Board revision and replay, all-seven acceptance, 0.001 cm contour threshold,
+V02-before-V03 order, legacy DXF behavior, protected export identities and
+all other V03 gates are unchanged. Product-development authorization and
+local-only exchange handling are confirmed.
+
+## Prior EPIC-17 / G04 — Slice 603 exit; V03 remains open
 
 S603 opened only the byte-verified copy of the S565 disposable CLO project in
 the existing CLO 2026.1.310 process. The waistband's inset four-sided internal
