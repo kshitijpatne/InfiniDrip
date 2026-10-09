@@ -1,29 +1,30 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S639 closed
+## Current EPIC-17/G04 V03 boundary — S642 closed
 
-S639's isolated CLO 2026.1.310 DXF-AAMA trial exported one native Button and
-Buttonhole and cleanly reimported 12 Woven pieces. Source mark geometry was not
-preserved: the button became a 24-vertex, roughly 1.0 cm radius polygon
-instead of a source circle of 0.15 cm radius; the buttonhole became a
-slot-like trim instead of a source point. Both center offsets are about
-0.07616 cm, above the unchanged 0.001 cm limit. The live import render remains
-zoom-cropped, so detailed output readability is unverified. This is a measured
-negative result for that CLO-native-trim hypothesis and clears no V03 gate.
-All artifacts, hashes, procedure, exact bounds, and gate disposition are in
-`docs/research/epic17/S639-clo-native-button-dxf-probe/S639-exit-packet.md`;
-start packet and command replays are beside it. Raw exchange files remain in
-`C:\G04-CLO-DXF-Exchange\S639-clo-native-button-dxf-probe\`.
+S642 applied S628's successful named `BLOCK` / identity `INSERT` grouping to
+the hash-pinned Polo M DXF-AAMA input. The wrapper expands exactly to the
+source's 56 unchanged entities and preserves all nine piece-role names in
+CLO's native pattern query. However, only 13/18 source CUT/SEW contours pass
+at `0.001 cm`; the same five Polo CUTs still fail: back, both collar stands,
+and both pointed collars. The back remains 33 points but differs by 2.236065
+cm; each stand returns 58 points for a 54-point source CUT; each pointed
+collar differs by 9.310850 cm. This demonstrates identity grouping alone does
+not resolve the CLO AAMA losses. The measured pre-export gate failed, so no
+export or reimport was attempted. No V03 acceptance or hold changed.
 
-The CLO process/window is confirmed present and shows the imported project;
-CLO remains open. The prior UI-stop board comment describes an earlier
-interruption and is superseded by S639's exit evidence/comment. Board exit
-replay adds only evidence and a factual correction. V01/V02 remain Done,
-V03/EPIC-17 remain In Progress, and all thresholds, all-seven requirements,
-export identities and holds are unchanged. Use a new, evidence-led hypothesis
-only; do not repeat native Button/Buttonhole, circle, or quarter-ARC trials.
+Procedure, hashes, per-contour results, actual CLO overview, and closeout are
+in `docs/research/epic17/S642-polo-block-wrapper-cut-retention/` and the
+C-drive evidence folder
+`C:\G04-CLO-DXF-Exchange\S642-polo-block-wrapper-cut-retention\`. CLO stays
+open with the saved S642 project. Keep V03 and EPIC-17 In Progress. Next,
+reconcile S642 in the current V03 matrix and choose a distinct remaining gate
+from existing evidence; do not repeat flat-versus-block grouping, previously
+tested CLO modes/settings, or exhausted entity encodings. If no in-scope route
+remains, record the exact residual evidence/authority decision; do not weaken
+the seven-recipe criteria or claim generic DXF as industrial compatibility.
 
-## Current EPIC-17/G04 V03 boundary — S638 exit
+## Prior EPIC-17/G04 V03 boundary — S638 exit
 
 S638 verified from official primary sources that ANSI/AAMA 292-1993 was
 withdrawn effective 2002-11-13 and ASTM D6673-10 is listed as withdrawn in

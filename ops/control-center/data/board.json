@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3710,
-  "updatedAt": "2026-10-09T22:25:55.336Z",
+  "revision": 3714,
+  "updatedAt": "2026-10-09T22:43:45.039Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12298,6 +12298,16 @@
           "at": "2026-10-09T22:25:55.336Z",
           "actor": "Codex",
           "text": "S641's bounded public-source screen found no new receiver eligible under current no-cost/local/no-hosted/no-contact constraints. Seamly2D says it does not import DXF; garment.dev is a hosted app; CAD4Fashion advertises relevant apparel DXF modes but access, cost and product-use rights are not established without vendor contact. No candidate was installed or received product data. This does not clear or weaken any V03 gate. Existing CLO/OpenCAD evidence remains as recorded in the S638 matrix and S623–S640 packets; see E-G04-S641-EXIT."
+        },
+        {
+          "at": "2026-10-09T22:30:23.962Z",
+          "actor": "Codex",
+          "text": "Start S642 from verified S641. One falsifiable new CLO hypothesis: S628's source-exact identity BLOCK/INSERT grouping may preserve the five short Polo CUT vertices lost in prior flat-entity imports. Use the hash-pinned S617 Polo fixture; block expansion must reproduce source entity payload exactly, and stop before export unless every native CUT/SEW contour, piece mapping and rendered overview passes the existing gate. No gate, threshold, profile claim or hold changes."
+        },
+        {
+          "at": "2026-10-09T22:43:45.039Z",
+          "actor": "Codex",
+          "text": "S642 closes the distinct named BLOCK/INSERT grouping hypothesis: CLO preserves all nine Polo role names, but 5/9 CUT contours still fail the 0.001 cm pre-export gate (the same back, two stands, and two pointed collars as flat imports). All nine SEW and four CUT contours pass; no export was attempted. This clears no V03 acceptance and changes no threshold, all-seven criterion, rights/profile gate, or hold. Continue by reconciling existing V03 evidence and selecting a distinct remaining gate; do not repeat CLO grouping/mode/settings/entity permutations. See E-G04-S642-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12688,7 +12698,9 @@
         "E-G04-S640-START",
         "E-G04-S640-EXIT",
         "E-G04-S641-START",
-        "E-G04-S641-EXIT"
+        "E-G04-S641-EXIT",
+        "E-G04-S642-START",
+        "E-G04-S642-EXIT"
       ],
       "flagKey": null
     },
@@ -24456,6 +24468,24 @@
       "sha256": null,
       "verified": true,
       "note": "S641 screened official public evidence for Seamly2D, garment.dev and CAD4Fashion without installs, contact, spending or file transfer. Seamly2D documents no DXF import; garment.dev is hosted; CAD4Fashion is relevant but public no-cost local evaluation/product-use rights are unverified and obtaining access would require prohibited vendor contact. No newly screened route qualifies under current constraints. Existing V03 gates, all-seven scope, thresholds and holds remain unchanged. See packet for sources and reconciliation with CLO/OpenCAD Studio evidence."
+    },
+    {
+      "id": "E-G04-S642-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S642-polo-block-wrapper-cut-retention/S642-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S642 for one source-exact Polo BLOCK/INSERT wrapper trial based on S628's successful Woven grouping control. Test whether the five short Polo CUT vertices survive CLO's native import before any export. The wrapper may change only entity grouping; preserve the pinned source, all V03 gates, local C:-only use, and every acceptance criterion."
+    },
+    {
+      "id": "E-G04-S642-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S642-polo-block-wrapper-cut-retention/S642-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S642 tested a source-exact Polo M named BLOCK/identity INSERT wrapper in CLO 2026.1.310 DXF-AAMA. Preflight preserved all 56 source entities; all nine named role identities were returned by the native query. Only 13/18 CUT/SEW contours passed 0.001 cm: all SEW plus four CUT, with the same five Polo CUT failures still present. The pre-export gate failed, so no export/reimport occurred. No V03 gate, scope, threshold, or hold changed; see packet and C-drive rendered/native evidence."
     }
   ]
 }

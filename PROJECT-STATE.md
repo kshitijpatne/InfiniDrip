@@ -1,37 +1,42 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 641 closed; V03 remains In Progress
+## EPIC-17 / G04 — Slice 642 closed; V03 remains In Progress
 
-S641 screened official public evidence for three distinct apparel-CAD
-candidates under the existing no-cost/local/no-hosted/no-supplier-contact
-constraints. No new candidate qualifies: Seamly2D documents DXF export but no
-DXF import; garment.dev is a hosted service with some server-side DXF and
-grading operations; CAD4Fashion documents relevant apparel DXF modes and
-local/network file handling but public sources do not establish a no-cost
-local evaluation or rights for this product-development use. Accessing the
-CAD4Fashion demo requires vendor contact, which this slice did not make.
-This bounded screen is not proof that no qualifying receiver exists.
+S642 tested one source-exact new mechanism: putting each Polo M piece's
+unchanged CUT, SEW and marks into its own named identity-transform DXF
+`BLOCK` / `INSERT`, based on S628's positive Woven grouping control. The
+candidate preflight proved that block expansion reproduces all 56 original
+source entities in exact order and payload. CLO DXF-AAMA imported nine
+patterns whose names exactly preserve the nine source roles. The native
+read-only geometry query had no errors, but only 13/18 source contours passed
+the unchanged `0.001 cm` comparison: all nine SEW and four CUT. The same five
+CUTs still fail (back, both stands, both pointed collars). Back's closest
+cyclic match differs by 2.236065 cm; the stands return 58 native points versus
+54 source points; pointed collars differ by 9.310850 cm. S640's flat Standard
+DXF import had the same five-piece failure set. S642 therefore shows named
+grouping preserves identity but does not repair the CUT loss in CLO AAMA.
+The required pre-export gate failed, so no export/reimport was attempted.
 
-The V03 gate matrix and every gate/hold remain unchanged. CLO stays the
-maintainer-authorized local empirical receiver, but S620–S622 and S635–S640
-already record failures for the tested receiver/profile/geometry/mark
-permutations; S640's connected-LINE subset is explicitly not a novel entity
-family. S641 performed no install, file transfer, export/import, source or
-acceptance change. The S641 packet and primary-source links are at
-`docs/research/epic17/S641-no-cost-local-apparel-cad-candidate-screen/`.
-Validated board closeout is revision 3710; V01/V02 remain Done and V03/EPIC-17
-remain In Progress. CLO remains open. No physical-fit, factory-acceptance, or
-production-readiness claim is supported.
+The actual nine-piece CLO import overview and exact artifacts are in
+`C:\G04-CLO-DXF-Exchange\S642-polo-block-wrapper-cut-retention\`; the
+procedure, analyzer, measured results, gate disposition and timing are in
+`docs/research/epic17/S642-polo-block-wrapper-cut-retention/S642-exit-packet.md`.
+The saved native project remains open in CLO. This result clears no V03 gate;
+all-seven scope, standards/profile and rights evidence, marks, grades/options,
+malformed input, repeat round trip and output-readability gates remain. V01 and
+V02 remain Done; V03 and EPIC-17 remain In Progress. No pattern source, DXF
+writer, threshold, protected export identity, or acceptance criterion changed.
 
-S641 began at `2026-10-09 22:23:42 UTC` from S640 commit
-`5c971baf26690d977c423175ef6167412f0c7a29`; refreshed `origin/main`
-`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Start replay
-was `3706→3708`; exit replay is recorded in S641's packet and command files.
-No production-code coverage applies. Focused Control Center tests and board
-preflight passed. Do not repeat a CLO setting/entity permutation without a
-distinct, falsifiable hypothesis tied to an open V03 criterion. Next identify
-such a test from the remaining evidence or record the exact missing receiver/
-profile authority; no acceptance change is implied.
+S642 began `2026-10-09 22:29:57 UTC` from clean S641
+`f0386ce665e1b2dabe8e27a1764500e529ecc370`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor. Validated start
+replay was `3710→3712`; validated exit replay and focused Control Center test
+results are recorded in the S642 packet. No production-code coverage applies.
+Next, reconcile S642 in the V03 matrix and select a distinct still-open gate
+from existing evidence; do not repeat prior CLO entity, setting, or mode
+permutations. If no eligible route remains, state the exact residual gate and
+needed decision without weakening acceptance. CLO remains open. No physical
+fit, factory acceptance, or production-readiness claim is made.
 
 ## EPIC-17 / G04 — Slice 640 closed; V03 remains In Progress
 

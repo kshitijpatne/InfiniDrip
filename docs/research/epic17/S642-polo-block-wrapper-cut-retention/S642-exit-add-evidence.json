@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3712,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S642-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S642-polo-block-wrapper-cut-retention/S642-exit-packet.md",
+    "verified": true,
+    "note": "S642 tested a source-exact Polo M named BLOCK/identity INSERT wrapper in CLO 2026.1.310 DXF-AAMA. Preflight preserved all 56 source entities; all nine named role identities were returned by the native query. Only 13/18 CUT/SEW contours passed 0.001 cm: all SEW plus four CUT, with the same five Polo CUT failures still present. The pre-export gate failed, so no export/reimport occurred. No V03 gate, scope, threshold, or hold changed; see packet and C-drive rendered/native evidence."
+  }
+}
