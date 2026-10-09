@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3532,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S600-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S600-clo-rendered-detail-review/S600-exit-packet.md",
+    "verified": true,
+    "note": "S600 records whole-sheet and useful-detail CLO PDF output from the existing S595 input-side scene. No exchange or V03 gate changed; all S595 contour failures and other holds remain. C-only artifacts are hash-pinned."
+  }
+}

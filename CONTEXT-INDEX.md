@@ -1,6 +1,23 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S599 exit
+## Current EPIC-17/G04 V03 boundary — S600 exit
+
+- S600 captured a 1:1 CLO PDF snapshot and whole/detail crops from the
+  already-open S595 Polo M input-side imported scene. All nine outlines are
+  present; strokes are pale/thin and numeric label `5` crowds adjacent collar
+  outlines. Some marks are visible, but the snapshot is not source-linked and
+  cannot establish mark preservation, CUT/SEW semantics or DXF output fidelity.
+  The PDF is a CLO snapshot, not the exported DXF or its reimport. No exchange,
+  project edit, source change, threshold change or V03 gate transition
+  occurred. S595 remains 4/9 CUT pass, 5/9 fail and 9/9 SEW pass at 0.001 cm.
+- S600 packet, C:-only artifacts and delta matrix:
+  `docs/research/epic17/S600-clo-rendered-detail-review/S600-exit-packet.md`,
+  `V03-CURRENT-GATE-MATRIX-S600.md`, and the named
+  `C:\G04-CLO-DXF-Exchange\S600-clo-rendered-detail-review\` folder. CLO
+  remains open. Next select a genuinely new V03 acceptance item; do not repeat
+  unchanged CLO inputs, API queries or snapshot settings.
+
+## Prior EPIC-17/G04 V03 boundary — S599 exit
 
 - S599 joined the S597 pre-export API/source-contour screen to S595's actual
   CLO DXF-AAMA result by source contour ordinal and S595's source-SEW block

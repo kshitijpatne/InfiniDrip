@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 600 exit; V03 remains open
+
+S600 saved and visually reviewed a 1:1 PDF snapshot plus whole-sheet and
+detail crops from the existing S595 Polo M input-side CLO scene. All nine
+outlines appear; strokes are thin, numeric label 5 crowds collar outlines, and
+some marks are visible without source identity. This is not the exported DXF
+or a reloaded round trip and proves no mark fidelity, CUT/SEW semantics, or
+contour acceptance. No exchange or project/source mutation occurred. The S595
+result remains 4/9 CUT pass, 5/9 fail, and 9/9 SEW pass at 0.001 cm. All V03
+gates remain open. Details and C-only artifact hashes are in
+`docs/research/epic17/S600-clo-rendered-detail-review/`; current delta matrix
+is `V03-CURRENT-GATE-MATRIX-S600.md`.
+
+Validated board closeout is recorded at revision 3534; it preserves Epic/V03
+In Progress and V02 Done. Focused Control Center tests pass 42/42, S600 scripts
+parse, artifact-integrity and PDF page checks pass, and `git diff --check`
+passes. The full repository gate remains for the settled Epic candidate. CLO
+remains open. Next select a materially new V03 acceptance
+item and stop repeating unchanged views and API queries. The goal stays active
+through PR merge and any required deployment.
+
 ## EPIC-17 / G04 — Slice 599 exit; V03 remains open
 
 S599 joined S597's read-only pre-export source-contour matches to S595's

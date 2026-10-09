@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3530,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S600-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S600-clo-rendered-detail-review/S600-start-packet.md",
+    "verified": true,
+    "note": "S600 inspects useful-zoom rendered detail in the already-open S595 Polo M CLO scene. It performs no import/export or pattern edit and preserves every V03 gate."
+  }
+}

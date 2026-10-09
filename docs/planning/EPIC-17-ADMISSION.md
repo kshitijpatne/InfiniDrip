@@ -1,3 +1,17 @@
+## Latest verified boundary — S600 (2026-10-09)
+
+S600 reviewed a 1:1 CLO PDF snapshot and detail crops from the input-side
+S595 Polo M receiver scene. All nine outlines appear, but strokes are thin and
+numeric label 5 crowds the collar outlines. Visible marks are not source-bound;
+the snapshot is not the exported DXF or a reimport and clears no V03 gate.
+S595 still fails five CUT contours at the unchanged 0.001 cm gate. S600's
+packet and delta matrix are in
+`docs/research/epic17/S600-clo-rendered-detail-review/`; the rendered files are
+confined to the named C: folder. Board closeout is 3532→3534, with EPIC-17/V03
+In Progress and V02 Done. Next select a materially new V03 acceptance item,
+not another unchanged view or API query. The full-repository gate remains for
+the settled Epic candidate; CLO remains open.
+
 ## Current EPIC-17/G04 V03 boundary — S594 exit (2026-10-09)
 
 S594 hash-pinned the original Polo M source, the S591/S592 fixtures and their
