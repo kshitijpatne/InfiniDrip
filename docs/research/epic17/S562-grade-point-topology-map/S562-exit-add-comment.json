@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3364,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S562 confirms a stable source mapping from named pattern roles/edges to ordered sew vertices across 7 recipes × 5 sizes. All 35 re-generated DXFs have S559-identical hashes; all source vertices map exactly after the current layout/Y flip/rounding. The data proves source correspondence only; files contain no source point names, grade rules, or size groups. Preserve all V03 gates; next use this map only through lawful exact DXF-ASTM/API evidence and a safe single CLO round trip."
+}

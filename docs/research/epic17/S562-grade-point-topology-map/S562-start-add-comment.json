@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3362,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S562 maps source gradeRun deltas to exact pattern points in the S559 per-size fixtures and checks whether topology stays point-correspondent across sizes. No grade file or ASTM DXF will be authored, no production code or geometry changed, and no CLO action occurs until the source mapping and receiver route are concrete and visible/accessibility state agrees. Preserve all V03 gates and protected export identities."
+}

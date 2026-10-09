@@ -1,6 +1,40 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 561 exit; V03 remains open
+## EPIC-17 / G04 — Slice 562 exit; V03 remains open
+
+S562 mapped current source grade geometry to named source pattern points for
+all seven recipes and five default sizes. The role/piece/on-fold/edge-name/
+edge-kind signatures, named endpoint/control point keys, and per-piece sewn
+outline sample sequence remain stable across each XS/S/M/L/XL run. For every
+one of 35 files, regeneration exactly matches the S559 legacy DXF SHA-256; the
+source sewn vertices also map exactly to the corresponding DXF SEW polyline
+after existing layout translation, Y flip, and 0.001 cm rounding. Full report
+hash `1BBD78E07A17AB2F181E0DE7640565FBE5BF54654EADB333E7027EF8156BD69A` is
+stored under the C:-only S562 exchange folder; see
+`docs/research/epic17/S562-grade-point-topology-map/S562-exit-packet.md`.
+
+This resolves source-side point correspondence only. The current DXF encodes
+no named point identities, sizes, or grade relationships. CLO DXF-ASTM is the
+first-party documented graded-DXF candidate, but no legal exact serialization
+or verified grade fixture/import/export has been established. CLO's UI state
+mismatch from S561 remains; no action was attempted in this slice. Every V03
+hold, criterion, legacy behavior, and protected identity remains unchanged.
+V01/V02 Done; V03 In Progress. CLO remains open. No physical fit, factory
+acceptance, or production-readiness claim.
+
+S562 start/exit board replay 3361→3363→3365; validated replay completed. Focused
+analyzer and hash checks are recorded in the packet; no production-code or
+global coverage gate was due. Elapsed time 7m05s (00:32:02–00:39:07 UTC):
+source/topology analysis about 4m50s, focused verification about 0m17s,
+durable closeout/board and final integrity check about 1m58s, external waits
+0m, maintainer decisions 0m.
+
+Next: use the proven source map with a lawful exact DXF-ASTM representation or
+verified current CLO API route; perform one source-backed round trip only when
+both representation and UI state are safe. Do not repeat S559 or alter V03
+gates.
+
+## Prior EPIC-17 / G04 — Slice 561 exit; V03 remains open
 
 S561 identifies CLO 2026.1.310 / DXF-ASTM as the strongest documented
 graded-DXF candidate: CLO Help lists DXF-ASTM and grading-in-DXF; a CLO

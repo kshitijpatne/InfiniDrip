@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3361,
-  "updatedAt": "2026-10-09T00:31:27.887Z",
+  "revision": 3365,
+  "updatedAt": "2026-10-09T00:38:17.297Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11443,6 +11443,16 @@
           "at": "2026-10-09T00:31:27.887Z",
           "actor": "Codex",
           "text": "S561 narrows the grading route to documented CLO DXF-ASTM. CLO Help lists grading-in-DXF; a CLO designer says standalone .RUL is supplied by another CAD and DXF-ASTM is used to include grading. Official API documents grade group/point methods, but target build compatibility is not verified. No legal source-backed grade fixture or round trip was available. Screenshot showed the pattern canvas while accessibility reported a hidden export dialog, so no UI file action was safe; this is not a format failure. Keep every V03 gate unchanged. Next map source grade deltas and find one lawful exact fixture/API route, then test once."
+        },
+        {
+          "at": "2026-10-09T00:32:28.555Z",
+          "actor": "Codex",
+          "text": "S562 maps source gradeRun deltas to exact pattern points in the S559 per-size fixtures and checks whether topology stays point-correspondent across sizes. No grade file or ASTM DXF will be authored, no production code or geometry changed, and no CLO action occurs until the source mapping and receiver route are concrete and visible/accessibility state agrees. Preserve all V03 gates and protected export identities."
+        },
+        {
+          "at": "2026-10-09T00:38:17.297Z",
+          "actor": "Codex",
+          "text": "S562 confirms a stable source mapping from named pattern roles/edges to ordered sew vertices across 7 recipes × 5 sizes. All 35 re-generated DXFs have S559-identical hashes; all source vertices map exactly after the current layout/Y flip/rounding. The data proves source correspondence only; files contain no source point names, grade rules, or size groups. Preserve all V03 gates; next use this map only through lawful exact DXF-ASTM/API evidence and a safe single CLO round trip."
         }
       ],
       "evidenceRefs": [
@@ -11663,7 +11673,9 @@
         "E-G04-S560-START",
         "E-G04-S560-EXIT",
         "E-G04-S561-START",
-        "E-G04-S561-EXIT"
+        "E-G04-S561-EXIT",
+        "E-G04-S562-START",
+        "E-G04-S562-EXIT"
       ],
       "flagKey": null
     },
@@ -21901,6 +21913,24 @@
       "sha256": null,
       "verified": true,
       "note": "First-party CLO guidance identifies DXF-ASTM for grading included in DXF; API docs expose grade groups/points but build compatibility is unverified. No source-backed grade fixture or new round trip. CLO UI visible/accessibility states conflict; no export action attempted. All grade/size and V03 holds remain."
+    },
+    {
+      "id": "E-G04-S562-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S562-grade-point-topology-map/S562-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Map product source grade-run deltas to exact per-size pattern points from S559 fixtures; determine whether a real source-backed DXF-ASTM test can be built without guessed syntax or geometry changes."
+    },
+    {
+      "id": "E-G04-S562-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S562-grade-point-topology-map/S562-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Across seven recipes and five sizes, source edge/point/sample identities are stable; all 35 generated legacy DXF hashes match S559, and every source sew sample maps exactly to the DXF SEW polyline. This proves source mapping only; no serialized names/grade rules or grade-bearing interchange. All V03 holds remain."
     }
   ]
 }

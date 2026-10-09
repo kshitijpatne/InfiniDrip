@@ -2,22 +2,22 @@
 
 ## Current EPIC-17/G04 V03 slice
 
-- `docs/research/epic17/S561-grade-fixture-path-review/S561-exit-packet.md`
-  is the current slice. First-party CLO guidance says DXF-ASTM is the route
-  for grading included in the DXF; `.RUL` is a separate input from another
-  2D CAD system. Official CLO API docs describe grade sizes and point offsets,
-  but their listed SDK target is 2026.1.224, not installed 2026.1.310. No
-  lawful, source-traceable grade fixture or verified product-profile round
-  trip exists. Current writer remains one-size and S559's Tee XS output was
-  relabeled M. CLO screenshot/accessibility disagreed on an Export DXF modal,
-  so no file action was attempted; this is a helper state mismatch, not a
-  format failure. Grade and every other V03 hold remain. Next map `gradeRun`
-  deltas to source pattern points and verify a rights-clear receiver-supported
-  path; resume CLO UI actions only when view states agree. All exchange files
-  remain in named C:-only folders. The refreshed S556 matrix and S561 packet
-  record sources, limitations and remaining evidence. CLO product-development
-  evaluation and local processing are confirmed. Earlier seven-recipe output
-  evidence, including render, is in S559 below.
+- `docs/research/epic17/S562-grade-point-topology-map/S562-exit-packet.md`
+  is the current slice. Across 7 recipes × XS/S/M/L/XL, source role/piece/edge
+  identity and the ordered named-edge sewn-outline samples remain stable.
+  All 35 regenerated legacy DXFs match the S559 SHA-256 values; every source
+  sewn vertex maps exactly to its DXF SEW polyline after existing layout, Y
+  flip, and quantization. Full point deltas/hash are in
+  `C:\G04-CLO-DXF-Exchange\S562-grade-point-topology-map\source-grade-topology.json`
+  and its SHA-256 is in the exit packet. This proves source-point mapping, not
+  interchange: DXF still carries no source point names, size group, or grade
+  relationship. CLO DXF-ASTM is first-party documented as its graded-DXF
+  candidate; exact serialization and a source-backed round trip remain open.
+  The S561 CLO screenshot/accessibility mismatch remains unresolved, so no UI
+  file action occurred. Every V03 gate and hold stays unchanged. Next use the
+  point map only with lawful exact format evidence and a safe CLO state. All
+  exchange files remain in named C:-only folders. Product-development trial
+  use and local processing are confirmed. See the S556 matrix and S562 packet.
   S558's official CLO source identifies `CLO 2026.1.310 / DXF-AAMA` and the
   rule-file option, but no normative AAMA edition or full conformance map.
   S557 corrections and retained mark findings:
