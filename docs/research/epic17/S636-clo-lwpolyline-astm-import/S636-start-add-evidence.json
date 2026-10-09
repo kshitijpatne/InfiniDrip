@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3684,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S636-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S636-clo-lwpolyline-astm-import/S636-start-packet.md",
+    "verified": true,
+    "note": "Reserves S636 for the final source-bounded receiver-matrix cell: unchanged hash-pinned S635 CUT LWPOLYLINE derivative through CLO's recorded DXF-ASTM import mode. Query native identities/contours at 0.001 cm first; export and reimport are conditional on a complete pass. All G04 criteria/status/holds remain unchanged."
+  }
+}

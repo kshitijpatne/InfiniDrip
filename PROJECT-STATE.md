@@ -1,5 +1,40 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 636 closed; V03 remains open
+
+S636 completed the final CLO LWPOLYLINE × DXF-ASTM CUT import cell using the
+existing CLO 2026.1.310 session and the same source revision and derivative
+as S635. At the unchanged `0.001 cm` geometry gate, both Standard and ASTM
+return four exact CUT passes and the same five omissions (back P13 and P14 on
+both stands and both collar leaves; maximum joined-chord deviation
+`0.013970 cm`). All nine identities are present and the query has no errors.
+The button-placket child-shape count differs (S635 9; S636 6), retained as an
+unexplained native diagnostic, not a mark interpretation. Five rendered
+detail comparisons and the actual CLO overview are visually reviewed and
+hash-pinned under `C:\G04-CLO-DXF-Exchange\S636-lwpolyline-astm-import\`.
+No DXF was exported because the native gate fails. No source geometry,
+threshold, acceptance, status, hold or product claim changed. Board start/exit
+replays were 3684→3686→3688. Exit packet:
+`docs/research/epic17/S636-clo-lwpolyline-astm-import/S636-exit-packet.md`.
+
+S636 started `2026-10-09 20:02:47 UTC` after S635 commit
+`3f3c6b9b4034ac615e03a7c448f127cbc4c9d260`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor and
+S636 was the unique next slice. Focused Control Center tests passed 42/42;
+source-bound analyzer, output reconciliation, five Chromium renders, hash
+preflight and `git diff --check` passed. Research only; no production-code
+coverage applies. Elapsed through pre-commit closeout was 20m15s:
+implementation/import/query 8m, analysis/render/reconciliation 6m, focused
+verification 3m, durable closeout 3m15s, agent wait 0m, maintainer decisions
+0m. The landed commit subject is `Slice 636: measure CLO lightweight-polyline
+ASTM import`. Full repo coverage/build/output gates remain for the settled
+Epic/PR candidate. CLO stays open because V03 work is active.
+
+**Next action:** after landing S636, refresh origin and history, reserve S637,
+and choose one distinct receiver/profile candidate from its documented
+industrial exchange path and rights evidence. Do not repeat the completed CLO
+CUT representation/import-mode matrix.
+
 ## EPIC-17 / G04 — Slice 635 closed; V03 remains open
 
 S635 imported a disposable DXF whose nine closed CUT entities alone had been
@@ -27,15 +62,11 @@ in the exit packet. No production code changed; changed-code coverage does
 not apply. Full repository tests/100% coverage and build remain for the
 settled Epic/PR candidate.
 
-**Next action:** reserve S636 from a fresh verified boundary for the one
-remaining source-bounded CLO matrix cell: import this same coordinate-
-identical LWPOLYLINE derivative in the already-recorded CLO DXF-ASTM mode.
-S632 tested classic POLYLINE × ASTM; S617 and S635 cover classic POLYLINE ×
-Standard and LWPOLYLINE × Standard. Capture all nine native identities and
-CUT contours before any export. If any source vertex still fails, stop this
-CLO representation path and choose the next receiver/profile from the
-measured results; only a full native pass can authorize the conditional
-round-trip branch. Do not alter geometry, acceptance, holds, rights or claims.
+S636 now tests the final source-bounded CLO matrix cell. S632 tested classic
+POLYLINE × ASTM; S617 and S635 cover classic POLYLINE × Standard and
+LWPOLYLINE × Standard. A complete native pass is required before the
+conditional round-trip branch. Do not alter geometry, acceptance, holds,
+rights or claims.
 
 ## EPIC-17 / G04 — Slice 634 closed; V03 remains open
 

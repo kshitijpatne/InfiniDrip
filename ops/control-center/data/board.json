@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3684,
-  "updatedAt": "2026-10-09T20:00:34.260Z",
+  "revision": 3688,
+  "updatedAt": "2026-10-09T20:22:53.227Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12228,6 +12228,16 @@
           "at": "2026-10-09T20:00:34.260Z",
           "actor": "Codex",
           "text": "S635 tested only a coordinate-preserving CUT POLYLINE→LWPOLYLINE representation change in CLO Standard import. Native geometry still omits back P13 and P14 on both stands and both collar leaves; each retained chain matches within tolerance, while omitted-point deviation is 0.012736–0.013970 cm against 0.001 cm. Four controls pass; nine numeric CLO piece identities are present. The start-packet stop condition was honored: no export. No geometry, tolerance, acceptance, status or hold changed. S632 covers classic POLYLINE × ASTM; the final matrix cell is S636 LWPOLYLINE × recorded ASTM import, after which use evidence to continue receiver selection. See E-G04-S635-EXIT."
+        },
+        {
+          "at": "2026-10-09T20:06:37.405Z",
+          "actor": "Codex",
+          "text": "S636 tests the only unmeasured cell after S617/S632/S635: coordinate-identical CUT LWPOLYLINE × CLO DXF-ASTM import. This is one explicit mode/entity interaction test using recorded S632 settings, not another POLYLINE ASTM mode permutation. Stop before export if any source contour/identity fails 0.001 cm; only all-native pass permits one conditional ASTM graded-nest round trip. No pattern or acceptance changes. See E-G04-S636-START."
+        },
+        {
+          "at": "2026-10-09T20:22:53.227Z",
+          "actor": "Codex",
+          "text": "S636 varied only CLO's DXF import mode from S635 Standard to DXF-ASTM, keeping the hash-pinned S617 source revision, coordinate-identical CUT-LWPOLYLINE derivative, CLO build, settings, identity binding and 0.001 cm geometry gate fixed. Both runs return four exact CUT passes and the same five omitted vertices with 0.012736–0.013970 cm joined-chord deviations, so the completed CLO import matrix does not justify another format/settings permutation for these points. DXF-ASTM import returned nine identities without API errors; the button-placket child-shape count differs (S635 9/S636 6), retained only as an unexplained diagnostic. Actual scene and five rendered contour comparisons are reviewed and hash-pinned. Stop-before-export honored; no source/export/acceptance/status/hold change. See E-G04-S636-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12606,7 +12616,9 @@
         "E-G04-S634-START",
         "E-G04-S634-EXIT",
         "E-G04-S635-START",
-        "E-G04-S635-EXIT"
+        "E-G04-S635-EXIT",
+        "E-G04-S636-START",
+        "E-G04-S636-EXIT"
       ],
       "flagKey": null
     },
@@ -24266,6 +24278,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO Standard import of a coordinate-identical CUT LWPOLYLINE derivative still omits the same five source vertices; four controls pass and all five deviations exceed 0.001 cm. Native point data and rendered crops are hash-pinned under the named C: folder. Packet-required stop-before-export honored; no export or acceptance/hold change. S636 tests the only untested LWPOLYLINE × DXF-ASTM import matrix cell under recorded settings."
+    },
+    {
+      "id": "E-G04-S636-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S636-clo-lwpolyline-astm-import/S636-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S636 for the final source-bounded receiver-matrix cell: unchanged hash-pinned S635 CUT LWPOLYLINE derivative through CLO's recorded DXF-ASTM import mode. Query native identities/contours at 0.001 cm first; export and reimport are conditional on a complete pass. All G04 criteria/status/holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S636-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S636-clo-lwpolyline-astm-import/S636-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Final CLO LWPOLYLINE × DXF-ASTM matrix cell reproduces S635 Standard's four CUT passes/five failures on the same source revision and exact CUT representation at 0.001 cm. Actual CLO project/API data, overview and five rendered contours are hash-pinned in the C:-only S636 folder. Button-placket child shape count differs (9 vs 6) and is recorded without semantic interpretation. Packet stop-before-export honored; no DXF export or gate/status/hold change. CLO CUT permutation path is complete; next select a distinct receiver/profile from documented rights and exchange evidence."
     }
   ]
 }

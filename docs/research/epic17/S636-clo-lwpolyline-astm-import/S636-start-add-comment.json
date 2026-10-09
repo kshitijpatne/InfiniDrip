@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3685,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S636 tests the only unmeasured cell after S617/S632/S635: coordinate-identical CUT LWPOLYLINE × CLO DXF-ASTM import. This is one explicit mode/entity interaction test using recorded S632 settings, not another POLYLINE ASTM mode permutation. Stop before export if any source contour/identity fails 0.001 cm; only all-native pass permits one conditional ASTM graded-nest round trip. No pattern or acceptance changes. See E-G04-S636-START."
+}
