@@ -1,4 +1,19 @@
-## Current EPIC-17/G04 V03 contract audit — S587 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S588 exit (2026-10-09)
+
+S588 tested one local CLO 2026.1.310 DXF-AAMA XDATA round trip. Output retained
+0/56 custom entity IDs and no registered `INFINIDRIP_G04` APPID, so this tested
+route cannot supply stable source identity. Import `Draw Curve Points` differed
+from the pinned configuration and the session held two prior inserts; therefore
+the exported geometry is not attributable. Rendered snapshot shows all nine
+expected pieces. No acceptance, geometry, source code, legacy behavior, or
+baseline changed. All V03 gates remain open. CLO stays open for admitted work.
+Board start/exit replay is 3465→3467→3469; V02 remains Done and V03/EPIC-17
+remain In Progress. Exit packet:
+`docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md`.
+Next S589 reconciles retained seven-recipe/two-generation evidence against the
+unchanged V03 acceptance matrix, without repeating this pilot.
+
+## Prior EPIC-17/G04 V03 contract audit — S587 exit (2026-10-09)
 
 S587 confirms the narrow documented CLO DXF-AAMA profile identity and its
 operator controls, but finds no CLO public contract for apparel layer names,

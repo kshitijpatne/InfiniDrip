@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3465,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S588-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S588-xdata-retention-pilot/S588-start-packet.md",
+    "verified": true,
+    "note": "One C:-confined, geometry-identical Polo M DXF-AAMA test of registered-app XDATA ID retention. Uses the already running CLO session, adds only custom identity metadata, and separately preserves the known geometry failure. No production code, gate, baseline, or acceptance change."
+  }
+}

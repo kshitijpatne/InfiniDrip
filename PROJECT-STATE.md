@@ -1,6 +1,24 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 587 exit; V03 remains open
+## EPIC-17 / G04 — Slice 588 exit; V03 remains open
+
+S588 completed one CLO 2026.1.310 DXF-AAMA round trip of a Polo M diagnostic
+fixture with 56 registered-app XDATA IDs. The output retained 0/56 IDs and
+contained no `INFINIDRIP_G04` APPID/XDATA, so this tested route does not provide
+stable entity identity. The import's `Draw Curve Points` setting differed from
+the pinned S536 setup and the active scene had two pre-existing inserts; the
+geometry output is therefore not attributable to this trial. Its snapshot
+confirms the nine expected pieces are visible. No geometry, acceptance, gate,
+baseline, or production code changed. All remaining V03 gates stay open. CLO
+remains open for admitted work. Exit packet:
+`docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md`.
+
+Validated board exit replay: 3467→3469; G04-V02 Done and G04-V03/EPIC-17 In
+Progress. Next S589 reconciles existing seven-recipe/two-generation evidence
+against the exact V03 acceptance matrix without repeating the XDATA trial.
+The goal remains active and aligned.
+
+## Prior EPIC-17 / G04 — Slice 587 exit; V03 remains open
 
 S587 maps the documented CLO DXF-AAMA options against generic DXF metadata.
 CLO's guide documents operator scale selection, pattern annotations,

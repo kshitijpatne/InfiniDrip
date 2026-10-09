@@ -1,6 +1,6 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S587 exit
+## Current EPIC-17/G04 V03 boundary — S588 exit
 
 - S585 closed at `4befb327bc027d8573b578fe1f696796af7c9bb0`; its bounded
   tested-profile disposition is in
@@ -18,9 +18,17 @@
   geometry-identical Polo XDATA-retention round trip; it cannot clear known
   contour failures. Exit packet:
   `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.
-- Board exit replay is 3463→3465; G04-V02 Done and G04-V03/EPIC-17 In
-  Progress. Next S588 tests entity-ID retention only, without a production
-  writer change. The goal remains active and aligned; CLO remains open.
+- S588's one CLO 2026.1.310 DXF-AAMA XDATA pilot retained 0/56 source IDs
+  and no registered app record. This rules out stable identity through the
+  tested route only; it is not a universal CLO/DXF claim. An import-option
+  deviation and two pre-existing scene inserts make the exported geometry
+  unattributable. The rendered snapshot shows all nine expected pieces. No
+  V03 gate or scope changed. Exit packet:
+  `docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md`.
+- Validated board exit replay is 3467→3469; G04-V02 Done and G04-V03/EPIC-17
+  In Progress. Next S589 reconciles retained seven-recipe/two-generation
+  evidence against the exact V03 matrix, without another XDATA trial. The goal
+  remains active and aligned; CLO remains open.
 
 ## Prior EPIC-17/G04 V03 boundary — S585 exit
 

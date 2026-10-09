@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3465,
-  "updatedAt": "2026-10-09T06:26:39.283Z",
+  "revision": 3469,
+  "updatedAt": "2026-10-09T06:45:49.073Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11703,6 +11703,16 @@
           "at": "2026-10-09T06:26:39.283Z",
           "actor": "Codex",
           "text": "S587 confirms the named CLO DXF-AAMA profile and its operator controls, but public docs do not specify a layer, stable piece/mark identity, or XDATA retention contract. Autodesk's generic XDATA is application-defined, not apparel meaning. S588 will test only whether source entity IDs survive one geometry-identical Polo round trip; all V03 gates remain. See E-G04-S587-EXIT."
+        },
+        {
+          "at": "2026-10-09T06:29:30.218Z",
+          "actor": "Codex",
+          "text": "S588 runs one controlled CLO round trip on a geometry-identical Polo M diagnostic derivative to test whether registered-app XDATA IDs survive. The data is InfiniDrip-specific, not apparel-standard semantics. Keep files in C:\\G04-CLO-DXF-Exchange\\S588-xdata-retention-pilot, use the existing app session, and stop after the first measured result. The five Polo CUT failures and all other V03 gates remain held."
+        },
+        {
+          "at": "2026-10-09T06:45:49.073Z",
+          "actor": "Codex",
+          "text": "S588's single local CLO 2026.1.310 DXF-AAMA XDATA trial retained 0/56 InfiniDrip source IDs and no registered app record. The tested route cannot provide stable entity identity. Its geometry result is not attributable because Draw Curve Points differed from the pinned setup and two prior scene inserts were present; the snapshot verifies only that nine expected pieces appeared. No V03 gate clears or changes. S589 reconciles existing seven-recipe/two-generation evidence without repeating this test. See E-G04-S588-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11975,7 +11985,9 @@
         "E-G04-S586-START",
         "E-G04-S586-EXIT",
         "E-G04-S587-START",
-        "E-G04-S587-EXIT"
+        "E-G04-S587-EXIT",
+        "E-G04-S588-START",
+        "E-G04-S588-EXIT"
       ],
       "flagKey": null
     },
@@ -22681,6 +22693,24 @@
       "sha256": null,
       "verified": true,
       "note": "S587 maps CLO DXF-AAMA documented controls separately from generic DXF metadata. CLO documents units, annotation, cut/sew swap, and grade/Rule File choices but no piece/mark-ID or XDATA retention contract. DXF XDATA is app-defined. Next is one geometry-identical Polo XDATA-retention pilot; it cannot clear the five known contour failures or establish AAMA semantics."
+    },
+    {
+      "id": "E-G04-S588-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S588-xdata-retention-pilot/S588-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One C:-confined, geometry-identical Polo M DXF-AAMA test of registered-app XDATA ID retention. Uses the already running CLO session, adds only custom identity metadata, and separately preserves the known geometry failure. No production code, gate, baseline, or acceptance change."
+    },
+    {
+      "id": "E-G04-S588-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S588 local CLO 2026.1.310 DXF-AAMA XDATA pilot retained 0/56 custom IDs and no registered app record. This rules out stable entity identity for the tested route only; geometry is unattributable due to a documented import-option deviation and two pre-existing scene inserts. Snapshot shows nine expected pieces. All V03 acceptance gates remain unchanged and open."
     }
   ]
 }
