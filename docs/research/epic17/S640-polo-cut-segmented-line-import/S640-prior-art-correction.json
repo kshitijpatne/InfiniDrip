@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3705,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S640 exit-audit correction: S620/S621 already tested DXF-AAMA and S622 Standard DXF on the S574 connected-LINE Polo fixture. The S640 subset (five CUT contours as lines, remaining entities unchanged) is an isolation rerun within that already-tested encoding family, not a novel representation. The start-packet novelty statement was incorrect and is corrected in the linked packet. Final comparison searches all CLO patterns, not just numeric-index peers; four of nine source CUT paths uniquely match, five fail the unchanged 0.001 cm pre-export gate. No export was performed; no gate clears. See E-G04-S640-EXIT."
+}

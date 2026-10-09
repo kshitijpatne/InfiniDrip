@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3702,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S640 targets the repeated five-piece Polo CUT failure with one previously untested entity representation. The exact short-edge source corners and 0.0127–0.0140 cm omission errors are mapped in S634; S619 confirms the loss is present before CLO export. Prior import-mode and POLYLINE/LWPOLYLINE matrices are complete, so this is not a repeat setting permutation. Convert only those five contours to coordinate-identical connected LINE entities in a temporary C:-only derivative; fail closed unless all nine piece identities and CUT/SEW paths pass 0.001 cm before any export. See E-G04-S640-START."
+}

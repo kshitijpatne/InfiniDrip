@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3701,
-  "updatedAt": "2026-10-09T21:53:35.731Z",
+  "revision": 3706,
+  "updatedAt": "2026-10-09T22:21:35.852Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12273,6 +12273,21 @@
           "at": "2026-10-09T21:53:35.731Z",
           "actor": "Codex",
           "text": "S639's earlier UI-stop note is superseded by its completed, hash-pinned native Button/Buttonhole DXF-AAMA probe. A disposable Woven copy exported and cleanly reimported 12 pieces, but CLO-native trim geometry and centers do not preserve either source technical mark; detailed reimport readability remains unverified due the zoom-cropped view. This closes only the tested native-trim hypothesis and clears no gate. All V03 acceptance, 0.001 cm threshold, holds and statuses remain unchanged. See E-G04-S639-EXIT."
+        },
+        {
+          "at": "2026-10-09T22:03:06.036Z",
+          "actor": "Codex",
+          "text": "S640 targets the repeated five-piece Polo CUT failure with one previously untested entity representation. The exact short-edge source corners and 0.0127–0.0140 cm omission errors are mapped in S634; S619 confirms the loss is present before CLO export. Prior import-mode and POLYLINE/LWPOLYLINE matrices are complete, so this is not a repeat setting permutation. Convert only those five contours to coordinate-identical connected LINE entities in a temporary C:-only derivative; fail closed unless all nine piece identities and CUT/SEW paths pass 0.001 cm before any export. See E-G04-S640-START."
+        },
+        {
+          "at": "2026-10-09T22:18:31.715Z",
+          "actor": "Codex",
+          "text": "S640's hash-pinned CLO Standard-DXF import measured nine piece identities, but only four of nine CUT contours match the source within 0.001 cm. Back, both collar stands, and both pointed collars fail before export; no output/reimport was attempted. This connected-LINE representation is closed as unsuccessful, with all V03 gates, the all-seven requirement and holds unchanged. See E-G04-S640-EXIT."
+        },
+        {
+          "at": "2026-10-09T22:21:35.852Z",
+          "actor": "Codex",
+          "text": "S640 exit-audit correction: S620/S621 already tested DXF-AAMA and S622 Standard DXF on the S574 connected-LINE Polo fixture. The S640 subset (five CUT contours as lines, remaining entities unchanged) is an isolation rerun within that already-tested encoding family, not a novel representation. The start-packet novelty statement was incorrect and is corrected in the linked packet. Final comparison searches all CLO patterns, not just numeric-index peers; four of nine source CUT paths uniquely match, five fail the unchanged 0.001 cm pre-export gate. No export was performed; no gate clears. See E-G04-S640-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12659,7 +12674,9 @@
         "E-G04-S638-START",
         "E-G04-S638-EXIT",
         "E-G04-S639-START",
-        "E-G04-S639-EXIT"
+        "E-G04-S639-EXIT",
+        "E-G04-S640-START",
+        "E-G04-S640-EXIT"
       ],
       "flagKey": null
     },
@@ -24391,6 +24408,24 @@
       "sha256": null,
       "verified": true,
       "note": "S639 completed one CLO 2026.1.310 DXF-AAMA native Button/Buttonhole export and clean reimport from a disposable Woven project. CLO returned 12 pieces without an import error, but the button became a radius-1.0 cm 24-vertex polygon instead of the source radius-0.15 cm MARK_BUTTON circle; the buttonhole became a slot instead of its source MARK_BUTTONHOLE point. Both centers shifted about 0.07616 cm, above the unchanged 0.001 cm limit. Detailed reimport readability remains unverified because the live 2D view is zoom-cropped. No V03 gate or hold clears. CLO remains open; all raw files and hashes are C:-only."
+    },
+    {
+      "id": "E-G04-S640-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S640-polo-cut-segmented-line-import/S640-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S640 for one untested, source-coordinate-identical representation: five repeatedly simplified Polo CUT polylines encoded as connected LINE entities. Existing CLO Standard/ASTM and POLYLINE/LWPOLYLINE matrices showed the same five losses; no further settings/format permutation or source geometry edit. One Standard-DXF import, conditional on a full source-bound pre-export pass a single ASTM output/reimport. Keep every V03 threshold, all-seven gate and hold; all files stay in the named S640 C: folder; use the already-open CLO session."
+    },
+    {
+      "id": "E-G04-S640-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S640-polo-cut-segmented-line-import/S640-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S640 tested one new connected-LINE representation on five Polo CUT contours in CLO Standard DXF. Native pre-export comparison passes four of nine contours but fails back, both collar stands and both pointed collars at the unchanged 0.001 cm gate; no export/reimport was performed. Hash-pinned native comparison and actual nine-piece CLO overview are retained in the named C: evidence folder. This rejects only this representation; V03 gates, all-seven scope and all holds remain unchanged."
     }
   ]
 }

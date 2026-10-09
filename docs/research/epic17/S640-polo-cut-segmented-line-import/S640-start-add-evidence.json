@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3701,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S640-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S640-polo-cut-segmented-line-import/S640-start-packet.md",
+    "verified": true,
+    "note": "Reserves S640 for one untested, source-coordinate-identical representation: five repeatedly simplified Polo CUT polylines encoded as connected LINE entities. Existing CLO Standard/ASTM and POLYLINE/LWPOLYLINE matrices showed the same five losses; no further settings/format permutation or source geometry edit. One Standard-DXF import, conditional on a full source-bound pre-export pass a single ASTM output/reimport. Keep every V03 threshold, all-seven gate and hold; all files stay in the named S640 C: folder; use the already-open CLO session."
+  }
+}

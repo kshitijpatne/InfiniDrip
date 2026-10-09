@@ -1,5 +1,40 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 640 closed; V03 remains In Progress
+
+S640 isolated the five affected Polo CUT contours as connected, ordered
+`LINE` segments with exactly the source coordinates on `CUT`. Exit review
+found the LINE family was already tested in CLO DXF-AAMA (S620/S621) and
+Standard DXF (S622); S640 adds a narrower mixed-entity fixture, not a novel
+representation. The start packet's novelty claim was incorrect and was
+corrected in the exit packet, start-packet correction, and board comment.
+CLO 2026.1.310 returned nine native patterns, but its native coordinates
+failed the unchanged `0.001 cm` pre-export gate for the
+back, both collar stands, and both pointed collars. Front, sleeve, and both
+plackets pass. The five failed results are measured before export: back
+33/33 vertices but maximum best cyclic delta `2.236068 cm`; stands 58 native
+points versus 54 source vertices; pointed collars 44/44 vertices but maximum
+best all-pattern cyclic delta `9.310850 cm`. Analysis now searches every
+native pattern rather than assuming numeric piece order. No export or reimport
+was performed. The
+actual nine-piece CLO overview and hash-pinned source/native analyzer are in
+`C:\G04-CLO-DXF-Exchange\S640-polo-cut-segmented-line-import\`; the durable
+analysis and limits are in
+`docs/research/epic17/S640-polo-cut-segmented-line-import/S640-exit-packet.md`.
+
+The connected-LINE subset trial clears no V03 acceptance and changes no product
+code, source pattern, threshold, profile claim, protected export identity, or
+hold. It is not evidence for all recipes/options/grades, marks, malformed
+input, repeated exchange, or readable reimport. V01/V02 remain Done;
+V03/EPIC-17 remain In Progress. S639 was the highest prior slice; S640 is the
+single unique slice reserved. Start replay was `3701→3703`; validated exit
+replay and focused Control Center checks are recorded in S640's packet and
+command artifacts. S620/S621/S622 outcomes must be carried forward; no further
+LINE or CLO profile permutation is justified without a new bounded question.
+Inspect later receiver/profile/rights evidence before defining the next action.
+Do not export the failed imported project. CLO remains open. No physical-fit, factory
+acceptance, or production-readiness claim is supported.
+
 ## EPIC-17 / G04 — Slice 639 closed; V03 remains In Progress
 
 S639 performed one CLO-native Button/Buttonhole DXF-AAMA export and clean
