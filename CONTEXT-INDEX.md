@@ -2,16 +2,22 @@
 
 ## Current EPIC-17/G04 V03 slice
 
-- `docs/research/epic17/S559-source-backed-grade-fixture/` is the current
-  slice. All seven recipes have five source-generated per-size DXFs from the
-  current digital `gradeRun` tables. One CLO 2026.1.310 DXF-AAMA Tee XS import/
-  export preserved all six CUT/SEW contours within 0.001 cm (maximum
-  0.000017 cm), but named the output blocks `0_M`, `1_M`, `2_M`; this path
-  loses the XS identity and does not encode graded relationships. Keep that
-  subgate failed/open. S559's exit packet and C:-only rendered/geometry
-  evidence are linked below. Next investigate a source/profile representation
-  that carries named sizes and grade-point relationships, then separately
-  resolve existing Polo contour, CUT/SEW, marks, and malformed-input gates.
+- `docs/research/epic17/S560-grade-format-source-review/S560-exit-packet.md`
+  is the current slice. CLO's official help documents grading included in DXF
+  or a separate Rule File, but not its grade-rule syntax. Historical ASTM
+  D6673 describes DXF plus an ASCII grade-rule table; ASTM lists D6673-10 as
+  withdrawn in 2019. NISTIR 5969 says ANSI/AAMA-292 itself does not transfer
+  grade growth values. The current source writer takes one-size `Piece[]`;
+  S559's Tee XS import/export returned `0_M`/`1_M`/`2_M`. No lawful exact
+  grade fixture/spec or source-backed Rule File was available, so S560 did not
+  invent one or repeat the no-grade CLO trial. Grade/size V03 gates remain
+  held. Next locate a rights-clear exact fixture/specification and documented
+  receiver-supported path; do not change gates or legacy export behavior.
+  Board start/exit replay is 3353→3355→3357; Control Center tests pass 42/42.
+  S560 packet and refreshed gate matrix contain exact sources, limits, and
+  remaining evidence. CLO product-development testing and local processing
+  are confirmed. All exchange files remain C:-only. Earlier seven-recipe
+  fixture evidence, including the output render, is in S559 below.
   S558's official CLO source identifies `CLO 2026.1.310 / DXF-AAMA` and the
   rule-file option, but no normative AAMA edition or full conformance map.
   S557 corrections and retained mark findings:

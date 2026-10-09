@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3353,
-  "updatedAt": "2026-10-09T00:19:30.678Z",
+  "revision": 3357,
+  "updatedAt": "2026-10-09T00:26:47.813Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11423,6 +11423,16 @@
           "at": "2026-10-09T00:19:30.678Z",
           "actor": "Codex",
           "text": "S559 generated XS/S/M/L/XL DXFs for all seven recipes from current gradeRun rules. CLO DXF-AAMA round-tripped Tee XS with all 6 CUT/SEW outlines within 0.001 cm (max 0.000017 cm), but output block names are 0_M/1_M/2_M; size identity and grade-rule interchange remain unproved. CLO returned no error. Five Polo contour failures, layer/mark ambiguities, malformed-input acceptance and every all-seven requirement remain held; no criterion or legacy behavior changed."
+        },
+        {
+          "at": "2026-10-09T00:22:45.476Z",
+          "actor": "Codex",
+          "text": "S560 will determine the precise supportable route for grade/size interchange after S559's CLO output labeled a source XS file M. Use current primary CLO/ASTM evidence and the existing source contract; run CLO only if a real, documented grade-bearing input exists. No paid standard, guessed file syntax, repeated no-grade trial, gate change, or cloud transfer."
+        },
+        {
+          "at": "2026-10-09T00:26:47.813Z",
+          "actor": "Codex",
+          "text": "S560 checked official CLO, ASTM and NIST sources against the source writer and S559's actual XS round trip. CLO documents grade-in-DXF/Rule File choices but not grade syntax; historical D6673 separates ASCII grade rules, D6673-10 is withdrawn, and NIST says AAMA-292 does not transfer growth values. Current writer accepts one-size geometry only; CLO relabeled XS blocks M. No lawful exact grade fixture/spec was available, so no guessed input or repeated trial. Keep grade/size/all-seven gates and every other V03 hold unchanged. Next locate a rights-clear exact fixture/spec and documented receiver path. CLO trial use/local processing authorization is settled; keep the session open and all files C:-only."
         }
       ],
       "evidenceRefs": [
@@ -11639,7 +11649,9 @@
         "E-G04-S558-START",
         "E-G04-S558-EXIT",
         "E-G04-S559-START",
-        "E-G04-S559-EXIT"
+        "E-G04-S559-EXIT",
+        "E-G04-S560-START",
+        "E-G04-S560-EXIT"
       ],
       "flagKey": null
     },
@@ -21841,6 +21853,24 @@
       "sha256": null,
       "verified": true,
       "note": "Generated per-size source fixtures for all seven recipes and ran one CLO DXF-AAMA Tee XS import/export: 6/6 CUT/SEW outlines pass 0.001 cm, but CLO relabels the source XS blocks as M; no graded relationship or size identity pass. All other V03 holds remain."
+    },
+    {
+      "id": "E-G04-S560-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S560-grade-format-source-review/S560-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconcile official CLO grade export/import documentation, ASTM profile status/rights, and the exact S559 size-identity failure before any new grade-bearing CLO trial; no guessed syntax or acceptance changes."
+    },
+    {
+      "id": "E-G04-S560-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S560-grade-format-source-review/S560-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official CLO help documents grade-in-DXF and separate Rule File options but not syntax; ASTM historical D6673 describes separate ASCII grade rules and lists D6673-10 withdrawn in 2019; NISTIR 5969 says AAMA-292 does not transfer growth values. No source-backed grade fixture/spec exists in the checked route. Grade/size V03 gates remain held; no guessed syntax, purchase, trial rerun or acceptance change."
     }
   ]
 }

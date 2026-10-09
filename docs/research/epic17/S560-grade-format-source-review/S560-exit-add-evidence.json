@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3355,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S560-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S560-grade-format-source-review/S560-exit-packet.md",
+    "verified": true,
+    "note": "Official CLO help documents grade-in-DXF and separate Rule File options but not syntax; ASTM historical D6673 describes separate ASCII grade rules and lists D6673-10 withdrawn in 2019; NISTIR 5969 says AAMA-292 does not transfer growth values. No source-backed grade fixture/spec exists in the checked route. Grade/size V03 gates remain held; no guessed syntax, purchase, trial rerun or acceptance change."
+  }
+}

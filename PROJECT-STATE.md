@@ -1,6 +1,35 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 559 exit; V03 remains open
+## EPIC-17 / G04 — Slice 560 exit; V03 remains open
+
+S560 checked the grade/size interchange route against official CLO Help,
+ASTM's catalog and historical D6673 description, NISTIR 5969, the current
+source writer contract, and the S559 output. CLO documents grading included
+in DXF or as a separate Rule File, but does not publish its grade syntax in
+the checked public guide. Historical ASTM D6673 describes DXF plus a separate
+ASCII grade-rule table; ASTM currently lists D6673-10 as withdrawn in 2019.
+NISTIR 5969 says ANSI/AAMA-292 did not define transfer of grade growth values.
+The source writer accepts only one-size `Piece[]`; the actual Tee XS CLO test
+returned `0_M`/`1_M`/`2_M`. No paid standard, guessed syntax, fabricated rule,
+or redundant CLO trial was used. Grade and named-size gates remain failed/open.
+See `docs/research/epic17/S560-grade-format-source-review/S560-exit-packet.md`
+and refreshed matrix `docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`.
+CLO remains open, and all exchange files remain C:-only.
+
+No scope, acceptance, threshold, geometry, legacy export, or protected identity
+changed. CLO product-development evaluation and local processing are confirmed
+by the maintainer. V01/V02 remain Done; V03 is In Progress. No physical fit,
+factory acceptance, or production-readiness claim is made. S560 start/exit
+board replays 3353→3355→3357 and elapsed category details are in the packet.
+
+Next: locate a rights-clear exact grade-bearing fixture/specification and a
+receiver-supported representation before one practical CLO test. Do not
+repeat S559's one-size case, guess grade syntax, buy the withdrawn historical
+standard, change legacy output, or alter V03 gates. Continue with the remaining
+independently addressable V03 evidence only where a concrete, untested path
+exists.
+
+## Prior EPIC-17 / G04 — Slice 559 exit; V03 remains open
 
 S559 generated 35 source-derived per-size DXFs (XS/S/M/L/XL across all seven
 recipes) from the current `gradeRun` tables. Tee/Fitted/Tank/Polo share

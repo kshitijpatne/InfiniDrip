@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3356,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S560 checked official CLO, ASTM and NIST sources against the source writer and S559's actual XS round trip. CLO documents grade-in-DXF/Rule File choices but not grade syntax; historical D6673 separates ASCII grade rules, D6673-10 is withdrawn, and NIST says AAMA-292 does not transfer growth values. Current writer accepts one-size geometry only; CLO relabeled XS blocks M. No lawful exact grade fixture/spec was available, so no guessed input or repeated trial. Keep grade/size/all-seven gates and every other V03 hold unchanged. Next locate a rights-clear exact fixture/spec and documented receiver path. CLO trial use/local processing authorization is settled; keep the session open and all files C:-only."
+}
