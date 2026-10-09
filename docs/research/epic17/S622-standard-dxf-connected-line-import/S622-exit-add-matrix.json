@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3626,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S622-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S622-standard-dxf-connected-line-import/V03-CURRENT-GATE-MATRIX-S622.md",
+    "verified": true,
+    "note": "S622 updates the V03 matrix with Standard-DXF import: 4/9 CUT and 4/9 SEW pass at 0.001 cm; no output was exported after the native pre-export gate failed. All-seven, receiver/profile, semantics, options, round-trip and claim gates remain open."
+  }
+}

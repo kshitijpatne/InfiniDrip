@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3623,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S622 isolates CLO Standard-DXF import against the exact S574 connected-LINE fixture with swap off and other baseline settings fixed. Inspect the same native CUT/SEW geometry and rendered pieces before any export; if either gate fails, stop this fixture's profile variants. Keep all V03 gates, rights/profile review, all-seven scope, 0.001 cm threshold, legacy behavior, protected identities, and claim limits unchanged. See E-G04-S622-START."
+}

@@ -1,12 +1,24 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 621 exit; V03 remains open
+## EPIC-17 / G04 — Slice 622 exit; V03 remains open
+
+S622 tested CLO Standard-DXF import of the exact S574 connected-LINE Polo M input. CLO returned nine patterns and rendered nine pieces without an import/API error, but source-bound native geometry passes only 4/9 CUT and 4/9 SEW contours at 0.001 cm. The five CUT misses are 1.86781, 2.33034, 2.34012, and two at 93.1135 mm; five SEW misses are 0.44230–0.45497 mm. The source-to-input line-chain check remains within threshold. No DXF export or round trip was attempted because the pre-export gate failed. Details, exact settings, hashes, and rendered review are in `docs/research/epic17/S622-standard-dxf-connected-line-import/S622-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S622.md`; application/render evidence remains under `C:\G04-CLO-DXF-Exchange\S622-standard-dxf-connected-line-import\`. Validated board replay 3624→3627. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress with all criteria/holds unchanged.
+
+Next: discontinue CLO import-profile permutations on this fixture and qualify a technically distinct receiver candidate against documented rights/local-handling evidence before any file is supplied. Do not repeat geometry or settings trials without a distinct evidence-backed question. At this safe boundary `get_goal` reports the admitted EPIC-17 objective as active and aligned with the current records; keep it unchanged and needed until the Epic is complete. S622 ran 13:49:32–14:18:43 UTC (29m11s): CLO import/native query/snapshot about 9m; geometry analysis/helper work about 13m; focused checks and durable closeout about 7m11s; external-agent waits 0; maintainer-decision time 0. CLO remains open for the active Epic.
+
+## EPIC-17 / G04 — Slice 622 start; V03 remains open
+
+S622 started from clean S621 commit `53531db882c817be002421e8fb2795425c4ecee2`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 621; S622 was reserved. Board revision 3622 recorded G04-V03 In Progress and G04-V02 Done. The maintainer's written confirmations cover CLO product-development evaluation and local-only processing. Start packet and validated start replay 3622→3624: `docs/research/epic17/S622-standard-dxf-connected-line-import/S622-start-packet.md`.
+
+Bounded next action: compare CLO Standard-DXF import to AAMA on the same connected-LINE fixture with swap off; query native geometry and do not export unless the full pre-export gate passes. The gate failed, as recorded above; the next slice must use a distinct evidence-backed receiver candidate. All V03 gates/holds, protected identities, and claim limits remain unchanged. CLO remains open.
+
+## Prior EPIC-17 / G04 — Slice 621 exit; V03 remains open
 
 S621's same-input DXF-AAMA swap-on diagnostic rendered nine pieces and queried nine patterns without errors. All nine source SEW contours match their expected native pattern; none of the nine paired CUT contours passes 0.001 cm (best comparable deviations span 1.4142–9.3109 cm; two stands have no same-point-count candidate). Every ordered native point list is identical to S620's swap-off baseline. No DXF export occurred. Detailed settings, bounded interpretation, and evidence hashes are in `docs/research/epic17/S621-aama-swap-lines-import/S621-exit-packet.md`; board replay 3618→3620→3622. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress with all criteria unchanged.
 
 Next: compare CLO Standard-DXF import against AAMA on the same connected-LINE input, with swap off and all other settings at the S574 baseline; query native geometry before any export. If that fails the CUT gate, stop further CLO profile variants on this fixture and advance to the next rights-qualified receiver candidate. S621 ran 13:35:34–13:47:30 UTC (11m56s): import/query/snapshot UI work about 8m; geometry analysis and report creation about 2m; focused verification and packet/state/board closeout about 1m56s; external waits 0; maintainer-decision time 0. CLO remains open.
 
-## EPIC-17 / G04 — Slice 621 start; V03 remains open
+## Prior EPIC-17 / G04 — Slice 621 start; V03 remains open
 
 S621 starts from clean S620 commit `66fc68fdf8f4c42bdfd7c6f232098305d385cb8a`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. The unique highest slice was 620; S621 is reserved. Board revision 3618 has EPIC-17/G04-V03 In Progress and G04-V02 Done. The maintainer confirmed CLO trial use for product-development evaluation and local file processing. Start packet: `docs/research/epic17/S621-aama-swap-lines-import/S621-start-packet.md`; C:-only input SHA-256 is recorded there.
 

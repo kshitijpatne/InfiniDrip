@@ -1,8 +1,12 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S621 exit
+## Current EPIC-17/G04 V03 boundary — S622 exit
 
-- S621's exact S574 DXF-AAMA fixture with Swap Cutting Line and Sewing Line enabled renders nine pieces, matches 9/9 SEW contours and 0/9 CUT contours in CLO native geometry at 0.001 cm. Its native point lists are identical in all nine patterns to S620's no-swap baseline; no DXF export was attempted. CLO trial product-development use and local file processing are confirmed by the maintainer. Exit packet and C:-only evidence: `docs/research/epic17/S621-aama-swap-lines-import/S621-exit-packet.md`, with generated files under `C:\G04-CLO-DXF-Exchange\S621-aama-swap-lines-import\`. Board replay 3618→3620→3622. V02 remains Done; V03/EPIC-17 remain In Progress and all holds are unchanged. Next compare Standard-DXF import on the same connected-LINE fixture with swap off, then inspect native CUT geometry before export.
+- S622 compared CLO Standard-DXF with the prior AAMA imports on the same hash-pinned S574 connected-LINE Polo M fixture, before export. CLO returned 9 patterns and rendered all 9, but the source-bound native geometry passes only 4/9 CUT and 4/9 SEW at `0.001 cm`. Five CUT contours miss by 1.86781, 2.33034, 2.34012, and twice 93.1135 mm; five SEW contours miss by 0.44230–0.45497 mm. Input line-chain geometry remains within threshold against the canonical source, so this is a post-import native-geometry failure, not a changed input contour. No DXF export or round trip was attempted. CLO use for product-development evaluation and local-only processing are confirmed in writing. Exit packet, matrix, helper, and C:-only evidence: `docs/research/epic17/S622-standard-dxf-connected-line-import/` and `C:\G04-CLO-DXF-Exchange\S622-standard-dxf-connected-line-import\`. Board replay 3624→3627. V02 remains Done; V03/EPIC-17 remain In Progress; every acceptance criterion and hold remains. Next qualify a technically distinct receiver candidate; do not repeat CLO profile variants on this fixture.
+
+## Prior EPIC-17/G04 V03 boundary — S621 exit
+
+- S621's exact S574 DXF-AAMA fixture with Swap Cutting Line and Sewing Line enabled renders nine pieces, matches 9/9 SEW contours and 0/9 CUT contours in CLO native geometry at 0.001 cm. Its native point lists are identical in all nine patterns to S620's no-swap baseline; no DXF export was attempted. Exit packet and C:-only evidence: `docs/research/epic17/S621-aama-swap-lines-import/S621-exit-packet.md`, with generated files under `C:\G04-CLO-DXF-Exchange\S621-aama-swap-lines-import\`. Board replay 3618→3620→3622. V02 remains Done; V03/EPIC-17 remain In Progress and all holds are unchanged.
 
 ## Prior EPIC-17/G04 V03 boundary — S620 exit
 

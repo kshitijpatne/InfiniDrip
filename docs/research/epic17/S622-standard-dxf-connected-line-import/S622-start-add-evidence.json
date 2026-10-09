@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3622,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S622-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S622-standard-dxf-connected-line-import/S622-start-packet.md",
+    "verified": true,
+    "note": "S622 compares Standard-DXF vs AAMA import on the same hash-pinned connected-LINE Polo M fixture, swap off; query CLO native CUT/SEW before any export. No gate or acceptance changes."
+  }
+}

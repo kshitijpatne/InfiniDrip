@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3622,
-  "updatedAt": "2026-10-09T13:47:19.918Z",
+  "revision": 3627,
+  "updatedAt": "2026-10-09T14:14:24.087Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12088,6 +12088,16 @@
           "at": "2026-10-09T13:47:19.918Z",
           "actor": "Codex",
           "text": "S621's controlled CLO AAMA swap-lines import returned the same native geometry as S620 with swap disabled: 9/9 SEW matches, 0/9 CUT within 0.001 cm. Because CUT already failed before export, no DXF was exported. Close this AAMA swap route for the fixture; compare Standard DXF next on the same input and settings, with swap off. All V03 gates stay open. See E-G04-S621-EXIT."
+        },
+        {
+          "at": "2026-10-09T13:51:07.143Z",
+          "actor": "Codex",
+          "text": "S622 isolates CLO Standard-DXF import against the exact S574 connected-LINE fixture with swap off and other baseline settings fixed. Inspect the same native CUT/SEW geometry and rendered pieces before any export; if either gate fails, stop this fixture's profile variants. Keep all V03 gates, rights/profile review, all-seven scope, 0.001 cm threshold, legacy behavior, protected identities, and claim limits unchanged. See E-G04-S622-START."
+        },
+        {
+          "at": "2026-10-09T14:14:23.691Z",
+          "actor": "Codex",
+          "text": "S622 closes this CLO Standard-DXF import candidate on the S574 Polo M fixture: 9 patterns rendered, but only 4/9 source CUT and 4/9 SEW contours pass the unchanged 0.001 cm native-geometry gate. Five of each fail; the CUT maximum is 93.1135 mm. No DXF export occurred because pre-export geometry failed. Stop profile permutations on this fixture and qualify a distinct receiver candidate; all V03 and G04 gates/holds stay unchanged. See E-G04-S622-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12432,7 +12442,10 @@
         "E-G04-S620-START",
         "E-G04-S620-EXIT",
         "E-G04-S621-START",
-        "E-G04-S621-EXIT"
+        "E-G04-S621-EXIT",
+        "E-G04-S622-START",
+        "E-G04-S622-EXIT",
+        "E-G04-S622-MATRIX"
       ],
       "flagKey": null
     },
@@ -23786,6 +23799,33 @@
       "sha256": null,
       "verified": true,
       "note": "CLO AAMA swap import rendered nine pieces and matched 9/9 SEW but 0/9 CUT contours pre-export at 0.001 cm; all nine native point lists are identical to S620 no-swap baseline. No export; V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S622-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S622-standard-dxf-connected-line-import/S622-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S622 compares Standard-DXF vs AAMA import on the same hash-pinned connected-LINE Polo M fixture, swap off; query CLO native CUT/SEW before any export. No gate or acceptance changes."
+    },
+    {
+      "id": "E-G04-S622-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S622-standard-dxf-connected-line-import/S622-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO Standard-DXF import rendered and queried 9 patterns, but source-bound native geometry passes only 4/9 CUT and 4/9 SEW at 0.001 cm. The pre-export gate failed, so no DXF export or round trip was attempted. See S622 packet and hash-pinned C: evidence."
+    },
+    {
+      "id": "E-G04-S622-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S622-standard-dxf-connected-line-import/V03-CURRENT-GATE-MATRIX-S622.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S622 updates the V03 matrix with Standard-DXF import: 4/9 CUT and 4/9 SEW pass at 0.001 cm; no output was exported after the native pre-export gate failed. All-seven, receiver/profile, semantics, options, round-trip and claim gates remain open."
     }
   ]
 }

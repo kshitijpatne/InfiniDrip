@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3624,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S622-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S622-standard-dxf-connected-line-import/S622-exit-packet.md",
+    "verified": true,
+    "note": "CLO Standard-DXF import rendered and queried 9 patterns, but source-bound native geometry passes only 4/9 CUT and 4/9 SEW at 0.001 cm. The pre-export gate failed, so no DXF export or round trip was attempted. See S622 packet and hash-pinned C: evidence."
+  }
+}
