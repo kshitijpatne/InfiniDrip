@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3365,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S563-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-start-packet.md",
+    "verified": true,
+    "note": "Probe one source-generated five-size recipe in the existing CLO 2026.1.310 DXF-ASTM interface. Use only native visible controls and exact C:-confined source fixtures; compare round-trip geometry and size identity without guessed grade syntax. Preserve every V03 gate."
+  }
+}

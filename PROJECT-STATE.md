@@ -1,6 +1,50 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 562 exit; V03 remains open
+## EPIC-17 / G04 — Slice 563 exit; V03 remains open
+
+S563 tested the source-generated Skirt XS/S/M/L/XL files in the running CLO
+2026.1.310 session. The native DXF-ASTM import accepted the selected cohort;
+DXF-ASTM / Graded Nest export produced three piece-role blocks `0_M`, `1_M`,
+and `2_M`. Source comparison at the unchanged 0.001 cm contour gate matched
+all six XS contours (maximum residual 0.000017000000004727287 cm) and zero of
+six contours for each of S/M/L/XL. Re-import displayed the three piece roles,
+but not five size outlines. This tested UI route therefore failed size/grade
+identity; the exported geometry corresponds to XS but its block names label M.
+It does not establish that CLO cannot consume a correctly authored
+graded-DXF/Rule-File fixture. Exact settings, file hashes, source comparisons,
+and retained output evidence are in
+`docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S563-clo-dxf-astm-size-probe`.
+
+The rendered re-import showed the Skirt roles. CLO accepted the DXF-ASTM file
+without a parse error and displayed an informational notice that the file had
+no seam allowances and was imported in Custom mode to preserve its outline.
+The file selector/label and successful reopen do not establish normative
+industrial conformance. The maintainer's product-development trial and local
+processing confirmations are recorded in `docs/PROJECT-DECISIONS.md`; no
+reconfirmation is needed. CLO remains open for further practical tests.
+
+S563 board replay completed at 3365→3367→3369; exit evidence and comment were
+preflighted and applied through the validated command layer. `node --check`,
+the source/output analyzer assertions, and `git diff --check` pass;
+`npm run control-center:test` passes 42/42. No product source, geometry,
+exporter behavior, protected identity, V03 acceptance, threshold, or remaining
+hold changed. No physical
+fit, factory acceptance, or production readiness is claimed. **Next:** use
+S562's source point map to establish the exact lawful, primary-source-backed
+graded-DXF/Rule-File representation accepted by CLO; do not invent grade
+syntax. Continue only with bounded practical gates that can be proven using
+the exact emitted and re-imported files.
+
+Started 2026-10-09 00:41:33 UTC from clean S562 `1011fed`; exit closeout at
+2026-10-09 00:55:45 UTC, elapsed 14m12s: implementation 0m; practical CLO
+import/export/re-import 5m; parsing and source comparison 3m; focused checks
+and rendered review 2m; durable packet/state/board and commit closeout 4m12s;
+external-agent waits 0m; maintainer-decision time 0m. Primary usage remained
+available; no full repository gate was due because production code and tests
+did not change. The G04 goal remains active and aligned; no UI resume is needed.
+
+## Prior EPIC-17 / G04 — Slice 562 exit; V03 remains open
 
 S562 mapped current source grade geometry to named source pattern points for
 all seven recipes and five default sizes. The role/piece/on-fold/edge-name/
@@ -17,7 +61,8 @@ This resolves source-side point correspondence only. The current DXF encodes
 no named point identities, sizes, or grade relationships. CLO DXF-ASTM is the
 first-party documented graded-DXF candidate, but no legal exact serialization
 or verified grade fixture/import/export has been established. CLO's UI state
-mismatch from S561 remains; no action was attempted in this slice. Every V03
+mismatch from S561 was still present at S562; S563 captured a safe, matching
+visible CLO workspace and then completed a bounded file exchange. Every V03
 hold, criterion, legacy behavior, and protected identity remains unchanged.
 V01/V02 Done; V03 In Progress. CLO remains open. No physical fit, factory
 acceptance, or production-readiness claim.

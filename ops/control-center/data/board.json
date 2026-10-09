@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3365,
-  "updatedAt": "2026-10-09T00:38:17.297Z",
+  "revision": 3369,
+  "updatedAt": "2026-10-09T00:55:23.588Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11453,6 +11453,16 @@
           "at": "2026-10-09T00:38:17.297Z",
           "actor": "Codex",
           "text": "S562 confirms a stable source mapping from named pattern roles/edges to ordered sew vertices across 7 recipes × 5 sizes. All 35 re-generated DXFs have S559-identical hashes; all source vertices map exactly after the current layout/Y flip/rounding. The data proves source correspondence only; files contain no source point names, grade rules, or size groups. Preserve all V03 gates; next use this map only through lawful exact DXF-ASTM/API evidence and a safe single CLO round trip."
+        },
+        {
+          "at": "2026-10-09T00:42:07.702Z",
+          "actor": "Codex",
+          "text": "S563 checks a source-backed five-size Skirt fixture through CLO 2026.1.310's documented DXF-ASTM UI route. The current window capture and accessibility tree agree. No synthetic grade syntax, pattern-source change, repeated S559 Tee case, or V03 gate relaxation is allowed. All CAD files/captures stay in the named C:-only slice folder; stop at a concrete UI/output limitation if the native route cannot represent a valid size group."
+        },
+        {
+          "at": "2026-10-09T00:55:23.588Z",
+          "actor": "Codex",
+          "text": "S563 completed an actual local CLO 2026.1.310 DXF-ASTM round trip from five source-generated Skirt size files. The DXF-ASTM/Graded Nest output contains blocks 0_M, 1_M, 2_M. Geometry matches all six XS contours within the unchanged 0.001 cm gate (max 0.000017 cm) and none of S/M/L/XL; re-import shows three piece roles. This tested multi-file Open route fails size/grade identity. It does not prove a correctly authored graded DXF/Rule File cannot work. No V03 gate or acceptance changes; next establish the exact lawful source-backed CLO graded-DXF input representation, using S562's point map, without guessing syntax."
         }
       ],
       "evidenceRefs": [
@@ -11675,7 +11685,9 @@
         "E-G04-S561-START",
         "E-G04-S561-EXIT",
         "E-G04-S562-START",
-        "E-G04-S562-EXIT"
+        "E-G04-S562-EXIT",
+        "E-G04-S563-START",
+        "E-G04-S563-EXIT"
       ],
       "flagKey": null
     },
@@ -21931,6 +21943,24 @@
       "sha256": null,
       "verified": true,
       "note": "Across seven recipes and five sizes, source edge/point/sample identities are stable; all 35 generated legacy DXF hashes match S559, and every source sew sample maps exactly to the DXF SEW polyline. This proves source mapping only; no serialized names/grade rules or grade-bearing interchange. All V03 holds remain."
+    },
+    {
+      "id": "E-G04-S563-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Probe one source-generated five-size recipe in the existing CLO 2026.1.310 DXF-ASTM interface. Use only native visible controls and exact C:-confined source fixtures; compare round-trip geometry and size identity without guessed grade syntax. Preserve every V03 gate."
+    },
+    {
+      "id": "E-G04-S563-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO DXF-ASTM/Graded Nest accepted the Skirt XS/S/M/L/XL trial but emitted three M-labeled blocks. The output matches all 6 XS contours within 0.001 cm (max 0.000017 cm) and 0/6 contours for S/M/L/XL; re-import renders three piece roles, not five grade identities. Tested route fails size-group gate; all V03 gates remain held."
     }
   ]
 }

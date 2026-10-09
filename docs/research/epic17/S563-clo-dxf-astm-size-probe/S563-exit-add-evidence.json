@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3367,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S563-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-exit-packet.md",
+    "verified": true,
+    "note": "CLO DXF-ASTM/Graded Nest accepted the Skirt XS/S/M/L/XL trial but emitted three M-labeled blocks. The output matches all 6 XS contours within 0.001 cm (max 0.000017 cm) and 0/6 contours for S/M/L/XL; re-import renders three piece roles, not five grade identities. Tested route fails size-group gate; all V03 gates remain held."
+  }
+}

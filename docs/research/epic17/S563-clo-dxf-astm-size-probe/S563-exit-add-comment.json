@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3368,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S563 completed an actual local CLO 2026.1.310 DXF-ASTM round trip from five source-generated Skirt size files. The DXF-ASTM/Graded Nest output contains blocks 0_M, 1_M, 2_M. Geometry matches all six XS contours within the unchanged 0.001 cm gate (max 0.000017 cm) and none of S/M/L/XL; re-import shows three piece roles. This tested multi-file Open route fails size/grade identity. It does not prove a correctly authored graded DXF/Rule File cannot work. No V03 gate or acceptance changes; next establish the exact lawful source-backed CLO graded-DXF input representation, using S562's point map, without guessing syntax."
+}

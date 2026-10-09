@@ -1,6 +1,32 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 slice
+## Current EPIC-17/G04 V03 boundary — S563 exit
+
+- `docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-exit-packet.md`
+  records a real CLO 2026.1.310 DXF-ASTM / Graded Nest export and re-import
+  using the source-generated Skirt XS/S/M/L/XL fixtures. CLO accepted the
+  emitted file and showed three piece roles, but exported block IDs are only
+  `0_M`, `1_M`, `2_M`; source comparison matches all six XS contours within
+  0.001 cm (max residual 0.000017000000004727287 cm) and matches none of S/M/L/XL.
+  The tested multi-file Open route therefore fails the size-group gate and
+  labels XS geometry as M. This does not prove CLO rejects a correctly
+  authored graded DXF/Rule File. Exact settings, hashes and rendered output
+  are in `C:\G04-CLO-DXF-Exchange\S563-clo-dxf-astm-size-probe`; written
+  product-development/local-processing authorization remains confirmed in
+  `docs/PROJECT-DECISIONS.md`. Keep CLO open. All V03 gates stay unchanged.
+- Reproducible read-only parser/source comparison:
+  `docs/research/epic17/S563-clo-dxf-astm-size-probe/analyze-clo-size-probe.mjs`;
+  output JSON hash `BC5FF2B4CF0728B08A6993B548E47FE7A5F0407D94B69E9C238332FAB806B99D`.
+  `node --check`, analyzer assertions and `git diff --check` pass; Control
+  Center tests pass 42/42. Validated board replay is 3365→3367→3369; S563
+  exit evidence/comment are linked on G04-V03.
+- Next: determine the exact, primary-source-backed CLO input and lawful
+  representation for a source-derived multi-size grade group using S562's
+  point map. Do not invent ASTM/RUL syntax. Continue other independently
+  testable V03 evidence if this representation remains unavailable; keep all
+  V03 holds and claims unchanged.
+
+## Prior EPIC-17/G04 V03 — Slice 562 exit
 
 - `docs/research/epic17/S562-grade-point-topology-map/S562-exit-packet.md`
   is the current slice. Across 7 recipes × XS/S/M/L/XL, source role/piece/edge
@@ -13,8 +39,9 @@
   interchange: DXF still carries no source point names, size group, or grade
   relationship. CLO DXF-ASTM is first-party documented as its graded-DXF
   candidate; exact serialization and a source-backed round trip remain open.
-  The S561 CLO screenshot/accessibility mismatch remains unresolved, so no UI
-  file action occurred. Every V03 gate and hold stays unchanged. Next use the
+  At S562 the S561 CLO screenshot/accessibility mismatch was still unresolved;
+  S563 later captured a matching safe UI state and performed one bounded file
+  exchange. Every V03 gate and hold stays unchanged. Next use the
   point map only with lawful exact format evidence and a safe CLO state. All
   exchange files remain in named C:-only folders. Product-development trial
   use and local processing are confirmed. See the S556 matrix and S562 packet.
