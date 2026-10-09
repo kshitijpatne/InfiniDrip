@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3680,
-  "updatedAt": "2026-10-09T19:26:29.356Z",
+  "revision": 3684,
+  "updatedAt": "2026-10-09T20:00:34.260Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12218,6 +12218,16 @@
           "at": "2026-10-09T19:26:29.356Z",
           "actor": "Codex",
           "text": "S634 mapped the same five missing Polo CUT vertices in all three pinned CLO outputs to current-product `back.neckline`, `backCollar`, and `backCollarBase` allowance samples. Their short CUT steps arise near a one-centimeter allowance and tight sampled curvature; the mismatch remains above the unchanged 0.001 cm gate. The evidence does not justify deleting geometry or establish CLO internals. No gate/hold changes. S635 will test only coordinate-identical CUT entity re-encoding in CLO Standard import and inspect native geometry before export. See E-G04-S634-EXIT."
+        },
+        {
+          "at": "2026-10-09T19:31:57.835Z",
+          "actor": "Codex",
+          "text": "S635 tests one remaining concrete representation variable suggested by S634: coordinate-identical CUT POLYLINE→LWPOLYLINE conversion in the existing CLO Standard import path. All source coordinates, units, settings, SEW and mark entities stay fixed. Inspect the imported/native CUT contours before any export; stop on a native miss, regression, identity error, or UI/settings mismatch. No source geometry, tolerance, gate, or hold change. See E-G04-S635-START."
+        },
+        {
+          "at": "2026-10-09T20:00:34.260Z",
+          "actor": "Codex",
+          "text": "S635 tested only a coordinate-preserving CUT POLYLINE→LWPOLYLINE representation change in CLO Standard import. Native geometry still omits back P13 and P14 on both stands and both collar leaves; each retained chain matches within tolerance, while omitted-point deviation is 0.012736–0.013970 cm against 0.001 cm. Four controls pass; nine numeric CLO piece identities are present. The start-packet stop condition was honored: no export. No geometry, tolerance, acceptance, status or hold changed. S632 covers classic POLYLINE × ASTM; the final matrix cell is S636 LWPOLYLINE × recorded ASTM import, after which use evidence to continue receiver selection. See E-G04-S635-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12594,7 +12604,9 @@
         "E-G04-S633-START",
         "E-G04-S633-EXIT",
         "E-G04-S634-START",
-        "E-G04-S634-EXIT"
+        "E-G04-S634-EXIT",
+        "E-G04-S635-START",
+        "E-G04-S635-EXIT"
       ],
       "flagKey": null
     },
@@ -24236,6 +24248,24 @@
       "sha256": null,
       "verified": true,
       "note": "Offline forensic comparison across S617 Standard and S632 ASTM CLO outputs traces all five recurrent Polo CUT omissions to current product allowance samples and the corresponding source edges. The same five points are absent in all three outputs; their 0.01274–0.01397 cm deviations exceed 0.001 cm. No source, acceptance, threshold, status, or hold changed. Next: one coordinate-preserving CUT POLYLINE-to-LWPOLYLINE CLO Standard import test; inspect native geometry before export."
+    },
+    {
+      "id": "E-G04-S635-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S635 for one CLO Standard-DXF import using a disposable C:-only derivative that converts nine CUT POLYLINE entities to coordinate-identical LWPOLYLINE entities. Preserve all coordinates, units, settings, SEW paths and marks; inspect native geometry at 0.001 cm before any export. No source edit or V03 gate/hold change."
+    },
+    {
+      "id": "E-G04-S635-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO Standard import of a coordinate-identical CUT LWPOLYLINE derivative still omits the same five source vertices; four controls pass and all five deviations exceed 0.001 cm. Native point data and rendered crops are hash-pinned under the named C: folder. Packet-required stop-before-export honored; no export or acceptance/hold change. S636 tests the only untested LWPOLYLINE × DXF-ASTM import matrix cell under recorded settings."
     }
   ]
 }

@@ -1,3 +1,13 @@
+**S635 start:** from clean S634 `10ed333ecb8323e7a3b1cb2a381e3c0a414af4eb`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor; S634 was highest, and board revision 3680 preserves V01/V02 Done and
+V03/EPIC-17 In Progress. S635 tests one exact input-encoding variable on the
+current CLO path: coordinate-identical conversion of all nine CUT polylines
+to LWPOLYLINE, with units, settings, source vertices, SEW paths, and marks
+fixed. Native contour acceptance at `0.001 cm` is a prerequisite to any export.
+No source geometry or gate changes. Packet:
+`docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-start-packet.md`.
+
 **S634 exit:** S634 traced all five repeat CLO CUT omissions to current-product
 Polo source and allowance generation. The hash-pinned S617 cm-header fixture
 is the current `POLO × STANDARD_M` product DXF plus its 65-byte units header.

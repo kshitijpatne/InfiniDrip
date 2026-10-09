@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3682,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S635-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-exit-packet.md",
+    "verified": true,
+    "note": "CLO Standard import of a coordinate-identical CUT LWPOLYLINE derivative still omits the same five source vertices; four controls pass and all five deviations exceed 0.001 cm. Native point data and rendered crops are hash-pinned under the named C: folder. Packet-required stop-before-export honored; no export or acceptance/hold change. S636 tests the only untested LWPOLYLINE × DXF-ASTM import matrix cell under recorded settings."
+  }
+}

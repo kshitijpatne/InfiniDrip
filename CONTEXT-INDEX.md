@@ -1,6 +1,19 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S634 exit
+## Current EPIC-17/G04 V03 slice — S635 in progress
+
+S634's trace tied five recurrent Polo CUT losses to `back.neckline`,
+`backCollar`, and `backCollarBase` allowance samples, including a
+0.0456–0.0470 cm offset step near a 1 cm allowance; the receiver deviation is
+0.01274–0.01397 cm at the unchanged `0.001 cm` gate. No source change or hold
+release. S635 is testing one coordinate-identical encoding change—nine CUT
+POLYLINEs to LWPOLYLINEs—in the existing CLO Standard import workflow. No
+export until native geometry passes; a failed import stops the path. Start
+packet: `docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-start-packet.md`.
+Board start replay is 3680→3682; V01/V02 Done, V03/Epic In Progress. Keep CLO
+open and all V03 holds unchanged.
+
+## Prior EPIC-17/G04 V03 boundary — S634 exit
 
 S634 tied all five repeated Polo CUT omissions to current-product allowance
 geometry using the exact S617/S632 fixture and generated `POLO × STANDARD_M`

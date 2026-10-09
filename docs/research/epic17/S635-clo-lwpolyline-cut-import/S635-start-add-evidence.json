@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3680,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S635-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-start-packet.md",
+    "verified": true,
+    "note": "Reserves S635 for one CLO Standard-DXF import using a disposable C:-only derivative that converts nine CUT POLYLINE entities to coordinate-identical LWPOLYLINE entities. Preserve all coordinates, units, settings, SEW paths and marks; inspect native geometry at 0.001 cm before any export. No source edit or V03 gate/hold change."
+  }
+}

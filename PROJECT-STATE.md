@@ -1,5 +1,42 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 635 closed; V03 remains open
+
+S635 imported a disposable DXF whose nine closed CUT entities alone had been
+re-encoded from classic POLYLINE to coordinate-identical LWPOLYLINE. CLO
+2026.1.310 Standard import returned nine numeric piece identities with no
+query errors. Four controls match their complete source CUT contours within
+0.001 cm, but the back, outer/inner collar stands, and upper/under collars
+again omit the same five allowance-sample vertices. Each omitted-point chord
+deviation is 0.012736–0.013970 cm; retained vertices match within
+0.000014 cm. The five rendered neighborhoods, actual CLO overview, native
+JSON and saved project are hash-pinned under
+`C:\G04-CLO-DXF-Exchange\S635-cut-lwpolyline-import\`. The required
+stop-before-export condition was honored. No CAD export, source edit,
+acceptance/status/hold change, or physical/factory claim occurred. CLO remains
+open in the current session. Exit packet:
+`docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-exit-packet.md`.
+
+S635 started `2026-10-09 19:29:40 UTC` after S634 commit
+`10ed333ecb8323e7a3b1cb2a381e3c0a414af4eb`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+Validated board replay was 3680→3682→3684, preserving V01/V02 Done and
+V03/EPIC-17 In Progress and every existing hold. Converter/preflight,
+source-bound native comparison, rendered output and board checks are recorded
+in the exit packet. No production code changed; changed-code coverage does
+not apply. Full repository tests/100% coverage and build remain for the
+settled Epic/PR candidate.
+
+**Next action:** reserve S636 from a fresh verified boundary for the one
+remaining source-bounded CLO matrix cell: import this same coordinate-
+identical LWPOLYLINE derivative in the already-recorded CLO DXF-ASTM mode.
+S632 tested classic POLYLINE × ASTM; S617 and S635 cover classic POLYLINE ×
+Standard and LWPOLYLINE × Standard. Capture all nine native identities and
+CUT contours before any export. If any source vertex still fails, stop this
+CLO representation path and choose the next receiver/profile from the
+measured results; only a full native pass can authorize the conditional
+round-trip branch. Do not alter geometry, acceptance, holds, rights or claims.
+
 ## EPIC-17 / G04 — Slice 634 closed; V03 remains open
 
 S634 mapped the five recurring CLO Polo CUT losses through the current

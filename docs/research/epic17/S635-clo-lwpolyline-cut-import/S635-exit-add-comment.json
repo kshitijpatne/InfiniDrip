@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3683,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S635 tested only a coordinate-preserving CUT POLYLINE→LWPOLYLINE representation change in CLO Standard import. Native geometry still omits back P13 and P14 on both stands and both collar leaves; each retained chain matches within tolerance, while omitted-point deviation is 0.012736–0.013970 cm against 0.001 cm. Four controls pass; nine numeric CLO piece identities are present. The start-packet stop condition was honored: no export. No geometry, tolerance, acceptance, status or hold changed. S632 covers classic POLYLINE × ASTM; the final matrix cell is S636 LWPOLYLINE × recorded ASTM import, after which use evidence to continue receiver selection. See E-G04-S635-EXIT."
+}
