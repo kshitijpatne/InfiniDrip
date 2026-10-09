@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3678,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S634-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S634-polo-cut-topology-forensics/S634-exit-packet.md",
+    "verified": true,
+    "note": "Offline forensic comparison across S617 Standard and S632 ASTM CLO outputs traces all five recurrent Polo CUT omissions to current product allowance samples and the corresponding source edges. The same five points are absent in all three outputs; their 0.01274–0.01397 cm deviations exceed 0.001 cm. No source, acceptance, threshold, status, or hold changed. Next: one coordinate-preserving CUT POLYLINE-to-LWPOLYLINE CLO Standard import test; inspect native geometry before export."
+  }
+}

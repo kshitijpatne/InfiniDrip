@@ -1,3 +1,27 @@
+**S634 exit:** S634 traced all five repeat CLO CUT omissions to current-product
+Polo source and allowance generation. The hash-pinned S617 cm-header fixture
+is the current `POLO × STANDARD_M` product DXF plus its 65-byte units header.
+The losses map to `back.neckline` sample 13, both stands' `backCollar` sample
+14, and both collar leaves' `backCollarBase` sample 14. A one-centimeter
+allowance near the sampled 1.0366 cm curvature estimate yields 0.0456–0.0470
+cm CUT steps; the omitted-vertex contour deviations remain 0.01274–0.01397 cm,
+above the fixed `0.001 cm` gate. This is a likely near-cusp sensitivity, not
+proof of CLO internals or physical redundancy. No source geometry, threshold,
+gate or hold changed. Start/exit packet, current matrix and evidence:
+`docs/research/epic17/S634-polo-cut-topology-forensics/`. Board replay
+3676→3678→3680 preserves V01/V02 Done and V03/EPIC-17 In Progress. Next:
+reserve S635 from a refreshed boundary and test only a coordinate-preserving
+POLYLINE-to-LWPOLYLINE encoding change on the nine existing CUT paths in CLO
+Standard import; inspect imported/native contours before any export. Keep all
+V03 acceptance and holds unchanged.
+
+**S634 start:** from clean S633 `cf367686b74b4572662d23b9cf12c459e1de4308`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an
+ancestor, S633 was highest, and board revision 3676 preserved V01/V02 Done
+and V03/EPIC-17 In Progress. S634's offline forensic boundary, hashes, scope
+and holds are recorded in
+`docs/research/epic17/S634-polo-cut-topology-forensics/S634-start-packet.md`.
+
 **S633 exit:** Reconciled the S627 V03 gate matrix against verified S628–S632
 evidence and recorded exact proof gaps plus one evidence-led next action. The
 actual CLO DXF-ASTM import path repeats five Polo CUT failures and the same

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3677,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S634 performs offline source-to-output topology forensics on existing S617/S632 CLO Polo DXFs to identify exact source vertices/edges behind five recurring CUT failures. The S617/S632 input is hash-identical; compare its Standard-import route with both ASTM-import generations. No CLO UI action, source/stitch edit, tolerance change, or gate release. Any source repair proposal will return for approval before implementation. See E-G04-S634-START."
+}

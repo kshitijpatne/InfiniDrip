@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S633 exit
+## Current EPIC-17/G04 V03 boundary — S634 exit
+
+S634 tied all five repeated Polo CUT omissions to current-product allowance
+geometry using the exact S617/S632 fixture and generated `POLO × STANDARD_M`
+DXF. It maps `back.neckline` sample 13, both stands' `backCollar` sample 14,
+and both collar leaves' `backCollarBase` sample 14. A tight sampled radius
+estimate near the 1 cm allowance produces a 0.0456–0.0470 cm CUT segment;
+the missing-point deviation remains 0.01274–0.01397 cm, above the fixed
+`0.001 cm` gate. Neither physical redundancy nor CLO's internal filter is
+established. No source geometry, threshold, gate, or hold changed. S634 packet,
+current gate matrix and raw evidence references:
+`docs/research/epic17/S634-polo-cut-topology-forensics/` and
+`C:\G04-CLO-DXF-Exchange\S634-polo-cut-topology-forensics\`. Board closeout
+is 3678→3680; V01/V02 Done and V03/Epic In Progress. Next: one controlled CLO
+Standard-DXF import of a C:-only derivative converting only the nine CUT
+entity encodings to coordinate-identical LWPOLYLINE; inspect native CUT
+geometry before any export. Keep all V03 holds and acceptance unchanged; keep
+CLO open.
+
+## Prior EPIC-17/G04 V03 boundary — S633 exit
 
 - S633 refreshed the S627-era V03 matrix against verified S628–S632 outcomes.
   Bounded receiver results do not establish a qualified industrial profile,

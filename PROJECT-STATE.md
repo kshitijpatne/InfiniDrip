@@ -1,5 +1,29 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 634 closed; V03 remains open
+
+S634 mapped the five recurring CLO Polo CUT losses through the current
+product's `POLO × STANDARD_M` DXF and allowance generator. The regenerated
+pre-header product DXF is byte-identical to the S617 baseline; the cm-header
+fixture adds only its 65-byte HEADER. The missing vertices are on
+`back.neckline` sample 13, both collar stands' `backCollar` sample 14, and both
+collar leaves' `backCollarBase` sample 14. The relevant one-centimeter offset
+produces a 0.0456–0.0470 cm cut step near a 1.0366 cm three-sample radius
+estimate. CLO omits the same points under Standard and ASTM import paths; the
+measured deviation is 0.01274–0.01397 cm, over the unchanged `0.001 cm` gate.
+This suggests a near-cusp short-step sensitivity but does not establish CLO's
+internal algorithm or prove the points physically redundant. No source,
+stitch, export, tolerance, acceptance, status, or hold changed. See
+`docs/research/epic17/S634-polo-cut-topology-forensics/S634-exit-packet.md`,
+the S634 gate matrix, and its C:-only evidence folder. Validated board replay:
+3676→3678→3680; V01/V02 Done, V03/EPIC-17 In Progress. Next: refresh the
+boundary, reserve S635, and test one coordinate-preserving DXF CUT entity
+encoding change (POLYLINE to LWPOLYLINE) in the already authorized CLO session.
+Inspect its imported/native contours before any export; if the omitted points
+remain missing, stop that representation path and retain all V03 holds. CLO
+remains open; the active goal continues through final gates, safe merge and
+deployment verification.
+
 ## EPIC-17 / G04 — Slice 633 closed; V03 remains open
 
 S633 reconciled the S627-era V03 matrix against S628–S632 verified evidence.

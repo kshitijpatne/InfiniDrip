@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3676,
-  "updatedAt": "2026-10-09T18:58:48.896Z",
+  "revision": 3680,
+  "updatedAt": "2026-10-09T19:26:29.356Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12208,6 +12208,16 @@
           "at": "2026-10-09T18:58:48.896Z",
           "actor": "Codex",
           "text": "S633 refreshed the V03 gate matrix through S632. R14 all-73 geometry/mark/repeat evidence and bounded CLO fixture passes remain scoped and do not establish the required industrial profile, units, identity/mark semantics, malformed-input, grades, or rendered cohort. S632's ASTM import mode repeats five Polo CUT failures and the same mark losses. No V03 gate or hold clears. Next is an offline exact source-to-CLO topology diagnosis of the five repeated CUT losses before proposing any source repair; do not repeat a CLO setting permutation. See E-G04-S633-EXIT."
+        },
+        {
+          "at": "2026-10-09T19:02:08.658Z",
+          "actor": "Codex",
+          "text": "S634 performs offline source-to-output topology forensics on existing S617/S632 CLO Polo DXFs to identify exact source vertices/edges behind five recurring CUT failures. The S617/S632 input is hash-identical; compare its Standard-import route with both ASTM-import generations. No CLO UI action, source/stitch edit, tolerance change, or gate release. Any source repair proposal will return for approval before implementation. See E-G04-S634-START."
+        },
+        {
+          "at": "2026-10-09T19:26:29.356Z",
+          "actor": "Codex",
+          "text": "S634 mapped the same five missing Polo CUT vertices in all three pinned CLO outputs to current-product `back.neckline`, `backCollar`, and `backCollarBase` allowance samples. Their short CUT steps arise near a one-centimeter allowance and tight sampled curvature; the mismatch remains above the unchanged 0.001 cm gate. The evidence does not justify deleting geometry or establish CLO internals. No gate/hold changes. S635 will test only coordinate-identical CUT entity re-encoding in CLO Standard import and inspect native geometry before export. See E-G04-S634-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12582,7 +12592,9 @@
         "E-G04-S632-START",
         "E-G04-S632-EXIT",
         "E-G04-S633-START",
-        "E-G04-S633-EXIT"
+        "E-G04-S633-EXIT",
+        "E-G04-S634-START",
+        "E-G04-S634-EXIT"
       ],
       "flagKey": null
     },
@@ -24206,6 +24218,24 @@
       "sha256": null,
       "verified": true,
       "note": "Reconciles S627 V03 matrix with verified S628-S632 evidence. No V03 gate, acceptance, threshold, hold, or status changes. The CLO ASTM import-mode test repeats five Polo CUT failures and mark losses. Next action is offline exact topology diagnosis before any proposed source repair; no receiver permutation or source edit."
+    },
+    {
+      "id": "E-G04-S634-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S634-polo-cut-topology-forensics/S634-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts offline forensics comparing the identical S617/S632 Polo cm-header source to its existing Standard-import/ASTM-output file and both ASTM-import generations. Identify exact source CUT vertices/edges lost across five failures; no CLO operation or source edit. Hold all V03 gates and 0.001 cm threshold."
+    },
+    {
+      "id": "E-G04-S634-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S634-polo-cut-topology-forensics/S634-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Offline forensic comparison across S617 Standard and S632 ASTM CLO outputs traces all five recurrent Polo CUT omissions to current product allowance samples and the corresponding source edges. The same five points are absent in all three outputs; their 0.01274–0.01397 cm deviations exceed 0.001 cm. No source, acceptance, threshold, status, or hold changed. Next: one coordinate-preserving CUT POLYLINE-to-LWPOLYLINE CLO Standard import test; inspect native geometry before export."
     }
   ]
 }

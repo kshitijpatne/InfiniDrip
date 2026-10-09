@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3679,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S634 mapped the same five missing Polo CUT vertices in all three pinned CLO outputs to current-product `back.neckline`, `backCollar`, and `backCollarBase` allowance samples. Their short CUT steps arise near a one-centimeter allowance and tight sampled curvature; the mismatch remains above the unchanged 0.001 cm gate. The evidence does not justify deleting geometry or establish CLO internals. No gate/hold changes. S635 will test only coordinate-identical CUT entity re-encoding in CLO Standard import and inspect native geometry before export. See E-G04-S634-EXIT."
+}
