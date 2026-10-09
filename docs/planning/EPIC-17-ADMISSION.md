@@ -1,4 +1,19 @@
-## Current EPIC-17/G04 V03 boundary — S575 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S576 exit (2026-10-09)
+
+S576 confirmed the S574 project hashes and opened their embedded standard ZIP
+members in memory. Transparent XML/JSON contains environment/UI/manifest
+metadata, while the `.zpac`, `.vmp`, `.vlp`, and `.vrp` geometry-bearing members
+are CLO-specific binary formats that were not decoded. The member differences
+cannot attribute CUT loss to import or export. No CLO UI action, new exchange,
+project change, proprietary reverse engineering, acceptance change, or claim.
+Board revisions 3417→3419→3421 preserve G04-V03 In Progress. Evidence:
+`docs/research/epic17/S576-clo-project-geometry-audit/S576-exit-packet.md`.
+
+Next: check only the official CLO 2026.1.310 API for documented exact 2D curve
+retrieval from an imported project; do not decode proprietary members or repeat
+a receiver test.
+
+## Prior EPIC-17/G04 V03 boundary — S575 exit (2026-10-09)
 
 S575 exhaustively mapped source Polo M CUT/SEW pairs against S574's actual
 generation-one DXF. Unique exact SEW contours associated every source pair

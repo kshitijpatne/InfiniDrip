@@ -1,6 +1,20 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S575 exit
+## Current EPIC-17/G04 V03 boundary — S576 exit
+
+- S576 exit packet:
+  docs/research/epic17/S576-clo-project-geometry-audit/S576-exit-packet.md.
+  The hash-matched S574 project files embed a standard ZIP, but transparent
+  XML/JSON contains only environment and UI metadata. CLO-specific `.zpac`,
+  `.vmp`, `.vlp`, and `.vrp` members carry geometry but were not decoded. Stage
+  attribution remains unresolved; no additional CLO actions or acceptance
+  changes. Board transition 3417→3419→3421; G04-V03 remains In Progress. CLO
+  remains open.
+- Next: check the official CLO 2026.1.310 API only for documented, exact 2D
+  curve retrieval from the imported project; do not decode proprietary
+  members or repeat a receiver test.
+
+## Prior EPIC-17/G04 V03 boundary — S575 exit
 
 - S575 exit packet and deterministic report:
   docs/research/epic17/S575-polo-output-entity-map/S575-exit-packet.md and

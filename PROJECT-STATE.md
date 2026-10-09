@@ -1,6 +1,31 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 575 exit; V03 remains open
+## EPIC-17 / G04 — Slice 576 exit; V03 remains open
+
+S576 read-only inspection confirmed the S574 post-import and post-gen1-reimport
+projects by their recorded hashes. Their custom `ZPRJ` containers embed a
+standard ZIP with 15 members. Plain XML contains only scene-environment
+controls; JSON contains UI and file-manifest state. The geometry-bearing CLO
+binary members are not transparent formats and were not decoded. Seven member
+hashes differ between the imported and re-imported projects, but opaque bytes
+cannot tell whether input-stage geometry kept source CUT paths. The exact
+container inventory and hashes are in
+docs/research/epic17/S576-clo-project-geometry-audit/S576-exit-packet.md and
+its C:-only JSON report.
+
+No new CLO UI action, import/export, project mutation, or proprietary reverse
+engineering. No production source/test, pattern geometry, acceptance,
+tolerance, compatibility claim, or V02/V03 hold changed. Board start/exit
+replay 3417→3419→3421 keeps G04-V03 In Progress; the CLO session remains open.
+
+**Next:** check the official CLO 2026.1.310 API only for a documented
+read-only exact 2D pattern-curve retrieval method. Do not decode custom project
+members or repeat a receiver test. Preserve the 0.001 cm gate, all-seven V02
+acceptance, protected export identities, and legacy DXF behavior.
+
+## Prior EPIC-17 / G04 — Slice 575 exit
+
+## Prior EPIC-17 / G04 — Slice 575 exit
 
 S575 starts from clean S574 commit 96787c16cfb557c19d902e21edac3b2801837037.
 Refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an

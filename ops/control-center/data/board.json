@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3417,
-  "updatedAt": "2026-10-09T04:42:50.626Z",
+  "revision": 3421,
+  "updatedAt": "2026-10-09T04:50:52.119Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11583,6 +11583,16 @@
           "at": "2026-10-09T04:42:50.626Z",
           "actor": "Codex",
           "text": "S575 confirms no acceptable source CUT path survives in the hash-pinned CLO gen1 file across closed/open polylines, LINE/open-fragment components, blocks, layers, and INSERT transforms. This closes only the alternate-entity hypothesis for that file; it does not identify whether input or export caused the change. Keep all V03 technical gates and all-seven V02 scope/holds. Next: isolate source-versus-receiver stage with a distinct evidence-led diagnostic; no repeated LINE trial or tolerance change. See E-G04-S575-EXIT."
+        },
+        {
+          "at": "2026-10-09T04:46:31.250Z",
+          "actor": "Codex",
+          "text": "S576 inspects only the existing hash-pinned CLO post-import and post-gen1-reimport project artifacts for transparent per-piece geometry usable at 0.001 cm. No CLO UI/import/export action or proprietary reverse engineering. All V03/V02 gates and holds remain unchanged; next action depends on whether exact project geometry is accessible. See E-G04-S576-START."
+        },
+        {
+          "at": "2026-10-09T04:50:52.119Z",
+          "actor": "Codex",
+          "text": "S576 confirms both saved CLO project identities and opens their standard ZIP members read-only. Transparent XML/JSON has no per-piece curves; CLO-specific geometry-bearing binaries remain opaque and were not reverse engineered. This cannot attribute gen1 CUT loss to import or export. No CLO exchange or gate change. Next: narrowly check official CLO 2026.1.310 API for documented exact 2D-curve retrieval; see E-G04-S576-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11831,7 +11841,9 @@
         "E-G04-S574-START",
         "E-G04-S574-EXIT",
         "E-G04-S575-START",
-        "E-G04-S575-EXIT"
+        "E-G04-S575-EXIT",
+        "E-G04-S576-START",
+        "E-G04-S576-EXIT"
       ],
       "flagKey": null
     },
@@ -22321,6 +22333,24 @@
       "sha256": null,
       "verified": true,
       "note": "Entity-by-entity audit of S574 gen1 finds no source CUT path within 0.001 cm in any output block or path entity. Unique paired-SEW paths associate all nine blocks; isolated POINTs are not contour paths. The combined source-to-CLO route remains failed without stage attribution. All V03/V02 gates stay unchanged. C:-only JSON report and hashes are documented in the exit packet."
+    },
+    {
+      "id": "E-G04-S576-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S576-clo-project-geometry-audit/S576-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only inspection of existing S574 CLO post-import and post-gen1-reimport project files to determine whether transparent project data can distinguish input-stage geometry from the missing gen1 CUT paths. No new CLO actions, acceptance changes, or compatibility claim."
+    },
+    {
+      "id": "E-G04-S576-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S576-clo-project-geometry-audit/S576-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only S574 project audit: valid embedded ZIP exposes scene/UI metadata only; geometry-bearing CLO-specific binary members remain opaque. Project hashes match S574 and member changes cannot attribute CUT loss. Stage remains unresolved; no CLO action, proprietary parsing or gate change. See C:-only report and exit packet."
     }
   ]
 }

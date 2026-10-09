@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3420,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S576 confirms both saved CLO project identities and opens their standard ZIP members read-only. Transparent XML/JSON has no per-piece curves; CLO-specific geometry-bearing binaries remain opaque and were not reverse engineered. This cannot attribute gen1 CUT loss to import or export. No CLO exchange or gate change. Next: narrowly check official CLO 2026.1.310 API for documented exact 2D-curve retrieval; see E-G04-S576-EXIT."
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3417,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S576-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S576-clo-project-geometry-audit/S576-start-packet.md",
+    "verified": true,
+    "note": "Read-only inspection of existing S574 CLO post-import and post-gen1-reimport project files to determine whether transparent project data can distinguish input-stage geometry from the missing gen1 CUT paths. No new CLO actions, acceptance changes, or compatibility claim."
+  }
+}
