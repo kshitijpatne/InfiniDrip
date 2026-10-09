@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3642,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S626-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-start-packet.md",
+    "verified": true,
+    "note": "S626 tests all 73 canonical size-M supported-option configurations through the previously verified local Open CAD Studio R14 general-CAD workflow. It compares source CUT/SEW geometry and named construction marks at 0.001 cm across two generations; no industrial profile or V03 criterion is presumed passed."
+  }
+}

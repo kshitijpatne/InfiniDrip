@@ -1,4 +1,29 @@
-## Current verified boundary — S625 exit (2026-10-09)
+## Current verified boundary — S626 exit (2026-10-09)
+
+S626 tested the exact S459-accepted 73-row/32-option size-M matrix in two
+local Open CAD Studio v2026.40.1 R14 generations. All 73 reopen outputs were
+byte-identical; source-bound CUT/SEW and named `MARK_*` comparisons pass with
+zero residual for 72 valid source rows. The supported Woven
+`sideVentDepth=0` row is invalid before receiver import: `curvedHemAndVent`
+emits a zero-length vent with 1 cm allowance, seam-offset normalization
+produces NaNs, and layout propagates them through the whole 12-piece DXF. The
+receiver accepts and converts this malformed DXF to finite degenerate output.
+Thus this row is not a geometry pass and the receiver's malformed-numeric
+input behavior fails the tested control. All source inputs, outputs and raw
+reports remain under `C:\G04-CLO-DXF-Exchange\S626-opencad-all-options-r14-roundtrip\`.
+Unit metadata remains absent/unitless, and the 73-option actual-render gate is
+open. No V03 gate clears. V02 remains Done; V03 and EPIC-17 remain In Progress.
+The validated board closeout is recorded in the S626 exit packet. Next S627
+repairs only the valid zero-depth vent representation, verifies the 0.5 cm
+nonzero control and protected outputs, then reruns all 73 rows at the unchanged
+`0.001 cm` gate. See `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S626.md`.
+
+## Prior verified start — S626 (2026-10-09)
+
+S626 is reserved from clean committed S625 `1317d5dd4d721edf5139cacd7f4c8bdd935b6217`; refreshed `origin/main` remains an ancestor. Board revision 3642 preserves V02 Done and V03/EPIC-17 In Progress. Its bounded objective is to run current-source DXF output for the exact 73-case S459-accepted option matrix through the verified local Open CAD Studio R14 workflow, comparing CUT/SEW geometry and named construction-mark entities over two generations at `0.001 cm`. All receiver inputs/outputs/reports stay under the named C: S626 folder. No stable garment IDs, grade-rule exchange, industrial apparel profile or V03 completion is implied. Full packet: `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-start-packet.md`.
+
+## Prior verified boundary — S625 exit (2026-10-09)
 
 S625 closed the single CLO Standard-DXF R14-container hypothesis. The importer returned nine native pieces without API errors, but only 4/9 CUT and 4/9 SEW contours pass the unchanged `0.001 cm` tolerance, with visible curve spikes in the saved CLO render. The fail-closed pre-export gate stopped the trial before export. S624's local Open CAD Studio R14 success remains general-CAD geometry evidence only. Neither screen closes the industrial apparel-profile, units, piece/revision and manufacturing semantics, marks, options/grading, malformed-input, round-trip, or complete rendered-output requirements. Do not repeat CLO Standard-DXF variants on this fixture; the next reserved slice must target a distinct, evidence-backed V03 gate. Written CLO product-development and local-file-processing permission is settled. Full S625 result and current matrix: `docs/research/epic17/S625-clo-standard-r14-import-test/`.
 

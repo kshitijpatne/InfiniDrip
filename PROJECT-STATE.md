@@ -1,6 +1,14 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 625 exit; V03 remains open
+## EPIC-17 / G04 — Slice 626 exit; V03 remains open
+
+S626 started 2026-10-09 15:24:36 UTC from committed S625 `1317d5dd4d721edf5139cacd7f4c8bdd935b6217`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. It ran all 73 S459-accepted S330 size-M option rows through two local Open CAD Studio v2026.40.1 R14 generations. All 73 reopens were byte-identical; 72 valid source rows passed exact CUT/SEW and named `MARK_*` geometry comparison (0 cm residual). The remaining canonical Woven zero-side-vent option generated NaN coordinates in source DXF because a degenerate vent edge receives a 1 cm allowance; the receiver accepts and normalizes this invalid fixture. No `$INSUNITS` contract or full option-wide receiver-render pass was established. Diagnosis, gate matrix, hashes and C:-only evidence are in `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/` and `C:\G04-CLO-DXF-Exchange\S626-opencad-all-options-r14-roundtrip\`. V02 remains Done; V03/EPIC-17 remain In Progress. S627's next action is a narrowly scoped source repair for the supported zero-depth Woven vent, with finite-geometry and nonzero-control checks followed by a full 73-case rerun; no gate changes. CLO remains open.
+
+## Prior boundary — Slice 626 start
+
+S626's start packet is `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-start-packet.md`; board start replay 3642→3644. It was an evidence-only 73-option local R14 investigation with no source changes.
+
+## Prior boundary — Slice 625 exit; V03 remains open
 
 S625 began 2026-10-09 14:57:20 UTC from committed S624 368aa9611fad15af99cacebdfe970d7521bdcd1c on codex/epic-17-g04; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remained an ancestor. Board start/exit replay was 3637→3639→3642. CLO 2026.1.310 Standard-DXF imported the one hash-pinned S624 Polo M AC1014 fixture as nine queryable pieces with no API errors. Only 4/9 CUT and 4/9 SEW contours pass the unchanged 0.001 cm gate; the render shows visibly spiked curved outlines. No export was made after the pre-export gate failed. Relative to S622, two ~93.1135 mm CUT deviations shrink to ~2.33 mm, but five CUT and five SEW contours still fail. The user has confirmed written product-development and local-processing authority. Exact profile, residuals, hashes and render are in `docs/research/epic17/S625-clo-standard-r14-import-test/S625-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S625.md`, with receiver evidence under `C:\G04-CLO-DXF-Exchange\S625-clo-standard-r14-import-test\`. V02 remains Done; V03 and EPIC-17 remain In Progress. All V03, all-seven, legacy behavior, protected identities and claim limits remain unchanged. Next work must address a distinct evidence-backed open V03 gate; do not repeat CLO Standard-DXF variants on this fixture. CLO remains open.
 

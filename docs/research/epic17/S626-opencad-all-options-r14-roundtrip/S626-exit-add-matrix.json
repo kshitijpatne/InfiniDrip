@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3645,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S626-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S626-opencad-all-options-r14-roundtrip/V03-CURRENT-GATE-MATRIX-S626.md",
+    "verified": true,
+    "note": "Current V03 matrix reconciles S624-S626: 72 valid source options have exact geometry/mark R14 results, 1 supported Woven zero-vent source case is malformed and accepted by receiver, 73/73 reopen files are byte-identical. Industrial profile, unit semantics, identity, grade, negative-input, and option-render gates remain open; all-seven acceptance and thresholds unchanged."
+  }
+}

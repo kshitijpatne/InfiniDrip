@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3642,
-  "updatedAt": "2026-10-09T15:20:47.023Z",
+  "revision": 3647,
+  "updatedAt": "2026-10-09T15:38:45.640Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12128,6 +12128,16 @@
           "at": "2026-10-09T15:20:47.023Z",
           "actor": "Codex",
           "text": "S625 closes one specific CLO Standard-DXF R14-container hypothesis. The exact AC1014 Polo M input imports as nine queryable patterns, but only 4/9 CUT and 4/9 SEW contours pass 0.001 cm; the saved CLO render also shows visibly spiked curves. The fail-closed pre-export gate prevented any DXF export. Compared with S622, the pass counts are unchanged while two prior ~93.1135 mm CUT deviations fall to ~2.33 mm; five CUT and five SEW still fail. S624 remains bounded general-CAD R14 evidence only. No V03 criterion clears; V02 remains Done, G04-V03 and EPIC-17 remain In Progress. CLO product-development and local-processing authority are confirmed in writing. See E-G04-S625-EXIT and E-G04-S625-MATRIX."
+        },
+        {
+          "at": "2026-10-09T15:26:54.390Z",
+          "actor": "Codex",
+          "text": "S626 uses the exact S459-accepted 73-row/7-recipe/32-option fixture to test current-source size-M DXF geometry and named MARK-layer entity preservation through two explicit local R14 generations. All inputs, outputs, receiver copy and reports remain under the named C: directory. It adds bounded general-CAD options/marks evidence only; it does not assert graded-size exchange, stable product IDs, an apparel industrial profile, or V03 completion. Every V03 criterion and hold remains. See E-G04-S626-START."
+        },
+        {
+          "at": "2026-10-09T15:38:45.640Z",
+          "actor": "Codex",
+          "text": "S626 exercised all 73 canonical size-M supported-option fixtures in two local Open CAD Studio R14 generations. Every second-generation file is byte-identical; 72 valid source rows preserve CUT/SEW and named marks exactly. The supported Woven sideVentDepth=0 source row contains NaNs because a zero-length vent edge receives a 1 cm seam allowance; Open CAD accepts it and rewrites it as degenerate geometry, so it is not a pass and exposes an additional malformed-input hold. Source/options/round-trip evidence is bounded general-CAD only; unit semantics and option-wide receiver plots remain open. No V03 gate or all-seven criterion clears or changes. Next S627 repairs and verifies the source degeneracy, then reruns all 73 rows. V02 remains Done; V03 and EPIC-17 remain In Progress. See E-G04-S626-EXIT and E-G04-S626-MATRIX."
         }
       ],
       "evidenceRefs": [
@@ -12484,7 +12494,10 @@
         "E-G04-S624-MATRIX",
         "E-G04-S625-START",
         "E-G04-S625-EXIT",
-        "E-G04-S625-MATRIX"
+        "E-G04-S625-MATRIX",
+        "E-G04-S626-START",
+        "E-G04-S626-EXIT",
+        "E-G04-S626-MATRIX"
       ],
       "flagKey": null
     },
@@ -23946,6 +23959,33 @@
       "sha256": null,
       "verified": true,
       "note": "S625 carries forward all V03 acceptance areas and the all-seven requirement. It records the bounded CLO R14 import failure, S624's positive but general-CAD-only R14 result, and all remaining profile, semantics, marks, options/grades, malformed-input, round-trip, rendering, and regression gates without relaxing scope."
+    },
+    {
+      "id": "E-G04-S626-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S626 tests all 73 canonical size-M supported-option configurations through the previously verified local Open CAD Studio R14 general-CAD workflow. It compares source CUT/SEW geometry and named construction marks at 0.001 cm across two generations; no industrial profile or V03 criterion is presumed passed."
+    },
+    {
+      "id": "E-G04-S626-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "73 canonical size-M option rows ran through two local Open CAD Studio R14 generations; all reopen files are byte-identical. CUT/SEW and named MARK_* geometry pass exactly for 72 valid source rows. Woven sideVentDepth=0 generates NaN coordinates from a zero-length vent edge with 1 cm allowance; the receiver accepts/normalizes it, so that row and numeric-malformed-input policy fail. Units and option-wide plots remain open; no V03 gate clears."
+    },
+    {
+      "id": "E-G04-S626-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S626-opencad-all-options-r14-roundtrip/V03-CURRENT-GATE-MATRIX-S626.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current V03 matrix reconciles S624-S626: 72 valid source options have exact geometry/mark R14 results, 1 supported Woven zero-vent source case is malformed and accepted by receiver, 73/73 reopen files are byte-identical. Industrial profile, unit semantics, identity, grade, negative-input, and option-render gates remain open; all-seven acceptance and thresholds unchanged."
     }
   ]
 }

@@ -1,6 +1,14 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S625 exit
+## Current EPIC-17/G04 V03 boundary — S626 exit
+
+- The 73-row S330/S459 size-M option matrix ran through two local Open CAD Studio v2026.40.1 R14 generations. The receiver produced byte-identical reopen files for 73/73. Source-bound CUT/SEW and named `MARK_*` geometry passed exactly for 72 valid source rows; the canonical Woven `sideVentDepth=0` row generates NaN coordinates before reaching the receiver. The receiver accepts that malformed input and rewrites it as finite degenerate geometry, so it is a negative-input failure as well as an option/source-validity hold. The source cause is a zero-length `vent` edge with a 1 cm allowance; it produces NaNs in the two body pieces, contaminating the packed DXF. No product code changed. Full diagnosis, helper, V03 matrix and hashes are in `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/`; raw receiver evidence is under `C:\G04-CLO-DXF-Exchange\S626-opencad-all-options-r14-roundtrip\`. No `$INSUNITS` contract was established (source absent; outputs use unitless 0), and option-wide receiver plots were unavailable. General-CAD results clear no full V03 gate. Board closeout and timings are recorded in S626's exit packet. Next S627 repairs the valid zero-vent draft case, tests finite output and preserved nonzero vent behavior, then reruns all 73 matrix rows without changing acceptance. V02 remains Done; V03/EPIC-17 remain In Progress; keep CLO open.
+
+## Prior EPIC-17/G04 V03 boundary — S626 start
+
+- S626 started from committed S625 `1317d5dd4d721edf5139cacd7f4c8bdd935b6217`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor, checkout clean and S625 highest. Board revision 3642 preserved V02 Done and V03/EPIC-17 In Progress. Its exact scope was the S459-accepted S330 73-case/32-option size-M matrix through Open CAD Studio v2026.40.1 local R14, including named `MARK_*` entities and two conversion generations at `0.001 cm`. Start packet: `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-start-packet.md`.
+
+## Prior EPIC-17/G04 V03 boundary — S625 exit
 
 - S625's C:-only CLO 2026.1.310 Standard-DXF test of an S624 Polo M AC1014 fixture returned nine patterns without API errors, but only 4/9 CUT and 4/9 SEW contours meet `0.001 cm`; several curves visibly spike in the saved CLO render. The pre-export gate failed, so no DXF was exported. Compared with S622, the counts remain 4/9 each, but two ~93.1135 mm CUT misses shrink to ~2.33 mm; five CUT and five SEW still fail. The user has confirmed written authority for product-development evaluation and local processing. Exit packet and refreshed matrix: `docs/research/epic17/S625-clo-standard-r14-import-test/`; receiver input, project, API JSON, geometry report and render are in `C:\G04-CLO-DXF-Exchange\S625-clo-standard-r14-import-test\`. Board replay `3639→3642`. V02 remains Done; V03/EPIC-17 remain In Progress, all gates unchanged. The next slice must target a distinct, evidence-backed open V03 gate; do not repeat CLO Standard-DXF variants on this fixture.
 
