@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3421,
-  "updatedAt": "2026-10-09T04:50:52.119Z",
+  "revision": 3425,
+  "updatedAt": "2026-10-09T04:54:20.468Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11593,6 +11593,16 @@
           "at": "2026-10-09T04:50:52.119Z",
           "actor": "Codex",
           "text": "S576 confirms both saved CLO project identities and opens their standard ZIP members read-only. Transparent XML/JSON has no per-piece curves; CLO-specific geometry-bearing binaries remain opaque and were not reverse engineered. This cannot attribute gen1 CUT loss to import or export. No CLO exchange or gate change. Next: narrowly check official CLO 2026.1.310 API for documented exact 2D-curve retrieval; see E-G04-S576-EXIT."
+        },
+        {
+          "at": "2026-10-09T04:52:39.175Z",
+          "actor": "Codex",
+          "text": "S577 checks only current first-party evidence for exact 2026.1.310 SDK/API support and read-only 2D outline-coordinate retrieval, reconciling S513/S515/S569. No script execution, CLO UI/file operation, container decoding, or gate change. See E-G04-S577-START."
+        },
+        {
+          "at": "2026-10-09T04:54:20.468Z",
+          "actor": "Codex",
+          "text": "S577 finds the official API describes GetPatternCount/GetPatternPieceName/GetPatternOutlinePoints, but the latest SDK remains mapped to CLO 2026.1.224 and the outline getter excludes curve controls; .310 behavior is unproven. No script or CLO operation occurred. Next: a bounded read-only in-app getter smoke test using only documented methods; no setters/export. See E-G04-S577-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11843,7 +11853,9 @@
         "E-G04-S575-START",
         "E-G04-S575-EXIT",
         "E-G04-S576-START",
-        "E-G04-S576-EXIT"
+        "E-G04-S576-EXIT",
+        "E-G04-S577-START",
+        "E-G04-S577-EXIT"
       ],
       "flagKey": null
     },
@@ -22351,6 +22363,24 @@
       "sha256": null,
       "verified": true,
       "note": "Read-only S574 project audit: valid embedded ZIP exposes scene/UI metadata only; geometry-bearing CLO-specific binary members remain opaque. Project hashes match S574 and member changes cannot attribute CUT loss. Stage remains unresolved; no CLO action, proprietary parsing or gate change. See C:-only report and exit packet."
+    },
+    {
+      "id": "E-G04-S577-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S577-clo-exact-build-curve-api/S577-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Narrow refresh of official CLO sources for a version-matched 2026.1.310 API that can return exact 2D pattern outline coordinates. Reconciles S513/S515/S569 rather than repeating general research; no API execution or CLO operation."
+    },
+    {
+      "id": "E-G04-S577-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S577-clo-exact-build-curve-api/S577-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official CLO docs still list SDK 11.0.0 for 2026.1.224, not installed .310. Current API docs expose read-only pattern outline endpoints in mm but exclude curve control points and do not establish .310 runtime support. No script ran and no V03 gate cleared. Next: bounded read-only in-app getter smoke test."
     }
   ]
 }

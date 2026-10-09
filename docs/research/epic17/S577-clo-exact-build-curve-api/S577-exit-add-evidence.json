@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3423,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S577-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S577-clo-exact-build-curve-api/S577-exit-packet.md",
+    "verified": true,
+    "note": "Official CLO docs still list SDK 11.0.0 for 2026.1.224, not installed .310. Current API docs expose read-only pattern outline endpoints in mm but exclude curve control points and do not establish .310 runtime support. No script ran and no V03 gate cleared. Next: bounded read-only in-app getter smoke test."
+  }
+}

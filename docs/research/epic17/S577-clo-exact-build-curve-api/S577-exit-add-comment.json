@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3424,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S577 finds the official API describes GetPatternCount/GetPatternPieceName/GetPatternOutlinePoints, but the latest SDK remains mapped to CLO 2026.1.224 and the outline getter excludes curve controls; .310 behavior is unproven. No script or CLO operation occurred. Next: a bounded read-only in-app getter smoke test using only documented methods; no setters/export. See E-G04-S577-EXIT."
+}

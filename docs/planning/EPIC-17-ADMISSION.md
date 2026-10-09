@@ -1,4 +1,14 @@
-## Current EPIC-17/G04 V03 boundary — S576 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S577 exit (2026-10-09)
+
+The current official SDK page still maps SDK 11.0.0 to CLO 2026.1.224, not
+installed 2026.1.310. The API List documents `GetPatternCount`,
+`GetPatternPieceName`, and `GetPatternOutlinePoints` (ordered outline segment
+endpoints in mm, curve controls excluded), but does not establish exact-build
+runtime support or distinct CUT/SEW paths. No script was run. Board transition
+3421→3423→3425. Next: one read-only in-app getter smoke test using only
+documented methods. Evidence: `docs/research/epic17/S577-clo-exact-build-curve-api/S577-exit-packet.md`.
+
+## Prior EPIC-17/G04 V03 boundary — S576 exit (2026-10-09)
 
 S576 confirmed the S574 project hashes and opened their embedded standard ZIP
 members in memory. Transparent XML/JSON contains environment/UI/manifest

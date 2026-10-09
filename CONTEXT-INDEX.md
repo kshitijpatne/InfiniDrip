@@ -1,6 +1,17 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S576 exit
+## Current EPIC-17/G04 V03 boundary — S577 exit
+
+- S577 exit packet:
+  docs/research/epic17/S577-clo-exact-build-curve-api/S577-exit-packet.md.
+  Official docs expose a read-only pattern-outline getter in mm, excluding
+  curve control points, but the latest SDK is mapped to .224 rather than
+  installed .310. Runtime behavior is unverified; no API call was run. Board
+  transition 3421→3423→3425 keeps G04-V03 In Progress.
+- Next: bounded read-only in-app API getter smoke test in the already-running
+  CLO session. No setters or exports; preserve every V03/V02 gate and hold.
+
+## Prior EPIC-17/G04 V03 boundary — S576 exit
 
 - S576 exit packet:
   docs/research/epic17/S576-clo-project-geometry-audit/S576-exit-packet.md.

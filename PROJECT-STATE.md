@@ -1,6 +1,26 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 576 exit; V03 remains open
+## EPIC-17 / G04 — Slice 577 exit; V03 remains open
+
+Official CLO downloads still list SDK 11.0.0 mapped to 2026.1.224, not the
+installed 2026.1.310 build. The current official API list documents read-only
+`GetPatternCount`, `GetPatternPieceName`, and `GetPatternOutlinePoints`; the
+last returns ordered boundary segment endpoints in millimeters but excludes
+curve control points. Exact-build runtime support is unproven, and the getter
+does not promise separate CUT/SEW paths. No script or CLO UI action occurred.
+Source note and evidence:
+docs/research/epic17/S577-clo-exact-build-curve-api/S577-exit-packet.md and its
+C:-only linked source note. No acceptance or hold changed; board replay
+3421→3423→3425 keeps G04-V03 In Progress. The CLO session remains open.
+
+**Next:** run a bounded read-only getter smoke test in the existing CLO session
+using only those documented getters. No setters, exports, guessed enums, or
+proprietary member decoding. Keep the 0.001 cm gate, all-seven acceptance,
+legacy DXF behavior, and protected identities unchanged.
+
+## Prior EPIC-17 / G04 — Slice 576 exit
+
+## Prior EPIC-17 / G04 — Slice 576 exit
 
 S576 read-only inspection confirmed the S574 post-import and post-gen1-reimport
 projects by their recorded hashes. Their custom `ZPRJ` containers embed a
