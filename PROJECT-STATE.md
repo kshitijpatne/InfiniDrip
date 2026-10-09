@@ -1,5 +1,30 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 649 closed; next route decision is external
+
+S649 reconciles all V03 gates against source, actual receiver output, renders,
+and current packets. Its matrix and shortest stop-first plan are linked under
+`docs/research/epic17/S649-v03-completion-plan/`; one bounded read-only
+GPT-6.1 Sol high review was completed and Codex verified its corrections.
+C04 permits version-matched sidecars for grade, piece identity and seam
+relations; test their exact association and integrity instead of requiring all
+fields inside DXF. The review also restored S531's silent malformed-input
+failure, identified the exact GetonAgain input-dialect preflight, and
+separated cyclic point-list residuals from S634 source-to-path deviation.
+
+No V03 receiver/profile is selected or qualified. CLO 2026.1.310 AAMA/ASTM/
+Standard labels are vendor routes only, with no normative conformance claim;
+the tested Polo geometry, malformed-input and mark behavior have concrete
+failures. Do not repeat the tested Polo permutation family. Generic OpenCAD
+R14 is not an industrial apparel profile. GetonAgain remains a candidate only;
+first-party trial rights/local DXF handling, explicit install/run authorization,
+and the exact input/sidecar contract are unresolved. No new test is reserved.
+Old 9–14-slice and 3–6+3–5 estimates are stale; conditional remaining work is
+3–5 V03 plus 2–3 final integration/PR/deployment slices only after an eligible
+candidate pilot passes. V01/V02 Done; V03/Epic In Progress; all gates, holds,
+all-seven scope, thresholds, legacy DXF and protected identities unchanged.
+No physical-fit, factory-acceptance, or production-readiness claim.
+
 ## EPIC-17 / G04 — Slice 648 closed; V03 decision plan next
 
 S648 completes the already-started fixture-custody preflight. The exact S646

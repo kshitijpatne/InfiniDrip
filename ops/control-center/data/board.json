@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3738,
-  "updatedAt": "2026-10-09T23:51:29.062Z",
+  "revision": 3742,
+  "updatedAt": "2026-10-09T23:58:50.634Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12368,6 +12368,16 @@
           "at": "2026-10-09T23:51:29.062Z",
           "actor": "Codex",
           "text": "S648 closes the offline C:-only fixture preflight: exact S646 R14 Polo M first output copied byte-identically (153647 bytes, SHA-256 ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461), with its 9-piece/56-entity/unit/layer baseline. No receiver import or CLO operation occurred; GetonAgain rights/locality remain unverified and every V03 gate/hold is unchanged. S640 is already closed with five CUT failures before export. Next is a bounded evidence reconciliation/plan, not another experiment. See E-G04-S648-EXIT."
+        },
+        {
+          "at": "2026-10-09T23:53:09.962Z",
+          "actor": "Codex",
+          "text": "S649 starts a single current V03 gate reconciliation and prioritized completion/stop plan from S640–S648 evidence, with one bounded read-only high-reasoning review. No new receiver experiment is reserved. Reuse hash-pinned S648 input and existing matrices; preserve all seven recipes/options/grades, fixed thresholds, legacy/protected identities and every hold. Explicitly distinguish vendor empirical profile behavior from standards conformance."
+        },
+        {
+          "at": "2026-10-09T23:58:50.634Z",
+          "actor": "Codex",
+          "text": "S649 reconciles every V03 gate and sets a no-churn completion plan. None is passed by reviewer opinion: Codex verified the matrix against source and output evidence. CLO 2026.1.310 modes are vendor-specific experiments only; tested Polo geometry and malformed/mark behavior fail, so that permutation family is stopped. Generic OpenCAD is not industrial profile proof. GetonAgain remains ineligible until rights/local DXF handling, install/run authorization, and exact input dialect/sidecar contract are verified. No new experiment is reserved. See E-G04-S649-EXIT and its linked matrix/plan/review. All acceptance, holds, legacy output and protected identities remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -12772,7 +12782,9 @@
         "E-G04-S647-START",
         "E-G04-S647-EXIT",
         "E-G04-S648-START",
-        "E-G04-S648-EXIT"
+        "E-G04-S648-EXIT",
+        "E-G04-S649-START",
+        "E-G04-S649-EXIT"
       ],
       "flagKey": null
     },
@@ -24666,6 +24678,24 @@
       "sha256": null,
       "verified": true,
       "note": "S648's C:-only copy of the exact S646 Polo M R14 first output is 153647 bytes and SHA-256 ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461, byte-identical to source; S646 geometry baseline and manifest retained. Custody-only: no GetonAgain/CLO import, rights still unverified, no V03 gate or hold changes. S640 was already closed with five CUT failures before export."
+    },
+    {
+      "id": "E-G04-S649-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S649-v03-completion-plan/S649-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S649 for evidence-only reconciliation of every V03 gate and a prioritized completion/stop plan, plus one bounded read-only high-reasoning review. No receiver test or new profile/format/setting variation is authorized until an eligible route and distinct gate are identified. All thresholds, seven-recipe scope, statuses and holds stay unchanged."
+    },
+    {
+      "id": "E-G04-S649-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S649-v03-completion-plan/S649-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current gate-by-gate V03 status and prioritized completion plan reconcile S640–S648 actual output, source and render evidence; one bounded read-only GPT-6.1 Sol high review completed and Codex verified corrections. No candidate/profile selected: CLO is vendor-specific empirical only and fails repeated Polo CUT/malformed/mark gates; GetonAgain rights/locality/install and input dialect remain preconditions. All gates, all-seven scope, holds, thresholds, legacy DXF and protected identities unchanged. Older 9–14 / 3–6+3–5 estimates stale; conditional path is 3–5 V03 plus 2–3 final slices only after eligible pilot passes."
     }
   ]
 }

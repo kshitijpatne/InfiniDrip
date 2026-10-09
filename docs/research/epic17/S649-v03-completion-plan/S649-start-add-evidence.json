@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3738,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S649-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S649-v03-completion-plan/S649-start-packet.md",
+    "verified": true,
+    "note": "Reserves S649 for evidence-only reconciliation of every V03 gate and a prioritized completion/stop plan, plus one bounded read-only high-reasoning review. No receiver test or new profile/format/setting variation is authorized until an eligible route and distinct gate are identified. All thresholds, seven-recipe scope, statuses and holds stay unchanged."
+  }
+}
