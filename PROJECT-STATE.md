@@ -1,27 +1,24 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 610 exit; V03 remains open
+## EPIC-17 / G04 — Slice 611 exit; V03 remains open
 
-S610 compared S609's CLO DXF-ASTM output with the earlier S536 AAMA output.
-The same five Polo CUT roles have one fewer output vertex in both. S536 used
-geometry-identical R2000 LWPOLYLINE input; S609 used original R12 POLYLINE
-input. Since source encoding and output format changed together, their
-individual effects are not isolated. S609's point-optimization/removal
-controls were off; official CLO help does not describe or promise a fix for
-these deviations. Exact import/internal-normalization/export stage remains
-unknown. No V03 gate clears. Evidence:
-`docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/S610-exit-packet.md`.
+S611 found no ready free/local apparel receiver among documented candidates.
+Seamly2D's current README does not document DXF apparel import/round-trip;
+OpenPatterns' three fixture failures/no writer and Super V8's no-DXF-export
+evidence remain controlling. garment.dev claims broad AAMA/ASTM validation but
+is invite-based and hosted, outside current scope; no files were uploaded.
+Evidence: `docs/research/epic17/S611-free-local-apparel-cad-alternatives/S611-exit-packet.md`.
 
-Validated board replay: `3570→3572` start and `3572→3574` exit. V02 remains
+Validated board replay: `3574→3576` start and `3576→3578` exit. V02 remains
 Done; V03/EPIC-17 remain In Progress. Current matrix:
-`docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/V03-CURRENT-GATE-MATRIX-S610.md`.
-Next research a distinct free/local apparel CAD receiver or documented
-profile with rights and an evidence-backed test path; do not guess at further
-CLO optimization toggles or repeat the same confounded AAMA/ASTM setup.
-Preserve all V03 criteria, all-seven acceptance, the `0.001 cm` threshold,
-legacy DXF behavior and protected export identities. Permission and local-only
-handling are settled. Keep CLO open while G04 is active.
-
+`docs/research/epic17/S611-free-local-apparel-cad-alternatives/V03-CURRENT-GATE-MATRIX-S611.md`.
+Next use one source-backed CLO import-mode diagnostic: import the same S609
+R12/AAMA fixture as Standard DXF, hold all other settings fixed, export in
+ASTM with S609 settings, and compare to the same `0.001 cm` gate. This isolates
+whether the AAMA import mode is implicated. Preserve all V03 criteria, seven-
+recipe acceptance, legacy DXF behavior and protected export identities.
+Permission/local-only handling is confirmed for CLO; no other service may
+receive files. Keep CLO open while G04 is active.
 ## EPIC-17 / G04 — Slice 607 exit; V03 remains open
 
 S607 closed at its fail-closed selection precondition. The open CLO

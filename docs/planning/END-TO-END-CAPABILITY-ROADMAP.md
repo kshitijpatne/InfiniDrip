@@ -2,20 +2,19 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 gate picture — S610 (2026-10-09)
+### G04 current V03 gate picture — S611 (2026-10-09)
 
-S610 compares two real CLO outputs: S536's geometry-identical R2000 LWPOLYLINE
-input followed by AAMA export, and S609's original R12 POLYLINE input followed
-by ASTM export. Both contain one-vertex-short CUT contours in the same five
-Polo piece roles; the unchanged `0.001 cm` gate still fails. Since source
-encoding and export format changed together, their individual effects cannot
-be isolated. S609 point-optimization/removal controls were off. CLO help
-explains available controls but no cause or fix. The exact stage (import,
-internal normalization, or export) remains unknown. Written product-development
-authorization and local-only handling are confirmed. No V03 gate clears. Next
-research a genuinely distinct free/local apparel CAD receiver or documented
-profile with a rights-compatible and evidence-backed test path. See
-`docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/`.
+S611 found no ready free/local apparel receiver among documented candidates.
+Seamly2D's current README does not document a DXF apparel receiver route;
+OpenPatterns' tested block-table failure/no writer and Richpeace Super V8's
+lack of documented DXF export remain controlling. garment.dev claims broad
+AAMA/ASTM support but is invite-based and uses a hosted account library; this
+is outside current scope and no file was uploaded. Written CLO
+product-development authorization/local handling are confirmed for CLO only.
+No V03 gate clears. Next test the explicitly documented CLO Standard-DXF
+import mode against the same S609 source while holding other settings fixed,
+then measure the unchanged `0.001 cm` gate. See
+`docs/research/epic17/S611-free-local-apparel-cad-alternatives/`.
 ### Prior G04 V03 gate picture — S594 (2026-10-09)
 
 S594 independently evaluated the hash-pinned S591/S592 degree-1 SPLINE
@@ -134,7 +133,7 @@ _Targets were reforecast at Epic 14's limited evidence admission on 2026-09-24. 
 | G01 Admission and professional baseline | P0 | 2026-09-24 | 2026-11-13 baseline target; closed 2026-09-24 | C01/C02/C05/C06 evidence wave → C03 → C04 → final review; distinct digital remediation when confirmed | Closed at Slice 228, including S227 remediation | A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted. Exit report: `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. |
 | G02 Versioned style foundation | P0 | Admitted 2026-09-24 | Closed 2026-09-26 at Slice 241; PR #12 brought the verified closure record to `origin/main` | G01 closed; maintainer explicitly admitted EPIC-15; F01 → F02 → F03 → final review | 10 implementation slices (Slices 230–239), plus Slice 229 admission, Slice 240 review and Slice 241 merge/closure record; 22–44 focused engineering days (planning estimate) | Multi-style local record, legacy migration, project backup/restore, source-aware fields, exact dependency invalidation, durable constrained edits, immutable revisions and hashes passed the digital exit without changing protected legacy exports. Evidence: `docs/planning/EPIC-15-ADMISSION.md`, `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`, and `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. |
 | G03 Measurement-first creation | P0 | 2027-02-15 | 2027-05-14 | G02; can parallel with technical-flat specialist research | 6–9 | One measured size, coach, editable continuation and separately approved grading work for all supported recipes. |
-| G04 Professional flats and CAD interchange | P0 | Admitted 2026-09-29; V01 → V02 → V03 | Reforecast after S610 source/output comparison | G01/G02/G03 verified complete; shared integration remains serialized | V01/V02 accepted for all seven recipes. S609 CLO 2026.1.310 AAMA-import/ASTM-export trial imports/exports/reimports and renders nine Polo M pieces; four of nine CUTs and all nine SEWs pass `0.001 cm`, but five CUTs lose one vertex and fail by `0.01299–0.01422 cm`. S610 confirms the same five piece roles and one-vertex loss in the earlier S536 AAMA export. The trials changed source encoding and export format together; individual effects and internal stage remain unknown. S609 point-optimization/removal controls were off; official help identifies no cause or fix. Written product-development rights and local processing are confirmed. V03 holds on all-seven round trips, geometry, identity, CUT/SEW semantics, marks/grades/options, malformed-input handling, repeated generations and useful rendered detail. Next research a rights-compatible, free/local apparel CAD receiver/profile with a concrete test path. | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views remain G09/D04; production tech-pack content remains G05. | Preserve all V02/V03 gates, legacy DXF behavior, protected export identities, and no physical/factory/production-readiness claim. Require representative all-seven import/round-trip evidence before any exact compatibility claim. |
+| G04 Professional flats and CAD interchange | P0 | Admitted 2026-09-29; V01 → V02 → V03 | Reforecast after S611 receiver research | G01/G02/G03 verified complete; shared integration remains serialized | V01/V02 accepted for all seven recipes. S609 CLO 2026.1.310 AAMA-import/ASTM-export trial imports/exports/reimports and renders nine Polo M pieces; four of nine CUTs and all nine SEWs pass `0.001 cm`, but five CUTs lose one vertex and fail by `0.01299–0.01422 cm`. S610 confirms the same five piece roles and one-vertex loss in the earlier S536 AAMA export; processing stage remains unknown. S611 finds no ready free/local receiver: Seamly2D import is undocumented, OpenPatterns and Super V8 retain prior blockers, and garment.dev is invite-based/hosted/out of scope. No V03 gate clears. Next isolate CLO import mode by testing Standard DXF with all other S609 settings fixed. | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views remain G09/D04; production tech-pack content remains G05. | Preserve all V02/V03 gates, legacy DXF behavior, protected export identities, and no physical/factory/production-readiness claim. Require representative all-seven import/round-trip evidence before any exact compatibility claim. |
 | G05 Living production tech pack | P0 | Research 2026-10-05; code 2027-04-05 | 2027-10-15 | G02 opens T01; G04 and G03 feed later export/POM packets | 12–18 | Editable source, full configurable sections, provenance, approvals, QA fields and frozen exports across all supported recipes. |
 | G06 Professionally vetted starting designs | P1 | Research 2026-10-05; implementation 2027-05-17 | 2027-12-17 | G02 opens registry work; G04/G05 required for final B1 review; garment-family work can run in disjoint geometry lane | 10–16 plus recipe expansion below | Curated, independently reviewed starter register; no counted item lacks B1 evidence. |
 | G07 Researched garment expansion | P1, conditional on Phase 9 garment approval | 2026-10-05 earliest | 2027-12-17 target for researched set | Existing garment synthesis; shorts and upper-body foundation may run concurrently only in disjoint worktrees | 34–47, plus jogger cuff 2–3 if included | Each new recipe passes its own researched geometry/grade/POM/BOM/output matrix and B1 digital review; no physical-fit claim. |

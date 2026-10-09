@@ -1,22 +1,19 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S610 exit
+## Current EPIC-17/G04 V03 boundary — S611 exit
 
-- S610 compared actual hash-pinned S536 AAMA and S609 ASTM CLO outputs. The
-  same five Polo CUT roles show one fewer vertex in both. S536 used a
-  geometry-identical R2000 LWPOLYLINE fixture; S609 used original R12 POLYLINE.
-  Since input encoding and export format changed together, individual effects
-  are not isolated. S609 point-optimization/removal controls were off. CLO's
-  official help describes the controls but not this defect or a proven fix.
-  Import versus internal normalization versus export remains undetermined; no
-  V03 gate clears. See `docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/`
-  and its current matrix.
-- Written product-development authorization and local-only handling remain
-  settled. Keep all V03 gates, the all-seven criterion, V02-before-V03 and
-  the `0.001 cm` threshold intact. Next research a distinct free/local apparel
-  CAD receiver or documented profile with rights and a testable exchange path.
-  Do not guess at further CLO optimization toggles or repeat the same
-  confounded AAMA/ASTM setup. CLO remains open during G04 work.
+- S611 found no ready free/local apparel receiver in its bounded candidate
+  review. Seamly2D's current README does not document apparel-DXF receiving;
+  OpenPatterns and Richpeace Super V8 retain prior S480/S485 blockers.
+  garment.dev claims AAMA/ASTM DXF import/export, but is invite-based and
+  backed by a hosted account library, outside the current no-hosted-service
+  scope. No files were uploaded. See
+  `docs/research/epic17/S611-free-local-apparel-cad-alternatives/`.
+- CLO permission and local-only processing remain settled for CLO only. Next
+  run one documented CLO Standard-DXF import-mode trial against the exact S609
+  input, holding other settings fixed, to isolate whether the AAMA importer
+  is implicated. Preserve all V03 gates and the `0.001 cm` threshold. Do not
+  send files to another service or install an app without separate authority.
 ## Prior EPIC-17/G04 V03 boundary — S607 exit
 
 - S607 observed CLO Edit Grading on the S565 waistband: the selected outer

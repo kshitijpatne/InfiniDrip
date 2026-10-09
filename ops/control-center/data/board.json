@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3574,
-  "updatedAt": "2026-10-09T11:38:34.080Z",
+  "revision": 3578,
+  "updatedAt": "2026-10-09T11:43:26.519Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11978,6 +11978,16 @@
           "at": "2026-10-09T11:38:34.080Z",
           "actor": "Codex",
           "text": "S610 shows the five Polo CUT failures are repeatable across two CLO exchange trials: S536 R2000 LWPOLYLINE/AAMA and S609 original R12 POLYLINE/ASTM. Both lose one outline vertex on the same five piece roles. Since encoding and export mode changed together, neither factor's independent effect is established. S609 optimization/removal options were off; official CLO help documents options but no vertex-loss fix. The processing stage remains unknown. No V03 gate clears. Next research a distinct rights-compatible free/local apparel CAD receiver/profile and concrete test path; don't spend another trial toggling settings without a source-backed prediction. See E-G04-S610-EXIT."
+        },
+        {
+          "at": "2026-10-09T11:41:21.545Z",
+          "actor": "Codex",
+          "text": "S611 screens documented candidates for a free/local apparel-CAD receiver and exact profile evidence. Earlier authorization covers CLO only; do not upload files to another service, create an account, or install another application during research. Generic DXF support or an export-only claim is not receiver qualification. Preserve all V03 gates. See E-G04-S611-START."
+        },
+        {
+          "at": "2026-10-09T11:43:26.519Z",
+          "actor": "Codex",
+          "text": "S611 found no free/local receiver ready to qualify. Seamly2D's current upstream README does not document DXF apparel import/round-trip; OpenPatterns and Super V8 remain blocked by S480/S485 evidence. garment.dev claims broad AAMA/ASTM validation but is invite-based and hosted, outside current scope; no pattern was uploaded. Next use one source-backed CLO Standard-DXF import-mode test on the exact S609 fixture, holding other settings fixed, to isolate whether AAMA import is implicated. All V03 holds and scope remain. See E-G04-S611-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12296,7 +12306,9 @@
         "E-G04-S609-START",
         "E-G04-S609-EXIT",
         "E-G04-S610-START",
-        "E-G04-S610-EXIT"
+        "E-G04-S610-EXIT",
+        "E-G04-S611-START",
+        "E-G04-S611-EXIT"
       ],
       "flagKey": null
     },
@@ -23416,6 +23428,24 @@
       "sha256": null,
       "verified": true,
       "note": "Source/output diagnosis confirms the same five one-vertex-short CUT roles in prior AAMA and current ASTM CLO outputs; two variables changed together, so individual effects and processing stage remain unknown. CLO point optimization/removal controls were off, and official help gives no tested fix. No V03 gate or hold changes."
+    },
+    {
+      "id": "E-G04-S611-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S611-free-local-apparel-cad-alternatives/S611-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded primary-source review for a free/local apparel CAD receiver after the two CLO routes failed the same five Polo CUT outlines. No data upload, install, profile change, or V03 criterion change is authorized by this research packet."
+    },
+    {
+      "id": "E-G04-S611-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S611-free-local-apparel-cad-alternatives/S611-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Primary-source screen finds no ready free/local apparel receiver: Seamly2D's current README does not document a DXF receiver, OpenPatterns and Richpeace Super V8 have prior documented blockers, while garment.dev is invite-based/hosted and out of scope. No app install, file upload, account or V03 status/criterion change."
     }
   ]
 }

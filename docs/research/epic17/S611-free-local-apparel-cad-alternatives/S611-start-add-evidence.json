@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3574,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S611-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S611-free-local-apparel-cad-alternatives/S611-start-packet.md",
+    "verified": true,
+    "note": "Bounded primary-source review for a free/local apparel CAD receiver after the two CLO routes failed the same five Polo CUT outlines. No data upload, install, profile change, or V03 criterion change is authorized by this research packet."
+  }
+}
