@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3618,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S621-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S621-aama-swap-lines-import/S621-start-packet.md",
+    "verified": true,
+    "note": "S621 runs one local CLO AAMA import of hash-pinned S574 input with only Swap cut and sewing lines changed; inspect native contours before deciding whether export is safe. Rights and local-processing confirmation received; all V03 gates remain open."
+  }
+}

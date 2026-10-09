@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3619,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S621 tests the documented CLO AAMA Swap cut and sewing lines option on the same S574 connected-LINE fixture, changing no other import setting. Query native geometry before any export; stop this route if CUT remains outside 0.001 cm. The maintainer confirmed product-development use and local file processing; receiver compatibility and every remaining V03 gate stay unproven. See E-G04-S621-START."
+}

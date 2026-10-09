@@ -1,5 +1,17 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 621 exit; V03 remains open
+
+S621's same-input DXF-AAMA swap-on diagnostic rendered nine pieces and queried nine patterns without errors. All nine source SEW contours match their expected native pattern; none of the nine paired CUT contours passes 0.001 cm (best comparable deviations span 1.4142–9.3109 cm; two stands have no same-point-count candidate). Every ordered native point list is identical to S620's swap-off baseline. No DXF export occurred. Detailed settings, bounded interpretation, and evidence hashes are in `docs/research/epic17/S621-aama-swap-lines-import/S621-exit-packet.md`; board replay 3618→3620→3622. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress with all criteria unchanged.
+
+Next: compare CLO Standard-DXF import against AAMA on the same connected-LINE input, with swap off and all other settings at the S574 baseline; query native geometry before any export. If that fails the CUT gate, stop further CLO profile variants on this fixture and advance to the next rights-qualified receiver candidate. S621 ran 13:35:34–13:47:30 UTC (11m56s): import/query/snapshot UI work about 8m; geometry analysis and report creation about 2m; focused verification and packet/state/board closeout about 1m56s; external waits 0; maintainer-decision time 0. CLO remains open.
+
+## EPIC-17 / G04 — Slice 621 start; V03 remains open
+
+S621 starts from clean S620 commit `66fc68fdf8f4c42bdfd7c6f232098305d385cb8a`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. The unique highest slice was 620; S621 is reserved. Board revision 3618 has EPIC-17/G04-V03 In Progress and G04-V02 Done. The maintainer confirmed CLO trial use for product-development evaluation and local file processing. Start packet: `docs/research/epic17/S621-aama-swap-lines-import/S621-start-packet.md`; C:-only input SHA-256 is recorded there.
+
+Bounded next action: import the hash-pinned S574 connected-LINE fixture once with only “Swap cut and sewing lines” enabled, then inspect native geometry, closures and rendered pieces before deciding whether export is safe. Keep every V03/V02 gate, threshold, hold, protected identity, and claim limit unchanged. CLO remains open.
+
 ## EPIC-17 / G04 — Slice 620 exit; V03 remains open
 
 S620 reuses the saved S574 AAMA import-stage project. Its nine CLO native point lists match all 9 source SEW outlines within 0.000014 cm and none of the source CUT outlines within the unchanged 0.001 cm gate; the AAMA gen1 block contours carry forward the exposed native geometry. CLO calls the shapes “Base Line” and does not document DXF layer/stage semantics, so the internal mechanism and output numeric-layer roles remain unproven. Exit packet and hash-pinned C:-only report: `docs/research/epic17/S620-aama-preexport-contour-check/S620-exit-packet.md`; board replay 3614→3616→3618. EPIC-17/G04-V03 remains In Progress; V02 remains Done and all gates/holds are unchanged.
