@@ -1,4 +1,22 @@
-## Current verified boundary — S607 exit (2026-10-09)
+## Current verified boundary — S624 exit (2026-10-09)
+
+S624 verified Open CAD Studio v2026.40.1's signed Windows portable build and
+its local export path. A synthetic cm R12 fixture passed two R14 reopens; seven
+current-source default-M recipes plus Tee XS/XL passed 90/90 CUT/SEW contour
+comparisons at 0.001 cm with zero measured residual. Nine second-generation
+files were byte-identical; malformed input was rejected without output. Nine
+actual receiver A3 plots were reviewed. The product DXFs lack $INSUNITS and
+carry only CUT/SEW polylines; the test does not establish apparel marks/identity,
+grading/options or an industrial profile and clears no full V03 acceptance gate.
+All source/output/render artifacts remain in the named C: S624 folder. Board
+start/exit replay and focused verification are in
+docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/.
+
+Next S625 uses one S624-produced AC1014 Polo M file to test CLO Standard-DXF
+native pre-export geometry against its exact source at 0.001 cm. No export
+unless all nine CUT and SEW contours pass. Keep all V03 gates unchanged.
+
+## Historical verified boundary — S607 exit (2026-10-09)
 
 S607 tried to select the exact S606-mapped waistband SEW endpoint with CLO's
 Edit Grading tool. The active selected outer CUT point retained 20 mm X grade

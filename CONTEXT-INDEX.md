@@ -1,6 +1,11 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S623 exit
+## Current EPIC-17/G04 V03 boundary — S624 exit
+
+- Official Open CAD Studio v2026.40.1 local CLI preserved the generated seven default-M recipe fixtures plus Tee XS/XL through explicit R14 write/reopen: 90/90 CUT/SEW contours, zero measured residual at 0.001 cm, and all nine second generations byte-identical. The malformed control was rejected without output. Actual receiver A3 plots for all nine cases were reviewed. Product-source DXFs do not include $INSUNITS or garment mark/identity semantics. Therefore this is bounded general-CAD geometry evidence; it clears no full V03 acceptance gate and does not establish an industrial apparel profile. Exit packet, current matrix, helpers and plots: docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/ and C:\G04-CLO-DXF-Exchange\S624-opencadstudio-desktop-r14-receiver\. Validated board replay 3632→3634→3637; V02 Done, V03 and EPIC-17 In Progress.
+- Next S625 is a single CLO Standard-DXF pre-export test of the newly generated AC1014 R14 Polo M file, compared with the existing source and exact S622 settings. Continue to export only if all native CUT/SEW contours pass 0.001 cm; otherwise close this R14-version hypothesis and keep all gates held. The maintainer's written CLO product-use/local-processing authorization remains settled.
+
+## Prior EPIC-17/G04 V03 boundary — S623 exit
 
 - S623 screens Open CAD Studio's official browser app using only the local synthetic `CUT` rectangle / `SEW` diagonal R12 fixture. The visible app opens/renders it and offers DXF R14 in Save Drawing As, but the dialog has only filename and format; official documentation says browser saves are local downloads and no way to enforce the required named C: destination was available. The dialog was cancelled; no product drawing or R14 output was made. This is a candidate workflow preflight hold, not product fidelity or server-handling evidence. Full packet and gate matrix: `docs/research/epic17/S623-opencadstudio-r14-receiver/`; the only file in its C: evidence folder is the synthetic input. Validated board replay 3629→3632. V02 remains Done; V03/EPIC-17 remain In Progress and no V03 gate clears. Next qualify a distinct workflow with verifiable local product handling and named C: output selection before any product fixture is supplied. CLO authorization remains limited to the already-approved local CLO trial; keep CLO open.
 

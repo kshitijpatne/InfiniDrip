@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3634,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S624-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/S624-exit-packet.md",
+    "verified": true,
+    "note": "Official Open CAD Studio v2026.40.1 local R14 CLI screen: nine source-generated fixtures (all seven size-M recipes plus Tee XS/XL) retain 90/90 CUT/SEW contours at 0.001 cm, repeat identically after reopen, reject malformed input, and have receiver-generated reviewed plots. Industrial apparel-profile, semantic marks/identity, options and grading gates remain open."
+  }
+}

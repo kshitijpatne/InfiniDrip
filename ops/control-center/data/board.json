@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3632,
-  "updatedAt": "2026-10-09T14:35:03.276Z",
+  "revision": 3637,
+  "updatedAt": "2026-10-09T14:54:39.079Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12108,6 +12108,16 @@
           "at": "2026-10-09T14:35:03.276Z",
           "actor": "Codex",
           "text": "S623 screened Open CAD Studio using only a synthetic R12 rectangle/line fixture. It renders the drawing and exposes DXF R14, but the browser Save As dialog provides no verifiable route to the required named C: folder; no product file or R14 output was made. This candidate preflight hold clears no V03 gate. Qualify a distinct local receiver workflow with destination control before supplying any product fixture. All G04/V03 criteria and holds remain unchanged. See E-G04-S623-EXIT and E-G04-S623-MATRIX."
+        },
+        {
+          "at": "2026-10-09T14:38:05.272Z",
+          "actor": "Codex",
+          "text": "S624 screens the official Open CAD Studio Windows portable CLI as a distinct, explicitly-pathable local DXF R14 workflow after S623's browser output-path hold. Verify release identity/signature and the local-only CLI source path; prove synthetic R12→R14 output/reopen under C:\\G04-CLO-DXF-Exchange\\S624-opencadstudio-desktop-r14-receiver before opening any product fixture. A generic CAD pass cannot alone prove apparel profile semantics or clear V03. All acceptance criteria and holds remain. See E-G04-S624-START."
+        },
+        {
+          "at": "2026-10-09T14:54:39.079Z",
+          "actor": "Codex",
+          "text": "S624 establishes a positive local general-CAD R14 result: the official signed Open CAD Studio v2026.40.1 CLI preserves all CUT/SEW contours for seven current-source M recipe fixtures and Tee XS/XL, passes two byte-identical R14 generations, rejects malformed input, and produces reviewed receiver plots. It does not establish an apparel industrial profile, stable garment/mark semantics, supported-option or grading exchange, so no full V03 gate clears. V02 remains Done; G04-V03 and EPIC-17 remain In Progress. Continue from the matrix; keep every admitted criterion unchanged. See E-G04-S624-EXIT and E-G04-S624-MATRIX."
         }
       ],
       "evidenceRefs": [
@@ -12458,7 +12468,10 @@
         "E-G04-S622-MATRIX",
         "E-G04-S623-START",
         "E-G04-S623-EXIT",
-        "E-G04-S623-MATRIX"
+        "E-G04-S623-MATRIX",
+        "E-G04-S624-START",
+        "E-G04-S624-EXIT",
+        "E-G04-S624-MATRIX"
       ],
       "flagKey": null
     },
@@ -23866,6 +23879,33 @@
       "sha256": null,
       "verified": true,
       "note": "The S623 matrix records the Open CAD Studio browser candidate's R14 and synthetic-render pass, the unverified C:-only output destination, and all product/profile/round-trip gates remaining open."
+    },
+    {
+      "id": "E-G04-S624-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/S624-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S624 checks the official Open CAD Studio Windows portable binary's local headless R14 conversion after release/signature/source-path review, first with a synthetic fixture. No product fixture until local C:-only execution and output are demonstrated."
+    },
+    {
+      "id": "E-G04-S624-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/S624-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official Open CAD Studio v2026.40.1 local R14 CLI screen: nine source-generated fixtures (all seven size-M recipes plus Tee XS/XL) retain 90/90 CUT/SEW contours at 0.001 cm, repeat identically after reopen, reject malformed input, and have receiver-generated reviewed plots. Industrial apparel-profile, semantic marks/identity, options and grading gates remain open."
+    },
+    {
+      "id": "E-G04-S624-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/V03-CURRENT-GATE-MATRIX-S624.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S624 updates the V03 candidate matrix with Open CAD Studio's bounded local R14 geometry/reopen/malformed/render results without treating general CAD fidelity as apparel-profile acceptance. All remaining V03 gates and the seven-recipe requirement remain explicit."
     }
   ]
 }

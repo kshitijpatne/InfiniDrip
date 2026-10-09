@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3633,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S624 screens the official Open CAD Studio Windows portable CLI as a distinct, explicitly-pathable local DXF R14 workflow after S623's browser output-path hold. Verify release identity/signature and the local-only CLI source path; prove synthetic R12→R14 output/reopen under C:\\G04-CLO-DXF-Exchange\\S624-opencadstudio-desktop-r14-receiver before opening any product fixture. A generic CAD pass cannot alone prove apparel profile semantics or clear V03. All acceptance criteria and holds remain. See E-G04-S624-START."
+}

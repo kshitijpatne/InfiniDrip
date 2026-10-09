@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3632,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S624-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/S624-start-packet.md",
+    "verified": true,
+    "note": "S624 checks the official Open CAD Studio Windows portable binary's local headless R14 conversion after release/signature/source-path review, first with a synthetic fixture. No product fixture until local C:-only execution and output are demonstrated."
+  }
+}
