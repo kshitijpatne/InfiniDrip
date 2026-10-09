@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3667,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S631 closes the offline audit of S617’s already completed Standard-DXF import → CLO DXF-ASTM-labeled export → Standard-DXF reimport; no exchange was repeated. The pinned Polo M source has 38 marks. At 0.001 cm, 12/21 source points have one output point, 6 are ambiguous and 3 buttonhole points are unmatched; 11/14 lines match separately while 3 coincide exactly with CUT/SEW outlines; 0/3 button circles pass the whole-curve gate after conversion to 12-vertex polylines. Numeric output layers preserve no source semantic names, and saved-image crops do not prove all marks readable. This is one fixture/mode path, not an ASTM conformance claim. No V03 gate clears; keep V02 Done, V03/Epic In Progress and every existing acceptance/hold. Next select a distinct decision-bearing V03 gate from the current matrix before any new CLO exchange. See E-G04-S631-EXIT."
+}

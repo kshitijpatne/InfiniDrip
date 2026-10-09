@@ -1,3 +1,20 @@
+**S631 exit:** started from clean S630
+`4b5be3619c3b3398197a03044b6feefa464e962e`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor,
+and validated board start was 3664→3666. The offline audit of the hash-pinned
+S617 Polo M Standard-DXF import → CLO DXF-ASTM-labeled export → Standard-DXF
+reimport found 12/21 source POINTs uniquely matched, six ambiguous, three
+buttonhole points without a distinct output point; 11/14 LINEs separately
+matched, three coincident with source CUT/SEW contours; and 0/3 whole-circle
+passes at `0.001 cm` after conversion to 12-vertex output polylines. Output
+layers are numeric, with no source semantic names, and saved-render detail
+crops do not prove mark readability. Deterministic report SHA-256
+`8FFA8DCBDB72F25173EABFA5C6B63206AD8A014B7FD7CF93EA0A99EEF63E2767`; packet
+and helper: `docs/research/epic17/S631-s617-astm-mark-audit/`; raw C:-only
+report and crops are in its named exchange folder. No new CLO operation or
+gate change. See S631 exit packet for measurements, crop review, verification
+and holds. V02 remains Done, V03 and Epic remain In Progress.
+
 **S630 exit:** the official CLO help, ASTM D6673-10 public record, visually
 inspected NISTIR 5969 figures and independent Claude Opus 5.5 xhigh review
 provide no authorized, specific encoding for S629's lost/approximated circle
@@ -8,10 +25,8 @@ public scope. No CLO operation, acceptance/gate change or compatibility claim
 occurred. Board start/exit replay `3660→3662→3664` preserves V02 Done and
 V03/Epic In Progress. Start, source audit, reviewer return and exit packet:
 `docs/research/epic17/S630-official-profile-mark-semantics/`. Next reserve
-S631 after refreshing state, then offline-audit the existing S617 CLO
-DXF-ASTM output and saved reimport render against its hash-pinned source
-before deciding whether another UI operation is justified. Maintain all V03
-gates, all-seven acceptance, and the settled local CLO authorization.
+S632 after refreshing state and history. Maintain all V03 gates, all-seven
+acceptance, and the settled local CLO authorization.
 
 **S629 exit:** Slice 629 audited 29 `MARK_*` entities in the existing,
 hash-pinned S628 Woven size-M CLO DXF-AAMA output. Thirteen line geometries

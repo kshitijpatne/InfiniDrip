@@ -1,6 +1,31 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 630 closed; V03 remains open
+## EPIC-17 / G04 — Slice 631 closed; V03 remains open
+
+S631 started `2026-10-09 17:59:27 UTC` from clean S630 commit
+`4b5be3619c3b3398197a03044b6feefa464e962e`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; board start
+replay was 3664→3666. It closed as an offline audit of S617's existing source,
+CLO DXF-ASTM-labeled export, and saved Standard-DXF reimport output/render;
+no CLO action or new exchange occurred. The 38 source marks include 21 POINT,
+14 LINE, and 3 CIRCLE entities. At `0.001 cm`, 12/21 source POINTs have one
+direct output POINT, six are ambiguous, and three buttonhole points are
+unmatched. Eleven of 14 LINEs match separately; three lie on CUT/SEW outlines
+and have only long shared-path candidates. All three button circles become
+12-vertex polylines with `0.005112–0.005113 cm` chord sagitta, exceeding the
+unchanged tolerance. Numeric output layers retain no source semantic name,
+and the four saved-render detail crops do not prove fine mark readability.
+The deterministic report SHA-256 is
+`8FFA8DCBDB72F25173EABFA5C6B63206AD8A014B7FD7CF93EA0A99EEF63E2767`; raw
+report/crops are under `C:\G04-CLO-DXF-Exchange\S631-s617-astm-mark-audit\`.
+See `docs/research/epic17/S631-s617-astm-mark-audit/S631-exit-packet.md`.
+S631 clears no V03 gate. Board closeout and focused verification are recorded
+in that packet. Preserve every V03 hold, all-seven acceptance, legacy
+behavior and protected export identities; keep CLO open. At this safe slice
+boundary inspect the durable goal record; it must stay active until G04
+completes and is safely merged.
+
+## Verified prior boundary — Slice 630 closed; V03 remains open
 
 S630 started `2026-10-09 17:46:54 UTC` from clean S629 commit
 `8a45420b96f8513f02348aabe19d5b247c57aba1`; refreshed `origin/main`

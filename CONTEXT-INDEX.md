@@ -1,6 +1,38 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S630 closed; V03 remains open
+## Current EPIC-17/G04 V03 boundary — S631 exit
+
+- S631's offline audit of the existing S617 Standard-DXF import → CLO
+  DXF-ASTM-labeled export → Standard-DXF reimport found 38 source marks.
+  At `0.001 cm`, 12/21 POINTs have a unique direct output POINT, six have
+  ambiguous candidates and three buttonhole POINTs have none; 11/14 LINEs
+  match separately while three coincide exactly with CUT/SEW contours; none
+  of three source button circles pass the whole-curve tolerance after
+  conversion to 12-vertex polylines (sagitta about `0.005113 cm`). The output
+  uses numeric layers without source semantic names, and saved detail crops
+  do not establish mark readability. Report SHA-256
+  `8FFA8DCBDB72F25173EABFA5C6B63206AD8A014B7FD7CF93EA0A99EEF63E2767` and
+  packets/helpers: `docs/research/epic17/S631-s617-astm-mark-audit/`; raw
+  report and crops: `C:\G04-CLO-DXF-Exchange\S631-s617-astm-mark-audit\`.
+  No new CLO operation or conversion occurred. S631 clears no V03 gate; V02
+  remains Done, V03/Epic In Progress, and every hold is unchanged. CLO use
+  and local processing are confirmed in writing; leave CLO open. At this
+  verified boundary, inspect the goal record; keep it active through G04
+  completion and safe merge.
+
+## Prior EPIC-17/G04 V03 boundary — S631 start
+
+- S631 starts from clean S630 commit `4b5be3619c3b3398197a03044b6feefa464e962e`;
+  refreshed `origin/main` remains an ancestor, S630 is highest, and board
+  revision 3666 preserves V02 Done and V03/Epic In Progress. Its offline scope
+  audits source mark primitives against the already-existing, hash-pinned S617
+  CLO DXF-ASTM-labeled export and saved Standard-DXF reimport render. No CLO
+  operation or new conversion. Start packet:
+  `docs/research/epic17/S631-s617-astm-mark-audit/S631-start-packet.md`.
+  Preserve all V03 gates, all-seven acceptance, user-settled rights/local
+  handling, protected export identities, and the open CLO session.
+
+## Prior EPIC-17/G04 V03 boundary — S630 exit
 
 - S630's official CLO/ASTM/NIST source audit and inspected NISTIR diagrams
   identify no authorized, specific DXF encoding for S629's circle/point mark
@@ -13,11 +45,10 @@
   return, and exit packet:
   `docs/research/epic17/S630-official-profile-mark-semantics/`. Validated
   board closeout revision 3664 retains V02 Done and V03/Epic In Progress.
-  Next reserve S631 after refreshing Git/history/board, then audit the
-  already-existing S617 CLO DXF-ASTM export and its saved reimport render
-  offline against its hash-pinned source before deciding whether another CLO
-  operation is justified. No duplicate trial; keep every V03 gate, all-seven
-  acceptance, protected export identities and the active CLO session.
+  S631 has now closed its offline S617 output and render audit without another
+  CLO operation. See the current S631 boundary above. Keep every V03 gate,
+  all-seven acceptance, protected export identities and the active CLO
+  session.
 
 ## Prior EPIC-17/G04 V03 boundary — S629 exit
 

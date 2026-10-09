@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3665,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S631 uses the already completed, hash-pinned S617 Standard-DXF import → DXF-ASTM-labeled export → Standard-DXF reimport. It will offline-inventory source/output mark primitives and same-piece geometry, and inspect the saved reimport render for useful marker detail. This is a one-fixture empirical audit, not an ASTM D6673 conformance test. No new CLO operation, source edit, tolerance or V03 gate change. Preserve all-seven acceptance, protected exports, rights limits and all holds. See E-G04-S631-START."
+}
