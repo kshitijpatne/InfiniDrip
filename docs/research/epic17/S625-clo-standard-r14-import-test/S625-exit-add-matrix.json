@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3640,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S625-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S625-clo-standard-r14-import-test/V03-CURRENT-GATE-MATRIX-S625.md",
+    "verified": true,
+    "note": "S625 carries forward all V03 acceptance areas and the all-seven requirement. It records the bounded CLO R14 import failure, S624's positive but general-CAD-only R14 result, and all remaining profile, semantics, marks, options/grades, malformed-input, round-trip, rendering, and regression gates without relaxing scope."
+  }
+}

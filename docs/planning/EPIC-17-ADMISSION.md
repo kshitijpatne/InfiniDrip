@@ -1,3 +1,7 @@
+## Current verified boundary — S625 exit (2026-10-09)
+
+S625 closed the single CLO Standard-DXF R14-container hypothesis. The importer returned nine native pieces without API errors, but only 4/9 CUT and 4/9 SEW contours pass the unchanged `0.001 cm` tolerance, with visible curve spikes in the saved CLO render. The fail-closed pre-export gate stopped the trial before export. S624's local Open CAD Studio R14 success remains general-CAD geometry evidence only. Neither screen closes the industrial apparel-profile, units, piece/revision and manufacturing semantics, marks, options/grading, malformed-input, round-trip, or complete rendered-output requirements. Do not repeat CLO Standard-DXF variants on this fixture; the next reserved slice must target a distinct, evidence-backed V03 gate. Written CLO product-development and local-file-processing permission is settled. Full S625 result and current matrix: `docs/research/epic17/S625-clo-standard-r14-import-test/`.
+
 ## Current verified boundary — S624 exit (2026-10-09)
 
 S624 verified Open CAD Studio v2026.40.1's signed Windows portable build and

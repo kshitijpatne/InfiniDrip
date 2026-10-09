@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3639,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S625-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S625-clo-standard-r14-import-test/S625-exit-packet.md",
+    "verified": true,
+    "note": "CLO 2026.1.310 Standard-DXF import of one hash-pinned Polo M AC1014 file returns nine pieces but only 4/9 CUT and 4/9 SEW contours pass 0.001 cm; rendered curves show visible spikes. The fail-closed pre-export gate withheld export. All V03 criteria remain open as applicable."
+  }
+}

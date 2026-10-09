@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3637,
-  "updatedAt": "2026-10-09T14:54:39.079Z",
+  "revision": 3642,
+  "updatedAt": "2026-10-09T15:20:47.023Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12118,6 +12118,16 @@
           "at": "2026-10-09T14:54:39.079Z",
           "actor": "Codex",
           "text": "S624 establishes a positive local general-CAD R14 result: the official signed Open CAD Studio v2026.40.1 CLI preserves all CUT/SEW contours for seven current-source M recipe fixtures and Tee XS/XL, passes two byte-identical R14 generations, rejects malformed input, and produces reviewed receiver plots. It does not establish an apparel industrial profile, stable garment/mark semantics, supported-option or grading exchange, so no full V03 gate clears. V02 remains Done; G04-V03 and EPIC-17 remain In Progress. Continue from the matrix; keep every admitted criterion unchanged. See E-G04-S624-EXIT and E-G04-S624-MATRIX."
+        },
+        {
+          "at": "2026-10-09T14:59:06.783Z",
+          "actor": "Codex",
+          "text": "S625 tests one hash-pinned S624 Polo M R14/AC1014 output in the already-running CLO 2026.1.310 Standard-DXF importer to determine whether the new DXF version/container changes the previously measured native contour failure. CLO product-development and local-file authority are confirmed in writing. Compare all 9 CUT and 9 SEW contours at the unchanged 0.001 cm gate; no export unless every pre-export condition passes. All V03 criteria/holds remain. See E-G04-S625-START."
+        },
+        {
+          "at": "2026-10-09T15:20:47.023Z",
+          "actor": "Codex",
+          "text": "S625 closes one specific CLO Standard-DXF R14-container hypothesis. The exact AC1014 Polo M input imports as nine queryable patterns, but only 4/9 CUT and 4/9 SEW contours pass 0.001 cm; the saved CLO render also shows visibly spiked curves. The fail-closed pre-export gate prevented any DXF export. Compared with S622, the pass counts are unchanged while two prior ~93.1135 mm CUT deviations fall to ~2.33 mm; five CUT and five SEW still fail. S624 remains bounded general-CAD R14 evidence only. No V03 criterion clears; V02 remains Done, G04-V03 and EPIC-17 remain In Progress. CLO product-development and local-processing authority are confirmed in writing. See E-G04-S625-EXIT and E-G04-S625-MATRIX."
         }
       ],
       "evidenceRefs": [
@@ -12471,7 +12481,10 @@
         "E-G04-S623-MATRIX",
         "E-G04-S624-START",
         "E-G04-S624-EXIT",
-        "E-G04-S624-MATRIX"
+        "E-G04-S624-MATRIX",
+        "E-G04-S625-START",
+        "E-G04-S625-EXIT",
+        "E-G04-S625-MATRIX"
       ],
       "flagKey": null
     },
@@ -23906,6 +23919,33 @@
       "sha256": null,
       "verified": true,
       "note": "S624 updates the V03 candidate matrix with Open CAD Studio's bounded local R14 geometry/reopen/malformed/render results without treating general CAD fidelity as apparel-profile acceptance. All remaining V03 gates and the seven-recipe requirement remain explicit."
+    },
+    {
+      "id": "E-G04-S625-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S625-clo-standard-r14-import-test/S625-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S625 tests one source-exact Open CAD Studio AC1014 Polo M file through the already-running authorized local CLO Standard-DXF workflow; the full 0.001 cm native contour gate must pass before any export."
+    },
+    {
+      "id": "E-G04-S625-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S625-clo-standard-r14-import-test/S625-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO 2026.1.310 Standard-DXF import of one hash-pinned Polo M AC1014 file returns nine pieces but only 4/9 CUT and 4/9 SEW contours pass 0.001 cm; rendered curves show visible spikes. The fail-closed pre-export gate withheld export. All V03 criteria remain open as applicable."
+    },
+    {
+      "id": "E-G04-S625-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S625-clo-standard-r14-import-test/V03-CURRENT-GATE-MATRIX-S625.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S625 carries forward all V03 acceptance areas and the all-seven requirement. It records the bounded CLO R14 import failure, S624's positive but general-CAD-only R14 result, and all remaining profile, semantics, marks, options/grades, malformed-input, round-trip, rendering, and regression gates without relaxing scope."
     }
   ]
 }

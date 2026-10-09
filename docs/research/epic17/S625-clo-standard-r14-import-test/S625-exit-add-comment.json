@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3641,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S625 closes one specific CLO Standard-DXF R14-container hypothesis. The exact AC1014 Polo M input imports as nine queryable patterns, but only 4/9 CUT and 4/9 SEW contours pass 0.001 cm; the saved CLO render also shows visibly spiked curves. The fail-closed pre-export gate prevented any DXF export. Compared with S622, the pass counts are unchanged while two prior ~93.1135 mm CUT deviations fall to ~2.33 mm; five CUT and five SEW still fail. S624 remains bounded general-CAD R14 evidence only. No V03 criterion clears; V02 remains Done, G04-V03 and EPIC-17 remain In Progress. CLO product-development and local-processing authority are confirmed in writing. See E-G04-S625-EXIT and E-G04-S625-MATRIX."
+}

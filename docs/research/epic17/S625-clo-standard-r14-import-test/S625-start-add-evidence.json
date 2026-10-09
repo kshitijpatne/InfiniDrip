@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3637,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S625-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S625-clo-standard-r14-import-test/S625-start-packet.md",
+    "verified": true,
+    "note": "S625 tests one source-exact Open CAD Studio AC1014 Polo M file through the already-running authorized local CLO Standard-DXF workflow; the full 0.001 cm native contour gate must pass before any export."
+  }
+}

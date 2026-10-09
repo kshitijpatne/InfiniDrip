@@ -1,9 +1,13 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S624 exit
+## Current EPIC-17/G04 V03 boundary — S625 exit
+
+- S625's C:-only CLO 2026.1.310 Standard-DXF test of an S624 Polo M AC1014 fixture returned nine patterns without API errors, but only 4/9 CUT and 4/9 SEW contours meet `0.001 cm`; several curves visibly spike in the saved CLO render. The pre-export gate failed, so no DXF was exported. Compared with S622, the counts remain 4/9 each, but two ~93.1135 mm CUT misses shrink to ~2.33 mm; five CUT and five SEW still fail. The user has confirmed written authority for product-development evaluation and local processing. Exit packet and refreshed matrix: `docs/research/epic17/S625-clo-standard-r14-import-test/`; receiver input, project, API JSON, geometry report and render are in `C:\G04-CLO-DXF-Exchange\S625-clo-standard-r14-import-test\`. Board replay `3639→3642`. V02 remains Done; V03/EPIC-17 remain In Progress, all gates unchanged. The next slice must target a distinct, evidence-backed open V03 gate; do not repeat CLO Standard-DXF variants on this fixture.
+
+## Prior EPIC-17/G04 V03 boundary — S624 exit
 
 - Official Open CAD Studio v2026.40.1 local CLI preserved the generated seven default-M recipe fixtures plus Tee XS/XL through explicit R14 write/reopen: 90/90 CUT/SEW contours, zero measured residual at 0.001 cm, and all nine second generations byte-identical. The malformed control was rejected without output. Actual receiver A3 plots for all nine cases were reviewed. Product-source DXFs do not include $INSUNITS or garment mark/identity semantics. Therefore this is bounded general-CAD geometry evidence; it clears no full V03 acceptance gate and does not establish an industrial apparel profile. Exit packet, current matrix, helpers and plots: docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/ and C:\G04-CLO-DXF-Exchange\S624-opencadstudio-desktop-r14-receiver\. Validated board replay 3632→3634→3637; V02 Done, V03 and EPIC-17 In Progress.
-- Next S625 is a single CLO Standard-DXF pre-export test of the newly generated AC1014 R14 Polo M file, compared with the existing source and exact S622 settings. Continue to export only if all native CUT/SEW contours pass 0.001 cm; otherwise close this R14-version hypothesis and keep all gates held. The maintainer's written CLO product-use/local-processing authorization remains settled.
+- S625 closes the pre-export R14-container hypothesis only. S624's positive result remains limited to a general-CAD local R14 workflow; neither receiver establishes the applicable industrial apparel profile, identity/mark semantics, all supported options/grades, or full round-trip acceptance.
 
 ## Prior EPIC-17/G04 V03 boundary — S623 exit
 
