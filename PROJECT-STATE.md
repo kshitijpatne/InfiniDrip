@@ -1,28 +1,26 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 593 exit; V03 remains open
+## EPIC-17 / G04 — Slice 594 exit; V03 remains open
 
-S593 mapped every closed non-SEW path in all nine receiver blocks from the
-S591/S592 Polo M exchanges, binding each block by its unchanged source SEW
-geometry. It enumerated 19 target-block candidates for S591 and 14 for S592.
-Every candidate for the back and four collars fails the unchanged `0.001 cm`
-gate. Best conservative bounds remain `4.063040 cm` for back and
-`0.159193–0.467258 cm` for collars. The maximum residual neighborhoods shift
-between variants on back and stands; repeated shapes on different numeric
-layers are not independent passing alternatives or layer-semantic evidence.
-No internal CLO cause is inferred. Details:
-`docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md` and
-`V03-CURRENT-GATE-MATRIX-S593.md`.
+S594 hash-pinned the original Polo M source, the five S591 degree-1 SPLINEs,
+the S592 closed-bit derivative and both source preflight reports. Its
+independent de Boor evaluator compared seven parameters per active span to the
+original source POLYLINE edges: 3,206 evaluations across both variants, all
+with 0 cm numeric residual. The mathematical curves are identical despite
+group 70 changing from 25 to 24. Autodesk's DXF/API references document flag,
+field, closed/periodic and knot-count semantics; they do not explain CLO's
+output. The five measured Polo CUT round-trip failures remain under the
+unchanged `0.001 cm` gate. Details and machine report hash:
+`docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md`.
 
-Validated board exit replay `3493→3497` and wording-only correction
-`3497→3500`, Control Center `42/42`, refreshed ancestry and active/aligned
-goal audit are in the S593 packet. V02 remains Done; V03/EPIC-17 remain In
-Progress. Next S594
-audits exact degree-1 SPLINE DXF semantics against primary documentation and
-independent mathematical curve evaluation before any further receiver trial.
-Keep all-seven and every V03 gate, legacy DXF behavior and protected export
-identities. Trial permission/local handling remain settled; exchange files
-stay on C: and CLO remains open.
+Validated board replay `3500→3502→3506`, focused Control Center results,
+refreshed ancestry and active/aligned goal audit are in the S594 packet. V02
+remains Done; V03/EPIC-17 remain In Progress. Next S595 may test a periodic
+degree-1 encoding only after independently proving exact source geometry; if
+not proven, no receiver trial occurs. Preserve all-seven scope and all V03
+gates, legacy DXF behavior and protected export identities. Trial permission
+and local handling remain settled; exchange files stay on C: and CLO remains
+open.
 
 ## Prior EPIC-17 / G04 — Slice 587 exit; V03 remains open
 

@@ -1,30 +1,27 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S593 exit
+## Current EPIC-17/G04 V03 boundary — S594 exit
 
-- S593 enumerated all 19 S591 and 14 S592 closed non-SEW paths in the five
-  target Polo receiver blocks, with every output block bound by unchanged SEW
-  geometry. Every back/collar CUT candidate fails `0.001 cm`; best bounds are
-  `4.063040 cm` for back and `0.159193–0.467258 cm` for collars. Residual
-  maxima move between source segments in the flag variants; duplicate paths
-  under numeric layer locators do not prove semantic roles or create passing
-  alternatives. No CLO cause is inferred. See
-  `docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md`.
+- S594 hash-pinned original S536 Polo M source, the five S591 degree-1 SPLINEs,
+  the S592 closed-flag derivative and both preflight reports. An independent
+  de Boor evaluator tested 3,206 active-span parameters across ten target
+  entities; every degree-1 curve matches its source POLYLINE with 0 cm numeric
+  residual. S591 group 70=25 and S592=24 differ only by the closed bit, not
+  their mathematical curves. Autodesk documents closed/periodic flags and
+  knot/control fields, but this does not explain CLO's measured output.
+  Details: `docs/research/epic17/S594-polo-spline-semantics-audit/`.
 - Current V03 matrix:
-  `docs/research/epic17/S593-polo-cut-output-topology/V03-CURRENT-GATE-MATRIX-S593.md`.
-  All-seven, identity, CUT/SEW, marks, grades/options, malformed-input,
-  useful-detail and repeated-round-trip gates remain. Product source, legacy
-  DXF behavior and protected export identities are unchanged.
-- Next S594 audits exact degree-1 SPLINE semantics using primary DXF
-  documentation and independent curve evaluation before further receiver
-  trials. The goal remains active and aligned; no manual resume or goal edit
-  is needed. CLO remains open; files stay in the named C: folders.
-- S593 validated start replay was `3491→3493`; exit replay was `3493→3497`,
-  followed by a wording-only correction at `3497→3500` to restore canonical
-  S459/S457/S406 evidence phrases after two focused board-test assertions
-  failed. Control Center then passed `42/42`. The goal audit returned active
-  and aligned; no manual resume or goal edit is needed. Full ancestry is in
-  the S593 packet.
+  `docs/research/epic17/S594-polo-spline-semantics-audit/V03-CURRENT-GATE-MATRIX-S594.md`.
+  The five Polo CUT round-trip failures remain under the unchanged `0.001 cm`
+  gate. Identity, CUT/SEW, marks, grades/options, malformed-input,
+  useful-detail, repeated-round-trip and all-seven gates remain. No CLO cause,
+  conformance or compatibility claim is inferred.
+- Next S595 may prepare a proper periodic degree-1 encoding only after the
+  cyclic control/knot formulation is independently proven source-exact; at
+  most one CLO trial follows. If source proof fails, do not import/export.
+- S594 start replay was `3500→3502`; exit is `3502→3506`. Goal audit remains
+  active/aligned; no manual resume or wording change is needed. CLO remains
+  open and all exchange files stay in the named C: folders.
 
 - Historical S587 exit packet:
   `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.

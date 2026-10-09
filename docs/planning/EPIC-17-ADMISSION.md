@@ -1,23 +1,22 @@
-## Current EPIC-17/G04 V03 boundary — S591 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S594 exit (2026-10-09)
 
-S591 tested one clean-scene CLO 2026.1.310 DXF-AAMA import/render/export of
-five exchange-only, source-vertex-preserving degree-1 SPLINE CUT outlines.
-The exact piecewise-linear source representation passes the unchanged
-`0.001 cm` source gate, CLO displayed nine pieces without a format error, and
-9/9 SEW plus 4/9 other CUT paths pass. The five target CUT paths still fail at
-conservative bounds `0.841822–13.113897 cm`. This rejects the encoding for
-this tested build/profile/fixture only; it does not establish universal
-SPLINE/CLO incompatibility or assign an undocumented internal cause. Full
-evidence is in
-`docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md` and
-the current matrix
-`docs/research/epic17/S591-polo-degree1-spline-probe/V03-CURRENT-GATE-MATRIX-S591.md`.
+S594 hash-pinned the original Polo M source, the S591/S592 fixtures and their
+preflight reports, and independently evaluated all five degree-1 target
+splines from both variants. Across 3,206 parameter evaluations, all curves
+match their source POLYLINE edges at zero numeric residual. S591 group 70=25
+and S592=24 differ only in the closed bit; their mathematical loci are
+identical. Autodesk DXF/API docs clarify the group flags and closed/periodic
+distinction but do not explain CLO's output. The five measured CLO CUT
+failures remain; no V03 gate changes. Details:
+`docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md` and
+`V03-CURRENT-GATE-MATRIX-S594.md`.
 
-No V03 gate, tolerance, recipe scope, pattern source, legacy DXF behavior, or
-protected export identity changed. V02 remains Done and V03/EPIC-17 remain In
-Progress. Next S592 tests only the SPLINE closed flag while retaining the
-repeated first control point, after a fresh proof below `0.001 cm`. Written
-product-development use and local processing are confirmed.
+V02 remains Done and V03/EPIC-17 remain In Progress. Next S595 may construct a
+proper periodic degree-1 candidate only if the periodic control/knot form is
+independently proven exact against each source curve before one bounded CLO
+trial. If it is not source-exact, do not test. Written product-development
+use/local-processing permission remains settled. Preserve all seven recipes,
+every V03 gate, legacy DXF behavior and protected export identities.
 
 ## Slice 591 verified exit — 2026-10-09
 
@@ -1619,3 +1618,23 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   exact source SPLINE semantics against primary DXF documentation and an
   independent curve evaluation before any further receiver trial. V02 remains
   Done; all V03 gates and all-seven requirement remain.
+
+- **S594 Polo SPLINE semantics audit (2026-10-09):** from committed S593
+  `42317d233677d4d2fae10b494f12feeb2cf73f4c`; refreshed
+  `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor;
+  S594 is unique. Hash-pinned original source, S591/S592 fixtures and both
+  source-preflight reports match their recorded hashes. An independent
+  degree-1 de Boor evaluation compared seven parameters per knot span to all
+  source POLYLINE edges: 3,206 evaluations, zero numeric residual. S591's
+  group 70=25 and S592's 24 produce identical source curves; Autodesk DXF/API
+  references clarify flags and closed/periodic distinctions but do not
+  establish CLO behavior. The five measured output CUT failures and every V03
+  gate remain. No CLO operation or source/profile/acceptance change. Machine
+  report SHA-256 `4e5aedb57dc5c42436bfb2f8cc4f6045120db4379ecb5e6d8ff30df9d3c910ad`;
+  packet and current matrix are in
+  `docs/research/epic17/S594-polo-spline-semantics-audit/`. Board start/exit
+  revisions `3500→3502→3506`; focused Control Center and diff checks are
+  recorded in the exit packet. **Next:** S595 may prepare a periodic degree-1
+  encoding only with an independent exact-source proof, before one bounded
+  CLO round trip. Preserve all-seven, `0.001 cm`, rights/profile and every
+  other V03 gate; do not infer physical or factory acceptance.

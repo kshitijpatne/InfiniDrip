@@ -2,25 +2,28 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 gate picture — S593 (2026-10-09)
+### G04 current V03 gate picture — S594 (2026-10-09)
 
-S593 enumerated every closed non-SEW path inside each of nine SEW-bound blocks
-from both S591/S592 Polo M CLO DXF-AAMA outputs. Every candidate for the back
-and four collar CUT contours fails the unchanged `0.001 cm` threshold. Best
-bounds are `4.063040 cm` for back and `0.159193–0.467258 cm` for collars.
-Worst residual source-segment neighborhoods move between the flag variants on
-the back and stands; duplicate paths on numeric layers are not semantic
-evidence or passing alternatives. No CLO internal cause is inferred.
-Product-development rights and local handling are settled, not compatibility
-evidence. All-seven, identity, CUT/SEW, marks, grading/options, malformed-input,
-useful-detail and repeated-round-trip gates remain open. See
-`docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md` and
-`V03-CURRENT-GATE-MATRIX-S593.md`.
+S594 independently evaluated the hash-pinned S591/S592 degree-1 SPLINE
+entities against the original source POLYLINE geometry. Ten target entities
+cover five Polo M CUTs; 3,206 degree-1 de Boor evaluations have zero source
+residual. The only S591/S592 difference is the DXF closed bit, and it does not
+change their mathematical curves. Autodesk DXF/API references document flags
+and closed/periodic conventions but do not prove CLO's interpretation or
+account for its measured output. The five CUT failures remain under the
+unchanged `0.001 cm` gate; S593 found no alternate passing receiver contour.
+The profile is still a narrow CLO DXF-AAMA trial identity, not qualified
+industrial interoperability. All-seven, identity, CUT/SEW, marks,
+grading/options, malformed-input, useful-detail and repeated-round-trip gates
+remain open. See
+`docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S594.md`.
 
-Next S594 audits exact degree-1 SPLINE semantics using primary DXF
-documentation and independent curve evaluation before any further receiver
-trial. Preserve all V03 gates and all-seven scope; keep CLO open and exchange
-files in the named C: folder.
+Next S595 may prepare a periodic degree-1 candidate only after independent
+proof that its knots/controls reproduce all five exact source curves; at most
+one CLO exchange follows. No CLO test runs if that source proof fails. Preserve
+all V03 gates and all-seven scope; keep CLO open and all exchange files in the
+named C: folder.
 
 ### G04 current evidence and conditional estimate — S520 (2026-10-08)
 

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3504,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S594-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md",
+    "verified": true,
+    "note": "S594 verifies hash-pinned S591/S592 flags, knot/control counts and exact source controls, then independently evaluates all five degree-1 splines (3,206 parameter evaluations, zero source residual). Autodesk references do not establish CLO internals; all five measured CLO CUT failures and all V03 gates remain."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3500,
-  "updatedAt": "2026-10-09T08:12:09.330Z",
+  "revision": 3506,
+  "updatedAt": "2026-10-09T08:22:04.384Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Written product-development/local-file-processing authorization and narrow CLO 2026.1.310 / DXF-AAMA trial identity are recorded. S591/S592 source-exact degree-1 SPLINE variants fail five Polo M CUT contours; S593 enumerated every closed non-SEW candidate in nine SEW-bound blocks from both outputs. All back/collar candidates fail 0.001 cm; best S592 bounds are 4.063040 cm and 0.159193–0.467258 cm. Some residual maxima move between variants; duplicates under numeric layers are not semantic roles or passing alternatives. No CLO internal cause is inferred. See docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md and V03-CURRENT-GATE-MATRIX-S593.md. Next S594 audits exact degree-1 SPLINE semantics using primary DXF documentation and independent curve evaluation before any further receiver trial. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every V03 gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Written product-development/local-file-processing authorization and narrow CLO 2026.1.310 / DXF-AAMA trial identity are recorded. S591/S592 source-exact degree-1 SPLINE encodings fail five Polo CUT contours after CLO round trip; S594's hash-pinned independent de Boor audit shows both variants evaluate to the original source POLYLINEs at 0 cm residual across 3,206 span samples. Autodesk documents the flags and closed/periodic distinctions; no CLO internal cause is inferred. S593 enumerated every output CUT candidate with no passing alternative. See docs/research/epic17/S594-polo-spline-semantics-audit/S594-start-packet.md and V03-CURRENT-GATE-MATRIX-S594.md. Next S595 may prepare a periodic degree-1 representation only after independently proving exact source geometry, before one bounded CLO test. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every V03 gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -3252,7 +3252,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Written product-development/local-file-processing authorization and narrow CLO 2026.1.310 / DXF-AAMA trial identity are recorded. S591/S592 source-exact degree-1 SPLINE variants fail five Polo M CUT contours; S593 enumerated every closed non-SEW candidate in nine SEW-bound blocks from both outputs. All back/collar candidates fail 0.001 cm; best S592 bounds are 4.063040 cm and 0.159193–0.467258 cm. Some residual maxima move between variants; duplicates under numeric layers are not semantic roles or passing alternatives. No CLO internal cause is inferred. See docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md and V03-CURRENT-GATE-MATRIX-S593.md. Next S594 audits exact degree-1 SPLINE semantics using primary DXF documentation and independent curve evaluation before any further receiver trial. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every V03 gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Written product-development/local-file-processing authorization and narrow CLO 2026.1.310 / DXF-AAMA trial identity are recorded. S591/S592 source-exact degree-1 SPLINE encodings fail five Polo CUT contours after CLO round trip; S594's hash-pinned independent de Boor audit shows both variants evaluate to the original source POLYLINEs at 0 cm residual across 3,206 span samples. Autodesk documents the flags and closed/periodic distinctions; no CLO internal cause is inferred. S593 enumerated every output CUT candidate with no passing alternative. See docs/research/epic17/S594-polo-spline-semantics-audit/S594-start-packet.md and V03-CURRENT-GATE-MATRIX-S594.md. Next S595 may prepare a periodic degree-1 representation only after independently proving exact source geometry, before one bounded CLO test. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every V03 gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4665,6 +4665,11 @@
           "at": "2026-10-09T08:12:09.330Z",
           "actor": "Codex",
           "text": "S593 closeout suite exposed two board-description wording regressions: the accepted S459 seven-recipe/73-configuration/146-face criterion and S457/S406 evidence were paraphrased, while board tests intentionally pin their canonical phrases. Restored those exact evidence statements in both Epic records; this is a documentation consistency correction only. No status, scope, acceptance gate, or implementation changed."
+        },
+        {
+          "at": "2026-10-09T08:22:03.034Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Written product-development/local-file-processing authorization and narrow CLO 2026.1.310 / DXF-AAMA trial identity are recorded. S591/S592 source-exact degree-1 SPLINE encodings fail five Polo CUT contours after CLO round trip; S594's hash-pinned independent de Boor audit shows both variants evaluate to the original source POLYLINEs at 0 cm residual across 3,206 span samples. Autodesk documents the flags and closed/periodic distinctions; no CLO internal cause is inferred. S593 enumerated every output CUT candidate with no passing alternative. See docs/research/epic17/S594-polo-spline-semantics-audit/S594-start-packet.md and V03-CURRENT-GATE-MATRIX-S594.md. Next S595 may prepare a periodic degree-1 representation only after independently proving exact source geometry, before one bounded CLO test. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every V03 gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.). Record S594's independent source-curve/specification audit and bounded S595 hypothesis without changing G04 gates or statuses."
         }
       ],
       "evidenceRefs": [
@@ -11793,6 +11798,16 @@
           "at": "2026-10-09T08:11:10.733Z",
           "actor": "Codex",
           "text": "S593 completed a read-only map of all receiver CUT candidates in the hash-pinned S591/S592 CLO outputs. Each output block was bound by its unchanged SEW outline; numeric layers were treated as locators only. Every enumerated back/collar CUT candidate fails 0.001 cm. The best S592 bounds remain 4.063040 cm for back and 0.159193–0.467258 cm for collars. Worst-error neighborhoods move between flag variants on back and stands; duplicate paths do not qualify semantics or clear geometry. No internal CLO cause is inferred. Next S594 checks the exact source SPLINE representation against primary DXF documentation and an independent curve evaluation before any further receiver trial. See docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md."
+        },
+        {
+          "at": "2026-10-09T08:15:45.475Z",
+          "actor": "Codex",
+          "text": "S594 starts from committed S593 42317d23 with refreshed origin/main still an ancestor; S593 is the highest prior slice and 594 is uniquely reserved. This read-only audit checks all five hash-pinned S591/S592 degree-1 SPLINE entities against Autodesk's published DXF/API field semantics and an independent de Boor curve evaluation of their source contours. It will not run another CLO trial or modify a fixture, product source, gate or claim. The measured Polo CUT hold and all other V03 gates remain. See docs/research/epic17/S594-polo-spline-semantics-audit/S594-start-packet.md."
+        },
+        {
+          "at": "2026-10-09T08:22:04.384Z",
+          "actor": "Codex",
+          "text": "S594 independently evaluated the five S591 and five S592 degree-1 SPLINE entities against their original Polo M source POLYLINE edges. All ten entities are hash-pinned; all 3,206 active-span evaluations return 0 cm residual, and the S591/S592 source curves are mathematically identical despite group 70 changing from 25 to 24. Autodesk's DXF reference distinguishes closed, periodic, rational, planar and linear flags; its API separately describes closed vs periodic behavior and periodic knot/control counts. This confirms the tested source encodings are not approximate at the source, but does not explain CLO's output or pass the five measured CUT failures. No new CLO trial or gate change. Next S595 prepares a proper periodic candidate only if its exact source geometry is proven before one receiver test. See docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md."
         }
       ],
       "evidenceRefs": [
@@ -12077,7 +12092,9 @@
         "E-G04-S592-START",
         "E-G04-S592-EXIT",
         "E-G04-S593-START",
-        "E-G04-S593-EXIT"
+        "E-G04-S593-EXIT",
+        "E-G04-S594-START",
+        "E-G04-S594-EXIT"
       ],
       "flagKey": null
     },
@@ -22891,6 +22908,24 @@
       "sha256": null,
       "verified": true,
       "note": "S593 maps all 19 S591 and 14 S592 target-block closed non-SEW paths. Every back/collar candidate fails 0.001 cm; best S592 bounds are 4.063040 cm and 0.159193–0.467258 cm. Read-only diagnosis; no further CLO operation or encoding trial. All V03 gates remain."
+    },
+    {
+      "id": "E-G04-S594-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S594-polo-spline-semantics-audit/S594-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S594 audits the hash-pinned S591/S592 degree-1 SPLINE flags, knots and controls against primary Autodesk definitions and an independent de Boor evaluation of all five source contours. No CLO trial, output, or acceptance change is authorized by this diagnostic slice."
+    },
+    {
+      "id": "E-G04-S594-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S594 verifies hash-pinned S591/S592 flags, knot/control counts and exact source controls, then independently evaluates all five degree-1 splines (3,206 parameter evaluations, zero source residual). Autodesk references do not establish CLO internals; all five measured CLO CUT failures and all V03 gates remain."
     }
   ]
 }

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3505,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S594 independently evaluated the five S591 and five S592 degree-1 SPLINE entities against their original Polo M source POLYLINE edges. All ten entities are hash-pinned; all 3,206 active-span evaluations return 0 cm residual, and the S591/S592 source curves are mathematically identical despite group 70 changing from 25 to 24. Autodesk's DXF reference distinguishes closed, periodic, rational, planar and linear flags; its API separately describes closed vs periodic behavior and periodic knot/control counts. This confirms the tested source encodings are not approximate at the source, but does not explain CLO's output or pass the five measured CUT failures. No new CLO trial or gate change. Next S595 prepares a proper periodic candidate only if its exact source geometry is proven before one receiver test. See docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md."
+}
