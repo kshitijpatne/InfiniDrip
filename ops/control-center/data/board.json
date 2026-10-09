@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3425,
-  "updatedAt": "2026-10-09T04:54:20.468Z",
+  "revision": 3429,
+  "updatedAt": "2026-10-09T05:01:29.013Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11603,6 +11603,16 @@
           "at": "2026-10-09T04:54:20.468Z",
           "actor": "Codex",
           "text": "S577 finds the official API describes GetPatternCount/GetPatternPieceName/GetPatternOutlinePoints, but the latest SDK remains mapped to CLO 2026.1.224 and the outline getter excludes curve controls; .310 behavior is unproven. No script or CLO operation occurred. Next: a bounded read-only in-app getter smoke test using only documented methods; no setters/export. See E-G04-S577-EXIT."
+        },
+        {
+          "at": "2026-10-09T04:57:03.698Z",
+          "actor": "Codex",
+          "text": "S578 checks only documented read-only pattern count/name/outline getters in the already-running CLO 2026.1.310 app, with script/output restricted to the named C: folder. No setters, project save, DXF exchange, container decoding, or acceptance changes. See E-G04-S578-START."
+        },
+        {
+          "at": "2026-10-09T05:01:29.013Z",
+          "actor": "Codex",
+          "text": "S578 confirms the documented getters execute in CLO 2026.1.310, but GetPatternOutlinePoints returns [] for all nine visible patterns (names 0-8); the result cannot support the unchanged 0.001 cm contour comparison or stage attribution. No V03 gate passes; follow S578's next-action screen for a distinct documented read-only geometry route."
         }
       ],
       "evidenceRefs": [
@@ -11855,7 +11865,9 @@
         "E-G04-S576-START",
         "E-G04-S576-EXIT",
         "E-G04-S577-START",
-        "E-G04-S577-EXIT"
+        "E-G04-S577-EXIT",
+        "E-G04-S578-START",
+        "E-G04-S578-EXIT"
       ],
       "flagKey": null
     },
@@ -22381,6 +22393,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official CLO docs still list SDK 11.0.0 for 2026.1.224, not installed .310. Current API docs expose read-only pattern outline endpoints in mm but exclude curve control points and do not establish .310 runtime support. No script ran and no V03 gate cleared. Next: bounded read-only in-app getter smoke test."
+    },
+    {
+      "id": "E-G04-S578-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S578-clo-outline-api-smoke/S578-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S578 reserves an exact-build, read-only CLO 2026.1.310 API getter smoke test against the existing Polo project; all gates and holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S578-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S578-clo-outline-api-smoke/S578-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO 2026.1.310 exposed all three documented getters; count/name returned nine patterns (0-8), but every outline getter returned empty for the visible imported pieces. No Python exception, project save, or acceptance change."
     }
   ]
 }

@@ -1,15 +1,28 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S577 exit
+## Current EPIC-17/G04 V03 boundary — S578 exit
+
+- S578 exit packet: `docs/research/epic17/S578-clo-outline-api-smoke/S578-exit-packet.md`.
+  In CLO 2026.1.310, count/name getters return nine indexed pieces (`0`–`8`),
+  but `GetPatternOutlinePoints` returns an empty list for every visible piece.
+  The run has no exception; there are no coordinates for the 0.001 cm
+  comparison and it does not attribute CUT loss to import or export. Board
+  transition 3425→3427→3429 leaves G04-V03 In Progress and G04-V02 Done.
+- Next: inspect the official API list for a distinct documented, read-only
+  query that exposes imported boundary geometry or separates CUT/SEW paths.
+  Do not repeat the empty-outline call, change project geometry, or weaken any
+  V03/V02 gate. CLO remains open.
+
+## Prior EPIC-17/G04 V03 boundary — S577 exit
 
 - S577 exit packet:
   docs/research/epic17/S577-clo-exact-build-curve-api/S577-exit-packet.md.
   Official docs expose a read-only pattern-outline getter in mm, excluding
   curve control points, but the latest SDK is mapped to .224 rather than
-  installed .310. Runtime behavior is unverified; no API call was run. Board
+  installed .310. Runtime behavior was unverified at that boundary. Board
   transition 3421→3423→3425 keeps G04-V03 In Progress.
-- Next: bounded read-only in-app API getter smoke test in the already-running
-  CLO session. No setters or exports; preserve every V03/V02 gate and hold.
+- S578 runs the documented getter in CLO; see its packet for exact-build
+  result and scope limits.
 
 ## Prior EPIC-17/G04 V03 boundary — S576 exit
 

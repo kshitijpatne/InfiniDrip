@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3428,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S578 confirms the documented getters execute in CLO 2026.1.310, but GetPatternOutlinePoints returns [] for all nine visible patterns (names 0-8); the result cannot support the unchanged 0.001 cm contour comparison or stage attribution. No V03 gate passes; follow S578's next-action screen for a distinct documented read-only geometry route."
+}

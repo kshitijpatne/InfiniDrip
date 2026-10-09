@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3426,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S578 checks only documented read-only pattern count/name/outline getters in the already-running CLO 2026.1.310 app, with script/output restricted to the named C: folder. No setters, project save, DXF exchange, container decoding, or acceptance changes. See E-G04-S578-START."
+}
