@@ -1,20 +1,22 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 589 exit; V03 remains open
+## EPIC-17 / G04 — Slice 590 exit; V03 remains open
 
-S589 reconciles the corrected S573 gate matrix with retained evidence
-through S588 and replaces the stale roadmap V03 summary. Rights/local
-processing and the narrow CLO DXF-AAMA profile identity are supported. The
-tested path still fails five Polo CUT contours at the fixed 0.001 cm gate,
-mixes CUT/SEW output semantics, lacks full marks/grade/options proof, and
-silently accepted the tested malformed input. S588's 0/56 XDATA result rules
-out that custom ID route for its tested setup; its geometry is unattributable
-because of a setting deviation and two pre-existing scene inserts. No gates or
-claims change. Start packet and current matrix:
-`docs/research/epic17/S589-current-v03-gate-reconciliation/S589-start-packet.md`;
-`docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`.
+S590 imported and rendered a clean Polo M derivative in CLO 2026.1.310, then
+tested one DXF-AAMA export. The source-bounded 0.05 cm fillets stayed under
+the 0.001 cm source limit, but all five affected receiver CUT contours failed
+at 0.006813–0.007585 cm; 4/9 other CUT and 9/9 SEW contours passed. Each failed
+receiver contour has one fewer vertex and no arc bulge. This falsifies this
+fillet candidate for the tested build/profile/fixture only. No V03 gate,
+pattern, legacy DXF behavior, or protected identity changed. See
+`docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S590.md` in that directory.
 
-The current matrix is `docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`; exit packet is `docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md`. Validated board replay 3469→3471→3473 keeps G04-V02 Done and G04-V03/EPIC-17 In Progress. Next inspect the five exact Polo CUT source/output paths for a distinct, testable representation hypothesis; do not repeat CLO settings or encodings already measured. The goal remains active; CLO remains open.
+Validated board exit replay is 3475→3479; V02 remains Done and V03/EPIC-17
+remain In Progress. S591 maps the exact five source/derivative/receiver loci;
+another exchange requires a distinct source-side proof under 0.001 cm.
+Written product-development trial use and local-only processing are settled.
+The goal remains active; CLO remains open.
 
 ## Prior EPIC-17 / G04 — Slice 587 exit; V03 remains open
 

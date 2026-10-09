@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3473,
-  "updatedAt": "2026-10-09T06:50:33.838Z",
+  "revision": 3479,
+  "updatedAt": "2026-10-09T07:21:50.117Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 requires receiver/profile rights review and witnessed representative round-trip evidence. Preserve V02-before-V03, legacy DXF behavior and protected export identities. No physical-fit, factory-acceptance or production-readiness claim.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 are Done; S459 accepts all seven recipes, 73 configurations and 146 front/back faces. V03 has written product-development/local-file-processing permission and the narrow CLO 2026.1.310 / DXF-AAMA test identity. S590's clean one-generation test of a 0.05 cm Polo CUT-corner fillet derivative passed the source-side 0.000509–0.000581 cm bound but failed all five affected CUT contours at 0.006813–0.007585 cm against the unchanged 0.001 cm gate; 4/9 other CUT and 9/9 SEW contours pass. The five receiver paths have one fewer vertex and no bulge arcs. Details: docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md and V03-CURRENT-GATE-MATRIX-S590.md. S591 maps those exact residual loci before another CLO import. Preserve all-seven acceptance, every V02/V03 gate, legacy DXF behavior and protected export identities. No universal format, physical-fit, factory-acceptance or production-readiness claim.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -3252,7 +3252,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement; S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress for rights/profile review and exchange fixture qualification; no receiver/version is selected. Lawful access to the exact licensed receiver and witnessed representative import/export/round-trip evidence are required before a profile compatibility claim. Preserve V02-before-V03, legacy DXF behavior and protected export identities, plus final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 are Done; S459 accepts all seven recipes, 73 configurations and 146 front/back faces. V03 has written product-development/local-file-processing permission and the narrow CLO 2026.1.310 / DXF-AAMA test identity. S590's clean one-generation test of a 0.05 cm Polo CUT-corner fillet derivative passed the source-side 0.000509–0.000581 cm bound but failed all five affected CUT contours at 0.006813–0.007585 cm against the unchanged 0.001 cm gate; 4/9 other CUT and 9/9 SEW contours pass. The five receiver paths have one fewer vertex and no bulge arcs. Details: docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md and V03-CURRENT-GATE-MATRIX-S590.md. S591 maps those exact residual loci before another CLO import. Preserve all-seven acceptance, every V02/V03 gate, legacy DXF behavior and protected export identities. No universal format, physical-fit, factory-acceptance or production-readiness claim.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4635,6 +4635,11 @@
           "at": "2026-10-08T15:09:37.904Z",
           "actor": "Codex",
           "text": "S502 establishes the exact S463 malformed control and corrects how S498's silent acceptance is described. It adds no general CLO conformance claim and relaxes no gate. Next, use the now-running CLO window to retry the bounded import-option matrix if it can be controlled; otherwise preserve the concrete UI limitation."
+        },
+        {
+          "at": "2026-10-09T07:21:48.764Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 are Done; S459 accepts all seven recipes, 73 configurations and 146 front/back faces. V03 has written product-development/local-file-processing permission and the narrow CLO 2026.1.310 / DXF-AAMA test identity. S590's clean one-generation test of a 0.05 cm Polo CUT-corner fillet derivative passed the source-side 0.000509–0.000581 cm bound but failed all five affected CUT contours at 0.006813–0.007585 cm against the unchanged 0.001 cm gate; 4/9 other CUT and 9/9 SEW contours pass. The five receiver paths have one fewer vertex and no bulge arcs. Details: docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md and V03-CURRENT-GATE-MATRIX-S590.md. S591 maps those exact residual loci before another CLO import. Preserve all-seven acceptance, every V02/V03 gate, legacy DXF behavior and protected export identities. No universal format, physical-fit, factory-acceptance or production-readiness claim.). Synchronize the current G04 Epic description with S590's verified one-generation geometry failure while preserving every admitted acceptance gate and status."
         }
       ],
       "evidenceRefs": [
@@ -11723,6 +11728,16 @@
           "at": "2026-10-09T06:50:33.838Z",
           "actor": "Codex",
           "text": "S589 updates the V03 evidence picture through S588. Product-development/local processing and the narrow CLO DXF-AAMA identity are supported; technical compatibility is not. Five Polo CUT contours fail the fixed 0.001 cm gate; output CUT/SEW is mixed; grade/options and full mark mapping are incomplete; the tested malformed input silently lost an inset SEW; fine rendered proof is lacking. S588's 0/56 XDATA result closes that tested ID mechanism, while its geometry is unattributable. Next inspect the five exact Polo CUT source/output paths for a distinct, falsifiable representation before any CLO retry. All acceptance gates remain unchanged. See E-G04-S589-EXIT."
+        },
+        {
+          "at": "2026-10-09T06:53:28.730Z",
+          "actor": "Codex",
+          "text": "S590 tests one distinct diagnostic mechanism based on S552's measured short incoming edges and repeated dropped vertices: radius-0.05 cm tangent fillets at only the five Polo CUT corners, in an exchange-only copy. First require an exact geometry delta within 0.001 cm; only then one clean-scene CLO DXF-AAMA exchange using pinned settings. No source, legacy writer, byte identity, gate or claim changes. See E-G04-S590-START."
+        },
+        {
+          "at": "2026-10-09T07:21:50.117Z",
+          "actor": "Codex",
+          "text": "S590 completes one controlled, clean-scene CLO 2026.1.310 DXF-AAMA exchange of the hash-pinned Polo M 0.05 cm fillet derivative. Preflight was within the unchanged 0.001 cm source gate, but all five affected CUT contours still fail at 0.006813–0.007585 cm sampled distance; their receiver paths each have one fewer vertex and no arc bulge. The other four CUT and all nine SEW contours pass. CLO showed a seam-allowance Custom-mode notice, not a format error. The one-generation render shows nine pieces. No V03 gate or compatibility claim changes. Next S591 maps the exact residual loci before any distinct preflighted exchange. See E-G04-S590-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11999,7 +12014,9 @@
         "E-G04-S588-START",
         "E-G04-S588-EXIT",
         "E-G04-S589-START",
-        "E-G04-S589-EXIT"
+        "E-G04-S589-EXIT",
+        "E-G04-S590-START",
+        "E-G04-S590-EXIT"
       ],
       "flagKey": null
     },
@@ -22741,6 +22758,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current V03 matrix reconciles S573 acceptance with evidence through S588. Permission/profile identity are supported; compatibility is held by measured Polo geometry, mixed CUT/SEW, incomplete marks/grades/options, malformed-input failure, and fine-detail/round-trip gaps. Next: inspect five exact Polo CUT source/output paths for a distinct falsifiable representation before any new receiver trial."
+    },
+    {
+      "id": "E-G04-S590-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One bounded, profile-specific diagnostic: fillet only the five Polo CUT corners repeatedly omitted by tested CLO paths. Preflight must prove every source deviation stays within 0.001 cm before one clean CLO exchange; otherwise stop. No source/legacy geometry or acceptance change."
+    },
+    {
+      "id": "E-G04-S590-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One clean CLO 2026.1.310 DXF-AAMA generation falsifies the source-bounded 0.05 cm fillet trial for Polo: five CUT contours still miss the fixed 0.001 cm gate by sampled maxima 0.006813–0.007585 cm; the other four CUT and all nine SEW contours pass. No V03 gate, source, legacy DXF behavior, or protected identity changed."
     }
   ]
 }

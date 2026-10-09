@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3473,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S590-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-start-packet.md",
+    "verified": true,
+    "note": "One bounded, profile-specific diagnostic: fillet only the five Polo CUT corners repeatedly omitted by tested CLO paths. Preflight must prove every source deviation stays within 0.001 cm before one clean CLO exchange; otherwise stop. No source/legacy geometry or acceptance change."
+  }
+}

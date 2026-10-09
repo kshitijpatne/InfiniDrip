@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3478,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S590 completes one controlled, clean-scene CLO 2026.1.310 DXF-AAMA exchange of the hash-pinned Polo M 0.05 cm fillet derivative. Preflight was within the unchanged 0.001 cm source gate, but all five affected CUT contours still fail at 0.006813–0.007585 cm sampled distance; their receiver paths each have one fewer vertex and no arc bulge. The other four CUT and all nine SEW contours pass. CLO showed a seam-allowance Custom-mode notice, not a format error. The one-generation render shows nine pieces. No V03 gate or compatibility claim changes. Next S591 maps the exact residual loci before any distinct preflighted exchange. See E-G04-S590-EXIT."
+}

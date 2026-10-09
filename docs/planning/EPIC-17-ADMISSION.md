@@ -1,19 +1,21 @@
-## Current EPIC-17/G04 V03 boundary — S589 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S590 exit (2026-10-09)
 
-S589 updates the V03 matrix through S588 and reconciles stale current summaries.
-The named CLO DXF-AAMA profile and user-confirmed product-development/local
-processing basis are supported; neither proves interchange compatibility.
-Existing evidence has five Polo CUT geometry failures above 0.001 cm, mixed
-CUT/SEW layer semantics, incomplete mark/grade/options evidence, a scoped
-malformed-input failure, and only gross render review. S588 retained 0/56
-custom XDATA IDs; its geometry is not attributable due to a setting deviation
-and pre-existing scene inserts. No gate changes. Current matrix:
-`docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`.
-Validated board replay is 3469→3471→3473; V02 remains Done and V03/EPIC-17
-remain In Progress. Exit packet:
-`docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md`.
-Next inspect the five exact Polo CUT source/output paths for a distinct,
-falsifiable representation hypothesis before any new exchange.
+S590 made one clean-scene CLO 2026.1.310 DXF-AAMA import/render/export for
+the Polo M 0.05 cm fillet derivative. The source-side maximum stayed below
+0.001 cm, but the five modified receiver CUT contours fail at 0.006813–
+0.007585 cm; the other four CUT and all nine SEW contours pass. Each failed
+receiver path has one fewer vertex and no output bulge. This falsifies the
+candidate for this tested build/profile/fixture only; it does not establish
+general CLO/DXF incompatibility. Full evidence:
+`docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md`.
+The current matrix is
+`docs/research/epic17/S590-polo-cut-corner-curve-trial/V03-CURRENT-GATE-MATRIX-S590.md`.
+
+No V03 gate, tolerance, recipe scope, pattern source, legacy DXF behavior, or
+protected export identity changed. V02 remains Done and V03/EPIC-17 remain In
+Progress. S591 maps the exact five residual loci and requires a distinct
+source-side proof below 0.001 cm before another CLO import. Written
+product-development use and local processing are confirmed.
 
 ## Prior EPIC-17/G04 V03 contract audit — S587 exit (2026-10-09)
 

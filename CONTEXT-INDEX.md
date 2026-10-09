@@ -1,32 +1,23 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S589 exit
+## Current EPIC-17/G04 V03 boundary — S590 exit
 
-- S585 closed at `4befb327bc027d8573b578fe1f696796af7c9bb0`; its bounded
-  tested-profile disposition is in
-  `docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md`.
-- S586 hash-checked seven source and seven CLO DXFs. The product encodes CUT
-  and SEW separately but lacks explicit units, stable piece/revision identity,
-  serialized mark IDs/labels, and native grade relationships. Five unmatched
-  Polo CUT contours remain measured failures; 78 marks without direct matches
-  are not proof of loss. No acceptance, source behavior, or legacy bytes
-  changed. Exit packet:
-  `docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md`.
-- S587 confirms CLO's documented controls but no public layer, stable
-  piece/mark-ID, or XDATA retention contract. Generic DXF XDATA is
-  application-defined, not apparel semantics. S588 tested that mechanism and
-  retained 0/56 custom IDs in its bounded CLO run; do not repeat it. S588 exit:
-  `docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md`.
-- S589's current V03 matrix reconciles S573 with later evidence through
-  S588; rights and the narrow profile identity are supported, while the
-  technical failures and incomplete gates remain. See
-  `docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`.
-  Next inspect only the five exact Polo CUT source/output paths for a
-  technically distinct, falsifiable representation; no unchanged CLO retries.
-  S589 exit packet:
-  `docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md`.
-- Validated board replay is 3469→3471→3473; G04-V02 remains Done and
-  G04-V03/EPIC-17 remain In Progress. The goal remains active; CLO remains
+- S590 ran one clean-scene CLO 2026.1.310 DXF-AAMA import, render and export
+  of a source-bounded Polo 0.05 cm fillet derivative. The source-side bound
+  passed 0.001 cm, but five CUT receiver contours failed at 0.006813–0.007585
+  cm; four other CUT and all nine SEW contours passed. Each failed receiver
+  path has one fewer vertex and no output bulge. This rejects this fixture
+  candidate only, not CLO/DXF generally. Details and hashes:
+  `docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md`.
+- Current matrix:
+  `docs/research/epic17/S590-polo-cut-corner-curve-trial/V03-CURRENT-GATE-MATRIX-S590.md`.
+  All-seven round trips, explicit identity, CUT/SEW semantics, marks,
+  grading/options, malformed input, and rendered-detail gates remain. No
+  acceptance, source geometry, or protected export bytes changed.
+- S591 maps the exact five source/derivative/receiver loci; a new exchange
+  requires a distinct hash-pinned source-side proof below 0.001 cm. Written
+  product-development permission and local processing are settled. Board
+  exit replay is 3475→3479; V02 Done, V03/EPIC-17 In Progress. CLO remains
   open.
 
 - Historical S587 exit packet:
