@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3483,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S591-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md",
+    "verified": true,
+    "note": "One clean CLO 2026.1.310 DXF-AAMA generation of five source-exact degree-1 SPLINE CUT contours leaves 9/9 SEW and 4/9 other CUT within 0.001 cm, but the five target CUT contours fail at 0.841822–13.113897 cm conservative bounds. The candidate is rejected for this fixture/build/profile only; all V03 gates remain."
+  }
+}

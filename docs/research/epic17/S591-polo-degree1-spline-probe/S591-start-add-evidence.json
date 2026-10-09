@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3479,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S591-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S591-polo-degree1-spline-probe/S591-start-packet.md",
+    "verified": true,
+    "note": "Map the five exact S590 residual loci, then test one closed degree-1 SPLINE encoding of only the affected Polo CUT contours. Require a hash-pinned exact source geometry preflight before one clean-scene CLO exchange; no source or production writer change and no V03 gate change."
+  }
+}

@@ -1,24 +1,24 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S590 exit
+## Current EPIC-17/G04 V03 boundary — S591 exit
 
-- S590 ran one clean-scene CLO 2026.1.310 DXF-AAMA import, render and export
-  of a source-bounded Polo 0.05 cm fillet derivative. The source-side bound
-  passed 0.001 cm, but five CUT receiver contours failed at 0.006813–0.007585
-  cm; four other CUT and all nine SEW contours passed. Each failed receiver
-  path has one fewer vertex and no output bulge. This rejects this fixture
-  candidate only, not CLO/DXF generally. Details and hashes:
-  `docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md`.
-- Current matrix:
-  `docs/research/epic17/S590-polo-cut-corner-curve-trial/V03-CURRENT-GATE-MATRIX-S590.md`.
-  All-seven round trips, explicit identity, CUT/SEW semantics, marks,
-  grading/options, malformed input, and rendered-detail gates remain. No
-  acceptance, source geometry, or protected export bytes changed.
-- S591 maps the exact five source/derivative/receiver loci; a new exchange
-  requires a distinct hash-pinned source-side proof below 0.001 cm. Written
-  product-development permission and local processing are settled. Board
-  exit replay is 3475→3479; V02 Done, V03/EPIC-17 In Progress. CLO remains
-  open.
+- S591 tested a clean-scene CLO 2026.1.310 DXF-AAMA exchange with five exact,
+  source-vertex-preserving degree-1 SPLINE CUT entities. Nine pieces rendered;
+  9/9 SEW and four unaffected CUT contours passed. Five CUT receiver contours
+  failed at conservative bounds `0.841822–13.113897 cm` against `0.001 cm`.
+  This rejects the tested entity encoding/build/profile/fixture only and does
+  not infer CLO's internal SPLINE behavior. Packet and exact hashes:
+  `docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md`.
+- Current gate matrix:
+  `docs/research/epic17/S591-polo-degree1-spline-probe/V03-CURRENT-GATE-MATRIX-S591.md`.
+  V03's all-seven, identity, CUT/SEW, marks, grading/options, malformed-input,
+  useful-detail and repeated-round-trip gates remain. No acceptance, product
+  source, legacy DXF behavior or protected export bytes changed.
+- Next S592 tests only the SPLINE closed flag while retaining the repeated
+  first control point, subject to a fresh source-side proof under `0.001 cm`.
+  Written product-development permission and local processing are settled;
+  no further permission request is needed. V02 Done, V03/EPIC-17 In Progress.
+  CLO remains open.
 
 - Historical S587 exit packet:
   `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.

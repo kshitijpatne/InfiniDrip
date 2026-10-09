@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3480,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S591 maps the exact five source/derivative/receiver residual neighborhoods from S590 and tests a distinct exchange-only encoding: closed degree-1 SPLINE control sequences that trace the original cut polygon exactly. Run one clean CLO import/export only after hash-pinned source-geometry preflight passes. CLO support is unproven, so this is one bounded empirical test, not a compatibility assumption. Preserve every gate and all-seven scope. See E-G04-S591-START."
+}

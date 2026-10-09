@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3484,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S591 completed one controlled clean-scene CLO 2026.1.310 DXF-AAMA exchange of five source-exact, closed degree-1 SPLINE Polo CUT contours. CLO rendered nine pieces and returned without a format error. The unchanged 0.001 cm round-trip gate passes 9/9 SEW and four unaffected CUT paths, but all five target CUT contours fail at conservative bounds 0.841822–13.113897 cm. The degree-1 encoding is rejected for this tested fixture/build/profile only; no internal CLO cause is inferred and no V03 gate changes. Native scene, rendered PDF/PNG, input/output hashes and analysis are recorded in the S591 packet. Next S592 changes only the closure flag after a fresh source-side proof."
+}

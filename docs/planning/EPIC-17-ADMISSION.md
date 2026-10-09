@@ -1,21 +1,34 @@
-## Current EPIC-17/G04 V03 boundary — S590 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S591 exit (2026-10-09)
 
-S590 made one clean-scene CLO 2026.1.310 DXF-AAMA import/render/export for
-the Polo M 0.05 cm fillet derivative. The source-side maximum stayed below
-0.001 cm, but the five modified receiver CUT contours fail at 0.006813–
-0.007585 cm; the other four CUT and all nine SEW contours pass. Each failed
-receiver path has one fewer vertex and no output bulge. This falsifies the
-candidate for this tested build/profile/fixture only; it does not establish
-general CLO/DXF incompatibility. Full evidence:
-`docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md`.
-The current matrix is
-`docs/research/epic17/S590-polo-cut-corner-curve-trial/V03-CURRENT-GATE-MATRIX-S590.md`.
+S591 tested one clean-scene CLO 2026.1.310 DXF-AAMA import/render/export of
+five exchange-only, source-vertex-preserving degree-1 SPLINE CUT outlines.
+The exact piecewise-linear source representation passes the unchanged
+`0.001 cm` source gate, CLO displayed nine pieces without a format error, and
+9/9 SEW plus 4/9 other CUT paths pass. The five target CUT paths still fail at
+conservative bounds `0.841822–13.113897 cm`. This rejects the encoding for
+this tested build/profile/fixture only; it does not establish universal
+SPLINE/CLO incompatibility or assign an undocumented internal cause. Full
+evidence is in
+`docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md` and
+the current matrix
+`docs/research/epic17/S591-polo-degree1-spline-probe/V03-CURRENT-GATE-MATRIX-S591.md`.
 
 No V03 gate, tolerance, recipe scope, pattern source, legacy DXF behavior, or
 protected export identity changed. V02 remains Done and V03/EPIC-17 remain In
-Progress. S591 maps the exact five residual loci and requires a distinct
-source-side proof below 0.001 cm before another CLO import. Written
+Progress. Next S592 tests only the SPLINE closed flag while retaining the
+repeated first control point, after a fresh proof below `0.001 cm`. Written
 product-development use and local processing are confirmed.
+
+## Slice 591 verified exit — 2026-10-09
+
+The source-exact degree-1 SPLINE probe is rejected for its tested CLO
+2026.1.310 DXF-AAMA fixture: 9/9 SEW and 4/9 unaffected CUT paths pass, but
+the five targeted CUT paths miss by `0.841572–13.113647 cm` sampled maxima
+against the unchanged `0.001 cm` gate. Nine pieces rendered and no format
+error appeared. This does not establish undocumented CLO internals. All V03
+gates and statuses remain unchanged. Full metrics, filenames and hashes:
+`docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md`.
+Next S592 varies only the SPLINE closed flag, after fresh source preflight.
 
 ## Prior EPIC-17/G04 V03 contract audit — S587 exit (2026-10-09)
 

@@ -1,22 +1,27 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 590 exit; V03 remains open
+## EPIC-17 / G04 — Slice 591 exit; V03 remains open
 
-S590 imported and rendered a clean Polo M derivative in CLO 2026.1.310, then
-tested one DXF-AAMA export. The source-bounded 0.05 cm fillets stayed under
-the 0.001 cm source limit, but all five affected receiver CUT contours failed
-at 0.006813–0.007585 cm; 4/9 other CUT and 9/9 SEW contours passed. Each failed
-receiver contour has one fewer vertex and no arc bulge. This falsifies this
-fillet candidate for the tested build/profile/fixture only. No V03 gate,
-pattern, legacy DXF behavior, or protected identity changed. See
-`docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md`
-and `V03-CURRENT-GATE-MATRIX-S590.md` in that directory.
+S591 tested one clean-scene CLO 2026.1.310 DXF-AAMA exchange of an
+exchange-only Polo M fixture expressing five original CUT contours as closed
+degree-1 SPLINE entities. The source control sequences are mathematically the
+same piecewise-linear contours and pass the unchanged `0.001 cm` source gate.
+CLO showed nine pieces without a format error; after one export, 9/9 SEW and
+4/9 unaffected CUT outlines pass, while the same five target CUT outlines
+fail at conservative upper bounds of `0.841822–13.113897 cm`. This rejects
+this entity encoding for the tested build/profile/fixture only and does not
+attribute an undocumented cause. No V03 gate, pattern, legacy DXF behavior,
+protected identity, or production code changed. Details, hashes, native scene
+and rendered evidence are in
+`docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md` and
+`V03-CURRENT-GATE-MATRIX-S591.md`.
 
-Validated board exit replay is 3475→3479; V02 remains Done and V03/EPIC-17
-remain In Progress. S591 maps the exact five source/derivative/receiver loci;
-another exchange requires a distinct source-side proof under 0.001 cm.
-Written product-development trial use and local-only processing are settled.
-The goal remains active; CLO remains open.
+Validated board exit replay is `3481→3485`; V02 remains Done and V03/EPIC-17
+remain In Progress. Next S592 tests only the SPLINE closed-flag variable with
+the same repeated-first control sequence, after a fresh source proof. Preserve
+the five CUT holds and all other V03 gates. Written product-development trial
+use and local-only processing are settled. The goal remains active; CLO stays
+open.
 
 ## Prior EPIC-17 / G04 — Slice 587 exit; V03 remains open
 
