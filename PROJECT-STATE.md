@@ -1,5 +1,32 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 573 exit; V03 remains open
+
+S573 reconciles current acceptance and evidence: the named profile identity
+`CLO 2026.1.310 / DXF-AAMA` and local/product-development authorization are
+supported by S558 and the maintainer's written confirmation. A second
+receiver and normative edition are not admitted prerequisites. No exact
+compatibility/conformance claim is supported yet. Remaining blockers are the
+five Polo CUT contour failures (0.01274–0.01399 cm against 0.001 cm), nine
+mixed CUT/SEW layer assignments in the seven-recipe cohort, 78/100 source
+marks without direct matches (not proven lost), incomplete source-backed
+grade/options exchange, the tested malformed-input failure, and insufficient
+fine-detail rendered proof. Seven M/default generation-two outputs exist but
+do not clear those criteria. All-seven V02 remains Done and unchanged; no
+technical V03 hold was released. Matrix and evidence:
+`docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-exit-packet.md`.
+
+S573 starts from S572 `1c22caf`; refreshed `origin/main` remained an ancestor.
+Board replay 3405→3407→3409; G04-V03 remains In Progress. Control Center
+tests 42/42 and `git diff --check` pass. Evidence/documentation only; no full
+repository test/coverage gate is due.
+
+**Next:** work the repeated Polo geometry failure only through a new
+technically supported representation or source-to-profile mapping. Existing
+settings, entity-encoding, and unit trials are exhausted. Keep the 0.001 cm
+gate and all compatibility claims fail-closed; preserve the legacy writer and
+protected export identities. CLO remains open.
+
 ## EPIC-17 / G04 — Slice 572 exit; V03 remains open
 
 S572 imported the hash-pinned Polo M source fixture into the already-running
@@ -21,9 +48,23 @@ recorded in its packet. No production source/test changed; full repository
 gate is not due. G04-V03 remains In Progress with every acceptance criterion
 and the all-seven requirement unchanged.
 
-**Next:** continue with a distinct, evidence-led V03 task for the exact
-industrial profile/receiver or another held semantic/grade dimension. Do not
-repeat this import/export for stage attribution; no V03 hold was cleared.
+**Next:** continue with a distinct, evidence-led V03 task for a measured
+geometry, semantic, or grade dimension under the documented
+`CLO 2026.1.310 / DXF-AAMA` profile identity. Do not repeat this import/export
+for stage attribution; no technical V03 hold was cleared.
+
+## Prior EPIC-17 / G04 — Slice 573 start record
+
+S573 reconciles the admitted V03 acceptance with the current S558 roadmap
+gate picture and later test evidence. The named profile documentation subgate
+is supported (`CLO 2026.1.310 / DXF-AAMA`); compatibility, exact conformance,
+and technical gates remain unproven until the evidence matrix is verified. No
+second receiver or normative edition will be added as an acceptance
+requirement. All existing technical holds and the all-seven V02 criterion
+remain unchanged. Start packet:
+`docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-start-packet.md`.
+Start board replay is 3405→3407; G04-V03 remains In Progress. No CLO exchange,
+source edit, code change, or acceptance change is in scope.
 
 ## Prior EPIC-17 / G04 — Slice 571 exit; V03 remains open
 
@@ -33,9 +74,10 @@ the five CUT contours remain above the unchanged 0.001 cm tolerance in both
 CLO generations. Existing evidence proves a repeated defect in the tested
 combined source→CLO→DXF route, but cannot locate the change in the product
 writer, CLO import, or CLO export. `src/export/dxf.ts` directly confirms the
-current writer has no grade-group/size-relation input. Official CLO help names
-menu modes without a normative edition or full semantic map; ASTM's current
-catalog lists D6673-10 as withdrawn. No exact industrial profile is qualified.
+current writer has no grade-group/size-relation input. S558 supports the named
+CLO 2026.1.310 / DXF-AAMA profile identity; normative-edition conformance and
+full semantic mapping remain unproven. ASTM's current catalog lists D6673-10
+as withdrawn.
 Rights and local processing are settled. Every other V03 hold remains, with
 the S531 malformed-input case still failed for its tested control. No code,
 test, export baseline, or acceptance changed. Evidence and exact next action:
@@ -49,14 +91,11 @@ not due. Elapsed 7m01s: evidence/source verification 3m10s; external-agent
 wait 1m31s; durable records, board replay and focused checks 2m20s; production
 implementation 0m; maintainer decision time 0m.
 
-**Next:** begin S572 with a fresh safe observation of the already-running CLO
-session. If visual and accessible state agree, perform a C:-confined
-pre-export geometry observation of only the five known Polo CUT corners and
-compare against saved gen1/gen2. This isolates import versus export only if
-the native observation exposes the measured geometry; do not repeat the
-unchanged round trip. If the UI state remains inconsistent or cannot expose
-the geometry, send no input and record that limit, then continue independent
-profile/semantics work. All V03 gates and CLO-open instruction remain active.
+**Next at S571:** inspect the five corners before export if CLO exposed them at
+the required precision. S572 completed the bounded import and found only
+aggregate line totals at 0.1 mm; it did not isolate importer versus exporter.
+The native profile identity is documented by S558, while compatibility and
+technical gates remain held. Keep CLO open.
 
 ## Prior EPIC-17 / G04 — Slice 570 exit; V03 remains open
 

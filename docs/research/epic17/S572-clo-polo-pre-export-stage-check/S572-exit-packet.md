@@ -67,11 +67,13 @@ the only precise geometry measurements for this trial path.
 ## Gate disposition
 
 No V03 acceptance criterion, tolerance, profile, receiver claim, baseline, or
-legacy export behavior changed. Rights/local handling are settled. Geometry
-and piece identity remain held; CUT/SEW and marks, grades/options, malformed
-input, exact industrial profile, and all-seven representative round trip
-remain held or failed only for the already documented tested cases. The
-S531 malformed-input control remains a failure. No physical-fit,
+legacy export behavior changed. Rights/local handling are settled. The S558
+named profile-identity subgate (`CLO 2026.1.310 / DXF-AAMA`) is documented;
+exact compatibility/conformance remains held pending technical round-trip
+acceptance. Geometry and piece identity remain held; CUT/SEW and marks,
+grades/options, malformed input, and representative round trip remain held or
+failed only for the already documented tested cases. The S531 malformed-input
+control remains a failure. No physical-fit,
 factory-acceptance, or production-readiness claim is made.
 
 ## Verification, board, and timing
@@ -96,7 +98,7 @@ factory-acceptance, or production-readiness claim is made.
 ## Next action
 
 Do not repeat the Polo import/export solely to locate which stage changed its
-five corners. Continue with one distinct, evidence-led V03 task that can
-address the remaining exact-profile/receiver or semantics/grade gates without
-weakening the 0.001 cm threshold or all-seven scope. Keep every unresolved
-gate held and CLO open.
+five corners. Continue with one distinct, evidence-led V03 task addressing
+the measured technical failures under the documented profile identity; do not
+reopen the second-receiver or normative-edition question as a separate gate.
+Keep every unresolved technical gate held and CLO open.

@@ -1,6 +1,16 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S572 exit
+## Current EPIC-17/G04 V03 boundary — S573 exit
+
+- `docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-exit-packet.md`
+  corrects profile status from S558: `CLO 2026.1.310 / DXF-AAMA` identity and
+  local/product-development authorization are supported; compatibility is
+  still held. A second receiver and normative edition are not required. The
+  five Polo contour failures, mixed cut/sew semantics, mark mapping, grades/
+  options, malformed-input case, and technical round-trip criteria remain
+  failed or incomplete. G04-V03 stays In Progress; board replay 3405→3407→3409.
+
+## Prior EPIC-17/G04 V03 boundary — S572 exit
 
 - `docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`
   records one bounded CLO 2026.1.310 AAMA import of the hash-pinned Polo M
@@ -9,20 +19,30 @@
   exposed. No pattern was edited and no repeat export was run. This observation
   cannot isolate importer versus exporter; the five CUT contour failures in
   the tested combined path remain held. Rights/local handling are settled;
-  every V03 gate is unchanged. CLO remains open.
+  S558 already supports the named profile-identity subgate, but the
+  compatibility claim and technical gates remain held. CLO remains open.
 - S572 board replay and focused Control Center verification are recorded in
   its exit packet; G04-V03 remains In Progress.
+
+## Prior EPIC-17/G04 V03 slice — S573 start
+
+- `docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-start-packet.md`
+  reconciles the admitted V03 criteria against S558's current profile-identity
+  finding and S557–S572 evidence. It corrects any stale claim that a second
+  receiver or normative edition is an acceptance prerequisite, retaining all
+  technical holds and criteria.
+- S573 starts from S572 `1c22caf`; refreshed `origin/main` `a5af5e1` remains an
+  ancestor; start board replay is 3405→3407; G04-V03 remains In Progress.
 
 - `docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md`
   reconciles source writer, hash-pinned Polo input and two CLO generations,
   profile research, and prior semantics/grade evidence. The input is the
   current source-generated M file; five CUT contours fail the unchanged
   0.001 cm tolerance in both generations. The combined path is at fault, but
-  stage attribution remains unresolved. CLO's documented modes lack a named
-  normative edition/full semantic map; ASTM D6673-10 is withdrawn. No V03
-  criterion changes or profile selection follows. Next: if a fresh CLO
-  observation is targetable, inspect the five corners before export; otherwise
-  send no input and continue independent profile/semantics evidence.
+  stage attribution remains unresolved. S558 supports named profile identity;
+  no exact edition-conformance or broad compatibility claim follows. S572's
+  pre-export check is complete and could not isolate stages at native UI
+  precision. No V03 criterion changed.
 - S571 board replay is 3397→3399→3401. Rights/local processing are settled;
   V03 remains In Progress with all gates unchanged.
 

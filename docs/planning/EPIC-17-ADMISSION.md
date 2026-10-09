@@ -1,4 +1,19 @@
-## Current EPIC-17/G04 V03 boundary — S572 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S573 exit (2026-10-09)
+
+S573 reconciles the S558 gate picture with S557–S572. The named profile
+identity `CLO 2026.1.310 / DXF-AAMA` and local/product-development
+authorization are supported; a second receiver and normative edition are
+not admitted prerequisites. The exact compatibility claim remains held.
+Polo geometry, mixed CUT/SEW semantics, mark mapping, grades/options, the
+tested malformed input, and fine-detail/full round-trip criteria remain
+failed or incomplete. Seven M/default generation-two outputs exist but do
+not clear those technical gates. No acceptance or threshold changed. See
+`docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-exit-packet.md`.
+
+S573 board replay is 3405→3407→3409; G04-V03 remains In Progress. Focused
+Control Center tests pass 42/42; no production source/test changed.
+
+## Prior EPIC-17/G04 V03 boundary — S572 exit (2026-10-09)
 
 S572 imported the hash-pinned Polo M fixture into the live CLO 2026.1.310
 session under the maintainer-confirmed local/product-development evaluation.
@@ -8,9 +23,26 @@ occurred, so stage attribution remains unresolved and all V03 gates remain
 unchanged. CLO remains open. See
 `docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`.
 
+S558's named profile-identity subgate is already supported; only technical
+compatibility/conformance remains held. S573 corrects earlier broad wording
+about an unqualified profile. A second receiver and normative edition are not
+separate admitted requirements.
+
 S572 started from S571 `9035d32`; refreshed `origin/main` remains an ancestor.
 Validated board exit is 3403→3405; G04-V03 remains In Progress. Focused board
 tests pass 42/42 and no production source/test changed.
+
+## Prior EPIC-17/G04 V03 — S573 start (completed 2026-10-09)
+
+S573 reconciles the original admitted V03 criteria with S558's current
+roadmap gate picture and S557–S572 evidence. The named profile-identity
+documentation subgate is supported for `CLO 2026.1.310 / DXF-AAMA`; the
+compatibility claim remains held pending technical round-trip acceptance.
+No second receiver or normative edition is an admitted prerequisite. All
+geometry, semantics, marks, grades/options, malformed-input, and
+representative round-trip criteria remain unchanged. Start board
+3405→3407; packet:
+`docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-start-packet.md`.
 
 ## Prior EPIC-17/G04 V03 closure-path audit — S571 exit (2026-10-09)
 
@@ -19,11 +51,11 @@ source-generated M fixture. The established analyzer reports the same five
 CUT contours over 0.001 cm in both CLO generations, each with one fewer
 vertex. This is a repeatable failure of the tested combined path, but existing
 evidence cannot attribute it to the product writer, CLO import, or CLO export.
-The current generic writer has no size/grade relationship input. Current CLO
-help does not identify a normative AAMA/ASTM edition or complete semantic
-mapping; ASTM's current catalog lists D6673-10 as withdrawn in 2019. No exact
-industrial profile is qualified. The malformed-input failure and all other
-profile, semantics, marks, grade, and all-seven evidence gates remain as
+The current generic writer has no size/grade relationship input. S558 supports
+the named CLO 2026.1.310 / DXF-AAMA profile identity, while exact normative
+edition conformance and complete semantic mapping remain unproven; ASTM's
+current catalog lists D6673-10 as withdrawn in 2019. The malformed-input
+failure and all other profile, semantics, marks, grade, and all-seven evidence gates remain as
 recorded. No criterion, tolerance, code, test, or export identity changed.
 See `docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md`.
 

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3408,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S573 corrects the current gate summary: S558 already documents `CLO 2026.1.310 / DXF-AAMA` as the named profile identity, and the maintainer's written local/product-development authorization is settled. A second receiver or normative edition is not a closure prerequisite. This does not establish format conformance or compatibility; measured geometry, mixed CUT/SEW semantics, mark mapping, grading/options, malformed-input and representative round-trip evidence remain held. No criterion was changed. See E-G04-S573-EXIT."
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3406,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S573 reconciles the admitted V03 acceptance against the current S558 roadmap clarification and later test evidence. Separate the supported CLO 2026.1.310/DXF-AAMA profile identity from the still-unproven compatibility claim; do not treat a second receiver or normative edition as a required gate. No criteria or technical holds change."
+}

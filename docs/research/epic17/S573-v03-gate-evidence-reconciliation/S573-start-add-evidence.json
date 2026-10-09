@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3405,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S573-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-start-packet.md",
+    "verified": true,
+    "note": "S573 reconciles admitted V03 acceptance with S558's current profile-identity clarification and existing CLO/grade/geometry/semantic evidence. It preserves every criterion and claim limit; no new exchange or profile search is authorized unless the source review identifies a concrete uncovered acceptance obligation."
+  }
+}

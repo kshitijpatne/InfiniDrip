@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3407,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S573-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-exit-packet.md",
+    "verified": true,
+    "note": "S573 reconciles S558's supported CLO 2026.1.310/DXF-AAMA profile identity with the unresolved compatibility claim and S557–S572 technical evidence. A second receiver or normative edition is not required; Polo geometry, mixed CUT/SEW, marks, grades/options, the tested malformed input, and full round-trip criteria remain failed or incomplete. No acceptance criterion or technical hold changed."
+  }
+}

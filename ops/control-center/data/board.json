@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3405,
-  "updatedAt": "2026-10-09T04:01:58.192Z",
+  "revision": 3409,
+  "updatedAt": "2026-10-09T04:09:27.239Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11553,6 +11553,16 @@
           "at": "2026-10-09T04:01:58.192Z",
           "actor": "Codex",
           "text": "S572 confirms CLO 2026.1.310 imports and renders the hash-pinned Polo M fixture under DXF-AAMA, but its native properties expose only whole-pattern lengths rounded to 0.1 mm, ten times coarser than the 0.01 mm geometry gate. No pattern edit or duplicate export was made. This cannot isolate import from export; the five measured CUT failures and all V03 holds remain. Rights and local handling are settled. See E-G04-S572-EXIT."
+        },
+        {
+          "at": "2026-10-09T04:06:29.850Z",
+          "actor": "Codex",
+          "text": "S573 reconciles the admitted V03 acceptance against the current S558 roadmap clarification and later test evidence. Separate the supported CLO 2026.1.310/DXF-AAMA profile identity from the still-unproven compatibility claim; do not treat a second receiver or normative edition as a required gate. No criteria or technical holds change."
+        },
+        {
+          "at": "2026-10-09T04:09:27.239Z",
+          "actor": "Codex",
+          "text": "S573 corrects the current gate summary: S558 already documents `CLO 2026.1.310 / DXF-AAMA` as the named profile identity, and the maintainer's written local/product-development authorization is settled. A second receiver or normative edition is not a closure prerequisite. This does not establish format conformance or compatibility; measured geometry, mixed CUT/SEW semantics, mark mapping, grading/options, malformed-input and representative round-trip evidence remain held. No criterion was changed. See E-G04-S573-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11795,7 +11805,9 @@
         "E-G04-S571-START",
         "E-G04-S571-EXIT",
         "E-G04-S572-START",
-        "E-G04-S572-EXIT"
+        "E-G04-S572-EXIT",
+        "E-G04-S573-START",
+        "E-G04-S573-EXIT"
       ],
       "flagKey": null
     },
@@ -22231,6 +22243,24 @@
       "sha256": null,
       "verified": true,
       "note": "One CLO 2026.1.310 AAMA import of the hash-pinned Polo M fixture rendered without a format error. The native Property Editor exposed only whole-pattern 2D/3D line totals rounded to 0.1 mm, not individual vertices or deviations at the 0.01 mm gate. No edit or repeated export; stage attribution remains unresolved and all V03 gates are unchanged. Rights/local processing are settled."
+    },
+    {
+      "id": "E-G04-S573-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S573 reconciles admitted V03 acceptance with S558's current profile-identity clarification and existing CLO/grade/geometry/semantic evidence. It preserves every criterion and claim limit; no new exchange or profile search is authorized unless the source review identifies a concrete uncovered acceptance obligation."
+    },
+    {
+      "id": "E-G04-S573-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S573 reconciles S558's supported CLO 2026.1.310/DXF-AAMA profile identity with the unresolved compatibility claim and S557–S572 technical evidence. A second receiver or normative edition is not required; Polo geometry, mixed CUT/SEW, marks, grades/options, the tested malformed input, and full round-trip criteria remain failed or incomplete. No acceptance criterion or technical hold changed."
     }
   ]
 }
