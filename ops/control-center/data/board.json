@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3570,
-  "updatedAt": "2026-10-09T11:31:34.846Z",
+  "revision": 3574,
+  "updatedAt": "2026-10-09T11:38:34.080Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11968,6 +11968,16 @@
           "at": "2026-10-09T11:31:34.846Z",
           "actor": "Codex",
           "text": "S609 tried the distinct CLO DXF-ASTM route on the pinned Polo M source. CLO imported/exported/reimported and rendered nine pieces without a format error, but only 4/9 CUT outlines pass 0.001 cm; all 9 SEW paths pass. Five CUT contours lose one vertex and deviate 0.01299–0.01422 cm. The ASTM menu label and AC1009 header do not qualify a normative apparel profile. No V03 gates clear; the all-seven criterion and all remaining holds stay unchanged. Written product-development authorization and local-only handling are settled. Next inspect a distinct, source-backed path for vertex preservation and remaining profile/semantic gates; do not repeat this ASTM setup or prior rejected AAMA spline variations. See E-G04-S609-EXIT and the S609 current matrix."
+        },
+        {
+          "at": "2026-10-09T11:33:12.130Z",
+          "actor": "Codex",
+          "text": "S610 diagnoses the exact source-to-ASTM-output changes for the five S609 CUT failures and checks only authoritative sources implicated by those entity diffs. It does not repeat CLO operations, alter source geometry/settings/tolerance, or infer semantics from numeric layers. All seven-recipe criteria and V03 holds remain. The output should be a prioritized evidence-backed next practical experiment or a specific no-go reason, not an unapproved implementation. See E-G04-S610-START."
+        },
+        {
+          "at": "2026-10-09T11:38:34.080Z",
+          "actor": "Codex",
+          "text": "S610 shows the five Polo CUT failures are repeatable across two CLO exchange trials: S536 R2000 LWPOLYLINE/AAMA and S609 original R12 POLYLINE/ASTM. Both lose one outline vertex on the same five piece roles. Since encoding and export mode changed together, neither factor's independent effect is established. S609 optimization/removal options were off; official CLO help documents options but no vertex-loss fix. The processing stage remains unknown. No V03 gate clears. Next research a distinct rights-compatible free/local apparel CAD receiver/profile and concrete test path; don't spend another trial toggling settings without a source-backed prediction. See E-G04-S610-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12284,7 +12294,9 @@
         "E-G04-S608-START",
         "E-G04-S608-EXIT",
         "E-G04-S609-START",
-        "E-G04-S609-EXIT"
+        "E-G04-S609-EXIT",
+        "E-G04-S610-START",
+        "E-G04-S610-EXIT"
       ],
       "flagKey": null
     },
@@ -23386,6 +23398,24 @@
       "sha256": null,
       "verified": true,
       "note": "Practical CLO 2026.1.310 DXF-ASTM Polo M export/reimport completed without a format error and rendered nine pieces, but source-bound 0.001 cm geometry passes only 4/9 CUTs (9/9 SEWs); five CUTs lose one vertex. This rejects the tested route for acceptance without qualifying a normative profile or clearing any V03 gate. All holds remain."
+    },
+    {
+      "id": "E-G04-S610-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/S610-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source/output diagnosis of S609's five missing-vertex CUT failures. This read-only investigation uses the existing hash-pinned CLO trial and will not change geometry, export settings, thresholds, acceptance, or any V03 hold."
+    },
+    {
+      "id": "E-G04-S610-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/S610-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source/output diagnosis confirms the same five one-vertex-short CUT roles in prior AAMA and current ASTM CLO outputs; two variables changed together, so individual effects and processing stage remain unknown. CLO point optimization/removal controls were off, and official help gives no tested fix. No V03 gate or hold changes."
     }
   ]
 }

@@ -1,25 +1,22 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S609 exit
+## Current EPIC-17/G04 V03 boundary — S610 exit
 
-- S609 practically tried CLO 2026.1.310 DXF-ASTM export and same-profile
-  reimport on the hash-pinned original Polo M fixture. CLO completed without
-  format errors and rendered nine pieces. Source-bound comparison at
-  `0.001 cm` passes all nine SEWs and four CUTs, but fails five CUTs
-  (back, both stands, and upper/under collars) at `0.01299–0.01422 cm`; each
-  failing output has one fewer vertex. Numeric layer names, one Polo M
-  generation and gross-scale rendering do not establish manufacturing layer
-  semantics, grades/options, exact ASTM edition/profile, useful detail, or
-  all-seven compatibility. No V03 gate clears. See
-  `docs/research/epic17/S609-clo-dxf-astm-practical-trial/` and its current
-  matrix.
+- S610 compared actual hash-pinned S536 AAMA and S609 ASTM CLO outputs. The
+  same five Polo CUT roles show one fewer vertex in both. S536 used a
+  geometry-identical R2000 LWPOLYLINE fixture; S609 used original R12 POLYLINE.
+  Since input encoding and export format changed together, individual effects
+  are not isolated. S609 point-optimization/removal controls were off. CLO's
+  official help describes the controls but not this defect or a proven fix.
+  Import versus internal normalization versus export remains undetermined; no
+  V03 gate clears. See `docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/`
+  and its current matrix.
 - Written product-development authorization and local-only handling remain
-  settled; do not repeat those permission questions. Keep all V03 gates,
-  all-seven acceptance, V02-before-V03 and the `0.001 cm` threshold intact.
-  Next inspect only distinct source-backed interoperability evidence that
-  addresses the measured vertex loss and open profile/semantic gates. Do not
-  repeat this ASTM trial or previously rejected AAMA spline variations. CLO
-  remains open during G04 work.
+  settled. Keep all V03 gates, the all-seven criterion, V02-before-V03 and
+  the `0.001 cm` threshold intact. Next research a distinct free/local apparel
+  CAD receiver or documented profile with rights and a testable exchange path.
+  Do not guess at further CLO optimization toggles or repeat the same
+  confounded AAMA/ASTM setup. CLO remains open during G04 work.
 ## Prior EPIC-17/G04 V03 boundary — S607 exit
 
 - S607 observed CLO Edit Grading on the S565 waistband: the selected outer

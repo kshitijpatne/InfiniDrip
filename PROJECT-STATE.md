@@ -1,29 +1,26 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 609 exit; V03 remains open
+## EPIC-17 / G04 — Slice 610 exit; V03 remains open
 
-S609 practically tested the distinct CLO 2026.1.310 DXF-ASTM export route on
-the hash-pinned original Polo M DXF, then reimported the emitted AC1009 file.
-CLO imported/exported/reimported without a format error and rendered all nine
-pieces. At the unchanged `0.001 cm` gate all nine SEW paths pass, but only 4/9
-CUT outlines pass; back, both collar stands, and upper/under collars fail by
-`0.01299–0.01422 cm`, each with one fewer output vertex. A single menu label
-and AC1009 header do not establish normative ASTM edition or profile
-conformance. Useful-zoom detail, layer semantics, grades/options, other
-recipes and repeated round trips remain unproven. No V03 gate clears. Exact
-hashes, settings, analyzer and rendered evidence:
-`docs/research/epic17/S609-clo-dxf-astm-practical-trial/S609-exit-packet.md`.
+S610 compared S609's CLO DXF-ASTM output with the earlier S536 AAMA output.
+The same five Polo CUT roles have one fewer output vertex in both. S536 used
+geometry-identical R2000 LWPOLYLINE input; S609 used original R12 POLYLINE
+input. Since source encoding and output format changed together, their
+individual effects are not isolated. S609's point-optimization/removal
+controls were off; official CLO help does not describe or promise a fix for
+these deviations. Exact import/internal-normalization/export stage remains
+unknown. No V03 gate clears. Evidence:
+`docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/S610-exit-packet.md`.
 
-Validated board replay: `3566→3568` start and `3568→3570` exit. V02 remains
-Done; V03/EPIC-17 remain In Progress. The current consolidated matrix is
-`docs/research/epic17/S609-clo-dxf-astm-practical-trial/V03-CURRENT-GATE-MATRIX-S609.md`.
-Next inspect only distinct, source-backed interoperability evidence that can
-address the measured vertex loss and remaining profile/semantic gates. Do not
-repeat this exact ASTM trial or prior rejected AAMA spline variations.
-Preserve all V03 criteria, all-seven acceptance, `0.001 cm` tolerance, legacy
-DXF behavior and protected export identities. Written product-development
-permission and local-only processing are settled. Keep CLO open while G04 is
-active.
+Validated board replay: `3570→3572` start and `3572→3574` exit. V02 remains
+Done; V03/EPIC-17 remain In Progress. Current matrix:
+`docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/V03-CURRENT-GATE-MATRIX-S610.md`.
+Next research a distinct free/local apparel CAD receiver or documented
+profile with rights and an evidence-backed test path; do not guess at further
+CLO optimization toggles or repeat the same confounded AAMA/ASTM setup.
+Preserve all V03 criteria, all-seven acceptance, the `0.001 cm` threshold,
+legacy DXF behavior and protected export identities. Permission and local-only
+handling are settled. Keep CLO open while G04 is active.
 
 ## EPIC-17 / G04 — Slice 607 exit; V03 remains open
 

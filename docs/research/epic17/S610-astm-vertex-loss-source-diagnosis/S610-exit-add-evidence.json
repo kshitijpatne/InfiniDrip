@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3572,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S610-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/S610-exit-packet.md",
+    "verified": true,
+    "note": "Source/output diagnosis confirms the same five one-vertex-short CUT roles in prior AAMA and current ASTM CLO outputs; two variables changed together, so individual effects and processing stage remain unknown. CLO point optimization/removal controls were off, and official help gives no tested fix. No V03 gate or hold changes."
+  }
+}
