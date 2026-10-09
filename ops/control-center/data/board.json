@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3578,
-  "updatedAt": "2026-10-09T11:43:26.519Z",
+  "revision": 3582,
+  "updatedAt": "2026-10-09T11:46:10.815Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11988,6 +11988,16 @@
           "at": "2026-10-09T11:43:26.519Z",
           "actor": "Codex",
           "text": "S611 found no free/local receiver ready to qualify. Seamly2D's current upstream README does not document DXF apparel import/round-trip; OpenPatterns and Super V8 remain blocked by S480/S485 evidence. garment.dev claims broad AAMA/ASTM validation but is invite-based and hosted, outside current scope; no pattern was uploaded. Next use one source-backed CLO Standard-DXF import-mode test on the exact S609 fixture, holding other settings fixed, to isolate whether AAMA import is implicated. All V03 holds and scope remain. See E-G04-S611-EXIT."
+        },
+        {
+          "at": "2026-10-09T11:44:13.380Z",
+          "actor": "Codex",
+          "text": "S612 tests one documented CLO input-mode variable, Standard DXF versus S609 AAMA, against the same hash-pinned Polo M source. All other settings, output ASTM mode and 0.001 cm gate stay fixed. This may isolate whether AAMA input parsing is implicated; it cannot qualify a profile or clear all-seven acceptance. Stop on ambiguity or lost semantics; do not toggle other options. Keep CLO open. See E-G04-S612-START."
+        },
+        {
+          "at": "2026-10-09T11:46:10.815Z",
+          "actor": "Codex",
+          "text": "S612 did not execute the planned Standard-DXF input-mode trial: active CUA reports no apps, and its documented listWindows/getApp methods are unavailable. No CLO window was freshly bound and no file or project was touched. This is a computer-use access blocker, not a CLO format failure; all V03 criteria and holds remain. Next restore a supported native-window binding without restarting CLO, or proceed on independent source-backed evidence. See E-G04-S612-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12308,7 +12318,9 @@
         "E-G04-S610-START",
         "E-G04-S610-EXIT",
         "E-G04-S611-START",
-        "E-G04-S611-EXIT"
+        "E-G04-S611-EXIT",
+        "E-G04-S612-START",
+        "E-G04-S612-EXIT"
       ],
       "flagKey": null
     },
@@ -23446,6 +23458,24 @@
       "sha256": null,
       "verified": true,
       "note": "Primary-source screen finds no ready free/local apparel receiver: Seamly2D's current README does not document a DXF receiver, OpenPatterns and Richpeace Super V8 have prior documented blockers, while garment.dev is invite-based/hosted and out of scope. No app install, file upload, account or V03 status/criterion change."
+    },
+    {
+      "id": "E-G04-S612-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S612-clo-standard-dxf-import-mode/S612-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One controlled CLO 2026.1.310 trial changes only input format mode from S609 AAMA to documented Standard DXF; exact source, other import/export settings, geometry threshold, and acceptance criteria remain fixed."
+    },
+    {
+      "id": "E-G04-S612-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S612-clo-standard-dxf-import-mode/S612-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The Standard-DXF CLO trial did not execute because the active computer-use runtime exposes no native window inventory/binding methods. No CLO action or exchange file occurred; this is a tool-access blocker, not a CLO format result. All V03 gates remain held."
     }
   ]
 }

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3581,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S612 did not execute the planned Standard-DXF input-mode trial: active CUA reports no apps, and its documented listWindows/getApp methods are unavailable. No CLO window was freshly bound and no file or project was touched. This is a computer-use access blocker, not a CLO format failure; all V03 criteria and holds remain. Next restore a supported native-window binding without restarting CLO, or proceed on independent source-backed evidence. See E-G04-S612-EXIT."
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3579,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S612 tests one documented CLO input-mode variable, Standard DXF versus S609 AAMA, against the same hash-pinned Polo M source. All other settings, output ASTM mode and 0.001 cm gate stay fixed. This may isolate whether AAMA input parsing is implicated; it cannot qualify a profile or clear all-seven acceptance. Stop on ambiguity or lost semantics; do not toggle other options. Keep CLO open. See E-G04-S612-START."
+}

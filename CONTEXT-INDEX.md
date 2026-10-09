@@ -1,6 +1,21 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S611 exit
+## Current EPIC-17/G04 V03 boundary — S612 exit
+
+- S612 did not execute its proposed Standard-DXF CLO trial: the active CUA
+  runtime exposed no native apps and lacked the documented native window
+  inventory/binding methods. No app, project, or file was touched. This is a
+  computer-use access blocker, not a CLO format failure; no V03 gate clears.
+  Keep CLO open. Restore supported native-window binding without restarting
+  CLO, then run the single controlled trial; if unavailable, continue with
+  independent source-backed V03 work. See
+  `docs/research/epic17/S612-clo-standard-dxf-import-mode/S612-exit-packet.md`.
+- Board replay: `3578→3580→3582`; V02 remains Done and V03/EPIC-17 remain In
+  Progress. All-seven acceptance, `0.001 cm` geometry threshold, rights and
+  round-trip gates, legacy behavior and protected identities remain unchanged.
+  CLO product-development/local-only authorization is settled.
+
+## Prior EPIC-17/G04 V03 boundary — S611 exit
 
 - S611 found no ready free/local apparel receiver in its bounded candidate
   review. Seamly2D's current README does not document apparel-DXF receiving;

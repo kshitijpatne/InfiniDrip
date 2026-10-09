@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 612 exit; V03 remains open
+
+S612 did not execute the planned CLO Standard-DXF input-mode trial. In the
+active computer-use runtime the app inventory returned no native apps and the
+documented native `listWindows`/`getApp` methods are unavailable, so CLO could
+not be freshly bound. No app lifecycle action, screenshot, input, or file
+operation occurred. This is a computer-use access blocker, not evidence of a
+CLO format failure. No V03 criterion is cleared; preserve all-seven acceptance
+and all holds. CLO remains open. Exit packet:
+`docs/research/epic17/S612-clo-standard-dxf-import-mode/S612-exit-packet.md`.
+
+Board replay: `3578→3580` start and `3580→3582` exit. V02 remains Done;
+V03/EPIC-17 remain In Progress. Next restore supported native-window access
+without closing/restarting CLO and run the single controlled Standard-DXF
+trial, or use independent source-backed V03 work if UI access is still absent.
+Written CLO product-development and local-only file handling authorization is
+settled; do not request it again.
+
 ## EPIC-17 / G04 — Slice 611 exit; V03 remains open
 
 S611 found no ready free/local apparel receiver among documented candidates.
