@@ -1,6 +1,34 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 646 closed; V03 remains blocked on receiver/profile fidelity
+## EPIC-17 / G04 — Slice 647 closed; V03 remains blocked on receiver/profile access
+
+S647 found one new credible apparel-CAD candidate: GetonAgain Garment CAD
+V2024.1. Its first-party manual documents ASTM/AAMA DXF import and export
+with unit, base-size, seam-recognition and RUL options; vendor materials
+advertise a free 200-minute version and a 15-day trial. Public first-party
+evidence reviewed here does not establish trial rights for InfiniDrip
+product-development interoperability evaluation or local-only handling of
+DXF drawing data, and the catalog mentions a cloud converter for other CAD
+formats. No installer, account, vendor contact, or G04 fixture import
+occurred. Validated board replay advanced `3730→3734`, linking
+`E-G04-S647-START` and `E-G04-S647-EXIT` while preserving V01/V02 Done and
+V03/Epic In Progress. Candidate matrix and evidence:
+`docs/research/epic17/S647-getonagain-profile-candidate-screen/`.
+
+Before testing this candidate, confirm trial rights and local DXF handling;
+installation/run authorization is also required. Use only a named C: evidence
+folder if qualified. Do not repeat S646's already-failed CLO import.
+
+S646's actual CLO 2026.1.310 DXF-AAMA import of the OpenCAD R14 profile
+output preserves nine piece names but passes only 13/18 CUT/SEW contours at
+`0.001 cm`; five Polo CUT contours fail, so export stopped before a misleading
+round trip. OpenCAD preserves its generic R14 metadata/geometry over two
+byte-identical generations but is not an industrial apparel CAD profile.
+All V03 gates, holds, all-seven scope, protected export identities, and legacy
+DXF behavior remain unchanged. CLO remains open.
+No physical-fit, factory-acceptance, or production-readiness claim is made.
+
+## Prior EPIC-17 / G04 — Slice 646 closed
 
 S646's application-specific metadata-bearing generic R14 pilot preserves all
 nine named blocks, centimeter units, CUT/SEW/MARK layers and role/revision

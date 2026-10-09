@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3730,
-  "updatedAt": "2026-10-09T23:41:52.650Z",
+  "revision": 3734,
+  "updatedAt": "2026-10-09T23:47:37.211Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12348,6 +12348,16 @@
           "at": "2026-10-09T23:41:52.650Z",
           "actor": "Codex",
           "text": "S646 supplies the exact metadata-bearing R14 output to the already-authorized CLO receiver route once: nine named pieces and 13/18 exact CUT/SEW contours; the same five Polo CUTs fail at 0.001 cm, so CLO export was stopped. OpenCAD preserves the one-fixture metadata/geometry over two byte-identical R14 generations, but this generic profile is not an industrial apparel standard. The labeled 1:1 CLO overview is reviewed; all-seven, marks, grades, negative inputs, successful target round trip, and detailed readable output remain open. No criterion or hold changes. See E-G04-S646-EXIT."
+        },
+        {
+          "at": "2026-10-09T23:47:20.649Z",
+          "actor": "Codex",
+          "text": "S647 screens a newly identified garment CAD candidate from first-party sources. Its manual documents ASTM/AAMA DXF input/output, and vendor materials advertise a free version and 15-day trial. Rights for this product-development evaluation and local handling of pattern files are not established. This is research only: no installation/account, vendor contact, file import, or V03 gate/hold change. See E-G04-S647-START."
+        },
+        {
+          "at": "2026-10-09T23:47:37.211Z",
+          "actor": "Codex",
+          "text": "S647 found GetonAgain Garment CAD V2024.1 to be a credible apparel DXF/AAMA candidate based on its manual and vendor catalog, but not eligible for a fixture test yet: official sources do not establish trial rights for this product-development evaluation or local-only handling, and its site advertises cloud conversion for other formats. No installer/account/vendor contact/fixture import occurred. V03 remains In Progress with all gates/holds unchanged. See E-G04-S647-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12748,7 +12758,9 @@
         "E-G04-S645-START",
         "E-G04-S645-EXIT",
         "E-G04-S646-START",
-        "E-G04-S646-EXIT"
+        "E-G04-S646-EXIT",
+        "E-G04-S647-START",
+        "E-G04-S647-EXIT"
       ],
       "flagKey": null
     },
@@ -24606,6 +24618,24 @@
       "sha256": null,
       "verified": true,
       "note": "S646's bounded custom-metadata R14 pilot preserves all 56 Polo M entities exactly across two byte-identical OpenCAD generations, with centimeter units, named blocks and role/revision IDs. One actual CLO 2026.1.310 DXF-AAMA import preserves nine names but fails the unchanged 0.001 cm geometry gate on the same five CUT contours (13/18 CUT/SEW contours pass); the fail-closed pre-export gate stopped before export. Actual CLO overview render saved and reviewed. Generic OpenCAD metadata evidence does not qualify an industrial apparel profile. All V03 gates, seven-recipe scope and holds remain unchanged. See S646 exit packet, matrix and C:-only raw evidence."
+    },
+    {
+      "id": "E-G04-S647-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S647-getonagain-profile-candidate-screen/S647-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves unique S647 for first-party GetonAgain Garment CAD V2024.1 candidate qualification only. Screens documented garment ASTM/AAMA DXF import/export, trial availability, rights and local handling. No install, account, vendor contact, fixture import, or gate/hold change is authorized."
+    },
+    {
+      "id": "E-G04-S647-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S647-getonagain-profile-candidate-screen/S647-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "First-party screen finds GetonAgain Garment CAD V2024.1 technically promising (apparel CAD, ASTM/AAMA DXF import/export, free/15-day trial) but not yet rights/locality qualified. It advertises cloud conversion for other CAD formats; direct DXF locality and trial rights remain unknown. No installer or G04 file was opened. All V03 gates and holds remain."
     }
   ]
 }

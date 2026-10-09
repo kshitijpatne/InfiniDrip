@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3732,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S647-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S647-getonagain-profile-candidate-screen/S647-exit-packet.md",
+    "verified": true,
+    "note": "First-party screen finds GetonAgain Garment CAD V2024.1 technically promising (apparel CAD, ASTM/AAMA DXF import/export, free/15-day trial) but not yet rights/locality qualified. It advertises cloud conversion for other CAD formats; direct DXF locality and trial rights remain unknown. No installer or G04 file was opened. All V03 gates and holds remain."
+  }
+}

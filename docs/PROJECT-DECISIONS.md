@@ -1,5 +1,17 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — GetonAgain candidate is not yet authorized (S647)
+
+First-party GetonAgain materials identify Garment CAD V2024.1 as apparel CAD
+with ASTM/AAMA DXF import/export and advertise a 15-day trial. S647 found no
+first-party confirmation that the trial permits InfiniDrip product-development
+interoperability testing or that DXF files are processed locally. The vendor
+also advertises a cloud converter for other CAD formats. Do not install/run
+this new product or import G04 fixtures until the maintainer explicitly
+authorizes use of the candidate and trial rights/local file handling are
+confirmed. This does not reopen the confirmed CLO 2026.1.310 local-trial
+authorization. See `docs/research/epic17/S647-getonagain-profile-candidate-screen/`.
+
 ## EPIC-17/G04 — CLO trial-use and local-processing confirmation (2026-10-08)
 
 The maintainer confirms that written confirmation covers both use of the

@@ -1,6 +1,29 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S646 closed
+## Current EPIC-17/G04 V03 boundary — S647 closed
+
+S647 screened the newly identified GetonAgain Garment CAD V2024.1 from
+first-party sources. The garment CAD manual documents ASTM/AAMA DXF import and
+export with unit, base-size, seam, and RUL options; its vendor catalog
+advertises a free 200-minute version and 15-day trial. This makes it a
+credible practical candidate. Rights for this InfiniDrip product-development
+evaluation and local-only processing of pattern files are not established;
+the catalog also describes cloud conversion for other CAD file types. No
+installer/account/vendor contact/G04 fixture import occurred. Do not open
+fixtures in it until trial rights and the DXF data path are confirmed and the
+maintainer explicitly authorizes acquiring/installing/running the application.
+Evidence and source links:
+`docs/research/epic17/S647-getonagain-profile-candidate-screen/`.
+
+The S646 result remains authoritative for CLO: OpenCAD Studio generic R14
+metadata and geometry are preserved across two byte-identical outputs, but
+CLO 2026.1.310 DXF-AAMA fails the same five Polo CUT contours at the unchanged
+`0.001 cm` gate before export. Do not repeat that test. All V03 gates and
+holds, all-seven scope, protected identities, and legacy DXF behavior remain
+unchanged. The next concrete route is trial-rights/locality qualification for
+GetonAgain, then one fixture only if eligible. CLO remains open.
+
+## Prior EPIC-17/G04 V03 boundary — S646 closed
 
 S646 proves an additive custom-metadata generic R14 result in OpenCAD Studio
 v2026.40.1 for one Polo M fixture: all nine named roles, `$INSUNITS=5`, CUT/
