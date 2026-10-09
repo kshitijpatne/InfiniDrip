@@ -1410,6 +1410,25 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   recipe trials to create a same-mode seven-recipe evidence cohort while
   explicitly holding conformance and all V03 gates.
 
+- **S574 Polo line-chain representation probe (2026-10-09, exit):** from S573
+  52b0adec7d4ce984099c59aef2d0667d141032c1; refreshed origin/main
+  a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an ancestor; unique slice
+  574. CLO 2026.1.310 / DXF-AAMA accepted, exported and re-imported a Polo M
+  derivative converting only CUT closed POLYLINEs to exact connected LINE
+  entities. Nine pieces rendered on import and re-import; no error dialog.
+  The fixed 0.001 cm comparison finds 0/9 source CUT contours within threshold
+  against corresponding output blocks; 9/9 SEW contours have exact coordinate
+  candidates, with duplicates in eight blocks and numeric layer semantics not
+  established. Generation two was correctly withheld after gen1 missed its
+  gate. Rights/local processing are settled; compatibility/conformance,
+  semantic, mark, grade/options, malformed-input, all-seven and other admitted
+  V03 gates remain held. No production geometry/source, legacy writer,
+  protected output, acceptance, tolerance, or UI changes. All files stayed
+  under the named C: evidence folder; CLO remains open. See the start and exit
+  packets and C:-only machine-readable/rendered evidence. Board replay
+  3409→3411→3413; V03 remains In Progress. **Next:** trace gen1 layer and
+  entity mapping against the exact source CUT/SEW contours before another
+  representation test.
 - **S572 CLO Polo pre-export stage check (2026-10-09):** from S571
   `9035d325cbd5a11b81f04126912627047ce0d5d6`; refreshed `origin/main`
   `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S572 is

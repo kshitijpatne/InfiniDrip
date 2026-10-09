@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S573 exit
+## Current EPIC-17/G04 V03 boundary — S574 exit
+
+- Start and exit packets:
+  - docs/research/epic17/S574-polo-line-chain-representation/S574-start-packet.md
+  - docs/research/epic17/S574-polo-line-chain-representation/S574-exit-packet.md
+- The live CLO 2026.1.310 DXF-AAMA trial imported and rendered the hash-pinned
+  Polo M connected-LINE derivative, exported generation one, and re-imported
+  it with nine rendered pieces. The 0.001 cm comparison fails on all nine CUT
+  contours against their corresponding output blocks; nine SEW paths have
+  exact coordinate matches, but numeric layer semantics and duplicate exact
+  candidates remain unresolved. No generation two. No compatibility claim.
+- Rights/local processing are settled. Preserve all V03 and all-seven V02
+  gates, legacy DXF behavior, protected export identities, and CLO open.
+  Board start/exit replay: 3409→3411→3413; G04-V03 remains In Progress.
+  The input/output/projects and rendered evidence are C:-only under
+  C:\G04-CLO-DXF-Exchange\S574-polo-line-chain-representation.
+- Next: diagnose gen1 CUT/SEW layer and entity mapping before choosing another
+  evidence-based test. No broad settings retry or acceptance/tolerance change.
+
+## Prior EPIC-17/G04 V03 boundary — S573 exit
 
 - `docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-exit-packet.md`
   corrects profile status from S558: `CLO 2026.1.310 / DXF-AAMA` identity and

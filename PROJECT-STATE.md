@@ -1,6 +1,36 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 573 exit; V03 remains open
+## EPIC-17 / G04 — Slice 574 exit; V03 remains open
+
+S574 practically tested one Polo M CUT representation in the authorized local
+CLO 2026.1.310 session. DXF-AAMA imported and rendered the connected LINE
+derivative; CLO exported and re-imported generation one and rendered nine
+pieces. The unchanged 0.001 cm comparison failed for all nine source CUT
+contours against closed contours in their corresponding output blocks; all
+nine source SEW contours have exact candidates, with duplicate candidates in
+eight blocks and unresolved numeric layer meanings. No second generation was
+run. This is a concrete geometry/semantic blocker, not a rights or local
+processing concern. No compatibility/conformance claim follows.
+
+The exact input, derivative, output, project and rendered-output hashes,
+profiles, warnings and measurements are in
+docs/research/epic17/S574-polo-line-chain-representation/S574-exit-packet.md
+and the C:-only evidence folder. Keep the active CLO session open. No
+production source, tests, generic/legacy DXF behavior, protected export
+identities, acceptance scope or tolerance changed. V01/V02 remain Done and
+unchanged; G04-V03 remains In Progress, all technical V03 gates remain held.
+
+S574 started 2026-10-09 04:11:27 UTC from S573 52b0adec; refreshed origin/main
+a5af5e1 remains an ancestor; slice 574 is unique. Board replay
+3409→3411→3413. The slice packet records the focused Control Center
+verification and diff check, the elapsed-time breakdown, and next action.
+
+**Next:** inspect the actual gen1 entity/layer mapping against the source CUT
+and SEW path identities to establish where the CUT contours went. Use that
+evidence to decide on one technically justified next experiment. Keep the
+0.001 cm threshold, all-seven acceptance and export identities unchanged.
+
+## Prior EPIC-17 / G04 — Slice 573 exit
 
 S573 reconciles current acceptance and evidence: the named profile identity
 `CLO 2026.1.310 / DXF-AAMA` and local/product-development authorization are
