@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3669,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S632 tests one evidence-led variable after S631: import the exact S617 centimeter-header Polo M fixture using CLO DXF-ASTM import rather than Standard-DXF, keep DXF-ASTM export fixed, produce two generations, and source-check all contours and 38 marks at the unchanged 0.001 cm limit. User-confirmed CLO product-development use/local file processing is settled. Source bytes and geometry stay unchanged; exchange files are confined to C:\\G04-CLO-DXF-Exchange\\S632-astm-import-mode-polo. No status, acceptance, hold, or conformance claim changes. See E-G04-S632-START."
+}

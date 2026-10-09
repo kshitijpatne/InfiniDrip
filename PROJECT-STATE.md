@@ -1,6 +1,36 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 631 closed; V03 remains open
+## EPIC-17 / G04 — Slice 632 closed; V03 remains open
+
+S632 completed a single controlled CLO 2026.1.310 DXF-ASTM import/export/
+reimport comparison against the unchanged, hash-pinned S617 Polo M cm-header
+fixture. Import mode was the sole variable. At the unchanged `0.001 cm` gate,
+both generations have 9/9 SEW passes, 4/9 CUT passes (5 failures: back,
+outer/inner collar stand, upper/under pointed collar), and identical aggregate
+38-mark failures. ASTM mode therefore did not resolve the S631 measured
+losses. The saved nine-piece overview is grossly intact but does not prove
+fine-mark readability. This is a tested CLO menu path only, not normative
+ASTM conformance. Raw input, outputs, native scene, settings/notices,
+render, and JSON reports remain under
+`C:\G04-CLO-DXF-Exchange\S632-astm-import-mode-polo\`; hashes and exact
+metrics are recorded in
+`docs/research/epic17/S632-astm-import-mode-polo/S632-exit-packet.md`.
+Validated board start/exit replay is 3668→3670→3672. V01/V02 stay Done;
+V03/EPIC-17 stay In Progress. No V03 acceptance or hold changed. CLO remains
+open. The active goal was checked at this boundary and matches the admitted
+EPIC-17 objective; keep it active through final gates, safe merge and required
+deployment verification.
+
+S632 started `2026-10-09 18:14:10 UTC` from committed S631
+`b2bb1258ed98ad23f2c7654b7a3bad0453906167`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor, the checkout was
+clean, and S631 was highest. Board start replay was 3668→3670 with V01/V02
+Done and V03/Epic In Progress. Start packet:
+`docs/research/epic17/S632-astm-import-mode-polo/S632-start-packet.md`.
+Exit packet:
+`docs/research/epic17/S632-astm-import-mode-polo/S632-exit-packet.md`.
+
+## Verified prior boundary — Slice 631 closed; V03 remains open
 
 S631 started `2026-10-09 17:59:27 UTC` from clean S630 commit
 `4b5be3619c3b3398197a03044b6feefa464e962e`; refreshed `origin/main`

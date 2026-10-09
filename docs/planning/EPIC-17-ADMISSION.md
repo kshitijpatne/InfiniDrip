@@ -1,3 +1,30 @@
+**S632 exit:** One controlled CLO 2026.1.310 DXF-ASTM import/export/two-round
+trip using the unchanged S617 Polo M cm-header fixture was completed. ASTM
+menu import did not remove the measured losses: each generation has 9/9 SEW
+passes, 4/9 CUT passes and five CUT failures (back, both collar stands, both
+pointed collars) at `0.001 cm`; both generations repeat S631's aggregate
+38-mark failures. The saved nine-piece overview does not prove fine-mark
+readability. This is practical evidence about this CLO mode, not a normative
+profile or conformance claim. It clears no V03 gate and changes no hold or
+criterion. Board start/exit replay is 3668→3670→3672; V01/V02 Done,
+V03/EPIC-17 In Progress. Exact hashes, analyzer reports, output/render review,
+focused verification and time ledger are in
+`docs/research/epic17/S632-astm-import-mode-polo/S632-exit-packet.md`; raw
+files remain in its named C: folder. Keep CLO open through Epic completion.
+Next refresh Git/history/board and choose the highest-impact unresolved V03
+gate; do not repeat this ASTM mode permutation on the same fixture.
+
+**S632 start:** from committed S631 `b2bb1258ed98ad23f2c7654b7a3bad0453906167`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an
+ancestor, the worktree was clean, S631 was highest, and board start replay is
+3668→3670. S632 tests the documented CLO DXF-ASTM import mode on the unchanged
+S617 Polo M centimeter-header input, with DXF-ASTM export fixed, two
+generations, and source-bound geometry/mark review at `0.001 cm`. Input copy
+SHA-256 `71F45FDCA602BBDDB32BA53F76F0B5D9B6E92094D96557414C182C5EAF42E5F5`;
+named raw evidence folder `C:\G04-CLO-DXF-Exchange\S632-astm-import-mode-polo\`.
+No criterion or hold changes. Start packet:
+`docs/research/epic17/S632-astm-import-mode-polo/S632-start-packet.md`.
+
 **S631 exit:** started from clean S630
 `4b5be3619c3b3398197a03044b6feefa464e962e`; refreshed
 `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor,

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3670,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S632-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S632-astm-import-mode-polo/S632-exit-packet.md",
+    "verified": true,
+    "note": "Controlled CLO 2026.1.310 DXF-ASTM import/export/two-generation test of the pinned S617 Polo M cm-header fixture. Both generations: 9/9 SEW passes; 4/9 CUT passes and five failures (back, both collar stands, both pointed collars) at 0.001 cm; identical aggregate losses across 38 marks. The saved nine-piece overview does not prove fine-mark readability. ASTM menu mode clears no V03 gate and is not a normative conformance claim. All acceptance, statuses, and holds unchanged; exact hashes, raw C:-only evidence, and verification in packet."
+  }
+}

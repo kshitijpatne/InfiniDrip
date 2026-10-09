@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3671,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S632 completed the controlled CLO DXF-ASTM import-mode test on the unchanged S617 Polo M cm-header source. Both generations show 9/9 SEW passes, 4/9 CUT passes and five CUT failures (back, both collar stands, both pointed collars) at 0.001 cm; both repeat the same aggregate 38-mark losses. The saved nine-piece overview does not establish fine-mark readability. This is a CLO menu-path observation, not ASTM conformance. It clears no V03 gate; all-seven acceptance, other gates, holds and V02 Done/V03 and EPIC-17 In Progress statuses are unchanged. Do not repeat this mode permutation on the same fixture. See E-G04-S632-EXIT and its packet for hashes, exact metrics and raw C:-only evidence."
+}

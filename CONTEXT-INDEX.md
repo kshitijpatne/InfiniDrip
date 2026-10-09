@@ -1,6 +1,23 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S631 exit
+## Current EPIC-17/G04 V03 boundary — S632 exit
+
+- S632 tested CLO 2026.1.310 DXF-ASTM import/export/reimport on the unchanged
+  hash-pinned S617 Polo M cm-header input, with import mode the sole variable.
+  Both generations have 9/9 SEW passes, 4/9 CUT passes (five failures: back,
+  both collar stands, and both pointed collars), and identical aggregate
+  failures across the 38 source marks at `0.001 cm`. ASTM mode did not resolve
+  S631's measured losses. The nine-piece saved overview does not prove fine
+  mark readability. This is a menu-path observation, not normative ASTM
+  conformance. Full measurements/hashes and named C:-only evidence:
+  `docs/research/epic17/S632-astm-import-mode-polo/S632-exit-packet.md` and
+  `C:\G04-CLO-DXF-Exchange\S632-astm-import-mode-polo\`. Validated board
+  start/exit replay is 3668→3670→3672. V01/V02 remain Done and V03/Epic remain
+  In Progress; no gate or hold changed. CLO remains open through Epic close.
+  At this verified boundary, the goal was checked and matches the active
+  admitted EPIC-17 objective; keep it active through safe merge.
+
+## Prior EPIC-17/G04 V03 boundary — S631 exit
 
 - S631's offline audit of the existing S617 Standard-DXF import → CLO
   DXF-ASTM-labeled export → Standard-DXF reimport found 38 source marks.
@@ -17,8 +34,8 @@
   No new CLO operation or conversion occurred. S631 clears no V03 gate; V02
   remains Done, V03/Epic In Progress, and every hold is unchanged. CLO use
   and local processing are confirmed in writing; leave CLO open. At this
-  verified boundary, inspect the goal record; keep it active through G04
-  completion and safe merge.
+  verified boundary, the active goal was inspected and found current; keep it
+  active through G04 completion and safe merge.
 
 ## Prior EPIC-17/G04 V03 boundary — S631 start
 
