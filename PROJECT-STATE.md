@@ -1,5 +1,47 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 559 exit; V03 remains open
+
+S559 generated 35 source-derived per-size DXFs (XS/S/M/L/XL across all seven
+recipes) from the current `gradeRun` tables. Tee/Fitted/Tank/Polo share
+`TSHIRT_GRADE`; Woven, Skirt, and Trouser use their own grade tables. These
+are digital product defaults, not industry grading standards or physical-fit
+evidence. CLO 2026.1.310 (r58944) imported Tee XS with DXF-AAMA at centimeters,
+then exported DXF-AAMA with Graded Nest selected. Its visible output showed
+three tee pieces; the measured DXF round trip preserved all 6/6 CUT/SEW
+outlines within 0.001 cm (maximum coordinate delta 0.000017 cm). The output
+blocks were `0_M`, `1_M`, and `2_M`, however, so the XS identity was relabeled
+M. One selected-size input also contained no multi-size grade relationship.
+The run therefore passes only a narrow geometry round trip and fails/does not
+establish size identity, grade rules, or graded nesting. Full manifest, render,
+and analysis are under
+`C:\G04-CLO-DXF-Exchange\S559-source-backed-grade-fixture`; the pre-test CLO
+project copy is preserved there. CLO remains open.
+
+No acceptance, scope, tolerance, source geometry, legacy DXF behavior,
+protected identity, or product claim changed. The user's written confirmation
+authorizes product-development DXF evaluation and local processing; no further
+permission decision is needed. Existing V03 holds remain: five Polo contour
+failures, mixed CUT/SEW semantics, incomplete direct mark matches, malformed
+input accepted, and no grade/options/all-seven proof. A second receiver is not
+an admitted requirement. V01/V02 are Done; V03 is In Progress. Matrix:
+`docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`;
+slice packet and exit evidence:
+`docs/research/epic17/S559-source-backed-grade-fixture/S559-exit-packet.md`.
+
+S559 started from S558 `3965653`; refreshed `origin/main` remains an ancestor.
+Board revisions 3349→3351→3353; S559 evidence/comment are replayed through the
+validated command layer. The active goal remains the admitted G04 work through
+safe merge. No physical fit, factory acceptance, or production readiness is
+claimed.
+
+Next: investigate the exact named-size/grade-point representation required by
+the documented DXF-AAMA or Rule File path and how to preserve piece/size
+identity without changing legacy exports. Do not repeat the one-size Tee trial
+or M/default tests. Then address known contour, semantic, mark, and malformed-
+input failures with new evidence while preserving the unchanged all-seven
+criteria and protected export identities.
+
 ## EPIC-17 / G04 — Slice 558 exit; V03 remains open
 
 S558 used CLO's current publisher documentation to identify the candidate
