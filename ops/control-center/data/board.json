@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3518,
-  "updatedAt": "2026-10-09T08:52:30.932Z",
+  "revision": 3522,
+  "updatedAt": "2026-10-09T09:02:56.309Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11838,6 +11838,16 @@
           "at": "2026-10-09T08:52:30.932Z",
           "actor": "Codex",
           "text": "S596 did not run the planned read-only line-info query: the fresh CLO accessibility tree reports an Export DXF dialog while the simultaneous image shows the nine-piece canvas, and only the main window is targetable. Escape, dialog cancel and raise recovery did not produce a coherent state. No project/DXF or pattern was changed, and this is a computer-use surface issue, not a CLO exchange result. Preserve every V03 gate; next recover an accessibility/screenshot-consistent target before the one S595 pre-export comparison."
+        },
+        {
+          "at": "2026-10-09T08:53:41.490Z",
+          "actor": "Codex",
+          "text": "S597 will reset only the computer-use helper and take one fresh CLO accessibility/screenshot observation. The read-only S595 pre-export outline query is conditional on a coherent, targetable state. If the discrepancy persists, stop UI input and record it; preserve all V03 gates. No DXF exchange or CLO restart is planned."
+        },
+        {
+          "at": "2026-10-09T09:02:56.309Z",
+          "actor": "Codex",
+          "text": "S597 recovered a coherent accessibility/screenshot view without restarting CLO and ran one allowlisted read-only GetPatternLineInfo query against the existing S595 pre-export scene. All nine line sequences close continuously and their endpoint bounds equal the API boxes. Direct diagnostic screening finds five source-contour proximities (three literal source CUT-layer, two SEW-layer); indexes 1, 3, 7 and 8 have no direct match. The comparison is not the V03 contour gate and does not identify API roles, garment-piece identity, or processing stage. No DXF exchange, project/pattern mutation, settings change, product code or export identity changed. Keep every V03 gate, including five S595 Polo CUT failures, open."
         }
       ],
       "evidenceRefs": [
@@ -12128,7 +12138,9 @@
         "E-G04-S595-START",
         "E-G04-S595-EXIT",
         "E-G04-S596-START",
-        "E-G04-S596-EXIT"
+        "E-G04-S596-EXIT",
+        "E-G04-S597-START",
+        "E-G04-S597-EXIT"
       ],
       "flagKey": null
     },
@@ -22996,6 +23008,24 @@
       "sha256": null,
       "verified": true,
       "note": "S596 records a concrete CLO UI automation mismatch: accessibility reports Export DXF while the fresh screenshot shows only the canvas and no separate dialog is targetable. No pattern API call or file operation occurred; V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S597-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S597-clo-helper-recovery/S597-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S597 permits one automation-helper reset and fresh CLO window observation; a read-only pattern query is conditional on coherent accessibility and screenshot state. CLO is not restarted and no DXF exchange repeats."
+    },
+    {
+      "id": "E-G04-S597-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S597-clo-helper-recovery/S597-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S597 records the coherent CLO read-only line-info query on the saved periodic-SPLINE scene. Nine returned outlines are closed with matching bounds; five directly screen near literal source contours and four do not. This diagnostic assigns no CUT/SEW semantics or garment identities and clears no V03 gate."
     }
   ]
 }

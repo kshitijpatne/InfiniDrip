@@ -1,6 +1,32 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 596 exit; V03 remains open
+## EPIC-17 / G04 — Slice 597 exit; V03 remains open
+
+S597 recovered a coherent CLO 2026.1.310 window without restarting CLO and
+ran the planned allowlisted, read-only `GetPatternLineInfo` capture once on
+the existing S595 pre-export scene. The nine returned line sequences are
+closed and continuous, and their endpoint bounds equal the API-reported
+bounds. A direct-frame symmetric vertex-to-opposing-segment screen finds five
+source-contour proximities at the unchanged 0.001 cm threshold: three match
+contours whose literal DXF layer is `CUT`, and two match literal `SEW` layers.
+API indexes 1, 3, 7 and 8 have no direct source-contour match. This metric is
+diagnostic screening, not the V03 acceptance contour metric; the API does not
+document CUT/SEW roles or its importer/exporter stage, and no garment piece
+identity is assigned to the unmatched indexes. No DXF was imported/exported,
+and no pattern, project, settings, product source or protected export changed.
+The S595 five CUT round-trip failures and every V03 gate remain open.
+Evidence and limits: `docs/research/epic17/S597-clo-helper-recovery/` and
+`V03-CURRENT-GATE-MATRIX-S597.md`; raw CLO/API and analysis JSON remain under
+`C:\G04-CLO-DXF-Exchange\S597-clo-helper-recovery\`.
+
+Validated board exit, focused checks and time accounting are recorded in the
+S597 exit packet. EPIC-17/V03 remain In Progress; V02 remains Done. The CLO
+session remains open. Next choose one falsifiable exchange-stage question
+from the four unmatched returned outlines, with the existing fixed contour
+and seven-recipe gates unchanged. The goal remains active until a reviewed PR
+is safely merged and any required deployment is verified.
+
+## Prior EPIC-17 / G04 — Slice 596 exit; V03 remains open
 
 S596 scoped a new, read-only `GetPatternLineInfo` comparison against the saved
 S595 periodic-SPLINE post-import/pre-export CLO project. The operation was

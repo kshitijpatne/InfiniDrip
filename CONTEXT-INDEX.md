@@ -1,6 +1,27 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S596 exit
+## Current EPIC-17/G04 V03 boundary — S597 exit
+
+- S597 reset only the computer-use helper, not CLO, then obtained a coherent
+  screenshot/accessibility view of the existing CLO 2026.1.310 scene and ran
+  the allowlisted, read-only `GetPatternLineInfo` query for all nine pieces.
+  All returned line sequences are closed/continuous and reported bounds match
+  endpoint bounds. Direct-frame diagnostic screening finds five source
+  contour proximities (three literal source `CUT` layers, two `SEW` layers);
+  indexes 1, 3, 7 and 8 have no direct match. The screen is not the V03
+  acceptance metric and does not establish garment identity, CUT/SEW API
+  semantics, or importer/exporter stage. No DXF exchange or project/pattern
+  mutation occurred. S595's five CUT failures and every V03 gate remain.
+- S597 exit packet and current matrix:
+  `docs/research/epic17/S597-clo-helper-recovery/S597-exit-packet.md` and
+  `docs/research/epic17/S597-clo-helper-recovery/V03-CURRENT-GATE-MATRIX-S597.md`.
+  Raw API and comparison reports remain under
+  `C:\G04-CLO-DXF-Exchange\S597-clo-helper-recovery\`. CLO remains open.
+  EPIC-17/V03 In Progress; V02 Done. Next select one falsifiable
+  source/receiver-stage question from the four unmatched API outlines without
+  relaxing the 0.001 cm or all-seven requirements.
+
+## Prior EPIC-17/G04 V03 boundary — S596 exit
 
 - S596 planned a read-only `GetPatternLineInfo` comparison on the saved S595
   periodic-SPLINE pre-export project. It did not run because the same fresh
