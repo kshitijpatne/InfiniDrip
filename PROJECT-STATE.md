@@ -1,25 +1,27 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 600 exit; V03 remains open
+## EPIC-17 / G04 — Slice 601 exit; V03 remains open
 
-S600 saved and visually reviewed a 1:1 PDF snapshot plus whole-sheet and
-detail crops from the existing S595 Polo M input-side CLO scene. All nine
-outlines appear; strokes are thin, numeric label 5 crowds collar outlines, and
-some marks are visible without source identity. This is not the exported DXF
-or a reloaded round trip and proves no mark fidelity, CUT/SEW semantics, or
-contour acceptance. No exchange or project/source mutation occurred. The S595
-result remains 4/9 CUT pass, 5/9 fail, and 9/9 SEW pass at 0.001 cm. All V03
-gates remain open. Details and C-only artifact hashes are in
-`docs/research/epic17/S600-clo-rendered-detail-review/`; current delta matrix
-is `V03-CURRENT-GATE-MATRIX-S600.md`.
+S601 imported the exact hash-pinned S595 CLO-emitted DXF-AAMA back into a clean
+scene in the same CLO 2026.1.310 session. Import completed without an
+application/format error; CLO noted seam allowances were imported in Custom
+mode to preserve their original shape. The saved output-side project renders
+all nine pieces, but strokes are faint, labels are numeric 0–8, and the collar
+label/outline area remains crowded. This proves reopen/render only;
+source-linked mark fidelity, piece identity and CUT/SEW meaning remain
+unproven. S595 remains 4/9 CUT pass, 5/9 fail, 9/9 SEW pass at 0.001 cm.
+No V03 gate clears. Packet and C:-only artifact hashes:
+`docs/research/epic17/S601-clo-roundtrip-output-render/` and
+`C:\G04-CLO-DXF-Exchange\S601-clo-roundtrip-output-render\`.
 
-Validated board closeout is recorded at revision 3534; it preserves Epic/V03
-In Progress and V02 Done. Focused Control Center tests pass 42/42, S600 scripts
-parse, artifact-integrity and PDF page checks pass, and `git diff --check`
-passes. The full repository gate remains for the settled Epic candidate. CLO
-remains open. Next select a materially new V03 acceptance
-item and stop repeating unchanged views and API queries. The goal stays active
-through PR merge and any required deployment.
+Validated board closeout is revision 3538; EPIC-17/G04-V03 remain In Progress,
+V02 remains Done. Focused Control Center tests, S601 script checks, five
+artifact integrity checks, one-page PDF validation, and `git diff --check`
+are recorded in the S601 packet. No product code or tests changed; the full
+repository gate remains for the settled Epic candidate. CLO remains open.
+Next select a distinct V03 acceptance gate whose evidence can change its
+disposition; do not repeat this unchanged Polo render or S595 contour test.
+The goal stays active through reviewed PR merge and any required deployment.
 
 ## EPIC-17 / G04 — Slice 599 exit; V03 remains open
 

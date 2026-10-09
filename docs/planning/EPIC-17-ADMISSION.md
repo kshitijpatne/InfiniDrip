@@ -1,16 +1,18 @@
-## Latest verified boundary — S600 (2026-10-09)
+## Latest verified boundary — S601 (2026-10-09)
 
-S600 reviewed a 1:1 CLO PDF snapshot and detail crops from the input-side
-S595 Polo M receiver scene. All nine outlines appear, but strokes are thin and
-numeric label 5 crowds the collar outlines. Visible marks are not source-bound;
-the snapshot is not the exported DXF or a reimport and clears no V03 gate.
-S595 still fails five CUT contours at the unchanged 0.001 cm gate. S600's
-packet and delta matrix are in
-`docs/research/epic17/S600-clo-rendered-detail-review/`; the rendered files are
-confined to the named C: folder. Board closeout is 3532→3534, with EPIC-17/V03
-In Progress and V02 Done. Next select a materially new V03 acceptance item,
-not another unchanged view or API query. The full-repository gate remains for
-the settled Epic candidate; CLO remains open.
+S601 reimported the exact S595 CLO-emitted DXF-AAMA into the already-open CLO
+2026.1.310 session. It loaded without an application/format error and rendered
+nine pieces; strokes are faint, labels numeric, and the collar label/outline
+group remains crowded. This fills S600's output-side render gap only. No V03
+gate clears; S595 remains 4/9 CUT pass, 5/9 fail and 9/9 SEW pass at 0.001 cm,
+and all seven-recipe/profile/identity/semantic/marks/options/negative/repeated-
+exchange holds remain. Board revision 3538 keeps EPIC-17 and G04-V03 In
+Progress and V02 Done. S601 evidence and matrix are in
+`docs/research/epic17/S601-clo-roundtrip-output-render/`; receiver artifacts
+remain only in the named C: folder. Next choose a distinct V03 acceptance item
+whose evidence can change a gate, without repeating this render or contour
+calculation. CLO remains open; the active goal continues through V03 closure,
+integrated gates, PR merge, ancestry and deployment.
 
 ## Current EPIC-17/G04 V03 boundary — S594 exit (2026-10-09)
 

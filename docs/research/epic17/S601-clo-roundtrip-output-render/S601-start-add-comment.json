@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3535,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S601 addresses S600's specific gap: render the actual, pinned S595 emitted DXF after AAMA reimport, in the same CLO session. Do not re-export or vary settings. Preserve all contour failures and other V03 holds."
+}

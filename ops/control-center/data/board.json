@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3534,
-  "updatedAt": "2026-10-09T09:28:19.024Z",
+  "revision": 3538,
+  "updatedAt": "2026-10-09T09:40:03.251Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11878,6 +11878,16 @@
           "at": "2026-10-09T09:28:19.024Z",
           "actor": "Codex",
           "text": "S600 useful-detail evidence is from the S595 input-side CLO scene, not the exported DXF round-trip. The 1:1 sheet shows all nine outlines but collar label 5 crowds outlines; some marks are visible without source identity. It clears no V03 gate. Preserve all five S595 CUT failures and every other hold."
+        },
+        {
+          "at": "2026-10-09T09:31:48.343Z",
+          "actor": "Codex",
+          "text": "S601 addresses S600's specific gap: render the actual, pinned S595 emitted DXF after AAMA reimport, in the same CLO session. Do not re-export or vary settings. Preserve all contour failures and other V03 holds."
+        },
+        {
+          "at": "2026-10-09T09:40:03.251Z",
+          "actor": "Codex",
+          "text": "S601 confirms the exact S595 receiver DXF-AAMA reimports and renders nine pieces in CLO 2026.1.310; it does not clear a V03 gate. Rendered strokes are faint and labels numeric, with collar crowding; source-linked mark identity and CUT/SEW meaning remain unproven. Preserve S595's five CUT failures and every other hold."
         }
       ],
       "evidenceRefs": [
@@ -12176,7 +12186,9 @@
         "E-G04-S599-START",
         "E-G04-S599-EXIT",
         "E-G04-S600-START",
-        "E-G04-S600-EXIT"
+        "E-G04-S600-EXIT",
+        "E-G04-S601-START",
+        "E-G04-S601-EXIT"
       ],
       "flagKey": null
     },
@@ -23116,6 +23128,24 @@
       "sha256": null,
       "verified": true,
       "note": "S600 records whole-sheet and useful-detail CLO PDF output from the existing S595 input-side scene. No exchange or V03 gate changed; all S595 contour failures and other holds remain. C-only artifacts are hash-pinned."
+    },
+    {
+      "id": "E-G04-S601-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S601-clo-roundtrip-output-render/S601-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S601 imports only the exact hash-pinned S595 CLO DXF-AAMA output into a clean CLO scene and captures output-side rendered evidence. No second export, profile variation, geometry edit, or gate relaxation."
+    },
+    {
+      "id": "E-G04-S601-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S601-clo-roundtrip-output-render/S601-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The exact hash-pinned S595 CLO DXF-AAMA output reimports without a format error and renders nine pieces. This is output-side rendered evidence only; no V03 gate changes and all contour failures and other holds remain. C-only artifacts are hash-pinned."
     }
   ]
 }

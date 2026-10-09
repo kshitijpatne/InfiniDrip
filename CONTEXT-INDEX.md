@@ -1,21 +1,27 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S600 exit
+## Current EPIC-17/G04 V03 boundary — S601 exit
 
-- S600 captured a 1:1 CLO PDF snapshot and whole/detail crops from the
-  already-open S595 Polo M input-side imported scene. All nine outlines are
-  present; strokes are pale/thin and numeric label `5` crowds adjacent collar
-  outlines. Some marks are visible, but the snapshot is not source-linked and
-  cannot establish mark preservation, CUT/SEW semantics or DXF output fidelity.
-  The PDF is a CLO snapshot, not the exported DXF or its reimport. No exchange,
-  project edit, source change, threshold change or V03 gate transition
-  occurred. S595 remains 4/9 CUT pass, 5/9 fail and 9/9 SEW pass at 0.001 cm.
-- S600 packet, C:-only artifacts and delta matrix:
-  `docs/research/epic17/S600-clo-rendered-detail-review/S600-exit-packet.md`,
-  `V03-CURRENT-GATE-MATRIX-S600.md`, and the named
-  `C:\G04-CLO-DXF-Exchange\S600-clo-rendered-detail-review\` folder. CLO
-  remains open. Next select a genuinely new V03 acceptance item; do not repeat
-  unchanged CLO inputs, API queries or snapshot settings.
+- S601 reimported the exact pinned S595 CLO-emitted DXF-AAMA in the same open
+  CLO 2026.1.310 session. It loaded without a format/application error and
+  rendered all nine pieces. Strokes are faint, labels are numeric 0–8, and
+  the collar label/outline group remains crowded. This shows basic output
+  reopen/render only; no source-linked mark, identity, CUT/SEW-semantic,
+  contour, or profile-conformance gate clears. S595 remains 4/9 CUT pass, 5/9
+  fail and 9/9 SEW pass at the unchanged 0.001 cm threshold.
+- S601 packet, matrix and C:-only artifacts:
+  `docs/research/epic17/S601-clo-roundtrip-output-render/` and
+  `C:\G04-CLO-DXF-Exchange\S601-clo-roundtrip-output-render\`. Validated
+  board revision 3538 preserves EPIC-17/G04-V03 In Progress and V02 Done. CLO
+  remains open. Next select a distinct V03 acceptance gate whose evidence can
+  change its disposition; do not repeat the same Polo render or S595 contour
+  test.
+
+## Prior EPIC-17/G04 V03 boundary — S600 exit
+
+S600's input-side snapshot is distinguished from S601's output-side reimport
+render in `docs/research/epic17/S600-clo-rendered-detail-review/`.
+Neither view alone establishes source-linked marks or manufacturing semantics.
 
 ## Prior EPIC-17/G04 V03 boundary — S599 exit
 
