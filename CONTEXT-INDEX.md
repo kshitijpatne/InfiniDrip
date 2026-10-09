@@ -1,6 +1,24 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S637 exit
+## Current EPIC-17/G04 V03 boundary — S638 exit
+
+S638 verified from official primary sources that ANSI/AAMA 292-1993 was
+withdrawn effective 2002-11-13 and ASTM D6673-10 is listed as withdrawn in
+2019. CLO's current (2026-09-28) help still documents DXF-AAMA/ASTM import and
+export, but no normative edition or conformance claim. This confirms a
+vendor-specific CLO mode can be an empirical target only; it does not clear
+profile rights/conformance. The S636 Polo CUT and S637 Woven button-mark
+pre-export failures remain. No V03 gates, thresholds, statuses, or holds
+changed. Current all-gate matrix and decision boundary:
+`docs/research/epic17/S638-v03-profile-rights-reconciliation/V03-CURRENT-GATE-MATRIX-S638.md`
+and `S638-exit-packet.md`. Validated board replay
+`3692→3694→3696`; V01/V02 Done, V03/Epic In Progress. CLO stays open.
+
+Next ask whether to use the version-pinned `CLO 2026.1.310 DXF-AAMA` as an
+empirical candidate profile with no ANSI/AAMA or ASTM conformance claim. This
+keeps every admitted V03 gate; it does not qualify the receiver or authorize
+release. If the maintainer requires an active normative standard, retain all
+holds until a separately rights-reviewed current receiver/profile is found.
 
 S637 tested a single source-exact Woven button-mark representation in the
 existing CLO 2026.1.310 session: eight `MARK_BUTTON` circles became 32

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3695,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "Official current sources show ANSI/AAMA 292-1993 was administratively withdrawn effective 2002-11-13 and ASTM's current catalog lists D6673-10 withdrawn in 2019. CLO's current DXF-AAMA/ASTM import/export menu is a documented vendor feature but names no normative edition or conformance claim. S638 consolidates all gates through S637; the five Polo CUT losses and missing Woven button marks remain concrete pre-export failures, with no export made. No status/hold/threshold changed. Recommendation for maintainer decision: use CLO 2026.1.310 DXF-AAMA only as a version-pinned empirical candidate with no ANSI/AAMA or ASTM claim, or retain the active-normative-profile requirement and all holds. See E-G04-S638-EXIT and V03-CURRENT-GATE-MATRIX-S638.md."
+}

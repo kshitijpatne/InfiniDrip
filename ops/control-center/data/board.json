@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3692,
-  "updatedAt": "2026-10-09T20:52:36.469Z",
+  "revision": 3696,
+  "updatedAt": "2026-10-09T21:02:36.810Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12248,6 +12248,16 @@
           "at": "2026-10-09T20:52:36.469Z",
           "actor": "Codex",
           "text": "S637 tested one bounded source-exact mark-encoding hypothesis in the existing CLO session. Eight Woven MARK_BUTTON circles became 32 exact quarter-arcs with every other parsed entity unchanged. DXF-AAMA import returned 12 named patterns and zero API errors, but the native query exposes no independently identifiable button-mark records and the actual 1:1 CLO snapshot/detail omits all seven placket buttons and the stand mark. This is a measured rendered-mark failure; no export or round trip was attempted. No setting permutation, source/product geometry, profile claim, threshold, V03 gate, status, or hold changed. See E-G04-S637-EXIT and its hash-pinned C:-only evidence."
+        },
+        {
+          "at": "2026-10-09T20:56:58.800Z",
+          "actor": "Codex",
+          "text": "S638 reconciles the latest empirical CLO outcomes and checks current primary-source status/scope for apparel DXF profiles. It separates CLO's documented import/export choices from active standard status, rights, conformance and measured output. No CLO import/export repetition, purchase, supplier contact, geometry edit or gate/hold/status change is authorized by this slice. S637's quarter-ARC trial failed visible button-mark output and stopped before export. See E-G04-S638-START."
+        },
+        {
+          "at": "2026-10-09T21:02:36.810Z",
+          "actor": "Codex",
+          "text": "Official current sources show ANSI/AAMA 292-1993 was administratively withdrawn effective 2002-11-13 and ASTM's current catalog lists D6673-10 withdrawn in 2019. CLO's current DXF-AAMA/ASTM import/export menu is a documented vendor feature but names no normative edition or conformance claim. S638 consolidates all gates through S637; the five Polo CUT losses and missing Woven button marks remain concrete pre-export failures, with no export made. No status/hold/threshold changed. Recommendation for maintainer decision: use CLO 2026.1.310 DXF-AAMA only as a version-pinned empirical candidate with no ANSI/AAMA or ASTM claim, or retain the active-normative-profile requirement and all holds. See E-G04-S638-EXIT and V03-CURRENT-GATE-MATRIX-S638.md."
         }
       ],
       "evidenceRefs": [
@@ -12630,7 +12640,9 @@
         "E-G04-S636-START",
         "E-G04-S636-EXIT",
         "E-G04-S637-START",
-        "E-G04-S637-EXIT"
+        "E-G04-S637-EXIT",
+        "E-G04-S638-START",
+        "E-G04-S638-EXIT"
       ],
       "flagKey": null
     },
@@ -24326,6 +24338,24 @@
       "sha256": null,
       "verified": true,
       "note": "One CLO DXF-AAMA import of the disposable eight-CIRCLE→32-quarter-ARC Woven derivative returned 12 named patterns with no API errors, but the actual CLO 1:1 overview/detail omitted the expected placket buttons and stand mark; native API exposed no separate mark records. Pre-export mark gate failed, so no DXF export/round trip occurred. CLO evidence is hash-pinned under the C:-only S637 folder. V03 gates/holds and all statuses are unchanged."
+    },
+    {
+      "id": "E-G04-S638-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S638-v03-profile-rights-reconciliation/S638-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S638 once for a current V03 gate-matrix and official apparel-profile status/rights reconciliation, incorporating the measured S634–S637 receiver results. Research only; no repeated CLO settings/entity trial, no spending/supplier contact, no standard-reproduction claim, and no acceptance/status/hold changes. CLO stays open."
+    },
+    {
+      "id": "E-G04-S638-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S638-v03-profile-rights-reconciliation/S638-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles all V03 gates through S637 and verifies current official CLO export/import options, ANSI/AAMA 292-1993 withdrawal (effective 2002-11-13), and ASTM D6673-10 withdrawal (2019). CLO menu modes are vendor features, not demonstrated normative conformance. S636/S637 empirical gates still fail before export. No gate/status/hold/acceptance change; recommends maintainer confirmation of CLO 2026.1.310 DXF-AAMA as vendor-specific empirical candidate only, with no ANSI/ASTM conformance claim."
     }
   ]
 }

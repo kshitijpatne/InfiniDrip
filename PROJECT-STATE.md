@@ -1,5 +1,41 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 638 closed; V03 profile decision pending
+
+S638 reconciled the current V03 gate matrix through S637 and checked current
+official profile evidence. ANSI/AAMA 292-1993 and its TR292 guideline were
+administratively withdrawn effective 2002-11-13; ASTM's current catalog lists
+D6673-10 withdrawn in 2019. CLO's 2026-09-28 help documents AAMA/ASTM/Standard
+DXF import and export menu modes but names no normative edition or conformance
+claim. Therefore `CLO 2026.1.310 DXF-AAMA` is supportable as a
+version-pinned empirical vendor target only, without ANSI/AAMA or ASTM
+conformance language. The matrix references the official sources and records
+what they cannot prove:
+`docs/research/epic17/S638-v03-profile-rights-reconciliation/V03-CURRENT-GATE-MATRIX-S638.md`.
+
+The empirical S636 five-point Polo CUT and S637 Woven button-mark
+pre-export gates still fail. No export was performed after either failure.
+No V03 acceptance, threshold, status or hold changed. S638 is documentation
+and primary-source review only; no CLO UI trial or production code changed.
+Exit packet:
+`docs/research/epic17/S638-v03-profile-rights-reconciliation/S638-exit-packet.md`.
+
+S638 started `2026-10-09 20:56:30 UTC` after S637 commit
+`f4097e2a5bdedf6df1d7589dff83e753097b4a1f`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+Board replay `3692→3694→3696`. Official-source review, independent
+Claude Opus 5.5 read-only review, current matrix reconciliation, validated
+Control Center tests (42/42), board replay, source preflight and
+`git diff --check` passed. Claude's ANSI PDF fetch returned 403; Codex directly
+opened and verified the ANSI primary PDF, and this limitation is retained in
+the exit packet. No production-code coverage applies. Full repo coverage/build/
+browser/output gates remain for the settled Epic/PR.
+
+Next ask the maintainer whether this vendor-specific empirical target may be
+used without claiming conformance to a withdrawn standard, or whether V03 must
+wait for an active normative profile. The recommendation preserves all gates
+and does not qualify the receiver. CLO remains open.
+
 ## EPIC-17 / G04 — Slice 637 closed; V03 remains open
 
 S637 tested one bounded alternative for S629's Woven button-circle fidelity

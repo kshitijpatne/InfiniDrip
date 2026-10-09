@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3694,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S638-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S638-v03-profile-rights-reconciliation/S638-exit-packet.md",
+    "verified": true,
+    "note": "Reconciles all V03 gates through S637 and verifies current official CLO export/import options, ANSI/AAMA 292-1993 withdrawal (effective 2002-11-13), and ASTM D6673-10 withdrawal (2019). CLO menu modes are vendor features, not demonstrated normative conformance. S636/S637 empirical gates still fail before export. No gate/status/hold/acceptance change; recommends maintainer confirmation of CLO 2026.1.310 DXF-AAMA as vendor-specific empirical candidate only, with no ANSI/ASTM conformance claim."
+  }
+}
