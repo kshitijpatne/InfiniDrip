@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S601 exit
+## Current EPIC-17/G04 V03 boundary — S602 exit
+
+- S602 commissioned a read-only Claude Opus 5.5 review for a documented,
+  materially new solution to the five exact Polo corner omissions. It found no
+  evidence-backed fix or qualified no-cost local apparel receiver; its search
+  was limited. Codex checked its proposed option combination against the
+  S503/S519/S522 records and confirmed it was already tested or
+  counter-indicated. The official CLO API option list gives no point-preserving
+  behavior guarantee. No CLO operation or product/pattern edit occurred.
+- All V03 gates remain unchanged. S552 measurements, S595 periodic-SPLINE
+  result and S601 actual output render remain controlling. S602 packet:
+  `docs/research/epic17/S602-short-edge-fix-independent-review/`.
+- S602 freshly captured the live CLO 2026.1.310 2D scene. Screenshot and
+  accessibility both show the main workspace with no modal/spinner. Next:
+  S603 verifies and opens a copy of the saved S565 project in the same running
+  session, then executes only S567's source-derived five-size waistband SEW
+  grade test if the target line and controls remain unambiguous. Preserve the
+  S601 scene/project and every unrelated V03 hold.
+
+## Prior EPIC-17/G04 V03 boundary — S601 exit
 
 - S601 reimported the exact pinned S595 CLO-emitted DXF-AAMA in the same open
   CLO 2026.1.310 session. It loaded without a format/application error and

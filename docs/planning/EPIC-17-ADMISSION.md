@@ -1,4 +1,31 @@
-## Latest verified boundary — S601 (2026-10-09)
+## Latest verified boundary — S602 (2026-10-09)
+
+S602 used a read-only Claude Opus 5.5 review to examine only for a primary-
+source-backed fix to the five exact Polo short-edge losses or a materially new
+qualified free/local apparel receiver. It found no evidence-backed candidate;
+the search was limited, not exhaustive. The separate review's initial capped
+pass reached its turn limit; the second returned `WORK FINISHED` but could not
+read the not-yet-committed S602 packet in its detached S601 worktree. Codex
+verified that its suggested option trial was already covered by S503/S519/S522.
+Official CLO API documentation lists import/export option names but does not
+promise source-corner preservation. No CLO exchange, output change, product
+edit, geometry change, or acceptance change occurred. Exact source evidence
+and limits are in `docs/research/epic17/S602-short-edge-fix-independent-review/`.
+
+Board S602 closeout links its packet and keeps EPIC-17/G04-V03 In Progress and
+V02 Done. All seven-recipe scope, the 0.001 cm gate, every V03 criterion,
+legacy DXF behavior, protected export identities, and no production/fit/factory
+claims remain unchanged. Rights/local processing are settled. S602 also
+re-observed CLO: the screenshot and accessibility tree both showed the main
+nine-piece 2D workspace at 2026.1.310, without a modal/spinner. Next: S603
+verifies and opens a copy of the saved S565 project in that still-running
+process, then runs only S567's source-derived five-size waistband SEW-line
+grade trial if the exact target remains observable. Compare CUT/SEW to all
+five sources at 0.001 cm and inspect rendered reimport; otherwise retain all
+holds. This can advance grading only and does not clear the Polo failures or
+close V03.
+
+## Prior verified boundary — S601 (2026-10-09)
 
 S601 reimported the exact S595 CLO-emitted DXF-AAMA into the already-open CLO
 2026.1.310 session. It loaded without an application/format error and rendered

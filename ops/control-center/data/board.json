@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3538,
-  "updatedAt": "2026-10-09T09:40:03.251Z",
+  "revision": 3542,
+  "updatedAt": "2026-10-09T10:01:18.835Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11888,6 +11888,16 @@
           "at": "2026-10-09T09:40:03.251Z",
           "actor": "Codex",
           "text": "S601 confirms the exact S595 receiver DXF-AAMA reimports and renders nine pieces in CLO 2026.1.310; it does not clear a V03 gate. Rendered strokes are faint and labels numeric, with collar crowding; source-linked mark identity and CUT/SEW meaning remain unproven. Preserve S595's five CUT failures and every other hold."
+        },
+        {
+          "at": "2026-10-09T09:53:13.842Z",
+          "actor": "Codex",
+          "text": "S602 uses a separate read-only review to find only a documented, materially new remedy for the five exact Polo short-edge failures, or confirm that no such remedy is evidenced. Do not repeat earlier CLO settings/encodings/units/receivers, edit product/pattern files, transfer data, or relax any V03 gate."
+        },
+        {
+          "at": "2026-10-09T10:01:18.835Z",
+          "actor": "Codex",
+          "text": "S602's limited independent review found no documented new short-corner fix. Codex confirmed the suggested flags duplicate S503/S519 coverage or are counter-indicated by S522. Keep every V03 gate unchanged. Next use S567's source-derived waistband SEW grade test only if current CLO UI/accessibility state agrees."
         }
       ],
       "evidenceRefs": [
@@ -12188,7 +12198,9 @@
         "E-G04-S600-START",
         "E-G04-S600-EXIT",
         "E-G04-S601-START",
-        "E-G04-S601-EXIT"
+        "E-G04-S601-EXIT",
+        "E-G04-S602-START",
+        "E-G04-S602-EXIT"
       ],
       "flagKey": null
     },
@@ -23146,6 +23158,24 @@
       "sha256": null,
       "verified": true,
       "note": "The exact hash-pinned S595 CLO DXF-AAMA output reimports without a format error and renders nine pieces. This is output-side rendered evidence only; no V03 gate changes and all contour failures and other holds remain. C-only artifacts are hash-pinned."
+    },
+    {
+      "id": "E-G04-S602-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S602-short-edge-fix-independent-review/S602-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S602 commissions one read-only, independent technical review of the five pinned Polo CUT vertex omissions for a materially new, primary-source-supported fix or receiver path. No CLO rerun, fixture transfer, product edit, gate change, or broad receiver search."
+    },
+    {
+      "id": "E-G04-S602-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S602-short-edge-fix-independent-review/S602-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Independent review found no sourced new short-corner remedy; Codex verified the proposed UI option combination was already tested or counter-indicated. No exchange, edit, or gate change. Next bounded work is the existing source-backed waistband grading test only if live CLO state is coherent."
     }
   ]
 }

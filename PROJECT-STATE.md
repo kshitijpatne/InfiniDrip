@@ -1,6 +1,39 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 601 exit; V03 remains open
+## EPIC-17 / G04 — Slice 602 exit; V03 remains open
+
+S602 commissioned an independent, read-only Claude Opus 5.5 review of the
+five repeated Polo CUT short-corner losses. It found no evidence-backed new
+point-preservation method or qualified no-cost local apparel receiver. Its
+candidate search was limited, and its first capped run ended without a result;
+the second returned `WORK FINISHED` but could not read the uncommitted S602
+packet in its detached S601 worktree. Codex checked its suggested CLO flags
+against durable prior results: curve optimization on/off and `Import Draw
+Curve Points` were already tested, and `Remove Non-Grading Points` deletes
+ungraded points. Official CLO API documentation lists related option names but
+does not give them point-preservation semantics. No repeated UI test, product
+edit, or pattern edit occurred. Rights/local processing remain settled.
+
+No V03 gate, all-seven criterion, 0.001 cm threshold, legacy DXF behavior,
+protected export identity, or claim boundary changed. V02 remains Done; V03
+and EPIC-17 remain In Progress. S602 packet and source review:
+`docs/research/epic17/S602-short-edge-fix-independent-review/`. CLO remains
+open.
+
+S602 also re-observed the still-running CLO session without input. The
+screenshot showed the nine-piece 2D workspace; its accessibility tree showed
+the same CLO main window/version and no export modal or spinner. This removes
+the prior S568 visible/accessibility mismatch for this capture only. Next:
+S603 verifies S565's saved project hash, preserves the S601 project, opens a
+copy of S565 in the same process and tests only S567's source-derived five-
+size waistband SEW-line grade mapping. Save/import/export artifacts only in
+`C:\G04-CLO-DXF-Exchange\S603-waistband-sew-grading-trial\`. Compare CUT and
+SEW against all five sizes at 0.001 cm and review rendered reimport output.
+Stop without input if path or grade identity is ambiguous. This test can
+advance only the grading subgate; the five Polo CUT failures and other V03
+gates remain.
+
+## Prior EPIC-17 / G04 — Slice 601 exit; V03 remains open
 
 S601 imported the exact hash-pinned S595 CLO-emitted DXF-AAMA back into a clean
 scene in the same CLO 2026.1.310 session. Import completed without an

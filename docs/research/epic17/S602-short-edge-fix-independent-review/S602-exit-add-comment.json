@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3541,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S602's limited independent review found no documented new short-corner fix. Codex confirmed the suggested flags duplicate S503/S519 coverage or are counter-indicated by S522. Keep every V03 gate unchanged. Next use S567's source-derived waistband SEW grade test only if current CLO UI/accessibility state agrees."
+}
