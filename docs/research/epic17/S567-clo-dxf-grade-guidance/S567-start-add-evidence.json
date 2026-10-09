@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3381,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S567-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S567-clo-dxf-grade-guidance/S567-start-packet.md",
+    "verified": true,
+    "note": "S567 checks current official CLO guidance for Size Group grading of sewn/internal contours and graded DXF-AAMA/ASTM export, comparing only supported claims with S565/S566 output. No UI input, repeat exchange, gate change or compatibility claim is in scope; all V03 holds remain."
+  }
+}

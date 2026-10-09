@@ -1,5 +1,23 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 567 exit; V03 remains open
+
+Current CLO help and a CLO Designers staff reply support using Edit Grading
+on internal-line segment points. S562/S559 provides exact per-step sewn
+waistband point movements: (+2,+1.5), (+4,+1.5), (+4,+1.5), (+2,+1.5) cm.
+S566 found a base-XS-shaped candidate in larger-size output blocks. This is a
+specific next test, not evidence it will pass CLO 2026.1.310. The current app
+screenshot/accessibility mismatch still prevents safe interaction, so no
+repeat export occurred. No V03 gates or compatibility claims changed. Evidence
+and official source links are in
+`docs/research/epic17/S567-clo-dxf-grade-guidance/S567-exit-packet.md`.
+
+S567 start/exit board replay is 3381→3383→3385. Start commit was S566
+`f2dd0ec`; origin/main `a5af5e1` was an ancestor. CLO remains open. Next:
+perform the exact four-point internal-line grading test once capture and
+accessibility agree, while continuing independent V03 evidence. No product
+code or tests changed; full repository gate was not due.
+
 ## EPIC-17 / G04 — Slice 566 exit; V03 remains open
 
 S566's source/output comparison finds a candidate within 0.000015 cm of the

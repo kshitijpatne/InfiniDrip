@@ -1,5 +1,19 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S567 exit
+
+- `docs/research/epic17/S567-clo-dxf-grade-guidance/S567-exit-packet.md`
+  records current official CLO documentation for grading internal-line
+  segment points using Edit Grading, along with exact source-derived sewn
+  waistband point deltas. It gives a version-specific CLO test plan for the
+  S566 base-XS-shaped output candidate, but does not claim tested success. The
+  CLO screenshot/accessibility mismatch still prevents safe UI interaction.
+  Every V03 gate remains held.
+- S567 board replay is 3381→3383→3385. CLO remains open. Next: run the exact
+  four-point source-derived internal-line grading test when the live UI
+  capture agrees with the accessibility state; continue other independent
+  V03 evidence meanwhile.
+
 ## Current EPIC-17/G04 V03 boundary — S566 exit
 
 - `docs/research/epic17/S566-clo-sew-line-attribution/S566-exit-packet.md`

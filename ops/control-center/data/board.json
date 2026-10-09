@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3381,
-  "updatedAt": "2026-10-09T03:23:02.213Z",
+  "revision": 3385,
+  "updatedAt": "2026-10-09T03:25:21.248Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11493,6 +11493,16 @@
           "at": "2026-10-09T03:23:02.213Z",
           "actor": "Codex",
           "text": "S566's output comparison sharpens the S565 failure: every S/M/L/XL waistband block has a candidate matching the XS source sew shape within 0.000015 cm, but no candidate matches its size's source sew contour within 0.001 cm. This supports an ungraded base-size-shaped internal path in the output, while numeric layer IDs do not prove the path's semantic identity and cannot locate whether import/edit/export lost the grade. The saved CLO archive's XML is environment-only and core geometry payloads are opaque binary. The visible capture/accessibility modal still disagree, so no UI input or repeated export was sent. Keep all V03 holds. See E-G04-S566-EXIT."
+        },
+        {
+          "at": "2026-10-09T03:23:57.829Z",
+          "actor": "Codex",
+          "text": "S567 reviews current official CLO documentation on how native size grading applies to sewn/internal paths and what the tested graded DXF export promises. Compare claims to S565/S566; preserve URLs and limits. This is a research slice only: the current CLO capture/accessibility states disagree, so no UI input or repeat export is planned. No profile selection or V03 gate changes; all holds remain."
+        },
+        {
+          "at": "2026-10-09T03:25:21.248Z",
+          "actor": "Codex",
+          "text": "S567 found current official CLO guidance plus a CLO Designer's specific instruction to grade internal-line segment points with Edit Grading. S562/S559 gives exact source-backed per-size waistband SEW point deltas: (+2,+1.5), (+4,+1.5), (+4,+1.5), (+2,+1.5) cm for each step. S566's larger blocks retain a base-XS-shaped candidate. This makes the next test precise; it does not prove version-specific export success. Current screenshot/accessibility disagreement still prevents safe selection in CLO. All V03 gates remain unchanged and held. See E-G04-S567-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11723,7 +11733,9 @@
         "E-G04-S565-START",
         "E-G04-S565-EXIT",
         "E-G04-S566-START",
-        "E-G04-S566-EXIT"
+        "E-G04-S566-EXIT",
+        "E-G04-S567-START",
+        "E-G04-S567-EXIT"
       ],
       "flagKey": null
     },
@@ -22051,6 +22063,24 @@
       "sha256": null,
       "verified": true,
       "note": "Read-only S565 DXF analysis finds a candidate matching the XS source SEW shape within 0.000015 cm in every larger-size block, while no candidate matches the larger-size source SEW contours within 0.001 cm. Numeric output layers do not prove semantics; source of loss is unresolved. The saved CLO project exposes no decodable grading map, and its UI capture/accessibility states disagree, so no UI input was sent. V03 remains held."
+    },
+    {
+      "id": "E-G04-S567-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S567-clo-dxf-grade-guidance/S567-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S567 checks current official CLO guidance for Size Group grading of sewn/internal contours and graded DXF-AAMA/ASTM export, comparing only supported claims with S565/S566 output. No UI input, repeat exchange, gate change or compatibility claim is in scope; all V03 holds remain."
+    },
+    {
+      "id": "E-G04-S567-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S567-clo-dxf-grade-guidance/S567-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current official CLO guidance supports grading internal-line segment points with Edit Grading. Source sew contour deltas are mapped exactly for all five sizes. This provides a specific practical test for S565/S566's base-XS-shaped internal path, but does not prove version 2026.1.310's saved project/export behavior. CLO UI screenshot/accessibility mismatch still prevents safe interaction. All V03 gates remain held."
     }
   ]
 }
