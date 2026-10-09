@@ -1,3 +1,22 @@
+**S633 exit:** Reconciled the S627 V03 gate matrix against verified S628–S632
+evidence and recorded exact proof gaps plus one evidence-led next action. The
+actual CLO DXF-ASTM import path repeats five Polo CUT failures and the same
+aggregate mark losses; no V03 gate, acceptance, threshold, hold, or status
+changed. Validated board replay: 3672→3674→3676. Matrix, packet and verification
+are in `docs/research/epic17/S633-v03-gate-reconciliation/`. Next S634 is an
+offline source-to-CLO topology diagnosis before any proposed source repair;
+do not repeat a CLO mode permutation. Keep V02 Done and V03/EPIC-17 In Progress.
+
+**S633 start:** from clean S632 commit
+`b107d9568db2d3cfed4f3473c40778b9d060edf1`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor, S632
+was highest, and board revision 3672 preserves V01/V02 Done and V03/EPIC-17
+In Progress. S633 reconciles S627's V03 matrix with verified S628–S632
+evidence, states the unresolved gates and evidence limits, and chooses exactly
+one high-impact next action. Documentation-only; no repeated receiver
+permutation, acceptance/status change, or hold release. Start packet:
+`docs/research/epic17/S633-v03-gate-reconciliation/S633-start-packet.md`.
+
 **S632 exit:** One controlled CLO 2026.1.310 DXF-ASTM import/export/two-round
 trip using the unchanged S617 Polo M cm-header fixture was completed. ASTM
 menu import did not remove the measured losses: each generation has 9/9 SEW

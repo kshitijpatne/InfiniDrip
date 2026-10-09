@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3672,
-  "updatedAt": "2026-10-09T18:39:19.432Z",
+  "revision": 3676,
+  "updatedAt": "2026-10-09T18:58:48.896Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12198,6 +12198,16 @@
           "at": "2026-10-09T18:39:19.432Z",
           "actor": "Codex",
           "text": "S632 completed the controlled CLO DXF-ASTM import-mode test on the unchanged S617 Polo M cm-header source. Both generations show 9/9 SEW passes, 4/9 CUT passes and five CUT failures (back, both collar stands, both pointed collars) at 0.001 cm; both repeat the same aggregate 38-mark losses. The saved nine-piece overview does not establish fine-mark readability. This is a CLO menu-path observation, not ASTM conformance. It clears no V03 gate; all-seven acceptance, other gates, holds and V02 Done/V03 and EPIC-17 In Progress statuses are unchanged. Do not repeat this mode permutation on the same fixture. See E-G04-S632-EXIT and its packet for hashes, exact metrics and raw C:-only evidence."
+        },
+        {
+          "at": "2026-10-09T18:51:45.387Z",
+          "actor": "Codex",
+          "text": "S633 reconciles the current V03 acceptance gates against the verified S627 matrix and newer S628-S632 exit evidence. It is documentation-only: preserve every gate, hold, status, the 0.001 cm threshold and all-seven acceptance; do not repeat a CLO/receiver mode permutation. Deliver a current evidence-linked matrix and exactly one dependency-led next action. See E-G04-S633-START."
+        },
+        {
+          "at": "2026-10-09T18:58:48.896Z",
+          "actor": "Codex",
+          "text": "S633 refreshed the V03 gate matrix through S632. R14 all-73 geometry/mark/repeat evidence and bounded CLO fixture passes remain scoped and do not establish the required industrial profile, units, identity/mark semantics, malformed-input, grades, or rendered cohort. S632's ASTM import mode repeats five Polo CUT failures and the same mark losses. No V03 gate or hold clears. Next is an offline exact source-to-CLO topology diagnosis of the five repeated CUT losses before proposing any source repair; do not repeat a CLO setting permutation. See E-G04-S633-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12570,7 +12580,9 @@
         "E-G04-S631-START",
         "E-G04-S631-EXIT",
         "E-G04-S632-START",
-        "E-G04-S632-EXIT"
+        "E-G04-S632-EXIT",
+        "E-G04-S633-START",
+        "E-G04-S633-EXIT"
       ],
       "flagKey": null
     },
@@ -24176,6 +24188,24 @@
       "sha256": null,
       "verified": true,
       "note": "Controlled CLO 2026.1.310 DXF-ASTM import/export/two-generation test of the pinned S617 Polo M cm-header fixture. Both generations: 9/9 SEW passes; 4/9 CUT passes and five failures (back, both collar stands, both pointed collars) at 0.001 cm; identical aggregate losses across 38 marks. The saved nine-piece overview does not prove fine-mark readability. ASTM menu mode clears no V03 gate and is not a normative conformance claim. All acceptance, statuses, and holds unchanged; exact hashes, raw C:-only evidence, and verification in packet."
+    },
+    {
+      "id": "E-G04-S633-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S633-v03-gate-reconciliation/S633-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a documentation-only reconciliation of the S627 V03 matrix with verified S628-S632 evidence. Preserve all gates, thresholds, holds and statuses. Produce a fresh gate matrix and select one evidence-led next action; no receiver permutation, source/code change or acceptance weakening."
+    },
+    {
+      "id": "E-G04-S633-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S633-v03-gate-reconciliation/S633-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles S627 V03 matrix with verified S628-S632 evidence. No V03 gate, acceptance, threshold, hold, or status changes. The CLO ASTM import-mode test repeats five Polo CUT failures and mark losses. Next action is offline exact topology diagnosis before any proposed source repair; no receiver permutation or source edit."
     }
   ]
 }

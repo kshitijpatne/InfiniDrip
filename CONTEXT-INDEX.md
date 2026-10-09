@@ -1,6 +1,22 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S632 exit
+## Current EPIC-17/G04 V03 boundary — S633 exit
+
+- S633 refreshed the S627-era V03 matrix against verified S628–S632 outcomes.
+  Bounded receiver results do not establish a qualified industrial profile,
+  units, all-seven/grades, identity/mark semantics, malformed-input behavior,
+  repeated profile exchange, or detailed rendered readability. S632's actual
+  CLO ASTM import path repeats five Polo CUT failures and the same 38-mark
+  losses; its two output hashes differ. No gate or hold changed. The updated
+  11-area matrix and exact next action are in
+  `docs/research/epic17/S633-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S633.md`;
+  start/exit packet:
+  `docs/research/epic17/S633-v03-gate-reconciliation/S633-exit-packet.md`.
+  Validated board replay: 3672→3674→3676. V01/V02 Done; V03/Epic In Progress.
+  Next: offline topology diagnosis of the five Polo CUT failures before any
+  proposed source edit. Keep the goal active; CLO remains open.
+
+## Prior EPIC-17/G04 V03 boundary — S632 exit
 
 - S632 tested CLO 2026.1.310 DXF-ASTM import/export/reimport on the unchanged
   hash-pinned S617 Polo M cm-header input, with import mode the sole variable.

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3672,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S633-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S633-v03-gate-reconciliation/S633-start-packet.md",
+    "verified": true,
+    "note": "Starts a documentation-only reconciliation of the S627 V03 matrix with verified S628-S632 evidence. Preserve all gates, thresholds, holds and statuses. Produce a fresh gate matrix and select one evidence-led next action; no receiver permutation, source/code change or acceptance weakening."
+  }
+}

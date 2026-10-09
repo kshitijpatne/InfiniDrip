@@ -1,5 +1,27 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 633 closed; V03 remains open
+
+S633 reconciled the S627-era V03 matrix against S628–S632 verified evidence.
+The refreshed 11-area matrix records bounded geometry/identity/round-trip
+successes separately from the still-open industrial profile, units, all-seven
+grades/options, identity/mark semantics, malformed-input, repeated profile
+exchange, and detailed readability gates. S632 confirms that CLO's ASTM
+import path repeats five Polo CUT failures and the same aggregate 38-mark
+losses; its generations differ by SHA-256. S633 changes no acceptance,
+threshold, hold, or status. Next: offline source-bound topology diagnosis of
+the five Polo CUT failures, before any proposed source edit. Matrix and
+verification: `docs/research/epic17/S633-v03-gate-reconciliation/`.
+Validated board replay: 3672→3674→3676; V01/V02 Done, V03/EPIC-17 In Progress.
+CLO remains open and the active goal continues through final gates, safe merge,
+and required deployment verification.
+
+S633 started `2026-10-09 18:49:39 UTC` from clean committed S632
+`b107d9568db2d3cfed4f3473c40778b9d060edf1`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor, S632 was highest,
+and board revision 3672 preserved V01/V02 Done and V03/EPIC-17 In Progress.
+Start packet: `docs/research/epic17/S633-v03-gate-reconciliation/S633-start-packet.md`.
+
 ## EPIC-17 / G04 — Slice 632 closed; V03 remains open
 
 S632 completed a single controlled CLO 2026.1.310 DXF-ASTM import/export/

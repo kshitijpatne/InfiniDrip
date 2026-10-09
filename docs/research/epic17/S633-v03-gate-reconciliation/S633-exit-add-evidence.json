@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3674,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S633-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S633-v03-gate-reconciliation/S633-exit-packet.md",
+    "verified": true,
+    "note": "Reconciles S627 V03 matrix with verified S628-S632 evidence. No V03 gate, acceptance, threshold, hold, or status changes. The CLO ASTM import-mode test repeats five Polo CUT failures and mark losses. Next action is offline exact topology diagnosis before any proposed source repair; no receiver permutation or source edit."
+  }
+}
