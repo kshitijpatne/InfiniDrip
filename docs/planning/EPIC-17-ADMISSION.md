@@ -1600,3 +1600,22 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   vertices in the already-recorded S591/S592 outputs; do not run another SPLINE
   encoding trial absent a specific source-exact hypothesis. V01/V02, all-seven
   and every V03 acceptance gate remain unchanged.
+
+- **S593 Polo CUT output-topology diagnosis (2026-10-09):** from S592
+  `3b357de410cbcdccfeb232a1317a6b5b0ac2e2bc`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S593 was
+  unique. Using only hash-pinned S591/S592 inputs, CLO outputs and analyzer
+  reports, every closed non-SEW path in all nine blocks was enumerated after
+  exact unchanged-SEW block binding. S593 mapped 19 target-block candidates
+  for S591 and 14 for S592 to source segment neighborhoods. Every back/collar
+  CUT candidate failed `0.001 cm`; best S592 bounds remain `4.063040 cm` and
+  `0.159193–0.467258 cm`. Some worst neighborhoods move between flag variants;
+  duplicate shapes under numeric layer locators do not prove roles or
+  constitute passing alternatives. No CLO internal cause is inferred. No new
+  CLO operation, fixture, source or acceptance change. Report SHA-256
+  `9a8016041cf92b18a04c4866b6edf516cb81768ed6895ee49dc57e34c3e696d4` is in
+  the named C: folder. Packet and matrix:
+  `docs/research/epic17/S593-polo-cut-output-topology/`. **Next:** S594 checks
+  exact source SPLINE semantics against primary DXF documentation and an
+  independent curve evaluation before any further receiver trial. V02 remains
+  Done; all V03 gates and all-seven requirement remain.

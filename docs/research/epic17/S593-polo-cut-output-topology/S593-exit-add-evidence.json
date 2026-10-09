@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3495,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S593-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md",
+    "verified": true,
+    "note": "S593 maps all 19 S591 and 14 S592 target-block closed non-SEW paths. Every back/collar candidate fails 0.001 cm; best S592 bounds are 4.063040 cm and 0.159193–0.467258 cm. Read-only diagnosis; no further CLO operation or encoding trial. All V03 gates remain."
+  }
+}

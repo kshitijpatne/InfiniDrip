@@ -1,31 +1,30 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S592 exit
+## Current EPIC-17/G04 V03 boundary — S593 exit
 
-- S592 changed only group-70's SPLINE closed bit on five source-exact Polo M
-  CUT curves and completed one clean-scene CLO 2026.1.310 DXF-AAMA
-  import/render/export. Nine pieces rendered; 9/9 SEW and four unaffected CUTs
-  pass. Back and four collar CUT receiver contours still fail at conservative
-  bounds `4.063040 cm` and `0.159193–0.467258 cm` against `0.001 cm`. The
-  change materially improves S591 but still fails; it rejects this tested
-  variant/build/profile/fixture only and does not infer CLO's internal curve
-  handling. See
-  `docs/research/epic17/S592-polo-spline-closure-flag-probe/S592-exit-packet.md`.
-- Current V03 gate matrix:
-  `docs/research/epic17/S592-polo-spline-closure-flag-probe/V03-CURRENT-GATE-MATRIX-S592.md`.
-  All-seven, identity, CUT/SEW, marks, grading/options, malformed-input,
-  useful-detail and repeated-round-trip gates remain. No acceptance, product
-  source, legacy DXF behavior or protected export bytes changed.
-- Next S593 maps every receiver CUT candidate to source segment/vertex
-  neighborhoods using S591/S592 files already under the dedicated C: folder.
-  No further encoding or CLO trial without a specific bounded source-exact
-  hypothesis. Written product-development permission/local handling remain
-  settled; no repeat request. V02 Done, V03/EPIC-17 In Progress. CLO remains
-  open.
-- Validated S592 board exit replay is `3487→3491`; the Epic stays In Progress,
-  V02 Done, and V03 In Progress. S592 closeout includes the 42/42 focused
-  Control Center suite and the only tracked files are slice docs/scripts and
-  canonical board metadata; no product code changed.
+- S593 enumerated all 19 S591 and 14 S592 closed non-SEW paths in the five
+  target Polo receiver blocks, with every output block bound by unchanged SEW
+  geometry. Every back/collar CUT candidate fails `0.001 cm`; best bounds are
+  `4.063040 cm` for back and `0.159193–0.467258 cm` for collars. Residual
+  maxima move between source segments in the flag variants; duplicate paths
+  under numeric layer locators do not prove semantic roles or create passing
+  alternatives. No CLO cause is inferred. See
+  `docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md`.
+- Current V03 matrix:
+  `docs/research/epic17/S593-polo-cut-output-topology/V03-CURRENT-GATE-MATRIX-S593.md`.
+  All-seven, identity, CUT/SEW, marks, grades/options, malformed-input,
+  useful-detail and repeated-round-trip gates remain. Product source, legacy
+  DXF behavior and protected export identities are unchanged.
+- Next S594 audits exact degree-1 SPLINE semantics using primary DXF
+  documentation and independent curve evaluation before further receiver
+  trials. The goal remains active and aligned; no manual resume or goal edit
+  is needed. CLO remains open; files stay in the named C: folders.
+- S593 validated start replay was `3491→3493`; exit replay was `3493→3497`,
+  followed by a wording-only correction at `3497→3500` to restore canonical
+  S459/S457/S406 evidence phrases after two focused board-test assertions
+  failed. Control Center then passed `42/42`. The goal audit returned active
+  and aligned; no manual resume or goal edit is needed. Full ancestry is in
+  the S593 packet.
 
 - Historical S587 exit packet:
   `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.

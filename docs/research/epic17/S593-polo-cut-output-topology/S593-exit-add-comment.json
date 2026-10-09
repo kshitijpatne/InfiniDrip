@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3496,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S593 completed a read-only map of all receiver CUT candidates in the hash-pinned S591/S592 CLO outputs. Each output block was bound by its unchanged SEW outline; numeric layers were treated as locators only. Every enumerated back/collar CUT candidate fails 0.001 cm. The best S592 bounds remain 4.063040 cm for back and 0.159193–0.467258 cm for collars. Worst-error neighborhoods move between flag variants on back and stands; duplicate paths do not qualify semantics or clear geometry. No internal CLO cause is inferred. Next S594 checks the exact source SPLINE representation against primary DXF documentation and an independent curve evaluation before any further receiver trial. See docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md."
+}

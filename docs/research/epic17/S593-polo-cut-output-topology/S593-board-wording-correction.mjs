@@ -1,0 +1,14 @@
+import { writeFile } from "node:fs/promises";
+
+const directory = "docs/research/epic17/S593-polo-cut-output-topology";
+const description = "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Written product-development/local-file-processing authorization and narrow CLO 2026.1.310 / DXF-AAMA trial identity are recorded. S591/S592 source-exact degree-1 SPLINE variants fail five Polo M CUT contours; S593 enumerated every closed non-SEW candidate in nine SEW-bound blocks from both outputs. All back/collar candidates fail 0.001 cm; best S592 bounds are 4.063040 cm and 0.159193–0.467258 cm. Some residual maxima move between variants; duplicates under numeric layers are not semantic roles or passing alternatives. No CLO internal cause is inferred. See docs/research/epic17/S593-polo-cut-output-topology/S593-exit-packet.md and V03-CURRENT-GATE-MATRIX-S593.md. Next S594 audits exact degree-1 SPLINE semantics using primary DXF documentation and independent curve evaluation before any further receiver trial. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every V03 gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.";
+const commands = [
+  { type: "editEpic", expectedRevision: 3497, epicId: "EPIC-17", actor: "Codex", role: "maintainer", reason: "Restore the canonical S459 acceptance and S457/S406 evidence phrases required by board regression tests while retaining S593 diagnosis and all current gates.", patch: { description } },
+  { type: "editItem", expectedRevision: 3498, itemId: "EPIC-17", patch: { description } },
+  { type: "addComment", expectedRevision: 3499, itemId: "EPIC-17", actor: "Codex", text: "S593 closeout suite exposed two board-description wording regressions: the accepted S459 seven-recipe/73-configuration/146-face criterion and S457/S406 evidence were paraphrased, while board tests intentionally pin their canonical phrases. Restored those exact evidence statements in both Epic records; this is a documentation consistency correction only. No status, scope, acceptance gate, or implementation changed." },
+];
+const names = ["edit-epic-canonical-wording", "edit-item-canonical-wording", "add-wording-correction-comment"];
+for (let index = 0; index < commands.length; index += 1) {
+  await writeFile(`${directory}/S593-${names[index]}.json`, `${JSON.stringify(commands[index], null, 2)}\n`);
+}
+console.log("Wrote three correction commands for expected board revisions 3497→3500.");

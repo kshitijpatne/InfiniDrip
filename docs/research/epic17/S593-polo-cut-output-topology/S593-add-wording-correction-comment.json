@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3499,
+  "itemId": "EPIC-17",
+  "actor": "Codex",
+  "text": "S593 closeout suite exposed two board-description wording regressions: the accepted S459 seven-recipe/73-configuration/146-face criterion and S457/S406 evidence were paraphrased, while board tests intentionally pin their canonical phrases. Restored those exact evidence statements in both Epic records; this is a documentation consistency correction only. No status, scope, acceptance gate, or implementation changed."
+}

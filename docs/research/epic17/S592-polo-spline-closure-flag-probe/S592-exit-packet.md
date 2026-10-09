@@ -13,8 +13,9 @@
   The already-running CLO session remains open.
 - At S592 closeout, refreshed `origin/main` remains
   `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor of the verified
-  starting commit. S592 is still the unique next slice; commit and ancestry
-  verification are completed immediately after the packet closeout.
+  starting commit. S592 landed as
+  `3b357de410cbcdccfeb232a1317a6b5b0ac2e2bc` (`Slice 592: test Polo SPLINE
+  closure flag`); the refreshed `origin/main` remains an ancestor.
 - The goal audit at this safe boundary returns `active`; its objective still
   matches the admitted EPIC-17 objective through verified merge. No resume or
   goal wording/status change is needed.
