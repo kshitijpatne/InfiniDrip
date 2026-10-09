@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3629,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S623-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S623-opencadstudio-r14-receiver/S623-exit-packet.md",
+    "verified": true,
+    "note": "Synthetic DXF opens/renders and R14 is offered, but the browser Save As UI cannot target the required C: folder. No product drawing or output was used; this is a workflow preflight hold and clears no V03 gate."
+  }
+}

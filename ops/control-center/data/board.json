@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3627,
-  "updatedAt": "2026-10-09T14:14:24.087Z",
+  "revision": 3632,
+  "updatedAt": "2026-10-09T14:35:03.276Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12098,6 +12098,16 @@
           "at": "2026-10-09T14:14:23.691Z",
           "actor": "Codex",
           "text": "S622 closes this CLO Standard-DXF import candidate on the S574 Polo M fixture: 9 patterns rendered, but only 4/9 source CUT and 4/9 SEW contours pass the unchanged 0.001 cm native-geometry gate. Five of each fail; the CUT maximum is 93.1135 mm. No DXF export occurred because pre-export geometry failed. Stop profile permutations on this fixture and qualify a distinct receiver candidate; all V03 and G04 gates/holds stay unchanged. See E-G04-S622-EXIT."
+        },
+        {
+          "at": "2026-10-09T14:26:48.033Z",
+          "actor": "Codex",
+          "text": "S623 evaluates the newly surfaced Open CAD Studio receiver for a bounded generic DXF R14 round trip on current-source seven-recipe M and Tee XS/M/XL fixtures. Use its local browser file workflow only if the exact C:-only output path is verifiable. Measure geometry/layers and inspect rendered output; this general CAD candidate cannot establish AAMA/ASTM garment semantics or clear full V03 by itself. Keep all acceptance, thresholds, holds, legacy output identities and claims unchanged. See E-G04-S623-START."
+        },
+        {
+          "at": "2026-10-09T14:35:03.276Z",
+          "actor": "Codex",
+          "text": "S623 screened Open CAD Studio using only a synthetic R12 rectangle/line fixture. It renders the drawing and exposes DXF R14, but the browser Save As dialog provides no verifiable route to the required named C: folder; no product file or R14 output was made. This candidate preflight hold clears no V03 gate. Qualify a distinct local receiver workflow with destination control before supplying any product fixture. All G04/V03 criteria and holds remain unchanged. See E-G04-S623-EXIT and E-G04-S623-MATRIX."
         }
       ],
       "evidenceRefs": [
@@ -12445,7 +12455,10 @@
         "E-G04-S621-EXIT",
         "E-G04-S622-START",
         "E-G04-S622-EXIT",
-        "E-G04-S622-MATRIX"
+        "E-G04-S622-MATRIX",
+        "E-G04-S623-START",
+        "E-G04-S623-EXIT",
+        "E-G04-S623-MATRIX"
       ],
       "flagKey": null
     },
@@ -23826,6 +23839,33 @@
       "sha256": null,
       "verified": true,
       "note": "S622 updates the V03 matrix with Standard-DXF import: 4/9 CUT and 4/9 SEW pass at 0.001 cm; no output was exported after the native pre-export gate failed. All-seven, receiver/profile, semantics, options, round-trip and claim gates remain open."
+    },
+    {
+      "id": "E-G04-S623-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S623-opencadstudio-r14-receiver/S623-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S623 screens Open CAD Studio as a distinct free local generic-DXF receiver using R14 output. Candidate scope is geometry/layer round trip only; do not claim apparel profile or clear V03 unless all applicable gates are independently met."
+    },
+    {
+      "id": "E-G04-S623-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S623-opencadstudio-r14-receiver/S623-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Synthetic DXF opens/renders and R14 is offered, but the browser Save As UI cannot target the required C: folder. No product drawing or output was used; this is a workflow preflight hold and clears no V03 gate."
+    },
+    {
+      "id": "E-G04-S623-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S623-opencadstudio-r14-receiver/V03-CURRENT-GATE-MATRIX-S623.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The S623 matrix records the Open CAD Studio browser candidate's R14 and synthetic-render pass, the unverified C:-only output destination, and all product/profile/round-trip gates remaining open."
     }
   ]
 }

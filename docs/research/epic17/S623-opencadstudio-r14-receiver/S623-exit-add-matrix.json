@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3630,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S623-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S623-opencadstudio-r14-receiver/V03-CURRENT-GATE-MATRIX-S623.md",
+    "verified": true,
+    "note": "The S623 matrix records the Open CAD Studio browser candidate's R14 and synthetic-render pass, the unverified C:-only output destination, and all product/profile/round-trip gates remaining open."
+  }
+}

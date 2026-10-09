@@ -1,10 +1,14 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 622 exit; V03 remains open
+## EPIC-17 / G04 — Slice 623 exit; V03 remains open
+
+S623 screened the Open CAD Studio official web app using only a synthetic 208-byte R12 DXF rectangle with a diagonal line. The app opened and rendered it and exposed DXF R14 in its Save Drawing As format list. The dialog provided only a filename and format, while the official README describes browser saves as local downloads; this session offered no verifiable way to target the required named C: evidence folder. The dialog was cancelled. No product drawing or output was supplied or created. S623 is a receiver-workflow preflight hold, not evidence of product geometry loss, data transfer, or DXF fidelity. See `docs/research/epic17/S623-opencadstudio-r14-receiver/S623-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S623.md`; the only file under `C:\G04-CLO-DXF-Exchange\S623-opencadstudio-r14-receiver\` is the synthetic input. Validated board replay 3629→3632. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress; all V03 criteria, acceptance, thresholds and holds are unchanged.
+
+Next: qualify a technically distinct receiver workflow that proves product-file handling and a selectable/verified destination in the named C: folder before any product fixture is opened. Do not retry this browser save flow or repeat CLO profile permutations on the S574 fixture. User's written CLO trial/local-processing authorization remains settled; it does not extend to another web service. S623 ran 14:26:19–14:35:48 UTC (9m29s): official receiver review and synthetic UI inspection about 4m; focused validation and durable closeout about 5m29s; external-agent waits 0; maintainer-decision time 0. CLO remains open for the active Epic.
+
+## Prior EPIC-17 / G04 — Slice 622 exit; V03 remains open
 
 S622 tested CLO Standard-DXF import of the exact S574 connected-LINE Polo M input. CLO returned nine patterns and rendered nine pieces without an import/API error, but source-bound native geometry passes only 4/9 CUT and 4/9 SEW contours at 0.001 cm. The five CUT misses are 1.86781, 2.33034, 2.34012, and two at 93.1135 mm; five SEW misses are 0.44230–0.45497 mm. The source-to-input line-chain check remains within threshold. No DXF export or round trip was attempted because the pre-export gate failed. Details, exact settings, hashes, and rendered review are in `docs/research/epic17/S622-standard-dxf-connected-line-import/S622-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S622.md`; application/render evidence remains under `C:\G04-CLO-DXF-Exchange\S622-standard-dxf-connected-line-import\`. Validated board replay 3624→3627. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress with all criteria/holds unchanged.
-
-Next: discontinue CLO import-profile permutations on this fixture and qualify a technically distinct receiver candidate against documented rights/local-handling evidence before any file is supplied. Do not repeat geometry or settings trials without a distinct evidence-backed question. At this safe boundary `get_goal` reports the admitted EPIC-17 objective as active and aligned with the current records; keep it unchanged and needed until the Epic is complete. S622 ran 13:49:32–14:18:43 UTC (29m11s): CLO import/native query/snapshot about 9m; geometry analysis/helper work about 13m; focused checks and durable closeout about 7m11s; external-agent waits 0; maintainer-decision time 0. CLO remains open for the active Epic.
 
 ## EPIC-17 / G04 — Slice 622 start; V03 remains open
 

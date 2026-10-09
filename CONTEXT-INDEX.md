@@ -1,6 +1,10 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S622 exit
+## Current EPIC-17/G04 V03 boundary — S623 exit
+
+- S623 screens Open CAD Studio's official browser app using only the local synthetic `CUT` rectangle / `SEW` diagonal R12 fixture. The visible app opens/renders it and offers DXF R14 in Save Drawing As, but the dialog has only filename and format; official documentation says browser saves are local downloads and no way to enforce the required named C: destination was available. The dialog was cancelled; no product drawing or R14 output was made. This is a candidate workflow preflight hold, not product fidelity or server-handling evidence. Full packet and gate matrix: `docs/research/epic17/S623-opencadstudio-r14-receiver/`; the only file in its C: evidence folder is the synthetic input. Validated board replay 3629→3632. V02 remains Done; V03/EPIC-17 remain In Progress and no V03 gate clears. Next qualify a distinct workflow with verifiable local product handling and named C: output selection before any product fixture is supplied. CLO authorization remains limited to the already-approved local CLO trial; keep CLO open.
+
+## Prior EPIC-17/G04 V03 boundary — S622 exit
 
 - S622 compared CLO Standard-DXF with the prior AAMA imports on the same hash-pinned S574 connected-LINE Polo M fixture, before export. CLO returned 9 patterns and rendered all 9, but the source-bound native geometry passes only 4/9 CUT and 4/9 SEW at `0.001 cm`. Five CUT contours miss by 1.86781, 2.33034, 2.34012, and twice 93.1135 mm; five SEW contours miss by 0.44230–0.45497 mm. Input line-chain geometry remains within threshold against the canonical source, so this is a post-import native-geometry failure, not a changed input contour. No DXF export or round trip was attempted. CLO use for product-development evaluation and local-only processing are confirmed in writing. Exit packet, matrix, helper, and C:-only evidence: `docs/research/epic17/S622-standard-dxf-connected-line-import/` and `C:\G04-CLO-DXF-Exchange\S622-standard-dxf-connected-line-import\`. Board replay 3624→3627. V02 remains Done; V03/EPIC-17 remain In Progress; every acceptance criterion and hold remains. Next qualify a technically distinct receiver candidate; do not repeat CLO profile variants on this fixture.
 

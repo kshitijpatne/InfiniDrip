@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3627,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S623-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S623-opencadstudio-r14-receiver/S623-start-packet.md",
+    "verified": true,
+    "note": "S623 screens Open CAD Studio as a distinct free local generic-DXF receiver using R14 output. Candidate scope is geometry/layer round trip only; do not claim apparel profile or clear V03 unless all applicable gates are independently met."
+  }
+}

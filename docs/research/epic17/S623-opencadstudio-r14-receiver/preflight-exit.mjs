@@ -1,0 +1,24 @@
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readdir, readFile } from "node:fs/promises";
+
+const dir = "docs/research/epic17/S623-opencadstudio-r14-receiver";
+const root = "C:/G04-CLO-DXF-Exchange/S623-opencadstudio-r14-receiver";
+const packet = await readFile(`${dir}/S623-exit-packet.md`, "utf8");
+const matrix = await readFile(`${dir}/V03-CURRENT-GATE-MATRIX-S623.md`, "utf8");
+const board = JSON.parse(await readFile("ops/control-center/data/board.json", "utf8"));
+const files = await readdir(root);
+const input = await readFile(`${root}/synthetic-rectangle-r12.dxf`);
+const hash = createHash("sha256").update(input).digest("hex").toUpperCase();
+assert.match(packet, /Save Drawing As dialog was cancelled/);
+assert.match(packet, /No V03 gate clears/);
+assert.match(packet, /synthetic-rectangle-r12\.dxf/);
+assert.match(matrix, /Preflight fail/);
+assert.equal(hash, "689CEBC66EB150C5BE8AF203076477CA725735D0D57AEBE60DAF041FC2087992");
+assert.deepEqual(files.sort(), ["synthetic-rectangle-r12.dxf"]);
+assert([3629, 3632].includes(board.revision));
+assert.equal(board.workItems.find((item) => item.id === "G04-V03")?.status, "In Progress");
+assert.equal(board.workItems.find((item) => item.id === "EPIC-17")?.status, "In Progress");
+assert.equal(board.evidence.some((item) => item.id === "E-G04-S623-EXIT"), board.revision === 3632);
+assert.equal(board.evidence.some((item) => item.id === "E-G04-S623-MATRIX"), board.revision === 3632);
+console.log(`S623 exit preflight passed at board revision ${board.revision}; only the hash-pinned synthetic source is in C: and no output exists.`);
