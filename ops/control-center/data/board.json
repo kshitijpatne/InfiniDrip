@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3582,
-  "updatedAt": "2026-10-09T11:46:10.815Z",
+  "revision": 3586,
+  "updatedAt": "2026-10-09T11:53:20.750Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11998,6 +11998,16 @@
           "at": "2026-10-09T11:46:10.815Z",
           "actor": "Codex",
           "text": "S612 did not execute the planned Standard-DXF input-mode trial: active CUA reports no apps, and its documented listWindows/getApp methods are unavailable. No CLO window was freshly bound and no file or project was touched. This is a computer-use access blocker, not a CLO format failure; all V03 criteria and holds remain. Next restore a supported native-window binding without restarting CLO, or proceed on independent source-backed evidence. See E-G04-S612-EXIT."
+        },
+        {
+          "at": "2026-10-09T11:50:14.799Z",
+          "actor": "Codex",
+          "text": "S613 is a C:-only offline source/output adjacency diagnosis. It will locate the exact omitted source vertex in the five repeated Polo CUT failures, measure its incident edge lengths/turn and compare both hash-pinned AAMA/ASTM outputs. No CLO UI, source/writer edit, baseline, tolerance, acceptance or hold changes. See E-G04-S613-START."
+        },
+        {
+          "at": "2026-10-09T11:53:20.750Z",
+          "actor": "Codex",
+          "text": "S613 finds the same exact missing source vertex in each of the five Polo M CUT failures in both prior AAMA and ASTM output. Each lies at a 0.0456–0.0470 cm short edge and replacing it with the receiver chord deviates 0.012736–0.013970 cm, over the unchanged 0.001 cm limit; all other matched vertices are within 0.000025 cm. This makes short-feature simplification plausible, not proven or assigned to CLO import/export. No geometry/profile/gate changes. CLO UI remains inaccessible; next is the single fixed-setting Standard-DXF-input test once native control works. See E-G04-S613-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12320,7 +12330,9 @@
         "E-G04-S611-START",
         "E-G04-S611-EXIT",
         "E-G04-S612-START",
-        "E-G04-S612-EXIT"
+        "E-G04-S612-EXIT",
+        "E-G04-S613-START",
+        "E-G04-S613-EXIT"
       ],
       "flagKey": null
     },
@@ -23476,6 +23488,24 @@
       "sha256": null,
       "verified": true,
       "note": "The Standard-DXF CLO trial did not execute because the active computer-use runtime exposes no native window inventory/binding methods. No CLO action or exchange file occurred; this is a tool-access blocker, not a CLO format result. All V03 gates remain held."
+    },
+    {
+      "id": "E-G04-S613-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S613-polo-cut-vertex-adjacency/S613-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Offline, hash-pinned diagnosis of the exact source vertices missing from the five repeatedly failing Polo CUT outputs. No CLO/UI interaction, source geometry edit, writer/baseline change, threshold, or gate change."
+    },
+    {
+      "id": "E-G04-S613-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S613-polo-cut-vertex-adjacency/S613-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S613 uniquely maps the same omitted source vertex in AAMA and ASTM output for all five failed Polo CUTs. Each omission is on a 0.0456–0.0470 cm edge and creates 0.012736–0.013970 cm chord error. This makes local simplification plausible but does not establish the processing stage or pass the unchanged gate."
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 gate picture — S611 (2026-10-09)
+### G04 current V03 gate picture — S613 (2026-10-09)
 
 S611 found no ready free/local apparel receiver among documented candidates.
 Seamly2D's current README does not document a DXF apparel receiver route;
@@ -11,10 +11,15 @@ lack of documented DXF export remain controlling. garment.dev claims broad
 AAMA/ASTM support but is invite-based and uses a hosted account library; this
 is outside current scope and no file was uploaded. Written CLO
 product-development authorization/local handling are confirmed for CLO only.
-No V03 gate clears. Next test the explicitly documented CLO Standard-DXF
-import mode against the same S609 source while holding other settings fixed,
-then measure the unchanged `0.001 cm` gate. See
-`docs/research/epic17/S611-free-local-apparel-cad-alternatives/`.
+S612's planned Standard-DXF import-mode trial did not execute because native
+CLO-window control is unavailable in this computer-use session; this is not a
+CLO result. S613 uniquely maps the same omitted source vertex in both previous
+AAMA/ASTM outputs for the five failed Polo CUTs. Each is on a 0.0456–0.0470 cm
+edge and creates 0.012736–0.013970 cm chord error, a plausible but unproven
+short-feature simplification. No V03 gate clears. Once a supported native
+control surface is available, run the one fixed-setting Standard-DXF input /
+ASTM output diagnostic; preserve the 0.001 cm limit and all-seven acceptance.
+See `docs/research/epic17/S613-polo-cut-vertex-adjacency/` and S612 exit.
 ### Prior G04 V03 gate picture — S594 (2026-10-09)
 
 S594 independently evaluated the hash-pinned S591/S592 degree-1 SPLINE

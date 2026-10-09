@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3585,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S613 finds the same exact missing source vertex in each of the five Polo M CUT failures in both prior AAMA and ASTM output. Each lies at a 0.0456–0.0470 cm short edge and replacing it with the receiver chord deviates 0.012736–0.013970 cm, over the unchanged 0.001 cm limit; all other matched vertices are within 0.000025 cm. This makes short-feature simplification plausible, not proven or assigned to CLO import/export. No geometry/profile/gate changes. CLO UI remains inaccessible; next is the single fixed-setting Standard-DXF-input test once native control works. See E-G04-S613-EXIT."
+}

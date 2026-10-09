@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 613 exit; V03 remains open
+
+S613 maps the same source vertex omission in each of the five failed Polo M
+CUT contours in the prior AAMA and S609 ASTM output. Each omission occurs at a
+0.0456–0.0470 cm short edge; bridging the corner yields 0.012736–0.013970 cm
+deviation, over the unchanged 0.001 cm threshold. All other matched vertices
+remain within 0.000025 cm. This makes localized short-feature simplification
+plausible, but does not assign the loss to CLO import/normalization/export or
+make output acceptable. Full report, artifact hashes and limits:
+`docs/research/epic17/S613-polo-cut-vertex-adjacency/S613-exit-packet.md` and
+`V03-CURRENT-GATE-MATRIX-S613.md`.
+
+The S612 Standard-DXF input-mode trial remains unexecuted because native CLO
+controls are unavailable in the active CUA runtime; CLO itself was not tested
+or declared unsuitable by S612. Exit board replay is `3582→3584→3586`; V02 is
+Done and V03/EPIC-17 remain In Progress. Next compare the same pinned source
+using Standard DXF input and ASTM output with all other settings fixed, once a
+freshly verifiable control surface exists. Do not change geometry, writer,
+threshold, or V03 holds. CLO local-use authorization is settled.
+
 ## EPIC-17 / G04 — Slice 612 exit; V03 remains open
 
 S612 did not execute the planned CLO Standard-DXF input-mode trial. In the

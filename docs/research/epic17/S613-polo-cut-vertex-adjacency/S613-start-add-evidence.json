@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3582,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S613-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S613-polo-cut-vertex-adjacency/S613-start-packet.md",
+    "verified": true,
+    "note": "Offline, hash-pinned diagnosis of the exact source vertices missing from the five repeatedly failing Polo CUT outputs. No CLO/UI interaction, source geometry edit, writer/baseline change, threshold, or gate change."
+  }
+}

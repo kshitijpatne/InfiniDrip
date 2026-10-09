@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3584,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S613-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S613-polo-cut-vertex-adjacency/S613-exit-packet.md",
+    "verified": true,
+    "note": "S613 uniquely maps the same omitted source vertex in AAMA and ASTM output for all five failed Polo CUTs. Each omission is on a 0.0456–0.0470 cm edge and creates 0.012736–0.013970 cm chord error. This makes local simplification plausible but does not establish the processing stage or pass the unchanged gate."
+  }
+}
