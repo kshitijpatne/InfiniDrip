@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3550,
-  "updatedAt": "2026-10-09T10:26:46.537Z",
+  "revision": 3554,
+  "updatedAt": "2026-10-09T10:36:51.828Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11918,6 +11918,16 @@
           "at": "2026-10-09T10:26:46.537Z",
           "actor": "Codex",
           "text": "S604 found no reliable version-specific CLO selection cue for internal-line grading. Current API docs offer read-only outline/internal-shape geometry getters, but the documented grading setter targets outline points only. S603 remains held. Next S605 checks exact-project path identity with read-only getters only; no grading input or exchange until the paths are unambiguously identified. All V03 gates and acceptance criteria remain unchanged."
+        },
+        {
+          "at": "2026-10-09T10:29:25.804Z",
+          "actor": "Codex",
+          "text": "S605 calls only documented read-only CLO geometry getters in the existing 2026.1.310 session to identify the S565 waistband's CUT outline and internal SEW path against S567 source geometry. No project change, grading setter, save, or exchange. If the exact paths cannot be uniquely distinguished, preserve the hold. V03 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-09T10:36:51.828Z",
+          "actor": "Codex",
+          "text": "S605 closed fail-closed: CLO 2026.1.310 returned 3 numeric pattern names and empty outline arrays; the internal-shape call failed with NameError: utility_api is not defined. S582/S581 already show the required shape-list/info getters are absent from pattern_api, so do not repeat the API survey. The S603 grading identity hold remains and no V03 gate clears. S606 returns to a remaining actual exchange/profile gate using the fixed 0.001 cm threshold and unchanged all-seven requirement. Rights and local-only handling are confirmed; CLO stays open."
         }
       ],
       "evidenceRefs": [
@@ -12224,7 +12234,9 @@
         "E-G04-S603-START",
         "E-G04-S603-EXIT",
         "E-G04-S604-START",
-        "E-G04-S604-EXIT"
+        "E-G04-S604-EXIT",
+        "E-G04-S605-START",
+        "E-G04-S605-EXIT"
       ],
       "flagKey": null
     },
@@ -23236,6 +23248,24 @@
       "sha256": null,
       "verified": true,
       "note": "Primary CLO help/API sources provide no version-specific cue to identify a selected internal sewn-line grading point. Preserve the S603 hold; S605 first uses read-only exact-project geometry getters to identify CUT and internal-shape paths before any grading decision. No V03 gate clears."
+    },
+    {
+      "id": "E-G04-S605-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S605-clo-readonly-internal-geometry/S605-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S605 is a read-only exact-build CLO API identity check of the S565 waistband outline/internal shapes against S567 source CUT/SEW geometry. It permits no selection change, setter, save, or exchange. All V03 acceptance gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S605-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S605-clo-readonly-internal-geometry/S605-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S605's exact-build read-only CLO query returned numeric piece names and empty outlines; utility_api was undefined and internal shapes could not be enumerated. Existing S582/S581 evidence confirms the required pattern_api index getters are absent. S603 remains held; no V03 gate clears. Return to an actual exchange gate at S606."
     }
   ]
 }

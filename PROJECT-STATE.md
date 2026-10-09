@@ -1,24 +1,36 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 604 exit; V03 remains open
+## EPIC-17 / G04 — Slice 605 exit; V03 remains open
 
-S604's current CLO help, staff guidance and API reference review found no
-reliable, version-specific cue for distinguishing an internal sewn-line point
-from a CUT-outline point in Edit Grading. The official API reference exposes
-read-only internal-shape and outline geometry getters, while the documented
-per-point grading setter is for outline points; the API docs do not establish
-compatibility with CLO 2026.1.310. Keep S603's waistband grade trial held. S604
-performed no CLO UI input, grade edit, save, or exchange. See
+S604 closed at `505d3faccfa88ac4e7b3efc48614c266db795b10`. It found no
+reliable, version-specific CLO cue for distinguishing an internal sewn-line
+point from a CUT-outline point in Edit Grading; the official API docs expose
+read-only internal-shape and outline geometry getters, but document grading
+setters only for outline points. S604 packet and citations:
 `docs/research/epic17/S604-clo-internal-grade-selection-research/S604-exit-packet.md`.
 
-The immediate next step is S605: query only read-only internal-shape and
-outline geometry in the existing exact CLO session, if supported, and compare
-each path with S567's source CUT/SEW geometry. No grading mutation is
-authorized by that inspection. If unavailable or ambiguous, retain the hold.
-Board revision and replay, all-seven acceptance, 0.001 cm contour threshold,
-V02-before-V03 order, legacy DXF behavior, protected export identities and
-all other V03 gates are unchanged. Product-development authorization and
-local-only exchange handling are confirmed.
+S605 queried only read-only geometry in the existing CLO 2026.1.310 session.
+The three indexed patterns returned numeric names and empty outline arrays;
+internal-shape enumeration failed because `utility_api` is undefined. Prior
+S582/S581 exact-build evidence already confirms the required internal-shape
+index/list methods are absent. The result cannot identify the S565 waistband
+or match its CUT/SEW paths to S567. Keep the S603 grading hold; do not repeat
+the API survey. No grading, project edit, save, or exchange occurred. CLO
+remains open. S605 evidence:
+`docs/research/epic17/S605-clo-readonly-internal-geometry/S605-exit-packet.md`.
+
+At S606, return to an actual exchange/profile gate in the V03 matrix. CLO is
+not yet a qualified industrial profile; S595 still passes 4/9 CUTs, fails 5/9,
+and passes 9/9 SEWs at the unchanged 0.001 cm threshold. All-seven exchange,
+stable identity/semantics, marks, scale, supported options, malformed-input
+rejection, and repeated-round-trip requirements remain pending. The user's
+written product-development and local-only file-processing confirmation is
+recorded; no further permission question is needed. All-seven acceptance,
+V02-before-V03, legacy DXF behavior, protected export identities, and all
+other gates remain unchanged. Board revision after S605 exit replay: 3554.
+S606 must refresh history/board and reserve a unique slice before work.
+
+## Prior EPIC-17 / G04 — Slice 604 exit; V03 remains open
 
 ## Prior EPIC-17 / G04 — Slice 603 exit; V03 remains open
 

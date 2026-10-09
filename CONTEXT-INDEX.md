@@ -1,6 +1,27 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S604 exit
+## Current EPIC-17/G04 V03 boundary — S605 exit
+
+- S604 closed at `505d3faccfa88ac4e7b3efc48614c266db795b10`. Current CLO help,
+  staff guidance and API docs expose no reliable, version-specific internal
+  line grading selection cue. The API docs do expose read-only geometry
+  getters. S603's ambiguous waistband selection remains held; no V03 gate
+  changed. See
+  `docs/research/epic17/S604-clo-internal-grade-selection-research/S604-exit-packet.md`.
+- S605 returned numeric pattern names, empty outline points and
+  `NameError("name 'utility_api' is not defined")`; it cannot identify the
+  waistband or match CUT/SEW. S582/S581 already confirm the internal-shape
+  index/info methods are absent from this exact runtime. Keep the S603 grading
+  hold and do not repeat this API survey. See
+  `docs/research/epic17/S605-clo-readonly-internal-geometry/S605-exit-packet.md`.
+- At S606, select a remaining actual exchange/profile gate from the current
+  V03 matrix. S595 remains 4/9 CUT pass, 5/9 CUT fail, 9/9 SEW pass at the
+  unchanged 0.001 cm gate; all-seven, identity/semantics, marks, supported
+  options, malformed inputs, and repeated round trips remain pending. Written
+  product-development authorization and local-only processing are confirmed.
+  Preserve V02-before-V03, legacy DXF behavior and protected export identities.
+
+## Prior EPIC-17/G04 V03 boundary — S604 exit
 
 - S604 reviewed current CLO Set Grading help, CLO staff guidance and the CLO
   API list. None documents a reliable, version-specific cue to distinguish an

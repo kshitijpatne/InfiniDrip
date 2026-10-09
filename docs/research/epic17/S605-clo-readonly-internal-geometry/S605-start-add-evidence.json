@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3550,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S605-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S605-clo-readonly-internal-geometry/S605-start-packet.md",
+    "verified": true,
+    "note": "S605 is a read-only exact-build CLO API identity check of the S565 waistband outline/internal shapes against S567 source CUT/SEW geometry. It permits no selection change, setter, save, or exchange. All V03 acceptance gates remain unchanged."
+  }
+}
