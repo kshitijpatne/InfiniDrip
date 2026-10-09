@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 614 exit; V03 remains open
+
+S614's fixed-setting CLO Standard-DXF input / ASTM-export trial imports,
+exports and reimports nine Polo M pieces without a format error, but fails
+geometry and unit-scale acceptance. The source front is 28.5 × 73.274 units;
+output block `0_M` is 2.850001 × 7.3274 (approximately 0.1×) under cm/100%
+settings. The CLO-native reimport PDF shows gross piece presence but labels and
+fine details are not acceptably legible. Eight of eighteen exact CUT/SEW path
+matches occur only after diagnostic 0.1 scaling; this is not a pass. No profile
+or V03 gate clears. Full evidence and limits:
+`docs/research/epic17/S614-standard-dxf-import-mode/S614-exit-packet.md` and
+`V03-CURRENT-GATE-MATRIX-S614.md`; rendered evidence remains local under
+`C:\G04-CLO-DXF-Exchange\S614-standard-dxf-import-mode\Evidence\`.
+
+Board exit replay is `3588→3591`; V02 remains Done and V03/EPIC-17 remain
+In Progress. Preserve the 0.001 cm gate, all-seven requirement, export
+identities and all holds. Do not repeat Standard-DXF input or compensate the
+measured scale mismatch. Next select a new source-backed profile/receiver
+experiment that can test unit handling and identity. CLO remains open while
+G04 work is active.
+
 ## EPIC-17 / G04 — Slice 613 exit; V03 remains open
 
 S613 maps the same source vertex omission in each of the five failed Polo M

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3590,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S614-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S614-standard-dxf-import-mode/V03-CURRENT-GATE-MATRIX-S614.md",
+    "verified": true,
+    "note": "Current V03 gate dispositions refreshed after the S614 CLO Standard-DXF practical scale failure; all acceptance gates remain unchanged and open."
+  }
+}

@@ -1,22 +1,22 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S613 exit
+## Current EPIC-17/G04 V03 boundary — S614 exit
 
-- S613 maps each of five missing Polo CUT vertices to the same source vertex
-  in both AAMA and ASTM output. Each omission is the endpoint of a
-  0.0456–0.0470 cm short edge; replacing it by the neighbor chord deviates
-  0.012736–0.013970 cm, over the unchanged `0.001 cm` threshold. This supports
-  a plausible local simplification mechanism, but neither attributes the
-  pipeline stage nor clears geometry acceptance. See the S613 exit packet and
-  `V03-CURRENT-GATE-MATRIX-S613.md`.
-- S612's Standard-DXF trial remains unexecuted because this computer-use
-  runtime cannot enumerate or bind native windows. This is a tool-access
-  issue, not a CLO format result. No more UI retries or unversioned script
-  substitutes; when a supported native control surface is available, run the
-  single fixed-setting Standard-DXF-input/ASTM-output test. All-seven coverage,
-  V03 gates, legacy DXF behavior, protected export identities and local-only
-  handling remain unchanged.
-- Board replay: `3582→3584→3586`; G04-V02 Done; G04-V03/EPIC-17 In Progress.
+- S614 executed the fixed-setting Standard-DXF-input/ASTM-output CLO test.
+  It reimports nine pieces without a format error, but the front's source
+  dimensions 28.5 × 73.274 became 2.850001 × 7.3274 under cm/100% settings.
+  Eight of eighteen source CUT/SEW paths match only after a diagnostic 0.1
+  coordinate factor; this is a 10× scale failure, not a pass. The PDF proves
+  gross piece presence only; detail and labels are not sufficiently legible.
+  See the S614 exit packet and `V03-CURRENT-GATE-MATRIX-S614.md`.
+- S609 AAMA input preserves source scale but still fails five Polo CUT
+  contours at `0.001 cm`; S610/S613 localize the same missing vertices. No CLO
+  route clears V03. Keep all seven recipes, unit/geometry/identity/semantics/
+  render/rights/profile and remaining V03 gates unchanged. Permission for this
+  product-development evaluation and local-only handling is confirmed.
+- Board replay: `3586→3588→3591`; G04-V02 Done;
+  G04-V03/EPIC-17 In Progress. Next choose a new source-backed profile path;
+  do not repeat Standard-DXF input or compensate its measured 10× shrink.
 
 ## Prior EPIC-17/G04 V03 boundary — S612 exit
 

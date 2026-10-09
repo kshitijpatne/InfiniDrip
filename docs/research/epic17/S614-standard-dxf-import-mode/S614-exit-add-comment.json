@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3589,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S614’s fixed-setting Standard-DXF-input/ASTM-output trial imports, exports, and reimports nine pieces without a format error, but the source-front dimensions 28.5 × 73.274 become 2.850001 × 7.3274 under cm/100% settings. Eight of eighteen source CUT/SEW paths match only at diagnostic 0.1 scaling; several contours also lose vertices. The CLO PDF shows gross piece presence only, with oversized/rotated labels and unreadable fine detail. This is a concrete scale/geometry failure, not a profile qualification. V03, all-seven acceptance, the 0.001 cm gate, export identities and all holds stay unchanged. See E-G04-S614-EXIT and the S614 exit packet."
+}

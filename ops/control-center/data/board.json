@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3586,
-  "updatedAt": "2026-10-09T11:53:20.750Z",
+  "revision": 3591,
+  "updatedAt": "2026-10-09T12:15:03.082Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12008,6 +12008,16 @@
           "at": "2026-10-09T11:53:20.750Z",
           "actor": "Codex",
           "text": "S613 finds the same exact missing source vertex in each of the five Polo M CUT failures in both prior AAMA and ASTM output. Each lies at a 0.0456–0.0470 cm short edge and replacing it with the receiver chord deviates 0.012736–0.013970 cm, over the unchanged 0.001 cm limit; all other matched vertices are within 0.000025 cm. This makes short-feature simplification plausible, not proven or assigned to CLO import/export. No geometry/profile/gate changes. CLO UI remains inaccessible; next is the single fixed-setting Standard-DXF-input test once native control works. See E-G04-S613-EXIT."
+        },
+        {
+          "at": "2026-10-09T12:04:28.755Z",
+          "actor": "Codex",
+          "text": "S614 compares Standard DXF input against S609 AAMA input while holding the hash-pinned Polo M source, CLO 2026.1.310, units/scale/rotation/grain/notch/curve settings, and ASTM Graded Nest export constant. The fixed-setting trial imported nine pieces, exported and reimported with no format error, and saved a CLO 2D PDF. Source-bound geometry/render review remains pending. No compatibility claim or acceptance gate changes; all V03 holds stay in place. See E-G04-S614-START."
+        },
+        {
+          "at": "2026-10-09T12:14:27.697Z",
+          "actor": "Codex",
+          "text": "S614’s fixed-setting Standard-DXF-input/ASTM-output trial imports, exports, and reimports nine pieces without a format error, but the source-front dimensions 28.5 × 73.274 become 2.850001 × 7.3274 under cm/100% settings. Eight of eighteen source CUT/SEW paths match only at diagnostic 0.1 scaling; several contours also lose vertices. The CLO PDF shows gross piece presence only, with oversized/rotated labels and unreadable fine detail. This is a concrete scale/geometry failure, not a profile qualification. V03, all-seven acceptance, the 0.001 cm gate, export identities and all holds stay unchanged. See E-G04-S614-EXIT and the S614 exit packet."
         }
       ],
       "evidenceRefs": [
@@ -12332,7 +12342,10 @@
         "E-G04-S612-START",
         "E-G04-S612-EXIT",
         "E-G04-S613-START",
-        "E-G04-S613-EXIT"
+        "E-G04-S613-EXIT",
+        "E-G04-S614-START",
+        "E-G04-S614-EXIT",
+        "E-G04-S614-MATRIX"
       ],
       "flagKey": null
     },
@@ -23506,6 +23519,33 @@
       "sha256": null,
       "verified": true,
       "note": "S613 uniquely maps the same omitted source vertex in AAMA and ASTM output for all five failed Polo CUTs. Each omission is on a 0.0456–0.0470 cm edge and creates 0.012736–0.013970 cm chord error. This makes local simplification plausible but does not establish the processing stage or pass the unchanged gate."
+    },
+    {
+      "id": "E-G04-S614-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S614-standard-dxf-import-mode/S614-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S614 records the fixed-setting CLO Standard DXF input / ASTM output and reimport trial on the same hash-pinned Polo M source. Nine pieces rendered without a format error; source-bound geometry and rendered detail remain to be measured, and no V03 gate or profile is qualified."
+    },
+    {
+      "id": "E-G04-S614-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S614-standard-dxf-import-mode/S614-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S614 executed Standard-DXF input with S609 settings held constant. CLO reimported nine pieces, but measured front dimensions are 0.1× source under cm/100% settings and rendered evidence is gross-presence only. This fails scale/geometry evidence; no profile or V03 gate clears. All-seven criteria, 0.001 cm gate and holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S614-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S614-standard-dxf-import-mode/V03-CURRENT-GATE-MATRIX-S614.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current V03 gate dispositions refreshed after the S614 CLO Standard-DXF practical scale failure; all acceptance gates remain unchanged and open."
     }
   ]
 }

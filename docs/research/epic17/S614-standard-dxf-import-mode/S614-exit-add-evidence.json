@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3588,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S614-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S614-standard-dxf-import-mode/S614-exit-packet.md",
+    "verified": true,
+    "note": "S614 executed Standard-DXF input with S609 settings held constant. CLO reimported nine pieces, but measured front dimensions are 0.1× source under cm/100% settings and rendered evidence is gross-presence only. This fails scale/geometry evidence; no profile or V03 gate clears. All-seven criteria, 0.001 cm gate and holds remain unchanged."
+  }
+}
