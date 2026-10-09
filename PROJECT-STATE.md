@@ -1,6 +1,22 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 586 exit; V03 remains open
+## EPIC-17 / G04 — Slice 587 exit; V03 remains open
+
+S587 maps the documented CLO DXF-AAMA options against generic DXF metadata.
+CLO's guide documents operator scale selection, pattern annotations,
+cut/sew swapping, one selected size group per file, and grade info in DXF or
+Rule File, but does not define a stable piece/mark ID, XDATA retention, or
+apparel layer schema. Autodesk's DXF XDATA is registered-app, application-
+defined data, not apparel semantics. S536 already rules out a units/entity
+encoding change as the Polo corner fix. All V03 gates remain. Details:
+`docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.
+
+Validated board exit replay is 3463→3465; G04-V02 remains Done and
+G04-V03/EPIC-17 remains In Progress. Next S588 is a one-fixture, geometry-
+identical CLO XDATA-retention pilot; it cannot clear the known Polo geometry
+failure. The goal remains active and aligned; CLO stays open.
+
+## Prior EPIC-17 / G04 — Slice 586 exit; V03 remains open
 
 S586 hash-checked the seven M/default source DXFs and seven retained CLO
 DXF-AAMA generation-two outputs. The product source separates CUT and SEW but

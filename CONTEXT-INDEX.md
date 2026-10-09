@@ -1,6 +1,6 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S586 exit
+## Current EPIC-17/G04 V03 boundary — S587 exit
 
 - S585 closed at `4befb327bc027d8573b578fe1f696796af7c9bb0`; its bounded
   tested-profile disposition is in
@@ -12,10 +12,15 @@
   are not proof of loss. No acceptance, source behavior, or legacy bytes
   changed. Exit packet:
   `docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md`.
-- Board exit replay is 3459→3461; G04-V02 Done and G04-V03/EPIC-17 In
-  Progress. Next S587 defines an additive source/profile contract from
-  retained evidence before any new export. The goal remains active and
-  aligned; CLO remains open.
+- S587 confirms CLO's documented controls but no public layer, stable
+  piece/mark-ID, or XDATA retention contract. Generic DXF XDATA is
+  application-defined, not apparel semantics. Its next test is one
+  geometry-identical Polo XDATA-retention round trip; it cannot clear known
+  contour failures. Exit packet:
+  `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.
+- Board exit replay is 3463→3465; G04-V02 Done and G04-V03/EPIC-17 In
+  Progress. Next S588 tests entity-ID retention only, without a production
+  writer change. The goal remains active and aligned; CLO remains open.
 
 ## Prior EPIC-17/G04 V03 boundary — S585 exit
 

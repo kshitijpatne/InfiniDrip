@@ -1,4 +1,16 @@
-## Current EPIC-17/G04 V03 source-map audit — S586 exit (2026-10-09)
+## Current EPIC-17/G04 V03 contract audit — S587 exit (2026-10-09)
+
+S587 confirms the narrow documented CLO DXF-AAMA profile identity and its
+operator controls, but finds no CLO public contract for apparel layer names,
+stable piece/mark IDs, or XDATA retention. Generic DXF XDATA is registered-
+application data whose meaning is app-defined; it is not industrial apparel
+semantics. No source/test code, output, or acceptance changed. Board
+start/exit replay is 3461→3463→3465; V02 stays Done and V03/EPIC-17 stays In
+Progress. Next S588 tests only whether source entity IDs survive one
+geometry-identical Polo exchange. Packet:
+`docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.
+
+## Prior EPIC-17/G04 V03 source-map audit — S586 exit (2026-10-09)
 
 S586 hash-checked the seven source and seven receiver M/default DXFs. The
 product writer encodes CUT and SEW separately but lacks explicit units, stable

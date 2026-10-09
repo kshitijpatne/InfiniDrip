@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3461,
-  "updatedAt": "2026-10-09T06:23:07.218Z",
+  "revision": 3465,
+  "updatedAt": "2026-10-09T06:26:39.283Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11693,6 +11693,16 @@
           "at": "2026-10-09T06:23:07.218Z",
           "actor": "Codex",
           "text": "S586 separates product-source omissions from receiver observations. The selected-size writer has no explicit units, stable identity, mark IDs/labels, or grade relationships; these are profile-contract work, not a demonstrated cause of the five Polo CUT corner losses. CUT/SEW are already separate at source, while CLO mixes them in nine output layers. 78 marks lack direct geometry matches, which does not prove loss. Next: produce a source/profile-backed additive contract before any changed export; preserve legacy DXF and all V03 gates. See E-G04-S586-EXIT."
+        },
+        {
+          "at": "2026-10-09T06:24:55.773Z",
+          "actor": "Codex",
+          "text": "S587 is a bounded source/profile contract map, not another broad standards or receiver search. Reuse S586 and S558 evidence; verify only exact DXF metadata claims that could safely support an additive writer. Separate documented profile semantics from product-level fields, state remaining V03 gates, and name one measurable next action. No CLO retry, output, implementation, or acceptance change."
+        },
+        {
+          "at": "2026-10-09T06:26:39.283Z",
+          "actor": "Codex",
+          "text": "S587 confirms the named CLO DXF-AAMA profile and its operator controls, but public docs do not specify a layer, stable piece/mark identity, or XDATA retention contract. Autodesk's generic XDATA is application-defined, not apparel meaning. S588 will test only whether source entity IDs survive one geometry-identical Polo round trip; all V03 gates remain. See E-G04-S587-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11963,7 +11973,9 @@
         "E-G04-S585-START",
         "E-G04-S585-EXIT",
         "E-G04-S586-START",
-        "E-G04-S586-EXIT"
+        "E-G04-S586-EXIT",
+        "E-G04-S587-START",
+        "E-G04-S587-EXIT"
       ],
       "flagKey": null
     },
@@ -22651,6 +22663,24 @@
       "sha256": null,
       "verified": true,
       "note": "S586 hash-checked seven source and seven CLO generation-two DXFs. The product writer explicitly separates CUT/SEW, but omits units, stable piece/revision identity, mark IDs/labels, and native grade relationships. Five unmatched Polo CUT contours remain independently measured failures; 78 non-direct mark matches are not proof of loss. No acceptance or source behavior changed."
+    },
+    {
+      "id": "E-G04-S587-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S587-dxf-profile-contract/S587-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S587 maps only the source/profile fields left explicit or unresolved by S586, reusing retained official CLO/profile evidence and checking narrowly needed primary DXF metadata references. Read-only; no new receiver search, CLO retry, output, product change, or gate change."
+    },
+    {
+      "id": "E-G04-S587-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S587 maps CLO DXF-AAMA documented controls separately from generic DXF metadata. CLO documents units, annotation, cut/sew swap, and grade/Rule File choices but no piece/mark-ID or XDATA retention contract. DXF XDATA is app-defined. Next is one geometry-identical Polo XDATA-retention pilot; it cannot clear the five known contour failures or establish AAMA semantics."
     }
   ]
 }
