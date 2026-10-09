@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3387,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S568-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S568-sew-line-grade-trial/S568-exit-packet.md",
+    "verified": true,
+    "note": "S568 used the prescribed window inventory: only one CLO top-level window is returned and no separate modal is targetable. A fresh capture of that window shows the base workspace, while accessibility reports an Export DXF child dialog. No UI input, project copy, or exchange operation followed. This concrete observation mismatch prevents the source-derived internal sew-line grading test; it is not a CLO format failure. All V03 gates remain held."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3385,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S568-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S568-sew-line-grade-trial/S568-start-packet.md",
+    "verified": true,
+    "note": "S568 attempts the source-derived internal-line grading test supported by current official CLO guidance. It will first identify/capture any separate modal window, proceed only if screenshot and accessibility state agree, then grade the four sew-path points and run one C:-only DXF-ASTM graded-nest comparison/re-import. All existing V03 gates remain held."
+  }
+}

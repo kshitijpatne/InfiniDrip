@@ -1,5 +1,18 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S568 exit
+
+- `docs/research/epic17/S568-sew-line-grade-trial/S568-exit-packet.md`
+  records the prescribed CLO window check: one top-level window, no separate
+  modal target; screenshot shows the base workspace while accessibility
+  reports an Export DXF child dialog. No input or exchange followed. This
+  prevents safe internal-line grading/export through this capture path but is
+  not evidence of CLO format failure. All V03 gates remain held.
+- S568 board replay is 3385→3387→3389. CLO remains open. Next: check
+  version-matched official CLO scripting/automation support for a safe way to
+  inspect/edit grading outside ambiguous mouse targeting; keep working on
+  independent V03 evidence.
+
 ## Current EPIC-17/G04 V03 boundary — S567 exit
 
 - `docs/research/epic17/S567-clo-dxf-grade-guidance/S567-exit-packet.md`

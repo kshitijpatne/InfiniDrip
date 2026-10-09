@@ -1,5 +1,22 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 568 exit; V03 remains open
+
+S568 followed the documented modal/window inventory. It returned one CLO
+top-level window and no separately targetable modal. A fresh capture shows
+the base workspace while accessibility reports an Export DXF child dialog.
+No input, save, import or export followed. This prevents safely grading the
+four source-derived internal sew points or exporting through the current
+capture path; it is not a CLO format failure. The exact source-derived test
+is retained in the start packet. All V03 gates remain unchanged. Exit evidence
+is in `docs/research/epic17/S568-sew-line-grade-trial/S568-exit-packet.md`.
+
+S568 start/exit board replay is 3385→3387→3389. Start commit was S567
+`04a8e0a`; refreshed `origin/main` `a5af5e1` was an ancestor. CLO remains
+open. Next: check official version-matched CLO scripting support for a safe
+programmatic inspection/edit route and continue independent V03 evidence.
+No product code or tests changed; full repository gate was not due.
+
 ## EPIC-17 / G04 — Slice 567 exit; V03 remains open
 
 Current CLO help and a CLO Designers staff reply support using Edit Grading

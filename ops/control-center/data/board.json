@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3385,
-  "updatedAt": "2026-10-09T03:25:21.248Z",
+  "revision": 3389,
+  "updatedAt": "2026-10-09T03:27:37.621Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11503,6 +11503,16 @@
           "at": "2026-10-09T03:25:21.248Z",
           "actor": "Codex",
           "text": "S567 found current official CLO guidance plus a CLO Designer's specific instruction to grade internal-line segment points with Edit Grading. S562/S559 gives exact source-backed per-size waistband SEW point deltas: (+2,+1.5), (+4,+1.5), (+4,+1.5), (+2,+1.5) cm for each step. S566's larger blocks retain a base-XS-shaped candidate. This makes the next test precise; it does not prove version-specific export success. Current screenshot/accessibility disagreement still prevents safe selection in CLO. All V03 gates remain unchanged and held. See E-G04-S567-EXIT."
+        },
+        {
+          "at": "2026-10-09T03:26:46.300Z",
+          "actor": "Codex",
+          "text": "S568 applies the source-derived internal sew-line grading procedure supported by official CLO guidance. First inspect the running app's exact returned primary/modal windows; only proceed if the screenshot and accessibility state agree. If they do, make a fresh C:-only project copy, grade the four sew points using the source step deltas, export once and verify all five sizes. If they disagree, send no UI input. All V03 gates and holds remain unchanged."
+        },
+        {
+          "at": "2026-10-09T03:27:37.621Z",
+          "actor": "Codex",
+          "text": "S568 confirmed the concrete obstacle: sky.list_windows returns only CLO window 257823880 and no separate modal. A fresh screenshot of that window shows the base workspace, while its accessibility tree says an Export DXF child dialog is present. No UI input, save, import, or export was sent. This blocks safe point grading and export through this surface; it does not show a CLO format failure. Keep every V03 gate held. Next: check only official version-matched CLO scripting/automation docs for a safe direct route, while continuing independent V03 evidence. See E-G04-S568-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11735,7 +11745,9 @@
         "E-G04-S566-START",
         "E-G04-S566-EXIT",
         "E-G04-S567-START",
-        "E-G04-S567-EXIT"
+        "E-G04-S567-EXIT",
+        "E-G04-S568-START",
+        "E-G04-S568-EXIT"
       ],
       "flagKey": null
     },
@@ -22081,6 +22093,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current official CLO guidance supports grading internal-line segment points with Edit Grading. Source sew contour deltas are mapped exactly for all five sizes. This provides a specific practical test for S565/S566's base-XS-shaped internal path, but does not prove version 2026.1.310's saved project/export behavior. CLO UI screenshot/accessibility mismatch still prevents safe interaction. All V03 gates remain held."
+    },
+    {
+      "id": "E-G04-S568-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S568-sew-line-grade-trial/S568-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S568 attempts the source-derived internal-line grading test supported by current official CLO guidance. It will first identify/capture any separate modal window, proceed only if screenshot and accessibility state agree, then grade the four sew-path points and run one C:-only DXF-ASTM graded-nest comparison/re-import. All existing V03 gates remain held."
+    },
+    {
+      "id": "E-G04-S568-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S568-sew-line-grade-trial/S568-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S568 used the prescribed window inventory: only one CLO top-level window is returned and no separate modal is targetable. A fresh capture of that window shows the base workspace, while accessibility reports an Export DXF child dialog. No UI input, project copy, or exchange operation followed. This concrete observation mismatch prevents the source-derived internal sew-line grading test; it is not a CLO format failure. All V03 gates remain held."
     }
   ]
 }
