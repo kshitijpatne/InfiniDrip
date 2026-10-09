@@ -1,6 +1,35 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 595 exit; V03 remains open
+## EPIC-17 / G04 — Slice 596 exit; V03 remains open
+
+S596 scoped a new, read-only `GetPatternLineInfo` comparison against the saved
+S595 periodic-SPLINE post-import/pre-export CLO project. The operation was
+not performed: a fresh CLO capture reported an Export DXF modal and focused
+scale spinner in accessibility, while the simultaneous screenshot showed
+only the nine-piece 2D canvas; `list_windows()` exposed only the main window.
+Escape, cancel and raise recovery did not yield a consistent, targetable
+state. No getter ran; no S595 project or DXF was opened, changed or saved, and
+no new exchange artifact was created. This is a computer-use capture/input
+surface inconsistency, not a CLO format result or G04 acceptance failure.
+Evidence and limits:
+`docs/research/epic17/S596-clo-periodic-import-boundary/S596-exit-packet.md`.
+
+Validated board exit `3516→3518` links `E-G04-S596-EXIT`. EPIC-17/V03 remain
+In Progress; V02 remains Done. Control Center tests pass 42/42; start/exit
+clone preflights and replays, changed scripts' `node --check`, and
+`git diff --check` pass. No production source/tests changed; full repository
+gates remain due on the settled candidate. S596 elapsed `3m33s`
+(`08:49:06–08:52:39 UTC`): prior evidence review `1m`; live-app/accessibility
+and screenshot inspection `1m`; non-destructive recovery attempts `0m30s`;
+packet/board/focused closeout `1m03s`; external-agent waits `0m`;
+maintainer-decision time `0m`.
+
+Next S597: only after the computer-use helper returns a coherent, targetable
+CLO window, resume the single read-only S595 pre-export outline capture. If
+that state remains inconsistent, do not send UI input; continue evidence-only
+work and keep every V03 gate open. CLO remains open for the admitted Epic.
+
+## Prior EPIC-17 / G04 — Slice 595 exit; V03 remains open
 
 S595 independently proved a periodic degree-1 SPLINE representation of the
 five difficult Polo M CUT contours against the original source: 1,603 samples,

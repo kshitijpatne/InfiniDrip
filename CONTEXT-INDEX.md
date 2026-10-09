@@ -1,6 +1,25 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S595 exit
+## Current EPIC-17/G04 V03 boundary — S596 exit
+
+- S596 planned a read-only `GetPatternLineInfo` comparison on the saved S595
+  periodic-SPLINE pre-export project. It did not run because the same fresh
+  CLO capture exposed an Export DXF modal/focused spinner through
+  accessibility, showed only the nine-piece canvas in the screenshot, and
+  listed no separate modal window. Non-destructive dismissal/raise recovery
+  did not produce a coherent target. No CLO file or pattern changed and no
+  getter/output result exists. This is a computer-use surface issue, not a DXF
+  result; no V03 gate changes. Exact account and file-processing confirmation
+  remain settled.
+- S596 exit packet:
+  `docs/research/epic17/S596-clo-periodic-import-boundary/S596-exit-packet.md`.
+  Validated board exit `3516→3518`, Control Center tests 42/42, script syntax
+  checks, and `git diff --check` pass. EPIC-17/V03 remain In Progress; V02
+  Done. Next S597: resume the same single read-only query only after the CLO
+  accessibility and screenshot state agree; otherwise keep to evidence-only
+  work and preserve every V03 gate. CLO remains open.
+
+## Prior EPIC-17/G04 V03 boundary — S595 exit
 
 - S595's exact periodic degree-1 SPLINE candidate replaces only five Polo M
   CUT POLYLINEs; independent evaluation checks 1,603 parameters and every

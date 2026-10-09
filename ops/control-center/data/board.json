@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3514,
-  "updatedAt": "2026-10-09T08:45:49.418Z",
+  "revision": 3518,
+  "updatedAt": "2026-10-09T08:52:30.932Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11828,6 +11828,16 @@
           "at": "2026-10-09T08:44:30.953Z",
           "actor": "Codex",
           "text": "S595's exact periodic degree-1 source candidate was imported/exported once in the authorized local CLO 2026.1.310 DXF-AAMA trial. It returned nine pieces, passed all nine SEWs and four CUTs, and failed five CUTs: back 4.063040 cm; outer/inner stands 9.311107947/9.311054798 cm; upper/under collars 0.159214023/0.159193055 cm, against the unchanged 0.001 cm gate. Independent source proof is exact across 1,603 samples, so the receiver trial rejects this encoding; it does not establish CLO's internal cause or clear a V03 gate. The inspected snapshot is gross piece-presence evidence only. Permission and local handling are confirmed; files remained in the S595 C: folder. See docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md. Next S596 identifies a measurable candidate before any receiver trial; preserve all seven recipes and every remaining V03 gate."
+        },
+        {
+          "at": "2026-10-09T08:49:51.334Z",
+          "actor": "Codex",
+          "text": "S596 will use one read-only GetPatternLineInfo query on the saved S595 pre-export periodic-SPLINE scene and compare its output against pinned source geometry. This is a distinct input representation from S580, which used a line-based fixture; it makes no new DXF exchange and does not assume the API assigns CUT/SEW semantics or importer-stage causation. All V03 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-09T08:52:30.932Z",
+          "actor": "Codex",
+          "text": "S596 did not run the planned read-only line-info query: the fresh CLO accessibility tree reports an Export DXF dialog while the simultaneous image shows the nine-piece canvas, and only the main window is targetable. Escape, dialog cancel and raise recovery did not produce a coherent state. No project/DXF or pattern was changed, and this is a computer-use surface issue, not a CLO exchange result. Preserve every V03 gate; next recover an accessibility/screenshot-consistent target before the one S595 pre-export comparison."
         }
       ],
       "evidenceRefs": [
@@ -12116,7 +12126,9 @@
         "E-G04-S594-START",
         "E-G04-S594-EXIT",
         "E-G04-S595-START",
-        "E-G04-S595-EXIT"
+        "E-G04-S595-EXIT",
+        "E-G04-S596-START",
+        "E-G04-S596-EXIT"
       ],
       "flagKey": null
     },
@@ -22966,6 +22978,24 @@
       "sha256": null,
       "verified": true,
       "note": "S595 proves five periodic degree-1 Polo M SPLINE inputs source-exact (1,603 samples, 0 cm residual); the authorized local CLO DXF-AAMA generation passes 4/9 CUT and 9/9 SEW and fails back, both stands, and both pointed collars under 0.001 cm. No V03 gate clears."
+    },
+    {
+      "id": "E-G04-S596-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S596-clo-periodic-import-boundary/S596-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S596 is a bounded, read-only GetPatternLineInfo comparison on the saved S595 periodic-SPLINE pre-export project. It does not repeat DXF exchange or change V03 gates."
+    },
+    {
+      "id": "E-G04-S596-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S596-clo-periodic-import-boundary/S596-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S596 records a concrete CLO UI automation mismatch: accessibility reports Export DXF while the fresh screenshot shows only the canvas and no separate dialog is targetable. No pattern API call or file operation occurred; V03 gates remain unchanged."
     }
   ]
 }
