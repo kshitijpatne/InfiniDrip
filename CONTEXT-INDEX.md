@@ -1,24 +1,35 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S645 closed
+## Current EPIC-17/G04 V03 boundary — S646 closed
 
-S645's read-only source audit found no remaining untested producer-side
-representation in the current evidence. The R12 writer has additive metadata
-gaps (units declaration, stable role/revision IDs, mark IDs, grade relation),
-but those do not explain CLO's five Polo CUT failures. LWPOLYLINE, connected
-LINE, fillet, degree-1 SPLINE, import/profile and BLOCK/INSERT trials are
-already recorded; none passes the five CUT contours at `0.001 cm` in the
-tested CLO route. Do not change source geometry or repeat them. Full S645
-matrix and evidence are in
-`docs/research/epic17/S645-additive-profile-source-audit/`.
+S646 proves an additive custom-metadata generic R14 result in OpenCAD Studio
+v2026.40.1 for one Polo M fixture: all nine named roles, `$INSUNITS=5`, CUT/
+SEW/MARK layers and nine role/revision XDATA records survive two
+byte-identical generations; 56 source entities have 0.000 cm maximum
+residual. One import of that exact output into CLO 2026.1.310 DXF-AAMA returns
+nine piece names but passes only 13/18 contours at `0.001 cm`; the same five
+Polo CUT failures remain, so export stops before round trip. The actual CLO
+1:1 PDF shows all nine named pieces at overview scale. These results qualify
+neither an industrial apparel profile nor detailed marks/readability. No V03
+gate or hold changes. Full packet, matrix, scripts and results:
+`docs/research/epic17/S646-open-cad-profile-metadata-pilot/`; raw C:-only files:
+`C:\G04-CLO-DXF-Exchange\S646-open-cad-profile-metadata-pilot\`.
 
-Validated board replay `3722→3724→3726` retains V01/V02 Done and V03/Epic In
-Progress. The next usable input is rights-cleared local access to an industrial
-apparel CAD receiver with a documented two-way profile, or a genuinely new
-source-preserving mechanism. If neither exists, keep the receiver-access
-dependency explicit and the admitted goal active. Preserve all-seven scope,
-the `0.001 cm` gate, legacy DXF, protected identities and every other V03
-hold. CLO remains open; no physical/factory/production-readiness claim.
+Validated board replay `3726→3728→3730` retains V01/V02 Done and V03/Epic In
+Progress. Keep every acceptance gate, geometry threshold, all-seven scope,
+legacy DXF and protected identity unchanged. Do not repeat the same CLO import
+or another same-geometry encoding. The next critical dependency is a
+rights-reviewed industrial apparel receiver/profile that preserves the five
+source CUT contours through its full exchange. CLO remains open; no
+physical/factory/production-readiness claim.
+
+## Prior EPIC-17/G04 V03 boundary — S645 closed
+
+S645's source audit found no remaining untested producer-side representation
+in the then-current evidence. Its R12 writer has additive metadata gaps, but
+they do not explain CLO's five Polo CUT failures. See its matrix and packet in
+`docs/research/epic17/S645-additive-profile-source-audit/`. S646's distinct
+generic-R14 metadata and actual CLO import results are recorded above.
 
 ## Current EPIC-17/G04 V03 boundary — S644 closed
 

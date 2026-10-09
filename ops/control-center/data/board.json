@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3726,
-  "updatedAt": "2026-10-09T23:09:32.627Z",
+  "revision": 3730,
+  "updatedAt": "2026-10-09T23:41:52.650Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12338,6 +12338,16 @@
           "at": "2026-10-09T23:09:32.627Z",
           "actor": "Codex",
           "text": "S645 found no source-exact product-side route left to test in the retained evidence. Metadata additions could address units, IDs and grades but do not fix CLO's five Polo CUT failures; tested line/polyline/spline/fillet/block/profile variants remain over the 0.001 cm gate. No source/export change is justified. The next dependency is rights-cleared local apparel-CAD receiver access or a new falsifiable mechanism; all acceptance/holds stay unchanged. See E-G04-S645-EXIT."
+        },
+        {
+          "at": "2026-10-09T23:15:17.967Z",
+          "actor": "Codex",
+          "text": "Correction to the latest status summary: the existing S624 OpenCAD Studio 2026.40.1 portable build is an additional rights-reviewed, local generic R14 receiver candidate; it passed 90/90 geometry contours and repeat/malformed controls but did not prove apparel semantics. S646 tests one new profile-metadata mechanism on a disposable Polo M fixture. This may establish a candidate path only; all V03 gates and holds remain. See E-G04-S646-START."
+        },
+        {
+          "at": "2026-10-09T23:41:52.650Z",
+          "actor": "Codex",
+          "text": "S646 supplies the exact metadata-bearing R14 output to the already-authorized CLO receiver route once: nine named pieces and 13/18 exact CUT/SEW contours; the same five Polo CUTs fail at 0.001 cm, so CLO export was stopped. OpenCAD preserves the one-fixture metadata/geometry over two byte-identical R14 generations, but this generic profile is not an industrial apparel standard. The labeled 1:1 CLO overview is reviewed; all-seven, marks, grades, negative inputs, successful target round trip, and detailed readable output remain open. No criterion or hold changes. See E-G04-S646-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12736,7 +12746,9 @@
         "E-G04-S644-START",
         "E-G04-S644-EXIT",
         "E-G04-S645-START",
-        "E-G04-S645-EXIT"
+        "E-G04-S645-EXIT",
+        "E-G04-S646-START",
+        "E-G04-S646-EXIT"
       ],
       "flagKey": null
     },
@@ -24576,6 +24588,24 @@
       "sha256": null,
       "verified": true,
       "note": "S645 reconciles the legacy R12 source writer and prior trials. Additive identity/unit/mark/grade metadata is needed but cannot repair the five Polo CUT failures. Existing LWPOLYLINE, connected LINE, fillet, degree-1 SPLINE, CLO mode/profile, and BLOCK/INSERT trials do not pass the five contours at 0.001 cm. No new source-exact producer route is supported; no serializer or geometry changed. Preserve all V03 gates/holds and keep the receiver-access dependency explicit."
+    },
+    {
+      "id": "E-G04-S646-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S646-open-cad-profile-metadata-pilot/S646-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S646 for a one-recipe OpenCAD Studio R14 metadata pilot. S624 already established the official local GPL receiver and exact generic geometry; this distinct test measures explicit cm units, named piece blocks, CUT/SEW/MARK semantics and registered-app XDATA identity. All artifacts C:-confined; no CLO rerun, install/download, source change, profile acceptance, threshold or hold change."
+    },
+    {
+      "id": "E-G04-S646-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S646-open-cad-profile-metadata-pilot/S646-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S646's bounded custom-metadata R14 pilot preserves all 56 Polo M entities exactly across two byte-identical OpenCAD generations, with centimeter units, named blocks and role/revision IDs. One actual CLO 2026.1.310 DXF-AAMA import preserves nine names but fails the unchanged 0.001 cm geometry gate on the same five CUT contours (13/18 CUT/SEW contours pass); the fail-closed pre-export gate stopped before export. Actual CLO overview render saved and reviewed. Generic OpenCAD metadata evidence does not qualify an industrial apparel profile. All V03 gates, seven-recipe scope and holds remain unchanged. See S646 exit packet, matrix and C:-only raw evidence."
     }
   ]
 }

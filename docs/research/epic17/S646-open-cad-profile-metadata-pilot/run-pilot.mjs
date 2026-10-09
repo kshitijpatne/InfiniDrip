@@ -1,0 +1,31 @@
+import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+const root="C:/G04-CLO-DXF-Exchange/S646-open-cad-profile-metadata-pilot";
+const src="C:/G04-CLO-DXF-Exchange/S642-polo-block-wrapper-cut-retention/Input/polo-m-named-block-wrapper.dxf";
+const exe="C:/G04-CLO-DXF-Exchange/S624-opencadstudio-desktop-r14-receiver/OpenCADStudio-v2026.40.1-windows-x86_64-portable.exe";
+const revision="ef28519c21314eed0280ed4e6982849284da16b6";
+const paths={input:root+"/Input/polo-m-idr-profile-r14.dxf",first:root+"/Output/polo-m-idr-profile-r14-first.dxf",second:root+"/Output/polo-m-idr-profile-r14-second.dxf",report:root+"/Evidence/profile-pilot.json"};
+const pair=(c,v)=>`${c}\n${v}\n`, serialize=p=>p.map(([c,v])=>pair(c,v)).join("");
+const parse=t=>{const l=t.replace(/\r\n/gu,"\n").trimEnd().split("\n");assert.equal(l.length%2,0);return Array.from({length:l.length/2},(_,i)=>[+l[2*i].trim(),l[2*i+1].trim()])};
+const section=(p,n)=>{for(let i=0;i<p.length-1;i++)if(p[i][0]===0&&p[i][1]==="SECTION"&&p[i+1][1]===n){const e=p.findIndex((x,j)=>j>i+1&&x[0]===0&&x[1]==="ENDSEC");assert(e>=0);return{start:i,end:e}}return null};
+const hash=b=>createHash("sha256").update(b).digest("hex").toUpperCase();
+await Promise.all(["Input","Output","Evidence"].map(d=>mkdir(root+"/"+d,{recursive:true})));
+const sourceBytes=await readFile(src), p=parse(sourceBytes.toString("utf8"));
+assert.equal(section(p,"TABLES"),null);const es=section(p,"ENTITIES"), hb=section(p,"HEADER"),bb=section(p,"BLOCKS");assert(es&&hb&&bb);
+const inserts=[];for(let i=es.start+2;i<es.end;){const start=i++;while(i<es.end&&p[i][0]!==0)i++;if(p[start][1]==="INSERT")inserts.push({start,end:i,name:p.slice(start,i).find(([c])=>c===2)?.[1]})}
+assert.equal(inserts.length,9);
+const appid=[[0,"SECTION"],[2,"TABLES"],[0,"TABLE"],[2,"APPID"],[70,1],[0,"APPID"],[2,"INFINIDRIP"],[70,0],[71,0],[0,"ENDTAB"],[0,"ENDSEC"]];
+for(const ins of [...inserts].reverse())p.splice(ins.end,0,[1001,"INFINIDRIP"],[1000,"profile=idr-pattern-exchange/1"],[1000,"garment=polo"],[1000,"size=M"],[1000,"revision="+revision],[1000,"piece="+ins.name.replace(/^IDR_POLO_/u,"").toLowerCase()]);
+const e2=section(p,"ENTITIES"), h2=section(p,"HEADER"), b2=section(p,"BLOCKS");
+const text=serialize(p.slice(h2.start,h2.end+1))+serialize(appid)+serialize(p.slice(b2.start,b2.end+1))+serialize(p.slice(e2.start,e2.end+1))+pair(0,"EOF");
+await writeFile(paths.input,text);
+const run=(a,b)=>{try{execFileSync(exe,["--export",a,b,"--target-version","R14"],{stdio:["ignore","pipe","pipe"]});return{exitCode:0,stderr:""}}catch(e){return{exitCode:e.status??-1,stderr:e.stderr?.toString()??e.message}}};
+const first=run(paths.input,paths.first);assert.equal(first.exitCode,0,first.stderr);const second=run(paths.first,paths.second);assert.equal(second.exitCode,0,second.stderr);
+const [a,b]=await Promise.all([readFile(paths.first),readFile(paths.second)]);
+const inventory=bytes=>{const d=parse(bytes.toString("utf8"));const group=(c,v)=>d.filter(x=>x[0]===c&&x[1]===v).length;const variable=(name,valueCode)=>{const i=d.findIndex((x,j)=>x[0]===9&&x[1]===name&&d[j+1]?.[0]===valueCode);return i<0?null:d[i+1][1]};const blockNames=[];for(let i=0;i<d.length;i++)if(d[i][0]===0&&d[i][1]==="BLOCK"){for(let j=i+1;j<d.length&&d[j][0]!==0;j++)if(d[j][0]===2&&d[j][1].startsWith("IDR_POLO_")){blockNames.push(d[j][1]);break}}return{version:variable("$ACADVER",1),units:variable("$INSUNITS",70),inserts:group(0,"INSERT"),appidXdata:group(1001,"INFINIDRIP"),profileXdata:group(1000,"profile=idr-pattern-exchange/1"),revisionXdata:group(1000,"revision="+revision),pieceXdata:d.filter(x=>x[0]===1000&&x[1].startsWith("piece=")).length,layers:[...new Set(d.filter(x=>x[0]===8).map(x=>x[1]))].sort(),blockNames:[...new Set(blockNames)].sort() }};
+const rec={slice:"S646",receiver:"OpenCAD Studio v2026.40.1 local portable CLI",target:"generic Autodesk DXF R14/AC1014; no apparel-standard claim",source:{path:src,sha256:hash(sourceBytes),bytes:sourceBytes.length,revision},input:{path:paths.input,sha256:hash(Buffer.from(text)),unitsCm:5,registeredAppId:"INFINIDRIP",profile:"idr-pattern-exchange/1",pieceBlocks:9},first:{path:paths.first,...first,sha256:hash(a),inventory:inventory(a)},second:{path:paths.second,...second,sha256:hash(b),byteIdentical:hash(a)===hash(b),inventory:inventory(b)},limits:["one Polo M fixture","generic DXF XDATA is not an industrial apparel standard","all-seven/options/grades/marks/rendered gates remain open"]};
+await writeFile(paths.report,JSON.stringify(rec,null,2)+"\n");console.log(JSON.stringify(rec,null,2));
+assert.equal(rec.first.inventory.appidXdata,9);assert.equal(rec.second.inventory.appidXdata,9);
+for(const [label,item]of [["first",rec.first], ["second",rec.second]]){assert.equal(item.inventory.version,"AC1014",label);assert.equal(item.inventory.units,"5",label);assert.equal(item.inventory.inserts,9,label);assert.equal(item.inventory.profileXdata,9,label);assert.equal(item.inventory.revisionXdata,9,label);assert.equal(item.inventory.pieceXdata,9,label);assert.equal(item.inventory.blockNames.length,9,label)}

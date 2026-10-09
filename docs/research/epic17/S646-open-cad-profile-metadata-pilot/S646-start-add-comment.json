@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3727,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "Correction to the latest status summary: the existing S624 OpenCAD Studio 2026.40.1 portable build is an additional rights-reviewed, local generic R14 receiver candidate; it passed 90/90 geometry contours and repeat/malformed controls but did not prove apparel semantics. S646 tests one new profile-metadata mechanism on a disposable Polo M fixture. This may establish a candidate path only; all V03 gates and holds remain. See E-G04-S646-START."
+}

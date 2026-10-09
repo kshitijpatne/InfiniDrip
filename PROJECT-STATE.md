@@ -1,24 +1,31 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 645 closed; receiver access remains required
+## EPIC-17 / G04 — Slice 646 closed; V03 remains blocked on receiver/profile fidelity
 
-S645 audited the legacy DXF writer, the additive-profile contract and prior
-source-exact trials. The writer's missing identity/units/grade metadata is a
-real additive-profile need, but does not explain the five Polo CUT failures.
-Distinct tested encodings (including LWPOLYLINE, connected LINEs, fillets,
-degree-1 SPLINEs and named blocks) have not made the current CLO path pass the
-unchanged `0.001 cm` geometry gate. No further encoding trial or source repair
-is supported. The exact V03 status and gates are in
-`docs/research/epic17/S645-additive-profile-source-audit/`.
+S646's application-specific metadata-bearing generic R14 pilot preserves all
+nine named blocks, centimeter units, CUT/SEW/MARK layers and role/revision
+XDATA through two byte-identical OpenCAD Studio generations; all 56 source
+entities have 0.000 cm maximum residual. The exact output was then imported
+once into the running CLO 2026.1.310 DXF-AAMA route. CLO returned all nine
+piece names with no native query errors, but only 13/18 CUT/SEW contours pass
+the unchanged `0.001 cm`: the same five CUTs (back, both stands, both pointed
+collars) fail, so export was stopped. The actual 1:1 CLO PDF render confirms
+nine labeled pieces at overview scale, not detailed mark readability.
 
-Validated board replay `3722→3724→3726` preserves V01/V02 Done and V03/Epic In
-Progress; focused Control Center suite passes 42/42. Next action: at the next
-safe boundary, check current goal/repository state and proceed only if new
-rights-cleared local receiver access or a genuinely new falsifiable
-source-preserving mechanism is available. Otherwise retain the explicit
-receiver-access dependency; do not reduce scope, geometry tolerance, or other
-V03 gates. CLO remains open. No physical-fit, factory-acceptance, or
-production-readiness claim is made.
+S646 qualifies neither OpenCAD as industrial apparel CAD nor
+`idr-pattern-exchange/1` as an industry standard. No V03 criterion or hold
+clears. The full gate matrix, hashes, analyses and C:-only rendered evidence
+are in `docs/research/epic17/S646-open-cad-profile-metadata-pilot/` and
+`C:\G04-CLO-DXF-Exchange\S646-open-cad-profile-metadata-pilot\`.
+
+Validated board replay `3726→3728→3730` preserves V01/V02 Done and V03/Epic
+In Progress; focused Control Center suite passes 42/42. CLO remains open.
+At this safe boundary, inspect the active goal and choose a distinct next V03
+action from current evidence. Do not repeat this same CLO import or another
+same-geometry representation. Keep the rights-reviewed industrial
+receiver/profile, all-seven options/grades, exact geometry/marks, malformed
+input, round-trip and rendered-output gates unchanged. No physical-fit,
+factory-acceptance, or production-readiness claim is made.
 
 ## EPIC-17 / G04 — Slice 644 closed; no eligible alternate receiver found
 
