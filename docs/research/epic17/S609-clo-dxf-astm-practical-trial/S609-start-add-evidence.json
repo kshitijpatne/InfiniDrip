@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3566,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S609-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S609-clo-dxf-astm-practical-trial/S609-start-packet.md",
+    "verified": true,
+    "note": "S609 tests one documented CLO DXF-ASTM export route on the pinned original Polo M DXF, then reimports the emitted artifact once and measures exact source CUT/SEW fidelity, identity, semantics, marks and rendered output. All exchange evidence stays in the named C: folder; acceptance and all existing holds remain unchanged."
+  }
+}

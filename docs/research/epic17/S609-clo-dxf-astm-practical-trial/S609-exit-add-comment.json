@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3569,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S609 tried the distinct CLO DXF-ASTM route on the pinned Polo M source. CLO imported/exported/reimported and rendered nine pieces without a format error, but only 4/9 CUT outlines pass 0.001 cm; all 9 SEW paths pass. Five CUT contours lose one vertex and deviate 0.01299–0.01422 cm. The ASTM menu label and AC1009 header do not qualify a normative apparel profile. No V03 gates clear; the all-seven criterion and all remaining holds stay unchanged. Written product-development authorization and local-only handling are settled. Next inspect a distinct, source-backed path for vertex preservation and remaining profile/semantic gates; do not repeat this ASTM setup or prior rejected AAMA spline variations. See E-G04-S609-EXIT and the S609 current matrix."
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3568,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S609-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S609-clo-dxf-astm-practical-trial/S609-exit-packet.md",
+    "verified": true,
+    "note": "Practical CLO 2026.1.310 DXF-ASTM Polo M export/reimport completed without a format error and rendered nine pieces, but source-bound 0.001 cm geometry passes only 4/9 CUTs (9/9 SEWs); five CUTs lose one vertex. This rejects the tested route for acceptance without qualifying a normative profile or clearing any V03 gate. All holds remain."
+  }
+}

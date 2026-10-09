@@ -1,0 +1,6 @@
+{
+  "fixture": "C:/G04-CLO-DXF-Exchange/S609-clo-dxf-astm-practical-trial/Input/polo-standard-m.dxf",
+  "sha256": "796e537ec77e86b16d6b82c3aadd4a9982933314097b707ae689936c65944fca",
+  "output": { "sha256": "796e537ec77e86b16d6b82c3aadd4a9982933314097b707ae689936c65944fca" },
+  "basis": "S536 source fixture; no geometry changed."
+}

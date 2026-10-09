@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3566,
-  "updatedAt": "2026-10-09T11:12:34.401Z",
+  "revision": 3570,
+  "updatedAt": "2026-10-09T11:31:34.846Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11958,6 +11958,16 @@
           "at": "2026-10-09T11:12:34.401Z",
           "actor": "Codex",
           "text": "S608 queried the saved S595 input-side project with no API errors and bound all nine pieces by exact SEW geometry. Four known passing CUT contours have an in-gate returned-path match; the five failed CUTs do not. Since the getter does not document CUT/SEW or complete-contour semantics, this cannot attribute the failure to import or export. No V03 gate clears. Next consolidate current matrix and audit prior profile/fixture evidence before authorizing a distinct practical test. See E-G04-S608-EXIT."
+        },
+        {
+          "at": "2026-10-09T11:16:55.868Z",
+          "actor": "Codex",
+          "text": "S609 checks the distinct, documented CLO DXF-ASTM route once against hash-pinned source geometry, then reimports that exact disposable output and measures it. The trial uses no altered patterns/settings to chase a pass; a menu label alone is not compatibility evidence. All-seven, exact tolerance, identity/semantics, marks, grading/options, negative-input and repeated-round-trip gates remain unchanged. CLO stays open. See E-G04-S609-START."
+        },
+        {
+          "at": "2026-10-09T11:31:34.846Z",
+          "actor": "Codex",
+          "text": "S609 tried the distinct CLO DXF-ASTM route on the pinned Polo M source. CLO imported/exported/reimported and rendered nine pieces without a format error, but only 4/9 CUT outlines pass 0.001 cm; all 9 SEW paths pass. Five CUT contours lose one vertex and deviate 0.01299–0.01422 cm. The ASTM menu label and AC1009 header do not qualify a normative apparel profile. No V03 gates clear; the all-seven criterion and all remaining holds stay unchanged. Written product-development authorization and local-only handling are settled. Next inspect a distinct, source-backed path for vertex preservation and remaining profile/semantic gates; do not repeat this ASTM setup or prior rejected AAMA spline variations. See E-G04-S609-EXIT and the S609 current matrix."
         }
       ],
       "evidenceRefs": [
@@ -12272,7 +12282,9 @@
         "E-G04-S607-START",
         "E-G04-S607-EXIT",
         "E-G04-S608-START",
-        "E-G04-S608-EXIT"
+        "E-G04-S608-EXIT",
+        "E-G04-S609-START",
+        "E-G04-S609-EXIT"
       ],
       "flagKey": null
     },
@@ -23356,6 +23368,24 @@
       "sha256": null,
       "verified": true,
       "note": "Read-only query of the S601-confirmed S595 input-side CLO scene: all nine SEW identities match, but no API-returned path matches the five failed CUTs within 0.001 cm. Because CLO does not document the getter's path semantics, import-versus-export cause remains unattributable; all V03 holds remain."
+    },
+    {
+      "id": "E-G04-S609-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S609-clo-dxf-astm-practical-trial/S609-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S609 tests one documented CLO DXF-ASTM export route on the pinned original Polo M DXF, then reimports the emitted artifact once and measures exact source CUT/SEW fidelity, identity, semantics, marks and rendered output. All exchange evidence stays in the named C: folder; acceptance and all existing holds remain unchanged."
+    },
+    {
+      "id": "E-G04-S609-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S609-clo-dxf-astm-practical-trial/S609-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Practical CLO 2026.1.310 DXF-ASTM Polo M export/reimport completed without a format error and rendered nine pieces, but source-bound 0.001 cm geometry passes only 4/9 CUTs (9/9 SEWs); five CUTs lose one vertex. This rejects the tested route for acceptance without qualifying a normative profile or clearing any V03 gate. All holds remain."
     }
   ]
 }

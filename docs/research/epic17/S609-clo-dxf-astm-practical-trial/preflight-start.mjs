@@ -1,0 +1,13 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { applyBoardCommand } from "../../../../ops/control-center/commands.mjs";
+const dir = "docs/research/epic17/S609-clo-dxf-astm-practical-trial";
+let board = JSON.parse(await readFile("ops/control-center/data/board.json", "utf8"));
+assert.equal(board.revision, 3566);
+assert.equal(board.workItems.find(({id})=>id==="EPIC-17")?.status,"In Progress");
+assert.equal(board.workItems.find(({id})=>id==="G04-V02")?.status,"Done");
+assert.equal(board.workItems.find(({id})=>id==="G04-V03")?.status,"In Progress");
+for (const name of ["S609-start-add-evidence.json","S609-start-add-comment.json"]) board=applyBoardCommand(board,JSON.parse(await readFile(`${dir}/${name}`)));
+assert.equal(board.revision,3568);
+assert(board.evidence.some(({id,uri,verified})=>id==="E-G04-S609-START"&&uri===`${dir}/S609-start-packet.md`&&verified));
+console.log("S609 start commands pass clone preflight 3566→3568; admitted statuses remain unchanged.");
