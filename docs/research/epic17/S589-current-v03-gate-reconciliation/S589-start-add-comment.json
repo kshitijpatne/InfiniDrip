@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3470,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S589 reconciles the corrected S573 V03 criteria against existing evidence through S588, including the 0/56 custom XDATA identity result. It distinguishes admitted gates from diagnostic/profile claims, retains exact failure and unknown boundaries, and updates stale current summaries with an evidence-backed next step. No UI trial, code change, or gate change. See E-G04-S589-START."
+}

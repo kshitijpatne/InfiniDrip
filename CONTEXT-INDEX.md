@@ -1,6 +1,6 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S588 exit
+## Current EPIC-17/G04 V03 boundary — S589 exit
 
 - S585 closed at `4befb327bc027d8573b578fe1f696796af7c9bb0`; its bounded
   tested-profile disposition is in
@@ -14,21 +14,23 @@
   `docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md`.
 - S587 confirms CLO's documented controls but no public layer, stable
   piece/mark-ID, or XDATA retention contract. Generic DXF XDATA is
-  application-defined, not apparel semantics. Its next test is one
-  geometry-identical Polo XDATA-retention round trip; it cannot clear known
-  contour failures. Exit packet:
-  `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.
-- S588's one CLO 2026.1.310 DXF-AAMA XDATA pilot retained 0/56 source IDs
-  and no registered app record. This rules out stable identity through the
-  tested route only; it is not a universal CLO/DXF claim. An import-option
-  deviation and two pre-existing scene inserts make the exported geometry
-  unattributable. The rendered snapshot shows all nine expected pieces. No
-  V03 gate or scope changed. Exit packet:
+  application-defined, not apparel semantics. S588 tested that mechanism and
+  retained 0/56 custom IDs in its bounded CLO run; do not repeat it. S588 exit:
   `docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md`.
-- Validated board exit replay is 3467→3469; G04-V02 Done and G04-V03/EPIC-17
-  In Progress. Next S589 reconciles retained seven-recipe/two-generation
-  evidence against the exact V03 matrix, without another XDATA trial. The goal
-  remains active and aligned; CLO remains open.
+- S589's current V03 matrix reconciles S573 with later evidence through
+  S588; rights and the narrow profile identity are supported, while the
+  technical failures and incomplete gates remain. See
+  `docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`.
+  Next inspect only the five exact Polo CUT source/output paths for a
+  technically distinct, falsifiable representation; no unchanged CLO retries.
+  S589 exit packet:
+  `docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md`.
+- Validated board replay is 3469→3471→3473; G04-V02 remains Done and
+  G04-V03/EPIC-17 remain In Progress. The goal remains active; CLO remains
+  open.
+
+- Historical S587 exit packet:
+  `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.
 
 ## Prior EPIC-17/G04 V03 boundary — S585 exit
 

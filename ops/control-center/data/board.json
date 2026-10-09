@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3469,
-  "updatedAt": "2026-10-09T06:45:49.073Z",
+  "revision": 3473,
+  "updatedAt": "2026-10-09T06:50:33.838Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11713,6 +11713,16 @@
           "at": "2026-10-09T06:45:49.073Z",
           "actor": "Codex",
           "text": "S588's single local CLO 2026.1.310 DXF-AAMA XDATA trial retained 0/56 InfiniDrip source IDs and no registered app record. The tested route cannot provide stable entity identity. Its geometry result is not attributable because Draw Curve Points differed from the pinned setup and two prior scene inserts were present; the snapshot verifies only that nine expected pieces appeared. No V03 gate clears or changes. S589 reconciles existing seven-recipe/two-generation evidence without repeating this test. See E-G04-S588-EXIT."
+        },
+        {
+          "at": "2026-10-09T06:48:33.726Z",
+          "actor": "Codex",
+          "text": "S589 reconciles the corrected S573 V03 criteria against existing evidence through S588, including the 0/56 custom XDATA identity result. It distinguishes admitted gates from diagnostic/profile claims, retains exact failure and unknown boundaries, and updates stale current summaries with an evidence-backed next step. No UI trial, code change, or gate change. See E-G04-S589-START."
+        },
+        {
+          "at": "2026-10-09T06:50:33.838Z",
+          "actor": "Codex",
+          "text": "S589 updates the V03 evidence picture through S588. Product-development/local processing and the narrow CLO DXF-AAMA identity are supported; technical compatibility is not. Five Polo CUT contours fail the fixed 0.001 cm gate; output CUT/SEW is mixed; grade/options and full mark mapping are incomplete; the tested malformed input silently lost an inset SEW; fine rendered proof is lacking. S588's 0/56 XDATA result closes that tested ID mechanism, while its geometry is unattributable. Next inspect the five exact Polo CUT source/output paths for a distinct, falsifiable representation before any CLO retry. All acceptance gates remain unchanged. See E-G04-S589-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11987,7 +11997,9 @@
         "E-G04-S587-START",
         "E-G04-S587-EXIT",
         "E-G04-S588-START",
-        "E-G04-S588-EXIT"
+        "E-G04-S588-EXIT",
+        "E-G04-S589-START",
+        "E-G04-S589-EXIT"
       ],
       "flagKey": null
     },
@@ -22711,6 +22723,24 @@
       "sha256": null,
       "verified": true,
       "note": "S588 local CLO 2026.1.310 DXF-AAMA XDATA pilot retained 0/56 custom IDs and no registered app record. This rules out stable entity identity for the tested route only; geometry is unattributable due to a documented import-option deviation and two pre-existing scene inserts. Snapshot shows nine expected pieces. All V03 acceptance gates remain unchanged and open."
+    },
+    {
+      "id": "E-G04-S589-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S589-current-v03-gate-reconciliation/S589-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconcile S573 V03 criteria against retained evidence through S588. Deliver a current pass/fail/unproven matrix, bounded profile and geometry statements, and the shortest evidence-backed next step; no new CLO trial, code change, or acceptance adjustment."
+    },
+    {
+      "id": "E-G04-S589-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current V03 matrix reconciles S573 acceptance with evidence through S588. Permission/profile identity are supported; compatibility is held by measured Polo geometry, mixed CUT/SEW, incomplete marks/grades/options, malformed-input failure, and fine-detail/round-trip gaps. Next: inspect five exact Polo CUT source/output paths for a distinct falsifiable representation before any new receiver trial."
     }
   ]
 }

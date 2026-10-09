@@ -1,17 +1,19 @@
-## Current EPIC-17/G04 V03 boundary — S588 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S589 exit (2026-10-09)
 
-S588 tested one local CLO 2026.1.310 DXF-AAMA XDATA round trip. Output retained
-0/56 custom entity IDs and no registered `INFINIDRIP_G04` APPID, so this tested
-route cannot supply stable source identity. Import `Draw Curve Points` differed
-from the pinned configuration and the session held two prior inserts; therefore
-the exported geometry is not attributable. Rendered snapshot shows all nine
-expected pieces. No acceptance, geometry, source code, legacy behavior, or
-baseline changed. All V03 gates remain open. CLO stays open for admitted work.
-Board start/exit replay is 3465→3467→3469; V02 remains Done and V03/EPIC-17
+S589 updates the V03 matrix through S588 and reconciles stale current summaries.
+The named CLO DXF-AAMA profile and user-confirmed product-development/local
+processing basis are supported; neither proves interchange compatibility.
+Existing evidence has five Polo CUT geometry failures above 0.001 cm, mixed
+CUT/SEW layer semantics, incomplete mark/grade/options evidence, a scoped
+malformed-input failure, and only gross render review. S588 retained 0/56
+custom XDATA IDs; its geometry is not attributable due to a setting deviation
+and pre-existing scene inserts. No gate changes. Current matrix:
+`docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`.
+Validated board replay is 3469→3471→3473; V02 remains Done and V03/EPIC-17
 remain In Progress. Exit packet:
-`docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md`.
-Next S589 reconciles retained seven-recipe/two-generation evidence against the
-unchanged V03 acceptance matrix, without repeating this pilot.
+`docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md`.
+Next inspect the five exact Polo CUT source/output paths for a distinct,
+falsifiable representation hypothesis before any new exchange.
 
 ## Prior EPIC-17/G04 V03 contract audit — S587 exit (2026-10-09)
 

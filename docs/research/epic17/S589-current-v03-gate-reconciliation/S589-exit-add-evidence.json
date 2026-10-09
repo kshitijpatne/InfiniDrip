@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3471,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S589-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md",
+    "verified": true,
+    "note": "Current V03 matrix reconciles S573 acceptance with evidence through S588. Permission/profile identity are supported; compatibility is held by measured Polo geometry, mixed CUT/SEW, incomplete marks/grades/options, malformed-input failure, and fine-detail/round-trip gaps. Next: inspect five exact Polo CUT source/output paths for a distinct falsifiable representation before any new receiver trial."
+  }
+}

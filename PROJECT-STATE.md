@@ -1,22 +1,20 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 588 exit; V03 remains open
+## EPIC-17 / G04 — Slice 589 exit; V03 remains open
 
-S588 completed one CLO 2026.1.310 DXF-AAMA round trip of a Polo M diagnostic
-fixture with 56 registered-app XDATA IDs. The output retained 0/56 IDs and
-contained no `INFINIDRIP_G04` APPID/XDATA, so this tested route does not provide
-stable entity identity. The import's `Draw Curve Points` setting differed from
-the pinned S536 setup and the active scene had two pre-existing inserts; the
-geometry output is therefore not attributable to this trial. Its snapshot
-confirms the nine expected pieces are visible. No geometry, acceptance, gate,
-baseline, or production code changed. All remaining V03 gates stay open. CLO
-remains open for admitted work. Exit packet:
-`docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md`.
+S589 reconciles the corrected S573 gate matrix with retained evidence
+through S588 and replaces the stale roadmap V03 summary. Rights/local
+processing and the narrow CLO DXF-AAMA profile identity are supported. The
+tested path still fails five Polo CUT contours at the fixed 0.001 cm gate,
+mixes CUT/SEW output semantics, lacks full marks/grade/options proof, and
+silently accepted the tested malformed input. S588's 0/56 XDATA result rules
+out that custom ID route for its tested setup; its geometry is unattributable
+because of a setting deviation and two pre-existing scene inserts. No gates or
+claims change. Start packet and current matrix:
+`docs/research/epic17/S589-current-v03-gate-reconciliation/S589-start-packet.md`;
+`docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`.
 
-Validated board exit replay: 3467→3469; G04-V02 Done and G04-V03/EPIC-17 In
-Progress. Next S589 reconciles existing seven-recipe/two-generation evidence
-against the exact V03 acceptance matrix without repeating the XDATA trial.
-The goal remains active and aligned.
+The current matrix is `docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`; exit packet is `docs/research/epic17/S589-current-v03-gate-reconciliation/S589-exit-packet.md`. Validated board replay 3469→3471→3473 keeps G04-V02 Done and G04-V03/EPIC-17 In Progress. Next inspect the five exact Polo CUT source/output paths for a distinct, testable representation hypothesis; do not repeat CLO settings or encodings already measured. The goal remains active; CLO remains open.
 
 ## Prior EPIC-17 / G04 — Slice 587 exit; V03 remains open
 

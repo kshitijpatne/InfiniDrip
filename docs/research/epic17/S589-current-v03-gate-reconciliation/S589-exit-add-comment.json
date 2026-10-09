@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3472,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S589 updates the V03 evidence picture through S588. Product-development/local processing and the narrow CLO DXF-AAMA identity are supported; technical compatibility is not. Five Polo CUT contours fail the fixed 0.001 cm gate; output CUT/SEW is mixed; grade/options and full mark mapping are incomplete; the tested malformed input silently lost an inset SEW; fine rendered proof is lacking. S588's 0/56 XDATA result closes that tested ID mechanism, while its geometry is unattributable. Next inspect the five exact Polo CUT source/output paths for a distinct, falsifiable representation before any CLO retry. All acceptance gates remain unchanged. See E-G04-S589-EXIT."
+}

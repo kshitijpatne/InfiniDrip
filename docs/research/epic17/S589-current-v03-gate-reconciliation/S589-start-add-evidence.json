@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3469,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S589-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S589-current-v03-gate-reconciliation/S589-start-packet.md",
+    "verified": true,
+    "note": "Reconcile S573 V03 criteria against retained evidence through S588. Deliver a current pass/fail/unproven matrix, bounded profile and geometry statements, and the shortest evidence-backed next step; no new CLO trial, code change, or acceptance adjustment."
+  }
+}

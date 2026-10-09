@@ -2,32 +2,29 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 gate picture — S558 (2026-10-09)
+### G04 current V03 gate picture — S589 (2026-10-09)
 
-S558's current CLO Help Center sources document the named profile
-`CLO 2026.1.310 / DXF-AAMA`, legacy Gerber DXF-AAMA equivalence, and the
-availability of grading information embedded in a DXF or supplied separately
-as a Rule File. They do not specify a normative AAMA edition or full
-conformance mapping; `$ACADVER=AC1009` in the retained seven-recipe outputs is
-only a DXF database-version fact. The user's written product-development and
-local-processing authorization settles those project-level questions.
+S589 reconciles the corrected S573 criteria with evidence through S588. CLO
+2026.1.310 / DXF-AAMA is a documented narrow profile identity; written
+product-development and local-file-processing permission is settled. Neither
+is a technical compatibility pass. All seven M/default recipes and 41 pieces
+were exchanged across two generations, but five Polo CUT contours miss the
+fixed 0.001 cm gate, CUT and SEW are mixed on output layer 8, grades/options and
+full mark semantics remain incomplete, and the tested malformed fixture was
+silently accepted with a missing inset SEW contour. Only gross rendered piece
+presence is established. S588's one DXF-AAMA test retained 0/56 custom XDATA
+IDs; its geometry is not attributable because the import setting differed
+from the pinned test and the scene contained two prior inserts. See the full
+current matrix at
+`docs/research/epic17/S589-current-v03-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S589.md`.
 
-The retained cohort has 41/41 unique piece identities, nine mixed CUT/SEW
-layers and 100 source marks (22 direct matches; 78 without direct matches, not
-proven lost). All seven are M/default; current product DXF export uses one
-selected-size piece set and no source-backed graded DXF fixture exists. CLO's
-grading option therefore gives the next concrete test only after a real
-source-backed multi-size/grade fixture is prepared. A second receiver is not
-required by admitted G04 criteria. V03 remains held by five Polo contour
-failures, mixed CUT/SEW semantics, incomplete mark and grade/options proof,
-the tested malformed-input failure, and the remaining profile/conformance
-limits. See S558 and the S557 corrected matrix; no gate or claim has been
-weakened.
-
-Next: build a genuine source-derived multi-size/grade fixture from existing
-drafting data and perform one documented CLO grade-included import/export test;
-then work only on still-failing gates with a demonstrated remedy. Do not repeat
-known CLO settings or round trips. Keep CLO open while needed.
+Stop repeating unchanged CLO settings and do not infer universal CLO/DXF
+incompatibility. Next, inspect the exact five Polo CUT source/output paths for
+a concrete, falsifiable representation change, comparing already-tested
+R2000/LWPOLYLINE and LINE encodings. Only after a distinct candidate has a
+measured basis should one clean, isolated CLO exchange be run. Keep the fixed
+geometry threshold, seven-recipe and all other V03 gates unchanged. CLO stays
+open for admitted work; every exchange remains under its named C: folder.
 
 ### G04 current evidence and conditional estimate — S520 (2026-10-08)
 
@@ -124,7 +121,7 @@ _Targets were reforecast at Epic 14's limited evidence admission on 2026-09-24. 
 | G01 Admission and professional baseline | P0 | 2026-09-24 | 2026-11-13 baseline target; closed 2026-09-24 | C01/C02/C05/C06 evidence wave → C03 → C04 → final review; distinct digital remediation when confirmed | Closed at Slice 228, including S227 remediation | A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted. Exit report: `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. |
 | G02 Versioned style foundation | P0 | Admitted 2026-09-24 | Closed 2026-09-26 at Slice 241; PR #12 brought the verified closure record to `origin/main` | G01 closed; maintainer explicitly admitted EPIC-15; F01 → F02 → F03 → final review | 10 implementation slices (Slices 230–239), plus Slice 229 admission, Slice 240 review and Slice 241 merge/closure record; 22–44 focused engineering days (planning estimate) | Multi-style local record, legacy migration, project backup/restore, source-aware fields, exact dependency invalidation, durable constrained edits, immutable revisions and hashes passed the digital exit without changing protected legacy exports. Evidence: `docs/planning/EPIC-15-ADMISSION.md`, `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`, and `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. |
 | G03 Measurement-first creation | P0 | 2027-02-15 | 2027-05-14 | G02; can parallel with technical-flat specialist research | 6–9 | One measured size, coach, editable continuation and separately approved grading work for all supported recipes. |
-| G04 Professional flats and CAD interchange | P0 | Admitted 2026-09-29; V01 → V02 → V03 | 2027-07-16 conditional | G01/G02/G03 verified complete; shared integration remains serialized | V01/V02 accepted for all seven recipes. S486 screened iDigit Lite, Fashion Dot, and Cameo v8; S521 screened LibreCAD 2.2.1.5 as a free generic R12 candidate only, not an apparel-CAD/profile qualification. No receiver/profile selected. Exact rights-cleared local Windows 11 apparel-CAD access remains an external dependency; access delay is unbounded. Conditional post-access estimate: 4–9 V03 proof/round-trip slices plus 3–5 final review/merge/deployment slices. | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views remain G09/D04; production tech-pack content remains G05. | Preserve all V02/V03 gates, legacy DXF behavior, protected export identities, and no physical/factory/production-readiness claim. No candidate is installed or selected without rights, local-handling, profile, and representative round-trip evidence. |
+| G04 Professional flats and CAD interchange | P0 | Admitted 2026-09-29; V01 → V02 → V03 | Reforecast at next technical proof | G01/G02/G03 verified complete; shared integration remains serialized | V01/V02 accepted for all seven recipes. CLO 2026.1.310 / DXF-AAMA is a documented, rights-cleared, local test identity, but the tested configurations fail five Polo CUT contours at 0.001 cm; CUT/SEW semantics, marks/grades/options, and malformed-input behavior also hold V03 (S573, S585, S589). S588's tested XDATA identity mechanism retained 0/56 IDs. No unchanged CLO retry. Next inspect the five exact Polo CUT source/output paths for a distinct, falsifiable representation; only run one clean exchange after that basis exists. Technical schedule is not estimable until a candidate passes; permission/access is no longer the dependency. | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views remain G09/D04; production tech-pack content remains G05. | Preserve all V02/V03 gates, legacy DXF behavior, protected export identities, and no physical/factory/production-readiness claim. Require representative all-seven import/round-trip evidence before any exact compatibility claim. |
 | G05 Living production tech pack | P0 | Research 2026-10-05; code 2027-04-05 | 2027-10-15 | G02 opens T01; G04 and G03 feed later export/POM packets | 12–18 | Editable source, full configurable sections, provenance, approvals, QA fields and frozen exports across all supported recipes. |
 | G06 Professionally vetted starting designs | P1 | Research 2026-10-05; implementation 2027-05-17 | 2027-12-17 | G02 opens registry work; G04/G05 required for final B1 review; garment-family work can run in disjoint geometry lane | 10–16 plus recipe expansion below | Curated, independently reviewed starter register; no counted item lacks B1 evidence. |
 | G07 Researched garment expansion | P1, conditional on Phase 9 garment approval | 2026-10-05 earliest | 2027-12-17 target for researched set | Existing garment synthesis; shorts and upper-body foundation may run concurrently only in disjoint worktrees | 34–47, plus jogger cuff 2–3 if included | Each new recipe passes its own researched geometry/grade/POM/BOM/output matrix and B1 digital review; no physical-fit claim. |
