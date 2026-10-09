@@ -1,17 +1,29 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S578 exit
+## Current EPIC-17/G04 V03 boundary — S579 exit
+
+- S579 exit packet: `docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md`.
+  Official docs identify `GetPatternLineInfo(index)`, a read-only outline-line
+  JSON getter with pattern identity, bounds, line counts, endpoints and
+  lengths. It merits one exact-build test after S578 returned empty outline
+  point arrays. No app action or acceptance change occurred. Board transition
+  3429→3431→3433 keeps V02 Done and V03 In Progress.
+- Next: in S580, call only `GetPatternLineInfo` for the nine current S574
+  pieces; record its JSON under the named C: slice folder and compare the
+  returned geometry to the pinned source where frame/semantics support it.
+  No setters, DXF re-export, project save, or gate relaxation. CLO remains
+  open.
+
+## Prior EPIC-17/G04 V03 boundary — S578 exit
 
 - S578 exit packet: `docs/research/epic17/S578-clo-outline-api-smoke/S578-exit-packet.md`.
   In CLO 2026.1.310, count/name getters return nine indexed pieces (`0`–`8`),
   but `GetPatternOutlinePoints` returns an empty list for every visible piece.
-  The run has no exception; there are no coordinates for the 0.001 cm
-  comparison and it does not attribute CUT loss to import or export. Board
-  transition 3425→3427→3429 leaves G04-V03 In Progress and G04-V02 Done.
-- Next: inspect the official API list for a distinct documented, read-only
-  query that exposes imported boundary geometry or separates CUT/SEW paths.
-  Do not repeat the empty-outline call, change project geometry, or weaken any
-  V03/V02 gate. CLO remains open.
+  There are no coordinates for the 0.001 cm comparison and the result does
+  not attribute CUT loss to import or export. Board transition 3425→3427→3429
+  leaves G04-V03 In Progress and G04-V02 Done.
+- S579 identified a distinct official read-only boundary-line query for one
+  bounded exact-build test.
 
 ## Prior EPIC-17/G04 V03 boundary — S577 exit
 

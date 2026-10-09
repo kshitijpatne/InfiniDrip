@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3429,
-  "updatedAt": "2026-10-09T05:01:29.013Z",
+  "revision": 3433,
+  "updatedAt": "2026-10-09T05:03:56.420Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11613,6 +11613,16 @@
           "at": "2026-10-09T05:01:29.013Z",
           "actor": "Codex",
           "text": "S578 confirms the documented getters execute in CLO 2026.1.310, but GetPatternOutlinePoints returns [] for all nine visible patterns (names 0-8); the result cannot support the unchanged 0.001 cm contour comparison or stage attribution. No V03 gate passes; follow S578's next-action screen for a distinct documented read-only geometry route."
+        },
+        {
+          "at": "2026-10-09T05:02:55.664Z",
+          "actor": "Codex",
+          "text": "S579 screens only exact official API definitions for read-only boundary geometry or distinct CUT/SEW access that could explain S578's empty outline results. No app action, proprietary decoding, or acceptance change. See E-G04-S579-START."
+        },
+        {
+          "at": "2026-10-09T05:03:56.420Z",
+          "actor": "Codex",
+          "text": "S579 found a distinct documented boundary query, GetPatternLineInfo, that returns outline-line coordinates/lengths and merits one exact-build read-only test after S578's empty point output. Internal-shape points use a separate pseudo-bbox frame; stitch getters do not promise edge geometry. See E-G04-S579-EXIT; no gate changed."
         }
       ],
       "evidenceRefs": [
@@ -11867,7 +11877,9 @@
         "E-G04-S577-START",
         "E-G04-S577-EXIT",
         "E-G04-S578-START",
-        "E-G04-S578-EXIT"
+        "E-G04-S578-EXIT",
+        "E-G04-S579-START",
+        "E-G04-S579-EXIT"
       ],
       "flagKey": null
     },
@@ -22411,6 +22423,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO 2026.1.310 exposed all three documented getters; count/name returned nine patterns (0-8), but every outline getter returned empty for the visible imported pieces. No Python exception, project save, or acceptance change."
+    },
+    {
+      "id": "E-G04-S579-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S579-readonly-boundary-api-screen/S579-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Narrow first-party documentation screen for another read-only imported-boundary or separate CUT/SEW getter after S578 returned empty outlines. No CLO action or gate change."
+    },
+    {
+      "id": "E-G04-S579-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official CLO docs expose GetPatternLineInfo: read-only outline-line JSON with pattern identity, bounds, endpoints, lengths and ordered line IDs. This is the next .310 runtime candidate; no app action or gate change."
     }
   ]
 }

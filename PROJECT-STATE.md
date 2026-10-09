@@ -1,6 +1,25 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 578 exit; V03 remains open
+## EPIC-17 / G04 — Slice 579 exit; V03 remains open
+
+Official CLO API docs contain another read-only boundary query:
+`GetPatternLineInfo(index)` returns outline line identities/count, bounding
+box, start/end/mid coordinates, and lengths. This is a concrete alternative to
+S578's empty `GetPatternOutlinePoints` result. It does not promise curve
+control points or CUT/SEW roles. Internal-shape point getters use a distinct
+pseudo-bounding-box frame; stitch getters expose group/property data but their
+documented returns do not promise edge coordinates. S579 makes no app call.
+See `docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md`.
+
+Canonical board revision 3433 leaves EPIC-17/G04-V03 In Progress and V02
+Done. `npm run control-center:test` passes 42/42; `git diff --check` passes.
+No production source/tests changed, so the full repository gate is not due.
+
+**Next:** one read-only `GetPatternLineInfo` run over the nine S574 pieces in
+the already-running CLO session, then compare its actual data with source CUT
+geometry without assuming role/frame or lowering 0.001 cm.
+
+## Prior EPIC-17 / G04 — Slice 578 exit
 
 The existing CLO 2026.1.310 session ran the documented read-only pattern API
 getters once from CLO's Python Editor. `GetPatternCount()` returned 9;
@@ -12,15 +31,9 @@ JSON/screenshot evidence are in the specifically named C: S578 folder; no CLO
 project was saved, no geometry or DXF changed, and no acceptance gate passed.
 See `docs/research/epic17/S578-clo-outline-api-smoke/S578-exit-packet.md`.
 
-The canonical board is revision 3429: EPIC-17 and G04-V03 remain In Progress;
-G04-V02 remains Done. The goal is active. `npm run control-center:test`
-passed 42/42 and `git diff --check` passed. No production source/tests changed,
-so the full repository gate is not due at this research slice.
-
-**Next:** inspect only official documentation for a distinct read-only API
-that exposes imported boundary geometry or distinguishes CUT/SEW. Do not rerun
-the empty-outline query, decode proprietary project files, change the
-0.001 cm threshold, or weaken any V02/V03 criteria. CLO remains open.
+The canonical board was revision 3429: EPIC-17 and G04-V03 remained In
+Progress; G04-V02 remained Done. Control Center tests passed 42/42. No
+production source/tests changed, so the full repository gate was not due.
 
 ## Prior EPIC-17 / G04 — Slice 577 exit
 
