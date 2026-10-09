@@ -1,5 +1,26 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 615 exit; V03 remains open
+
+S615 tested the same unitless Polo M fixture in CLO 2026.1.310 Standard DXF at
+1000% import scale instead of S614's 100%. CLO imported, ASTM-exported and
+re-imported nine pieces without a format error, but emitted geometry is
+unchanged except output style name and creation time. Front dimensions remain
+2.850001 × 7.3274 against source 28.5 × 73.274 (0.1×); 8/18 paths match only
+after diagnostic 0.1 scaling and 10 have vertex changes. No V03 gate clears.
+The source has no `$INSUNITS` or `$MEASUREMENT`; next isolate the unit selector
+while holding 100% scale and all other settings fixed. All-seven acceptance,
+`0.001 cm` gate and holds remain. CLO remains open. Exit packet and refreshed
+matrix: `docs/research/epic17/S615-standard-dxf-explicit-scale/`.
+Board closeout: 3593→3596; V02 Done, V03/EPIC-17 In Progress.
+
+## EPIC-17 / G04 — Slice 615 start record
+
+The controlled test objective and start evidence are recorded in
+`docs/research/epic17/S615-standard-dxf-explicit-scale/S615-start-packet.md`.
+It changed only Standard-DXF import scale to 1000%; no product geometry,
+export settings, gate, or default changed. Board start replay was 3591→3593.
+
 ## EPIC-17 / G04 — Slice 614 exit; V03 remains open
 
 S614's fixed-setting CLO Standard-DXF input / ASTM-export trial imports,
@@ -16,10 +37,10 @@ or V03 gate clears. Full evidence and limits:
 
 Board exit replay is `3588→3591`; V02 remains Done and V03/EPIC-17 remain
 In Progress. Preserve the 0.001 cm gate, all-seven requirement, export
-identities and all holds. Do not repeat Standard-DXF input or compensate the
-measured scale mismatch. Next select a new source-backed profile/receiver
-experiment that can test unit handling and identity. CLO remains open while
-G04 work is active.
+identities and all holds. Do not repeat the exact 100% Standard-DXF setup.
+S615's new controlled test changes only the receiver import-scale parameter
+to diagnose the 10× unit interpretation; it does not alter emitted geometry
+after export. CLO remains open while G04 work is active.
 
 ## EPIC-17 / G04 — Slice 613 exit; V03 remains open
 

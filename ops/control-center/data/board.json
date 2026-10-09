@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3591,
-  "updatedAt": "2026-10-09T12:15:03.082Z",
+  "revision": 3596,
+  "updatedAt": "2026-10-09T12:30:44.413Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12018,6 +12018,16 @@
           "at": "2026-10-09T12:14:27.697Z",
           "actor": "Codex",
           "text": "S614’s fixed-setting Standard-DXF-input/ASTM-output trial imports, exports, and reimports nine pieces without a format error, but the source-front dimensions 28.5 × 73.274 become 2.850001 × 7.3274 under cm/100% settings. Eight of eighteen source CUT/SEW paths match only at diagnostic 0.1 scaling; several contours also lose vertices. The CLO PDF shows gross piece presence only, with oversized/rotated labels and unreadable fine detail. This is a concrete scale/geometry failure, not a profile qualification. V03, all-seven acceptance, the 0.001 cm gate, export identities and all holds stay unchanged. See E-G04-S614-EXIT and the S614 exit packet."
+        },
+        {
+          "at": "2026-10-09T12:17:23.801Z",
+          "actor": "Codex",
+          "text": "S615 tests the measured S614 10× Standard-DXF scale discrepancy by changing only import scale from 100% to 1000%, on the exact same Polo M source and with the same CLO build, cm units, import options, ASTM export settings, and 0.001 cm threshold. This diagnoses unit handling for one fixture; it does not rescale output or qualify a profile. All-seven V03 criteria and holds remain. See E-G04-S615-START."
+        },
+        {
+          "at": "2026-10-09T12:30:44.058Z",
+          "actor": "Codex",
+          "text": "S615's controlled 1000% Standard-DXF import-scale trial re-imported nine pieces without a format error, but line-normalized comparison shows the emitted geometry is identical to S614's 100% result (only output style name and creation time differ). The front remains 2.850001 × 7.3274 versus source 28.5 × 73.274; 8/18 paths match only at diagnostic 0.1 scale and 10 have changed vertices. The source has no $INSUNITS/$MEASUREMENT. This is a concrete, reproduced scale failure, not a profile qualification. All-seven acceptance, the 0.001 cm geometry gate, V03 holds, legacy behavior and protected export identities remain unchanged. Next isolate the import-unit selector at 100% scale. See E-G04-S615-EXIT and the S615 packet."
         }
       ],
       "evidenceRefs": [
@@ -12345,7 +12355,10 @@
         "E-G04-S613-EXIT",
         "E-G04-S614-START",
         "E-G04-S614-EXIT",
-        "E-G04-S614-MATRIX"
+        "E-G04-S614-MATRIX",
+        "E-G04-S615-START",
+        "E-G04-S615-EXIT",
+        "E-G04-S615-MATRIX"
       ],
       "flagKey": null
     },
@@ -23546,6 +23559,33 @@
       "sha256": null,
       "verified": true,
       "note": "Current V03 gate dispositions refreshed after the S614 CLO Standard-DXF practical scale failure; all acceptance gates remain unchanged and open."
+    },
+    {
+      "id": "E-G04-S615-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S615-standard-dxf-explicit-scale/S615-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S615 runs one CLO 2026.1.310 Standard-DXF import-scale sensitivity test at 1000%, changing only that input parameter from S614. Same source, cm units and ASTM export; source scale/geometry and rendered output measured at unchanged 0.001 cm gate. This is diagnostic only; all V03 and all-seven gates remain."
+    },
+    {
+      "id": "E-G04-S615-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S615-standard-dxf-explicit-scale/S615-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S615 changed only CLO Standard-DXF import scale from 100% to 1000%. The same nine-piece ASTM round trip succeeds operationally, but output geometry remains identical to S614 except metadata and the front remains 0.1x source size; 8/18 paths match only at diagnostic 0.1 scaling and 10 have vertex changes. No V03 gate clears; all-seven acceptance, 0.001 cm threshold and holds remain."
+    },
+    {
+      "id": "E-G04-S615-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S615-standard-dxf-explicit-scale/V03-CURRENT-GATE-MATRIX-S615.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Current V03 dispositions refreshed after S615 confirmed the Standard-DXF 1000% import setting does not change the one-fixture geometry failure; every V03 gate and hold remains unchanged."
     }
   ]
 }

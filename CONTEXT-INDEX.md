@@ -1,6 +1,34 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S614 exit
+## Current EPIC-17/G04 V03 boundary — S615 exit
+
+- S615 tested Standard-DXF import at 1000% against S614's 100% setting, using
+  the same unitless Polo M source and all other settings fixed. CLO's nine-piece
+  ASTM export/re-import completed without a format error, but normalized DXF
+  comparison shows no geometry change (only style name and creation time).
+  Front dimensions remain 0.1× source; 8/18 paths match only at diagnostic
+  0.1 scaling, and 10 paths have changed vertex geometry. No V03 gate clears.
+  The source declares neither `$INSUNITS` nor `$MEASUREMENT`. Full exit and
+  refreshed matrix:
+  `docs/research/epic17/S615-standard-dxf-explicit-scale/S615-exit-packet.md`
+  and `V03-CURRENT-GATE-MATRIX-S615.md`.
+- Exit board replay is `3593→3596`; G04-V02 remains Done and G04-V03/EPIC-17
+  remain In Progress. Next isolate CLO's unit selector (mm versus cm) at 100%
+  scale on the same source, changing no other setting. Keep all-seven
+  acceptance, `0.001 cm` threshold, all V03 holds, legacy DXF behavior, and
+  protected export identities. CLO product-development and local-only
+  authorization is confirmed; keep exchange/evidence files under the named C:
+  folder and leave CLO open while G04 remains active.
+
+## Prior EPIC-17/G04 V03 boundary — S615 start
+
+- S615's controlled scope and setup are in
+  `docs/research/epic17/S615-standard-dxf-explicit-scale/S615-start-packet.md`.
+  It changed only import scale from 100% to 1000%; source, unit selector, other
+  options, export settings, and gate remained fixed. Start board replay was
+  `3591→3593`.
+
+## Prior EPIC-17/G04 V03 boundary — S614 exit
 
 - S614 executed the fixed-setting Standard-DXF-input/ASTM-output CLO test.
   It reimports nine pieces without a format error, but the front's source
@@ -15,8 +43,7 @@
   render/rights/profile and remaining V03 gates unchanged. Permission for this
   product-development evaluation and local-only handling is confirmed.
 - Board replay: `3586→3588→3591`; G04-V02 Done;
-  G04-V03/EPIC-17 In Progress. Next choose a new source-backed profile path;
-  do not repeat Standard-DXF input or compensate its measured 10× shrink.
+  G04-V03/EPIC-17 In Progress.
 
 ## Prior EPIC-17/G04 V03 boundary — S612 exit
 

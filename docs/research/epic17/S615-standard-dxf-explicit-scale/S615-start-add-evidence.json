@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3591,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S615-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S615-standard-dxf-explicit-scale/S615-start-packet.md",
+    "verified": true,
+    "note": "S615 runs one CLO 2026.1.310 Standard-DXF import-scale sensitivity test at 1000%, changing only that input parameter from S614. Same source, cm units and ASTM export; source scale/geometry and rendered output measured at unchanged 0.001 cm gate. This is diagnostic only; all V03 and all-seven gates remain."
+  }
+}
