@@ -2,25 +2,26 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 gate picture — S591 (2026-10-09)
+### G04 current V03 gate picture — S592 (2026-10-09)
 
-S591 tested one source-exact, degree-1 SPLINE encoding of the five remaining
-Polo M CUT corners in a clean CLO 2026.1.310 DXF-AAMA import/render/export.
-The source-side bound passed; 9/9 SEW and 4/9 unaffected CUT contours passed,
-but the five target CUT paths failed at conservative bounds
-`0.841822–13.113897 cm`. This rejects this encoding only. Written
-product-development use and local handling are settled; they are not
-technical compatibility evidence. All-seven round trips, identity, CUT/SEW
-semantics, marks, grading/options, malformed-input handling and useful
-rendered detail remain open. See
-`docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md` and
-its `V03-CURRENT-GATE-MATRIX-S591.md`.
+S592 tested the same source-exact degree-1 Polo SPLINE sequences as S591 with
+only group 70's closed bit cleared on five CUT entities. One clean CLO
+2026.1.310 DXF-AAMA round trip passes 9/9 SEW and 4/9 unaffected CUT paths;
+the back and four collar paths still fail at conservative bounds `4.063040`
+and `0.159193–0.467258 cm` against `0.001 cm`. Clearing the bit improves the
+measured output but does not clear the geometry gate. Reject this tested
+variant/build/profile/fixture only; do not infer undocumented CLO behavior.
+Product-development rights and local handling are settled, not compatibility
+evidence. Every all-seven, identity, CUT/SEW, mark, grading/options,
+malformed-input, useful-detail and repeated-round-trip gate remains open. See
+`docs/research/epic17/S592-polo-spline-closure-flag-probe/S592-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S592.md`.
 
-S592 will change only the SPLINE closed flag while retaining the repeated
-first control point; it requires a fresh hash-pinned source proof before CLO.
-Do not repeat the fillet, R2000/LWPOLYLINE, LINE, XDATA or CLO settings trials.
-Preserve every V03 gate and all-seven scope; keep CLO open and all exchange
-files in the named C: folder.
+Next S593 maps all output CUT candidates to source segment/vertex neighborhoods
+using the already captured S591/S592 files. No more encoding variants or CLO
+trials without a specific source-exact hypothesis from that diagnosis. Keep
+all V03 gates and all-seven scope; keep CLO open and exchange files in the
+named C: folder.
 
 ### G04 current evidence and conditional estimate — S520 (2026-10-08)
 
@@ -117,7 +118,7 @@ _Targets were reforecast at Epic 14's limited evidence admission on 2026-09-24. 
 | G01 Admission and professional baseline | P0 | 2026-09-24 | 2026-11-13 baseline target; closed 2026-09-24 | C01/C02/C05/C06 evidence wave → C03 → C04 → final review; distinct digital remediation when confirmed | Closed at Slice 228, including S227 remediation | A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted. Exit report: `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. |
 | G02 Versioned style foundation | P0 | Admitted 2026-09-24 | Closed 2026-09-26 at Slice 241; PR #12 brought the verified closure record to `origin/main` | G01 closed; maintainer explicitly admitted EPIC-15; F01 → F02 → F03 → final review | 10 implementation slices (Slices 230–239), plus Slice 229 admission, Slice 240 review and Slice 241 merge/closure record; 22–44 focused engineering days (planning estimate) | Multi-style local record, legacy migration, project backup/restore, source-aware fields, exact dependency invalidation, durable constrained edits, immutable revisions and hashes passed the digital exit without changing protected legacy exports. Evidence: `docs/planning/EPIC-15-ADMISSION.md`, `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`, and `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. |
 | G03 Measurement-first creation | P0 | 2027-02-15 | 2027-05-14 | G02; can parallel with technical-flat specialist research | 6–9 | One measured size, coach, editable continuation and separately approved grading work for all supported recipes. |
-| G04 Professional flats and CAD interchange | P0 | Admitted 2026-09-29; V01 → V02 → V03 | Reforecast at next technical proof | G01/G02/G03 verified complete; shared integration remains serialized | V01/V02 accepted for all seven recipes. S590's source-bounded fillet failed five Polo CUT paths; S591's exact-source degree-1 SPLINE also failed those five at 0.841822–13.113897 cm while four other CUT and all nine SEW pass. Both failures are limited to their tested fixtures/build/profile. Written product-development rights and local processing are confirmed. V03 still holds on all-seven round trips, identity, CUT/SEW semantics, marks/grades/options, malformed-input handling and useful rendered detail. S592 tests only the SPLINE closed flag, after source-proof. | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views remain G09/D04; production tech-pack content remains G05. | Preserve all V02/V03 gates, legacy DXF behavior, protected export identities, and no physical/factory/production-readiness claim. Require representative all-seven import/round-trip evidence before any exact compatibility claim. |
+| G04 Professional flats and CAD interchange | P0 | Admitted 2026-09-29; V01 → V02 → V03 | Reforecast after S592 measured probe | G01/G02/G03 verified complete; shared integration remains serialized | V01/V02 accepted for all seven recipes. S590's fillet and S591's closed degree-1 SPLINE failed five Polo CUT contours. S592 clearing only the SPLINE closed bit materially improved the back/collar errors, but those four still fail at 0.159193–4.063040 cm; 9/9 SEW and four other CUT contours pass. Each result is limited to its tested fixture/build/profile. Written product-development rights and local processing are confirmed. V03 still holds on all-seven round trips, identity, CUT/SEW semantics, marks/grades/options, malformed-input handling and useful rendered detail. Next S593 maps every receiver CUT candidate to source segments/vertices; no further variant trials absent a specific source-exact hypothesis. | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views remain G09/D04; production tech-pack content remains G05. | Preserve all V02/V03 gates, legacy DXF behavior, protected export identities, and no physical/factory/production-readiness claim. Require representative all-seven import/round-trip evidence before any exact compatibility claim. |
 | G05 Living production tech pack | P0 | Research 2026-10-05; code 2027-04-05 | 2027-10-15 | G02 opens T01; G04 and G03 feed later export/POM packets | 12–18 | Editable source, full configurable sections, provenance, approvals, QA fields and frozen exports across all supported recipes. |
 | G06 Professionally vetted starting designs | P1 | Research 2026-10-05; implementation 2027-05-17 | 2027-12-17 | G02 opens registry work; G04/G05 required for final B1 review; garment-family work can run in disjoint geometry lane | 10–16 plus recipe expansion below | Curated, independently reviewed starter register; no counted item lacks B1 evidence. |
 | G07 Researched garment expansion | P1, conditional on Phase 9 garment approval | 2026-10-05 earliest | 2027-12-17 target for researched set | Existing garment synthesis; shorts and upper-body foundation may run concurrently only in disjoint worktrees | 34–47, plus jogger cuff 2–3 if included | Each new recipe passes its own researched geometry/grade/POM/BOM/output matrix and B1 digital review; no physical-fit claim. |

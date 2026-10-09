@@ -1,24 +1,31 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S591 exit
+## Current EPIC-17/G04 V03 boundary — S592 exit
 
-- S591 tested a clean-scene CLO 2026.1.310 DXF-AAMA exchange with five exact,
-  source-vertex-preserving degree-1 SPLINE CUT entities. Nine pieces rendered;
-  9/9 SEW and four unaffected CUT contours passed. Five CUT receiver contours
-  failed at conservative bounds `0.841822–13.113897 cm` against `0.001 cm`.
-  This rejects the tested entity encoding/build/profile/fixture only and does
-  not infer CLO's internal SPLINE behavior. Packet and exact hashes:
-  `docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md`.
-- Current gate matrix:
-  `docs/research/epic17/S591-polo-degree1-spline-probe/V03-CURRENT-GATE-MATRIX-S591.md`.
-  V03's all-seven, identity, CUT/SEW, marks, grading/options, malformed-input,
+- S592 changed only group-70's SPLINE closed bit on five source-exact Polo M
+  CUT curves and completed one clean-scene CLO 2026.1.310 DXF-AAMA
+  import/render/export. Nine pieces rendered; 9/9 SEW and four unaffected CUTs
+  pass. Back and four collar CUT receiver contours still fail at conservative
+  bounds `4.063040 cm` and `0.159193–0.467258 cm` against `0.001 cm`. The
+  change materially improves S591 but still fails; it rejects this tested
+  variant/build/profile/fixture only and does not infer CLO's internal curve
+  handling. See
+  `docs/research/epic17/S592-polo-spline-closure-flag-probe/S592-exit-packet.md`.
+- Current V03 gate matrix:
+  `docs/research/epic17/S592-polo-spline-closure-flag-probe/V03-CURRENT-GATE-MATRIX-S592.md`.
+  All-seven, identity, CUT/SEW, marks, grading/options, malformed-input,
   useful-detail and repeated-round-trip gates remain. No acceptance, product
   source, legacy DXF behavior or protected export bytes changed.
-- Next S592 tests only the SPLINE closed flag while retaining the repeated
-  first control point, subject to a fresh source-side proof under `0.001 cm`.
-  Written product-development permission and local processing are settled;
-  no further permission request is needed. V02 Done, V03/EPIC-17 In Progress.
-  CLO remains open.
+- Next S593 maps every receiver CUT candidate to source segment/vertex
+  neighborhoods using S591/S592 files already under the dedicated C: folder.
+  No further encoding or CLO trial without a specific bounded source-exact
+  hypothesis. Written product-development permission/local handling remain
+  settled; no repeat request. V02 Done, V03/EPIC-17 In Progress. CLO remains
+  open.
+- Validated S592 board exit replay is `3487→3491`; the Epic stays In Progress,
+  V02 Done, and V03 In Progress. S592 closeout includes the 42/42 focused
+  Control Center suite and the only tracked files are slice docs/scripts and
+  canonical board metadata; no product code changed.
 
 - Historical S587 exit packet:
   `docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.

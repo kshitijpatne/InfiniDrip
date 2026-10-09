@@ -1,27 +1,28 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 591 exit; V03 remains open
+## EPIC-17 / G04 — Slice 592 exit; V03 remains open
 
-S591 tested one clean-scene CLO 2026.1.310 DXF-AAMA exchange of an
-exchange-only Polo M fixture expressing five original CUT contours as closed
-degree-1 SPLINE entities. The source control sequences are mathematically the
-same piecewise-linear contours and pass the unchanged `0.001 cm` source gate.
-CLO showed nine pieces without a format error; after one export, 9/9 SEW and
-4/9 unaffected CUT outlines pass, while the same five target CUT outlines
-fail at conservative upper bounds of `0.841822–13.113897 cm`. This rejects
-this entity encoding for the tested build/profile/fixture only and does not
-attribute an undocumented cause. No V03 gate, pattern, legacy DXF behavior,
-protected identity, or production code changed. Details, hashes, native scene
-and rendered evidence are in
-`docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md` and
-`V03-CURRENT-GATE-MATRIX-S591.md`.
+S592 tested clearing only group-70's SPLINE closed bit on the five exact,
+source-proven Polo M CUT SPLINEs, retaining all knots, controls, repeated
+endpoints, and other DXF pairs. The one-generation CLO 2026.1.310 DXF-AAMA
+import/export rendered nine pieces with no format error. Nine SEW and four
+unaffected CUT contours pass the fixed `0.001 cm` gate. The back and four
+collar CUTs remain outside it at conservative bounds `4.063040 cm` and
+`0.159193–0.467258 cm`; this materially improves S591 but still rejects the
+encoding for this fixture/build/profile. The source derivative deviation is
+exactly zero. No internal CLO cause is inferred. Details and hashes:
+`docs/research/epic17/S592-polo-spline-closure-flag-probe/S592-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S592.md`.
 
-Validated board exit replay is `3481→3485`; V02 remains Done and V03/EPIC-17
-remain In Progress. Next S592 tests only the SPLINE closed-flag variable with
-the same repeated-first control sequence, after a fresh source proof. Preserve
-the five CUT holds and all other V03 gates. Written product-development trial
-use and local-only processing are settled. The goal remains active; CLO stays
-open.
+Validated board exit replay was `3487→3491`. Refreshed `origin/main` remains
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor of the S592 starting
+commit. S592's unique commit is recorded in the next boundary packet. V02
+remains Done; V03/EPIC-17 remain
+In Progress. Next S593 maps all receiver CUT candidates to source segment and
+vertex neighborhoods using the saved S591/S592 exchanges. Do not test another
+encoding unless this yields one specific source-exact hypothesis. Keep every
+V03 and all-seven gate. Trial permission and local handling remain settled;
+all files stay on C: and CLO remains open.
 
 ## Prior EPIC-17 / G04 — Slice 587 exit; V03 remains open
 

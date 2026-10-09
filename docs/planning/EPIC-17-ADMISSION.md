@@ -1579,3 +1579,24 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   `docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`.
   All-seven acceptance, the 0.001 cm geometry gate, exact-profile/receiver,
   semantic, mark, grade, malformed-input and round-trip gates remain unchanged.
+
+- **S592 Polo SPLINE closure-flag probe (2026-10-09):** from committed S591
+  `f8c45b1a83dfc8052120710a505f1bc69ab9b8e7`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S592 is
+  unique. A fresh hash-pinned preflight changed only group 70 from 25 to 24 on
+  five source-exact degree-1 SPLINE CUT entities; source deviation remained
+  0 cm. One clean CLO 2026.1.310 DXF-AAMA round trip rendered nine pieces and
+  passed 9/9 SEW plus four unaffected CUTs. Back and four collar CUT bounds
+  improved versus S591 but still fail at `4.063040` and `0.159193–0.467258 cm`
+  against `0.001 cm`. This rejects the tested flag variant/build/profile only;
+  no CLO internal cause is inferred, no V03 gate or claim changed, and no
+  source/legacy writer/protected export behavior changed. The analyzer binds
+  output blocks by exact unchanged SEW geometry and compares CUT candidates
+  within each bound block. PDF/PNG, native scene, input/output and report hashes
+  are in `docs/research/epic17/S592-polo-spline-closure-flag-probe/`; exchange
+  artifacts stay under the user's named C: folder. Board start/exit revisions,
+  focused tests and commit ancestry are recorded in the S592 exit packet.
+  **Next:** S593 maps every receiver CUT candidate to source segments and
+  vertices in the already-recorded S591/S592 outputs; do not run another SPLINE
+  encoding trial absent a specific source-exact hypothesis. V01/V02, all-seven
+  and every V03 acceptance gate remain unchanged.

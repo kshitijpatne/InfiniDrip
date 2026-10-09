@@ -165,5 +165,7 @@ generate unbounded encoding variants.
 - The requested goal audit at this normal boundary returned status `active`;
   its objective still matches the admitted Epic through safe merge. No goal
   status or wording change is needed, and no manual UI resume is needed.
-- Slice boundary ready for commit; record the landed commit and refreshed
-  `origin/main` ancestry before proceeding to S592.
+- S591 landed as commit `f8c45b1a83dfc8052120710a505f1bc69ab9b8e7`
+  (`Slice 591: probe Polo degree-one spline transfer`). Before S592 start,
+  refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was verified
+  as an ancestor. S592 proceeded from that verified boundary.
