@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3556,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S606-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-exit-packet.md",
+    "verified": true,
+    "note": "Read-only CLO input-info coordinates uniquely correspond to all three exact S565 source CUT/SEW contours within 0.0000683 mm. This is geometric correspondence only; no V03 gate clears and the S603 grading ambiguity remains held."
+  }
+}

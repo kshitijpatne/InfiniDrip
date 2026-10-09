@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3557,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S606 geometrically maps CLO pattern indexes 0–2 and child shape 2 to the exact S565/S567 source SEW paths, while child shapes 0/1 match CUT paths within 0.0000683 mm. API units and labels do not establish semantic identity or GUI grade selection, so S603 and every V03 gate stay held. Next inspect only the mapped waistband path in CLO and trial source-derived grades only if target selection is unambiguous; otherwise choose another pending V03 gate. See E-G04-S606-EXIT."
+}

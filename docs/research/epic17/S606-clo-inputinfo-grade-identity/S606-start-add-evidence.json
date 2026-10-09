@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3554,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S606-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-start-packet.md",
+    "verified": true,
+    "note": "S606 makes one read-only exact-build GetPatternInputInformation capture from the existing S565 project, then compares returned coordinates against S567 CUT/SEW source geometry. No edits, grade values, save, import, or export; no acceptance gate changes."
+  }
+}

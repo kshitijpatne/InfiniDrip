@@ -1,6 +1,25 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 605 exit; V03 remains open
+## EPIC-17 / G04 — Slice 606 exit; V03 remains open
+
+S606 closed at the current branch boundary with read-only geometric identity
+evidence. `GetPatternInputInformation` returned three patterns and no errors;
+root/child shape indexes 0 and 1 matched the two exact S565/S567 source CUT
+paths, and child shape 2 matched each corresponding SEW path. Maximum contour
+residual was 0.0000683 mm (five-point pieces) and 0.0000611 mm (waistband),
+below the unchanged 0.001 cm gate. The API does not specify units or establish
+path semantics. No grade point was selected or changed, and no export behavior
+was tested, so the S603 ambiguity remains held. CLO stays open. Full evidence,
+hashes and limits: `docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-exit-packet.md`.
+
+Board start replay advanced 3554→3556; validated exit replay is recorded in
+the S606 packet and advances 3556→3558. G04-V02 stays Done; G04-V03 and
+EPIC-17 stay In Progress. Next uniquely numbered slice: inspect the mapped
+waistband internal path in the same CLO session and only trial source-derived
+grades if the selected path is unambiguous; otherwise retain that hold and
+work a different pending V03 exchange gate. No V03 acceptance changes.
+
+## S606 start scope (closed)
 
 S604 closed at `505d3faccfa88ac4e7b3efc48614c266db795b10`. It found no
 reliable, version-specific CLO cue for distinguishing an internal sewn-line
@@ -28,7 +47,15 @@ written product-development and local-only file-processing confirmation is
 recorded; no further permission question is needed. All-seven acceptance,
 V02-before-V03, legacy DXF behavior, protected export identities, and all
 other gates remain unchanged. Board revision after S605 exit replay: 3554.
-S606 must refresh history/board and reserve a unique slice before work.
+S606 is uniquely reserved from that verified boundary. It makes one
+read-only `GetPatternInputInformation` capture for the three indexed patterns
+in the still-open S565 CLO project and compares the returned paths to S567's
+source CUT/SEW contours. This getter is documented and was observed working in
+the same build in S583; its schema and manufacturing semantics remain
+undocumented. No selection, grading, project, source, or exchange changes are
+allowed. If the mapping is not unique at 0.001 cm, retain the hold and stop
+this query route. Start packet and board evidence:
+`docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-start-packet.md`.
 
 ## Prior EPIC-17 / G04 — Slice 604 exit; V03 remains open
 

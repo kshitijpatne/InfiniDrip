@@ -1,4 +1,21 @@
-## Latest verified boundary — S602 (2026-10-09)
+## Latest verified boundary — S606 (2026-10-09)
+
+S606's read-only `GetPatternInputInformation` coordinates map all three
+S565/S567 source CUT/SEW contours within `0.0000683 mm`, using only cyclic
+start/reversal correspondence and the documented DXF-ASTM cm-to-mm factor.
+This is geometry correspondence, not proof of API units, manufacturing layer
+semantics, GUI grading selection or exported grade behavior. S603's waistband
+grading hold remains. Next inspect the mapped internal path in the open CLO
+session and trial source-derived grades only if selection is unambiguous;
+otherwise retain the hold and proceed to another V03 gate. S606 exit packet:
+`docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-exit-packet.md`.
+
+Board start/exit replay: `3554→3556→3558`; G04-V02 remains Done and G04-V03 /
+EPIC-17 remain In Progress. The complete admitted acceptance, all-seven
+coverage, rights/profile, 0.001 cm, legacy DXF, protected identity and
+no-fit/factory/production-readiness constraints are unchanged.
+
+## Prior boundary — S602 (2026-10-09)
 
 S602 used a read-only Claude Opus 5.5 review to examine only for a primary-
 source-backed fix to the five exact Polo short-edge losses or a materially new

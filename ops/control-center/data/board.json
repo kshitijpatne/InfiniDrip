@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3554,
-  "updatedAt": "2026-10-09T10:36:51.828Z",
+  "revision": 3558,
+  "updatedAt": "2026-10-09T10:48:08.829Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11928,6 +11928,16 @@
           "at": "2026-10-09T10:36:51.828Z",
           "actor": "Codex",
           "text": "S605 closed fail-closed: CLO 2026.1.310 returned 3 numeric pattern names and empty outline arrays; the internal-shape call failed with NameError: utility_api is not defined. S582/S581 already show the required shape-list/info getters are absent from pattern_api, so do not repeat the API survey. The S603 grading identity hold remains and no V03 gate clears. S606 returns to a remaining actual exchange/profile gate using the fixed 0.001 cm threshold and unchanged all-seven requirement. Rights and local-only handling are confirmed; CLO stays open."
+        },
+        {
+          "at": "2026-10-09T10:41:14.111Z",
+          "actor": "Codex",
+          "text": "S606 follows S603/S604's unresolved waistband grade-path identity with one known, documented read-only getter already observed working in this exact CLO build: GetPatternInputInformation, queried once for each of the three current patterns. It will compare literal returned coordinates to S567 source CUT/SEW and fail closed if identity is non-unique. No selection, pattern, grade, project, or DXF changes; all V03 acceptance stays unchanged."
+        },
+        {
+          "at": "2026-10-09T10:48:08.829Z",
+          "actor": "Codex",
+          "text": "S606 geometrically maps CLO pattern indexes 0–2 and child shape 2 to the exact S565/S567 source SEW paths, while child shapes 0/1 match CUT paths within 0.0000683 mm. API units and labels do not establish semantic identity or GUI grade selection, so S603 and every V03 gate stay held. Next inspect only the mapped waistband path in CLO and trial source-derived grades only if target selection is unambiguous; otherwise choose another pending V03 gate. See E-G04-S606-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12236,7 +12246,9 @@
         "E-G04-S604-START",
         "E-G04-S604-EXIT",
         "E-G04-S605-START",
-        "E-G04-S605-EXIT"
+        "E-G04-S605-EXIT",
+        "E-G04-S606-START",
+        "E-G04-S606-EXIT"
       ],
       "flagKey": null
     },
@@ -23266,6 +23278,24 @@
       "sha256": null,
       "verified": true,
       "note": "S605's exact-build read-only CLO query returned numeric piece names and empty outlines; utility_api was undefined and internal shapes could not be enumerated. Existing S582/S581 evidence confirms the required pattern_api index getters are absent. S603 remains held; no V03 gate clears. Return to an actual exchange gate at S606."
+    },
+    {
+      "id": "E-G04-S606-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S606 makes one read-only exact-build GetPatternInputInformation capture from the existing S565 project, then compares returned coordinates against S567 CUT/SEW source geometry. No edits, grade values, save, import, or export; no acceptance gate changes."
+    },
+    {
+      "id": "E-G04-S606-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only CLO input-info coordinates uniquely correspond to all three exact S565 source CUT/SEW contours within 0.0000683 mm. This is geometric correspondence only; no V03 gate clears and the S603 grading ambiguity remains held."
     }
   ]
 }

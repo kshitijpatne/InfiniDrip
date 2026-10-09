@@ -1,6 +1,31 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S605 exit
+## Current EPIC-17/G04 V03 boundary — S606 exit
+
+- S606 geometrically matched `GetPatternInputInformation` output from all
+  three S565 patterns to the exact S565/S567 source CUT and SEW contours. The
+  root and child shapes 0/1 match CUT; child shape 2 matches SEW, with maximum
+  residual `0.0000683 mm` at the unchanged `0.001 cm` gate. This establishes
+  source-specific coordinate correspondence only: CLO's API docs do not
+  define units or confirm CUT/SEW semantics, and no GUI grading selection or
+  grade/export behavior was tested. Keep the S603 grading hold. Next inspect
+  only the mapped waistband child shape in CLO; proceed with source-derived
+  deltas only if the selected internal path is unambiguous, otherwise retain
+  the hold and choose another pending exchange gate. See
+  `docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-exit-packet.md`.
+- S605 returned numeric pattern names, empty outline points and
+  `NameError("name 'utility_api' is not defined")`; that route is closed.
+  S582/S581 confirmed required internal-shape index/info methods are absent
+  in this runtime. Do not repeat this API survey. See
+  `docs/research/epic17/S605-clo-readonly-internal-geometry/S605-exit-packet.md`.
+- S595 remains 4/9 CUT pass, 5/9 CUT fail, 9/9 SEW pass. All-seven exchange,
+  rights/profile, stable identity/semantics, marks, supported options,
+  malformed-input behavior and repeated round trips remain pending as
+  applicable. Product-development authorization and local-only processing
+  are confirmed. Preserve V02-before-V03, legacy DXF behavior and protected
+  export identities.
+
+## S606 start scope (closed)
 
 - S604 closed at `505d3faccfa88ac4e7b3efc48614c266db795b10`. Current CLO help,
   staff guidance and API docs expose no reliable, version-specific internal
@@ -20,6 +45,13 @@
   options, malformed inputs, and repeated round trips remain pending. Written
   product-development authorization and local-only processing are confirmed.
   Preserve V02-before-V03, legacy DXF behavior and protected export identities.
+
+- S606 uses one read-only `GetPatternInputInformation` query, known present in
+  CLO 2026.1.310 and previously successful in S583, on the three current S565
+  patterns. The aim is to compare returned coordinates with S567 CUT/SEW
+  source paths; no setter, selection, save, geometry, or exchange change is
+  allowed. If matches are not unique at 0.001 cm, keep the S603 grading hold.
+  See `docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-start-packet.md`.
 
 ## Prior EPIC-17/G04 V03 boundary — S604 exit
 

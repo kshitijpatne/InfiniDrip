@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3555,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S606 follows S603/S604's unresolved waistband grade-path identity with one known, documented read-only getter already observed working in this exact CLO build: GetPatternInputInformation, queried once for each of the three current patterns. It will compare literal returned coordinates to S567 source CUT/SEW and fail closed if identity is non-unique. No selection, pattern, grade, project, or DXF changes; all V03 acceptance stays unchanged."
+}
