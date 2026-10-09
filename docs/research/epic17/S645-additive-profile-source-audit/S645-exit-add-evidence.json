@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3724,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S645-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S645-additive-profile-source-audit/S645-exit-packet.md",
+    "verified": true,
+    "note": "S645 reconciles the legacy R12 source writer and prior trials. Additive identity/unit/mark/grade metadata is needed but cannot repair the five Polo CUT failures. Existing LWPOLYLINE, connected LINE, fillet, degree-1 SPLINE, CLO mode/profile, and BLOCK/INSERT trials do not pass the five contours at 0.001 cm. No new source-exact producer route is supported; no serializer or geometry changed. Preserve all V03 gates/holds and keep the receiver-access dependency explicit."
+  }
+}

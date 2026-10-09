@@ -1,5 +1,25 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 645 closed; receiver access remains required
+
+S645 audited the legacy DXF writer, the additive-profile contract and prior
+source-exact trials. The writer's missing identity/units/grade metadata is a
+real additive-profile need, but does not explain the five Polo CUT failures.
+Distinct tested encodings (including LWPOLYLINE, connected LINEs, fillets,
+degree-1 SPLINEs and named blocks) have not made the current CLO path pass the
+unchanged `0.001 cm` geometry gate. No further encoding trial or source repair
+is supported. The exact V03 status and gates are in
+`docs/research/epic17/S645-additive-profile-source-audit/`.
+
+Validated board replay `3722→3724→3726` preserves V01/V02 Done and V03/Epic In
+Progress; focused Control Center suite passes 42/42. Next action: at the next
+safe boundary, check current goal/repository state and proceed only if new
+rights-cleared local receiver access or a genuinely new falsifiable
+source-preserving mechanism is available. Otherwise retain the explicit
+receiver-access dependency; do not reduce scope, geometry tolerance, or other
+V03 gates. CLO remains open. No physical-fit, factory-acceptance, or
+production-readiness claim is made.
+
 ## EPIC-17 / G04 — Slice 644 closed; no eligible alternate receiver found
 
 S644 reconciled prior receiver screens and checked newer candidate sources.

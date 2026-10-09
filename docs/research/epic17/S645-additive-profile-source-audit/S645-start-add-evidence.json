@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3722,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S645-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S645-additive-profile-source-audit/S645-start-packet.md",
+    "verified": true,
+    "note": "Reserves S645 for a read-only audit of the existing DXF writer, profile/source design, and prior exact-geometry trials. The audit will identify a new testable mechanism only if it exists; otherwise it records why repeat encoding trials are unjustified and what receiver/access dependency remains. No source, geometry, gates, thresholds, acceptance, CLO files, or holds are changed."
+  }
+}

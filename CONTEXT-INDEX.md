@@ -1,5 +1,25 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S645 closed
+
+S645's read-only source audit found no remaining untested producer-side
+representation in the current evidence. The R12 writer has additive metadata
+gaps (units declaration, stable role/revision IDs, mark IDs, grade relation),
+but those do not explain CLO's five Polo CUT failures. LWPOLYLINE, connected
+LINE, fillet, degree-1 SPLINE, import/profile and BLOCK/INSERT trials are
+already recorded; none passes the five CUT contours at `0.001 cm` in the
+tested CLO route. Do not change source geometry or repeat them. Full S645
+matrix and evidence are in
+`docs/research/epic17/S645-additive-profile-source-audit/`.
+
+Validated board replay `3722→3724→3726` retains V01/V02 Done and V03/Epic In
+Progress. The next usable input is rights-cleared local access to an industrial
+apparel CAD receiver with a documented two-way profile, or a genuinely new
+source-preserving mechanism. If neither exists, keep the receiver-access
+dependency explicit and the admitted goal active. Preserve all-seven scope,
+the `0.001 cm` gate, legacy DXF, protected identities and every other V03
+hold. CLO remains open; no physical/factory/production-readiness claim.
+
 ## Current EPIC-17/G04 V03 boundary — S644 closed
 
 S644 screened prior receiver evidence plus newer no-cost/local candidates.

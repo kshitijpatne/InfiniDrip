@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3722,
-  "updatedAt": "2026-10-09T23:06:02.071Z",
+  "revision": 3726,
+  "updatedAt": "2026-10-09T23:09:32.627Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12328,6 +12328,16 @@
           "at": "2026-10-09T23:06:02.071Z",
           "actor": "Codex",
           "text": "S644 found no new receiver eligible under the current local/no-cost/no-contact boundary. PatternSoft documents only PDF/SVG output; MPattern imports AAMA/ASTM DXF but editor export/save requires paid Cloud; OpenMarker imports DXF but is not production-ready and its export flow is planned. No product data was loaded. CLO remains the only confirmed authorized local receiver but S642's five Polo CUTs fail before export; S643 shows deleting those source features breaches the unchanged 0.001 cm gate. All V03 acceptance and holds remain. See E-G04-S644-EXIT."
+        },
+        {
+          "at": "2026-10-09T23:07:21.169Z",
+          "actor": "Codex",
+          "text": "S645 audits existing product-side profile/export design and the retained exact-geometry trials for an untested source-exact path. Read-only; no new CLO run, source/export change, threshold/scope change, or hold release. If code and evidence expose no distinct mechanism, record the remaining receiver/access dependency instead of repeating representations. See E-G04-S645-START."
+        },
+        {
+          "at": "2026-10-09T23:09:32.627Z",
+          "actor": "Codex",
+          "text": "S645 found no source-exact product-side route left to test in the retained evidence. Metadata additions could address units, IDs and grades but do not fix CLO's five Polo CUT failures; tested line/polyline/spline/fillet/block/profile variants remain over the 0.001 cm gate. No source/export change is justified. The next dependency is rights-cleared local apparel-CAD receiver access or a new falsifiable mechanism; all acceptance/holds stay unchanged. See E-G04-S645-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -12724,7 +12734,9 @@
         "E-G04-S643-START",
         "E-G04-S643-EXIT",
         "E-G04-S644-START",
-        "E-G04-S644-EXIT"
+        "E-G04-S644-EXIT",
+        "E-G04-S645-START",
+        "E-G04-S645-EXIT"
       ],
       "flagKey": null
     },
@@ -24546,6 +24558,24 @@
       "sha256": null,
       "verified": true,
       "note": "S644 reconciles S548/S554/S641 and screens PatternSoft, MPattern, and OpenMarker against public primary sources. None meets local, no-cost, two-way apparel CAD interchange: PatternSoft lacks documented DXF exchange, MPattern editor export/save requires paid Cloud, and OpenMarker has import but export is planned and it is not production-ready. No data was transferred or software installed. CLO's S642 geometry failure and S643 no-source-repair result remain; all V03 gates/holds and statuses are unchanged."
+    },
+    {
+      "id": "E-G04-S645-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S645-additive-profile-source-audit/S645-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S645 for a read-only audit of the existing DXF writer, profile/source design, and prior exact-geometry trials. The audit will identify a new testable mechanism only if it exists; otherwise it records why repeat encoding trials are unjustified and what receiver/access dependency remains. No source, geometry, gates, thresholds, acceptance, CLO files, or holds are changed."
+    },
+    {
+      "id": "E-G04-S645-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S645-additive-profile-source-audit/S645-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S645 reconciles the legacy R12 source writer and prior trials. Additive identity/unit/mark/grade metadata is needed but cannot repair the five Polo CUT failures. Existing LWPOLYLINE, connected LINE, fillet, degree-1 SPLINE, CLO mode/profile, and BLOCK/INSERT trials do not pass the five contours at 0.001 cm. No new source-exact producer route is supported; no serializer or geometry changed. Preserve all V03 gates/holds and keep the receiver-access dependency explicit."
     }
   ]
 }
