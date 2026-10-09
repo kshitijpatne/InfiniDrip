@@ -1,5 +1,31 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 616 exit; V03 remains open
+
+S616 changed only CLO Standard-DXF import Unit to Millimeter at 100% on the
+same unitless Polo M source used by S614/S615. CLO imported, exported and
+re-imported nine pieces without a format error, but the ASTM DXF geometry is
+identical to the centimeter runs apart from metadata. Front remains 0.1×
+source size; strict CUT/SEW contour match is 0/9. V03 does not pass. The source
+has no `$INSUNITS` or `$MEASUREMENT`, so intent remains unknown. Exit packet
+and current matrix: `docs/research/epic17/S616-standard-dxf-units-sensitivity/`.
+Board closeout replay is 3598→3601; G04-V02 Done, G04-V03/EPIC-17 In Progress.
+All-seven acceptance, `0.001 cm` threshold, rights/profile/identity/semantics/
+marks/grades/options/negative-input/repeated-roundtrip/render holds, legacy
+DXF behavior and protected identities remain unchanged. CLO remains open.
+
+Next action: compare the source writer/fixture contract with the existing
+AAMA route and Standard-DXF representation. Select one distinct, evidence-
+based receiver/profile test before returning to CLO; do not repeat unit/scale
+variants on this unchanged fixture. No V03 gate clears.
+
+## EPIC-17 / G04 — Slice 616 start record
+
+S616's unit-selector experiment and controlled settings are recorded in
+`docs/research/epic17/S616-standard-dxf-units-sensitivity/S616-start-packet.md`.
+It changed only Centimeter to Millimeter at 100% import scale. Board start
+replay was 3596→3598.
+
 ## EPIC-17 / G04 — Slice 615 exit; V03 remains open
 
 S615 tested the same unitless Polo M fixture in CLO 2026.1.310 Standard DXF at

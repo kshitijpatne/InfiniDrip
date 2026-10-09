@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3598,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S616-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S616-standard-dxf-units-sensitivity/S616-exit-packet.md",
+    "verified": true,
+    "note": "S616 changed only the CLO Standard-DXF input unit selector to Millimeter on the same source and with all other controls fixed. Nine pieces import/export/re-import, but output geometry is identical to the centimeter runs except metadata; front remains 0.1x and strict CUT/SEW matches are 0/9. No V03 gate clears."
+  }
+}

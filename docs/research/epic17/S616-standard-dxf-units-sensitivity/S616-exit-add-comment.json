@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3599,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S616's controlled Millimeter/100% Standard-DXF import trial emitted the same geometry as S614/S615's Centimeter runs; only metadata differs. The 0.1x front size and 0/9 strict CUT/SEW gate remain. This confirms changing the unit selector does not repair this receiver path for this unitless fixture. Keep all-seven acceptance, legacy DXF behavior, export identities and every V03 hold. Next compare the source writer contract and existing AAMA route to choose a distinct, evidence-based receiver/profile test; do not repeat CLO unit/scale variants on this fixture. See E-G04-S616-EXIT and the S616 matrix."
+}

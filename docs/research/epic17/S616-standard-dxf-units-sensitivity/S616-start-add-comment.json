@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3597,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S616 tests only the CLO Standard-DXF Unit selector after S614/S615 both emitted the same 0.1× geometry at centimeter units and 100%/1000% input scale. The source declares no $INSUNITS/$MEASUREMENT; this one mm/100% trial uses the exact same hash-pinned Polo M input and all other controls unchanged. It is diagnostic and does not change any V03 gate, all-seven criterion, or hold. See E-G04-S616-START."
+}

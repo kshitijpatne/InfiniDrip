@@ -1,5 +1,33 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S616 exit
+
+- S616 changed only CLO Standard-DXF import Unit to Millimeter at 100% on the
+  same unitless Polo M input. Import/export/re-import completed for nine pieces
+  without a format error, but DXF output geometry is identical to S614/S615's
+  Centimeter output apart from metadata. The front stays 0.1× source scale and
+  strict CUT/SEW contour matches remain 0/9. The source has no `$INSUNITS` or
+  `$MEASUREMENT`, so authoring intent is still unknown. No V03 gate clears.
+  Packet and refreshed matrix:
+  `docs/research/epic17/S616-standard-dxf-units-sensitivity/`.
+- Board closeout replay `3598→3601`; G04-V02 Done and G04-V03/EPIC-17 In
+  Progress. All-seven coverage, `0.001 cm` geometry threshold, rights/profile,
+  identity, semantics, marks, grades/options, malformed input, repeated
+  round-trip, rendered-detail holds, legacy behavior and protected export
+  identities remain unchanged. Written authorization for product-development
+  use and local-only file handling is confirmed; CLO remains open.
+- Next inspect the source writer/fixture contract and compare its Standard-DXF
+  representation with the existing AAMA route. Choose a distinct, evidence-
+  based receiver/profile test before returning to CLO; do not repeat unit/scale
+  variations on this unchanged fixture.
+
+## Prior EPIC-17/G04 V03 boundary — S616 start
+
+- S616's controlled unit-selector experiment is specified in
+  `docs/research/epic17/S616-standard-dxf-units-sensitivity/S616-start-packet.md`.
+  It changed only Centimeter to Millimeter at 100% import scale; board start
+  replay was `3596→3598`.
+
 ## Current EPIC-17/G04 V03 boundary — S615 exit
 
 - S615 tested Standard-DXF import at 1000% against S614's 100% setting, using
