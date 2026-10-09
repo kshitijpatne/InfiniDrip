@@ -2,22 +2,22 @@
 
 ## Current EPIC-17/G04 V03 slice
 
-- `docs/research/epic17/S560-grade-format-source-review/S560-exit-packet.md`
-  is the current slice. CLO's official help documents grading included in DXF
-  or a separate Rule File, but not its grade-rule syntax. Historical ASTM
-  D6673 describes DXF plus an ASCII grade-rule table; ASTM lists D6673-10 as
-  withdrawn in 2019. NISTIR 5969 says ANSI/AAMA-292 itself does not transfer
-  grade growth values. The current source writer takes one-size `Piece[]`;
-  S559's Tee XS import/export returned `0_M`/`1_M`/`2_M`. No lawful exact
-  grade fixture/spec or source-backed Rule File was available, so S560 did not
-  invent one or repeat the no-grade CLO trial. Grade/size V03 gates remain
-  held. Next locate a rights-clear exact fixture/specification and documented
-  receiver-supported path; do not change gates or legacy export behavior.
-  Board start/exit replay is 3353→3355→3357; Control Center tests pass 42/42.
-  S560 packet and refreshed gate matrix contain exact sources, limits, and
-  remaining evidence. CLO product-development testing and local processing
-  are confirmed. All exchange files remain C:-only. Earlier seven-recipe
-  fixture evidence, including the output render, is in S559 below.
+- `docs/research/epic17/S561-grade-fixture-path-review/S561-exit-packet.md`
+  is the current slice. First-party CLO guidance says DXF-ASTM is the route
+  for grading included in the DXF; `.RUL` is a separate input from another
+  2D CAD system. Official CLO API docs describe grade sizes and point offsets,
+  but their listed SDK target is 2026.1.224, not installed 2026.1.310. No
+  lawful, source-traceable grade fixture or verified product-profile round
+  trip exists. Current writer remains one-size and S559's Tee XS output was
+  relabeled M. CLO screenshot/accessibility disagreed on an Export DXF modal,
+  so no file action was attempted; this is a helper state mismatch, not a
+  format failure. Grade and every other V03 hold remain. Next map `gradeRun`
+  deltas to source pattern points and verify a rights-clear receiver-supported
+  path; resume CLO UI actions only when view states agree. All exchange files
+  remain in named C:-only folders. The refreshed S556 matrix and S561 packet
+  record sources, limitations and remaining evidence. CLO product-development
+  evaluation and local processing are confirmed. Earlier seven-recipe output
+  evidence, including render, is in S559 below.
   S558's official CLO source identifies `CLO 2026.1.310 / DXF-AAMA` and the
   rule-file option, but no normative AAMA edition or full conformance map.
   S557 corrections and retained mark findings:

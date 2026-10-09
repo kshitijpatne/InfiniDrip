@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3357,
-  "updatedAt": "2026-10-09T00:26:47.813Z",
+  "revision": 3361,
+  "updatedAt": "2026-10-09T00:31:27.887Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11433,6 +11433,16 @@
           "at": "2026-10-09T00:26:47.813Z",
           "actor": "Codex",
           "text": "S560 checked official CLO, ASTM and NIST sources against the source writer and S559's actual XS round trip. CLO documents grade-in-DXF/Rule File choices but not grade syntax; historical D6673 separates ASCII grade rules, D6673-10 is withdrawn, and NIST says AAMA-292 does not transfer growth values. Current writer accepts one-size geometry only; CLO relabeled XS blocks M. No lawful exact grade fixture/spec was available, so no guessed input or repeated trial. Keep grade/size/all-seven gates and every other V03 hold unchanged. Next locate a rights-clear exact fixture/spec and documented receiver path. CLO trial use/local processing authorization is settled; keep the session open and all files C:-only."
+        },
+        {
+          "at": "2026-10-09T00:27:48.208Z",
+          "actor": "Codex",
+          "text": "S561 targets one practical unblock: locate a rights-clear exact grade-bearing fixture/spec and documented CLO path, prove named-size/grade-point source truth, then use the running CLO session once only if the input is real and supported. Keep all V03 gates and the all-seven criterion unchanged; no guessed Rule File, paid standard, cloud upload, or repeat of S559's no-grade import/export."
+        },
+        {
+          "at": "2026-10-09T00:31:27.887Z",
+          "actor": "Codex",
+          "text": "S561 narrows the grading route to documented CLO DXF-ASTM. CLO Help lists grading-in-DXF; a CLO designer says standalone .RUL is supplied by another CAD and DXF-ASTM is used to include grading. Official API documents grade group/point methods, but target build compatibility is not verified. No legal source-backed grade fixture or round trip was available. Screenshot showed the pattern canvas while accessibility reported a hidden export dialog, so no UI file action was safe; this is not a format failure. Keep every V03 gate unchanged. Next map source grade deltas and find one lawful exact fixture/API route, then test once."
         }
       ],
       "evidenceRefs": [
@@ -11651,7 +11661,9 @@
         "E-G04-S559-START",
         "E-G04-S559-EXIT",
         "E-G04-S560-START",
-        "E-G04-S560-EXIT"
+        "E-G04-S560-EXIT",
+        "E-G04-S561-START",
+        "E-G04-S561-EXIT"
       ],
       "flagKey": null
     },
@@ -21871,6 +21883,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official CLO help documents grade-in-DXF and separate Rule File options but not syntax; ASTM historical D6673 describes separate ASCII grade rules and lists D6673-10 withdrawn in 2019; NISTIR 5969 says AAMA-292 does not transfer growth values. No source-backed grade fixture/spec exists in the checked route. Grade/size V03 gates remain held; no guessed syntax, purchase, trial rerun or acceptance change."
+    },
+    {
+      "id": "E-G04-S561-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S561-grade-fixture-path-review/S561-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Find a rights-clear, source-backed grade fixture/specification and documented CLO representation; run CLO once only if it directly tests the open grade/size gate. No guessed syntax, paid standards, acceptance changes, or cloud transfer."
+    },
+    {
+      "id": "E-G04-S561-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S561-grade-fixture-path-review/S561-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "First-party CLO guidance identifies DXF-ASTM for grading included in DXF; API docs expose grade groups/points but build compatibility is unverified. No source-backed grade fixture or new round trip. CLO UI visible/accessibility states conflict; no export action attempted. All grade/size and V03 holds remain."
     }
   ]
 }

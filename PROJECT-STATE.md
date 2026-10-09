@@ -1,6 +1,35 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 560 exit; V03 remains open
+## EPIC-17 / G04 — Slice 561 exit; V03 remains open
+
+S561 identifies CLO 2026.1.310 / DXF-ASTM as the strongest documented
+graded-DXF candidate: CLO Help lists DXF-ASTM and grading-in-DXF; a CLO
+designer says DXF-ASTM is the path when grading is included in the DXF, while
+standalone `.RUL` comes from another CAD system. CLO API v11 docs expose size
+groups, per-point grading, and `.RUL` import, but the listed SDK target is
+2026.1.224 rather than installed 2026.1.310. No source-traceable graded
+fixture, verified ASTM edition/conformance, or new round trip was produced.
+The source writer still exports one size; S559's Tee XS output is named M. A
+third-party parser lead lacked a clear license and is not a valid fixture.
+CLO's visible workspace and accessibility state disagreed about a hidden
+Export DXF modal; no file action was attempted. This is a control-state issue,
+not a product-format failure. See
+`docs/research/epic17/S561-grade-fixture-path-review/S561-exit-packet.md` and
+the updated S556 matrix. Grade/size and all other V03 holds remain. CLO stays
+open; files remain in the named C:-only folders.
+
+No V03 scope, acceptance, threshold, geometry, legacy output, or protected
+identity changed. V01/V02 remain Done; V03 remains In Progress. No physical
+fit, factory acceptance, or production-readiness claim is made. S561 board
+start/exit replay is 3357→3359→3361; elapsed categories are in the packet.
+
+Next: map product `gradeRun` deltas to exact pattern points and find a
+rights-clear receiver-supported DXF-ASTM fixture/API path. Resume CLO UI
+actions only after the visible and accessible states agree. Use one practical
+source-backed round trip; do not repeat S559's no-grade input or change V03
+gates.
+
+## Prior EPIC-17 / G04 — Slice 560 exit; V03 remains open
 
 S560 checked the grade/size interchange route against official CLO Help,
 ASTM's catalog and historical D6673 description, NISTIR 5969, the current

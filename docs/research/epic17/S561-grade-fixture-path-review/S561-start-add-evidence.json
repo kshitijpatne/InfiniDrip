@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3357,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S561-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S561-grade-fixture-path-review/S561-start-packet.md",
+    "verified": true,
+    "note": "Find a rights-clear, source-backed grade fixture/specification and documented CLO representation; run CLO once only if it directly tests the open grade/size gate. No guessed syntax, paid standards, acceptance changes, or cloud transfer."
+  }
+}
