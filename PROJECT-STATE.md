@@ -1,6 +1,29 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 627 exit; V03 remains open
+## EPIC-17 / G04 — Slice 628 closed; V03 remains open
+
+S628 began from clean S627 commit `95d30bd9bedfa5b2d08940234756458238de89bb`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was its
+ancestor. Validated board start replay ended at revision 3654. A disposable,
+geometry-identical Woven zero-vent fixture completed one local CLO 2026.1.310
+DXF-AAMA import/export/reimport. Output has 12 unique BLOCKs and 12 bijective
+INSERTs; literal names gain `_M`, while the `PIECE NAME:` payloads and the
+reimport object tree preserve all 12 role names. CUT/SEW geometry passes
+12/12 pairs at `0.001 cm`, maximum residual `0.0007416873 mm`, and the
+reimported view shows all pieces. Output AC1009 is unitless and single-size.
+Thus piece-role mapping has one promising, bounded result, but literal block
+token invariance, industrial profile/rights qualification, revision/grade/mark
+semantics, representative all-seven coverage, and full V03 remain open. No
+production code, source geometry, export baseline, criterion or status changed.
+Start/exit packets, deterministic fixture and analysis helper:
+`docs/research/epic17/S628-named-block-piece-identity-pilot/`. Raw DXF/report/
+render evidence stays under
+`C:\\G04-CLO-DXF-Exchange\\S628-named-block-piece-identity-pilot\\`. CLO-use
+and local-processing authorization are confirmed; keep CLO open through the
+active Epic. Validated board exit replay ends at revision 3656 and preserves
+G04-V02 Done and G04-V03/EPIC-17 In Progress.
+
+## Prior verified boundary — S627 exit; V03 remains open
 
 S627 repairs Woven's supported `sideVentDepth=0` source defect. The side and
 curved hem now meet at the original landmark without a degenerate vent edge,
@@ -22,7 +45,7 @@ Progress. Exit packet, S627 gate matrix, timing and exact raw-evidence paths:
 `docs/research/epic17/S627-woven-zero-vent-source-repair/V03-CURRENT-GATE-MATRIX-S627.md`,
 and `C:\G04-CLO-DXF-Exchange\S627-woven-zero-vent-source-repair\`.
 
-The next action is to reserve S628 after refreshing `origin/main`, branch
+The next action is to reserve S629 after refreshing `origin/main`, branch
 history, board revision, unique slice number, and dirty state, then select one
 evidence-backed, rights-reviewable industrial apparel receiver/profile
 hypothesis before another multi-option campaign. Keep every V03 criterion,

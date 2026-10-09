@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3653,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S628 asks one new, directly measurable identity question: will CLO retain source piece-role names carried by standard DXF BLOCK/INSERT structures after DXF-AAMA import/export/reimport? The exact disposable fixture is the S627-repaired 12-piece Woven sideVentDepth=0 DXF; preflight must prove all expanded entity geometry/layers exactly unchanged before CLO. Run one import/export/reimport only if names and all CUT/SEW contours pass the unchanged 0.001 cm pre-export gate and the render is intact. The result covers piece-role labels on one fixture only, not revision identity, mark/grading semantics, apparel-profile conformance, or V03 acceptance. Preserve all criteria, holds, and export identities. See E-G04-S628-START."
+}

@@ -1,6 +1,28 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S627 exit
+## Current EPIC-17/G04 V03 boundary — S628 exit
+
+- S628's one-fixture CLO 2026.1.310 DXF-AAMA test found 12 unique BLOCKs and
+  12 resolving INSERTs after export. CLO appends `_M` to the literal block
+  tokens, while in-block `PIECE NAME:` labels and the clean-project reimport
+  object tree retain all 12 source role names. Thus role identity remains
+  bijective in this tested one-size Woven fixture; exact BLOCK/INSERT token
+  invariance does not pass. A direct, no-fitted-transform list comparison
+  passes all 12 source CUT and 12 SEW contours at `0.001 cm`, maximum
+  `0.0007416873 mm`; rendered reimport shows all twelve pieces. The output is
+  AC1009/R12 and unitless. This does not qualify an industrial apparel profile,
+  revision/grade/mark semantics, all-seven exchange, other option rows, or
+  full V03. Exit packet, helper and C:-only input/output/render evidence:
+  `docs/research/epic17/S628-named-block-piece-identity-pilot/S628-exit-packet.md`,
+  `analyze-named-block-roundtrip.mjs`, and
+  `C:\G04-CLO-DXF-Exchange\S628-named-block-piece-identity-pilot\`.
+  CLO-use and local-processing authorization are confirmed; CLO remains open.
+  Board closeout preserves G04-V02 Done and G04-V03/EPIC-17 In Progress.
+  Next reserve S629 after refreshing branch/history/board; address a distinct,
+  evidence-backed rights/profile or all-seven representative exchange gap.
+  Keep all V02/V03 gates and holds unchanged.
+
+## Prior EPIC-17/G04 V03 boundary — S627 exit
 
 - S627 removes the supported Woven `sideVentDepth=0` zero-length `vent` edge/mark and prevents its POM from claiming a missing edge. The closed side/curved-hem join and all CUT coordinates remain finite; the 0.5 cm vent control is unchanged. A final-source 73-row STANDARD_M matrix passes two Open CAD Studio R14 generations with CUT/SEW/marks at `0.001 cm` and byte-identical second generations. One CLO 2026.1.310 DXF-AAMA Woven zero-vent round trip also passes all 12 CUT/SEW point-list comparisons (max `0.000685514 mm`), with rendered pieces intact. CLO output is AC1009 and unitless; its numeric piece names and one-fixture result do not qualify a normative apparel profile, marks/identity semantics, grades, all-seven exchange, or V03. See `docs/research/epic17/S627-woven-zero-vent-source-repair/S627-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S627.md`; raw C:-only evidence is under `C:\G04-CLO-DXF-Exchange\S627-woven-zero-vent-source-repair\`. Board exit keeps G04-V02 Done, G04-V03 and EPIC-17 In Progress. Next reserve S628 after refreshing branch/history/board, then identify one rights-reviewable apparel receiver/profile hypothesis from existing evidence. Preserve all gates and holds. CLO remains open.
 

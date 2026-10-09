@@ -1,0 +1,27 @@
+import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { readFile } from "node:fs/promises";
+
+const dir = "docs/research/epic17/S628-named-block-piece-identity-pilot";
+const packet = await readFile(`${dir}/S628-exit-packet.md`, "utf8");
+const report = JSON.parse(await readFile("C:/G04-CLO-DXF-Exchange/S628-named-block-piece-identity-pilot/Evidence/named-block-roundtrip.json", "utf8"));
+const board = JSON.parse(await readFile("ops/control-center/data/board.json", "utf8"));
+const head = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+const subject = execFileSync("git", ["show", "-s", "--format=%s", "HEAD"], { encoding: "utf8" }).trim();
+assert.equal(head, "95d30bd9bedfa5b2d08940234756458238de89bb");
+assert(subject.startsWith("Slice 627:"));
+assert.equal(board.revision, 3656);
+assert.equal(report.identity.oneToOneBlockInsertBijection, true);
+assert.equal(report.identity.literalBlockNamesUnchanged, false);
+assert.equal(report.identity.pieceNameAnnotationPayloadsPreserved, true);
+assert.equal(report.geometry.cutSew.allPiecesPass, true);
+assert.equal(report.geometry.cutSew.piecesCompared, 12);
+assert(report.geometry.cutSew.maximumVertexResidualMm <= 0.01);
+assert.equal(board.evidence.some((item) => item.id === "E-G04-S628-EXIT" && item.verified), true);
+assert.equal(board.workItems.find((item) => item.id === "G04-V02")?.status, "Done");
+assert.equal(board.workItems.find((item) => item.id === "G04-V03")?.status, "In Progress");
+assert.equal(board.workItems.find((item) => item.id === "EPIC-17")?.status, "In Progress");
+assert.match(packet, /appends `_M`/);
+assert.match(packet, /0\.0007416873 mm/);
+assert.match(packet, /establish a normative industrial apparel profile/i);
+console.log(`S628 exit preflight passed; 12/12 CUT/SEW, max ${report.geometry.cutSew.maximumVertexResidualMm} mm; block-token change and retained V03 gates recorded at board ${board.revision}.`);

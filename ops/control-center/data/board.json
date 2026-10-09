@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3652,
-  "updatedAt": "2026-10-09T16:35:08.948Z",
+  "revision": 3656,
+  "updatedAt": "2026-10-09T17:15:53.423Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12148,6 +12148,16 @@
           "at": "2026-10-09T16:35:08.948Z",
           "actor": "Codex",
           "text": "S627 closes the supported Woven sideVentDepth=0 source NaN defect: no degenerate vent edge/marker remains, the side-to-hem join and allowance coordinates are finite, and the 0.5 cm vent control is unchanged. A regenerated final-source matrix passes 73/73 R14 geometry/mark conversions and byte-identical reopens. One CLO DXF-AAMA Woven zero-vent round trip also matches all 12 CUT/SEW point lists within 0.000685514 mm and renders all twelve pieces without gross damage. These are bounded receiver observations; no industrial profile, unit semantics, stable identity, grading, negative-input, all-seven CLO, or full V03 criterion is declared passed. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress. Preserve every gate and hold. See E-G04-S627-EXIT and E-G04-S627-MATRIX; landed slice commit subject: Slice 627: repair Woven zero-depth vent geometry."
+        },
+        {
+          "at": "2026-10-09T16:43:24.568Z",
+          "actor": "Codex",
+          "text": "S628 asks one new, directly measurable identity question: will CLO retain source piece-role names carried by standard DXF BLOCK/INSERT structures after DXF-AAMA import/export/reimport? The exact disposable fixture is the S627-repaired 12-piece Woven sideVentDepth=0 DXF; preflight must prove all expanded entity geometry/layers exactly unchanged before CLO. Run one import/export/reimport only if names and all CUT/SEW contours pass the unchanged 0.001 cm pre-export gate and the render is intact. The result covers piece-role labels on one fixture only, not revision identity, mark/grading semantics, apparel-profile conformance, or V03 acceptance. Preserve all criteria, holds, and export identities. See E-G04-S628-START."
+        },
+        {
+          "at": "2026-10-09T17:15:53.423Z",
+          "actor": "Codex",
+          "text": "S628 completed one local CLO 2026.1.310 DXF-AAMA named-block round trip on the repaired Woven sideVentDepth=0 size-M fixture. The exported DXF has 12 unique BLOCK definitions and 12 resolving INSERT references. CLO appends _M to the literal names; the PIECE NAME payloads and clean-project reimport tree preserve all twelve source role names. Source-bound CUT and SEW vertex lists pass for all 12 pieces at the unchanged 0.001 cm gate (maximum residual 0.0007416873 mm), and the rendered reimport shows all twelve pieces. This is bounded one-fixture generic-DXF identity and geometry evidence only; output is AC1009/R12 and unitless, and the test establishes no normative apparel profile/rights, revision, grades, manufacturing-mark semantics, all-seven representative exchange, or V03 closure. Keep V02 Done, V03 and EPIC-17 In Progress, and all gates and holds unchanged. See E-G04-S628-EXIT and the S628 exit packet."
         }
       ],
       "evidenceRefs": [
@@ -12510,7 +12520,9 @@
         "E-G04-S626-MATRIX",
         "E-G04-S627-START",
         "E-G04-S627-EXIT",
-        "E-G04-S627-MATRIX"
+        "E-G04-S627-MATRIX",
+        "E-G04-S628-START",
+        "E-G04-S628-EXIT"
       ],
       "flagKey": null
     },
@@ -24026,6 +24038,24 @@
       "sha256": null,
       "verified": true,
       "note": "Updated V03 dispositions after the final-source 73-row R14 screen and one CLO DXF-AAMA Woven zero-vent round trip. Records bounded positive results and remaining rights/profile, units, identity/marks, grades, malformed-input, and option-wide rendered holds. No acceptance, threshold, or Epic status changed."
+    },
+    {
+      "id": "E-G04-S628-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S628-named-block-piece-identity-pilot/S628-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Tests one untried generic DXF BLOCK/INSERT piece-role-name preservation route through the already-authorized local CLO DXF-AAMA round trip, using a geometry-identical derivative of the repaired Woven zero-vent fixture. This pilot does not establish revision IDs or apparel-profile semantics; all V03 criteria remain unchanged."
+    },
+    {
+      "id": "E-G04-S628-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S628-named-block-piece-identity-pilot/S628-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One CLO DXF-AAMA Woven zero-vent named-block pilot preserves 12 distinct role labels and passes all 12 CUT/SEW pairs at 0.001 cm (max 0.0007416873 mm); CLO appends _M to literal BLOCK/INSERT tokens. This is one-size generic DXF evidence, not industrial-profile rights, revision/grade/mark semantics, all-seven exchange, or full V03 acceptance. All gates and statuses unchanged. Raw evidence is restricted to the named C: folder."
     }
   ]
 }
