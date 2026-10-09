@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3601,
-  "updatedAt": "2026-10-09T12:41:14.432Z",
+  "revision": 3606,
+  "updatedAt": "2026-10-09T12:59:44.463Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12038,6 +12038,16 @@
           "at": "2026-10-09T12:41:13.956Z",
           "actor": "Codex",
           "text": "S616's controlled Millimeter/100% Standard-DXF import trial emitted the same geometry as S614/S615's Centimeter runs; only metadata differs. The 0.1x front size and 0/9 strict CUT/SEW gate remain. This confirms changing the unit selector does not repair this receiver path for this unitless fixture. Keep all-seven acceptance, legacy DXF behavior, export identities and every V03 hold. Next compare the source writer contract and existing AAMA route to choose a distinct, evidence-based receiver/profile test; do not repeat CLO unit/scale variants on this fixture. See E-G04-S616-EXIT and the S616 matrix."
+        },
+        {
+          "at": "2026-10-09T12:43:50.286Z",
+          "actor": "Codex",
+          "text": "S617 follows S616's verified stop on repeated scale/unit-selector permutations. The product DXF writer emits true-centimeter geometry without a HEADER or $INSUNITS; the pinned source is also unitless. S536's geometry-preserving AC1015/$INSUNITS=4 diagnostic was tested only through AAMA, so this one cm-declared ($INSUNITS=5) Standard-DXF trial targets a specific untested source/receiver contract. No product writer, geometry, baseline, gate, or V03 hold changes. See E-G04-S617-START."
+        },
+        {
+          "at": "2026-10-09T12:59:44.463Z",
+          "actor": "Codex",
+          "text": "S617 tested a distinct source-backed hypothesis: the production writer and pinned source contain true-centimeter coordinates but omit unit metadata. Adding only $INSUNITS=5 to a disposable unchanged-geometry copy fixed the 0.1x scale for this Standard-DXF CLO import. Nine pieces imported/exported/reimported without a format error (with CLO's informational seam-allowance Custom-mode notice), but high-resolution comparison passes CUT only 4/9 and SEW 9/9 at 0.001 cm; five CUT paths each lose a vertex by ~0.013–0.014 cm. This remains one Polo M fixture, not a qualified industrial profile or exact compatibility claim. Keep all seven-recipe acceptance and every V03 hold. Next diagnose the short-edge vertex simplification with one distinct evidence source before repeating any CLO exchange. See E-G04-S617-EXIT and the S617 matrix."
         }
       ],
       "evidenceRefs": [
@@ -12371,7 +12381,10 @@
         "E-G04-S615-MATRIX",
         "E-G04-S616-START",
         "E-G04-S616-EXIT",
-        "E-G04-S616-MATRIX"
+        "E-G04-S616-MATRIX",
+        "E-G04-S617-START",
+        "E-G04-S617-EXIT",
+        "E-G04-S617-MATRIX"
       ],
       "flagKey": null
     },
@@ -23626,6 +23639,33 @@
       "sha256": null,
       "verified": true,
       "note": "Refreshed V03 gate matrix after S616. CLO Standard-DXF remains a concrete scale/geometry failure for this fixture; all seven-recipe coverage, profile/rights, identity, semantics, marks, grades/options, malformed-input, rendered-detail, and repeated-roundtrip holds remain open."
+    },
+    {
+      "id": "E-G04-S617-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S617-standard-dxf-units-header/S617-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S617 tests one source-preserving diagnostic: explicit truthful centimeter unit metadata on the existing unitless Polo M DXF for CLO Standard-DXF import. CLO options, output profile, and 0.001 cm gate remain fixed. All-seven V03 acceptance and holds stay open."
+    },
+    {
+      "id": "E-G04-S617-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S617-standard-dxf-units-header/S617-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO 2026.1.310 explicit-centimeter Standard-DXF diagnostic: correct scale restored on the single Polo M fixture, but only 4/9 CUT outlines meet 0.001 cm; all V03 holds remain. C:-only round-trip/render evidence and hashes are documented in the packet."
+    },
+    {
+      "id": "E-G04-S617-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S617-standard-dxf-units-header/V03-CURRENT-GATE-MATRIX-S617.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "V03 matrix after S617. Explicit units resolve only this fixture's scale issue; five CUT contours fail, and all-seven/profile/rights/identity/semantics/options/negative-input/repeated-round-trip/render holds stay open."
     }
   ]
 }

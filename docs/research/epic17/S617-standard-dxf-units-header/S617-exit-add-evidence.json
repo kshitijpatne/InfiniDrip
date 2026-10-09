@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3603,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S617-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S617-standard-dxf-units-header/S617-exit-packet.md",
+    "verified": true,
+    "note": "CLO 2026.1.310 explicit-centimeter Standard-DXF diagnostic: correct scale restored on the single Polo M fixture, but only 4/9 CUT outlines meet 0.001 cm; all V03 holds remain. C:-only round-trip/render evidence and hashes are documented in the packet."
+  }
+}

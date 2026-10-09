@@ -1,5 +1,14 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 617 exit; V03 remains open
+
+S617 tested a hash-pinned Polo M Standard-DXF copy with a truthful `$INSUNITS=5` centimeter header; original entity bytes and all pattern coordinates stayed unchanged. CLO 2026.1.310 imported, ASTM-graded-exported and Standard-DXF-reimported nine gross pieces without a format error; its seam-allowance Custom-mode notice is informational. Source-bound geometry passes 9/9 SEW and only 4/9 CUT contours at `0.001 cm`. Explicit units resolve this fixture's scale issue, but five back/collar CUT outlines each lose one vertex and deviate 0.01299–0.01423 cm. No V03 gate clears. Full packet and gate matrix: `docs/research/epic17/S617-standard-dxf-units-header/S617-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S617.md`; rendered output and CLO project remain only in `C:\G04-CLO-DXF-Exchange\S617-standard-dxf-units-header\Evidence\`.
+
+Validated board closeout is 3603→3606; G04-V02 remains Done and G04-V03/EPIC-17 remain In Progress. Preserve all-seven acceptance, the `0.001 cm` gate, every V03 profile/rights/identity/semantics/options/negative-input/repeated-round-trip/render hold, legacy DXF behavior, and protected export identities. CLO remains open. Next isolate the known short-edge vertex loss through a distinct evidence source before another exchange; do not repeat unit/scale permutations on this fixture. Elapsed 16m24s (12:43:36–13:00:00 UTC): diagnostic/CLO exchange and rendered capture about 8m; focused analysis/verification/closeout about 8m24s; external-agent waits 0; maintainer-decision time 0. No product code changed; full tests/100% coverage remain for the settled integrated Epic candidate.
+
+## EPIC-17 / G04 — Slice 617 start record
+
+S617's one-variable unit-header diagnostic is specified in `docs/research/epic17/S617-standard-dxf-units-header/S617-start-packet.md`; validated board start replay was 3601→3603.
 ## EPIC-17 / G04 — Slice 616 exit; V03 remains open
 
 S616 changed only CLO Standard-DXF import Unit to Millimeter at 100% on the
@@ -10321,3 +10330,4 @@ Started 2026-09-30 12:38:17 UTC from clean S301 `44f7e8424eee14c8f8186d65a9e0b3f
 Verified production matrix is 73 configurations / 146 faces, 4 accepted and 142 held. The 41–46 Epic and 22–26 roadmap estimates and future slice-number assignments were stale: S297–S301 had already landed as V02. Admission, roadmap, active project-state handoff and board now agree on a 57–71 landed-slice total including admission, S302 and final merge; 16–30 remain from the S301 boundary, conditional on source evidence. Breakdown: V02 7–14, V03 5–10 after V02 passes, final review/merge/deployment 3–5. Missing source/rights waits are unpriced and can block completion. No scope, acceptance criterion or status changed; V02 remains In Progress, V03 Backlog. Future V03/final review rows are dependency-labeled and receive slice numbers only from refreshed starts.
 
 Validated board updates: Epic/summary descriptions at revisions 568–569; `E-G04-S302-EXIT` linked to V02 and summary at 570, Epic at 572, exit comment at 573. `npm run control-center:test` passes 33/33; the first run's single failure was a stale assertion on the previous edit reason, diagnosed and corrected. `git diff --check` passes. Elapsed 10m05s (12:38:17–12:48:22 UTC): implementation 0m, evidence re-evaluation 2m, focused verification 1m30s including repair, new rendered review 0m, docs/board 6m35s, external waits 0m, maintainer-decision time 0m. Exact S302 commit ID is captured at the next boundary. Next action: continue source-backed V02 work; do not start V03 until all accepted options/faces pass.
+

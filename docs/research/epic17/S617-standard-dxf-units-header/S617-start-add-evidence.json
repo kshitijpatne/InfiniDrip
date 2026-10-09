@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3601,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S617-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S617-standard-dxf-units-header/S617-start-packet.md",
+    "verified": true,
+    "note": "S617 tests one source-preserving diagnostic: explicit truthful centimeter unit metadata on the existing unitless Polo M DXF for CLO Standard-DXF import. CLO options, output profile, and 0.001 cm gate remain fixed. All-seven V03 acceptance and holds stay open."
+  }
+}

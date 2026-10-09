@@ -1,5 +1,14 @@
 # InfiniDrip context index
 
+## Current EPIC-17/G04 V03 boundary — S617 exit
+
+- S617's explicit `$INSUNITS=5` centimeter header restored true-scale output for this hash-pinned Polo M Standard-DXF trial. CLO 2026.1.310 imported, ASTM-graded-exported and Standard-DXF-reimported nine shapes without a format error. High-resolution source-bound comparison passes 9/9 SEW but only 4/9 CUT contours at `0.001 cm`; five failed back/collar outlines omit one source vertex and exceed tolerance by 0.01299–0.01423 cm. Thus unit scale is resolved only for this fixture; no V03 profile/format acceptance gate passes.
+- Exit packet, high-resolution analysis, and refreshed current gate matrix are in `docs/research/epic17/S617-standard-dxf-units-header/`. All CLO files/renders/scenes are under `C:\G04-CLO-DXF-Exchange\S617-standard-dxf-units-header\`. Board closeout 3603→3606 keeps G04-V02 Done and G04-V03/EPIC-17 In Progress. Maintain all-seven coverage, `0.001 cm`, receiver-rights/profile, identity, semantics, marks, options/grades, negative-input, repeated-generation and readable-render holds; preserve legacy DXF and protected byte identities. CLO remains open.
+- Next select distinct source evidence for the established short-edge CUT vertex loss before returning to a CLO exchange. Do not repeat unit/scale permutations on this fixture. No physical fit, factory acceptance, or production-readiness assertion is supported.
+
+## Prior EPIC-17/G04 V03 boundary — S617 start
+
+- S617 adds only `$ACADVER=AC1015` and truthful `$INSUNITS=5` centimeters to a disposable unchanged-geometry copy before CLO Standard-DXF import/export/re-import. S536's `$INSUNITS=4` used AAMA and did not test this path. Start packet `docs/research/epic17/S617-standard-dxf-units-header/S617-start-packet.md`; board replay 3601→3603. V03 holds and threshold remain unchanged.
 ## Current EPIC-17/G04 V03 boundary — S616 exit
 
 - S616 changed only CLO Standard-DXF import Unit to Millimeter at 100% on the

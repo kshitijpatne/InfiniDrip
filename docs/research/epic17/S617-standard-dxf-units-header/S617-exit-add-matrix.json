@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3604,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S617-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S617-standard-dxf-units-header/V03-CURRENT-GATE-MATRIX-S617.md",
+    "verified": true,
+    "note": "V03 matrix after S617. Explicit units resolve only this fixture's scale issue; five CUT contours fail, and all-seven/profile/rights/identity/semantics/options/negative-input/repeated-round-trip/render holds stay open."
+  }
+}
