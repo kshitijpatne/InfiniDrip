@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3404,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S572 confirms CLO 2026.1.310 imports and renders the hash-pinned Polo M fixture under DXF-AAMA, but its native properties expose only whole-pattern lengths rounded to 0.1 mm, ten times coarser than the 0.01 mm geometry gate. No pattern edit or duplicate export was made. This cannot isolate import from export; the five measured CUT failures and all V03 holds remain. Rights and local handling are settled. See E-G04-S572-EXIT."
+}

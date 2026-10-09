@@ -1,6 +1,17 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S571 exit
+## Current EPIC-17/G04 V03 boundary — S572 exit
+
+- `docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`
+  records one bounded CLO 2026.1.310 AAMA import of the hash-pinned Polo M
+  fixture. CLO rendered the pieces and gave only aggregate line lengths to
+  0.1 mm; no individual point coordinates or sub-0.01 mm measurement was
+  exposed. No pattern was edited and no repeat export was run. This observation
+  cannot isolate importer versus exporter; the five CUT contour failures in
+  the tested combined path remain held. Rights/local handling are settled;
+  every V03 gate is unchanged. CLO remains open.
+- S572 board replay and focused Control Center verification are recorded in
+  its exit packet; G04-V03 remains In Progress.
 
 - `docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md`
   reconciles source writer, hash-pinned Polo input and two CLO generations,

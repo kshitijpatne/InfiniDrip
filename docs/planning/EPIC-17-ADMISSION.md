@@ -1,4 +1,18 @@
-## Current EPIC-17/G04 V03 closure-path audit — S571 exit (2026-10-09)
+## Current EPIC-17/G04 V03 boundary — S572 exit (2026-10-09)
+
+S572 imported the hash-pinned Polo M fixture into the live CLO 2026.1.310
+session under the maintainer-confirmed local/product-development evaluation.
+The pattern rendered; native properties exposed only aggregate length rounded
+to 0.1 mm, ten times coarser than the 0.01 mm gate. No edit or repeated export
+occurred, so stage attribution remains unresolved and all V03 gates remain
+unchanged. CLO remains open. See
+`docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`.
+
+S572 started from S571 `9035d32`; refreshed `origin/main` remains an ancestor.
+Validated board exit is 3403→3405; G04-V03 remains In Progress. Focused board
+tests pass 42/42 and no production source/test changed.
+
+## Prior EPIC-17/G04 V03 closure-path audit — S571 exit (2026-10-09)
 
 S571 confirms the S544 Polo M input is byte-identical to S559's current
 source-generated M fixture. The established analyzer reports the same five
@@ -20,6 +34,18 @@ G04-V03 remains In Progress. Control Center passes 42/42 and `git diff
 is not due. Next is one targeted, C:-confined pre-export geometry observation
 of the five known Polo CUT corners if a fresh CLO UI state is targetable; if
 not, make no app input and continue independent profile/semantics evidence.
+
+## S572 start packet (completed 2026-10-09)
+
+S572 makes one targetability-gated observation in the existing CLO 2026.1.310
+session to inspect the five known Polo CUT corners after import and before
+export. Native measurements are useful only if the app exposes coordinates at
+precision relevant to the 0.001 cm gate. Any C:-only input/output/session copy
+stays under `C:\\G04-CLO-DXF-Exchange\\S572-clo-polo-pre-export-stage-check`.
+No repeated round trip, source edit, output-baseline change, acceptance
+relaxation, or compatibility claim. Start board 3401→3403; all V03 gates
+remain unchanged. Packet:
+`docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-start-packet.md`.
 
 ## Prior EPIC-17/G04 V03 CLO profile capability cross-check — S570 exit (2026-10-09)
 
@@ -1351,3 +1377,19 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   change. **Next:** complete the three missing Tee/Polo/Woven CLO DXF-AAMA
   recipe trials to create a same-mode seven-recipe evidence cohort while
   explicitly holding conformance and all V03 gates.
+
+- **S572 CLO Polo pre-export stage check (2026-10-09):** from S571
+  `9035d325cbd5a11b81f04126912627047ce0d5d6`; refreshed `origin/main`
+  `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S572 is
+  unique. Imported the hash-pinned Polo M fixture into the open CLO 2026.1.310
+  workspace using DXF-AAMA/Add/centimeter. The rendered pieces and supported
+  accessibility view agreed; CLO exposed only whole-pattern line totals at
+  0.1 mm, ten times coarser than the unchanged 0.01 mm limit, with no
+  individual coordinate/deviation. No pattern edit or second export occurred.
+  Therefore this trial does not isolate import from export and clears no V03
+  gate. User's written product-development/local-processing authorization is
+  settled. Input and safety-project hashes, board replay, focused verification,
+  and next independent V03 action are in
+  `docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`.
+  All-seven acceptance, the 0.001 cm geometry gate, exact-profile/receiver,
+  semantic, mark, grade, malformed-input and round-trip gates remain unchanged.

@@ -1,6 +1,31 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 571 exit; V03 remains open
+## EPIC-17 / G04 — Slice 572 exit; V03 remains open
+
+S572 imported the hash-pinned Polo M source fixture into the already-running
+CLO 2026.1.310 workspace using DXF-AAMA / Add / centimeter settings. The
+pieces rendered and the visual/accessibility views agreed. CLO reported only
+aggregate 2D/3D line totals, rounded to 0.1 mm, and exposed no individual
+vertex coordinates or point-to-chord measurement. That resolution is ten
+times coarser than the 0.001 cm (0.01 mm) tolerance. No vertex was edited and
+no export was repeated; importer-versus-exporter attribution remains
+unresolved. The seam-allowance Custom-mode notice is informational, not an
+error. Rights and local processing are settled. CLO stays open. Exact input,
+pre-test project-copy hashes, settings, remaining holds and next action:
+`docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`.
+
+S572 began at S571 `9035d32`; refreshed `origin/main` `a5af5e1` remained an
+ancestor. Unique slice 572; start board replay 3401→3403. Exit replay,
+focused Control Center test, integrity review and elapsed-time breakdown are
+recorded in its packet. No production source/test changed; full repository
+gate is not due. G04-V03 remains In Progress with every acceptance criterion
+and the all-seven requirement unchanged.
+
+**Next:** continue with a distinct, evidence-led V03 task for the exact
+industrial profile/receiver or another held semantic/grade dimension. Do not
+repeat this import/export for stage attribution; no V03 hold was cleared.
+
+## Prior EPIC-17 / G04 — Slice 571 exit; V03 remains open
 
 S571 reconciled the hash-pinned product writer and CLO round-trip evidence.
 The Polo source input exactly matches S559's product-generated M fixture, and

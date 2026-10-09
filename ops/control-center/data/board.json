@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3401,
-  "updatedAt": "2026-10-09T03:53:00.630Z",
+  "revision": 3405,
+  "updatedAt": "2026-10-09T04:01:58.192Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11543,6 +11543,16 @@
           "at": "2026-10-09T03:53:00.630Z",
           "actor": "Codex",
           "text": "S571 closes the source/profile attribution audit. The input matches the current source-generated Polo M fixture; five CUT contours fail the unchanged 0.001 cm gate in both CLO generations. Existing evidence proves the combined path fails, but does not isolate product writer vs CLO import vs CLO export. No exact normative industrial profile is documented by current CLO help, and ASTM D6673-10 is withdrawn. Rights/local processing are settled. All V03 gates remain unchanged. Next: if fresh CLO visual/accessibility observations agree, inspect the five corners before export; otherwise send no input and continue independent profile/semantics work. See E-G04-S571-EXIT."
+        },
+        {
+          "at": "2026-10-09T03:54:57.513Z",
+          "actor": "Codex",
+          "text": "S572 will make one fresh CLO 2026.1.310 observation and, only with a unique target and agreeing visual/accessibility state, inspect the known Polo CUT corners after import and before export. Any exchange or saved session copy stays under the named C:-only slice folder. No repeat round trip unless this new observation can distinguish the stage; all acceptance gates remain unchanged."
+        },
+        {
+          "at": "2026-10-09T04:01:58.192Z",
+          "actor": "Codex",
+          "text": "S572 confirms CLO 2026.1.310 imports and renders the hash-pinned Polo M fixture under DXF-AAMA, but its native properties expose only whole-pattern lengths rounded to 0.1 mm, ten times coarser than the 0.01 mm geometry gate. No pattern edit or duplicate export was made. This cannot isolate import from export; the five measured CUT failures and all V03 holds remain. Rights and local handling are settled. See E-G04-S572-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -11783,7 +11793,9 @@
         "E-G04-S570-START",
         "E-G04-S570-EXIT",
         "E-G04-S571-START",
-        "E-G04-S571-EXIT"
+        "E-G04-S571-EXIT",
+        "E-G04-S572-START",
+        "E-G04-S572-EXIT"
       ],
       "flagKey": null
     },
@@ -22201,6 +22213,24 @@
       "sha256": null,
       "verified": true,
       "note": "S571 reconciles the source-generated Polo M fixture, both existing CLO generations, current CLO/ASTM profile evidence and semantics/grade gates. Five CUT contours fail the unchanged 0.001 cm tolerance in both generations; stage attribution and exact industrial profile remain unproven. Rights/local handling are settled. No criterion or product code changes."
+    },
+    {
+      "id": "E-G04-S572-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S572 reserves one bounded, C:-confined CLO 2026.1.310 pre-export observation of the five known Polo M CUT corners to isolate stage attribution only if native geometry and UI state can be directly verified. No geometry, profile, gate, or legacy output change is authorized."
+    },
+    {
+      "id": "E-G04-S572-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One CLO 2026.1.310 AAMA import of the hash-pinned Polo M fixture rendered without a format error. The native Property Editor exposed only whole-pattern 2D/3D line totals rounded to 0.1 mm, not individual vertices or deviations at the 0.01 mm gate. No edit or repeated export; stage attribution remains unresolved and all V03 gates are unchanged. Rights/local processing are settled."
     }
   ]
 }
