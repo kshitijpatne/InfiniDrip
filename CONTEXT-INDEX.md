@@ -2,22 +2,22 @@
 
 ## Current EPIC-17/G04 V03 slice
 
-- `docs/research/epic17/S557-mark-and-grade-evidence-audit/` is the current
-  evidence-only V03 closeout. S557 audits retained authorized CLO files and
-  confirms no genuine multi-size/grade DXF fixture with source truth exists.
-  It corrects S556's unadmitted independent-second-receiver requirement: a
-  same-app round trip can count if the exact industrial profile, rights review
-  and all technical gates pass; a second receiver is optional. No gate is
-  cleared by that correction. Five Polo contours fail, CUT/SEW layer semantics
-  remain ambiguous, 78/100 source marks lack direct geometry matches (not
-  proven lost), grades/options are unproven, the tested malformed input was
-  silently accepted, and the exact industrial profile remains unknown. See
-  `S557-exit-packet.md`, `S557-scope-correction.md`, and the updated S556
-  matrix. CLO purpose and local processing are confirmed. Active worktree is
+- `docs/research/epic17/S558-clo-profile-authoritative-evidence/` is the
+  current publisher-source qualification. CLO Help Center documentation
+  identifies `CLO 2026.1.310 / DXF-AAMA` as a named industry-pattern exchange
+  mode, says it matches the legacy Gerber DXF-AAMA mode, and describes grade
+  information embedded in DXF or delivered as a Rule File. This supports the
+  named-profile documentation subgate but does not state an exact normative
+  AAMA edition or full conformance map. The current product exporter and all
+  retained fixtures still lack source-backed graded DXF data. The next
+  practical test needs a real source-derived multi-size/grade fixture before
+  using CLO's grade-inclusion option. All V03 holds remain: five Polo contour
+  failures, mixed CUT/SEW layers, incomplete mark semantics, no grade/options
+  proof, and malformed-input acceptance failure. A second receiver is not
+  required. S558 packet: `S558-exit-packet.md`; S557 corrections and retained
+  mark findings: `../S557-mark-and-grade-evidence-audit/`. Active worktree:
   `C:\Users\kshit\.codex\worktrees\epic-17-g04\designApp`; `F:\designApp`
-  is stale. S557 start/exit board revisions: 3341→3343→3345. Next: qualify the
-  exact CLO DXF-AAMA profile from authoritative evidence without repeating
-  known scenarios.
+  is stale. S558 board start/exit revisions 3345→3347→3349.
 - `docs/research/epic17/S555-polo-contour-remediation-analysis/S555-exit-packet.md`
   records that no source- and standard-backed, geometry-identical DXF change
   or new CLO trial is currently justified for the five Polo vertex losses.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3345,
-  "updatedAt": "2026-10-09T00:01:29.803Z",
+  "revision": 3349,
+  "updatedAt": "2026-10-09T00:05:00.522Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11403,6 +11403,16 @@
           "at": "2026-10-09T00:01:29.803Z",
           "actor": "Codex",
           "text": "S557 closes the retained mark/render and source-backed grade-fixture audit. It corrects S556: a second receiver is not an admitted V03 gate; same-app round trip is permissible if the exact profile, rights review, and every technical gate pass. No current gate is cleared. Five Polo contours, mixed CUT/SEW layers, incomplete mark/grade/options evidence, malformed-input failure, and exact-profile qualification remain open."
+        },
+        {
+          "at": "2026-10-09T00:02:40.155Z",
+          "actor": "Codex",
+          "text": "S558 checks current authoritative CLO documentation for the precise DXF-AAMA mode/build, reconciles any supported profile facts with the retained AC1009 outputs, and makes a whitespace-only audit-script cleanup. No new CLO scenario, UI operation, or acceptance change; all V03 holds remain."
+        },
+        {
+          "at": "2026-10-09T00:05:00.522Z",
+          "actor": "Codex",
+          "text": "S558 closes the publisher-source profile check: CLO identifies DXF-AAMA as an industry pattern-CAD exchange mode and documents included-grade or Rule File output. This supports naming CLO 2026.1.310/DXF-AAMA, but no exact normative edition/full conformance map is published. A real source-backed graded fixture is still needed; five contour failures and all other V03 holds remain."
         }
       ],
       "evidenceRefs": [
@@ -11615,7 +11625,9 @@
         "E-G04-S556-START",
         "E-G04-S556-EXIT",
         "E-G04-S557-START",
-        "E-G04-S557-EXIT"
+        "E-G04-S557-EXIT",
+        "E-G04-S558-START",
+        "E-G04-S558-EXIT"
       ],
       "flagKey": null
     },
@@ -21781,6 +21793,24 @@
       "sha256": null,
       "verified": true,
       "note": "Hash-pinned retained-file audit: 41/41 unique piece identities, nine mixed CUT/SEW layers, 78/100 unmatched source marks (not proven lost), no source-backed graded DXF fixture; corrects S556's unadmitted second-receiver gate. All V03 holds remain."
+    },
+    {
+      "id": "E-G04-S558-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S558-clo-profile-authoritative-evidence/S558-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Qualify only the exact CLO DXF-AAMA profile/build from current publisher-primary evidence; no repeated trials or UI actions. Preserve all holds."
+    },
+    {
+      "id": "E-G04-S558-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S558-clo-profile-authoritative-evidence/S558-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO publisher sources document the named DXF-AAMA mode and grade-export option. Named-profile documentation is supported; normative edition/conformance remains unknown. All technical holds remain."
     }
   ]
 }

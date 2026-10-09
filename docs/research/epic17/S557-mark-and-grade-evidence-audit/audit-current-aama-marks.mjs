@@ -287,5 +287,3 @@ const result = {
 await mkdir(`${outputRoot}/Evidence`, { recursive: true });
 await writeFile(`${outputRoot}/Evidence/semantic-layer-audit.json`, `${JSON.stringify(result, null, 2)}\n`, "utf8");
   console.log(JSON.stringify({ summary: result.summary, recipes: recipes.map(({ recipe, observedExportFormat, totals, pieceMap, sourceSemanticCoverage, sourceLayerFanout, outputLayerMap }) => ({ recipe, observedExportFormat, totals, uniqueSewPieces: pieceMap.filter(({ sewIdentityCandidates }) => sewIdentityCandidates.length === 1).map(({ piece, sewIdentityCandidates }) => ({ piece, block: sewIdentityCandidates[0].block })), sourceSemanticCoverage, sourceLayerFanout, outputLayers: outputLayerMap.map(({ layer, outputEntityCount, sourceSemantics, ambiguousCount, unmatchedCount }) => ({ layer, outputEntityCount, sourceSemantics, ambiguousCount, unmatchedCount })) })) }, null, 2));
-
-

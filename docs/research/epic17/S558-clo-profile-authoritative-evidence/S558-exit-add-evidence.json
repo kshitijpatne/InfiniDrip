@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3347,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S558-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S558-clo-profile-authoritative-evidence/S558-exit-packet.md",
+    "verified": true,
+    "note": "CLO publisher sources document the named DXF-AAMA mode and grade-export option. Named-profile documentation is supported; normative edition/conformance remains unknown. All technical holds remain."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3346,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S558 checks current authoritative CLO documentation for the precise DXF-AAMA mode/build, reconciles any supported profile facts with the retained AC1009 outputs, and makes a whitespace-only audit-script cleanup. No new CLO scenario, UI operation, or acceptance change; all V03 holds remain."
+}

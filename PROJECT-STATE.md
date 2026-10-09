@@ -1,5 +1,38 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 558 exit; V03 remains open
+
+S558 used CLO's current publisher documentation to identify the candidate
+profile as `CLO 2026.1.310 / DXF-AAMA`. The CLO Help Center documents DXF-AAMA,
+states it produces the same output as its legacy “Gerber (DXF-AAMA)” mode,
+and categorizes AAMA DXF as an industry pattern-CAD exchange format. It also
+documents grade information included in DXF or as a Rule File. This supports
+the named-profile documentation subgate, but the published pages do not name
+an exact AAMA edition or full conformance mapping. `$ACADVER=AC1009` remains a
+database-version fact only.
+
+The grade option is useful but not a grade fixture: CLO can emit grade data
+only when such source data is present. The current product exporter receives
+pieces for one selected size; all seven retained CLO fixtures are M/default.
+The next practical test therefore needs a genuine source-backed multi-size/
+grade input and a comparison against those same source rules. Do not synthesize
+grading for the purpose of claiming an interchange pass.
+
+S557 findings remain: five Polo CUT contours fail 0.001 cm; tested CUT/SEW
+layer semantics are mixed; 78/100 marks lack direct geometry matches (not
+proven lost); the malformed fixture was silently accepted; retained renders
+show only gross piece presence. The trial purpose and local processing are
+settled. No second receiver is required. G04-V03 remains In Progress and all
+acceptance gates remain unchanged. No new CLO UI operation or round trip was
+needed in S558; CLO stays open. The S557 audit-script whitespace-only cleanup
+preserved the output report hash. `node --check`, deterministic report replay,
+and `git diff --check` passed; no production code/tests changed. V01/V02 remain
+Done. No physical, fit, factory, or production-readiness claim is made.
+
+S558 started from S557 `3fb4e6e`; origin/main `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revisions 3345→3347→3349; V03 remains In Progress. The active goal remains active and matches this work. Packet: `docs/research/epic17/S558-clo-profile-authoritative-evidence/S558-exit-packet.md`.
+
+Next: derive a real, source-backed multi-size/grade interchange fixture using existing drafting/grade data, then test it once through the documented CLO grade-include path. Keep contour/semantic failures held pending a new evidence-backed mechanism; do not repeat known CLO scenarios.
+
 ## EPIC-17 / G04 — Slice 557 exit; V03 remains open
 
 S557 completed a hash-pinned review of the retained seven-recipe CLO

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3348,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S558 closes the publisher-source profile check: CLO identifies DXF-AAMA as an industry pattern-CAD exchange mode and documents included-grade or Rule File output. This supports naming CLO 2026.1.310/DXF-AAMA, but no exact normative edition/full conformance map is published. A real source-backed graded fixture is still needed; five contour failures and all other V03 holds remain."
+}
