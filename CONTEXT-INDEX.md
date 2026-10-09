@@ -1,6 +1,24 @@
 # InfiniDrip context index
 
-## Current EPIC-17/G04 V03 boundary — S564 exit; S565 next
+## Current EPIC-17/G04 V03 boundary — S565 exit
+
+- `docs/research/epic17/S565-clo-grade-state-diagnosis/S565-exit-packet.md`
+  records a corrected disposable CLO 2026.1.310 Size Group 1 trial. The
+  source-mapped waistband CUT contour matches XS/S/M/L/XL within 0.001 cm
+  after the left-side CUT grading increments were set to zero and right-side
+  increments retained at 20 mm. The larger-size SEW contour still fails by
+  2.0–2.915463 cm; L/XL nearest candidates are not semantically identified.
+  Same-app re-import displays one outline rather than a five-size overlay.
+  Only the waistband was selected. V03 remains In Progress and all profile,
+  all-seven-recipe, semantic, malformed-input, and round-trip gates remain
+  held. C:-only evidence is under
+  `C:\G04-CLO-DXF-Exchange\S565-clo-grade-state-diagnosis`.
+- S565 board replay is 3373→3375→3377. CLO remains open for the next
+  controlled receiver experiment. Next: at S566 start, refresh origin,
+  branch/history, working tree and board; investigate exact source-to-CLO
+  SEW-line identity without changing source geometry or the 0.001 cm gate.
+
+## Prior EPIC-17/G04 V03 boundary — S564 exit
 
 - `docs/research/epic17/S564-clo-native-size-group-probe/S564-exit-packet.md`
   records two actual CLO 2026.1.310 DXF-ASTM / Graded Nest exports and a

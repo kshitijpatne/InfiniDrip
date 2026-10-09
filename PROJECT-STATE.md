@@ -1,6 +1,29 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 564 exit; V03 remains open
+## EPIC-17 / G04 — Slice 565 exit; V03 remains open
+
+S565 corrected a disposable CLO Size Group 1 waistband trial after confirming
+that the selected left-side CUT vertices had +20 mm grade increments even
+though the source map keeps those coordinates fixed. Keeping +20 mm on the
+right and zeroing the left yielded CUT outline matches for XS/S/M/L/XL within
+0.001 cm. The larger-size SEW contour still fails at 2.0/2.5/2.915463/2.915463
+cm; nearest L/XL output candidates are not semantically identified. The
+corrected same-app re-import displays one waistband outline, not five sizes.
+This is a partial receiver diagnosis, not a V03 pass. No production code,
+pattern source, protected identity, legacy behavior, or acceptance gate
+changed. Details, hashes, limitation, and C:-only evidence are in
+`docs/research/epic17/S565-clo-grade-state-diagnosis/S565-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S565-clo-grade-state-diagnosis`.
+
+S565 board start/exit replay is 3373→3375→3377 through the validated command
+layer. Start commit was S564 `a521b01`; `origin/main` `a5af5e1` was an
+ancestor. CLO remains open because V03 receiver work continues. The next
+action at S566 start is to refresh Git/history/board and identify the exact
+source-to-CLO SEW-line mapping in a bounded test, retaining the 0.001 cm gate
+and all V03 holds. No full repository gate was due because this slice changed
+no product code or tests.
+
+## Prior EPIC-17 / G04 — Slice 564 exit; V03 remains open
 
 S564 tested CLO 2026.1.310's native Size Group route with exact source-derived
 Skirt XS/S/M/L/XL values and the S562 point map. CLO emitted correctly named

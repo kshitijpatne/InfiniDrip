@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3373,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S565-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S565-clo-grade-state-diagnosis/S565-start-packet.md",
+    "verified": true,
+    "note": "S565 diagnoses why S564's source-mapped 20 mm per-step values did not affect exported size contours. Inspect saved CLO point identity, group membership, and effective per-size state before any rerun. A corrected export is conditional on direct source mapping and a verified changed state. No gate or geometry changes."
+  }
+}

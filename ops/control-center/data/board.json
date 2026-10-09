@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3373,
-  "updatedAt": "2026-10-09T02:50:09.299Z",
+  "revision": 3377,
+  "updatedAt": "2026-10-09T03:16:29.119Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -11473,6 +11473,16 @@
           "at": "2026-10-09T02:50:09.299Z",
           "actor": "Codex",
           "text": "S564 completed a practical CLO 2026.1.310 native Size Group DXF-ASTM/Graded Nest trial. Separate front/back and waistband groups emitted correctly labeled XS/S/M/L/XL block names, but combined geometry only matches 6/6 XS contours and 1/6 at each larger size under the unchanged 0.001 cm gate; max residuals are 2/4/6/8 cm. The waistband stays 44.5 cm wide across all output blocks versus source widths 44.5/46.5/48.5/50.5/52.5 cm, despite visible 20 mm per-step offsets on selected corners. CLO re-import renders one coincident outline and reports no seam allowance/Custom mode. This is a concrete workflow mismatch, not proof the product format is unsupported. Next: inspect the saved C:-folder project and exact assignment/point application state before any corrected export. No gate changes; see E-G04-S564-EXIT."
+        },
+        {
+          "at": "2026-10-09T02:52:02.433Z",
+          "actor": "Codex",
+          "text": "S565 investigates the concrete S564 mismatch: the CLO point editor displayed source-derived 20 mm per-step waistband offsets, but emitted XS/S/M/L/XL waistband blocks all remained 44.5 cm wide. Inspect the saved trial's selected point identity, piece/group assignment, and effective size outlines against S562 before any rerun. Export once only after a source-backed state change is directly verified; otherwise record the exact setting that remains unresolved. No V03 gate changes."
+        },
+        {
+          "at": "2026-10-09T03:16:29.119Z",
+          "actor": "Codex",
+          "text": "S565 diagnosed the S564 waistband mismatch: the selected CLO left-side CUT vertices carried +20 mm steps although source mapping keeps them fixed, so both sides translated and the width stayed XS. In a disposable CLO project, zeroing only the left CUT increments while retaining +20 mm on the right produced CUT matches for XS/S/M/L/XL within 0.001 cm. Larger-size SEW residuals remain 2.0/2.5/2.915463/2.915463 cm; the nearest L/XL candidates are not semantically identified. CLO re-import rendered one waistband outline, not a five-size overlay, and reported absent seam allowances/Custom mode. This is partial diagnostic evidence only. Keep all V03 profile, recipe-coverage, semantic, malformed-input and round-trip gates held. See E-G04-S565-EXIT. Next: inspect source-to-CLO SEW identity in S566 without changing thresholds or product geometry."
         }
       ],
       "evidenceRefs": [
@@ -11699,7 +11709,9 @@
         "E-G04-S563-START",
         "E-G04-S563-EXIT",
         "E-G04-S564-START",
-        "E-G04-S564-EXIT"
+        "E-G04-S564-EXIT",
+        "E-G04-S565-START",
+        "E-G04-S565-EXIT"
       ],
       "flagKey": null
     },
@@ -21991,6 +22003,24 @@
       "sha256": null,
       "verified": true,
       "note": "Practical CLO native size-group trial exported front/back and waistband as separate DXF-ASTM/Graded Nest files. All 6 XS contours match at 0.001 cm, but only 1/6 contours pass for each S/M/L/XL; maximum residuals are 2/4/6/8 cm. The waistband remains XS width in every block despite visible 20 mm step offsets; CLO re-import renders one coincident outline and reports absent seam allowances/Custom mode. V03 remains held."
+    },
+    {
+      "id": "E-G04-S565-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S565-clo-grade-state-diagnosis/S565-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S565 diagnoses why S564's source-mapped 20 mm per-step values did not affect exported size contours. Inspect saved CLO point identity, group membership, and effective per-size state before any rerun. A corrected export is conditional on direct source mapping and a verified changed state. No gate or geometry changes."
+    },
+    {
+      "id": "E-G04-S565-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S565-clo-grade-state-diagnosis/S565-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO 2026.1.310 corrected the source-mapped waistband CUT side offsets in a disposable Size Group 1 trial. DXF-ASTM/Graded Nest CUT matches all five source sizes within 0.001 cm; larger-size SEW contours fail (2.0–2.915463 cm nearest residuals). Re-import shows one outline, not a five-size overlay. No product source changed; V03 remains held."
     }
   ]
 }

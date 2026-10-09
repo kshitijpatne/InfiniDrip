@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3375,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S565-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S565-clo-grade-state-diagnosis/S565-exit-packet.md",
+    "verified": true,
+    "note": "CLO 2026.1.310 corrected the source-mapped waistband CUT side offsets in a disposable Size Group 1 trial. DXF-ASTM/Graded Nest CUT matches all five source sizes within 0.001 cm; larger-size SEW contours fail (2.0–2.915463 cm nearest residuals). Re-import shows one outline, not a five-size overlay. No product source changed; V03 remains held."
+  }
+}
