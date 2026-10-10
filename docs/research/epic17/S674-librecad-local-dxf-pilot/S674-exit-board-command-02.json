@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4006,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S674-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S674-librecad-local-dxf-pilot/V03-GATE-RECONCILIATION-S674.md",
+    "verified": true,
+    "note": "V03 gate-by-gate dispositions after S674; all acceptance and holds unchanged."
+  }
+}

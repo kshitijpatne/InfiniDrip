@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4008,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S674 exits at a measured candidate stop. LibreCAD 2.2.1.5 R12 preserves 18/18 CUT/SEW paths at 0.000 cm, 38/38 typed marks, eight layer names and clean reopen on the pinned Polo M fixture; the output omits source INSUNITS=5, so unit interpretation fails and this generic profile is not qualified. Source identity, grades, negative input, repeatability and complete readable output remain unproven. No format/setting variation or new app trial is queued. See S674 matrix and plan; all V03 acceptance remains unchanged."
+}

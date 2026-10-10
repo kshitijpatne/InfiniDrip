@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3996,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S674-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S674-librecad-local-dxf-pilot/S674-start-packet.md",
+    "verified": true,
+    "note": "One controlled local LibreCAD 2.2.1.5 DXF import/save/reimport of the hash-pinned Polo M fixture; candidate only, generic CAD, no standards claim; fixed V03 gates unchanged."
+  }
+}

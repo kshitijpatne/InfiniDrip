@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3996,
-  "updatedAt": "2026-10-10T11:31:37.739Z",
+  "revision": 4010,
+  "updatedAt": "2026-10-10T17:00:30.598Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -763,7 +763,8 @@
         "E-G04-S672-START",
         "E-G04-S672-EXIT",
         "E-G04-S673-START",
-        "E-G04-S673-EXIT"
+        "E-G04-S673-EXIT",
+        "E-G04-S674-START"
       ]
     },
     {
@@ -4955,6 +4956,11 @@
           "at": "2026-10-10T10:38:32.785Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve legacy DXF behavior and protected export identities. S667-S670 retire the tested DGS routes: AutoCAD/Design loses units/geometry/identity/layers, ASTM/AAMA Pattern is blank/0, and a native ASTM export contains ten metadata TEXT entities with zero pattern geometry. S671 reconciles the existing CLO source/output/render matrix and prioritizes only distinct, source-exact changes that can meet unchanged V03 gates; no repeated receiver permutations or acceptance relaxation. The approved /2 grainline convention and all design decisions are settled. Maintain all-seven/options/grades, 0.001 cm, rights, identity/relations, layers/marks, malformed-input, repeatability, readable-output, legacy-DXF, protected-byte, integrated tests/build/browser/output review, PR, safe merge, ancestry and required deployment gates. No ANSI/AAMA/ASTM conformance claim, physical-fit, factory-acceptance or production-readiness claim. Admission: docs/planning/EPIC-17-ADMISSION.md.). Retain all canonical V02 summary assertions while updating current S670 receiver status and next step."
+        },
+        {
+          "at": "2026-10-10T17:00:30.598Z",
+          "actor": "Codex",
+          "text": "S674 closes after one exact LibreCAD R12 test; its unit-header failure disqualifies that candidate, while geometry/marks/layers passed on one Polo M fixture. G04-V03 remains In Progress with every acceptance gate unchanged. Next: an evidence-backed route eligibility decision before any further software or format test. S674 exit, gate matrix and bounded plan are linked on G04-V03."
         }
       ],
       "evidenceRefs": [
@@ -12916,6 +12922,46 @@
           "at": "2026-10-10T11:31:37.739Z",
           "actor": "Codex",
           "text": "S673 closes with a no-go for source-side recovery of the tested CLO output: five CUT paths exceed 0.001 cm and the DXF lacks provenance to distinguish receiver simplification from CAD edits. The C04 sidecar can bind identity/grade/relations but cannot replace CUT/SEW or visible marks. No production adapter was added. OpenMarker was screened from its first-party README; it is offline/open-source but has no export flow yet. V03 remains In Progress with all gates unchanged. S674 screens only documented free/local apparel CAD options with both DXF import and export."
+        },
+        {
+          "at": "2026-10-10T11:37:30.526Z",
+          "actor": "Codex",
+          "text": "S674 tests one new free/local generic 2D CAD receiver, LibreCAD 2.2.1.5, against the exact hash-pinned Polo M DXF. The test is import → save as DXF → clean reimport with source-bound geometry/units/marks/render checks. LibreCAD is not apparel CAD; no profile or conformance claim is assumed. Install/download and all exchange artifacts stay under the named C: folder. Stop on any fixed-gate miss; no setting variation or acceptance change."
+        },
+        {
+          "at": "2026-10-10T11:56:22.216Z",
+          "actor": "Codex",
+          "text": "S674 confirmed the registered GetonAgain GMS V2024.1 opens to Ready, but its marker-open filter is .mkr and its pattern-file importer accepts only DGS/FGS/PTN/PDS/PDF; it has no DXF import. No DXF fixture was opened or exchanged, so GMS is not a V03 receiver. LibreCAD 2.2.1.5 remains the selected S674 candidate; the official installer hash is verified, but installation did not complete after Windows requested elevation. The fixed V03 gates and acceptance remain unchanged. Next: approve Windows elevation, then run the exact hash-pinned Polo M import → save as DXF → clean re-import pilot."
+        },
+        {
+          "at": "2026-10-10T11:58:17.015Z",
+          "actor": "Codex",
+          "text": "S674 checked the pinned LibreCAD 2.2.1.5 WinGet manifest for a user-scope installation path; no applicable user installer exists. The remaining install route needs Windows elevation. The verified official installer remains under the named C: evidence folder; no install or DXF exchange has occurred, and no V03 gate or acceptance changed."
+        },
+        {
+          "at": "2026-10-10T12:00:49.268Z",
+          "actor": "Codex",
+          "text": "S674's final safe install-route check found no official Windows portable archive for LibreCAD 2.2.1.5; the first-party release provides a Windows installer only, and WinGet has no user-scope installer. The installed GMS route cannot import DXF. No DXF exchange or V03 gate has passed. S674 remains In Progress pending one manual Windows elevation approval for the already hash-verified installer; acceptance and thresholds remain unchanged."
+        },
+        {
+          "at": "2026-10-10T16:10:04.463Z",
+          "actor": "Codex",
+          "text": "S674 source-based pre-install check: the exact hash-pinned S671 input is AC1015/$INSUNITS=5 and uses only 18 polylines, 14 lines, 21 points, and 3 circles across CUT/SEW and typed MARK_* layers; it has no INSERT, XDATA, or piece identity. LibreCAD first-party docs cover DXF read/write, the relevant 2D entities/layers, and AC2000 among listed DXF versions, but also warn that not all DXF features are supported. This makes the single existing fixture pilot relevant, not proven. No LibreCAD install, exchange, or V03 gate pass occurred; no additional candidate/format/setting trial is planned. Full V03 acceptance remains unchanged. See the S674 source-based pre-install screen in the packet."
+        },
+        {
+          "at": "2026-10-10T16:12:27.313Z",
+          "actor": "Codex",
+          "text": "S674 live UI checkpoint: after the exact fixture preflight, the hash-pinned official LibreCAD 2.2.1.5 installer was invoked once. Windows elevation consent UI is live (consent PID 130656); no install completed and no DXF import/export occurred. The exact pilot is waiting for on-screen elevation approval. Do not relaunch, bypass, vary settings, or introduce another candidate. All V03 gates and acceptance remain unchanged; see S674 packet."
+        },
+        {
+          "at": "2026-10-10T16:49:07.093Z",
+          "actor": "Codex",
+          "text": "S674 prompt-state correction: maintainer reported no visible installer prompt. Read-only desktop window inventory showed no installer/elevation window; consent PID 130656 is gone; no LibreCAD process, install directory, or uninstall entry exists. Installation did not complete and the disappearance cause is unknown. No DXF operation or V03 pass occurred. Do not relaunch the installer without action-time confirmation; no new candidate or setting variation. Acceptance remains unchanged. See S674 packet."
+        },
+        {
+          "at": "2026-10-10T17:00:28.022Z",
+          "actor": "Codex",
+          "text": "S674 exits at a measured candidate stop. LibreCAD 2.2.1.5 R12 preserves 18/18 CUT/SEW paths at 0.000 cm, 38/38 typed marks, eight layer names and clean reopen on the pinned Polo M fixture; the output omits source INSUNITS=5, so unit interpretation fails and this generic profile is not qualified. Source identity, grades, negative input, repeatability and complete readable output remain unproven. No format/setting variation or new app trial is queued. See S674 matrix and plan; all V03 acceptance remains unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13379,7 +13425,11 @@
         "E-G04-S672-START",
         "E-G04-S672-EXIT",
         "E-G04-S673-START",
-        "E-G04-S673-EXIT"
+        "E-G04-S673-EXIT",
+        "E-G04-S674-START",
+        "E-G04-S674-EXIT",
+        "E-G04-S674-MATRIX",
+        "E-G04-S674-PLAN"
       ],
       "flagKey": null
     },
@@ -25966,6 +26016,42 @@
       "sha256": null,
       "verified": true,
       "note": "Source-bound CLO loss-recovery adapter is no-go under C04; exact CUT/marks cannot be restored from sidecar without risking CAD edits. OpenMarker is not eligible because export is not implemented. No acceptance changes; next bounded step screens other free/local apparel CAD routes."
+    },
+    {
+      "id": "E-G04-S674-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S674-librecad-local-dxf-pilot/S674-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One controlled local LibreCAD 2.2.1.5 DXF import/save/reimport of the hash-pinned Polo M fixture; candidate only, generic CAD, no standards claim; fixed V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S674-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S674-librecad-local-dxf-pilot/S674-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One LibreCAD 2.2.1.5 R12 Polo M round trip: all 18 CUT/SEW paths are exact, 38 typed marks and eight layers survive, and clean reopen succeeds; the R12 output omits centimeter units, so this candidate fails qualification. Full gate states are in the linked matrix."
+    },
+    {
+      "id": "E-G04-S674-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S674-librecad-local-dxf-pilot/V03-GATE-RECONCILIATION-S674.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "V03 gate-by-gate dispositions after S674; all acceptance and holds unchanged."
+    },
+    {
+      "id": "E-G04-S674-PLAN",
+      "kind": "document",
+      "uri": "docs/research/epic17/S674-librecad-local-dxf-pilot/V03-COMPLETION-PLAN-S674.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Prioritized completion route with explicit stop conditions; older receiver-dependent estimates stale."
     }
   ]
 }

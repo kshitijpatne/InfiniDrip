@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4000,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S674 checked the pinned LibreCAD 2.2.1.5 WinGet manifest for a user-scope installation path; no applicable user installer exists. The remaining install route needs Windows elevation. The verified official installer remains under the named C: evidence folder; no install or DXF exchange has occurred, and no V03 gate or acceptance changed."
+}

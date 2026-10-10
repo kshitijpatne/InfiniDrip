@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 3999,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S674 confirmed the registered GetonAgain GMS V2024.1 opens to Ready, but its marker-open filter is .mkr and its pattern-file importer accepts only DGS/FGS/PTN/PDS/PDF; it has no DXF import. No DXF fixture was opened or exchanged, so GMS is not a V03 receiver. LibreCAD 2.2.1.5 remains the selected S674 candidate; the official installer hash is verified, but installation did not complete after Windows requested elevation. The fixed V03 gates and acceptance remain unchanged. Next: approve Windows elevation, then run the exact hash-pinned Polo M import → save as DXF → clean re-import pilot."
+}

@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4009,
+  "type": "addComment",
+  "itemId": "EPIC-17",
+  "actor": "Codex",
+  "text": "S674 closes after one exact LibreCAD R12 test; its unit-header failure disqualifies that candidate, while geometry/marks/layers passed on one Polo M fixture. G04-V03 remains In Progress with every acceptance gate unchanged. Next: an evidence-backed route eligibility decision before any further software or format test. S674 exit, gate matrix and bounded plan are linked on G04-V03."
+}

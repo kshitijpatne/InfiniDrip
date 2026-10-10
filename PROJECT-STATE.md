@@ -1,3 +1,44 @@
+## EPIC-17 / G04 — S674 closed; LibreCAD R12 profile stopped on unit evidence
+
+At 2026-10-10 16:58 UTC, S674 closes from S673 `3412c1574561744dbfed8e5a43f8bbe6fe172367` on `codex/epic-17-g04`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 674 remains unique. LibreCAD 2.2.1.5 imported the hash-pinned S671 Polo M fixture, saved one R12 DXF, and cleanly reopened it with no warning observed. Analysis passes all 18 CUT/SEW paths at 0.000 cm, all 38 typed marks, all eight semantic layers and clean reopen. R12 output omits source `$INSUNITS=5` centimeters, so this tested profile fails unit self-description and is not qualified. Piece/revision identity, grades, malformed inputs, repeatability and complete readability remain unproven. The native view visibly rendered outlines/layers on reopen, but a durable screenshot is absent; do not pass readable-output from outlines alone. The comparison report is in the named C: folder, and exit/matrix/plan are `docs/research/epic17/S674-librecad-local-dxf-pilot/`.
+
+V01/V02 remain Done; V03 and EPIC-17 remain In Progress with every gate unchanged. No production source or export baseline changed. Next: perform only an evidence-backed route eligibility review against S674's fixed gate matrix and stop if no already rights-cleared apparel-CAD receiver has an explicit unit/identity contract; no extra LibreCAD format/setting or new software trial. Older estimates that assumed a viable receiver are stale; remaining duration is unbounded until an eligible route is evidenced. Full repository 100% coverage, integrated output/build/legacy/protected-identity gates, PR, safe merge, ancestry and required deployment remain explicit completion gates. No physical-fit, factory-acceptance, or standards-conformance claim.
+
+S674 focused analyzer initially exposed a parser zero-advance bug, which was fixed before its final successful execution. It now keeps coordinate and bulge errors separate and labels untested identity/repeatability as unproven. Board exit is recorded through the validated command layer at revision 4010; `npm run control-center:test` passed 42/42, and `git diff --check` passed. Time ledger: receiver/implementation wall-clock window 5 h 22 min including waits; active time was not instrumented. Focused verification: final analyzer ~1 s, Control Center suite ~2.1 s, and diff check ~1.4 s; earlier parser debugging and app-interaction time were not separately instrumented. External-agent wait 0 min during closeout; maintainer-decision time 0 min. No production-code coverage applies.
+
+## EPIC-17 / G04 — Slice 673 closed; LibreCAD exact-fixture preflight recorded
+
+As of 2026-10-10 16:10 UTC, the S674 worktree remains on
+`codex/epic-17-g04` from S673 `3412c1574561744dbfed8e5a43f8bbe6fe172367`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is still an
+ancestor. S674 remains the unique active slice; its validated start and
+progress comments are recorded through board revision 4005, and EPIC-17/G04-V03
+remain In Progress.
+
+The registered GetonAgain GMS V2024.1 is open and Ready, but its marker-open
+filter is `.mkr` and its pattern importer accepts only DGS/FGS/PTN/PDS/PDF,
+not DXF. No source fixture was imported or exported; GMS cannot clear V03.
+S674's exact-fixture preflight found that the hash-pinned S671 Polo M input is
+AC1015 with `$INSUNITS=5`, using only `POLYLINE`, `LINE`, `POINT`, and `CIRCLE`
+on `CUT`, `SEW`, and typed `MARK_*` layers. It has no INSERT, APPID/XDATA, or
+piece-identity payload. LibreCAD's first-party docs describe generic 2D CAD
+with DXF read/write and these primitives; its FAQ lists R12/R14/2000/2004/2007
+but explicitly says it does not support all DXF features. This supports one
+specific falsifiable import/save/re-open pilot, but proves neither entity
+preservation nor an industrial apparel profile. LibreCAD remains unqualified.
+The verified Windows installer is under
+`C:\G04-LibreCAD-Exchange\S674-librecad-r12-profile\`; Windows elevation is
+required. At 2026-10-10 16:48 UTC, the earlier consent PID 130656 was no
+longer running, the desktop window inventory showed no installer/elevation
+window, and checks found no LibreCAD process, install directory, or uninstall
+entry. The install did not complete; the reason the prompt disappeared is
+unknown. No exchange occurred. Do not relaunch the installer without
+action-time confirmation. The only remaining S674 action is the exact single
+pilot on the existing fixture; no additional candidate, format, unit, or
+setting variation is authorized. Preserve every V03 gate and all acceptance.
+No physical-fit, factory-acceptance, or standards-conformance claim. Details:
+`docs/research/epic17/S674-librecad-local-dxf-pilot/`.
+
 ## EPIC-17 / G04 — Slice 672 closed; tested CLO Standard-DXF route disqualified
 
 S672 imported the exact S671 Polo M fixture into CLO 2026.1.310 and captured
