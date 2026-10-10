@@ -1,3 +1,14 @@
+## Current EPIC-17 / G04 V03 boundary — S689 closed; CLO Standard rejected
+
+S689 tested the measured mm/scale hypothesis on the exact CLO Standard route.
+Units and all nine SEW paths pass on that pilot, but five CUT paths and eight
+visible marks still fail. CLO Standard is not a passing route; source geometry
+and export identities remain untouched. G04-V03 is Blocked, EPIC-17 remains
+In Progress, and V01/V02 remain Done. Board revision 4078. No acceptance is relaxed and no user
+approval/UI action is pending. Read the S689 exit and V03 route decision in
+`docs/research/epic17/S689-clo-millimeter-input-test/` before any new action.
+Do not run another receiver trial until an already available, rights-cleared
+specific profile has gate-relevant preflight evidence.
 ## Current EPIC-17 / G04 V03 boundary — S688 closed; receiver prerequisite remains
 
 S688 reconciles the bounded Sol read-only source audit with the exact S685 CLO

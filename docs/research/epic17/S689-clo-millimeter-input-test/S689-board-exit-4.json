@@ -1,0 +1,13 @@
+{
+  "reason": "S689 measured one CLO Standard DXF millimeter-input pilot. Returned unit/scale and all nine SEW paths pass, but five CUT paths exceed the fixed 0.001 cm gate and eight visible marks are missing/misplaced; returned identity and readable output are unproven. No causal source fix is supported and no tested route qualifies. Preserve V03 acceptance; resume only with specific already-available rights-cleared profile evidence.",
+  "expectedRevision": 4077,
+  "type": "updateStatus",
+  "role": "maintainer",
+  "status": "Blocked",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidenceRefs": [
+    "E-G04-S689-EXIT",
+    "E-G04-S689-ROUTE-DECISION"
+  ]
+}

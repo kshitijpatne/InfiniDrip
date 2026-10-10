@@ -1,3 +1,11 @@
+## EPIC-17 / G04 V03 — S689 closed; no CLO Standard route
+
+S689's mm-normalized CLO Standard DXF pilot passes returned units and all nine
+SEW paths, but fails five CUT paths and eight visible marks; identity and
+readability also remain unproven. No source change is supported. Validated
+board closeout restores G04-V03 Blocked; EPIC-17 remains In Progress. See
+`docs/research/epic17/S689-clo-millimeter-input-test/S689-exit-packet.md` and
+`S689-V03-route-decision.md`; unchanged acceptance and final gates remain due.
 ## EPIC-17 / G04 — Slice 688 closed; V03 blocked at receiver eligibility
 
 S688 reconciles the completed Sol source audit with exact S685/S687 return

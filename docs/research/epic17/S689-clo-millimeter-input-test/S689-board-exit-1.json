@@ -1,0 +1,12 @@
+{
+  "evidence": {
+    "verified": true,
+    "id": "E-G04-S689-EXIT",
+    "uri": "docs/research/epic17/S689-clo-millimeter-input-test/S689-exit-packet.md",
+    "kind": "document",
+    "note": "S689 CLO mm-input pilot: truthful mm scale and 9/9 sew paths pass, but 5/9 cut paths and 8/108 marks fail; no source fix supported. Acceptance unchanged."
+  },
+  "type": "addEvidence",
+  "expectedRevision": 4074,
+  "itemId": "G04-V03"
+}

@@ -1,0 +1,7 @@
+{
+  "text": "S689 proves mm input fixes CLO returned units for this Polo M pilot, and 9/9 SEW paths pass. It still drops five CUT vertices (0.012742–0.013969 cm) and misses eight visible marks; generic blocks/numeric layers replace source identity, and readable output is unproven. No causal source-code fix exists. CLO Standard is rejected; G04-V03 returns to Blocked with fixed acceptance unchanged. See S689 exit and route decision.",
+  "actor": "Codex",
+  "type": "addComment",
+  "expectedRevision": 4076,
+  "itemId": "G04-V03"
+}

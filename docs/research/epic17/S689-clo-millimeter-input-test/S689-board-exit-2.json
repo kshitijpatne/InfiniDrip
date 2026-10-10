@@ -1,0 +1,12 @@
+{
+  "evidence": {
+    "verified": true,
+    "id": "E-G04-S689-ROUTE-DECISION",
+    "uri": "docs/research/epic17/S689-clo-millimeter-input-test/S689-V03-route-decision.md",
+    "kind": "document",
+    "note": "Complete S689 V03 gate reconciliation, actual hash-pinned evidence, CLO route rejection, and bounded completion path; no acceptance changes."
+  },
+  "type": "addEvidence",
+  "expectedRevision": 4075,
+  "itemId": "G04-V03"
+}

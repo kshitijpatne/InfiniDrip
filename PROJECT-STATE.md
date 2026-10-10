@@ -1,3 +1,16 @@
+## EPIC-17 / G04 — S689 closed; CLO mm pilot fixes units only
+
+S689 completed the one controlled CLO Standard DXF millimeter-input test. The
+unit/scale mismatch is resolved for that diagnostic Polo M return, and all
+nine sew paths pass, but five cut outlines still miss the fixed 0.001 cm gate
+and eight visible marks are missing/misplaced. The returned file also loses
+named piece/layer and mark types; the saved overview is not readable evidence.
+No source-code defect, safe exporter change, or qualifying route was proven.
+The validated board revision 4078 records G04-V03 Blocked, EPIC-17 In Progress,
+V01/V02 Done; acceptance and export identities remain unchanged. Read
+`docs/research/epic17/S689-clo-millimeter-input-test/S689-exit-packet.md` and
+`S689-V03-route-decision.md`. CAD/import/export files are restricted to the
+named C: evidence folder. No manual user decision or UI action is pending.
 ## EPIC-17 / G04 — S688 closed; source audit confirms no safe receiver fix
 
 S688 records Codex's reconciliation of the completed Sol read-only source

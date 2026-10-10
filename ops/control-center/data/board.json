@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4071,
-  "updatedAt": "2026-10-10T19:25:18.269Z",
+  "revision": 4078,
+  "updatedAt": "2026-10-10T20:11:24.854Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10806,6 +10806,27 @@
             "E-G04-S688-EXIT",
             "E-G04-S688-GATE-MATRIX"
           ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-10T19:54:42.308Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "S689 begins one controlled source-unit test on the already-authorized, already-open CLO route, based on the measured millimeter-label/unchanged-coordinate mismatch. No V03 gate is passed and no acceptance changes.",
+          "evidenceRefs": [
+            "E-G04-S689-START"
+          ]
+        },
+        {
+          "status": "Blocked",
+          "at": "2026-10-10T20:11:24.854Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "S689 measured one CLO Standard DXF millimeter-input pilot. Returned unit/scale and all nine SEW paths pass, but five CUT paths exceed the fixed 0.001 cm gate and eight visible marks are missing/misplaced; returned identity and readable output are unproven. No causal source fix is supported and no tested route qualifies. Preserve V03 acceptance; resume only with specific already-available rights-cleared profile evidence.",
+          "evidenceRefs": [
+            "E-G04-S689-EXIT",
+            "E-G04-S689-ROUTE-DECISION"
+          ]
         }
       ],
       "comments": [
@@ -13138,6 +13159,16 @@
           "at": "2026-10-10T19:25:17.149Z",
           "actor": "Codex",
           "text": "S688 reconciles Sol's bounded source audit with exact receiver and rendered/import evidence. No source code fix is causally supported, and no already tested route meets the fixed exchange gates. There is no pending user approval or UI action. G04-V03 is blocked only on an available, rights-cleared receiver/profile that can pass the admitted pilot; all gates and thresholds remain unchanged."
+        },
+        {
+          "at": "2026-10-10T19:54:40.994Z",
+          "actor": "Codex",
+          "text": "S689 reopens one source-specific hypothesis from the exact S685 return: same Polo geometry represented as millimeters may avoid CLO's observed one-tenth interpretation and small-scale vertex simplification. This is one controlled trial on the existing CLO Standard route; all acceptance gates remain unchanged."
+        },
+        {
+          "at": "2026-10-10T20:11:23.257Z",
+          "actor": "Codex",
+          "text": "S689 proves mm input fixes CLO returned units for this Polo M pilot, and 9/9 SEW paths pass. It still drops five CUT vertices (0.012742–0.013969 cm) and misses eight visible marks; generic blocks/numeric layers replace source identity, and readable output is unproven. No causal source-code fix exists. CLO Standard is rejected; G04-V03 returns to Blocked with fixed acceptance unchanged. See S689 exit and route decision."
         }
       ],
       "evidenceRefs": [
@@ -13634,7 +13665,10 @@
         "E-G04-S687-EXIT",
         "E-G04-S688-START",
         "E-G04-S688-EXIT",
-        "E-G04-S688-GATE-MATRIX"
+        "E-G04-S688-GATE-MATRIX",
+        "E-G04-S689-START",
+        "E-G04-S689-EXIT",
+        "E-G04-S689-ROUTE-DECISION"
       ],
       "flagKey": null
     },
@@ -26518,6 +26552,33 @@
       "sha256": null,
       "verified": true,
       "note": "S688 supplements S686's unchanged gate-by-gate matrix with the completed Sol source audit, S687 all-entity result, and existing GetonAgain/DGS/LibreCAD/OpenCAD route evidence."
+    },
+    {
+      "id": "E-G04-S689-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S689-clo-millimeter-input-test/S689-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One evidence-backed CLO test: express the exact S681 Polo M geometry in millimeters because S685 returned mm units without scaling coordinate values; preserve topology and stop at the first fixed-gate miss."
+    },
+    {
+      "id": "E-G04-S689-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S689-clo-millimeter-input-test/S689-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S689 CLO mm-input pilot: truthful mm scale and 9/9 sew paths pass, but 5/9 cut paths and 8/108 marks fail; no source fix supported. Acceptance unchanged."
+    },
+    {
+      "id": "E-G04-S689-ROUTE-DECISION",
+      "kind": "document",
+      "uri": "docs/research/epic17/S689-clo-millimeter-input-test/S689-V03-route-decision.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Complete S689 V03 gate reconciliation, actual hash-pinned evidence, CLO route rejection, and bounded completion path; no acceptance changes."
     }
   ]
 }
