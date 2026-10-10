@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4106,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-G04-S693-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S693-adaptive-interchange-cut/S693-start-packet.md",
+    "verified": true,
+    "note": "S693 implements only the additive G04 interchange offset candidate supported by the S692 source-cusp proof. Legacy DXF, pattern geometry, allowances, protected identities, fixed gates and V03 holds remain unchanged."
+  }
+}

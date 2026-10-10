@@ -6,8 +6,10 @@ import type { PatternMark } from "../drafting/pattern-mark";
 import type { Point } from "../geometry";
 import { blockPieces } from "../drafting/block";
 import { exportDxfCentimeters } from "./dxf-centimeters";
+import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
 
-const SCHEMA_VERSION = "infinidrip.g04.dxf-package/2" as const;
+const SCHEMA_VERSION = "infinidrip.g04.dxf-package/3" as const;
+const PREVIOUS_SCHEMA_VERSION = "infinidrip.g04.dxf-package/2" as const;
 
 type DxfPatternMarkRecord = {
   readonly id: string;
@@ -26,6 +28,7 @@ type DxfPatternMarkRecord = {
 
 export interface DxfInterchangePackageManifest {
   readonly schemaVersion: typeof SCHEMA_VERSION;
+  readonly cutGeometryAlgorithm: typeof CUT_GEOMETRY_ALGORITHM;
   readonly profileLabel: "generic-dxf-centimeters-with-recipe-marks";
   readonly limitations: readonly string[];
   readonly units: { readonly length: "cm"; readonly dxfInsunits: 5 };
@@ -189,10 +192,13 @@ export async function createDxfInterchangePackage(
     throw new Error("Selected pattern block does not match the recipe, size and options");
   }
 
-  const dxf = exportDxfCentimeters(blockPieces(sourceBlock), recipe.allowances, recipe.notches);
+  const pieces = blockPieces(sourceBlock);
+  const cutOutlines = pieces.map((piece) => adaptiveSeamAllowance(piece, recipe.allowances));
+  const dxf = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches, cutOutlines);
   const drawingSha256 = await sha256(dxf);
   const core = {
     schemaVersion: SCHEMA_VERSION,
+    cutGeometryAlgorithm: CUT_GEOMETRY_ALGORITHM,
     profileLabel: "generic-dxf-centimeters-with-recipe-marks" as const,
     limitations: [
       "The manifest supplements the DXF; it does not replace CUT/SEW geometry or visible construction marks.",
@@ -225,7 +231,10 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
   const candidate = value as { dxf?: unknown; manifest?: unknown };
   if (typeof candidate.dxf !== "string" || candidate.manifest === null || typeof candidate.manifest !== "object") return false;
   const manifest = candidate.manifest as Record<string, unknown>;
-  if (manifest.schemaVersion !== SCHEMA_VERSION || typeof manifest.drawingSha256 !== "string" || typeof manifest.revisionId !== "string") return false;
+  if ((manifest.schemaVersion !== SCHEMA_VERSION && manifest.schemaVersion !== PREVIOUS_SCHEMA_VERSION) ||
+      typeof manifest.drawingSha256 !== "string" || typeof manifest.revisionId !== "string") return false;
+  if (manifest.schemaVersion === SCHEMA_VERSION && manifest.cutGeometryAlgorithm !== CUT_GEOMETRY_ALGORITHM) return false;
+  if (manifest.schemaVersion === PREVIOUS_SCHEMA_VERSION && manifest.cutGeometryAlgorithm !== undefined) return false;
   const units = manifest.units as { length?: unknown; dxfInsunits?: unknown } | undefined;
   if (units?.length !== "cm" || units.dxfInsunits !== 5 || !hasCentimeterHeader(candidate.dxf)) return false;
   if (await sha256(candidate.dxf) !== manifest.drawingSha256) return false;

@@ -857,11 +857,17 @@ Canonical pattern-block comparison follows JSON object serialization by
 omitting optional `undefined` fields. This lets valid option configurations
 such as Woven zero-vent produce a source package; it does not prove that a
 receiver preserves those values or that the exchange profile passes V03.
-The version-2 package manifest also records every source pattern mark's stable
+The version-3 package manifest also records every source pattern mark's stable
 piece-scoped ID, source name/label, kind, DXF entity type/layer, source-space
-geometry and one-based entity position in the exact digest-bound drawing. The
-visible DXF mark is still required; this companion record identifies it but
-does not replace it or prove that a receiver retains either file.
+geometry and one-based entity position in the exact digest-bound drawing. It
+declares `adaptive-normal-offset/1`, which adaptively samples the mathematical
+allowance offset for this candidate only and includes that algorithm identity
+in the canonical package revision. It retains the existing 1 cm recipe
+allowance and sew geometry; the source pattern and legacy DXF writer are
+unchanged. The version-2 package remains verifiable for existing artifacts.
+The visible DXF mark is still required; this companion record identifies it
+but does not replace it or prove that a receiver retains either file. See the
+S693 evidence packet for rendered comparison and the fixed-coverage results.
 
 The project also keeps reference export files. Tests compare new exports with
 those references so a change to one view or tool does not silently alter

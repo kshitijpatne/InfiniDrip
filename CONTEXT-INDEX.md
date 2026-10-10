@@ -1,21 +1,18 @@
-## EPIC-17 / G04 V03 — S691 closed; held at receiver eligibility
+## Current EPIC-17 / G04 V03 boundary — S693 candidate offset implemented
 
-S691 reconciles all fixed V03 gates against source, actual receiver output and
-renders, and a bounded read-only Sol review. LibreCAD 2.2.1.5 DXF 2000 passes a
-single generic-CAD fixture check, but C04/G04 requires a named apparel/industrial
-receiver/profile. CLO and DGS tested routes fail measured gates; OpenCAD is
-generic and fails other gates. No current route qualifies, and no further app,
-format or encoding trial is scheduled. No source-code repair is supported.
-G04-V03 is Blocked; V01/V02 Done; EPIC-17 In Progress; acceptance and protected
-identities unchanged. The concrete re-entry prerequisite is a named permitted
-local apparel/industrial receiver and documented input/sidecar contract.
-
-Durable matrix, plan, Sol review and exit packet:
-`docs/research/epic17/S691-v03-evidence-reconciliation/`. Cleanup remains a
-noted final PR hygiene check only; no files were removed or relocated. Refresh
-the last-known file inventories at the PR boundary and keep disposable CAD
-outputs, captures, machine reports and temporary command inputs outside Git
-while preserving necessary project files and board evidence links.
+S693 adds `adaptive-normal-offset/1` to the new version-3 interchange package.
+Its source-driven Polo cusp case is rendered and inspected; the full supported
+recipe/option/grade package matrix passes. Legacy DXF and protected bytes remain
+unchanged. S692 analytically proves the previous five Polo CUT misses were
+aligned with a real offset cusp. These candidate-side improvements do not pass
+a CAD receiver gate. CLO/DGS routes still have measured fidelity failures;
+LibreCAD/OpenCAD remain generic CAD. See S693 exit packet, S692 correction and
+S691 receiver gate matrix. Next: use the exact existing CLO Standard route on
+the updated candidate only if it clears the same geometry gate; marks,
+identity, malformed input, repeatability, readability, rights and industrial
+profile eligibility remain separate. Do not install a new app or change
+acceptance. Goal remains active; cleanup, final full gate, PR, merge, ancestry
+and required deployment remain due.
 ## EPIC-17 / G04 V03 — S689 closed; no CLO Standard route
 
 S689's mm-normalized CLO Standard DXF pilot passes returned units and all nine

@@ -1,43 +1,45 @@
-## EPIC-17 / G04 — S692 closed; Polo cut-offset cusp is source-proven
+## EPIC-17 / G04 — S693 closed; adaptive interchange cut candidate verified
 
-S692 analytically verified a real source-algorithm defect behind the five
-repeated CLO CUT-vertex losses: one Polo cubic is reused by back/neckline, both
-collar-stand/backCollar edges, and both pointed-collar/backCollarBase edges.
-Its exact minimum curvature radius is 0.9114057099 cm, below the unchanged
-1 cm allowance; the right-normal offset has a cusp at t=0.9346892443. The
-existing 14-sample offset takes a short 0.045618–0.046957 cm step near it.
-S691's blanket “no source repair supported” conclusion is superseded for these
-five points. See `docs/research/epic17/S692-polo-offset-singularity/` and its
-source correction addendum. The reproducible numeric report/helper remain
-outside Git in `C:\G04-CAD-Interchange\S692-polo-offset-singularity\`.
+S693 implements a candidate-only `adaptive-normal-offset/1` in package schema
+version 3. The S692 analytic cusp is represented by the exact normal-offset
+locus with adaptive subdivision, loop trimming, bounded miter joins, and
+fail-closed guards. Algorithm identity and resulting drawing bytes are bound
+into the package revision. The legacy `exportDxf`, source pattern, stitch graph,
+recipe allowance values, and protected export identities are unchanged.
+Existing package schema version 2 still verifies.
 
-Next, implement only a separately versioned, cusp-aware offset in the additive
-G04 interchange candidate. Keep legacy `exportDxf`, recipe geometry, 1 cm
-allowance, protected identities and fixed 0.001 cm gate unchanged. Verify the
-candidate against the analytic offset, closed/non-crossing geometry, rendered
-output, all seven recipes/73 supported options/grade rows, and changed-code
-100% coverage before using any receiver. This source repair does not clear the
-independent V03 receiver/profile, marks/identity, malformed-input,
-repeatability, readability and rights gates. V01/V02 remain Done; EPIC-17 and
-its goal remain In Progress/active. Do not call V03 or the Epic complete yet.
+Focused verification: 46/46 tests pass across the adaptive geometry, package,
+DXF-centimeter, export and byte-identity suites. The normal package tests cover
+all seven recipes, every registered grade row and all 73 canonical supported
+option cases. Changed production files reached 100% statements/branches/
+functions/lines under focused coverage. `npx tsc --noEmit` passes. Actual Polo M
+candidate DXF output was rendered next to legacy output at whole-pattern and
+back-neckline cusp detail; the cut path is closed, the sewn outline is
+unchanged, and the visible candidate smooths the old cusp step. Hash-pinned DXF
+and PNG evidence remains outside Git under
+`C:\G04-CAD-Interchange\S693-adaptive-cut-review\`; exact hashes and visual
+inspection are in `docs/research/epic17/S693-adaptive-interchange-cut/`.
 
-The canonical board is revision 4104 at S692 start; append validated exit
-evidence before commit. The user's cleanup request remains a final PR-boundary
-task only; no cleanup was performed. Refresh both workspace inventories then,
-preserve necessary runtime/project files and canonical evidence links, and
-keep disposable CAD files/captures outside Git. No standards-conformance,
-physical-fit, factory-acceptance or production-readiness claim is made. The
-full repository coverage/build/output review, PR, merge, refreshed ancestry
-and any required deployment remain explicit completion gates.
+S693 does **not** clear V03 receiver/profile, rights, identity/marks,
+malformed-input, repeatability, readability or receiver-wide breadth gates.
+The board remains honest: G04-V03 is Blocked; EPIC-17 is In Progress; V01/V02
+remain Done. No exact compatibility/conformance, physical-fit, factory-
+acceptance or production-readiness claim is made. The goal record remains
+active. Next is one evidence-led check of the exact already-installed CLO
+Standard route against the updated candidate's previously failing cut geometry
+gate, not a new application or profile variation. Stop at the first concrete
+gate miss and record the result; even a geometry pass cannot alone qualify
+CLO's profile or clear independent gates.
 
-Started 2026-10-10 21:56:33 UTC from S691 `3cb0f46e83791fc5f571acf1af154ce1c96937b2`;
-refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
-ancestor. S692 is unique after S691. Board revision 4104 after start evidence.
-Analytic source review and record update only; no production code or tests
-changed, so changed-code coverage is not applicable. Raw report SHA-256:
-`f806192422da2c0663a7870be2a36ead628e0dd965ea0b0cd66c32b4263e0df2`.
-Focused Control Center test and `git diff --check` results are in the S692
-exit packet.
+S693 start: 2026-10-10 22:01:56 UTC from clean S692 commit
+`146b60a9d0961e8cfb76be58637cb53efcaf14e4`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board
+start revision 4106 and validated start replay 4107. Exit replay and focused
+Control Center result are in the S693 exit packet. Approximate elapsed time to
+this verified boundary: 20m20s; implementation: 11m; focused verification and
+rendered output review: 7m; durable packet/state/board closeout: 2m20s;
+external wait: 0; maintainer decision: 0. No full repository gate is due until
+the settled integrated Epic/PR candidate.
 
 ## EPIC-17 / G04 — S690 prior evidence; LibreCAD DXF 2000 pilot is partial
 

@@ -13,6 +13,7 @@ import { Piece, AllowanceSpec } from "../drafting";
 import { flattenPiece, layoutPieces, Polyline } from "./layout";
 import { polylineBounds } from "./layout";
 import { patternMarksDxf, translatePatternMarks } from "./pattern-mark";
+import { outlinePoints } from "../render";
 
 const num = (n: number): string => (Math.round(n * 1000) / 1000).toString();
 
@@ -32,12 +33,22 @@ function polyline(pts: Polyline, layer: string, height: number): string {
 }
 
 /** A minimal DXF of the pieces: cut lines on layer CUT, sew lines on layer SEW. */
-export function exportDxf(pieces: readonly Piece[], allowance: AllowanceSpec): string {
-  const layout = layoutPieces(pieces.map((p) => flattenPiece(p, allowance)));
+export function exportDxf(
+  pieces: readonly Piece[], allowance: AllowanceSpec, cutOutlines?: readonly Polyline[],
+): string {
+  if (cutOutlines && cutOutlines.length !== pieces.length) {
+    throw new Error("DXF cut outline count must match its piece count");
+  }
+  const flats = pieces.map((piece, index) => {
+    return cutOutlines
+      ? { name: piece.name, sew: outlinePoints(piece), cut: cutOutlines[index]! }
+      : flattenPiece(piece, allowance);
+  });
+  const layout = layoutPieces(flats);
   const entities = layout.pieces
     .map((p, i) => {
       const original = pieces[i];
-      const flat = flattenPiece(original, allowance);
+      const flat = flats[i]!;
       const originalBounds = polylineBounds(flat.cut);
       const placedBounds = polylineBounds(p.cut);
       const marks = translatePatternMarks(original.marks,

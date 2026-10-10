@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4107,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-G04-S693-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S693-adaptive-interchange-cut/S693-exit-packet.md",
+    "verified": true,
+    "note": "Version-3 G04 package adds the 100%-covered adaptive interchange cut candidate. All seven recipes, 73 options, grade rows, legacy identities and actual Polo M rendered output verified. Receiver/profile V03 gates remain unresolved; no acceptance change."
+  }
+}

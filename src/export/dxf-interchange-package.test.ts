@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { STANDARD_M, GARMENTS, blockPieces, gradeRun } from "../drafting";
 import optionMatrix from "../../docs/research/epic17/S330-integrated-browser/matrix.json";
 import { exportDxfCentimeters } from "./dxf-centimeters";
+import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
 import {
   createDxfInterchangePackage,
   verifyDxfInterchangePackage,
@@ -60,7 +61,11 @@ describe("C04-bounded DXF interchange package", () => {
           entityOrdinal += 2 + (piece.marks?.length ?? 0);
         }
         expect(candidate.manifest.patternMarks).toEqual(expectedMarks);
-        expect(candidate.dxf).toBe(exportDxfCentimeters(blockPieces(graded.block), recipe.allowances, recipe.notches));
+        const candidatePieces = blockPieces(graded.block);
+        const candidateCuts = candidatePieces.map((piece) => adaptiveSeamAllowance(piece, recipe.allowances));
+        expect(candidate.manifest.schemaVersion).toBe("infinidrip.g04.dxf-package/3");
+        expect(candidate.manifest.cutGeometryAlgorithm).toBe(CUT_GEOMETRY_ALGORITHM);
+        expect(candidate.dxf).toBe(exportDxfCentimeters(candidatePieces, recipe.allowances, recipe.notches, candidateCuts));
         expect(candidate.manifest.drawingSha256).toMatch(/^[0-9a-f]{64}$/);
         expect(candidate.manifest.revisionId).toMatch(/^[0-9a-f]{64}$/);
         expect(candidate.dxf).toContain("9\n$INSUNITS\n70\n5\n");
@@ -194,6 +199,24 @@ describe("C04-bounded DXF interchange package", () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2];
     const candidate = await createDxfInterchangePackage(recipe, graded);
+    const legacyDxf = exportDxfCentimeters(blockPieces(graded.block), recipe.allowances, recipe.notches);
+    const v2Core: Record<string, unknown> = {
+      ...candidate.manifest,
+      schemaVersion: "infinidrip.g04.dxf-package/2",
+      drawingSha256: await sha256(legacyDxf),
+    };
+    delete v2Core.cutGeometryAlgorithm;
+    delete v2Core.revisionId;
+    const v2RevisionId = await sha256(canonicalJson(v2Core));
+    expect(await verifyDxfInterchangePackage({ dxf: legacyDxf, manifest: { ...v2Core, revisionId: v2RevisionId } })).toBe(true);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, cutGeometryAlgorithm: "unknown" },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, schemaVersion: "infinidrip.g04.dxf-package/2" },
+    })).toBe(false);
     const rebind = async (dxf: string, manifestChanges: Record<string, unknown>) => {
       const drawingSha256 = await sha256(dxf);
       const core: Record<string, unknown> = { ...candidate.manifest, ...manifestChanges, drawingSha256 };

@@ -1,8 +1,9 @@
 import { AllowanceSpec, Piece } from "../drafting";
 import { PieceNotches } from "../drafting/tshirt-notches";
 import { resolveGrainline, resolveNotch } from "../render/notch";
+import { outlinePoints } from "../render";
 import { exportDxf } from "./dxf";
-import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
+import { flattenPiece, layoutPieces, polylineBounds, Polyline } from "./layout";
 
 const CENTIMETER_HEADER =
   "0\nSECTION\n2\nHEADER\n" +
@@ -19,8 +20,12 @@ const num = (value: number): string => (Math.round(value * 1000) / 1000).toStrin
 export function exportDxfCentimeters(
   pieces: readonly Piece[], allowance: AllowanceSpec,
   notchTables: readonly PieceNotches[] = [],
+  cutOutlines?: readonly Polyline[],
 ): string {
-  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance);
+  if (cutOutlines && cutOutlines.length !== pieces.length) {
+    throw new Error("DXF cut outline count must match its piece count");
+  }
+  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance, cutOutlines);
   if (notchTables.length === 0) return output;
 
   const byPiece = new Map<string, PieceNotches>();
@@ -34,7 +39,11 @@ export function exportDxfCentimeters(
     byPiece.set(table.pieceName, table);
   }
 
-  const flats = pieces.map((piece) => flattenPiece(piece, allowance));
+  const flats = pieces.map((piece, index) => {
+    return cutOutlines
+      ? { name: piece.name, sew: outlinePoints(piece), cut: cutOutlines[index]! }
+      : flattenPiece(piece, allowance);
+  });
   const layout = layoutPieces(flats);
   const entities = pieces.map((piece, index) => {
     const table = byPiece.get(piece.name);

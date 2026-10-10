@@ -80,4 +80,11 @@ describe("exportDxfCentimeters", () => {
     expect(() => exportDxfCentimeters(pieces, recipe.allowances, [{ ...table, pieceName: "missing" }]))
       .toThrow('DXF construction-mark rules refer to missing piece "missing"');
   });
+
+  it("rejects candidate cut arrays that do not align one-to-one with pieces", () => {
+    const recipe = garmentByName("tee");
+    const pieces = blockPieces(draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft));
+    expect(() => exportDxf(pieces, recipe.allowances, [])).toThrow("cut outline count must match its piece count");
+    expect(() => exportDxfCentimeters(pieces, recipe.allowances, [], [])).toThrow("cut outline count must match its piece count");
+  });
 });
