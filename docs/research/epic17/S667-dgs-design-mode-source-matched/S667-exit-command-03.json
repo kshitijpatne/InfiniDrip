@@ -1,0 +1,8 @@
+{
+  "expectedRevision": 3918,
+  "type": "editItem",
+  "itemId": "G04-V03",
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve fixed 0.001 cm geometry, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected byte identities. S667 DGS AutoCAD/Design import rendered nine outlines but registered 0/0 patterns; its diagnostic Auto CAD export flattened piece identities, layers and profile, changed cm→mm without scaling, and missed geometry by up to 191.201177 cm. The input was also tagged /1 rather than approved /2. Retire this exact candidate. S668 will verify the /2 source fixture and make one DGS ASTM/AAMA apparel-decoder import; a clean import alone permits one export/parse/reimport. Menu labels are not conformance evidence. Keep every V03 gate and hold."
+  }
+}

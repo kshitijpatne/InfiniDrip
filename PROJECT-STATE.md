@@ -1,74 +1,8 @@
-## EPIC-17 / G04 — Slice 666 closed; one DGS Pattern-mode candidate failed
+## EPIC-17 / G04 — Slice 667 closed; S668 apparel-decoder import next
 
-S666's independent parser passes the C:-only 20 × 30 cm source fixture: one
-named INSERT, one closed CUT polyline, four vertices, centimeter units, and
-zero explicit grainline entities. One actual DGS AutoCAD/Pattern import
-reported `Pattern name1,Size:M,grainline is outside the border, please check
-again.` despite that source. The rendered canvas shows a centered two-way
-marker and unexpected internal strokes; after one `Ctrl+R` recreation for the
-selected pattern, the warning remained. Actual screenshots, settings and
-source/result disposition are linked in
-`docs/research/epic17/S666-dgs-native-grainline-calibration/` and the C:-only
-evidence folder. No DXF export, parse, or reimport was attempted. This exact
-DGS AutoCAD/Pattern candidate fails warning-free import/render; it does not
-prove a DGS-wide failure or explain the receiver's interpretation.
+S667 committed as `Slice 667: diagnose DGS design export identity loss`. In DGS V2024.1 / VID:20250610, the AutoCAD Design import rendered nine outlines without a warning but registered 0/0 patterns. Its single diagnostic Auto CAD export flattened nine named INSERT pieces/11 blocks into 46 layer-0 entities, changed `$INSUNITS` cm (5)→mm (4) without scaling numeric values, omitted profile metadata, and failed the unchanged 0.001 cm geometry gate by up to 191.201177 cm. The input XDATA said `/1`, not approved `/2`. This candidate is retired; no reimport. Evidence/matrix/plan: `docs/research/epic17/S667-dgs-design-mode-source-matched/` and C:-only exchange folder.
 
-S667 has one bounded next check: use the other first-party documented DGS
-AutoCAD import choice, Design, on the exact S664 source-matched Polo M file,
-changing only Pattern→Design. This tests whether the repeated Pattern-mode
-warning is mode-specific and whether Design can retain the source drawing.
-Require no unresolved warning, intact geometry/identity and readable output
-within `0.001 cm` before a single export/parse/reimport. Stop that candidate
-on the first concrete miss; no further DGS permutations. S666's full gate
-delta and plan are in its folder. No approval is pending for the already
-approved grainline mapping.
-
-V01/V02 remain Done; G04-V03 and EPIC-17 remain In Progress. All-seven
-recipes/options/grades, protected byte identities, legacy DXF behavior, fixed
-thresholds, final full-coverage/build/render/output review, PR, safe merge,
-ancestry and required deployment remain required. No physical-fit,
-factory-acceptance, standards-conformance or production-readiness claim.
-
-S661 tested one hash-pinned generic AC1014 Polo M fixture with DGS
-`VID:20250610` in `AUTOCAD` mode. The app imported all nine pieces but its
-native Error Box reported `grainline is outside the border` for every piece.
-This exact fixture/build/mode fails the warning-free pilot criterion. No export
-or alternative mode, format, encoding or setting was attempted. The imported
-render, error screenshot, and independent source structure report are
-hash-recorded under `C:\\G04-CLO-DXF-Exchange\\S661-getonagain-ac1014-autocad-pilot\\`;
-the source copy is identical to S648 (153,647 bytes, SHA-256
-`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`). Source
-parsing found no grainline layer/entity in the nine blocks, while the product
-has recipe-derived grainline rules that legacy DXF does not emit. This is a
-plausible cause, not established DGS behavior. No V03 gate passes and no
-acceptance, threshold, all-seven scope, legacy DXF, or protected identity
-changed.
-
-Started 2026-10-10 07:44 UTC from clean S660
-`f2293d8fa26d6ba4650358e100bc2deae2133147`; refreshed `origin/main`
-`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. S660 was
-highest; S661 was unique. Validated S661 start/exit board commands reached
-revision 3850. Focused Control Center tests pass 42/42 and `git diff --check`
-passes. No production code or tests changed. Elapsed time is recorded in the
-S661 exit packet. Full tests/100% coverage, build/browser/Electron, final output
-review, PR, safe merge ancestry and required deployment remain Epic exit gates.
-S662 derives all nine Polo M grainlines from the fixture's exact source
-revision `ef28519c21314eed0280ed4e6982849284da16b6`. All 9/9 reconstructed CUT
-contours match the S648 fixture at 0 cm residual; 501/501 points on each
-source grainline lie inside its corresponding CUT polygon. The exact DXF
-coordinates and reproducible analyzer are in
-`docs/research/epic17/S662-polo-grainline-profile-proposal/`. The packet
-proposes, but does not implement, a new `idr-pattern-exchange/2` profile with
-one `LINE` on `GRAINLINE` inside each existing block. GetonAgain does not
-document this layer/entity mapping, so it awaits explicit maintainer approval
-before a writer change or second import. No V03 gate passes. S662 validated
-start/exit board replay through revision 3865; focused Control Center tests pass
-42/42 and `git diff --check` passes, as recorded in its exit packet. No
-production code or tests changed. DGS
-remains open with the S661 warning visible. Full tests/100% coverage,
-build/browser/Electron, final output review, PR, safe merge ancestry and
-required deployment remain Epic exit gates. No fit/factory/production claim.
-
+Next S668 independently validates a source-derived fixture changing only XDATA `/1`→`/2` and imports it once through DGS ASTM/AAMA apparel decoder. If clean, one apparel export/parse/reimport checks round-trip gates; stop DGS on the first concrete failure. No conformance claim or alternate encoding/mode. Approved grainline mapping settled; no external approval is pending. V01/V02, all-seven/options/grades, fixed thresholds, legacy DXF, protected export identities, output evidence and final gates remain unchanged. V03/EPIC-17 In Progress.
 ## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
 
 MPVCI V2.7 and Microsoft VC++ 2010 x64/x86 10.0.40219 are registered. S659

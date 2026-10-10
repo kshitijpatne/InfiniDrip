@@ -1,0 +1,11 @@
+{
+  "actor": "Codex",
+  "reason": "Start S667 one-variable DGS Design-mode source-matched diagnostic from verified S666 state.",
+  "epicId": "EPIC-17",
+  "type": "editEpic",
+  "expectedRevision": 3911,
+  "role": "maintainer",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. S667 runs one DGS AutoCAD/Design import of the exact hash-pinned S664 Polo M source (SHA-256 DFC15003F11AFEC33C4AADB3286D3354A808D834DCD1979B7CB2EE0BC94F07F2), changing only Pattern→Design. Require warning-free readable full source retention and independently measurable geometry within 0.001 cm before one export/parse/reimport; stop this candidate on its first concrete warning, loss or precision/readability miss. No other DGS permutations. Approved idr-pattern-exchange/2 grainline mapping is settled; no approval is pending. Preserve all-seven/options/grades, fixed thresholds, legacy DXF, protected byte identities and final gates. No ANSI/AAMA/ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. State: PROJECT-STATE.md; S667 packet: docs/research/epic17/S667-dgs-design-mode-source-matched/S667-start-packet.md."
+  }
+}

@@ -1,3 +1,8 @@
+## EPIC-17 / G04 — Slice 667 closed; S668 apparel-decoder import next
+
+S667's DGS AutoCAD/Design import rendered nine outlines without a warning but registered 0/0 patterns. Its single observed-default Auto CAD export changed `$INSUNITS` 5→4 without converting numeric scale, flattened nine named source INSERTs/11 blocks and CUT/SEW layers into top-level layer-0 entities, omitted profile metadata, and missed 0.001 cm by up to 191.201177 cm. The tested S664 input was also tagged `/1`, not approved `/2`. This exact candidate is retired; no reimport. See the S667 exit packet, gate reconciliation, completion plan and C:-only screenshots/parser evidence under `docs/research/epic17/S667-dgs-design-mode-source-matched/`.
+
+Next S668 corrects only profile XDATA `/1`→`/2`, independently proves all other source data unchanged, and tests one DGS ASTM/AAMA apparel decoder import. The decoder, not the vendor menu label, is the empirical route; no formal conformance claim follows. Only a clean import permits one apparel export/parse/reimport. Retire DGS on a concrete gate miss; do not try another mode/encoding. The grainline mapping is explicitly approved; no maintainer approval is pending. V03 acceptance, thresholds and holds remain unchanged.
 ## EPIC-17 / G04 — Slice 666 closed; run one DGS Design-mode source-matched check next
 
 S666's C:-only source parser passes one named INSERT containing one closed

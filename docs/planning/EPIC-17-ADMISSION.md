@@ -2025,3 +2025,7 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
   encoding only with an independent exact-source proof, before one bounded
   CLO round trip. Preserve all-seven, `0.001 cm`, rights/profile and every
   other V03 gate; do not infer physical or factory acceptance.
+
+## S667 exit and S668 bounded next route
+
+S667 retired the exact DGS AutoCAD Design candidate after measured output loss. Its complete exit, gate matrix and completion plan are in `docs/research/epic17/S667-dgs-design-mode-source-matched/`. S668 is limited to correcting source-profile XDATA `/1`→`/2` on a C:-only derivative with all other entities verified unchanged, then one DGS apparel-decoder import. Only a clean import permits one export/parse/reimport. No formal ASTM/AAMA claim follows from the menu label. All V03 gates remain unchanged. The approved grainline convention is settled; no maintainer decision is pending.

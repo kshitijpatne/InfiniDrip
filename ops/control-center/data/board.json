@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3911,
-  "updatedAt": "2026-10-10T09:35:05.983Z",
+  "revision": 3924,
+  "updatedAt": "2026-10-10T09:54:06.033Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done (V01/V02); S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress and no technical exchange gate is qualified. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610 (V2024.1 is the manual/package). S664's user-approved LINE/GRAINLINE Pattern candidate failed 9/9 with grainline-outside-border warnings. S666 independently verified one closed 20x30 cm CUT and zero source grainline entities, but DGS AUTOCAD/Pattern reported the same warning, showed unexpected internal strokes, and retained the warning after one native selected-pattern recreation. No output was exported. The exact candidate failed; DGS-wide cause/support remain unproven. S666 matrix and plan: docs/research/epic17/S666-dgs-native-grainline-calibration/. Next S667: one AutoCAD/Design import of the exact source-matched S664 Polo M candidate, changing only Pattern→Design; require warning-free, readable geometry/identity within 0.001 cm before one export/parse/reimport. Stop that candidate on a concrete miss; no other DGS permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S666 packet: docs/research/epic17/S666-dgs-native-grainline-calibration/S666-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress. S667 actual DGS AutoCAD/Design import rendered nine outlines with no warning but registered 0/0 patterns. Its single diagnostic Auto CAD export changed units cm→mm without scaling numeric values, flattened nine INSERT identities/11 blocks into layer-0 entities, omitted profile metadata, and failed the 0.001 cm geometry gate by up to 191.201177 cm. The tested source was tagged profile /1, not approved /2. This exact candidate is retired; no reimport. Evidence/matrix/plan: docs/research/epic17/S667-dgs-design-mode-source-matched/. Next S668 verifies a source-derived /2 fixture and runs one DGS apparel-decoder import; one roundtrip follows only if clean. No other DGS mode/encoding trials; no conformance, physical-fit, factory-acceptance or production-readiness claim. No external approval is pending. Preserve all-seven/options/grades, fixed gates, rights, output review and merge/deployment gates.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -743,7 +743,9 @@
         "E-EPIC17-S665-START",
         "E-G04-S665-EXIT",
         "E-G04-S666-START",
-        "E-G04-S666-EXIT"
+        "E-G04-S666-EXIT",
+        "E-G04-S667-START",
+        "E-G04-S667-EXIT"
       ]
     },
     {
@@ -3272,7 +3274,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done (V01/V02); S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress and no technical exchange gate is qualified. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610 (V2024.1 is the manual/package). S664's user-approved LINE/GRAINLINE Pattern candidate failed 9/9 with grainline-outside-border warnings. S666 independently verified one closed 20x30 cm CUT and zero source grainline entities, but DGS AUTOCAD/Pattern reported the same warning, showed unexpected internal strokes, and retained the warning after one native selected-pattern recreation. No output was exported. The exact candidate failed; DGS-wide cause/support remain unproven. S666 matrix and plan: docs/research/epic17/S666-dgs-native-grainline-calibration/. Next S667: one AutoCAD/Design import of the exact source-matched S664 Polo M candidate, changing only Pattern→Design; require warning-free, readable geometry/identity within 0.001 cm before one export/parse/reimport. Stop that candidate on a concrete miss; no other DGS permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S666 packet: docs/research/epic17/S666-dgs-native-grainline-calibration/S666-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress. S667 actual DGS AutoCAD/Design import rendered nine outlines with no warning but registered 0/0 patterns. Its single diagnostic Auto CAD export changed units cm→mm without scaling numeric values, flattened nine INSERT identities/11 blocks into layer-0 entities, omitted profile metadata, and failed the 0.001 cm geometry gate by up to 191.201177 cm. The tested source was tagged profile /1, not approved /2. This exact candidate is retired; no reimport. Evidence/matrix/plan: docs/research/epic17/S667-dgs-design-mode-source-matched/. Next S668 verifies a source-derived /2 fixture and runs one DGS apparel-decoder import; one roundtrip follows only if clean. No other DGS mode/encoding trials; no conformance, physical-fit, factory-acceptance or production-readiness claim. No external approval is pending. Preserve all-seven/options/grades, fixed gates, rights, output review and merge/deployment gates.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4870,6 +4872,26 @@
           "at": "2026-10-10T09:35:05.699Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done (V01/V02); S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress and no technical exchange gate is qualified. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610 (V2024.1 is the manual/package). S664's user-approved LINE/GRAINLINE Pattern candidate failed 9/9 with grainline-outside-border warnings. S666 independently verified one closed 20x30 cm CUT and zero source grainline entities, but DGS AUTOCAD/Pattern reported the same warning, showed unexpected internal strokes, and retained the warning after one native selected-pattern recreation. No output was exported. The exact candidate failed; DGS-wide cause/support remain unproven. S666 matrix and plan: docs/research/epic17/S666-dgs-native-grainline-calibration/. Next S667: one AutoCAD/Design import of the exact source-matched S664 Polo M candidate, changing only Pattern→Design; require warning-free, readable geometry/identity within 0.001 cm before one export/parse/reimport. Stop that candidate on a concrete miss; no other DGS permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S666 packet: docs/research/epic17/S666-dgs-native-grainline-calibration/S666-exit-packet.md.). Keep the current state wording concise while preserving the canonical Control Center assertion."
+        },
+        {
+          "at": "2026-10-10T09:37:35.023Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. S667 runs one DGS AutoCAD/Design import of the exact hash-pinned S664 Polo M source (SHA-256 DFC15003F11AFEC33C4AADB3286D3354A808D834DCD1979B7CB2EE0BC94F07F2), changing only Pattern→Design. Require warning-free readable full source retention and independently measurable geometry within 0.001 cm before one export/parse/reimport; stop this candidate on its first concrete warning, loss or precision/readability miss. No other DGS permutations. Approved idr-pattern-exchange/2 grainline mapping is settled; no approval is pending. Preserve all-seven/options/grades, fixed thresholds, legacy DXF, protected byte identities and final gates. No ANSI/AAMA/ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. State: PROJECT-STATE.md; S667 packet: docs/research/epic17/S667-dgs-design-mode-source-matched/S667-start-packet.md.). Start S667 one-variable DGS Design-mode source-matched diagnostic from verified S666 state."
+        },
+        {
+          "at": "2026-10-10T09:37:36.406Z",
+          "actor": "Codex",
+          "text": "Slice 667 is one bounded Design-mode diagnosis in the existing DGS session. All V03 gates, protected identities, legacy DXF behavior, V01/V02 status and final merge/deployment gates remain unchanged. No standards, fit, factory or production claim."
+        },
+        {
+          "at": "2026-10-10T09:53:35.232Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01/V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve legacy DXF behavior and protected export byte identities. V03 remains In Progress. S667 actual DGS AutoCAD/Design import rendered nine outlines with no warning but registered 0/0 patterns. Its single diagnostic Auto CAD export changed units cm→mm without scaling numeric values, flattened nine INSERT identities/11 blocks into layer-0 entities, omitted profile metadata, and failed the 0.001 cm geometry gate by up to 191.201177 cm. The tested source was tagged profile /1, not approved /2. This exact candidate is retired; no reimport. Evidence/matrix/plan: docs/research/epic17/S667-dgs-design-mode-source-matched/. Next S668 verifies a source-derived /2 fixture and runs one DGS apparel-decoder import; one roundtrip follows only if clean. No other DGS mode/encoding trials; no conformance, physical-fit, factory-acceptance or production-readiness claim. No external approval is pending. Preserve all-seven/options/grades, fixed gates, rights, output review and merge/deployment gates.). Close S667 on measured DGS Design export losses and record next distinct apparel decoder check."
+        },
+        {
+          "at": "2026-10-10T09:54:05.782Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress. S667 actual DGS AutoCAD/Design import rendered nine outlines with no warning but registered 0/0 patterns. Its single diagnostic Auto CAD export changed units cm→mm without scaling numeric values, flattened nine INSERT identities/11 blocks into layer-0 entities, omitted profile metadata, and failed the 0.001 cm geometry gate by up to 191.201177 cm. The tested source was tagged profile /1, not approved /2. This exact candidate is retired; no reimport. Evidence/matrix/plan: docs/research/epic17/S667-dgs-design-mode-source-matched/. Next S668 verifies a source-derived /2 fixture and runs one DGS apparel-decoder import; one roundtrip follows only if clean. No other DGS mode/encoding trials; no conformance, physical-fit, factory-acceptance or production-readiness claim. No external approval is pending. Preserve all-seven/options/grades, fixed gates, rights, output review and merge/deployment gates.). Restore established acceptance-summary clauses required by the canonical Control Center suite while retaining S667 measured failure."
         }
       ],
       "evidenceRefs": [
@@ -10634,7 +10656,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610. S661/S664 AutoCAD/Pattern candidates failed with nine outside-border warnings. S666's one closed control fixture has zero source grainline entities, but one DGS AutoCAD/Pattern import reported the same warning and rendered unexpected internal strokes; selected-pattern native recreation did not clear it. No export occurred; this exact candidate failed and the DGS-wide cause remains unproven. See S666 gate delta/plan. Next S667 tests only the documented AutoCAD/Design mode against the exact S664 source-matched Polo M candidate, changing Pattern→Design. Require warning-free, readable geometry and identity within 0.001 cm before one export/parse/reimport; stop on any concrete miss. Preserve every acceptance gate and hold.",
+      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve fixed 0.001 cm geometry, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected byte identities. S667 DGS AutoCAD/Design import rendered nine outlines but registered 0/0 patterns; its diagnostic Auto CAD export flattened piece identities, layers and profile, changed cm→mm without scaling, and missed geometry by up to 191.201177 cm. The input was also tagged /1 rather than approved /2. Retire this exact candidate. S668 will verify the /2 source fixture and make one DGS ASTM/AAMA apparel-decoder import; a clean import alone permits one export/parse/reimport. Menu labels are not conformance evidence. Keep every V03 gate and hold.",
       "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
       "acceptanceCriteria": [
         "Record current rights and exact receiver/version/profile evidence before selection.",
@@ -12746,6 +12768,16 @@
           "at": "2026-10-10T09:33:28.777Z",
           "actor": "Codex",
           "text": "S666's exact AutoCAD/Pattern candidate failed: DGS reported one grainline-outside-border warning although the source has zero grainline entities; the warning remained after one selected-pattern native recreation. The render also contains unexpected internal strokes. No export/reimport was attempted. S667 changes only the documented Pattern/Design choice on the existing S664 source-matched Polo M candidate to determine whether Design mode is a viable clean exchange path. See S666 gate delta and completion plan. All thresholds and V03 acceptance remain unchanged."
+        },
+        {
+          "at": "2026-10-10T09:37:36.048Z",
+          "actor": "Codex",
+          "text": "S667 begins from verified S666 commit f70d1992 and board revision 3911. It changes only the documented DGS AutoCAD Pattern/Design selector on the frozen S664 Polo M source. No approval is pending; the approved grainline mapping remains settled. Stop this candidate on any concrete warning, loss, unreadable geometry or precision miss; V03 acceptance remains unchanged."
+        },
+        {
+          "at": "2026-10-10T09:53:36.983Z",
+          "actor": "Codex",
+          "text": "S667 retired DGS AutoCAD/Design on actual parsed export: units changed cm→mm without scaling, INSERT identities and semantic layers were flattened, profile absent, and physical geometry missed 0.001 cm by up to 191.201177 cm. No reimport. S668 will validate the approved /2 input then test the distinct apparel decoder once; no external approval is pending."
         }
       ],
       "evidenceRefs": [
@@ -13189,7 +13221,9 @@
         "E-G04-S665-START",
         "E-G04-S665-EXIT",
         "E-G04-S666-START",
-        "E-G04-S666-EXIT"
+        "E-G04-S666-EXIT",
+        "E-G04-S667-START",
+        "E-G04-S667-EXIT"
       ],
       "flagKey": null
     },
@@ -25596,6 +25630,24 @@
       "sha256": null,
       "verified": true,
       "note": "S666 independently inspects the synthetic control, records actual DGS settings and warning/render, executes one approved native grainline recreation that leaves the warning, and stops this exact Pattern-mode candidate before export. S667's single Design-mode follow-up is justified by the repeated Pattern warnings and the manual's separate Design choice."
+    },
+    {
+      "id": "E-G04-S667-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S667-dgs-design-mode-source-matched/S667-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One source-matched DGS AutoCAD/Design diagnostic; only Pattern→Design changes, all other settings and source bytes fixed, with 0.001 cm and warning-free stop criteria."
+    },
+    {
+      "id": "E-G04-S667-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S667-dgs-design-mode-source-matched/S667-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Actual DGS AutoCAD Design import/export and independent parse retire this candidate on physical unit, geometry, identity, layer and profile loss; gate matrix and bounded S668 completion plan included."
     }
   ]
 }

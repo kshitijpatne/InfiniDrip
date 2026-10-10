@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3919,
+  "type": "addEvidence",
+  "evidence": {
+    "verified": true,
+    "id": "E-G04-S667-EXIT",
+    "note": "Actual DGS AutoCAD Design import/export and independent parse retire this candidate on physical unit, geometry, identity, layer and profile loss; gate matrix and bounded S668 completion plan included.",
+    "uri": "docs/research/epic17/S667-dgs-design-mode-source-matched/S667-exit-packet.md",
+    "kind": "document"
+  },
+  "itemId": "G04-V03"
+}
