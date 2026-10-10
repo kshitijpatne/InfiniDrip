@@ -2216,6 +2216,19 @@ decision in `docs/PROJECT-DECISIONS.md` apply to every new or resumed task.
 
 ## Latest EPIC-17/G04 slice evidence
 
+- `docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md`,
+  `V03-GATE-RECONCILIATION-S665.md`, `V03-COMPLETION-PLAN-S665.md`, and
+  `S665-review-disposition.md` — reconciles every V03 gate after S640 and
+  S649–S664, and records the completed bounded Sol high read-only review.
+  DGS file version `2023.1.0.0` / `VID:20250610` is eligible for local
+  evaluation but not technically qualified. The approved S664
+  `LINE`/`GRAINLINE` candidate fails 9/9 warning-free imports; the same
+  warning on S661's no-grainline fixture does not identify the receiver's
+  cause or reject all DGS DXF. Next is one controlled, C:-only DGS-native
+  grainline calibration with precision and stop criteria, then a matched Polo
+  pilot only if it passes. V03 acceptance, all-seven/options/grades, fixed
+  thresholds, holds, legacy DXF, protected identities and final gates remain
+  unchanged. Board exit and focused checks are in the packet.
 - `docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md`, `S459-manual-findings-review.md`, `S459-replay-summary.json`, `all-layer-label-overlap-audit.json`, `production-replay/`, `zoom-review/`, and validated board commands — accepts integrated G04 V02 for all seven recipes and all 73 supported configurations / 146 front/back outputs from the current production UI. The replay finds zero issue/hold faces, option/revision/output/colorway/callout-target mismatches, page/browser errors, or pairwise text-box intersections across every SVG layer. Maximum-zoom schedule and dense annotation examples were visually checked. Source omissions and unselected artwork are explicitly recorded; MQF findings remain To be reviewed and deferred scopes stay closed. G04-V02 is Done at board revision 2795; V03 remains Backlog and gated on rights-reviewed profile selection and witnessed round-trip fixtures. No production code or exports changed. Next: S460 V03 rights/profile evidence after fresh Git/board checks.
 - `docs/research/epic17/S458-polo-current-output-reconciliation/S458-start-packet.md`, `S458-exit-packet.md`, actual production/Chromium matrices, `rendered-production/`, and the replay/audit scripts — revalidates all 17 Polo options / 34 front-back faces against current source and renderer at fresh paired revisions. Finds zero compile/renderer/browser issues, zero exact S351 Polo sleeve-ease residuals, zero revision or path-identity differences, 13 keyed POM/full-text schedule rows on every front, and zero full-label rectangle collisions. Establishes that S457's 0.68 cm-vs-0.25 cm blocker statement was stale. Polo local checks pass; all 34 face requests remain pending the integrated seven-recipe V02 decision; V02 stays In Progress and V03 gated. No production code, pattern/stitch geometry, POM or export behavior changed. Next is S459 integrated all-seven V02 review.
 

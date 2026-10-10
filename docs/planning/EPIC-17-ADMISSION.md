@@ -1,24 +1,25 @@
-## Current EPIC-17 / G04 V03 boundary — S664 candidate failed; S665 reconciliation next
+## Current EPIC-17 / G04 V03 boundary — S665 reconciled; S666 native calibration next
 
-S664 made the single approved `idr-pattern-exchange/2` grainline trial on the
-hash-pinned Polo M fixture through DGS `VID:20250610`, AutoCAD mode and frozen
-S661 settings. All nine pieces loaded, but the native Error Box reported
-`grainline is outside the border` for all nine. The source-derived lines remain
-inside their matching CUT polygons by independent 4,509-point sampling, so the
-receiver-side reason is unresolved. The exact profile candidate failed this
-pilot; no export, repeat import, or mode/entity/format/setting variation was
-attempted. Result capture and hashes are recorded under the C:-only S664
-folder; durable closeout is
-`docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-exit-packet.md`.
+S665 records the current gate-by-gate status and prioritized route in
+`docs/research/epic17/S665-v03-gate-refresh/`. S664's exact approved
+source-derived `LINE`/`GRAINLINE` candidate failed warning-free DGS import
+(9/9 outside-border warnings); S661's no-grainline fixture showed the same
+symptom. This rejects those exact candidates, not all DGS DXF or its native
+grainline convention. Cause remains unproven. DGS executable file version is
+`2023.1.0.0`, About ID `VID:20250610`; V2024.1 names the manual/package. Rights,
+local handling, sign-in and maintainer approval for the tested mapping are
+settled.
 
-The next action, before any new experiment, is one updated V03 gate matrix and
-shortest-route plan using the S649 baseline plus S650–S664 actual evidence.
-Group correlated gates, record pass/fail/unproven and exact proof still
-needed, then choose only a route that clears named gates with a decisive test
-and stop condition. Candidate profiles remain unqualified. Preserve every
-acceptance criterion, all-seven/options/grades, fixed thresholds, legacy DXF
-behavior, protected byte identities and view holds. No ANSI/AAMA or ASTM
-conformance, physical-fit, factory-acceptance, or production-readiness claim.
+Next is one bounded C:-only S666 calibration: a fixed closed rectangle, exact
+units/frame/piece ownership, one DGS-native grainline, one recorded
+AutoCAD/No RUL export, independent parse, and one reimport. Its purpose is to
+identify DGS-authored grainline semantics and verify the fixed `0.001 cm`
+precision without format/mode/entity permutations. If the UI cannot create or
+inspect the grainline at that precision, record the capability stop and end
+this DGS candidate; if successful, advance to one source-matched Polo pilot.
+Do not change acceptance, thresholds, all-seven/options/grades, legacy DXF,
+protected identities, or any V02 hold. No standards, physical-fit,
+factory-acceptance or production-readiness claim.
 
 S660 found no primary receiver-specific entity/layer/sidecar contract for
 GetonAgain's ASTM/AAMA menu mode. Public ASTM D6673 material is historical;

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S665-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md",
+    "verified": true,
+    "note": "S665 reconciles every V03 gate after S664, records the bounded reviewed route and S666 stop conditions, and preserves all acceptance, holds, thresholds and profile/conformance claim limits."
+  },
+  "expectedRevision": 3892
+}

@@ -1,0 +1,1 @@
+{"type":"addComment","itemId":"EPIC-17","expectedRevision":3888,"actor":"Codex","text":"S665 reconciles every V03 gate after the single S664 DGS pilot failed with 9/9 grainline-outside-border warnings. It records a source/receiver/render-evidence-led route, a bounded read-only review, and stop conditions before any next test; no gate or acceptance changes."}

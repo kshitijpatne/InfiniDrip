@@ -1,29 +1,32 @@
-## EPIC-17 / G04 — Slice 664 DGS grainline trial fails; reconcile V03 evidence next
+## EPIC-17 / G04 — Slice 665 reconciles V03; next is one bounded DGS-native calibration
 
-S664 imported the one maintainer-approved source-derived `idr-pattern-exchange/2`
-candidate once into GetonAgain DGS `VID:20250610`, AutoCAD mode, with the frozen
-S661 settings. DGS loaded all nine hash-pinned Polo M pieces but raised its
-native `grainline is outside the border` warning for all nine. Independent
-source verification sampled 4,509 points on the nine added lines and found all
-inside their corresponding CUT contours. The exact vendor profile candidate
-therefore failed the warning-free import check; its cause inside the receiver
-is unproven. No export, retry, alternate format/mode/entity, or setting test
-was performed. Actual screenshot and hashes are in the C:-only
-`S664-getonagain-grainline-profile-trial` evidence folder; durable packet:
-`docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-exit-packet.md`.
+S665 reconciles every V03 gate against S640 and S649–S664 evidence and records
+the shortest evidence-led route in `docs/research/epic17/S665-v03-gate-refresh/`.
+The exact S664 source-derived `LINE`/`GRAINLINE` AutoCAD candidate failed its
+warning-free DGS import check (9/9 warnings); S661's no-grainline fixture had
+the same warning. This does not prove a DGS-wide failure or its internal
+cause. S662's proposed source mapping is maintainer-approved; its tested S664
+encoding nonetheless failed. DGS is signed in, authorized for local
+product-development evaluation, and available; file version is `2023.1.0.0`,
+About ID `VID:20250610` (V2024.1 identifies the manual/package).
 
-S663's broader source study still verifies all 73 supported M-option
-configurations across seven recipes: 716 pieces, 41 stable recipe/role
-contracts, and 358,716/358,716 sampled source-grainline points inside their
-own CUT polygons. This is not the 35-size grade matrix and does not qualify a
-receiver. Before another experiment, S665 will reconcile each V03 gate against
-the latest source, receiver, rendered and S664 evidence, group shared causes,
-and record the shortest decisive route and stop conditions. V03 and EPIC-17
-remain In Progress; every gate, hold, all-seven/options/grades scope, fixed
-threshold, legacy DXF behavior, and protected export byte identity is
-unchanged. `idr-pattern-exchange/2` remains unqualified; no ANSI/AAMA or ASTM
-conformance claim is made. No physical fit, factory acceptance, or production
-readiness claim.
+The sole next experiment is S666: one C:-only closed-rectangle calibration
+using exactly one native DGS grainline and one recorded AutoCAD/No RUL export,
+then one parse and reimport. It tests receiver-authored grainline semantics,
+not V03 as a whole. Keep the outline/frame/units fixed, preserve all
+acceptance and `0.001 cm` precision gates, and stop if native placement or
+inspection cannot support that precision or if there is any unresolved loss.
+Do not substitute another format/entity/mode/settings. If it passes, proceed
+to one source-matched Polo round trip, then the existing invalid-input,
+repeatability, all-seven/options, 35-grade, sidecar and output gates. If it
+fails, close this DGS candidate and assess a distinct eligible receiver from
+evidence. No physical-fit, factory-acceptance, standards-conformance, or
+production-readiness claim.
+
+V01/V02 remain Done; G04-V03 and EPIC-17 remain In Progress. All-seven,
+options/grades, protected byte identities, legacy DXF behavior, fixed
+thresholds, final full-coverage/build/render/output review, PR, safe merge,
+ancestry and required deployment remain required.
 
 S661 tested one hash-pinned generic AC1014 Polo M fixture with DGS
 `VID:20250610` in `AUTOCAD` mode. The app imported all nine pieces but its

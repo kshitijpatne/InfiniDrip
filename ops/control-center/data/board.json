@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3884,
-  "updatedAt": "2026-10-10T08:41:59.619Z",
+  "revision": 3897,
+  "updatedAt": "2026-10-10T09:05:29.257Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. DGS VID:20250610 and GMS remain open past sign-in. S661's one hash-pinned S648 Polo M AutoCAD-mode import loaded nine pieces but reported grainline-outside-border for all; no export or alternate setting was tried. S662 derives all nine grainlines from source and proposes, pending maintainer approval, one LINE on GRAINLINE inside each same-identity block in versioned idr-pattern-exchange/2. GetonAgain's recognition of that encoding is undocumented. Preserve every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current packet: docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress and no technical exchange gate has passed. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610 (V2024.1 is the manual/package). The user-approved S662 source-derived LINE/GRAINLINE mapping was tested in S664; DGS warned grainline outside border on 9/9. S661's no-grainline input showed the same warning. These exact candidates fail; cause and broader DXF support remain unproven. S665 records the gate matrix, reviewed shortest route and stop conditions. Next S666: one C:-only native DGS grainline calibration with exact settings recorded, fixed geometry/units/frame, precision at 0.001 cm, one parse and one reimport. Stop the DGS candidate on inability to prove precision or unresolved loss; no permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S665 packet: docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -739,7 +739,9 @@
         "E-EPIC17-S662-EXIT",
         "E-EPIC17-S663-EXIT",
         "E-EPIC17-S664-START",
-        "E-EPIC17-S664-EXIT"
+        "E-EPIC17-S664-EXIT",
+        "E-EPIC17-S665-START",
+        "E-G04-S665-EXIT"
       ]
     },
     {
@@ -3268,7 +3270,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Preserve V02-before-V03, legacy DXF behavior and protected export identities. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress and no technical exchange gate has passed. DGS VID:20250610 and GMS remain open past sign-in. S661's one hash-pinned S648 Polo M AutoCAD-mode import loaded nine pieces but reported grainline-outside-border for all; no export/retry occurred. S662 derives all nine source grainlines and proposes, pending maintainer approval, one LINE on GRAINLINE inside each same-identity block in idr-pattern-exchange/2. GetonAgain's recognition of that encoding is undocumented. Preserve all existing acceptance, 0.001 cm, all-seven/options/grades, C04, legacy behavior, protected identities, full gates, safe merge and deployment. No standards, physical-fit, factory-acceptance or production-readiness claim. See docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress and no technical exchange gate has passed. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610 (V2024.1 is the manual/package). The user-approved S662 source-derived LINE/GRAINLINE mapping was tested in S664; DGS warned grainline outside border on 9/9. S661's no-grainline input showed the same warning. These exact candidates fail; cause and broader DXF support remain unproven. S665 records the gate matrix, reviewed shortest route and stop conditions. Next S666: one C:-only native DGS grainline calibration with exact settings recorded, fixed geometry/units/frame, precision at 0.001 cm, one parse and one reimport. Stop the DGS candidate on inability to prove precision or unresolved loss; no permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S665 packet: docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4831,6 +4833,21 @@
           "at": "2026-10-10T08:41:59.619Z",
           "actor": "Codex",
           "text": "S664's bounded approved empirical trial fails warning-free grainline import: DGS reports outside-border for all 9 source-derived grainlines although independent source/CUT sampling verifies each is inside. The exact candidate is not qualified and this does not clear V03 or imply standard conformance. V03 criteria, holds, legacy DXF behavior and protected byte identities are unchanged."
+        },
+        {
+          "at": "2026-10-10T08:47:24.212Z",
+          "actor": "Codex",
+          "text": "S665 reconciles every V03 gate after the single S664 DGS pilot failed with 9/9 grainline-outside-border warnings. It records a source/receiver/render-evidence-led route, a bounded read-only review, and stop conditions before any next test; no gate or acceptance changes."
+        },
+        {
+          "at": "2026-10-10T09:03:06.518Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01/V02 are Done; S459 accepted all seven recipes, 73 supported configurations and 146 front/back faces. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains unqualified. The authorized local GetonAgain DGS session is signed in; executable file version 2023.1.0.0, About VID:20250610 (V2024.1 is the manual/package). The maintainer-approved S662 source-derived LINE/GRAINLINE mapping was tested in S664; DGS warned grainline outside border on 9/9. S661's no-grainline input showed the same warning. These exact candidates fail; cause and broader DXF support remain unproven. S665 records the gate matrix and bounded route. Next S666: one C:-only native DGS grainline calibration with exact settings recorded, fixed geometry/units/frame, precision at 0.001 cm, one parse and one reimport. Stop the DGS candidate on inability to prove precision or unresolved loss; no permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S665 packet: docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md.). S665 reconciles current V03 evidence and replaces obsolete approval-pending/profile claims with verified S664/S665 results and the bounded next gate."
+        },
+        {
+          "at": "2026-10-10T09:05:26.092Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress and no technical exchange gate has passed. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610 (V2024.1 is the manual/package). The user-approved S662 source-derived LINE/GRAINLINE mapping was tested in S664; DGS warned grainline outside border on 9/9. S661's no-grainline input showed the same warning. These exact candidates fail; cause and broader DXF support remain unproven. S665 records the gate matrix, reviewed shortest route and stop conditions. Next S666: one C:-only native DGS grainline calibration with exact settings recorded, fixed geometry/units/frame, precision at 0.001 cm, one parse and one reimport. Stop the DGS candidate on inability to prove precision or unresolved loss; no permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S665 packet: docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md.). Restore protected V02 admission summary wording after S665 gate reconciliation while retaining the verified current V03 status."
         }
       ],
       "evidenceRefs": [
@@ -5293,7 +5310,8 @@
         "E-EPIC17-S663-START",
         "E-EPIC17-S663-EXIT",
         "E-EPIC17-S664-START",
-        "E-EPIC17-S664-EXIT"
+        "E-EPIC17-S664-EXIT",
+        "E-EPIC17-S665-START"
       ],
       "flagKey": null
     },
@@ -10594,7 +10612,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. The user has completed sign-in to GetonAgain DGS VID:20250610; rights and local handling for this bounded evaluation are settled. S661's one generic AC1014 S648 Polo M import through DGS AUTOCAD loaded nine pieces but generated grainline-outside-border errors for all nine; no export or variation followed. S662 derives the exact nine source grainlines and maps them to fixture coordinates; every source CUT matches with 0 cm residual and 501/501 samples on each line lie inside its corresponding piece boundary. Proposed, not approved: idr-pattern-exchange/2, adding one source-resolved LINE on layer GRAINLINE inside each named block while preserving all existing geometry, marks, unit declarations, identities, and legacy output bytes. GetonAgain's recognition of that layer/entity is undocumented. Ask maintainer approval before implementation/re-import. Any single pass clears only that specific pilot question, not the admitted all-seven, grade, C04, marks, malformed-input, repeatability, round-trip, rendered-output, or receiver-qualification gates. See S662 packet.",
+      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610. The user-approved S662 source mapping was tried once in S664: all nine pieces loaded but all nine received grainline-outside-border warnings. S661's no-grainline fixture showed the same symptom. Reject those exact candidates; DGS cause and broader profile remain unproven. S665 gate matrix and prioritized plan: docs/research/epic17/S665-v03-gate-refresh/. Next S666 is one C:-only native-grainline calibration, then one source-matched Polo pilot only on measurable, warning-free success. Preserve every admitted gate and hold; no standards, fit, factory or readiness claim.",
       "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
       "acceptanceCriteria": [
         "Record current rights and exact receiver/version/profile evidence before selection.",
@@ -12686,6 +12704,16 @@
           "at": "2026-10-10T08:41:58.061Z",
           "actor": "Codex",
           "text": "S664 ran the approved candidate once through DGS VID:20250610 AUTOCAD with frozen S661 settings. All nine pieces loaded and all nine native grainline-outside-border warnings remained. The source-bound candidate check passes but this receiver profile trial fails; no export, retry, alternate mode or setting was tried. No V03 gate clears. Next: reconcile the complete latest V03 matrix and write a grouped, evidence-led stop-first route plan before reserving another candidate."
+        },
+        {
+          "at": "2026-10-10T08:47:22.692Z",
+          "actor": "Codex",
+          "text": "S665 is evidence-only: refresh each V03 gate and the shortest route from S649/S660 through the actual S664 failed DGS grainline pilot. No new experiment is reserved before the updated matrix/plan; all criteria, thresholds, holds and protected outputs remain unchanged."
+        },
+        {
+          "at": "2026-10-10T09:03:28.292Z",
+          "actor": "Codex",
+          "text": "S665 closes the current V03 reconciliation without changing any gate. The approved S662 mapping was tested in S664 and the exact LINE/GRAINLINE candidate failed 9/9; S661's no-grainline input showed the same warning, so the internal cause and broader DGS DXF support remain unproven. The next authorized action is one C:-only native DGS grainline calibration with fixed geometry/settings, a 0.001 cm evidence stop, one parse and one reimport. No format/entity/mode/settings permutations. See S665 matrix, plan, reviewer disposition and exit packet."
         }
       ],
       "evidenceRefs": [
@@ -13125,7 +13153,9 @@
         "E-G04-S663-START",
         "E-G04-S663-EXIT",
         "E-G04-S664-START",
-        "E-G04-S664-EXIT"
+        "E-G04-S664-EXIT",
+        "E-G04-S665-START",
+        "E-G04-S665-EXIT"
       ],
       "flagKey": null
     },
@@ -25487,6 +25517,33 @@
       "sha256": null,
       "verified": true,
       "note": "S664's single approved DGS grainline trial fails with 9/9 native outside-border warnings despite source-derived lines lying inside their matching CUT contours; candidate not qualified, no V03 acceptance or profile claim."
+    },
+    {
+      "id": "E-G04-S665-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S665-v03-gate-refresh/S665-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts status-neutral reconciliation of every V03 gate against S664 and current source/receiver/render evidence before reserving another trial; all acceptance, holds, thresholds, and profile/conformance claim limits remain unchanged."
+    },
+    {
+      "id": "E-EPIC17-S665-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S665-v03-gate-refresh/S665-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts evidence-only refresh of the V03 gate matrix and shortest route plan after S664's measured candidate-specific DGS failure; no acceptance/status/standard claim changes."
+    },
+    {
+      "id": "E-G04-S665-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S665 reconciles every V03 gate after S664, records the bounded reviewed route and S666 stop conditions, and preserves all acceptance, holds, thresholds and profile/conformance claim limits."
     }
   ]
 }

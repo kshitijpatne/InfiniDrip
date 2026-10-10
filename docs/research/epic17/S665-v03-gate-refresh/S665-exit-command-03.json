@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "itemId": "G04-V03",
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610. The user-approved S662 source mapping was tried once in S664: all nine pieces loaded but all nine received grainline-outside-border warnings. S661's no-grainline fixture showed the same symptom. Reject those exact candidates; DGS cause and broader profile remain unproven. S665 gate matrix and prioritized plan: docs/research/epic17/S665-v03-gate-refresh/. Next S666 is one C:-only native-grainline calibration, then one source-matched Polo pilot only on measurable, warning-free success. Preserve every admitted gate and hold; no standards, fit, factory or readiness claim."
+  },
+  "expectedRevision": 3891
+}
