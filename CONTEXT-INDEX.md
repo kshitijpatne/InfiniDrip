@@ -1,4 +1,17 @@
-## Current EPIC-17 / G04 V03 boundary — S697 closed; source precision fixed
+## Current EPIC-17 / G04 V03 boundary — S698 closed; source precision correction measured
+
+S698 ran one exact CLO 2026.1.310 Standard DXF round trip of the S697
+six-decimal Polo M candidate. Units and all nine SEW paths pass for this
+fixture; three of nine CUT paths pass and six fail the fixed 0.001 cm gate.
+105/108 marks remain detectable, but all three typed buttonhole points and
+source layer/entity identity are lost. Actual reopened output and detailed
+rendered overlay were reviewed. See `PROJECT-STATE.md` and
+`docs/research/epic17/S698-clo-precision-recheck/` for evidence and gate delta.
+No V03 acceptance gate is cleared; G04-V03 remains held and the goal remains
+active. Next: trace the repeated curve and buttonhole losses through source
+writer and exact return data before authorizing any further receiver test.
+
+## Prior EPIC-17 / G04 V03 boundary — S697 closed; source precision fixed
 
 S697 fixes the opt-in DXF candidate's coordinate rounding: the measured
 maximum two-axis serialization displacement on Polo M falls from

@@ -1,3 +1,34 @@
+## EPIC-17 / G04 — S698 closed; corrected-precision CLO return measured
+
+S698 tested the exact S697 six-decimal Polo M candidate once through the
+already-open CLO 2026.1.310 Standard DXF route. Units and all nine SEW paths
+passed for this fixture. Three of nine CUT contours pass and six fail the
+unchanged 0.001 cm limit; 105/108 marks remain detectable, while all three
+buttonhole points are absent and source layer/entity identity is reduced to
+numeric layers. The reopened return and inner-stand detail were visually
+reviewed. The precision correction is useful but does not clear V03. Full
+measurements, file hashes, render evidence, and per-gate delta are in
+`docs/research/epic17/S698-clo-precision-recheck/`; CAD files stay under
+`C:\G04-CAD-Interchange\S698-clo-precision-recheck\`.
+
+S698 is a CLO/version/mode empirical result, not an industry-standard
+conformance claim. It does not accept another recipe, grade, option, malformed
+input, repeatability, identity, or readable-output gate. G04-V03 remains held;
+EPIC-17 and its goal remain active. The next slice is a static source/return
+root-cause audit for the repeated curved CUT loss and typed buttonhole mark
+loss. No further receiver variation is justified until that audit identifies
+a specific export-code correction and distinct gate it can clear. Acceptance,
+fixed thresholds, all-seven requirement, legacy output identities, cleanup,
+full integrated gate, PR, merge, ancestry, and production verification remain
+unchanged.
+
+S698 started 2026-10-10 23:16:37 UTC from clean S697
+`97a03014da88ccd29d220c95b8b23550a7f6c41a`; refreshed `origin/main` remained
+an ancestor. Implementation 0m; focused receiver, comparison and rendered
+verification approximately 8m; durable record and board closeout approximately
+3m; external wait 0m; maintainer-decision time 0m. The focused Control Center
+suite is rerun after validated board closeout; no full repository gate ran.
+
 ## EPIC-17 / G04 — S697 closed; candidate DXF precision corrected
 
 S697 identifies a source-side serialization defect: the opt-in centimeter

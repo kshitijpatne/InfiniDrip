@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4126,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-G04-S698-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S698-clo-precision-recheck/S698-start-packet.md",
+    "verified": true,
+    "note": "One exact CLO Standard DXF round trip tests the source-only S697 six-decimal precision correction against the same route/settings and fixed 0.001 cm gates. No app/profile setting sweep or acceptance change."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S698-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S698-clo-precision-recheck/S698-exit-packet.md",
+    "verified": true,
+    "note": "S698 rechecks the exact S697 six-decimal candidate once through CLO 2026.1.310 Standard DXF. Units and nine SEW paths pass for Polo M; six of nine CUT outlines fail 0.001 cm, three buttonhole points are missing, and layer/entity identity is not preserved. Actual reopened output was reviewed. No acceptance gate or threshold changes."
+  },
+  "expectedRevision": 4127
+}
