@@ -1,16 +1,21 @@
-## EPIC-17 / G04 V03 — S690 closed; LibreCAD DXF 2000 pilot is partial
+## EPIC-17 / G04 V03 — S691 closed; held at receiver eligibility
 
-On one hash-pinned Polo M fixture, LibreCAD 2.2.1.5 DXF 2000 retained
-`$INSUNITS=5`, all 18 CUT/SEW contours exactly, all 38 typed marks, and all
-eight layers; the exact saved output reopened and rendered. Identity,
-grades/options, malformed-input handling, repeatability, complete readability,
-and industrial apparel-profile qualification remain unproven. The product
-source and acceptance gates are unchanged. Exit packet:
-`docs/research/epic17/S690-librecad-r2000-unit-check/S690-exit-packet.md`;
-the exact DXF, comparator, JSON report and rendered captures are C:-only.
-Before another receiver experiment, S691 reconciles every fixed V03 gate and
-prioritizes remaining proof, followed by one bounded read-only Sol review.
+S691 reconciles all fixed V03 gates against source, actual receiver output and
+renders, and a bounded read-only Sol review. LibreCAD 2.2.1.5 DXF 2000 passes a
+single generic-CAD fixture check, but C04/G04 requires a named apparel/industrial
+receiver/profile. CLO and DGS tested routes fail measured gates; OpenCAD is
+generic and fails other gates. No current route qualifies, and no further app,
+format or encoding trial is scheduled. No source-code repair is supported.
+G04-V03 is Blocked; V01/V02 Done; EPIC-17 In Progress; acceptance and protected
+identities unchanged. The concrete re-entry prerequisite is a named permitted
+local apparel/industrial receiver and documented input/sidecar contract.
 
+Durable matrix, plan, Sol review and exit packet:
+`docs/research/epic17/S691-v03-evidence-reconciliation/`. Cleanup remains a
+noted final PR hygiene check only; no files were removed or relocated. Refresh
+the last-known file inventories at the PR boundary and keep disposable CAD
+outputs, captures, machine reports and temporary command inputs outside Git
+while preserving necessary project files and board evidence links.
 ## EPIC-17 / G04 V03 — S689 closed; no CLO Standard route
 
 S689's mm-normalized CLO Standard DXF pilot passes returned units and all nine

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4089,
-  "updatedAt": "2026-10-10T21:02:10.697Z",
+  "revision": 4103,
+  "updatedAt": "2026-10-10T21:13:39.426Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -766,7 +766,9 @@
         "E-G04-S673-EXIT",
         "E-G04-S674-START",
         "E-EPIC17-S690-START",
-        "E-EPIC17-S690-EXIT"
+        "E-EPIC17-S690-EXIT",
+        "E-EPIC17-S691-START",
+        "E-EPIC17-S691-EXIT"
       ]
     },
     {
@@ -4978,6 +4980,16 @@
           "at": "2026-10-10T21:02:10.697Z",
           "actor": "Codex",
           "text": "S690 produced a partial single-fixture DXF 2000 exchange result with no production-source change. EPIC-17 remains In Progress; G04 acceptance, final review, 100% repository gate, PR, safe merge, ancestry and deployment checks remain."
+        },
+        {
+          "at": "2026-10-10T21:06:12.341Z",
+          "actor": "Codex",
+          "text": "S691 keeps the admitted EPIC-17 objective and V03 gates unchanged, using one evidence-led review to prevent repeated candidate churn; raw CAD evidence remains outside the repository."
+        },
+        {
+          "at": "2026-10-10T21:13:39.426Z",
+          "actor": "Codex",
+          "text": "S691 closed; EPIC-17 remains In Progress with V01/V02 Done and V03 Blocked pending an eligible named apparel/industrial receiver and documented input/sidecar contract. S691 evidence attached. Cleanup is noted for final PR hygiene only; no cleanup performed."
         }
       ],
       "evidenceRefs": [
@@ -5443,7 +5455,9 @@
         "E-EPIC17-S664-EXIT",
         "E-EPIC17-S665-START",
         "E-EPIC17-S690-START",
-        "E-EPIC17-S690-EXIT"
+        "E-EPIC17-S690-EXIT",
+        "E-EPIC17-S691-START",
+        "E-EPIC17-S691-EXIT"
       ],
       "flagKey": null
     },
@@ -10726,7 +10740,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Blocked",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10850,6 +10864,18 @@
           "note": "S690 begins one evidence-backed check of the only direct unit-header miss in the existing LibreCAD exact-fixture pilot; all other V03 gates remain unchanged.",
           "evidenceRefs": [
             "E-G04-S690-START"
+          ]
+        },
+        {
+          "status": "Blocked",
+          "at": "2026-10-10T21:13:35.716Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "S691 confirms no tested local route satisfies the admitted apparel/industrial receiver-profile gate plus the fixed V03 checks. Keep all acceptance unchanged; resume only with a specifically named permitted local receiver and documented input/sidecar contract.",
+          "evidenceRefs": [
+            "E-G04-S691-EXIT",
+            "E-G04-S691-MATRIX",
+            "E-G04-S691-PLAN"
           ]
         }
       ],
@@ -13203,6 +13229,16 @@
           "at": "2026-10-10T21:02:09.495Z",
           "actor": "Codex",
           "text": "S690 passed the measured unit, contour, mark, layer, clean re-open and limited render checks on one exact Polo M fixture using LibreCAD 2.2.1.5 DXF 2000. Identity, all-seven/options/grades, malformed input, repeatability, full readability and industrial apparel profile remain unproven; no V03 gate is waived. Next: S691 full gate reconciliation and prioritized plan before another receiver test. See S690 exit packet."
+        },
+        {
+          "at": "2026-10-10T21:06:10.820Z",
+          "actor": "Codex",
+          "text": "S691 reconciles every fixed V03 gate against the exact LibreCAD DXF 2000 result and current source/route evidence, then records the shortest proof plan. It runs no new receiver trial and changes no acceptance. A bounded read-only Sol review follows before any next experiment."
+        },
+        {
+          "at": "2026-10-10T21:13:37.787Z",
+          "actor": "Codex",
+          "text": "S691 closed at the evidence-based receiver eligibility hold. LibreCAD DXF 2000 is generic-CAD evidence only; tested CLO/DGS routes fail measured gates and OpenCAD is generic. No additional app/profile trial or source change is justified. Matrix/plan/review/exit are attached; current requirement and all seven-recipe scope remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13704,7 +13740,12 @@
         "E-G04-S689-EXIT",
         "E-G04-S689-ROUTE-DECISION",
         "E-G04-S690-START",
-        "E-G04-S690-EXIT"
+        "E-G04-S690-EXIT",
+        "E-G04-S691-START",
+        "E-G04-S691-MATRIX",
+        "E-G04-S691-PLAN",
+        "E-G04-S691-SOL",
+        "E-G04-S691-EXIT"
       ],
       "flagKey": null
     },
@@ -26651,6 +26692,69 @@
       "sha256": null,
       "verified": true,
       "note": "S690 records a partial single-fixture LibreCAD DXF 2000 result only; no product behavior or V03 acceptance changed. Full Epic and merge gates remain."
+    },
+    {
+      "id": "E-G04-S691-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S691-v03-evidence-reconciliation/S691-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconcile every fixed V03 gate against S690 and current source/receiver evidence, then obtain one bounded read-only Sol review before any further experiment."
+    },
+    {
+      "id": "E-EPIC17-S691-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S691-v03-evidence-reconciliation/S691-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S691 documents the evidence-led V03 completion path without changing admitted EPIC-17 scope or acceptance."
+    },
+    {
+      "id": "E-G04-S691-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S691-v03-evidence-reconciliation/V03-GATE-MATRIX-S691.md",
+      "commit": null,
+      "sha256": "abf315774d980437af13ed505cf3c3996302daccb392382f1f4108e6877ac969",
+      "verified": true,
+      "note": "Per-gate V03 reconciliation; no receiver route currently qualifies. See S691 exit packet."
+    },
+    {
+      "id": "E-G04-S691-PLAN",
+      "kind": "document",
+      "uri": "docs/research/epic17/S691-v03-evidence-reconciliation/V03-COMPLETION-PLAN-S691.md",
+      "commit": null,
+      "sha256": "85e1b92e14f183b312744874d344771351ae354131503ffff19f9eb8885f01ca",
+      "verified": true,
+      "note": "Prioritized, stop-on-first-failure V03 path; requires eligible named receiver before another test."
+    },
+    {
+      "id": "E-G04-S691-SOL",
+      "kind": "document",
+      "uri": "docs/research/epic17/S691-v03-evidence-reconciliation/S691-sol-review.md",
+      "commit": null,
+      "sha256": "9c5b5ecb13923ccd8be72269201234b8c5c38d21b30803aa5f59280681ffcc0e",
+      "verified": true,
+      "note": "Bounded read-only Sol high-reasoning review; Codex verified findings. WORK FINISHED."
+    },
+    {
+      "id": "E-G04-S691-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S691-v03-evidence-reconciliation/S691-exit-packet.md",
+      "commit": null,
+      "sha256": "3b724eccbca578ff408c63e813d2f013964218b34964d0c7fd1d50a7c515b7ea",
+      "verified": true,
+      "note": "S691 closeout: V03 remains held at exact receiver eligibility; EPIC17 remains active and acceptance unchanged."
+    },
+    {
+      "id": "E-EPIC17-S691-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S691-v03-evidence-reconciliation/S691-exit-packet.md",
+      "commit": null,
+      "sha256": "3b724eccbca578ff408c63e813d2f013964218b34964d0c7fd1d50a7c515b7ea",
+      "verified": true,
+      "note": "S691 exit record; V03 remains blocked at receiver eligibility and Epic17 remains in progress."
     }
   ]
 }
