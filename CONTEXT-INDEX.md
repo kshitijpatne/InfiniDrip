@@ -1,18 +1,16 @@
-## Current EPIC-17 / G04 V03 boundary — S693 candidate offset implemented
+## Current EPIC-17 / G04 V03 boundary — S694 candidate CUT/mark gates failed
 
-S693 adds `adaptive-normal-offset/1` to the new version-3 interchange package.
-Its source-driven Polo cusp case is rendered and inspected; the full supported
-recipe/option/grade package matrix passes. Legacy DXF and protected bytes remain
-unchanged. S692 analytically proves the previous five Polo CUT misses were
-aligned with a real offset cusp. These candidate-side improvements do not pass
-a CAD receiver gate. CLO/DGS routes still have measured fidelity failures;
-LibreCAD/OpenCAD remain generic CAD. See S693 exit packet, S692 correction and
-S691 receiver gate matrix. Next: use the exact existing CLO Standard route on
-the updated candidate only if it clears the same geometry gate; marks,
-identity, malformed input, repeatability, readability, rights and industrial
-profile eligibility remain separate. Do not install a new app or change
-acceptance. Goal remains active; cleanup, final full gate, PR, merge, ancestry
-and required deployment remain due.
+S693's source-backed adaptive offset addresses the analytic cusp from S692.
+The exact same CLO Standard DXF route then re-tested the updated Polo M
+candidate once at S694. Units and 9/9 sew contours pass, but 7/9 cut contours
+still exceed `0.001 cm` (maximum `0.039767881 cm`); three buttonhole marks are
+missing and mark types/layers are flattened. The actual return was rendered and
+reviewed. No other app/settings/format variant will be tried. The next slice
+is a read-only source/output diagnosis of the measured cut differences (cause
+unproven) before any candidate encoding correction or receiver operation. Gate update,
+prioritized plan and evidence: `docs/research/epic17/S694-clo-candidate-cut-check/`.
+V03 acceptance remains unchanged; goal stays active; final gate, output review,
+PR hygiene/cleanup, merge, ancestry and deployment remain due.
 ## EPIC-17 / G04 V03 — S689 closed; no CLO Standard route
 
 S689's mm-normalized CLO Standard DXF pilot passes returned units and all nine

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4109,
-  "updatedAt": "2026-10-10T22:23:28.891Z",
+  "revision": 4113,
+  "updatedAt": "2026-10-10T22:37:21.754Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13759,7 +13759,11 @@
         "E-G04-S692-START",
         "E-G04-S692-EXIT",
         "E-G04-S693-START",
-        "E-G04-S693-EXIT"
+        "E-G04-S693-EXIT",
+        "E-G04-S694-START",
+        "E-G04-S694-EXIT",
+        "E-G04-S694-MATRIX",
+        "E-G04-S694-PLAN"
       ],
       "flagKey": null
     },
@@ -26805,6 +26809,42 @@
       "sha256": null,
       "verified": true,
       "note": "Version-3 G04 package adds the 100%-covered adaptive interchange cut candidate. All seven recipes, 73 options, grade rows, legacy identities and actual Polo M rendered output verified. Receiver/profile V03 gates remain unresolved; no acceptance change."
+    },
+    {
+      "id": "E-G04-S694-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S694-clo-candidate-cut-check/S694-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S694 performs one same-route CLO check of the S693 source-backed adaptive CUT candidate, solely against the representative 0.001 cm geometry gate. No format/settings/software variation; remaining V03 gates stay open."
+    },
+    {
+      "id": "E-G04-S694-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S694-clo-candidate-cut-check/S694-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One actual CLO 2026.1.310 Standard DXF candidate check: units and 9/9 SEW paths pass; 7/9 CUT paths and three buttonhole anchors fail. Return mark types/layers are lost. Exact hashes, settings, renders, complete gate matrix, bounded Sol review and next evidence-led action are documented. V03 remains unaccepted."
+    },
+    {
+      "id": "E-G04-S694-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S694-clo-candidate-cut-check/S694-v03-gate-update.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Complete V03 gate status reconciliation based on the exact S694 CLO return; statuses and next proof are explicit; no V03 criterion is relaxed."
+    },
+    {
+      "id": "E-G04-S694-PLAN",
+      "kind": "document",
+      "uri": "docs/research/epic17/S694-clo-candidate-cut-check/S694-v03-completion-plan.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Prioritized bounded V03 plan groups the next source/output diagnosis, conditional candidate correction, and remaining route gates with stop conditions; no additional app or test variation."
     }
   ]
 }

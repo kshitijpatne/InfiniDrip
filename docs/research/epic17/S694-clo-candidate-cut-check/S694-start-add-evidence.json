@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4109,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-G04-S694-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S694-clo-candidate-cut-check/S694-start-packet.md",
+    "verified": true,
+    "note": "S694 performs one same-route CLO check of the S693 source-backed adaptive CUT candidate, solely against the representative 0.001 cm geometry gate. No format/settings/software variation; remaining V03 gates stay open."
+  }
+}

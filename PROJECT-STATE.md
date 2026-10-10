@@ -1,3 +1,34 @@
+## EPIC-17 / G04 — S694 closed; CLO candidate still fails CUT/mark gates
+
+S694 used the exact S693 adaptive-cut Polo M candidate in the existing CLO
+2026.1.310 Standard DXF route, with the verified S689 cm-to-mm transform and
+the fixed `0.001 cm` comparator. Units and all nine SEW contours pass. Seven
+of nine CUT contours fail; residuals range from `0.001035292` to
+`0.039767881 cm`. The placket CUT paths pass. Mark geometry matches 105/108;
+three buttonhole anchors are missing by `1.4999966 cm`. The return contains 132
+LWPOLYLINEs, no typed LINE/POINT/CIRCLE marks, and only numeric layers 1, 7, 8,
+14. Actual whole-pattern and inner-stand output was rendered and reviewed.
+Exact hashes, settings, residuals, gate reconciliation, rendered images and
+the prioritized plan are in `docs/research/epic17/S694-clo-candidate-cut-check/`;
+all import/export files remain under
+`C:\G04-CAD-Interchange\S694-clo-candidate-cuts\`.
+
+This is a concrete failure of the current CLO candidate, not a V03 pass. No
+other app, format, encoding, setting or fixture will be tried. Before another
+receiver operation, the next slice will compare the exact source/output point
+sequences at the measured maxima; the cause is not yet established. Only a
+causally supported candidate-encoding correction may be considered. Do not
+alter physical geometry, tolerance, legacy DXF, protected identities or
+acceptance. V01/V02 remain Done; G04-V03 remains
+unaccepted; EPIC-17 and its goal remain In Progress/active. S694 start: 2026-10-10
+22:25:29 UTC from clean S693 `1d75e65b969150d98184b9c6fdcbb92e4d5be71b`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor; board start revision 4109, S694 start replay 4110, and validated
+exit/matrix/plan evidence replays 4111–4113. Focused Control Center tests
+passed 42/42; `git diff --check` passed. No changed production-code coverage
+applies. One bounded Sol high-reasoning review corrected the plan's causal
+language; no V03 gate was declared passed by that review.
+
 ## EPIC-17 / G04 — S693 closed; adaptive interchange cut candidate verified
 
 S693 implements a candidate-only `adaptive-normal-offset/1` in package schema
