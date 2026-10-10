@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3769,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S655-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S655-getonagain-authenticated-route-check/S655-start-packet.md",
+    "verified": true,
+    "note": "Begins one authenticated-workspace route check; no credentials, fixture exchange, or profile qualification."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "uri": "docs/research/epic17/S655-getonagain-authenticated-route-check/S655-exit-packet.md",
+    "kind": "exit-report",
+    "note": "Authenticated GMS is a nesting workspace with a local .mkr marker picker; no direct DXF import route observed. DGS launch still exposes no window. No fixture exchange; V03 remains blocked.",
+    "verified": true,
+    "id": "E-G04-S655-EXIT"
+  },
+  "expectedRevision": 3770,
+  "itemId": "G04-V03"
+}

@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized installation. The package is installed at C:\\Garment CAD(GetonAgain Free version): GMS.exe is V2024.1 and now reaches the user-authenticated blank nesting workspace. Its local Open dialog is for Marker File (*.mkr), not DXF; Output Auto CAD dxf is disabled with no marker loaded. No pattern was selected. DGS.exe is V2023.1 Pattern Design & Grading; a fresh launch still exposed no targetable window or running process, and no matching Application event was found. The maintainer signed in manually; no pattern or DXF exchange occurred. The V2024.1 manual documents user-facing modes/options but not DXF entity semantics or standards conformance. Next: diagnose DGS launch availability once from local configuration/log evidence; verify the exact local DXF input route before any source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S655 packet: docs/research/epic17/S655-getonagain-authenticated-route-check/S655-exit-packet.md."
+  },
+  "epicId": "EPIC-17",
+  "expectedRevision": 3774,
+  "role": "maintainer",
+  "actor": "Codex",
+  "reason": "Reconcile the canonical EPIC-17 state with the user-authenticated desktop and observed module route; preserve status, scope, gates, and closure conditions."
+}

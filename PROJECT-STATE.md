@@ -1,3 +1,6 @@
+## EPIC-17 / G04 — Slice 655 closed; authenticated route still does not expose DXF exchange
+
+The maintainer signed in manually. GMS V2024.1 opens to a blank nesting workspace; its local File → Open picker is `Marker File (*.mkr)`, not DXF. `Output Auto CAD dxf` is disabled with no marker; its Export submenu exposes no DXF command in this empty state. Bundled DGS V2023.1 Pattern Design & Grading failed to expose a targetable window/process on one launch; no matching Application event appeared in the ten-minute check. No pattern/DXF fixture was selected or exchanged. This is an access/route blocker, not a DXF fidelity failure. Keep G04-V03 Blocked and all V03 acceptance gates unchanged. Next: one targeted read-only diagnosis of DGS launch prerequisites/configuration/log evidence; do not retry formats or open S648 input until a direct local DXF route and exact contract are observed. Validated board exit revision 3778; focused Control Center test passes 42/42; `git diff --check` passes. Evidence: `docs/research/epic17/S655-getonagain-authenticated-route-check/S655-exit-packet.md`.
 # InfiniDrip — Project State
 
 ## EPIC-17 / G04 — Slice 654 closed; GetonAgain installed, workspace gated by sign-in
