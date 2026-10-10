@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "expectedRevision": 4122,
+  "evidence": {
+    "kind": "document",
+    "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-sol-review.md",
+    "verified": true,
+    "id": "E-G04-S696-SOL-REVIEW",
+    "note": "Bounded read-only Sol review verified S696 gate evidence and rejected the proposed LibreCAD rerun because its already documented generic-CAD profile cannot satisfy the admitted industrial/apparel gate."
+  }
+}
+\n

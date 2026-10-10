@@ -1,14 +1,38 @@
-## Current EPIC-17 / G04 V03 boundary — S689 closed; CLO Standard rejected
+## Current EPIC-17 / G04 V03 boundary — S696 closed; no eligible receiver profile evidenced
 
-S689 tested the measured mm/scale hypothesis on the exact CLO Standard route.
-Units and all nine SEW paths pass on that pilot, but five CUT paths and eight
-visible marks still fail. CLO Standard is not a passing route; source geometry
-and export identities remain untouched. G04-V03 is Blocked, EPIC-17 remains
-In Progress, and V01/V02 remain Done. Board revision 4078. No acceptance is relaxed and no user
-approval/UI action is pending. Read the S689 exit and V03 route decision in
-`docs/research/epic17/S689-clo-millimeter-input-test/` before any new action.
-Do not run another receiver trial until an already available, rights-cleared
-specific profile has gate-relevant preflight evidence.
+S696 tested the exact current S693 candidate in CLO 2026.1.310 Standard DXF
+with one approved import option change. Six of nine CUT paths still fail the
+fixed `0.001 cm` limit; the same three buttonhole marks are misplaced. All nine
+SEW paths and units pass for that one fixture. Source regeneration matches the
+submitted bytes and actual output renders were inspected. CLO Standard is
+retired; no further setting/encoding sweep or source-shape compensation is
+supported.
+
+One bounded Sol review rejected a proposed LibreCAD rerun because the
+already-measured LibreCAD 2.2.1.5 / DXF 2000 path is generic CAD and cannot
+satisfy the admitted industrial/apparel profile gate even if current geometry
+passes. Existing records already evaluate CLO, GetonAgain GMS, DGS, LibreCAD,
+OpenCAD and the researched local/open-source and hosted alternatives. No
+candidate now evidenced satisfies the admitted profile plus fixed geometry,
+mark, identity, breadth, malformed-input, repeatability and readable-output
+gates. The S696 matrix, corrected plan and review are linked in
+`docs/research/epic17/S696-clo-draw-curve-points-off/`. Do not repeat software
+or format trials without new eligibility evidence.
+
+The goal remains **active** as the maintainer directed; G04-V03 remains
+unaccepted/Blocked on the canonical board, and EPIC-17 remains In Progress.
+No scope/acceptance, all-seven/options/grades, threshold, legacy DXF, protected
+identity or claim boundary changed. The final integrated gate, final output
+review, necessary-file cleanup, PR, safe merge, refreshed `origin/main`
+ancestry and any required production verification remain due. No physical-fit
+or factory-acceptance claim.
+
+S696 started at 2026-10-10 22:48:54 UTC from clean S695
+`54897bee2eeb552d9e35a1690036b6728d3bc540` on `codex/epic-17-g04`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. Board start/exit replay is `4117→4118→4124`. Focused Control Center
+tests pass 42/42; `git diff --check` passes. No production code changed.
+The goal record remains active; no status mutation was made.
 ## Current EPIC-17 / G04 V03 boundary — S688 closed; receiver prerequisite remains
 
 S688 reconciles the bounded Sol read-only source audit with the exact S685 CLO
@@ -2161,3 +2185,5 @@ Start/exit packets and board replay 4045→4047→4049 are in
 `docs/research/epic17/S683-current-package-clo-roundtrip/`. Resume the exact
 current-package test when the existing CLO workspace is targetable; don't
 repeat app discovery, launch variants, formats, or settings.
+
+\n

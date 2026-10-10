@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4117,
-  "updatedAt": "2026-10-10T22:46:36.525Z",
+  "revision": 4124,
+  "updatedAt": "2026-10-10T23:03:28.357Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13254,6 +13254,16 @@
           "at": "2026-10-10T22:46:36.525Z",
           "actor": "Codex",
           "text": "S695 confirms byte-for-byte source regeneration and localizes the seven failing CUT returns; no source shape correction is supported. One controlled test of Import Draw Curve Points off is next, with all other settings fixed. Any geometry/mark/output failure retires CLO Standard from further trials. Goal remains active; no acceptance changes."
+        },
+        {
+          "at": "2026-10-10T23:01:29.024Z",
+          "actor": "Codex",
+          "text": "S696 is closed. The exact candidate reproduced byte-for-byte; CLO Standard still fails six CUT contours and all three buttonhole anchors despite the single approved setting change. Nine SEW contours and units pass for this fixture. CLO Standard trials are retired. Next is one current-candidate check on the already measured LibreCAD DXF 2000 route; all V03 gates and acceptance remain unchanged. Goal remains active; final integration, cleanup, merge and production verification remain due."
+        },
+        {
+          "at": "2026-10-10T23:03:28.357Z",
+          "actor": "Codex",
+          "text": "Correction after bounded Sol review: do not run the proposed LibreCAD current-candidate pilot. Even a technical pass cannot clear the route eligibility gate; S690/C04 classify LibreCAD as generic CAD. The S696 plan and PROJECT-STATE now record the precise re-entry condition and retain every acceptance gate. No further app/format/setting trial is scheduled without evidence for an eligible, already available local apparel/industrial profile."
         }
       ],
       "evidenceRefs": [
@@ -13771,7 +13781,12 @@
         "E-G04-S694-PLAN",
         "E-G04-S695-START",
         "E-G04-S695-EXIT",
-        "E-G04-S695-PLAN"
+        "E-G04-S695-PLAN",
+        "E-G04-S696-START",
+        "E-G04-S696-EXIT",
+        "E-G04-S696-MATRIX",
+        "E-G04-S696-PLAN",
+        "E-G04-S696-SOL-REVIEW"
       ],
       "flagKey": null
     },
@@ -26880,6 +26895,51 @@
       "sha256": null,
       "verified": true,
       "note": "One-variable CLO import-control follow-up is tied to the fixed geometry gate, with same-file/settings controls and an explicit stop condition; all other V03 gates and acceptance remain unchanged."
+    },
+    {
+      "id": "E-G04-S696-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One controlled CLO Standard DXF import check uses the exact S693 candidate and changes only Import Draw Curve Points from enabled to disabled. It is a discriminating diagnostic, not a source or acceptance change; exact stop conditions and remaining gates are recorded."
+    },
+    {
+      "id": "E-G04-S696-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact S693 source regenerated; S696 CLO Standard return still fails six CUT paths and all three buttonhole stations. All nine SEW paths and returned mm units pass for this fixture. Actual return renders inspected; CLO Standard setting trial is retired. Acceptance remains unchanged."
+    },
+    {
+      "id": "E-G04-S696-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-v03-gate-matrix.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles every fixed V03 gate against exact S696 source, returned DXF, mark/entity reports, independent SEW comparison and inspected renders; receiver/profile remain unqualified."
+    },
+    {
+      "id": "E-G04-S696-PLAN",
+      "kind": "document",
+      "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-v03-completion-plan.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Prioritizes one current-candidate LibreCAD 2.2.1.5 / DXF 2000 pilot based on S690 geometry/mark evidence; one fixed gate, one stop condition, no settings sweep or standards claim."
+    },
+    {
+      "id": "E-G04-S696-SOL-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-sol-review.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded read-only Sol review verified S696 gate evidence and rejected the proposed LibreCAD rerun because its already documented generic-CAD profile cannot satisfy the admitted industrial/apparel gate."
     }
   ]
 }

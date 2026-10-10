@@ -1,0 +1,14 @@
+{
+  "actor": "Codex",
+  "evidence": {
+    "kind": "document",
+    "verified": true,
+    "note": "Reconciles every fixed V03 gate against exact S696 source, returned DXF, mark/entity reports, independent SEW comparison and inspected renders; receiver/profile remain unqualified.",
+    "id": "E-G04-S696-MATRIX",
+    "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-v03-gate-matrix.md"
+  },
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4119
+}
+\n

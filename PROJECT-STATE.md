@@ -1,36 +1,36 @@
-## EPIC-17 / G04 — S695 closed; exact-source diagnosis confirms CLO CUT loss
+## EPIC-17 / G04 — S696 closed; CLO Standard route retired after measured return failure
 
-S695 regenerated S694's exact Polo STANDARD_M size-M/step-0 package from the
-current code; its hash and package revision match the submitted file exactly.
-The S694 CLO return still fails seven CUT contours by 0.001035–0.039768 cm;
-all nine SEW and both placket CUT controls pass. Four shared stand/collar
-maxima map to source cubic `backCollar`/`backCollarBase` at t=0.93468; submitted
-points track the coded offset within 0.00032 cm, while returned paths miss them
-by 0.011–0.040 cm. No source shape/serializer correction is supported. The
-annotated source/return crops and exact measurements are in
-`docs/research/epic17/S695-polo-dxf-difference-localization/`; all diagnostic
-files remain under `C:\G04-CAD-Interchange\S694-clo-candidate-cuts\S695-localization\`.
+S696 completed the planned CLO setting diagnostic on the exact S693 Polo M
+candidate. With `Import Draw Curve Points` off, six of nine CUT contours still
+fail the fixed `0.001 cm` threshold; the sleeve and both plackets pass. An
+independent comparison confirms all nine SEW paths pass. Three buttonhole
+anchors remain 1.4999966 cm from their source stations; the returned file has
+no typed LINE/POINT/CIRCLE marks and uses numeric layers. Exact source
+regeneration matches the submitted bytes. Actual whole-pattern and inner-stand
+renders were inspected. CLO Standard is retired; no additional setting or
+encoding trials or source-shape compensation are supported.
 
-The one planned next test, S696, changes only the observed CLO import option
-`Import Draw Curve Points` (enabled in S694, disabled in S696); exact source,
-build, Standard DXF mode, units, scale, rotation and all other settings stay
-fixed. It is tied to the same CUT/mark gate and is supported only as a
-discriminating test, not a known fix. If any path/mark fails, or output is
-missing/misleading, stop this CLO Standard route. No more settings/encoding
-trials on that route. S695 also corrected the S694 evidence note: C: contains
-the pre-import session project but no CLO dialog screenshot; recorded settings
-are observations, not image-verified. S696 must visually verify its dialog.
-V01/V02 remain Done; G04-V03 remains unaccepted/Blocked; EPIC-17 and its goal
-remain In Progress/active. S695 start: 2026-10-10 22:38:09 UTC from clean S694
-`ee132a30da9df569da09db6f91902c38fa32f408`; refreshed `origin/main`
-`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; S695 was unique
-after S694; board start 4113 and S695 start replay 4114. Goal status was
-inspected and left active. Exit and plan evidence were replayed through the
-validated command layer at revisions 4115–4116 and the closeout comment at
-4117. `npm run control-center:test` passed 42/42; `git diff --check` passed.
-No changed production-code coverage applies. Time ledger and commit are in
-S695's exit packet.
+A bounded Sol review rejected the proposed current-candidate LibreCAD pilot:
+even if geometry and marks pass, S690/C04 already classify LibreCAD as generic
+CAD, so it cannot satisfy G04's industrial/apparel profile gate. S696's full
+per-gate matrix, revised plan, review and exit evidence are in
+`docs/research/epic17/S696-clo-draw-curve-points-off/`. The existing
+installed/researched routes have been reconciled; no further app/format/setting
+trial is planned absent evidence that an already available, rights-cleared
+local apparel/industrial receiver profile can meet the admitted contract.
 
+V01/V02 remain Done; V03 remains unaccepted/Blocked; EPIC-17 remains In
+Progress and the goal remains active. Acceptance, all-seven/options/grades,
+fixed thresholds, legacy DXF behavior and protected identities are unchanged.
+The settled full gate, output review, necessary-file cleanup, PR review, safe
+merge, refreshed `origin/main` ancestry and required production end-to-end
+verification remain due. No physical-fit or factory-acceptance claim.
+
+S696 started 2026-10-10 22:48:54 UTC from S695 `54897bee2eeb552d9e35a1690036b6728d3bc540`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an
+ancestor. Board replay `4117→4118→4124` start and exit. Focused Control
+Center tests passed 42/42; `git diff --check` passed. No production code
+changed. Goal record remains active; no status mutation was made.
 ## EPIC-17 / G04 — S694 closed; CLO candidate still fails CUT/mark gates
 
 S694 used the exact S693 adaptive-cut Polo M candidate in the existing CLO
@@ -11743,3 +11743,7 @@ merge, `origin/main` ancestry and required deployment. No fit, factory or
 production-readiness claim.
 
 ## EPIC-17 / G04 — Slice 670 closed; DGS receiver route retired
+
+
+\n
+\n

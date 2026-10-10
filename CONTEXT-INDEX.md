@@ -1,17 +1,16 @@
-## Current EPIC-17 / G04 V03 boundary — S695 confirms exact-source CLO CUT loss
+## Current EPIC-17 / G04 V03 boundary — S696 closed; CLO Standard retired
 
-S695 regenerates the exact S694 Polo M candidate byte-for-byte from current
-source. The CLO return changes seven CUT paths by 0.001035–0.039768 cm, while
-all nine SEW and both placket CUT controls pass. Four repeated maxima map to
-the same source collar/stand cubic and the exact offset cusp; no product-source
-fix is supported. Next is one evidence-backed CLO import-control test, with
-all else fixed; its exact stop condition and remaining V03 gates are in
-`docs/research/epic17/S695-polo-dxf-difference-localization/`. S695 also
-corrects S694's unsupported claim of a saved dialog screenshot. V03 acceptance
-is unchanged; goal stays active; final gate, output review, cleanup, PR, merge,
-ancestry and deployment remain due.
-V03 acceptance remains unchanged; goal stays active; final gate, output review,
-PR hygiene/cleanup, merge, ancestry and deployment remain due.
+S696 used the exact S693 candidate and found six failing CUT contours plus
+three misplaced buttonhole anchors in CLO Standard. All nine SEW contours and
+units pass for that single fixture. The source regenerates exactly; actual
+renders were inspected. No source-shape correction or further CLO setting
+trial is supported. Sol's bounded review rejected repeating LibreCAD because
+its documented generic-CAD profile cannot meet the admitted industrial/apparel
+gate even if another geometry pilot passes. Existing route evidence, matrix,
+review and corrected plan are linked in
+`docs/research/epic17/S696-clo-draw-curve-points-off/`. No acceptance or goal
+status change. Keep the goal active through V03, cleanup, PR, safe merge,
+ancestry and required production verification.
 ## EPIC-17 / G04 V03 — S689 closed; no CLO Standard route
 
 S689's mm-normalized CLO Standard DXF pilot passes returned units and all nine
@@ -3607,3 +3606,6 @@ legacy DXF, source pattern, allowance, protected identities and thresholds stay
 unchanged. Independent receiver/profile and remaining V03 gates still need
 proof. Goal is active; do not pause/block/complete it prematurely. Read
 `PROJECT-STATE.md` and `docs/research/epic17/S692-polo-offset-singularity/`.
+
+
+\n

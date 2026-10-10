@@ -1,0 +1,14 @@
+{
+  "actor": "Codex",
+  "evidence": {
+    "kind": "exit-report",
+    "verified": true,
+    "note": "Exact S693 source regenerated; S696 CLO Standard return still fails six CUT paths and all three buttonhole stations. All nine SEW paths and returned mm units pass for this fixture. Actual return renders inspected; CLO Standard setting trial is retired. Acceptance remains unchanged.",
+    "id": "E-G04-S696-EXIT",
+    "uri": "docs/research/epic17/S696-clo-draw-curve-points-off/S696-exit-packet.md"
+  },
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4118
+}
+\n
