@@ -840,7 +840,10 @@ and [Slice 239 revision evidence](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S
 The existing DXF download remains the protected legacy output: its coordinates
 use centimeters but the file does not declare units. `exportDxfCentimeters`
 is a separate, non-default serialization candidate that adds a centimeter
-header while preserving the legacy entity body. It is not wired to the UI or
+header while preserving the legacy entity body when called without recipe mark
+rules. When those rules are supplied, it additionally writes the same resolved
+notch ticks and double-ended grainline marks as `MARK_NOTCH` and
+`MARK_GRAINLINE` entities in the candidate only. It is not wired to the UI or
 selected as an apparel-CAD profile; no receiver compatibility is claimed.
 
 The project also keeps reference export files. Tests compare new exports with

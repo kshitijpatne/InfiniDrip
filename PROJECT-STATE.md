@@ -1,5 +1,13 @@
 ## EPIC-17 / G04 — S676 closed; source-unit serialization candidate
 
+### S677 exit — recipe construction marks in additive DXF
+
+Started 2026-10-10 17:37:56 UTC from clean S676 `4e84263395a357978a97b46a1ca208921e65a5de`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S676 is the highest assigned slice; S677 is unique. Canonical board revision 4021 has V01/V02 Done and V03/EPIC-17 In Progress. Packet: `docs/research/epic17/S677-dxf-construction-marks/S677-start-packet.md`.
+
+Source trace found `src/export/dxf.ts` has no recipe input and omits the recipe-owned notch and grainline rules that `src/export/svg.ts` resolves from the live pattern. S677 adds those exact construction marks only to the opt-in centimeter-declared DXF candidate. Six focused exporter/legacy suites pass 37/37; changed-module coverage is 100% in every dimension; build and Control Center (42/42) pass. Seven M-size DXF candidates were generated outside the repo on C:, rendered from their actual entity records and visually inspected. Legacy writer/default UI/protected identities remain unchanged. This passes no receiver/profile or overall V03 gate. S677 start/exit: `docs/research/epic17/S677-dxf-construction-marks/`; board replay 4021→4023→4025. Elapsed 11m39s: implementation/source review ~5m, measured tests/build/control checks ~25s, output generation/review ~2m, docs/board/review ~4m; external waits 0, maintainer decision 0.
+
+Next action: begin S678 from a fresh Git/board/usage check. Implement/test a C04-bounded, version-matched manifest for recipe/piece identity, grade/size step and stitch relationships, bound to the exact candidate DXF digest. Reuse existing grade fixtures and preserve visible marks/geometry and all V03 acceptance; do not claim this sidecar survives a receiver until import/export evidence proves it.
+
 Started 2026-10-10 17:23:45 UTC from clean S675 commit `336d3a2a` on
 `codex/epic-17-g04`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
 is an ancestor and slice 676 is unique. A bounded read-only Sol high review

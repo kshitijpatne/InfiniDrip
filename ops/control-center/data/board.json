@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4021,
-  "updatedAt": "2026-10-10T17:34:10.382Z",
+  "revision": 4025,
+  "updatedAt": "2026-10-10T17:50:36.215Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13007,6 +13007,16 @@
           "at": "2026-10-10T17:34:10.382Z",
           "actor": "Codex",
           "text": "S676 adds an opt-in generic DXF helper that declares centimeters and preserves the exact legacy entity body; all eight protected legacy export identities remain unchanged. Focused test/regression passed 9/9, changed-code coverage is 100% in all four dimensions, build passed, Control Center passed 42/42, and diff check passed. This corrects our product writer's independent missing-units gap; the S674 LibreCAD R12 omission was receiver-side. No UI route, profile claim, acceptance change, or V03 pass. V03 and EPIC-17 remain In Progress; next S677 audits remaining source-owned identity/grade/mark gaps."
+        },
+        {
+          "at": "2026-10-10T17:41:01.689Z",
+          "actor": "Codex",
+          "text": "S677 is reserved from clean S676 `4e842633`; refreshed origin/main remains an ancestor and S676 is the highest assigned slice. Source audit found recipe notch/grainline rules are rendered in SVG but are not passed to the legacy DXF writer. Implement those source-authored marks only in the opt-in centimeter candidate, preserve all legacy bytes, and test all seven recipes. V03 stays In Progress; no receiver/profile gate is passed or acceptance changed."
+        },
+        {
+          "at": "2026-10-10T17:50:36.215Z",
+          "actor": "Codex",
+          "text": "S677 adds recipe-owned notch ticks and grainline shaft/chevrons to the opt-in centimeter DXF candidate only, resolving marks through the same live rules and laid-out geometry used by SVG. Seven recipe M-size DXFs were generated and their emitted records rendered/inspected; exact evidence and hashes are in the S677 packet and C:\\G04-CAD-Interchange\\S677-construction-marks. Focused six-suite checks pass 37/37, changed-module coverage is 100% in all dimensions, build passes, Control Center passes 42/42, legacy/protected regressions are unchanged. This does not prove receiver acceptance, identity/grade package, or V03; all gates and acceptance remain unchanged. Next S678: source-bound identity/grade/seam sidecar feasibility and implementation against the C04 contract."
         }
       ],
       "evidenceRefs": [
@@ -13478,7 +13488,9 @@
         "E-G04-S675-START",
         "E-G04-S675-EXIT",
         "E-G04-S676-START",
-        "E-G04-S676-EXIT"
+        "E-G04-S676-EXIT",
+        "E-G04-S677-START",
+        "E-G04-S677-EXIT"
       ],
       "flagKey": null
     },
@@ -26137,6 +26149,24 @@
       "sha256": null,
       "verified": true,
       "note": "Adds a non-default centimeter-declared DXF candidate over the exact legacy byte stream; focused 100% changed-code coverage and preserved export hashes; does not select a profile or pass V03."
+    },
+    {
+      "id": "E-G04-S677-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S677-dxf-construction-marks/S677-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source trace found the legacy and centimeter-candidate DXF paths omit recipe-defined notches and grainlines; S677 adds them only to the opt-in candidate, with source-based coordinates and no receiver/profile claim."
+    },
+    {
+      "id": "E-G04-S677-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S677-dxf-construction-marks/S677-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Opt-in centimeter DXF candidate emits recipe-defined notch ticks and grainline shafts/chevrons for all seven recipes; focused protected checks, 100% changed-code coverage, build, 42 Control Center tests, generated seven-recipe DXF-derived renders and manual output review pass. No receiver/profile or V03 acceptance claimed."
     }
   ]
 }

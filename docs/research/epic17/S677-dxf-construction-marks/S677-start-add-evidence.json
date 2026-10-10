@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4021,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S677-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S677-dxf-construction-marks/S677-start-packet.md",
+    "verified": true,
+    "note": "Source trace found the legacy and centimeter-candidate DXF paths omit recipe-defined notches and grainlines; S677 adds them only to the opt-in candidate, with source-based coordinates and no receiver/profile claim."
+  }
+}

@@ -1,3 +1,21 @@
+## EPIC-17 / G04 — Slice 677 closed; recipe construction marks in candidate
+
+S677's source trace found recipe notch/grainline rules are rendered in SVG but
+never supplied to the legacy DXF writer. The opt-in centimeter candidate now
+accepts those rules and emits their live resolved coordinates on typed
+`MARK_NOTCH` / `MARK_GRAINLINE` layers; default legacy bytes remain unchanged.
+All-seven recipe serialization/count tests, a source-coordinate/Y-flip test,
+fail-closed mapping tests and changed-module 100% coverage pass. Focused six-
+suite exporter/protected checks are 37/37; build and Control Center 42/42 pass.
+Seven M-size candidates and SVG/PNG diagnostic renders were written under
+`C:\\G04-CAD-Interchange\\S677-construction-marks\\`; every rendered output
+was inspected and file hashes/counts recorded. This does not claim a receiving
+CAD result, identity/grade preservation or any V03 gate. Legacy DXF/default
+export and protected bytes remain unchanged. Packet:
+`docs/research/epic17/S677-dxf-construction-marks/`. Next S678 implements and
+validates the C04-bounded source identity/grade/seam sidecar against exact
+candidate digest and existing grade fixtures.
+
 ## EPIC-17 / G04 — Slice 676 closed; source-unit candidate added
 
 S676 confirmed two separate facts: the S674 input already had centimeter
