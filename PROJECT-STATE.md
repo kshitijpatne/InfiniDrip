@@ -1,37 +1,43 @@
-## EPIC-17 / G04 — S691 closed; V03 held at receiver eligibility
+## EPIC-17 / G04 — S692 closed; Polo cut-offset cusp is source-proven
 
-S691 reconciled every fixed V03 gate against product source, exact receiver
-outputs and rendered evidence, and obtained one bounded read-only Sol review.
-LibreCAD 2.2.1.5 DXF 2000 is a useful generic-CAD result on one Polo M fixture
-(18/18 contours, 38/38 typed marks, eight layers, centimeter declaration and
-clean reopen), but the admitted C04/G04 gate requires a named apparel/industrial
-CAD receiver/profile. CLO and DGS tested routes have measured failures; OpenCAD
-is generic CAD and fails other gates. No tested local route satisfies both
-receiver eligibility and the unchanged exchange gates. No product-code defect
-is causally supported, so no source change or more receiver trial is justified.
+S692 analytically verified a real source-algorithm defect behind the five
+repeated CLO CUT-vertex losses: one Polo cubic is reused by back/neckline, both
+collar-stand/backCollar edges, and both pointed-collar/backCollarBase edges.
+Its exact minimum curvature radius is 0.9114057099 cm, below the unchanged
+1 cm allowance; the right-normal offset has a cusp at t=0.9346892443. The
+existing 14-sample offset takes a short 0.045618–0.046957 cm step near it.
+S691's blanket “no source repair supported” conclusion is superseded for these
+five points. See `docs/research/epic17/S692-polo-offset-singularity/` and its
+source correction addendum. The reproducible numeric report/helper remain
+outside Git in `C:\G04-CAD-Interchange\S692-polo-offset-singularity\`.
 
-G04-V03 is Blocked for the concrete prerequisite: a specifically named,
-permitted, local apparel/industrial CAD receiver with a documented input and
-sidecar contract. V01/V02 remain Done; EPIC-17 remains In Progress. All-seven
-recipe/options/grades, fixed thresholds, protected export identities, and
-final full coverage/output, PR, merge, ancestry and deployment gates remain
-unchanged. No standards conformance, physical-fit, factory-acceptance or
-production-readiness claim is made. Older finite V03 slice estimates are stale.
+Next, implement only a separately versioned, cusp-aware offset in the additive
+G04 interchange candidate. Keep legacy `exportDxf`, recipe geometry, 1 cm
+allowance, protected identities and fixed 0.001 cm gate unchanged. Verify the
+candidate against the analytic offset, closed/non-crossing geometry, rendered
+output, all seven recipes/73 supported options/grade rows, and changed-code
+100% coverage before using any receiver. This source repair does not clear the
+independent V03 receiver/profile, marks/identity, malformed-input,
+repeatability, readability and rights gates. V01/V02 remain Done; EPIC-17 and
+its goal remain In Progress/active. Do not call V03 or the Epic complete yet.
 
-S691 matrix, completion plan, bounded Sol review and exit record:
-`docs/research/epic17/S691-v03-evidence-reconciliation/`. The user's cleanup
-request is recorded for the final PR boundary only; no cleanup was performed.
-The last-known coordinator-checkout and active-branch file inventories must be
-refreshed at that boundary. Keep disposable CAD inputs/outputs, screenshots,
-machine reports and temporary command files outside Git while preserving
-necessary runtime files, canonical records and working evidence links.
+The canonical board is revision 4104 at S692 start; append validated exit
+evidence before commit. The user's cleanup request remains a final PR-boundary
+task only; no cleanup was performed. Refresh both workspace inventories then,
+preserve necessary runtime/project files and canonical evidence links, and
+keep disposable CAD files/captures outside Git. No standards-conformance,
+physical-fit, factory-acceptance or production-readiness claim is made. The
+full repository coverage/build/output review, PR, merge, refreshed ancestry
+and any required deployment remain explicit completion gates.
 
-Started 2026-10-10 21:04:07 UTC from S690 commit
-`015a090690e7110151d843b9a79ddf1baa795e5e`; refreshed `origin/main` remained an
-ancestor. Highest slice was 690; S691 is unique. Board revisions: 4089 at
-start, 4094 after admission replay, 4103 at validated close. `npm run
-control-center:test` passes 42/42; `git diff --check` passes. No implementation
-coverage applies because no production code changed.
+Started 2026-10-10 21:56:33 UTC from S691 `3cb0f46e83791fc5f571acf1af154ce1c96937b2`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S692 is unique after S691. Board revision 4104 after start evidence.
+Analytic source review and record update only; no production code or tests
+changed, so changed-code coverage is not applicable. Raw report SHA-256:
+`f806192422da2c0663a7870be2a36ead628e0dd965ea0b0cd66c32b4263e0df2`.
+Focused Control Center test and `git diff --check` results are in the S692
+exit packet.
 
 ## EPIC-17 / G04 — S690 prior evidence; LibreCAD DXF 2000 pilot is partial
 

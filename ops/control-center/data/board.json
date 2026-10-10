@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4103,
-  "updatedAt": "2026-10-10T21:13:39.426Z",
+  "revision": 4106,
+  "updatedAt": "2026-10-10T22:00:24.262Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13239,6 +13239,11 @@
           "at": "2026-10-10T21:13:37.787Z",
           "actor": "Codex",
           "text": "S691 closed at the evidence-based receiver eligibility hold. LibreCAD DXF 2000 is generic-CAD evidence only; tested CLO/DGS routes fail measured gates and OpenCAD is generic. No additional app/profile trial or source change is justified. Matrix/plan/review/exit are attached; current requirement and all seven-recipe scope remain unchanged."
+        },
+        {
+          "at": "2026-10-10T22:00:24.262Z",
+          "actor": "Codex",
+          "text": "S692 source correction: the five repeated Polo CUT-loss stations map to one current-source cubic whose 1 cm normal offset has an analytic cusp. Next is an additive, separately versioned candidate-export offset fix; no pattern/allowance/legacy DXF change and no receiver gate is yet passed. Goal remains active; G04-V03 remains held on independent receiver evidence."
         }
       ],
       "evidenceRefs": [
@@ -13745,7 +13750,9 @@
         "E-G04-S691-MATRIX",
         "E-G04-S691-PLAN",
         "E-G04-S691-SOL",
-        "E-G04-S691-EXIT"
+        "E-G04-S691-EXIT",
+        "E-G04-S692-START",
+        "E-G04-S692-EXIT"
       ],
       "flagKey": null
     },
@@ -26755,6 +26762,24 @@
       "sha256": "3b724eccbca578ff408c63e813d2f013964218b34964d0c7fd1d50a7c515b7ea",
       "verified": true,
       "note": "S691 exit record; V03 remains blocked at receiver eligibility and Epic17 remains in progress."
+    },
+    {
+      "id": "E-G04-S692-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S692-polo-offset-singularity/S692-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S692 verifies the current source cubic curvature at the five repeated Polo CUT-loss stations against their 1 cm allowance. Source/profile behavior only; all acceptance, holds, legacy bytes, protected identities, and V03 status remain unchanged."
+    },
+    {
+      "id": "E-G04-S692-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S692-polo-offset-singularity/S692-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S692 analytically proves a 1 cm offset cusp at the five Polo CUT-loss mappings. S691's no-source-fix conclusion is superseded only there. This does not pass a V03 receiver gate; all acceptance, legacy bytes, protected identities and goal status remain unchanged."
     }
   ]
 }

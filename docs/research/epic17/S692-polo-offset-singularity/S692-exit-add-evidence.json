@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4104,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-G04-S692-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S692-polo-offset-singularity/S692-exit-packet.md",
+    "verified": true,
+    "note": "S692 analytically proves a 1 cm offset cusp at the five Polo CUT-loss mappings. S691's no-source-fix conclusion is superseded only there. This does not pass a V03 receiver gate; all acceptance, legacy bytes, protected identities and goal status remain unchanged."
+  }
+}

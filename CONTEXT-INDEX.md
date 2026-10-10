@@ -3601,3 +3601,13 @@ V03 matrix/plan:
 and `V03-COMPLETION-PLAN-S671.md`.
 
 ## EPIC-17 / G04 — Slice 670 closed; S671 exact-path preflight prepared
+## Current EPIC-17 / G04 V03 boundary — S692 source defect found
+
+S692 proves the repeated five Polo CUT misses coincide with an exact 1 cm
+offset cusp on a source cubic (minimum curvature radius 0.9114 cm). This
+supersedes S691's no-source-fix conclusion only for those five points. Next is
+a separately versioned cusp-aware offset in the additive G04 candidate;
+legacy DXF, source pattern, allowance, protected identities and thresholds stay
+unchanged. Independent receiver/profile and remaining V03 gates still need
+proof. Goal is active; do not pause/block/complete it prematurely. Read
+`PROJECT-STATE.md` and `docs/research/epic17/S692-polo-offset-singularity/`.

@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4103,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-G04-S692-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S692-polo-offset-singularity/S692-start-packet.md",
+    "verified": true,
+    "note": "S692 verifies the current source cubic curvature at the five repeated Polo CUT-loss stations against their 1 cm allowance. Source/profile behavior only; all acceptance, holds, legacy bytes, protected identities, and V03 status remain unchanged."
+  }
+}

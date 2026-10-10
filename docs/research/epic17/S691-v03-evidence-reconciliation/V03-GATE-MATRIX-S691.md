@@ -1,5 +1,14 @@
 # G04 V03 gate matrix at S691
 
+> **S692 correction:** the source-side statement below that “no further
+> source-code defect” is supported is superseded for the five Polo CUT losses
+> identified in S634/S689. Analytic current-source curvature proves a 1 cm
+> offset cusp under `src/render/allowance.ts`'s 14-sample algorithm. See
+> `../S692-polo-offset-singularity/S692-exit-packet.md` and
+> `S692-source-correction.md`. S692 does not clear any receiver eligibility,
+> rights, identity/mark, breadth, negative, repeatability, readability or
+> overall V03 gate; this S691 matrix remains historical for its other evidence.
+
 This matrix reconciles the current package source, the measured LibreCAD
 DXF 2000 result, and prior receiver evidence. “Passed” is limited to the
 named scope in its evidence; source-package success is not a receiver pass.
