@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4065,
-  "updatedAt": "2026-10-10T19:18:33.237Z",
+  "revision": 4071,
+  "updatedAt": "2026-10-10T19:25:18.269Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10712,7 +10712,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Blocked",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10794,6 +10794,17 @@
           "note": "A source-owned DXF gap is now bounded for additive correction under S676. This resumes implementation work without qualifying a receiver, passing V03, changing acceptance, or releasing any export claim.",
           "evidenceRefs": [
             "E-G04-S676-START"
+          ]
+        },
+        {
+          "status": "Blocked",
+          "at": "2026-10-10T19:25:18.269Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "No tested, already available receiver/profile meets the fixed V03 pilot gates. CLO fails returned units, CUT geometry and visible marks; the authenticated GetonAgain/DGS route and generic CAD candidates have recorded route/profile or technical failures. The Sol source audit found no causal exporter fix. Resume only when an eligible receiver/profile is evidenced; no maintainer approval or manual UI action is pending.",
+          "evidenceRefs": [
+            "E-G04-S688-EXIT",
+            "E-G04-S688-GATE-MATRIX"
           ]
         }
       ],
@@ -13117,6 +13128,16 @@
           "at": "2026-10-10T19:18:33.237Z",
           "actor": "Codex",
           "text": "S687 confirms the eight S685 mark failures exist in the exact saved CLO return; the comparator did not skip a returned typed mark entity. The pinned return has nine piece blocks with 125 polylines and zero LINE/POINT/CIRCLE entities. No source-code or acceptance change is supported, and no new app/import/export trial was run. All V03 and final gates remain open."
+        },
+        {
+          "at": "2026-10-10T19:24:12.489Z",
+          "actor": "Codex",
+          "text": "S688 records the completed read-only Sol code audit against the exact S685/S687 source and return evidence. No candidate or encoding trial is authorized by this packet; all V03 gates and holds remain unchanged until the review is reconciled."
+        },
+        {
+          "at": "2026-10-10T19:25:17.149Z",
+          "actor": "Codex",
+          "text": "S688 reconciles Sol's bounded source audit with exact receiver and rendered/import evidence. No source code fix is causally supported, and no already tested route meets the fixed exchange gates. There is no pending user approval or UI action. G04-V03 is blocked only on an available, rights-cleared receiver/profile that can pass the admitted pilot; all gates and thresholds remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13610,7 +13631,10 @@
         "E-G04-S686-START",
         "E-G04-S686-EXIT",
         "E-G04-S687-START",
-        "E-G04-S687-EXIT"
+        "E-G04-S687-EXIT",
+        "E-G04-S688-START",
+        "E-G04-S688-EXIT",
+        "E-G04-S688-GATE-MATRIX"
       ],
       "flagKey": null
     },
@@ -26467,6 +26491,33 @@
       "sha256": null,
       "verified": true,
       "note": "All-entity audit of the pinned S685 CLO return found only 125 LWPOLYLINEs in nine piece blocks and no typed LINE/POINT/CIRCLE marks; all eight reported mark misses remain outside 0.001 cm. No comparator omission or safe exporter correction is established."
+    },
+    {
+      "id": "E-G04-S688-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S688-v03-source-audit/S688-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconcile the completed bounded Sol source audit with actual S685/S687 output and all existing receiver evidence; proceed only on a causal source fix or an already evidenced eligible route."
+    },
+    {
+      "id": "E-G04-S688-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S688-v03-source-audit/S688-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Sol source audit found no causally supported exporter fix; direct receiver evidence shows CLO, GetonAgain/DGS, LibreCAD and OpenCAD do not meet the complete fixed V03 route. No new trial or acceptance change."
+    },
+    {
+      "id": "E-G04-S688-GATE-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S688-v03-source-audit/V03-GATE-RECONCILIATION-S688.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S688 supplements S686's unchanged gate-by-gate matrix with the completed Sol source audit, S687 all-entity result, and existing GetonAgain/DGS/LibreCAD/OpenCAD route evidence."
     }
   ]
 }

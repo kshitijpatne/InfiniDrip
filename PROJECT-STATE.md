@@ -1,3 +1,29 @@
+## EPIC-17 / G04 — S688 closed; source audit confirms no safe receiver fix
+
+S688 records Codex's reconciliation of the completed Sol read-only source
+audit with the exact S685/S687 CLO files and existing GetonAgain/DGS,
+LibreCAD, and OpenCAD evidence. No source serialization defect is causally
+connected to the measured CLO return failures, and no production code fix is
+supported. The exact return still has a unit mismatch, five CUT contour
+failures and eight visible mark failures; S687 confirms the comparator did not
+overlook typed mark entities. GetonAgain's authenticated workspace and DGS
+routes were already exercised: the observed GMS route is marker-file-only,
+DGS imports render/register 0/0, and DGS exports contain metadata but no
+pattern geometry. LibreCAD loses the unit declaration; OpenCAD is generic and
+fails other fixed gates. No new app, import/export, profile or encoding trial
+was run.
+
+There is no maintainer decision or manual UI action pending. The required V03
+prerequisite is a specifically named, rights-cleared receiver/profile that is
+available and can meet the fixed exchange gates. The validated board is now
+revision 4071: G04-V03 is Blocked; EPIC-17 remains In Progress; V01/V02 remain
+Done. All acceptance, thresholds and holds remain unchanged. S688 start/exit
+packets and the gate supplement are in
+`docs/research/epic17/S688-v03-source-audit/`. `npm run control-center:test`
+and `git diff --check` must pass after the final board/status assertion update;
+full repository gates, final output review, PR, merge, ancestry and deployment
+remain due on a settled eligible candidate.
+
 ## EPIC-17 / G04 — S687 closed; S685 mark misses confirmed in saved CLO output
 
 S687 audited the exact hash-pinned source, CLO return and S685 report. The nine

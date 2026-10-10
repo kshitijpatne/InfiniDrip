@@ -1,4 +1,21 @@
-## Current EPIC-17 / G04 V03 boundary — S666 closed; S667 Design-mode diagnostic next
+## Current EPIC-17 / G04 V03 boundary — S688 closed; receiver prerequisite remains
+
+S688 reconciles the bounded Sol read-only source audit with the exact S685 CLO
+return and S687 all-entity audit. No causally supported source-code fix exists
+for the measured return defects. Existing GetonAgain/DGS, LibreCAD, CLO and
+OpenCAD outcomes do not provide a passing receiver/profile; no application,
+encoding or profile trial was repeated. The validated board is at revision
+4071: G04-V03 Blocked, EPIC-17 In Progress, V01/V02 Done. No user approval or
+manual UI action is pending; resume only when an already available,
+rights-cleared receiver/profile is evidenced as capable of meeting the fixed
+pilot gates. S688 exit and updated gate reconciliation:
+`docs/research/epic17/S688-v03-source-audit/S688-exit-packet.md` and
+`docs/research/epic17/S688-v03-source-audit/V03-GATE-RECONCILIATION-S688.md`.
+All-seven/options/grades, `0.001 cm`, malformed-input, repeatability,
+readability, legacy DXF, protected byte identities, full final gates, PR,
+merge, ancestry, and deployment requirements are unchanged.
+
+## Historical EPIC-17 / G04 V03 boundary — S666 closed; S667 Design-mode diagnostic next
 
 S666 independently verified its C:-only synthetic fixture as one named
 INSERT, one closed 20 × 30 cm CUT polyline, and zero explicit grainline

@@ -1,3 +1,13 @@
+## EPIC-17 / G04 — Slice 688 closed; V03 blocked at receiver eligibility
+
+S688 reconciles the completed Sol source audit with exact S685/S687 return
+evidence and prior candidate results. No causally supported source-code fix or
+already tested passing receiver exists; no new trial or acceptance change was
+made. G04-V03 is Blocked, EPIC-17 remains In Progress, and all V03 criteria
+remain unchanged. Read current status in `PROJECT-STATE.md`, the S688 packet
+and gate supplement in `docs/research/epic17/S688-v03-source-audit/`, and the
+validated board at revision 4071 before resuming.
+
 ## EPIC-17 / G04 — Slice 687 closed
 
 S687's all-entity audit confirms the eight S685 mark misses in the exact saved
