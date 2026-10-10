@@ -1,5 +1,14 @@
 # InfiniDrip context index
 
+## EPIC-17 / G04 — Slice 652 closed; exact Windows elevation prompt verified
+
+Read-only process inspection finds two live Windows consent processes whose
+title is exactly `Garment CAD(GetonAgain Free version).exe is requesting your
+permission`. No installed GetonAgain process, uninstall entry, or shortcut is
+present. The Windows security UI requires the maintainer to approve manually;
+Codex did not interact with it. G04-V03 remains Blocked and EPIC-17 remains In
+Progress. S652 packet: `docs/research/epic17/S652-getonagain-uac-handoff/`.
+
 ## EPIC-17 / G04 — Slice 651 closed blocked at Windows elevation handoff
 
 S650 closed with conditional maintainer authorization for official GetonAgain

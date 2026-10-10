@@ -1,5 +1,17 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 652 closed; exact installer prompt confirmed
+
+Read-only inspection found two live Windows consent processes, PIDs 66192 and
+111192, both titled `Garment CAD(GetonAgain Free version).exe is requesting
+your permission`. No installed app/process, uninstall entry, or Start Menu
+shortcut was found. This confirms the pending elevation prompt identifies the
+approved CAD setup; only the maintainer can interact with Windows security
+UI. S652 did not start another installer process, create an account, or open a
+pattern. Board revision 3755; G04-V03 remains Blocked, EPIC-17 In Progress,
+V01/V02 Done. All acceptance gates/holds unchanged. See
+`docs/research/epic17/S652-getonagain-uac-handoff/S652-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 651 closed; installation awaits manual elevation handoff
 
 S651 completed bounded acquisition/inspection of only the official GetonAgain

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3752,
-  "updatedAt": "2026-10-10T00:22:13.470Z",
+  "revision": 3755,
+  "updatedAt": "2026-10-10T00:26:03.626Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12413,6 +12413,11 @@
           "at": "2026-10-10T00:22:12.600Z",
           "actor": "Codex",
           "text": "S651 closed at the manual Windows elevation handoff. The maintainer approved running the official CAD setup; launch produced no targetable installer window, and three contemporaneous consent.exe processes are consistent with but not attributable to the installer. Please inspect any elevation prompt and approve only if it names the GetonAgain CAD setup; otherwise cancel. No install, pattern import, or receiver qualification is claimed. All V03 gates and holds remain unchanged; details: docs/research/epic17/S651-getonagain-install-contract/S651-exit-packet.md."
+        },
+        {
+          "at": "2026-10-10T00:26:03.626Z",
+          "actor": "Codex",
+          "text": "S652 read-only verification confirms that the live Windows consent-window caption names the exact user-authorized GetonAgain CAD setup (`Garment CAD(GetonAgain Free version).exe is requesting your permission`). No installed app was found. Please manually approve the matching prompt to continue installation, or cancel it. Codex did not operate the security UI. G04-V03 remains Blocked; no V03 gate or hold changed. See docs/research/epic17/S652-getonagain-uac-handoff/S652-exit-packet.md."
         }
       ],
       "evidenceRefs": [
@@ -12823,7 +12828,9 @@
         "E-G04-S650-START",
         "E-G04-S650-EXIT",
         "E-G04-S651-START",
-        "E-G04-S651-EXIT"
+        "E-G04-S651-EXIT",
+        "E-G04-S652-START",
+        "E-G04-S652-EXIT"
       ],
       "flagKey": null
     },
@@ -24771,6 +24778,24 @@
       "sha256": null,
       "verified": true,
       "note": "S651 acquired/hash-verified the official free desktop package and manual, reviewed its documented gates and inspected default-grade mark counts. After the maintainer's action-time approval, CAD setup launch returned no targetable app/window; read-only process evidence is consistent with an elevation handoff but does not identify a prompt. Manual maintainer elevation action is required. No installation, profile qualification, pattern import, or V03 gate passed; all acceptance and holds remain."
+    },
+    {
+      "id": "E-G04-S652-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S652-getonagain-uac-handoff/S652-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a read-only verification of the outstanding GetonAgain elevation handoff after S651; no security UI or new installer action."
+    },
+    {
+      "id": "E-G04-S652-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S652-getonagain-uac-handoff/S652-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only process caption confirms the live Windows consent prompt names the approved GetonAgain CAD setup. No installed application entry or shortcut found. Manual user confirmation remains required; V03 gates and holds unchanged."
     }
   ]
 }
