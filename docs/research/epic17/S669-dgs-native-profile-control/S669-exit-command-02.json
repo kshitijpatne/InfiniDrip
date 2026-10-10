@@ -1,0 +1,8 @@
+{
+  "patch": {
+    "description": "EPIC-17/G04 is admitted In Progress through V01→V02→V03 and safe merge; V01/V02 Done; V03 In Progress. Preserve all-seven recipes/options/grades, 0.001 cm, legacy DXF and protected identities. S669: no installed DGS sample; native 10×10 cm control fails DGS name/size/grainline validator; its ASTM export is 10 metadata TEXT entities and zero geometry, and exact self-import is blank/0 patterns. This is not a valid positive control; DGS product candidate already failed S668's approved /2 ASTM/AAMA Pattern import (blank/0) and S667 export fidelity. S670 may use first-party instructions to resolve only the native control's invalid name/grainline and run one clean-validity control; otherwise retire DGS. Continue with existing CLO evidence. No standards conformance claim, physical-fit, factory-acceptance or production-readiness claim. No maintainer decision is pending."
+  },
+  "type": "editItem",
+  "expectedRevision": 3943,
+  "itemId": "EPIC-17"
+}

@@ -1,0 +1,7 @@
+{
+  "text": "S669 inspects local DGS examples first; if none is included, perform at most one DGS-native minimal-pattern ASTM/AAMA export and reimport to observe its own accepted profile contract. This is a positive control only. S668 product fixture is retired; no external approval pending.",
+  "type": "addComment",
+  "expectedRevision": 3941,
+  "actor": "Codex",
+  "itemId": "G04-V03"
+}

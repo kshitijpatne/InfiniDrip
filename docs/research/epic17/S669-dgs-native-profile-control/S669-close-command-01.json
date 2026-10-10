@@ -1,0 +1,8 @@
+{
+  "expectedRevision": 3948,
+  "type": "editItem",
+  "itemId": "EPIC-17",
+  "patch": {
+    "description": "EPIC-17: G04 — Professional flats and CAD interchange. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress. DGS S667 AutoCAD/Design lost units, geometry, identities and layers; S668 approved /2 ASTM/AAMA Pattern import returned blank/0; S669 invalid native control exported metadata text only and exact self-import rendered blank/0. DGS remains retired except one first-party-instructions-bounded native validity check in S670; no standards claim. Continue existing CLO evidence and preserve all-seven/options/grades, 0.001 cm, all V03 gates, final output review, PR, safe merge, ancestry and deployment. Grainline /2 and all other design approvals are settled. No physical-fit, factory-acceptance or production-readiness claim. See S669 gate matrix and completion plan."
+  }
+}

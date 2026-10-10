@@ -1,0 +1,8 @@
+{
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve fixed 0.001 cm geometry, units, piece/grade identity and relations, seams/marks/grainlines, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected byte identities. S667 DGS AutoCAD/Design export fails units/geometry/identity/layers. S668 DGS ASTM/AAMA Pattern import of the source-verified approved /2 fixture is blank/0. S669 found no local DGS sample; its invalid native 10×10 cm control produced a metadata-only 1,227-byte ASTM DXF and blank/0 self-import. No passing profile inferred; DGS remains retired except one first-party-manual-backed correction of the control's explicit name/grainline errors in S670, then one valid native control if supported. All V03 holds/gates remain unchanged. No normative claim from menu labels."
+  },
+  "type": "editItem",
+  "expectedRevision": 3944,
+  "itemId": "G04-V03"
+}

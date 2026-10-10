@@ -2037,3 +2037,27 @@ The user-approved `idr-pattern-exchange/2` grainline convention is settled. S668
 ## S668 exit; S669 next
 
 The approved `/2` profile fixture changes exactly nine XDATA bytes and independently preserves all source geometry, units, marks and identities. Actual DGS ASTM/AAMA Pattern import returns a blank render and `0/0` patterns; retire the exact candidate without export or reimport. See `docs/research/epic17/S668-dgs-apparel-decoder-import/S668-exit-packet.md`. S669 checks local DGS sample/input-contract material; absent a usable distinct contract, it compares the existing eligible CLO/OpenCAD evidence and chooses one bounded practical candidate. Acceptance unchanged; no approval pending.
+
+## S669 exit; S670 is a final bounded DGS-native control correction
+
+S669 found no locally installed DGS DXF/RUL sample. Its single 100×100 mm
+native rectangle produced DGS validator text `Pattern name, Size:M, grainline is outside the border`; M is the reported default size, and the explicit findings are the pattern name and outside-border grainline. One ASTM export contained only ten
+metadata TEXT entities, no pattern geometry or blocks, no units header, and its
+single self-import rendered blank with 0/0 patterns. Thus S669 did not reveal
+a passing native profile contract. See the S669 exit packet, gate matrix,
+completion plan, parse report and actual C:-only render evidence under
+`docs/research/epic17/S669-dgs-native-profile-control/` and
+`C:\G04-CLO-DXF-Exchange\S669-dgs-native-profile-control\`.
+
+S670 is limited to resolving those explicit validator conditions through the
+installed first-party UI instructions, with one bounded independent
+high-reasoning review. If the native interface provides a documented way to
+set a valid pattern name and move the grainline inside the 10×10 cm outline,
+create one clean control, export one ASTM file, parse and self-import it once.
+Any remaining validator warning, absent geometry, or 0/0 import retires DGS;
+no setting/format/entity permutations. If no documented native correction is
+available, retire DGS without the export/import and proceed with the existing
+CLO evidence. No product fixture is involved in the control. DGS labels imply
+no ANSI/AAMA/ASTM conformance. All V03 acceptance, seven-recipe/options/grade
+scope, thresholds, legacy DXF, protected output identities, holds and final
+merge/deployment gates remain unchanged; no maintainer decision is pending.

@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3952,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S669-PLAN",
+    "kind": "document",
+    "uri": "docs/research/epic17/S669-dgs-native-profile-control/V03-COMPLETION-PLAN-S669.md",
+    "verified": true,
+    "note": "Prioritized completion sequence names one native-validity check, route stop conditions, all-seven gates and final PR/merge/deployment proof."
+  }
+}

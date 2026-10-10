@@ -1,0 +1,8 @@
+{
+  "expectedRevision": 3955,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "Clarification to closeout text: DGS reported the size value M; the validator's explicit conditions are the pattern name and grainline outside the border. The user-approved /2 grainline convention is settled and will not be re-requested. S670 is limited to native DGS control validity only.",
+  "expectedRevision": 3955
+}

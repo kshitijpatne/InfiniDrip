@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "evidence": {
+    "id": "E-G04-S669-START",
+    "note": "Starts one local vendor sample/native positive-control to distinguish DGS route availability from the product fixture dialect after S668 0/0 import.",
+    "kind": "document",
+    "verified": true,
+    "uri": "docs/research/epic17/S669-dgs-native-profile-control/S669-start-packet.md"
+  },
+  "expectedRevision": 3939,
+  "itemId": "G04-V03"
+}

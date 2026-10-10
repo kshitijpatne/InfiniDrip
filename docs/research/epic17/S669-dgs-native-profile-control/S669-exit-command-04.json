@@ -1,0 +1,12 @@
+{
+  "evidence": {
+    "verified": true,
+    "kind": "document",
+    "uri": "docs/research/epic17/S669-dgs-native-profile-control/S669-exit-packet.md",
+    "note": "One invalid native DGS control produced metadata-only ASTM DXF with zero pattern entities; exact self-import rendered blank and registered 0/0. DGS profile remains unqualified; current gate matrix and completion plan preserve every V03 gate.",
+    "id": "E-G04-S669-EXIT"
+  },
+  "type": "addEvidence",
+  "expectedRevision": 3945,
+  "itemId": "G04-V03"
+}

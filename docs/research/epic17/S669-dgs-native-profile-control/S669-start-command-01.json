@@ -1,0 +1,11 @@
+{
+  "role": "maintainer",
+  "expectedRevision": 3936,
+  "type": "editEpic",
+  "actor": "Codex",
+  "epicId": "EPIC-17",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress. S667 DGS Design export lost identity, layers, profile, units and geometry. S668 verified the approved /2 source fixture but DGS ASTM/AAMA Pattern import displayed blank, 0/0 patterns, no warning. S669 performs one local DGS vendor-sample/native-positive-control apparel-profile roundtrip to expose the receiver's own output contract; this is not a conformance claim. No external approval pending. Preserve all-seven/options/grades, thresholds and final gates."
+  },
+  "reason": "Start S669 one local DGS positive-control route after the approved /2 product candidate imported 0/0."
+}

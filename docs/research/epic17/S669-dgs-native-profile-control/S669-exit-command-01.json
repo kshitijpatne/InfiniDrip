@@ -1,0 +1,11 @@
+{
+  "expectedRevision": 3942,
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01/V02 are Done; S459 accepts seven recipes, 73 configurations and 146 faces. Preserve V02-before-V03, legacy DXF and protected output identities. V03 remains In Progress. DGS S667 AutoCAD/Design loses units, geometry, identities and layers; S668 approved /2 ASTM/AAMA Pattern import returns blank/0; S669 native ASTM export contains metadata text only after DGS reports invalid control name and outside-border grainline, and its self-import returns blank/0. No DGS profile gate passes; no normative claim. S670 may correct only those exact native-control validator conditions from first-party instructions, then one valid control export/self-import; otherwise retire DGS. Continue with existing CLO evidence. Grainline /2 is approved; no maintainer decision is pending. Preserve all-seven/options/grades, fixed thresholds, rights, readable output, final review, PR, safe merge, ancestry and deployment. No physical-fit, factory-acceptance or production-readiness claim. See S669 gate matrix and completion plan."
+  },
+  "role": "maintainer",
+  "epicId": "EPIC-17",
+  "type": "editEpic",
+  "actor": "Codex",
+  "reason": "Close S669: native DGS control was invalid and its single ASTM export/self-import contained no pattern geometry."
+}
