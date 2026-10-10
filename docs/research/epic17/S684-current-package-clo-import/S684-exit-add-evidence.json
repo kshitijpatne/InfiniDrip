@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4051,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S684-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S684-current-package-clo-import/S684-exit-packet.md",
+    "verified": true,
+    "note": "One hash-pinned S681 Polo M file was imported/exported once in the existing CLO Standard route. The actual output retained centimeter-sized coordinates but changed INSUNITS from centimeters to millimeters; stop-on-first-miss prevented reopening. This is one measured failure, not a broad profile or standards conclusion; all V03 gates and acceptance remain unchanged."
+  }
+}

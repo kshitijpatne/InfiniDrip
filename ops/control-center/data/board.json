@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4049,
-  "updatedAt": "2026-10-10T18:30:14.546Z",
+  "revision": 4053,
+  "updatedAt": "2026-10-10T18:47:44.904Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13077,6 +13077,16 @@
           "at": "2026-10-10T18:30:14.546Z",
           "actor": "Codex",
           "text": "S683 prepared the current S681 Polo M DXF with matching source/copy SHA-256 under the named C: folder. CLO launched and exposed one window, but the computer-use bridge returned `failed to activate captured window` twice after one refreshed retry. No receiver action or output occurred; this is not evidence of a CLO or exporter failure. All V03 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-10T18:36:51.053Z",
+          "actor": "Codex",
+          "text": "S684 continues the exact current S681 Polo M package import already scoped in S683, using the existing CLO 2026.1.310 Standard DXF route. Import only the hash-pinned fixture from the named C: folder; export/reopen only if import clears every applicable gate. Stop on the first measured miss. No new software, format/mode variation, source change, or acceptance relaxation."
+        },
+        {
+          "at": "2026-10-10T18:47:44.904Z",
+          "actor": "Codex",
+          "text": "S684 closed after one current Polo M CLO Standard DXF import/export. The exported DXF declares millimeters while retaining centimeter-sized coordinates, a measured 10x unit-label mismatch; the failed output was not reopened. No new application, mode, encoding, source change, threshold or acceptance relaxation. Inspect repository-owned source unit handling next; keep G04-V03 In Progress and all remaining gates."
         }
       ],
       "evidenceRefs": [
@@ -13562,7 +13572,9 @@
         "E-G04-S682-START",
         "E-G04-S682-EXIT",
         "E-G04-S683-START",
-        "E-G04-S683-EXIT"
+        "E-G04-S683-EXIT",
+        "E-G04-S684-START",
+        "E-G04-S684-EXIT"
       ],
       "flagKey": null
     },
@@ -26347,6 +26359,24 @@
       "sha256": null,
       "verified": true,
       "note": "S683 hash-verified the current S681 Polo M package in the C: exchange folder, but the Windows computer-use bridge failed to activate CLO twice. No import/export occurred; no V03 gate or product defect is claimed."
+    },
+    {
+      "id": "E-G04-S684-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S684-current-package-clo-import/S684-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S684 continues the already-admitted, single current S681 Polo M check in the existing CLO Standard route. It preserves all V03 gates and stops on the first measured miss; no app, format, mode, or settings variation is planned."
+    },
+    {
+      "id": "E-G04-S684-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S684-current-package-clo-import/S684-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One hash-pinned S681 Polo M file was imported/exported once in the existing CLO Standard route. The actual output retained centimeter-sized coordinates but changed INSUNITS from centimeters to millimeters; stop-on-first-miss prevented reopening. This is one measured failure, not a broad profile or standards conclusion; all V03 gates and acceptance remain unchanged."
     }
   ]
 }

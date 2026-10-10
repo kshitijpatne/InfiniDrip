@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4050,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S684 continues the exact current S681 Polo M package import already scoped in S683, using the existing CLO 2026.1.310 Standard DXF route. Import only the hash-pinned fixture from the named C: folder; export/reopen only if import clears every applicable gate. Stop on the first measured miss. No new software, format/mode variation, source change, or acceptance relaxation."
+}

@@ -1,3 +1,28 @@
+## EPIC-17 / G04 — S684 closed; CLO output unit mismatch recorded
+
+S684 started 2026-10-10 18:36:33 UTC from clean S683 commit
+`47da60e14c1293b847117cececde1ef6b7a6cc38`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+The current S681 Polo M package was imported and exported once in the existing
+CLO 2026.1.310 Standard DXF route. The exported file retained centimeter-sized
+coordinate values but declared millimeters (source `$INSUNITS=5`; output
+`$INSUNITS=4`), so a receiver honoring the saved unit label would read the
+pattern ten times smaller. The output was not reopened after this first measured
+miss. One Polo M observation does not pass or reject the entire CLO candidate
+or any broad V03 gate. V03 remains In Progress; V01/V02 remain Done.
+
+Packet: `docs/research/epic17/S684-current-package-clo-import/S684-exit-packet.md`.
+Board start/exit revisions are 4049→4051 and 4051→4053. DXF, manifest, and
+parsed report remain only in `C:\G04-CAD-Interchange\S683-current-package-clo-roundtrip\`
+and `C:\G04-CAD-Interchange\S684-current-package-clo-import\`. Next inspect
+the repository's source unit declaration and package verifier, then make only
+an evidence-backed source correction or document the candidate's failed unit
+gate. Do not install or switch CAD applications. All seven recipes/options/
+grades, malformed-input, repeatability, marks, full geometry, readability,
+rights/profile and V03 acceptance remain incomplete. Final full coverage,
+integrated output review, PR, safe merge, ancestry and required deployment
+remain pending.
+
 ## EPIC-17 / G04 — S683 closed; current-package CLO attempt could not reach workspace
 
 S683 reserved the next unique slice after refreshing Git and board state. The
