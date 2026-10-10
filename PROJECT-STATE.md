@@ -1,6 +1,30 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 649 closed; next route decision is external
+## EPIC-17 / G04 — Slice 650 closed; GetonAgain desktop evaluation authorized conditionally
+
+S650 screened first-party GetonAgain product/free/online pages. The
+downloadable Free Version is a different route from the explicitly online
+edition; the latter remains excluded. The maintainer confirms written
+product-development-use and local DXF handling permission, and conditionally
+authorizes installing/running only if the desktop edition is genuinely free
+and necessary. The official Free Version page labels it free; the CLO route
+has concrete failures and generic R14 is not an eligible apparel profile, so
+this is the only remaining concrete local candidate. This reported permission
+is not an independent legal opinion. Exact installed version, dialect/sidecar
+contract, and actual local direct-DXF path remain to be verified before any
+fixture import. S650 packet:
+`docs/research/epic17/S650-getonagain-rights-locality-screen/`.
+
+Next: S651 may acquire/install only the official free desktop edition, stop
+if payment or online-only processing is required, and inspect the installed
+manual/input contract. Do not import a fixture until its exact dialect
+matches a source-exact input and the local route is verified. Keep all V03
+gates, holds, all-seven/options/grades, thresholds, legacy DXF and protected
+identities unchanged. The goal remains active through final output review,
+full integrated gate, PR, safe merge, ancestry and any required deployment.
+No physical-fit, factory-acceptance, or production-readiness claim.
+
+## Prior EPIC-17 / G04 — Slice 649 closed; V03 gate plan recorded
 
 S649 reconciles all V03 gates against source, actual receiver output, renders,
 and current packets. Its matrix and shortest stop-first plan are linked under

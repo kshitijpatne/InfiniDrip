@@ -1,5 +1,23 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — GetonAgain free desktop evaluation authorization (2026-10-10)
+
+The maintainer confirms they have written confirmation that GetonAgain may be
+used for this product-development evaluation and that its DXF handling may
+remain local. They authorize acquiring/installing/running the official
+GetonAgain Garment CAD Free Version only if it is genuinely free and necessary.
+The official Free Version page labels a downloadable free desktop route. It is
+necessary to test only after the other concrete route, CLO 2026.1.310, failed
+repeated Polo geometry/mark/negative-input checks and generic OpenCAD R14 was
+shown insufficient as an industrial apparel profile. Stop if the official
+download requires payment or its DXF path is online-only. Verify exact installed
+build, input dialect and local DXF route before importing any G04 fixture.
+This permission does not select/qualify a profile or relax any G04 gate, and
+is not an independent legal opinion. Keep files under a named C: exchange
+folder; do not use the separately advertised GetonAgain online version.
+Official product/free/online pages and S650 evidence are in
+`docs/research/epic17/S650-getonagain-rights-locality-screen/`.
+
 ## EPIC-17/G04 — GetonAgain candidate is not yet authorized (S647)
 
 First-party GetonAgain materials identify Garment CAD V2024.1 as apparel CAD

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3742,
-  "updatedAt": "2026-10-09T23:58:50.634Z",
+  "revision": 3746,
+  "updatedAt": "2026-10-10T00:03:15.112Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -12378,6 +12378,16 @@
           "at": "2026-10-09T23:58:50.634Z",
           "actor": "Codex",
           "text": "S649 reconciles every V03 gate and sets a no-churn completion plan. None is passed by reviewer opinion: Codex verified the matrix against source and output evidence. CLO 2026.1.310 modes are vendor-specific experiments only; tested Polo geometry and malformed/mark behavior fail, so that permutation family is stopped. Generic OpenCAD is not industrial profile proof. GetonAgain remains ineligible until rights/local DXF handling, install/run authorization, and exact input dialect/sidecar contract are verified. No new experiment is reserved. See E-G04-S649-EXIT and its linked matrix/plan/review. All acceptance, holds, legacy output and protected identities remain unchanged."
+        },
+        {
+          "at": "2026-10-10T00:01:56.466Z",
+          "actor": "Codex",
+          "text": "S650 screens only official GetonAgain evidence for route rights and direct-DXF locality. No receiver variation or fixture test is reserved; do not import the prepared fixture until product-use rights, local processing, and explicit install/run authorization are established."
+        },
+        {
+          "at": "2026-10-10T00:03:15.112Z",
+          "actor": "Codex",
+          "text": "S650 closes the GetonAgain rights/locality route screen. The maintainer confirms written product-use/local-DXF permission and conditionally authorizes the official Free Version desktop install only if free and necessary. Online edition excluded. Next S651: install/inspect exact build and input contract; verify actual local DXF path before any fixture import. All V03 gates and holds remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -12784,7 +12794,9 @@
         "E-G04-S648-START",
         "E-G04-S648-EXIT",
         "E-G04-S649-START",
-        "E-G04-S649-EXIT"
+        "E-G04-S649-EXIT",
+        "E-G04-S650-START",
+        "E-G04-S650-EXIT"
       ],
       "flagKey": null
     },
@@ -24696,6 +24708,24 @@
       "sha256": null,
       "verified": true,
       "note": "Current gate-by-gate V03 status and prioritized completion plan reconcile S640–S648 actual output, source and render evidence; one bounded read-only GPT-6.1 Sol high review completed and Codex verified corrections. No candidate/profile selected: CLO is vendor-specific empirical only and fails repeated Polo CUT/malformed/mark gates; GetonAgain rights/locality/install and input dialect remain preconditions. All gates, all-seven scope, holds, thresholds, legacy DXF and protected identities unchanged. Older 9–14 / 3–6+3–5 estimates stale; conditional path is 3–5 V03 plus 2–3 final slices only after eligible pilot passes."
+    },
+    {
+      "id": "E-G04-S650-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S650-getonagain-rights-locality-screen/S650-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reserves S650 for a read-only first-party rights/locality screen of the GetonAgain desktop/free versus online route. No download, install, registration, vendor contact, or fixture import. Preserve S649 gates, all-seven scope and holds."
+    },
+    {
+      "id": "E-G04-S650-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S650-getonagain-rights-locality-screen/S650-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Official GetonAgain pages distinguish free downloadable desktop from excluded online route. Maintainer confirms written product-use/local-DXF permission and conditionally authorizes install/run only if free and necessary. No candidate/profile qualifies yet; actual build, local path and dialect remain pre-import gates."
     }
   ]
 }

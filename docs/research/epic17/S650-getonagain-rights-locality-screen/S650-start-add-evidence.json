@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3742,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S650-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S650-getonagain-rights-locality-screen/S650-start-packet.md",
+    "verified": true,
+    "note": "Reserves S650 for a read-only first-party rights/locality screen of the GetonAgain desktop/free versus online route. No download, install, registration, vendor contact, or fixture import. Preserve S649 gates, all-seven scope and holds."
+  }
+}

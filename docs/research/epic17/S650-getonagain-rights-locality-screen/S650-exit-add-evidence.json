@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3744,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S650-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S650-getonagain-rights-locality-screen/S650-exit-packet.md",
+    "verified": true,
+    "note": "Official GetonAgain pages distinguish free downloadable desktop from excluded online route. Maintainer confirms written product-use/local-DXF permission and conditionally authorizes install/run only if free and necessary. No candidate/profile qualifies yet; actual build, local path and dialect remain pre-import gates."
+  }
+}
