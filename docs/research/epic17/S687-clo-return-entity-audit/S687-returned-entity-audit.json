@@ -1,0 +1,248 @@
+{
+  "source": {
+    "path": "C:/G04-CAD-Interchange/S683-current-package-clo-roundtrip/polo-default-M.dxf",
+    "sha256": "a3d8284d3f8e379b6aef2a90a736da660a56c8c7c4be997db7d5c9deebd78c6c"
+  },
+  "receiver": {
+    "path": "C:/G04-CAD-Interchange/S684-current-package-clo-import/polo-default-M-clo-roundtrip.dxf",
+    "sha256": "f54d6f3c221d8478e13fdae703f0e69d466882962620fb2bc4014becd5fbe180"
+  },
+  "s685Report": {
+    "path": "C:/G04-CAD-Interchange/S684-current-package-clo-import/S685-dxf-comparison.json",
+    "sha256": "4c2ce7c9d8dcaf8a4788948c6539498aba19ebe0f47ff5c535c273226a41dd9b"
+  },
+  "totalReturnedBlockCount": 11,
+  "returnedPieceBlockCount": 9,
+  "returnedPieceEntityCounts": {
+    "LWPOLYLINE": 125
+  },
+  "returnedBlockTypedMarkEntityCounts": {
+    "LINE": 0,
+    "POINT": 0,
+    "CIRCLE": 0
+  },
+  "s685UnmatchedCount": 8,
+  "s685Misses": [
+    {
+      "sourceEntityOrdinal": 4,
+      "sourceType": "LINE",
+      "sourceLayer": "MARK_CUTLINE",
+      "sourceGeometry": {
+        "start": {
+          "x": 1,
+          "y": 66.468
+        },
+        "end": {
+          "x": 1,
+          "y": 52.468
+        }
+      },
+      "returnedPieceBlock": "0_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 16
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 16,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 13.038417465328568
+    },
+    {
+      "sourceEntityOrdinal": 20,
+      "sourceType": "POINT",
+      "sourceLayer": "MARK_BUTTONHOLE",
+      "sourceGeometry": {
+        "at": {
+          "x": 124.788,
+          "y": 71.242
+        }
+      },
+      "returnedPieceBlock": "4_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 14
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 14,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 1.4999790000000104
+    },
+    {
+      "sourceEntityOrdinal": 21,
+      "sourceType": "POINT",
+      "sourceLayer": "MARK_BUTTONHOLE",
+      "sourceGeometry": {
+        "at": {
+          "x": 124.788,
+          "y": 67.742
+        }
+      },
+      "returnedPieceBlock": "4_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 14
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 14,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 1.4999790000000104
+    },
+    {
+      "sourceEntityOrdinal": 22,
+      "sourceType": "POINT",
+      "sourceLayer": "MARK_BUTTONHOLE",
+      "sourceGeometry": {
+        "at": {
+          "x": 124.788,
+          "y": 64.242
+        }
+      },
+      "returnedPieceBlock": "4_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 14
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 14,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 1.4999790000000104
+    },
+    {
+      "sourceEntityOrdinal": 79,
+      "sourceType": "LINE",
+      "sourceLayer": "MARK_NOTCH",
+      "sourceGeometry": {
+        "start": {
+          "x": 147.932,
+          "y": 59.194
+        },
+        "end": {
+          "x": 148.001,
+          "y": 58.8
+        }
+      },
+      "returnedPieceBlock": "5_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 13
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 13,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 0.8971733480771679
+    },
+    {
+      "sourceEntityOrdinal": 87,
+      "sourceType": "LINE",
+      "sourceLayer": "MARK_NOTCH",
+      "sourceGeometry": {
+        "start": {
+          "x": 165.575,
+          "y": 59.194
+        },
+        "end": {
+          "x": 165.645,
+          "y": 58.8
+        }
+      },
+      "returnedPieceBlock": "6_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 13
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 13,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 0.8961512573511018
+    },
+    {
+      "sourceEntityOrdinal": 93,
+      "sourceType": "LINE",
+      "sourceLayer": "MARK_NOTCH",
+      "sourceGeometry": {
+        "start": {
+          "x": 168.575,
+          "y": 63.944
+        },
+        "end": {
+          "x": 168.575,
+          "y": 63.544
+        }
+      },
+      "returnedPieceBlock": "7_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 12
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 12,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 0.8161679619453589
+    },
+    {
+      "sourceEntityOrdinal": 101,
+      "sourceType": "LINE",
+      "sourceLayer": "MARK_NOTCH",
+      "sourceGeometry": {
+        "start": {
+          "x": 188.175,
+          "y": 63.944
+        },
+        "end": {
+          "x": 188.175,
+          "y": 63.544
+        }
+      },
+      "returnedPieceBlock": "8_M",
+      "returnedBlockEntityCounts": {
+        "LWPOLYLINE": 12
+      },
+      "sameTypeReturnedEntities": 0,
+      "returnedDrawablePaths": 12,
+      "returnedLayerNames": [
+        "1",
+        "14",
+        "7",
+        "8"
+      ],
+      "sourceSemanticLayerPresent": false,
+      "closestReturnedGeometryDistanceCm": 0.8161589638967309
+    }
+  ],
+  "conclusion": "The pinned returned piece blocks contain LWPOLYLINE entities only; they contain no returned LINE, POINT, or CIRCLE entities that the earlier polyline-only mark search could have overlooked. Each of the eight reported marks remains farther than 0.001 cm from returned drawable geometry. This confirms the measured misses for this saved CLO output; it does not identify a source-writer cause or generalize to other receiver routes."
+}

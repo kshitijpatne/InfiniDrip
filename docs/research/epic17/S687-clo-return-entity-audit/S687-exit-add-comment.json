@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4064,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S687 confirms the eight S685 mark failures exist in the exact saved CLO return; the comparator did not skip a returned typed mark entity. The pinned return has nine piece blocks with 125 polylines and zero LINE/POINT/CIRCLE entities. No source-code or acceptance change is supported, and no new app/import/export trial was run. All V03 and final gates remain open."
+}

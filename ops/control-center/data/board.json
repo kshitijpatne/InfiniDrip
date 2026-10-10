@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4061,
-  "updatedAt": "2026-10-10T19:06:24.326Z",
+  "revision": 4065,
+  "updatedAt": "2026-10-10T19:18:33.237Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13107,6 +13107,16 @@
           "at": "2026-10-10T19:06:24.326Z",
           "actor": "Codex",
           "text": "S686 is closed. The exact source package writes centimeters correctly; measured receiver returns change or omit units and have distinct geometry/mark losses. No safe source-code fix is supported by this evidence. The bounded Sol review confirmed C04's version-matched sidecar allowance for grade, piece identity and seam relations; S685 did not test a returned sidecar, so CLO identity remains unproven. No maintainer decision or further software trial is pending. V03 acceptance and thresholds remain unchanged."
+        },
+        {
+          "at": "2026-10-10T19:14:01.858Z",
+          "actor": "Codex",
+          "text": "S687 checks the eight measured S685 mark misses against every entity type in the saved receiver drawing and verifies the pinned hashes. This is a read-only diagnostic for a possible comparison-logic defect; it does not authorize another app operation, export variant, or acceptance change."
+        },
+        {
+          "at": "2026-10-10T19:18:33.237Z",
+          "actor": "Codex",
+          "text": "S687 confirms the eight S685 mark failures exist in the exact saved CLO return; the comparator did not skip a returned typed mark entity. The pinned return has nine piece blocks with 125 polylines and zero LINE/POINT/CIRCLE entities. No source-code or acceptance change is supported, and no new app/import/export trial was run. All V03 and final gates remain open."
         }
       ],
       "evidenceRefs": [
@@ -13598,7 +13608,9 @@
         "E-G04-S685-START",
         "E-G04-S685-EXIT",
         "E-G04-S686-START",
-        "E-G04-S686-EXIT"
+        "E-G04-S686-EXIT",
+        "E-G04-S687-START",
+        "E-G04-S687-EXIT"
       ],
       "flagKey": null
     },
@@ -26437,6 +26449,24 @@
       "sha256": null,
       "verified": true,
       "note": "Updated V03 matrix reconciles S685 CLO output, S674 LibreCAD R12, prior DGS/OpenCAD evidence, and C04 sidecar allowance. No tested receiver meets all fixed gates; no code change or acceptance change is supported. V03 and all final gates remain open."
+    },
+    {
+      "id": "E-G04-S687-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S687-clo-return-entity-audit/S687-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Audit all eight S685 unmatched marks against every entity in the exact hash-pinned CLO return to rule out a comparator omission; no application or new export operation."
+    },
+    {
+      "id": "E-G04-S687-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S687-clo-return-entity-audit/S687-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All-entity audit of the pinned S685 CLO return found only 125 LWPOLYLINEs in nine piece blocks and no typed LINE/POINT/CIRCLE marks; all eight reported mark misses remain outside 0.001 cm. No comparator omission or safe exporter correction is established."
     }
   ]
 }

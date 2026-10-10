@@ -1,4 +1,17 @@
-## EPIC-17 / G04 — Slice 686 active
+## EPIC-17 / G04 — Slice 687 closed
+
+S687's all-entity audit confirms the eight S685 mark misses in the exact saved
+CLO output: nine piece blocks contain 125 LWPOLYLINEs and no LINE/POINT/CIRCLE
+entities. The comparison logic did not overlook a returned typed mark. No
+production code or new export trial is justified by this result. Start and
+exit packets, helper and report:
+`docs/research/epic17/S687-clo-return-entity-audit/S687-start-packet.md`,
+`docs/research/epic17/S687-clo-return-entity-audit/S687-exit-packet.md`,
+`docs/research/epic17/S687-clo-return-entity-audit/inspect-returned-mark-entities.mjs`,
+and `docs/research/epic17/S687-clo-return-entity-audit/S687-returned-entity-audit.json`.
+Current authoritative progress is in `PROJECT-STATE.md`.
+
+## EPIC-17 / G04 — Slice 686 closed
 
 S686 reconciles every fixed V03 gate against the S682 matrix and the exact
 S685 CLO Standard DXF input/return comparison, then documents one prioritized

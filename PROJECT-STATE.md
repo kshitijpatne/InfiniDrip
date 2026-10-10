@@ -1,3 +1,28 @@
+## EPIC-17 / G04 — S687 closed; S685 mark misses confirmed in saved CLO output
+
+S687 audited the exact hash-pinned source, CLO return and S685 report. The nine
+returned piece blocks contain 125 LWPOLYLINE entities and zero LINE, POINT, or
+CIRCLE entities. All eight previously reported marks remain outside `0.001
+cm`; no comparator omission or safe source-code repair is established. The
+reproducible audit and exact hashes are in
+`docs/research/epic17/S687-clo-return-entity-audit/`.
+
+Started 2026-10-10 19:09:53 UTC from clean S686 `a6543cf1`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Validated board start/exit revisions and focused checks are in the S687 exit
+packet. `npm run control-center:test` passed 42/42; helper syntax and its
+hash-pinned run passed; `git diff --check` passed. No product source, legacy
+export, or protected identity changed. G04-V03 and EPIC-17 remain In Progress;
+all acceptance and final gates remain unchanged.
+
+No maintainer decision is pending. The next action is not another encoding
+trial: continue only if a source-specific defect or a different already
+available qualifying receiver/profile is supported by evidence. Otherwise the
+current measured receiver failures cannot be repaired safely by changing our
+source blindly. Start/exit packets:
+`docs/research/epic17/S687-clo-return-entity-audit/S687-start-packet.md` and
+`docs/research/epic17/S687-clo-return-entity-audit/S687-exit-packet.md`.
+
 ## EPIC-17 / G04 — S686 closed; no tested receiver meets V03
 
 S686 started 2026-10-10 18:55:01 UTC from clean S685 commit `ef9cf0c4`;
