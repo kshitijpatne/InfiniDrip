@@ -1,0 +1,11 @@
+{
+  "reason": "Record the newly verified official DGS update sequence and keep G04-V03 blocked pending the actual updated receiver route.",
+  "actor": "Codex",
+  "epicId": "EPIC-17",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission and official GetonAgain Free desktop evaluation. The maintainer signed in manually to GMS V2024.1, a blank nesting workspace: its local File→Open dialog accepts Marker File (*.mkr), not DXF; Output Auto CAD dxf is disabled without a marker. DGS.exe V2023.1 Pattern Design & Grading failed to expose a window/process once. The official package contains a dated DGS upgrade bundle and its install note specifies MPVCI 2.7 followed by that upgrade; exact cause of the DGS launch failure remains unproven. No fixture or DXF was exchanged. Next: follow the already-authorized official DGS update sequence while preserving rollback files; stop at any Windows security prompt. Then verify the new build and local DXF route before any fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S656 packet: docs/research/epic17/S656-dgs-module-launch-diagnosis/S656-exit-packet.md."
+  },
+  "type": "editEpic",
+  "role": "maintainer",
+  "expectedRevision": 3783
+}

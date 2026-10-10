@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3778,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S656-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S656-dgs-module-launch-diagnosis/S656-start-packet.md",
+    "verified": true,
+    "note": "Begins one read-only inspection of the official DGS companion bundle and launch metadata; no install or fixture operation."
+  }
+}
