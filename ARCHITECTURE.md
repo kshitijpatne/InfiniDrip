@@ -840,11 +840,14 @@ and [Slice 239 revision evidence](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S
 The existing DXF download remains the protected legacy output: its coordinates
 use centimeters but the file does not declare units. `exportDxfCentimeters`
 is a separate, non-default serialization candidate that adds a centimeter
-header while preserving the legacy entity body when called without recipe mark
-rules. When those rules are supplied, it additionally writes the same resolved
-notch ticks and double-ended grainline marks as `MARK_NOTCH` and
-`MARK_GRAINLINE` entities in the candidate only. It is not wired to the UI or
-selected as an apparel-CAD profile; no receiver compatibility is claimed.
+header and writes coordinates to six decimal places so serialization error
+stays well below the fixed `0.001 cm` exchange contour gate. When recipe mark
+rules are supplied, it additionally writes resolved notch ticks and
+double-ended grainline marks as `MARK_NOTCH` and `MARK_GRAINLINE` entities.
+The protected legacy `exportDxf` remains at its existing three-decimal
+precision and its recorded byte identities are unchanged. The candidate is
+not wired to the UI or selected as an apparel-CAD profile; no receiver
+compatibility is claimed.
 `createDxfInterchangePackage` produces a separate versioned JSON manifest for
 recipe/piece roles, selected size and grade, options, stitch relationships,
 and explicit centimeter units verified against `$INSUNITS=5`. Its SHA-256
@@ -867,7 +870,11 @@ allowance and sew geometry; the source pattern and legacy DXF writer are
 unchanged. The version-2 package remains verifiable for existing artifacts.
 The visible DXF mark is still required; this companion record identifies it
 but does not replace it or prove that a receiver retains either file. See the
-S693 evidence packet for rendered comparison and the fixed-coverage results.
+S693 and S697 evidence packets for rendered comparison and the fixed-coverage
+results. S697 measured maximum coordinate-rounding displacement of
+`0.000000703 cm` for the six-decimal candidate, down from `0.000701219 cm` at
+three decimals; this addresses source precision only and does not resolve the
+measured receiver geometry/mark failures or qualify a receiver/profile.
 
 The project also keeps reference export files. Tests compare new exports with
 those references so a change to one view or tool does not silently alter

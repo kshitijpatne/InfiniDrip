@@ -1,4 +1,19 @@
-## Current EPIC-17 / G04 V03 boundary — S696 closed; CLO Standard retired
+## Current EPIC-17 / G04 V03 boundary — S697 closed; source precision fixed
+
+S697 fixes the opt-in DXF candidate's coordinate rounding: the measured
+maximum two-axis serialization displacement on Polo M falls from
+`0.000701218851 cm` to `0.000000702921 cm`, below the unchanged `0.001 cm`
+receiver threshold. Legacy DXF identities are unchanged. Focused package
+coverage passes for all seven recipes, grade rows and 73 canonical options;
+changed-module coverage is 100%, and the actual candidate was rendered and
+reviewed. No receiver was retested, and no receiver/profile gate is promoted.
+Read `PROJECT-STATE.md` and
+`docs/research/epic17/S697-candidate-precision/S697-exit-packet.md` plus its
+gate delta. V03 remains unaccepted/Blocked; EPIC-17 and its goal remain active.
+The fixed acceptance, all-seven scope, cleanup, full integrated gate, PR,
+merge, ancestry and production end-to-end requirements remain unchanged.
+
+## Prior EPIC-17 / G04 V03 boundary — S696 closed; CLO Standard retired
 
 S696 used the exact S693 candidate and found six failing CUT contours plus
 three misplaced buttonhole anchors in CLO Standard. All nine SEW contours and

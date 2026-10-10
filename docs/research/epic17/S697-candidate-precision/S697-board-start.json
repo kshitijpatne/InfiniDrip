@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4124,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-G04-S697-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S697-candidate-precision/S697-start-packet.md",
+    "verified": true,
+    "note": "S697 fixes the measured candidate-only DXF coordinate precision loss while preserving the legacy writer and all fixed V03 gates. No receiver trial or acceptance change is planned."
+  }
+}

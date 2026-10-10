@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4124,
-  "updatedAt": "2026-10-10T23:03:28.357Z",
+  "revision": 4126,
+  "updatedAt": "2026-10-10T23:13:35.602Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13786,7 +13786,9 @@
         "E-G04-S696-EXIT",
         "E-G04-S696-MATRIX",
         "E-G04-S696-PLAN",
-        "E-G04-S696-SOL-REVIEW"
+        "E-G04-S696-SOL-REVIEW",
+        "E-G04-S697-START",
+        "E-G04-S697-EXIT"
       ],
       "flagKey": null
     },
@@ -26940,6 +26942,24 @@
       "sha256": null,
       "verified": true,
       "note": "Bounded read-only Sol review verified S696 gate evidence and rejected the proposed LibreCAD rerun because its already documented generic-CAD profile cannot satisfy the admitted industrial/apparel gate."
+    },
+    {
+      "id": "E-G04-S697-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S697-candidate-precision/S697-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S697 fixes the measured candidate-only DXF coordinate precision loss while preserving the legacy writer and all fixed V03 gates. No receiver trial or acceptance change is planned."
+    },
+    {
+      "id": "E-G04-S697-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S697-candidate-precision/S697-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Candidate-only DXF coordinate precision is corrected and rendered; all focused gates pass. No receiver/profile acceptance gate passes from this source-side correction. Preserve all V03 holds and the active EPIC/goal."
     }
   ]
 }

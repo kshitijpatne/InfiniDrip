@@ -6,10 +6,9 @@ import { flattenPiece, layoutPieces, polylineBounds } from "./layout";
 import { resolveNotch } from "../render/notch";
 
 describe("exportDxfCentimeters", () => {
-  it("declares centimeter units and preserves the existing DXF body byte-for-byte", () => {
+  it("declares centimeter units in the opt-in candidate", () => {
     const recipe = garmentByName("polo");
     const pieces = blockPieces(draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft));
-    const legacy = exportDxf(pieces, recipe.allowances);
     const declared = exportDxfCentimeters(pieces, recipe.allowances);
     const header =
       "0\nSECTION\n2\nHEADER\n" +
@@ -17,10 +16,32 @@ describe("exportDxfCentimeters", () => {
       "9\n$INSUNITS\n70\n5\n" +
       "0\nENDSEC\n";
 
-    expect(declared).toBe(`${header}${legacy}`);
-    expect(declared.slice(header.length)).toBe(legacy);
+    expect(declared.startsWith(header)).toBe(true);
     expect(declared).toContain("2\nENTITIES");
     expect(declared.trimEnd().endsWith("0\nEOF")).toBe(true);
+  });
+
+  it("keeps candidate outline and construction-mark coordinates finer than the contour gate", () => {
+    const recipe = garmentByName("tee");
+    const sourcePieces = blockPieces(draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft));
+    const button = {
+      kind: "button" as const,
+      name: "precision-test-button",
+      at: { x: 1.23456789, y: 2.34567891 },
+    };
+    const pieces = [{ ...sourcePieces[0]!, marks: [button] }, ...sourcePieces.slice(1)];
+    const cuts = pieces.map((piece) => flattenPiece(piece, recipe.allowances).cut);
+    cuts[0] = [
+      { x: 0.123456789, y: 0.234567891 },
+      { x: 4.234567891, y: 0.234567891 },
+      { x: 4.234567891, y: 6.345678912 },
+      { x: 0.123456789, y: 6.345678912 },
+    ];
+    const output = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches, cuts);
+
+    expect(output).toContain("10\n5.111111\n");
+    expect(output).toContain("0\nCIRCLE\n8\nMARK_BUTTON\n10\n2.111111\n");
+    expect(output).not.toContain("10\n5.111\n");
   });
 
   it("carries each recipe's live notches and grainlines on typed DXF layers", () => {
@@ -53,7 +74,7 @@ describe("exportDxfCentimeters", () => {
     const dy = placedBounds.minY - originalBounds.minY;
     const notch = resolveNotch(piece, table.notches[0]);
     const end = { x: notch.point.x - notch.normal.x * 0.4, y: notch.point.y - notch.normal.y * 0.4 };
-    const number = (value: number) => (Math.round(value * 1000) / 1000).toString();
+    const number = (value: number) => (Math.round(value * 1_000_000) / 1_000_000).toString();
     const expected = `0\nLINE\n8\nMARK_NOTCH\n10\n${number(notch.point.x + dx)}\n20\n${number(layout.height - (notch.point.y + dy))}\n11\n${number(end.x + dx)}\n21\n${number(layout.height - (end.y + dy))}\n`;
 
     expect(exportDxfCentimeters(pieces, recipe.allowances, recipe.notches)).toContain(expected);

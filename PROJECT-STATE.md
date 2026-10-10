@@ -1,3 +1,32 @@
+## EPIC-17 / G04 — S697 closed; candidate DXF precision corrected
+
+S697 identifies a source-side serialization defect: the opt-in centimeter
+candidate rounded coordinates to 0.001 cm, the same size as the full receiver
+contour tolerance. Candidate geometry and marks now retain six decimal places;
+the protected legacy `exportDxf` remains at its established three-decimal
+output. On the exact Polo M fixture, maximum measured two-axis serialization
+displacement falls from 0.000701218851 cm to 0.000000702921 cm. Seven-recipe,
+grade and 73-option package tests pass; changed-module coverage is 100% for
+statements, branches, functions and lines, and actual generated output was
+rendered and inspected. Full evidence is in
+`docs/research/epic17/S697-candidate-precision/` and external artifacts remain
+under `C:\G04-CAD-Interchange\S697-candidate-precision\`.
+
+This improves our emitted file precision only. No receiver was retested:
+S696's CLO Standard return still fails six CUT contours and three button
+stations, and no already available qualifying apparel/industrial profile is
+evidenced. V01/V02 remain Done, V03 remains unaccepted/Blocked, EPIC-17 remains
+In Progress and the goal remains active. No acceptance, fixed threshold,
+all-seven requirement, legacy output or protected identity changed. The full
+integrated gate, final necessary-file cleanup review, PR, safe merge, ancestry
+and required production end-to-end verification remain due.
+
+S697 started 2026-10-10 23:07:54 UTC from clean S696 `7ae407cce73caa76fff3cb08bc47ab67a28d43d5`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Validated board start/exit replay, focused coverage and exact rendered hashes
+are recorded in the S697 packet. No full repository gate or receiver operation
+was run.
+
 ## EPIC-17 / G04 — S696 closed; CLO Standard route retired after measured return failure
 
 S696 completed the planned CLO setting diagnostic on the exact S693 Polo M

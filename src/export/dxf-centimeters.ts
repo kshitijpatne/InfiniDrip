@@ -10,12 +10,12 @@ const CENTIMETER_HEADER =
   "9\n$ACADVER\n1\nAC1015\n" +
   "9\n$INSUNITS\n70\n5\n" +
   "0\nENDSEC\n";
-const num = (value: number): string => (Math.round(value * 1000) / 1000).toString();
+const num = (value: number): string => (Math.round(value * 1_000_000) / 1_000_000).toString();
 
 /**
- * Add explicit centimeter units to the legacy DXF entity stream without
- * changing its entity body. This generic serialization helper is not an
- * apparel-CAD profile or a compatibility claim.
+ * Write a non-default centimeter DXF candidate with finer coordinate
+ * precision. The protected legacy export remains separate and unchanged.
+ * This generic serializer is not an apparel-CAD profile or compatibility claim.
  */
 export function exportDxfCentimeters(
   pieces: readonly Piece[], allowance: AllowanceSpec,
@@ -25,7 +25,7 @@ export function exportDxfCentimeters(
   if (cutOutlines && cutOutlines.length !== pieces.length) {
     throw new Error("DXF cut outline count must match its piece count");
   }
-  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance, cutOutlines);
+  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance, cutOutlines, 6);
   if (notchTables.length === 0) return output;
 
   const byPiece = new Map<string, PieceNotches>();

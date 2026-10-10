@@ -15,7 +15,10 @@ import { polylineBounds } from "./layout";
 import { patternMarksDxf, translatePatternMarks } from "./pattern-mark";
 import { outlinePoints } from "../render";
 
-const num = (n: number): string => (Math.round(n * 1000) / 1000).toString();
+const num = (n: number, coordinateDecimals: 3 | 6): string => {
+  const scale = 10 ** coordinateDecimals;
+  return (Math.round(n * scale) / scale).toString();
+};
 
 /** One DXF (group code, value) pair: two lines. */
 function pair(code: number, value: string | number): string {
@@ -23,11 +26,11 @@ function pair(code: number, value: string | number): string {
 }
 
 /** A closed POLYLINE entity on `layer`, with y flipped to CAD's up-axis. */
-function polyline(pts: Polyline, layer: string, height: number): string {
+function polyline(pts: Polyline, layer: string, height: number, coordinateDecimals: 3 | 6): string {
   let out = pair(0, "POLYLINE") + pair(8, layer) + pair(66, 1) + pair(70, 1);
   for (const p of pts) {
     out += pair(0, "VERTEX") + pair(8, layer) +
-      pair(10, num(p.x)) + pair(20, num(height - p.y));
+      pair(10, num(p.x, coordinateDecimals)) + pair(20, num(height - p.y, coordinateDecimals));
   }
   return out + pair(0, "SEQEND");
 }
@@ -35,6 +38,7 @@ function polyline(pts: Polyline, layer: string, height: number): string {
 /** A minimal DXF of the pieces: cut lines on layer CUT, sew lines on layer SEW. */
 export function exportDxf(
   pieces: readonly Piece[], allowance: AllowanceSpec, cutOutlines?: readonly Polyline[],
+  coordinateDecimals: 3 | 6 = 3,
 ): string {
   if (cutOutlines && cutOutlines.length !== pieces.length) {
     throw new Error("DXF cut outline count must match its piece count");
@@ -53,8 +57,9 @@ export function exportDxf(
       const placedBounds = polylineBounds(p.cut);
       const marks = translatePatternMarks(original.marks,
         placedBounds.minX - originalBounds.minX, placedBounds.minY - originalBounds.minY);
-      return polyline(p.cut, "CUT", layout.height) + polyline(p.sew, "SEW", layout.height) +
-        patternMarksDxf(marks, layout.height);
+      return polyline(p.cut, "CUT", layout.height, coordinateDecimals) +
+        polyline(p.sew, "SEW", layout.height, coordinateDecimals) +
+        patternMarksDxf(marks, layout.height, coordinateDecimals);
     })
     .join("");
   return pair(0, "SECTION") + pair(2, "ENTITIES") + entities +
