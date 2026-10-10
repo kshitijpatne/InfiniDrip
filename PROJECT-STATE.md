@@ -1,3 +1,32 @@
+## EPIC-17 / G04 — S690 closed; S691 gate reconciliation next
+
+Slice 690 tested one LibreCAD 2.2.1.5 DXF 2000 import/export using the exact
+hash-pinned Polo M fixture. Output AC1015 / `$INSUNITS=5` preserves all 18
+CUT/SEW paths exactly at 0.001 cm, all 38 typed marks, and all eight semantic
+layers; the exact saved file cleanly reopened and rendered. LibreCAD represented
+the source `POLYLINE`s as equivalent `LWPOLYLINE`s; a C:-only copy of the S674
+analyzer was extended to compare that representation and exclude it from the
+typed-mark set. No product source or acceptance gate changed. This remains a
+single generic-CAD fixture observation, not an industrial apparel profile or
+standards claim.
+
+S690 exit packet:
+`docs/research/epic17/S690-librecad-r2000-unit-check/S690-exit-packet.md`.
+DXF input/output, analyzer copy, JSON report and rendered captures are confined
+to `C:\G04-LibreCAD-Exchange\S690-librecad-r2000-unit-check\`. Piece/revision/
+grade identity, all-seven recipes and supported options/grades, malformed
+input, repeatability, complete readable output and industrial-profile
+qualification remain unproven. G04-V03 and EPIC-17 remain In Progress; V01/V02
+Done; all acceptance and final gates unchanged.
+Validated board start/exit revisions: 4078→4084→4089. Focused Control Center
+suite passes 42/42; its stale current-status expectations were aligned to the
+In Progress board record, with historical acceptance holds unchanged.
+
+Next action: reserve S691 after refreshed Git/board verification; reconcile
+each V03 gate against source, receiver output, render evidence and S690, write
+the shortest evidence-led completion plan, then request the already authorized
+bounded read-only Sol high-reasoning review before another receiver experiment.
+
 ## EPIC-17 / G04 — S689 closed; CLO mm pilot fixes units only
 
 S689 completed the one controlled CLO Standard DXF millimeter-input test. The

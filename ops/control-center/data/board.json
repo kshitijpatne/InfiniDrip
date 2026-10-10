@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4078,
-  "updatedAt": "2026-10-10T20:11:24.854Z",
+  "revision": 4089,
+  "updatedAt": "2026-10-10T21:02:10.697Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -764,7 +764,9 @@
         "E-G04-S672-EXIT",
         "E-G04-S673-START",
         "E-G04-S673-EXIT",
-        "E-G04-S674-START"
+        "E-G04-S674-START",
+        "E-EPIC17-S690-START",
+        "E-EPIC17-S690-EXIT"
       ]
     },
     {
@@ -4966,6 +4968,16 @@
           "at": "2026-10-10T17:07:38.066Z",
           "actor": "Codex",
           "text": "S675 confirms the V03 receiver/profile entry is blocked by the absence of an evidenced rights-cleared apparel CAD route with explicit units. G04-V03 is Blocked; EPIC-17 remains In Progress. No acceptance changed. The admitted goal is not complete; resume V03 after the specific receiver access or owner-approved criterion decision recorded in E-G04-S675-EXIT."
+        },
+        {
+          "at": "2026-10-10T20:54:36.039Z",
+          "actor": "Codex",
+          "text": "S690 tests one measured R12 unit-header gap using the existing LibreCAD route and exact Polo M fixture. It makes no production change and does not waive any admitted G04 gate; full V01/V02/V03 completion and safe merge remain the objective."
+        },
+        {
+          "at": "2026-10-10T21:02:10.697Z",
+          "actor": "Codex",
+          "text": "S690 produced a partial single-fixture DXF 2000 exchange result with no production-source change. EPIC-17 remains In Progress; G04 acceptance, final review, 100% repository gate, PR, safe merge, ancestry and deployment checks remain."
         }
       ],
       "evidenceRefs": [
@@ -5429,7 +5441,9 @@
         "E-EPIC17-S663-EXIT",
         "E-EPIC17-S664-START",
         "E-EPIC17-S664-EXIT",
-        "E-EPIC17-S665-START"
+        "E-EPIC17-S665-START",
+        "E-EPIC17-S690-START",
+        "E-EPIC17-S690-EXIT"
       ],
       "flagKey": null
     },
@@ -10712,7 +10726,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Blocked",
+      "status": "In Progress",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10826,6 +10840,16 @@
           "evidenceRefs": [
             "E-G04-S689-EXIT",
             "E-G04-S689-ROUTE-DECISION"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-10T20:54:35.555Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "S690 begins one evidence-backed check of the only direct unit-header miss in the existing LibreCAD exact-fixture pilot; all other V03 gates remain unchanged.",
+          "evidenceRefs": [
+            "E-G04-S690-START"
           ]
         }
       ],
@@ -13169,6 +13193,16 @@
           "at": "2026-10-10T20:11:23.257Z",
           "actor": "Codex",
           "text": "S689 proves mm input fixes CLO returned units for this Polo M pilot, and 9/9 SEW paths pass. It still drops five CUT vertices (0.012742–0.013969 cm) and misses eight visible marks; generic blocks/numeric layers replace source identity, and readable output is unproven. No causal source-code fix exists. CLO Standard is rejected; G04-V03 returns to Blocked with fixed acceptance unchanged. See S689 exit and route decision."
+        },
+        {
+          "at": "2026-10-10T20:54:35.792Z",
+          "actor": "Codex",
+          "text": "S690 is limited to the installed LibreCAD 2.2.1.5 route and exact S671 Polo M fixture. S674 R12 preserved 18/18 CUT/SEW paths, 38/38 typed marks and all eight layers, but omitted the centimeter unit declaration. One DXF 2000 save tests that distinct unit gate and rechecks the same direct geometry/mark invariants. Stop at the first miss; no other format/setting trial or acceptance change. No standards claim. See the S690 start packet."
+        },
+        {
+          "at": "2026-10-10T21:02:09.495Z",
+          "actor": "Codex",
+          "text": "S690 passed the measured unit, contour, mark, layer, clean re-open and limited render checks on one exact Polo M fixture using LibreCAD 2.2.1.5 DXF 2000. Identity, all-seven/options/grades, malformed input, repeatability, full readability and industrial apparel profile remain unproven; no V03 gate is waived. Next: S691 full gate reconciliation and prioritized plan before another receiver test. See S690 exit packet."
         }
       ],
       "evidenceRefs": [
@@ -13668,7 +13702,9 @@
         "E-G04-S688-GATE-MATRIX",
         "E-G04-S689-START",
         "E-G04-S689-EXIT",
-        "E-G04-S689-ROUTE-DECISION"
+        "E-G04-S689-ROUTE-DECISION",
+        "E-G04-S690-START",
+        "E-G04-S690-EXIT"
       ],
       "flagKey": null
     },
@@ -26579,6 +26615,42 @@
       "sha256": null,
       "verified": true,
       "note": "Complete S689 V03 gate reconciliation, actual hash-pinned evidence, CLO route rejection, and bounded completion path; no acceptance changes."
+    },
+    {
+      "id": "E-G04-S690-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S690-librecad-r2000-unit-check/S690-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One existing LibreCAD 2.2.1.5 DXF 2000 save of the exact S671 fixture, targeting only the R12 unit-header failure; no geometry, marks, thresholds, or V03 acceptance changes."
+    },
+    {
+      "id": "E-EPIC17-S690-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S690-librecad-r2000-unit-check/S690-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S690 is a bounded unit-header check on the already tested local LibreCAD route; all admitted EPIC-17 V01/V02/V03 and merge gates remain in force."
+    },
+    {
+      "id": "E-G04-S690-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S690-librecad-r2000-unit-check/S690-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One exact Polo M LibreCAD 2.2.1.5 DXF 2000 exchange retained centimeter units, 18/18 exact contours, 38/38 marks and eight layers; clean re-open/render observed. Remaining V03 gates unchanged; see exit packet."
+    },
+    {
+      "id": "E-EPIC17-S690-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S690-librecad-r2000-unit-check/S690-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S690 records a partial single-fixture LibreCAD DXF 2000 result only; no product behavior or V03 acceptance changed. Full Epic and merge gates remain."
     }
   ]
 }
