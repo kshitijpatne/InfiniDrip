@@ -1,3 +1,24 @@
+## EPIC-17 / G04 — Slice 660 reviewed closeout; DGS pilot remains next
+
+The two bounded read-only Sol high reviews returned WORK FINISHED and their
+corrections are recorded in the S660 plan/matrix. DGS `VID:20250610` and GMS
+are open, with no sign-in dialog; both documents are blank. No fixture has
+been exchanged. S648's actual source is the generic AC1014 DXF at
+`C:\G04-CLO-DXF-Exchange\S648-getonagain-fixture-preflight\Input\polo-m-idr-profile-r14-first.dxf`
+(153,647 bytes, SHA-256
+`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`). A
+read-only `dxf-parser@1.1.2` check recovers nine piece INSERTs, 11 blocks and
+56 nested entities. The next bounded empirical hypothesis is this input via
+DGS `AUTOCAD` import; that mode choice is not a compatibility or standards
+claim. Settings, numeric parser comparison, actual renders, C04 sidecar gap,
+RUL/sew-line limitation, failure scope, and stop conditions are explicit in
+`docs/research/epic17/S660-primary-profile-contract-search/`. Preserve every
+V03 gate, `0.001 cm`, all-seven/options/grades, legacy DXF and protected byte
+identities. G04-V03 is In Progress because the next bounded test is actionable;
+no technical V03 gate passed. S660 review reconciliation and validated board
+revision are recorded in its exit packet. The validated board is revision
+3838; focused Control Center tests pass 42/42 and `git diff --check` passes.
+
 ## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
 
 MPVCI V2.7 and Microsoft VC++ 2010 x64/x86 10.0.40219 are registered. S659

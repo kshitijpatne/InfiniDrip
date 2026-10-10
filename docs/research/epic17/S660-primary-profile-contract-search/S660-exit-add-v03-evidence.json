@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 3823,
+  "evidence": {
+    "id": "E-G04-S660-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-exit-packet.md",
+    "verified": true,
+    "note": "Primary search found no receiver-specific contract; DGS remains untested. Sign-in is complete; plan selects one pinned empirical route without standards claims."
+  }
+}

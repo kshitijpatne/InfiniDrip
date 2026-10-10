@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 3820,
+  "evidence": {
+    "id": "E-G04-S660-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S660-primary-profile-contract-search/V03-GATE-RECONCILIATION-S660.md",
+    "verified": true,
+    "note": "Refreshes every V03 gate using S640, S659 actual DGS, and S660 primary sources; reports remaining proof and shared causes."
+  }
+}

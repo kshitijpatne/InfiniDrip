@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3817,
-  "updatedAt": "2026-10-10T07:21:27.140Z",
+  "revision": 3838,
+  "updatedAt": "2026-10-10T07:42:58.736Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission and official GetonAgain Free desktop evaluation. GMS V2024.1 is user-authenticated but is a blank nesting workspace; its observed local Open route accepts Marker File (*.mkr), not DXF, and Output Auto CAD dxf is disabled without a marker. DGS V2023.1 Pattern Design & Grading did not expose a window on one launch. The official package specifies MPVCI 2.7 then its DGS upgrade. Rollback copies are recorded, but one MPVCI setup attempt left two live installer processes with no targetable window or completion/error state; the DGS archive was not applied. No fixture exchange occurred. Next: maintainer inspects the desktop and resolves the visible MPVCI installer state; after installation, apply DGS update and inspect local DXF dialogs without a fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S657 packet: docs/research/epic17/S657-dgs-official-update/S657-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. The user reports signing in; direct inspection found DGS and GMS open without a sign-in dialog, each with an empty document. S660's two bounded read-only Sol high reviews are complete. The next hypothesis is one generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD import; it is not a documented profile match or compatibility claim. S660 pins the source hash, settings, independent DXF parsing/rendered evidence method, C04 sidecar requirement, RUL/sew-line limitation, and stop conditions. Keep every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance, or production-readiness claim. Current packet: docs/research/epic17/S660-primary-profile-contract-search/.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -730,7 +730,9 @@
         "E-EPIC17-S658-START",
         "E-EPIC17-S658-EXIT",
         "E-EPIC17-S659-START",
-        "E-EPIC17-S659-EXIT"
+        "E-EPIC17-S659-EXIT",
+        "E-EPIC17-S660-START",
+        "E-EPIC17-S660-EXIT"
       ]
     },
     {
@@ -3259,7 +3261,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. Written product-development/local-DXF permission and official GetonAgain Free evaluation are recorded. MPVCI V2.7 and Microsoft VC++ 2010 x64/x86 10.0.40219 are registered. The official hash-pinned DGS 20250610 bundle was applied with all 15 S657 rollback files verified; updated DGS launches and Help/About reports VID:20250610 while file version remains 2023.1.0.0. File→Import DXF is enabled with a local .dxf picker; modes are ASTM/AAMA, TIIP, AutoCAD. File→Export DXF is disabled with an empty workspace. The first-party manual and observed dialogs do not define the exact entity/layer/identity/sidecar contract; no fixture was imported and no V03 gate clears. Next: resolve a profile-specific contract from primary evidence before one source-matched pilot. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven/options/grades, 0.001 cm geometry, all technical gates and claim boundaries. S659 packet: docs/research/epic17/S659-dgs-update-and-route-check/S659-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Preserve V02-before-V03, legacy DXF behavior and protected export identities. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while its technical acceptance gates remain unpassed. GetonAgain DGS VID:20250610 and GMS are open past sign-in; both documents are empty. S660's two bounded read-only Sol high reviews are complete. Next is one falsifiable empirical hypothesis: the hash-pinned generic AC1014 S648 Polo M DXF through DGS AUTOCAD import. This does not establish a documented apparel profile or compatibility claim. S660 records exact settings, independent DXF parser/render comparison, C04 sidecar gap, manual RUL/sew-line limitation, and stop conditions. No technical V03 gate passes. Preserve all existing acceptance, 0.001 cm, all-seven/options/grades, final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. See docs/research/epic17/S660-primary-profile-contract-search/.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4752,6 +4754,26 @@
           "at": "2026-10-10T07:21:21.268Z",
           "actor": "Codex",
           "text": "S659 applied the official DGS 20250610 payload after registry verification of MPVCI; all 15 files match the package and S657 rollback remains intact. DGS Help/About reports VID:20250610 and File→Import DXF exposes a local .dxf picker. Export is disabled on an empty workspace. Exact entity/layer/sidecar contract remains unproven, so no fixture was opened and V03 remains blocked."
+        },
+        {
+          "at": "2026-10-10T07:27:41.288Z",
+          "actor": "Codex",
+          "text": "S660 closes the bounded primary profile-contract search. GetonAgain is rights/locality-cleared for bounded evaluation and DGS is open past sign-in, but no fixture has been exchanged. Choose one exact DGS VID:20250610 empirical import route (no ANSI/AAMA or ASTM conformance claim); reconcile gates and stop at the first decisive failure. See the S660 matrix and plan."
+        },
+        {
+          "at": "2026-10-10T07:38:47.317Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 are Done; S459 accepts all seven recipes, 73 configurations and 146 front/back faces. Woven and Polo approved view mappings remain subject to recorded holds; no scope changes. V03 is Blocked on technical exchange acceptance. Rights/local evaluation of GetonAgain Free is authorized and settled. The user reports signing in; direct inspection found DGS and GMS open without a sign-in dialog, each with an empty document. S660's two bounded read-only Sol high reviews are complete. The next hypothesis is one generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD import; it is not a documented profile match or compatibility claim. S660 pins the source hash, settings, independent DXF parsing/rendered evidence method, C04 sidecar requirement, RUL/sew-line limitation, and stop conditions. Keep every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance, or production-readiness claim. Current packet: docs/research/epic17/S660-primary-profile-contract-search/.). Reconcile the canonical Epic handoff with completed S660 reviews and the evidence-bounded next pilot."
+        },
+        {
+          "at": "2026-10-10T07:39:26.450Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven and Polo approved view mappings remain subject to recorded holds; no scope changes. V03 is Blocked on technical exchange acceptance. Rights/local evaluation of GetonAgain Free is authorized and settled. The user reports signing in; direct inspection found DGS and GMS open without a sign-in dialog, each with an empty document. S660's two bounded read-only Sol high reviews are complete. The next hypothesis is one generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD import; it is not a documented profile match or compatibility claim. S660 pins the source hash, settings, independent DXF parsing/rendered evidence method, C04 sidecar requirement, RUL/sew-line limitation, and stop conditions. Keep every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance, or production-readiness claim. Current packet: docs/research/epic17/S660-primary-profile-contract-search/.). Preserve the canonical board's current V02 acceptance wording while retaining the S660 empirical-profile correction."
+        },
+        {
+          "at": "2026-10-10T07:40:23.053Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. The user reports signing in; direct inspection found DGS and GMS open without a sign-in dialog, each with an empty document. S660's two bounded read-only Sol high reviews are complete. The next hypothesis is one generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD import; it is not a documented profile match or compatibility claim. S660 pins the source hash, settings, independent DXF parsing/rendered evidence method, C04 sidecar requirement, RUL/sew-line limitation, and stop conditions. Keep every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance, or production-readiness claim. Current packet: docs/research/epic17/S660-primary-profile-contract-search/.). Preserve board summary statements asserted by canonical board regression tests while retaining the reviewed S660 route decision."
         }
       ],
       "evidenceRefs": [
@@ -5204,7 +5226,9 @@
         "E-EPIC17-S658-START",
         "E-EPIC17-S658-EXIT",
         "E-EPIC17-S659-START",
-        "E-EPIC17-S659-EXIT"
+        "E-EPIC17-S659-EXIT",
+        "E-EPIC17-S660-START",
+        "E-EPIC17-S660-EXIT"
       ],
       "flagKey": null
     },
@@ -10487,7 +10511,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Blocked",
+      "status": "In Progress",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10505,7 +10529,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor mode label. GetonAgain DGS VID:20250610 now launches after the official 15-file update and verified MPVCI prerequisite. Its direct local File→Import DXF route and `.dxf` filter are visible; ASTM/AAMA, TIIP, AutoCAD modes and unit/text/seam/grade options are exposed. The manual still does not specify entity/layer/identity/sidecar semantics; Export DXF is disabled in the blank workspace. Do not import the generic S648 R14 fixture without a matched source/profile contract. No fixture exchanged; no V03 gate clears. Keep Blocked pending one documented/matched candidate contract and the representative import/export round trip. See docs/research/epic17/S659-dgs-update-and-route-check/S659-exit-packet.md.",
+      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS VID:20250610 exposes local DXF import and has passed the sign-in screen; the current DGS/GMS documents are empty. No GetonAgain fixture has been exchanged, and technical V03 acceptance remains blocked. S660's exact candidate hypothesis is the generic AC1014, hash-pinned S648 Polo M fixture through the DGS AUTOCAD import mode. This is not a documented profile match or compatibility claim. Use the fixed settings and compare source/re-export with independent numeric DXF parsing and actual rendered output; use a verified version-matched C04 sidecar before claiming piece/seam/grade relationships. The manual documents that RUL export omits quilt/sew lines. Do not generalize any result beyond this exact input/build/mode/settings. See docs/research/epic17/S660-primary-profile-contract-search/ and S659's exact build record.",
       "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
       "acceptanceCriteria": [
         "Record current rights and exact receiver/version/profile evidence before selection.",
@@ -10539,6 +10563,16 @@
           "note": "S651 found no targetable installer window after the maintainer-authorized launch; a manual Windows security/elevation prompt must be handled by the maintainer before installation can be verified.",
           "evidenceRefs": [
             "E-G04-S651-EXIT"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-10T07:40:01.056Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "The sign-in and documentary-contract prerequisites no longer prevent action: the user reports signing in, the live DGS/GMS workspaces are open, and S660's reviewed plan authorizes one bounded empirical hypothesis. This status records active testing only; no V03 technical acceptance gate is passed.",
+          "evidenceRefs": [
+            "E-G04-S660-EXIT"
           ]
         }
       ],
@@ -12532,6 +12566,16 @@
           "at": "2026-10-10T07:21:24.001Z",
           "actor": "Codex",
           "text": "S659 verifies GetonAgain DGS VID:20250610 and its direct local DXF import dialog. No import/export occurred; export remains disabled while blank. Exact accepted DXF entity/mark/identity/sidecar contract is still unspecified by the primary manual. All V03 acceptance gates remain unproven and unchanged."
+        },
+        {
+          "at": "2026-10-10T07:27:38.583Z",
+          "actor": "Codex",
+          "text": "S660's primary-source search found no GetonAgain DXF entity/sidecar contract; ASTM menu labeling is not conformance, and D6673's public historical scope excludes piece relationships. The user completed sign-in; DGS is at a blank workspace. Next is one pinned, source-exact empirical DGS ASTM/AAMA pilot, with no standard claim. No technical V03 gate passes; all acceptance remains unchanged."
+        },
+        {
+          "at": "2026-10-10T07:38:59.993Z",
+          "actor": "Codex",
+          "text": "S660's two read-only Sol high reviews returned WORK FINISHED. Corrected handoff: do not require a documentary dialect match before an explicitly bounded falsification test. The next test hypothesis is the hash-pinned generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD mode, with fixed settings; this is not compatibility or standards evidence. Independent dxf-parser@1.1.2 source/re-export comparison and rendered output are required; the C04 relationship sidecar is absent and must be separately bound before identity/grade relationship claims. V03 remains Blocked; no technical gate passed. See the corrected S660 matrix, plan and exit packet."
         }
       ],
       "evidenceRefs": [
@@ -12958,7 +13002,12 @@
         "E-G04-S658-START",
         "E-G04-S658-EXIT",
         "E-G04-S659-START",
-        "E-G04-S659-EXIT"
+        "E-G04-S659-EXIT",
+        "E-G04-S660-START",
+        "E-G04-S660-MATRIX",
+        "E-G04-S660-PLAN",
+        "E-G04-S660-SOURCES",
+        "E-G04-S660-EXIT"
       ],
       "flagKey": null
     },
@@ -25113,6 +25162,69 @@
       "sha256": null,
       "verified": true,
       "note": "Updated official DGS route is operational; exact interchange profile contract remains unproven, so no fixture or V03 acceptance gate clears."
+    },
+    {
+      "id": "E-G04-S660-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins a bounded primary-source check of candidate-specific DXF entity/sidecar semantics; no new receiver trial."
+    },
+    {
+      "id": "E-EPIC17-S660-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded source audit for the one remaining GetonAgain input-profile contract gate."
+    },
+    {
+      "id": "E-G04-S660-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S660-primary-profile-contract-search/V03-GATE-RECONCILIATION-S660.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Refreshes every V03 gate using S640, S659 actual DGS, and S660 primary sources; reports remaining proof and shared causes."
+    },
+    {
+      "id": "E-G04-S660-PLAN",
+      "kind": "document",
+      "uri": "docs/research/epic17/S660-primary-profile-contract-search/V03-COMPLETION-PLAN-S660.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Prioritized single empirical DGS pilot and stop conditions; older estimates marked stale; acceptance unchanged."
+    },
+    {
+      "id": "E-G04-S660-SOURCES",
+      "kind": "document",
+      "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-primary-source-findings.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Records exact primary sources searched and what their published material can and cannot establish; no standards claim."
+    },
+    {
+      "id": "E-G04-S660-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Primary search found no receiver-specific contract; DGS remains untested. Sign-in is complete; plan selects one pinned empirical route without standards claims."
+    },
+    {
+      "id": "E-EPIC17-S660-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Reconciles every V03 gate and selects one user-authorized, version-pinned empirical DGS pilot; no conformance claim or technical acceptance gate passes."
     }
   ]
 }

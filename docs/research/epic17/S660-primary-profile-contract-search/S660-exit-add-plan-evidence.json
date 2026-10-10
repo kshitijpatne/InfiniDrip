@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 3821,
+  "evidence": {
+    "id": "E-G04-S660-PLAN",
+    "kind": "document",
+    "uri": "docs/research/epic17/S660-primary-profile-contract-search/V03-COMPLETION-PLAN-S660.md",
+    "verified": true,
+    "note": "Prioritized single empirical DGS pilot and stop conditions; older estimates marked stale; acceptance unchanged."
+  }
+}

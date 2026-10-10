@@ -1,3 +1,33 @@
+## EPIC-17 / G04 — Slice 660 reviewed closeout; DGS pilot remains next
+
+The user completed sign-in; Computer Use confirms DGS is at a blank CAD
+workspace, with GMS behind it and no sign-in dialog. Rights/local handling
+for bounded evaluation are settled. A focused primary-source search found no
+GetonAgain-specific entity/layer/sidecar contract and no basis for a standards
+claim. The two bounded read-only Sol high reviews returned WORK FINISHED.
+Their reconciled plan selects one falsifiable local DGS `VID:20250610`
+`AUTOCAD` import hypothesis for generic AC1014 input, not an apparel-standard
+profile. The exact S648 fixture is C:-only, 153,647 bytes, SHA-256
+`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`.
+Independent read-only parsing recovered nine piece INSERTs, 11 blocks and 56
+nested entities. Pin settings, compare source with actual re-export at
+`0.001 cm`, inspect rendered output, and bind C04 relations via a verified
+sidecar before claiming identity/grade relations. The manual's RUL export
+omits quilt/sew lines. No DXF fixture has yet been exchanged. G04-V03 is In
+Progress because its next bounded test is actionable; no technical V03 gate
+passes. Preserve all-seven recipes,
+options/grades, `0.001 cm`, C04, legacy DXF and protected output identities.
+Reserve the pilot as S661 after the S660 correction closeout.
+Matrix/plan/source/exit evidence:
+`docs/research/epic17/S660-primary-profile-contract-search/`.
+Board revisions `3817→3820→3838` include the reviewed route and status
+corrections. The focused Control Center suite passes 42/42 and `git diff
+--check` passes; the S660 exit packet records one stale regression assertion,
+the validated board-summary correction, and the successful rerun. The Sol high
+reviews are complete; no production code changed. Full tests/100%
+coverage, build/browser/Electron, final output review, PR, merge ancestry and
+required deployment remain Epic exit gates. No fit/factory/production claim.
+
 ## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
 
 MPVCI V2.7 and Microsoft VC++ 2010 x64/x86 10.0.40219 are registered. S659

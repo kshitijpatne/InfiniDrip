@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3824,
+  "evidence": {
+    "id": "E-EPIC17-S660-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-exit-packet.md",
+    "verified": true,
+    "note": "Reconciles every V03 gate and selects one user-authorized, version-pinned empirical DGS pilot; no conformance claim or technical acceptance gate passes."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 3822,
+  "evidence": {
+    "id": "E-G04-S660-SOURCES",
+    "kind": "document",
+    "uri": "docs/research/epic17/S660-primary-profile-contract-search/S660-primary-source-findings.md",
+    "verified": true,
+    "note": "Records exact primary sources searched and what their published material can and cannot establish; no standards claim."
+  }
+}

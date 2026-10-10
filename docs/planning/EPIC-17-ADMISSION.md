@@ -1,3 +1,28 @@
+## Current EPIC-17 / G04 V03 boundary — S660 reviewed source-search exit
+
+S660 found no primary receiver-specific entity/layer/sidecar contract for
+GetonAgain's ASTM/AAMA menu mode. Public ASTM D6673 material is historical;
+its public summary describes AutoCAD R13 plus a separate ASCII grade table
+and excludes inter-piece relationships, while the ASTM catalogue lists
+D6673-10 withdrawn. Maintainer-authorized rights/local handling are settled;
+the latest direct visual inspection found DGS and GMS open without a sign-in
+dialog, each with an empty document. No DXF has been exchanged. Two bounded
+read-only Sol high reviews returned WORK FINISHED. Their correction is to run
+one falsifiable DGS `VID:20250610` `AUTOCAD` import hypothesis against the
+actual generic AC1014 S648 fixture, not to assume the apparel-labeled mode is
+matched. The fixture is at the C:-only `S648-getonagain-fixture-preflight`
+folder, 153,647 bytes, SHA-256
+`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`.
+Independent `dxf-parser@1.1.2` parsing recovers nine piece INSERTs, 11 blocks
+and 56 nested entities; exact settings, numeric/render measurement, C04
+sidecar requirement, RUL/sew-line limit and stop conditions are in
+`docs/research/epic17/S660-primary-profile-contract-search/`. This is an
+empirical hypothesis only: no ANSI/AAMA or ASTM claim and no V03 technical
+gate has passed. G04-V03 is In Progress because the next bounded test is
+actionable; acceptance and all technical gates remain unchanged. The validated
+board status/summary corrections and focused test result are recorded in the
+S660 exit packet; no production code changed.
+
 **S659 exit:** The user-completed MPVCI prerequisite is verified by registry.
 S659 applied the hash-pinned DGS 20250610 archive after checking every S657
 rollback hash; all 15 installed payloads match the archive and DGS launches.

@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3829,
+  "actor": "Codex",
+  "role": "maintainer",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through V01→V02→V03 and safe merge. V01/V02 are Done for seven recipes, 73 configurations and 146 faces, with existing holds preserved. V03 remains Blocked on technical exchange. GetonAgain DGS VID:20250610 and GMS are open past sign-in; both documents are empty. S660's two bounded read-only Sol high reviews are complete. Next is one falsifiable empirical hypothesis: the hash-pinned generic AC1014 S648 Polo M DXF through DGS AUTOCAD import. This does not establish a documented apparel profile or compatibility claim. S660 records exact settings, independent DXF parser/render comparison, C04 sidecar gap, manual RUL/sew-line limitation, and stop conditions. No technical V03 gate passes. Preserve all existing acceptance, 0.001 cm, all-seven/options/grades, legacy DXF, protected identities, final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. See docs/research/epic17/S660-primary-profile-contract-search/."
+  }
+}

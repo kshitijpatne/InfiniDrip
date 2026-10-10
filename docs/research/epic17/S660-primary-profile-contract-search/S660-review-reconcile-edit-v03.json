@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G04-V03",
+  "expectedRevision": 3830,
+  "actor": "Codex",
+  "role": "maintainer",
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS VID:20250610 exposes local DXF import and has passed the sign-in screen; the current DGS/GMS documents are empty. No GetonAgain fixture has been exchanged, and technical V03 acceptance remains blocked. S660's exact candidate hypothesis is the generic AC1014, hash-pinned S648 Polo M fixture through the DGS AUTOCAD import mode. This is not a documented profile match or compatibility claim. Use the fixed settings and compare source/re-export with independent numeric DXF parsing and actual rendered output; use a verified version-matched C04 sidecar before claiming piece/seam/grade relationships. The manual documents that RUL export omits quilt/sew lines. Do not generalize any result beyond this exact input/build/mode/settings. See docs/research/epic17/S660-primary-profile-contract-search/ and S659's exact build record."
+  }
+}
