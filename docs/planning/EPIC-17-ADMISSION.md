@@ -1,3 +1,16 @@
+**S658 exit:** Reconciled S657's live setup state with a fresh Computer Use
+capture: MPVCI 2.7's Information wizard is visible over GMS and has not
+advanced; no Windows Security/elevation prompt is visible. The prior manual
+sign-in is already recorded at S655; the current GMS view is the blank nesting
+workspace, with no DGS window and no local-DXF route. No DXF fixture was opened.
+The action-time software-install confirmation required by Computer Use is
+pending; no V03 gate clears and all thresholds, seven-recipe scope, holds,
+legacy DXF, protected export identities and claim boundaries remain unchanged.
+Board revision 3806. Start/exit packets:
+`docs/research/epic17/S658-mpvci-visible-state-reconciliation/`.
+Next: after specific action-time approval, click Next once; stop at any Windows
+Security/elevation UI, then verify MPVCI result before the DGS update.
+
 **S652 exact handoff verification:** Started 2026-10-10 00:25:38 UTC from clean S651 `396aa196d612131f4cda1f398ada6f8d5af8385d`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board 3752→3755. Read-only process inspection confirmed two live consent windows named exactly `Garment CAD(GetonAgain Free version).exe is requesting your permission`; no installed-app entry or shortcut exists. Codex did not interact with security UI. The maintainer must approve the matching prompt manually to continue; G04-V03 remains Blocked and all gates/holds are unchanged. S652 start/exit evidence: `docs/research/epic17/S652-getonagain-uac-handoff/`.
 
 **S651 start and acquisition:** From clean S650 `2c7e1f3d`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board `3746→3747→3748→3749` retains V01/V02 Done and V03/EPIC-17 In Progress. Official Free Version package (SHA-256 `859B42DB54D51A948A6524D83FEB7D7F89CE694425FAEFEE4BAD4582EFCCE7E6`) and the 487-page V2024.1 manual (SHA-256 `1AC8D9B390C21E205B94F14C4D08566CDA853974A460995CE5EBDEA752D1514C`) are stored in the C:-only exchange folder and documented in `S651-package-and-manual-findings.md`. Manual pages 239–241 document vendor ASTM/AAMA/AutoCAD options and the base-size drill/buttonhole count limitation in RUL export, but no full entity semantics or normative conformance. Official free software requires phone registration/login. No install or pattern import is verified. The maintainer supplied action-time approval; the launch reached a manual Windows elevation handoff, documented in the appended S651 blocked exit. Setup binaries are unsigned; keep MPVCI held absent evidence of a missing runtime. Full start packet: `docs/research/epic17/S651-getonagain-install-contract/S651-start-packet.md`.

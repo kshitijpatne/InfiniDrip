@@ -1,3 +1,16 @@
+## EPIC-17 / G04 — Slice 658 closed; MPVCI wizard directly observed
+
+S658 reconciled the S657 desktop handoff: the MPVCI 2.7 Information wizard is
+visibly open over GMS, with Next/Cancel and a Visual C++ package removal
+warning. No security prompt is visible; no install action was taken. GMS remains
+on its blank authenticated nesting workspace and DGS is not running. The
+Computer Use policy requires action-time approval before advancing software
+installation; the maintainer's latest message authorized inspection only.
+G04-V03 remains Blocked, V01/V02 Done, with every V03 acceptance gate and
+protected identity unchanged. Next: obtain specific approval to click Next;
+stop at security/elevation UI. Board revision 3806; exit packet
+`docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 657 closed; MPVCI installer needs visible-state handoff
 
 Rollback verified for installed DGS.exe and 14 language resources at `C:\G04-GetonAgain-CAD-Exchange\S657-dgs-official-update\rollback\installed-dgs\`. The documented MPVCI prerequisite was launched once, but the computer-use runtime found no targetable window; two setup processes remain live with no main window, registry completion, event, or error. The DGS update was not applied and no fixture was opened. Do not relaunch, terminate, or update until the maintainer confirms what the desktop shows. G04-V03 remains Blocked; acceptance unchanged. Board revision 3796; exit packet `docs/research/epic17/S657-dgs-official-update/S657-exit-packet.md`.

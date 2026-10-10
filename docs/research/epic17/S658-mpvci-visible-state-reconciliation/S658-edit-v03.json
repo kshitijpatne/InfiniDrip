@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "itemId": "G04-V03",
+  "expectedRevision": 3802,
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. No ANSI/AAMA or ASTM conformance from menu labels. GetonAgain Free remains the active candidate; GMS V2024.1 is authenticated but its observed local Open route accepts Marker File (*.mkr), not DXF, and DXF output is disabled without a marker. DGS V2023.1 has not exposed a CAD window. The official package specifies MPVCI 2.7 then a DGS update; rollback copies are preserved. S658 directly observed the MPVCI Information page visible over GMS; the setup has not advanced because action-time approval for install is pending. No fixture exchanged; all V03 gates remain unproven. Keep Blocked. Next: maintainer approves one Next click; stop at any security/elevation UI; verify prerequisite result, apply official DGS update, then inspect local DXF route without a fixture. See docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md."
+  }
+}

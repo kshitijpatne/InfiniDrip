@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 3800,
+  "evidence": {
+    "id": "E-G04-S658-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md",
+    "verified": true,
+    "note": "Installer state is now directly visible, but action-time install approval is pending. No V03 gate clears."
+  }
+}

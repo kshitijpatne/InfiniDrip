@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3796,
-  "updatedAt": "2026-10-10T06:49:03.244Z",
+  "revision": 3807,
+  "updatedAt": "2026-10-10T06:54:44.025Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -726,7 +726,9 @@
         "E-G04-S502-EXIT",
         "E-EPIC17-S655-EXIT",
         "E-EPIC17-S656-EXIT",
-        "E-EPIC17-S657-EXIT"
+        "E-EPIC17-S657-EXIT",
+        "E-EPIC17-S658-START",
+        "E-EPIC17-S658-EXIT"
       ]
     },
     {
@@ -3255,7 +3257,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission and official GetonAgain Free desktop evaluation. GMS V2024.1 is user-authenticated but is a blank nesting workspace; its observed local Open route accepts Marker File (*.mkr), not DXF, and Output Auto CAD dxf is disabled without a marker. DGS V2023.1 Pattern Design & Grading did not expose a window on one launch. The official package specifies MPVCI 2.7 then its DGS upgrade. Rollback copies are recorded, but one MPVCI setup attempt left two live installer processes with no targetable window or completion/error state; the DGS archive was not applied. No fixture exchange occurred. Next: maintainer inspects the desktop and resolves the visible MPVCI installer state; after installation, apply DGS update and inspect local DXF dialogs without a fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S657 packet: docs/research/epic17/S657-dgs-official-update/S657-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirmed written product-development/local-DXF permission and official GetonAgain Free desktop evaluation. GMS V2024.1 is authenticated and opens to a blank nesting workspace; its observed local Open route is Marker File (*.mkr), not DXF, and Output Auto CAD dxf is disabled without a marker. DGS V2023.1 did not expose a window on one launch. Its official package specifies MPVCI 2.7 then the DGS update; rollback copies are preserved. S658 directly observes the MPVCI Information page visibly open over GMS, with Next/Cancel and the Visual C++ package removal warning. No install was advanced because action-time approval is required; no DGS update or fixture exchange occurred. Next: maintainer approves one Next click; stop at any security/elevation UI, verify MPVCI completion, then apply the official DGS update and inspect local DXF dialogs without a fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S658 packet: docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4738,6 +4740,11 @@
           "at": "2026-10-10T06:49:03.244Z",
           "actor": "Codex",
           "text": "S657: official update attempt is paused with two live MPVCI setup processes and no targetable window/result. Rollback is verified; GMS remains open. No V03 gate clears. Next action is maintainer screen-state inspection; preserve all-seven acceptance and export identities."
+        },
+        {
+          "at": "2026-10-10T06:54:03.281Z",
+          "actor": "Codex",
+          "text": "S658: verified the live MPVCI 2.7 Information wizard is visibly open over GMS, with no security prompt. No setup action, DGS update or fixture exchange occurred. The current screen is the blank authenticated GMS nesting workspace, not a sign-in page. The single next gate is action-time maintainer approval to click Next; all V03 gates remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -5186,7 +5193,9 @@
         "E-EPIC17-S486-START",
         "E-EPIC17-S655-EXIT",
         "E-EPIC17-S656-EXIT",
-        "E-EPIC17-S657-EXIT"
+        "E-EPIC17-S657-EXIT",
+        "E-EPIC17-S658-START",
+        "E-EPIC17-S658-EXIT"
       ],
       "flagKey": null
     },
@@ -10487,7 +10496,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, and readable rendered output; preserve legacy DXF and protected export identities. Do not claim ANSI/AAMA or ASTM conformance from a vendor menu label. GMS V2024.1 is user-authenticated but its observed local Open dialog is Marker File (*.mkr), not DXF; Output Auto CAD dxf is disabled without a marker. Bundled DGS V2023.1 has not exposed a window after launch. Its official package requires MPVCI 2.7 then DGS update. Rollback copies are preserved; an MPVCI setup attempt left two live installer processes without a targetable window or completion/error state. Do not update DGS until the installer state is resolved. No fixture was exchanged and no V03 gate clears. Keep Blocked. Next: maintainer reports the visible installer/security-prompt state; then complete the prerequisite/update and inspect the local DXF route. See docs/research/epic17/S657-dgs-official-update/S657-exit-packet.md.",
+      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. No ANSI/AAMA or ASTM conformance from menu labels. GetonAgain Free remains the active candidate; GMS V2024.1 is authenticated but its observed local Open route accepts Marker File (*.mkr), not DXF, and DXF output is disabled without a marker. DGS V2023.1 has not exposed a CAD window. The official package specifies MPVCI 2.7 then a DGS update; rollback copies are preserved. S658 directly observed the MPVCI Information page visible over GMS; the setup has not advanced because action-time approval for install is pending. No fixture exchanged; all V03 gates remain unproven. Keep Blocked. Next: maintainer approves one Next click; stop at any security/elevation UI; verify prerequisite result, apply official DGS update, then inspect local DXF route without a fixture. See docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md.",
       "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
       "acceptanceCriteria": [
         "Record current rights and exact receiver/version/profile evidence before selection.",
@@ -12504,6 +12513,11 @@
           "at": "2026-10-10T06:49:03.002Z",
           "actor": "Codex",
           "text": "S657 exit: verified rollback copies for installed DGS.exe and all language files. One documented MPVCI launch left two live setup processes but no targetable window, consent process, event, registry install or completion/error message. No DGS update or fixture exchange occurred. Keep Blocked; maintainer must inspect the visible installer state before continuation."
+        },
+        {
+          "at": "2026-10-10T06:54:05.310Z",
+          "actor": "Codex",
+          "text": "S658 reconciles the installer handoff with direct current-screen evidence: MPVCI Information page visible; still awaiting action-time approval to advance install. DGS and all local-DXF/profile/round-trip gates remain unproven; no fixture opened."
         }
       ],
       "evidenceRefs": [
@@ -12926,7 +12940,9 @@
         "E-G04-S656-START",
         "E-G04-S656-EXIT",
         "E-G04-S657-START",
-        "E-G04-S657-EXIT"
+        "E-G04-S657-EXIT",
+        "E-G04-S658-START",
+        "E-G04-S658-EXIT"
       ],
       "flagKey": null
     },
@@ -25009,6 +25025,42 @@
       "sha256": null,
       "verified": true,
       "note": "Records exact current installer handoff state and rollback evidence; V03 remains blocked, all acceptance unchanged."
+    },
+    {
+      "id": "E-EPIC17-S658-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Begins a read-only reconciliation of the S657 GetonAgain installer state; no installation or DXF operation."
+    },
+    {
+      "id": "E-G04-S658-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts read-only MPVCI UI-state reconciliation. V03 gates and candidate status unchanged."
+    },
+    {
+      "id": "E-EPIC17-S658-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Directly reconciles the S657 handoff: MPVCI 2.7 Information page is visible over GMS; no install, DGS update or DXF exchange has occurred."
+    },
+    {
+      "id": "E-G04-S658-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Installer state is now directly visible, but action-time install approval is pending. No V03 gate clears."
     }
   ]
 }

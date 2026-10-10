@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3803,
+  "actor": "Codex",
+  "text": "S658: verified the live MPVCI 2.7 Information wizard is visibly open over GMS, with no security prompt. No setup action, DGS update or fixture exchange occurred. The current screen is the blank authenticated GMS nesting workspace, not a sign-in page. The single next gate is action-time maintainer approval to click Next; all V03 gates remain unchanged."
+}
