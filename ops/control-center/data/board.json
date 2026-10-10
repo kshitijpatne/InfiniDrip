@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3761,
-  "updatedAt": "2026-10-10T01:12:09.441Z",
+  "revision": 3769,
+  "updatedAt": "2026-10-10T06:22:38.302Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized its installation. S651 hash-verified its package/manual; S653 reviewed manual pages 239–241, which document mode/options but not DXF entity/layer/version/mark semantics. Two matching Windows consent prompts remain open; installation, installed build and actual local DXF path are not verified. Do not operate the security UI, create/login to an account, or import a fixture before the installed input contract and local route are confirmed. Next: maintainer manually clears the matching prompt, then verify build and local input path and compare the exact receiver contract to a source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities, all-seven recipes/options/grades, fixed 0.001 cm geometry, marks, identity, malformed-input, repeatability and rendered-output gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S653 packet: docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized installation. The package is installed at C:\\Garment CAD(GetonAgain Free version): GMS.exe is V2024.1 and opens to Sign in/Register; no CAD workspace or DXF path is verified. DGS.exe is V2023.1 Pattern Design & Grading and did not expose a targetable window on one launch attempt. No authentication or pattern exchange occurred. The V2024.1 manual documents user-facing modes/options but not DXF entity semantics or standards conformance. Next: maintainer completes sign-in, then verify the local input route and exact contract before opening a source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S654 packet: docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -3252,7 +3252,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Maintainer authorization for CLO product-development use and local-only file handling is recorded. S595 independently proves five Polo M periodic degree-1 SPLINE inputs source-exact (1,603 samples; 0 cm residual); one CLO 2026.1.310 DXF-AAMA generation returns nine pieces, passes 4/9 CUT and 9/9 SEW, and fails five CUT contours (back, both stands, both pointed collars) under 0.001 cm. The periodic encoding is rejected for this tested receiver; no CLO cause is inferred and no V03 gate clears. See docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md and V03-CURRENT-GATE-MATRIX-S595.md. Next S596 must identify a specific source- and receiver-measurable entity-translation/stage question before another trial. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every rights/profile/identity/semantics/marks/grades/negative/repeated-round-trip gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized installation. The package is installed at C:\\Garment CAD(GetonAgain Free version): GMS.exe is V2024.1 and opens to Sign in/Register; no CAD workspace or DXF path is verified. DGS.exe is V2023.1 Pattern Design & Grading and did not expose a targetable window on one launch attempt. No authentication or pattern exchange occurred. The V2024.1 manual documents user-facing modes/options but not DXF entity semantics or standards conformance. Next: maintainer completes sign-in, then verify the local input route and exact contract before opening a source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S654 packet: docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4695,6 +4695,16 @@
           "at": "2026-10-10T01:12:09.441Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized its installation. S651 hash-verified its package/manual; S653 reviewed manual pages 239–241, which document mode/options but not DXF entity/layer/version/mark semantics. Two matching Windows consent prompts remain open; installation, installed build and actual local DXF path are not verified. Do not operate the security UI, create/login to an account, or import a fixture before the installed input contract and local route are confirmed. Next: maintainer manually clears the matching prompt, then verify build and local input path and compare the exact receiver contract to a source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities, all-seven recipes/options/grades, fixed 0.001 cm geometry, marks, identity, malformed-input, repeatability and rendered-output gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S653 packet: docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md.). Preserve the canonical V02 acceptance clauses pinned by the Control Center regression test while updating the Epic summary to the current S653 boundary."
+        },
+        {
+          "at": "2026-10-10T06:21:52.613Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized installation. The package is installed at C:\\Garment CAD(GetonAgain Free version): GMS.exe is V2024.1 and opens to Sign in/Register; no CAD workspace or DXF path is verified. DGS.exe is V2023.1 Pattern Design & Grading and did not expose a targetable window on one launch attempt. No authentication or pattern exchange occurred. The V2024.1 manual documents user-facing modes/options but not DXF entity semantics or standards conformance. Next: maintainer completes sign-in, then verify the local input route and exact contract before opening a source-exact fixture. Preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, rendered-output readability, legacy DXF behavior and protected export byte identities. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S654 packet: docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md.). Reconcile the Epic record with the verified installation and actual sign-in gate without changing acceptance or scope."
+        },
+        {
+          "at": "2026-10-10T06:22:36.385Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized installation. The package is installed at C:\\Garment CAD(GetonAgain Free version): GMS.exe is V2024.1 and opens to Sign in/Register; no CAD workspace or DXF path is verified. DGS.exe is V2023.1 Pattern Design & Grading and did not expose a targetable window on one launch attempt. No authentication or pattern exchange occurred. The V2024.1 manual documents user-facing modes/options but not DXF entity semantics or standards conformance. Next: maintainer completes sign-in, then verify the local input route and exact contract before opening a source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven recipes/options/grades, fixed 0.001 cm geometry, identity/seams/marks, malformed-input rejection, repeatability, and rendered-output readability. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S654 packet: docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md.). Restore the exact V02-before-V03/export-identity acceptance clause required by the canonical board regression while keeping S654 state current."
         }
       ],
       "evidenceRefs": [
@@ -10441,7 +10451,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Select an industrial CAD receiver/profile only after rights review; prove representative import, export and round-trip behavior.",
+      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, and readable rendered output; preserve legacy DXF and protected export identities. Do not claim ANSI/AAMA or ASTM conformance from a vendor menu label. S654 verifies GetonAgain Free is installed, but GMS.exe V2024.1 opens only to Sign in/Register. No authenticated CAD workspace or direct local DXF path is verified; no fixture was opened. Keep Blocked. Next: maintainer sign-in, then verify the workspace's local DXF route and exact input contract before fixture exchange. See docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md.",
       "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
       "acceptanceCriteria": [
         "Record current rights and exact receiver/version/profile evidence before selection.",
@@ -12438,6 +12448,11 @@
           "at": "2026-10-10T01:10:56.174Z",
           "actor": "Codex",
           "text": "S653 reviewed the verified V2024.1 manual pp. 239-241. ASTM/AAMA and Auto CAD menus are distinct vendor choices; the manual does not define a supported DXF entity/layer/version or metadata contract and limits RUL drill/buttonhole counts to base-size counts. GetonAgain is authorized for bounded evaluation but remains uninstalled/unqualified. Two matching consent prompts remain live; only the maintainer can approve Windows security UI. No V03 gate or hold changed. See docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md."
+        },
+        {
+          "at": "2026-10-10T06:21:51.164Z",
+          "actor": "Codex",
+          "text": "S654 verifies the official package at C:\\Garment CAD(GetonAgain Free version). GMS.exe is V2024.1 and opens to Sign in/Register; no authenticated workspace or direct local DXF route is verified. DGS.exe is V2023.1 Pattern Design & Grading and did not expose a targetable window on one launch attempt. Authentication was not automated and no fixture was opened. Keep V03 Blocked and every acceptance gate unchanged. See docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md."
         }
       ],
       "evidenceRefs": [
@@ -12852,7 +12867,9 @@
         "E-G04-S652-START",
         "E-G04-S652-EXIT",
         "E-G04-S653-START",
-        "E-G04-S653-EXIT"
+        "E-G04-S653-EXIT",
+        "E-G04-S654-START",
+        "E-G04-S654-EXIT"
       ],
       "flagKey": null
     },
@@ -24836,6 +24853,24 @@
       "sha256": null,
       "verified": true,
       "note": "First-party GetonAgain manual pp. 239-241 define user-facing DXF modes/options but not entity semantics. Evaluation is authorized; installed build and actual local input route remain unproven. No V03 gate or hold changed."
+    },
+    {
+      "id": "E-G04-S654-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S654-getonagain-installed-build-gate/S654-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded installed-build/workspace-access check; no credentials, account creation, or pattern exchange."
+    },
+    {
+      "id": "E-G04-S654-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Install/build verified; GMS opens to Sign in/Register, so CAD workspace and local DXF route remain unproven. No V03 gate clears."
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3761,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S654-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S654-getonagain-installed-build-gate/S654-start-packet.md",
+    "verified": true,
+    "note": "Starts a bounded installed-build/workspace-access check; no credentials, account creation, or pattern exchange."
+  }
+}

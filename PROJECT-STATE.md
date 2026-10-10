@@ -1,23 +1,23 @@
 # InfiniDrip — Project State
 
-## EPIC-17 / G04 — Slice 653 closed; GetonAgain DXF contract preflight recorded
+## EPIC-17 / G04 — Slice 654 closed; GetonAgain installed, workspace gated by sign-in
 
-The hash-verified first-party Garment CAD V2024.1 manual (printed pp. 239–241)
-documents distinct ASTM/AAMA, TIIP, and Auto CAD import modes; separate ASTM,
-AAMA, and Auto CAD export modes; unit/base-size/grading/seam/mark controls; and
-an RUL limitation that uses base-size counts when drill/buttonhole counts vary
-by size and omits quilt/sew lines. It does not document the entity/layer/
-version/identity/mark contract required to qualify an industrial profile.
-Maintainer written product-use/local-DXF permission and official free setup
-authorization are settled, but installation and the actual local desktop DXF
-route are not verified. Two matching Windows consent prompts remain live; only
-the maintainer can approve them. No login or pattern import. G04-V03 remains
-Blocked; EPIC-17 In Progress; V01/V02 Done; all acceptance gates and holds
-unchanged. S653 evidence and exact next steps:
-`docs/research/epic17/S653-getonagain-dxf-contract-preflight/`. Validated
-board replay `3755→3761`; focused Control Center tests `42/42` and
-`git diff --check` pass. The Epic card retains its canonical S459/S457
-acceptance wording.
+The official GetonAgain Free desktop package is installed at
+`C:\Garment CAD(GetonAgain Free version)`. `GMS.exe` reports V2024.1 and
+launches to the actual Sign in/Register dialog, so no authenticated CAD
+workspace or direct local-DXF route is verified. `DGS.exe` reports V2023.1
+Pattern Design & Grading and did not expose a targetable window on one launch
+attempt. The package includes `mfc100.dll`, `msvcp100.dll`, and `msvcr100.dll`;
+no missing-runtime evidence supports adding MPVCI. No credentials or account
+action was attempted; no fixture was opened or exchanged. The V2024.1 manual
+still does not specify the entity/layer/version/identity/mark contract or prove
+standards conformance. G04-V03 remains Blocked; EPIC-17 In Progress; V01/V02
+Done; every acceptance gate and hold is unchanged. The maintainer must complete
+sign-in in GetonAgain; then verify its actual local DXF route and exact input
+contract before any fixture. S654 packet:
+`docs/research/epic17/S654-getonagain-installed-build-gate/`. Validated board
+replay `3761→3769`; the focused Control Center suite and `git diff --check`
+passed. No physical-fit, factory-acceptance, or production-readiness claim.
 
 ## EPIC-17 / G04 — Slice 652 closed; exact installer prompt confirmed
 

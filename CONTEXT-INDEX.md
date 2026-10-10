@@ -1,22 +1,22 @@
 # InfiniDrip context index
 
-## EPIC-17 / G04 — Slice 653 closed; official DXF manual contract preflight
+## EPIC-17 / G04 — Slice 654 closed; GetonAgain installed, workspace gated by sign-in
 
-The maintainer-confirmed written product-use/local-file permission and
-official free desktop setup authorization are settled. The V2024.1 manual's
-printed pp. 239–241 documents the visible ASTM/AAMA, TIIP, and Auto CAD import
-modes, separate ASTM/AAMA/Auto CAD export choices, unit/base-size/grade/seam/
-mark options, and the RUL variable-drill/buttonhole limitation. It does not
-specify the DXF entity/layer/version/identity/mark contract or prove standards
-conformance. The app is not installed; two matching Windows consent prompts
-remain live and require the maintainer's manual action. No account or fixture
-was opened. V03 remains Blocked pending install/build/local input-route
-verification, then exact input-contract preflight before pattern import. See
-`docs/research/epic17/S653-getonagain-dxf-contract-preflight/` and its S653
-exit packet. All seven-recipe/options/grades, geometry and mark thresholds,
-malformed-input, repeatability, readable-output, protected-identity and legacy
-DXF gates are unchanged. Board revision 3761 retains the canonical S459/S457
-acceptance summary; focused Control Center tests pass 42/42.
+The official GetonAgain Free desktop package is installed at
+`C:\Garment CAD(GetonAgain Free version)`. `GMS.exe` is V2024.1 and launches
+to the actual Sign in/Register dialog; no authenticated CAD workspace or
+direct local-DXF route is verified. `DGS.exe` is V2023.1 Pattern Design &
+Grading and one launch did not expose a targetable window. No credentials,
+registration, account recovery, fixture, import, or export was attempted. The
+app includes the bundled VC++ 2010 runtime; no evidence supports adding
+MPVCI. V03 remains Blocked and no receiver/profile or standards conformance
+claim is qualified. Next: the maintainer completes sign-in in the app; then
+verify the actual local DXF route and exact input contract before opening any
+source-exact fixture. Keep every V03 gate, all-seven-recipe/options/grades
+scope, V01/V02 completion, legacy DXF behavior, and protected export identity
+unchanged. See `docs/research/epic17/S654-getonagain-installed-build-gate/`.
+Board replay `3761→3769`; focused Control Center tests and diff checks are
+recorded in the S654 exit packet.
 
 ## EPIC-17 / G04 — Slice 652 closed; exact Windows elevation prompt verified
 

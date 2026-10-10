@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 3766,
+  "itemId": "G04-V03",
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, and readable rendered output; preserve legacy DXF and protected export identities. Do not claim ANSI/AAMA or ASTM conformance from a vendor menu label. S654 verifies GetonAgain Free is installed, but GMS.exe V2024.1 opens only to Sign in/Register. No authenticated CAD workspace or direct local DXF path is verified; no fixture was opened. Keep Blocked. Next: maintainer sign-in, then verify the workspace's local DXF route and exact input contract before fixture exchange. See docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md."
+  }
+}

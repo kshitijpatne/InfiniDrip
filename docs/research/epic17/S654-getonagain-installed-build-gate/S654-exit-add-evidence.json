@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3762,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S654-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md",
+    "verified": true,
+    "note": "Install/build verified; GMS opens to Sign in/Register, so CAD workspace and local DXF route remain unproven. No V03 gate clears."
+  }
+}
