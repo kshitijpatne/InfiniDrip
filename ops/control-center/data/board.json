@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4113,
-  "updatedAt": "2026-10-10T22:37:21.754Z",
+  "revision": 4117,
+  "updatedAt": "2026-10-10T22:46:36.525Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13249,6 +13249,11 @@
           "at": "2026-10-10T22:23:28.891Z",
           "actor": "Codex",
           "text": "S693 implemented and verified the candidate-only version-3 adaptive cut geometry; legacy DXF, recipe geometry, allowances and protected bytes remain unchanged. Next is the exact existing CLO Standard route once on the updated Polo M candidate to measure the previously failing cut-geometry gate only. No app/profile/setting variation; independent V03 gates remain open."
+        },
+        {
+          "at": "2026-10-10T22:46:36.525Z",
+          "actor": "Codex",
+          "text": "S695 confirms byte-for-byte source regeneration and localizes the seven failing CUT returns; no source shape correction is supported. One controlled test of Import Draw Curve Points off is next, with all other settings fixed. Any geometry/mark/output failure retires CLO Standard from further trials. Goal remains active; no acceptance changes."
         }
       ],
       "evidenceRefs": [
@@ -13763,7 +13768,10 @@
         "E-G04-S694-START",
         "E-G04-S694-EXIT",
         "E-G04-S694-MATRIX",
-        "E-G04-S694-PLAN"
+        "E-G04-S694-PLAN",
+        "E-G04-S695-START",
+        "E-G04-S695-EXIT",
+        "E-G04-S695-PLAN"
       ],
       "flagKey": null
     },
@@ -26845,6 +26853,33 @@
       "sha256": null,
       "verified": true,
       "note": "Prioritized bounded V03 plan groups the next source/output diagnosis, conditional candidate correction, and remaining route gates with stop conditions; no additional app or test variation."
+    },
+    {
+      "id": "E-G04-S695-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S695-polo-dxf-difference-localization/S695-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S695 is a bounded read-only diagnosis comparing hash-pinned S693 Polo M candidate and S694 actual CLO return at measured CUT maxima. No new CAD operation or acceptance change."
+    },
+    {
+      "id": "E-G04-S695-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S695-polo-dxf-difference-localization/S695-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact S693 Polo M candidate regenerates byte-for-byte; S694 CLO return changes seven CUT paths over the fixed threshold. Four repeated stand/collar misses map to the same source cubic cusp; no product-side shape fix is supported. One precisely bounded import-setting diagnostic is queued; V03 remains unaccepted."
+    },
+    {
+      "id": "E-G04-S695-PLAN",
+      "kind": "document",
+      "uri": "docs/research/epic17/S695-polo-dxf-difference-localization/S695-v03-completion-plan.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One-variable CLO import-control follow-up is tied to the fixed geometry gate, with same-file/settings controls and an explicit stop condition; all other V03 gates and acceptance remain unchanged."
     }
   ]
 }

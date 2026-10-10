@@ -1,14 +1,15 @@
-## Current EPIC-17 / G04 V03 boundary — S694 candidate CUT/mark gates failed
+## Current EPIC-17 / G04 V03 boundary — S695 confirms exact-source CLO CUT loss
 
-S693's source-backed adaptive offset addresses the analytic cusp from S692.
-The exact same CLO Standard DXF route then re-tested the updated Polo M
-candidate once at S694. Units and 9/9 sew contours pass, but 7/9 cut contours
-still exceed `0.001 cm` (maximum `0.039767881 cm`); three buttonhole marks are
-missing and mark types/layers are flattened. The actual return was rendered and
-reviewed. No other app/settings/format variant will be tried. The next slice
-is a read-only source/output diagnosis of the measured cut differences (cause
-unproven) before any candidate encoding correction or receiver operation. Gate update,
-prioritized plan and evidence: `docs/research/epic17/S694-clo-candidate-cut-check/`.
+S695 regenerates the exact S694 Polo M candidate byte-for-byte from current
+source. The CLO return changes seven CUT paths by 0.001035–0.039768 cm, while
+all nine SEW and both placket CUT controls pass. Four repeated maxima map to
+the same source collar/stand cubic and the exact offset cusp; no product-source
+fix is supported. Next is one evidence-backed CLO import-control test, with
+all else fixed; its exact stop condition and remaining V03 gates are in
+`docs/research/epic17/S695-polo-dxf-difference-localization/`. S695 also
+corrects S694's unsupported claim of a saved dialog screenshot. V03 acceptance
+is unchanged; goal stays active; final gate, output review, cleanup, PR, merge,
+ancestry and deployment remain due.
 V03 acceptance remains unchanged; goal stays active; final gate, output review,
 PR hygiene/cleanup, merge, ancestry and deployment remain due.
 ## EPIC-17 / G04 V03 — S689 closed; no CLO Standard route

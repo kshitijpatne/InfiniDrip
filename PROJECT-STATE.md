@@ -1,3 +1,36 @@
+## EPIC-17 / G04 — S695 closed; exact-source diagnosis confirms CLO CUT loss
+
+S695 regenerated S694's exact Polo STANDARD_M size-M/step-0 package from the
+current code; its hash and package revision match the submitted file exactly.
+The S694 CLO return still fails seven CUT contours by 0.001035–0.039768 cm;
+all nine SEW and both placket CUT controls pass. Four shared stand/collar
+maxima map to source cubic `backCollar`/`backCollarBase` at t=0.93468; submitted
+points track the coded offset within 0.00032 cm, while returned paths miss them
+by 0.011–0.040 cm. No source shape/serializer correction is supported. The
+annotated source/return crops and exact measurements are in
+`docs/research/epic17/S695-polo-dxf-difference-localization/`; all diagnostic
+files remain under `C:\G04-CAD-Interchange\S694-clo-candidate-cuts\S695-localization\`.
+
+The one planned next test, S696, changes only the observed CLO import option
+`Import Draw Curve Points` (enabled in S694, disabled in S696); exact source,
+build, Standard DXF mode, units, scale, rotation and all other settings stay
+fixed. It is tied to the same CUT/mark gate and is supported only as a
+discriminating test, not a known fix. If any path/mark fails, or output is
+missing/misleading, stop this CLO Standard route. No more settings/encoding
+trials on that route. S695 also corrected the S694 evidence note: C: contains
+the pre-import session project but no CLO dialog screenshot; recorded settings
+are observations, not image-verified. S696 must visually verify its dialog.
+V01/V02 remain Done; G04-V03 remains unaccepted/Blocked; EPIC-17 and its goal
+remain In Progress/active. S695 start: 2026-10-10 22:38:09 UTC from clean S694
+`ee132a30da9df569da09db6f91902c38fa32f408`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; S695 was unique
+after S694; board start 4113 and S695 start replay 4114. Goal status was
+inspected and left active. Exit and plan evidence were replayed through the
+validated command layer at revisions 4115–4116 and the closeout comment at
+4117. `npm run control-center:test` passed 42/42; `git diff --check` passed.
+No changed production-code coverage applies. Time ledger and commit are in
+S695's exit packet.
+
 ## EPIC-17 / G04 — S694 closed; CLO candidate still fails CUT/mark gates
 
 S694 used the exact S693 adaptive-cut Polo M candidate in the existing CLO

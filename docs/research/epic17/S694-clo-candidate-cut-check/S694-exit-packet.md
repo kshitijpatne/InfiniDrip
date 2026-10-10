@@ -53,7 +53,10 @@ distorting product geometry.
 - CLO import was Standard DXF, millimeter, 100%, no rotation, original grain
   angle, notch position ratio, import-notch-to-both enabled, and draw-curve
   points enabled. Export was Standard DXF, graded nest, millimeter, 100%, no
-  rotation. Full UI capture and preserved session are in the C: folder.
+  rotation. The C: folder contains the pre-import CLO session project but no
+  screenshot/capture of the dialogs; these settings are recorded observations,
+  not image-verified evidence. S695 records this evidence limitation and the
+  next dialog will be visually checked before its single controlled test.
 
 ## Gate disposition
 
