@@ -1,0 +1,11 @@
+{
+  "expectedRevision": 3968,
+  "type": "editEpic",
+  "epicId": "EPIC-17",
+  "role": "maintainer",
+  "actor": "Codex",
+  "reason": "Preserve the canonical V02 evidence sentence required by the board regression while retaining the S670 exit and S671 next step.",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Preserve legacy DXF behavior and protected export identities. S667-S670 retire the tested DGS routes: AutoCAD/Design loses units/geometry/identity/layers, ASTM/AAMA Pattern is blank/0, and a native ASTM export contains ten metadata TEXT entities with zero pattern geometry. S671 reconciles the existing CLO source/output/render matrix and prioritizes only distinct, source-exact changes that can meet unchanged V03 gates; no repeated receiver permutations or acceptance relaxation. The approved /2 grainline convention and all design decisions are settled. Maintain all-seven/options/grades, 0.001 cm, rights, identity/relations, layers/marks, malformed-input, repeatability, readable-output, legacy-DXF, protected-byte, integrated tests/build/browser/output review, PR, safe merge, ancestry and required deployment gates. No ANSI/AAMA/ASTM conformance claim, physical-fit, factory-acceptance or production-readiness claim. Admission: docs/planning/EPIC-17-ADMISSION.md."
+  }
+}

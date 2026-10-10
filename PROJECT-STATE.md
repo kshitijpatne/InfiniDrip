@@ -1,3 +1,24 @@
+## EPIC-17 / G04 — Slice 670 closed; DGS receiver route retired
+
+S670's saved native DGS control produced a 1,223-byte ASTM-menu DXF containing
+10 metadata `TEXT` entities and zero pattern geometry or blocks. The export
+returned without a validator dialog, but the file fails the decisive geometry
+condition, so it was not self-imported and DGS is retired as a V03 candidate.
+The grainline-inside-border correction was not established. Evidence,
+including the C:-only output hash and render, is in
+`docs/research/epic17/S670-dgs-valid-control/`. The validated board closeout
+and focused Control Center test are recorded there. No V03 gate or threshold
+changed. S671 reconciles existing CLO output/source evidence, reuses rather
+than repeats its failed routes, and proposes only an exact-source remediation
+if one can pass the fixed gates. The user-approved `/2` grainline convention
+and all design decisions remain settled. No physical-fit, factory-acceptance,
+or production-readiness claim.
+
+S670 start: 2026-10-10 10:18:18 UTC from `fc21c528`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+Board start revision 3961. See start/exit packet and parse report under
+`docs/research/epic17/S670-dgs-valid-control/`.
+
 ## EPIC-17 / G04 — Slice 669 closed; S670 is the next bounded action
 
 S669 started from S668 `7aacc2d9`, with refreshed `origin/main` an ancestor and board revision 3936. No local DGS sample DXF/RUL was found. One native 10×10 cm rectangle was created; DGS reported `Pattern name, Size:M, grainline is outside the border`: M is the default size, while the validator names the pattern name and outside-border grainline. The one ASTM export is 1,227 bytes and parses as ten metadata TEXT entities with no blocks, geometry, `$ACADVER` or `$INSUNITS`; the exact file's one fresh-document self-import rendered blank/0 patterns. This is not a valid positive control and establishes no passing DGS profile. DGS is retired except one source/manual-backed S670 correction of those exact native validity conditions, followed by one clean validator/export/self-import if supported; otherwise stop DGS and proceed with source-exact CLO evidence. No V03 acceptance gate or hold changes. S669 exit, gate matrix and completion plan: `docs/research/epic17/S669-dgs-native-profile-control/`. Board exit will be validated; DGS/CLO remain open.

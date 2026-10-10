@@ -1,3 +1,14 @@
+## EPIC-17 / G04 — Slice 670 closed; S671 reconciles CLO candidate evidence
+
+S670's single ASTM-menu export from the DGS native control contains 10 metadata
+TEXT entities and zero pattern geometry or blocks. No validator dialog appeared,
+but the output fails the decisive geometry requirement; it was not imported
+again. DGS is retired, with no V03 gate passed and no acceptance changes. The
+grainline correction was not established. S671 next reconciles existing actual
+CLO imports/exports/renders against source-bound geometry and the fixed gates;
+it must not repeat a failed mode/encoding trial. The `/2` grainline convention
+is approved and final. See `docs/research/epic17/S670-dgs-valid-control/`.
+
 ## EPIC-17 / G04 — Slice 669 closed; one manual-backed DGS control remains
 
 S669 found no local DGS DXF/RUL sample. Its one native 10×10 cm control raised DGS's own `Pattern name, Size:M, grainline is outside the border` validator error; the ASTM export parsed as 10 metadata TEXT entities and zero pattern geometry, and its one self-import rendered blank with 0/0 patterns. This malformed control does not reveal a valid profile contract. Together with S667/S668 product-route failures, DGS is retired except for one S670 attempt to correct these exact validator conditions from the installed first-party UI instructions. If no documented native correction exists, stop DGS permanently. Matrix/plan/exit: `docs/research/epic17/S669-dgs-native-profile-control/`. All V03 acceptance and holds remain unchanged; no user decision is pending.

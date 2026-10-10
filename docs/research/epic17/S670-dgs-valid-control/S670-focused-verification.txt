@@ -1,0 +1,25 @@
+Slice 670 focused verification
+UTC: 2026-10-10
+
+Independent DXF group-pair inspection:
+  complete group pairs: 87
+  TEXT entities: 10
+  geometric entities: 0
+  BLOCK entities: 0
+  $ACADVER: absent
+  $INSUNITS: absent
+  asserted expected stop result: pass (no geometry, so no self-import)
+
+Output SHA-256: D90E818ADE839C2B21216247535620BD4988EB71EC5AB726E61933FDEDE11AEE
+Render SHA-256: 68067B47454CC761355D3B2958CAE12482B02E9E74080993B4517C4BF01F4BCE
+
+Focused repository gate:
+  first rerun after board-summary wording change — 41/42; one regression
+  asserted the canonical phrase “S459 accepts all seven recipes, 73 supported
+  configurations and 146 front/back faces”
+  two canonical V02 evidence phrases, including the approved Woven front/back
+  mapping, were preserved with validated editEpic updates; rerun pending below
+  git diff --check — passed
+
+No production code changed; changed-code coverage does not apply.
+  final rerun after preserving canonical Epic wording — 42/42 passed, 0 failed

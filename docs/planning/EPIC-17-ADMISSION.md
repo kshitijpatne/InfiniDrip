@@ -2061,3 +2061,34 @@ CLO evidence. No product fixture is involved in the control. DGS labels imply
 no ANSI/AAMA/ASTM conformance. All V03 acceptance, seven-recipe/options/grade
 scope, thresholds, legacy DXF, protected output identities, holds and final
 merge/deployment gates remain unchanged; no maintainer decision is pending.
+
+## S670 start — approved grainline convention, one native-control validity attempt
+
+Started 2026-10-10 10:18:18 UTC from committed S669 `fc21c528`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor and
+S670 is the next unique slice. The validated board start advances 3956→3961.
+S670 uses the exact version-matched manual (`Garment_CAD_V2024.1_Manual.pdf`,
+SHA-256 `1AC8D9B390C21E205B94F14C4D08566CDA853974A460995CE5EBDEA752D1514C`)
+to locate native piece naming and grainline placement steps and performs at
+most one valid 10×10 cm DGS control exchange. The user's approved `/2`
+grainline convention is final and will not be questioned or reopened. If the
+native validator is clean, export once, parse and import that same DXF once;
+stop the DGS route if any gate fails. Do not use a product DXF or change any
+V03 acceptance. Start packet and controlled files: `docs/research/epic17/S670-dgs-valid-control/` and
+`C:\G04-CLO-DXF-Exchange\S670-dgs-valid-control\`.
+
+## S670 exit — DGS stopped; S671 uses existing CLO evidence
+
+S670 set the native-control Piece Name and performed one ASTM-menu export.
+Although no validator dialog appeared, its exact 1,223-byte output contained
+10 metadata TEXT entities and zero geometry/blocks, so it was not self-imported
+and DGS is retired. S670 did not prove the grainline correction or pass any
+V03 gate. See `docs/research/epic17/S670-dgs-valid-control/S670-exit-packet.md`
+and its hash-bound C:-only evidence. S671 is the next unique slice. Reconcile
+the already-existing CLO outputs and source-bound diagnoses; do not repeat
+failed modes or encodings. Choose an exact-source remediation only if it has a
+measured path to the unchanged `0.001 cm` and semantic gates. If the current
+CLO candidate cannot meet V03, record the specific measured failure and
+smallest technically viable route; preserve all-seven/options/grades and do
+not weaken acceptance. The `/2` grainline convention and all design approvals
+are settled; no approval is pending.
