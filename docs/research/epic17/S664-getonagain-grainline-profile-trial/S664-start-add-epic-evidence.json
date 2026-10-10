@@ -1,0 +1,1 @@
+{"type":"addEvidence","itemId":"EPIC-17","expectedRevision":3875,"evidence":{"id":"E-EPIC17-S664-START","kind":"document","uri":"docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-start-packet.md","verified":true,"note":"Starts one bounded, approved empirical DGS grainline import test; preserves every V03 gate, legacy export behavior and protected bytes."}}

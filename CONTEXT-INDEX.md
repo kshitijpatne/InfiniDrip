@@ -1,16 +1,24 @@
-## EPIC-17 / G04 — Slice 663 verifies source grainlines across seven recipes; approved DGS trial is next
+## EPIC-17 / G04 — Slice 664 DGS grainline trial fails; reconcile V03 evidence next
 
-S663 verified source-rule grainlines against matching CUT contours for all 716
-piece instances in the seven-recipe/73-option S330/S459 M matrix: 358,716
-sampled points are inside their corresponding CUT polygons, with 41 stable
-recipe/role contracts. The reproducible analyzer and full report are in
-`docs/research/epic17/S663-seven-recipe-grainline-source-coverage/`. Maintainer
-approved the bounded source-derived `idr-pattern-exchange/2` trial. Next is
-S664: add the grainline `LINE`s to the hash-pinned Polo M fixture and re-import
-once into the existing DGS `VID:20250610` `AUTOCAD` session/settings. This is
-not a standards claim or gate pass; no V03 acceptance has changed. See
-`PROJECT-STATE.md`, the EPIC-17 admission's current boundary and the S663
-exit packet.
+S664 imported the single approved source-derived `idr-pattern-exchange/2`
+candidate once into DGS `VID:20250610`, AutoCAD mode, using frozen S661
+settings. All nine hash-pinned Polo M pieces loaded, but all nine native
+warnings say `grainline is outside the border`; independent source sampling
+places all 4,509 points inside their matching CUT contours. The receiver-side
+cause is unproven. No export, retry, or mode/entity/format/setting variation
+was attempted. Result image and candidate/source hashes are stored only under
+`C:\G04-CLO-DXF-Exchange\S664-getonagain-grainline-profile-trial\Evidence\`;
+see `docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-exit-packet.md`.
+
+Before another experiment, S665 will reconcile each V03 gate against latest
+source, receiver, rendered, and S664 evidence, group shared causes, and record
+the shortest decisive route and stop conditions. S663 source coverage remains
+7 recipes/73 supported M configurations/716 pieces/358,716 sampled points
+inside matching CUT contours, not grade-matrix receiver qualification.
+`idr-pattern-exchange/2` remains unqualified. No V03 gate passes or acceptance
+changes; preserve all-seven/options/grades, fixed thresholds, legacy DXF,
+protected identities and all holds. No standards-conformance or
+physical/factory/production-readiness claim.
 
 The two bounded read-only Sol high reviews returned WORK FINISHED and their
 corrections are recorded in the S660 plan/matrix. DGS `VID:20250610` and GMS

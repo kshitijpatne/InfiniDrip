@@ -1,23 +1,29 @@
-## EPIC-17 / G04 — Slice 663 verifies source grainlines across seven recipes; approved DGS trial is next
+## EPIC-17 / G04 — Slice 664 DGS grainline trial fails; reconcile V03 evidence next
 
-S663's reproducible study replays the S330/S459 matrix against product source
-at S662 HEAD: all 73 supported design-option configurations across seven
-recipes draft, resolving 716 piece instances and 41 stable recipe/role
-contracts. Every one of 358,716 sampled points on the source-rule grainlines
-falls inside its own flattened CUT polygon at the existing `0.001 cm`
-rounding. This is M-option coverage, not the 35-size grade matrix. See
-`docs/research/epic17/S663-seven-recipe-grainline-source-coverage/`.
+S664 imported the one maintainer-approved source-derived `idr-pattern-exchange/2`
+candidate once into GetonAgain DGS `VID:20250610`, AutoCAD mode, with the frozen
+S661 settings. DGS loaded all nine hash-pinned Polo M pieces but raised its
+native `grainline is outside the border` warning for all nine. Independent
+source verification sampled 4,509 points on the nine added lines and found all
+inside their corresponding CUT contours. The exact vendor profile candidate
+therefore failed the warning-free import check; its cause inside the receiver
+is unproven. No export, retry, alternate format/mode/entity, or setting test
+was performed. Actual screenshot and hashes are in the C:-only
+`S664-getonagain-grainline-profile-trial` evidence folder; durable packet:
+`docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-exit-packet.md`.
 
-At the S663 boundary, the maintainer approved a bounded, source-derived
-`idr-pattern-exchange/2` empirical convention: one `LINE` on `GRAINLINE` in
-each same-identity piece block. S664 will add the grainlines to the
-hash-pinned Polo M fixture and re-import it once through the existing DGS
-`VID:20250610` `AUTOCAD` route/settings. The test succeeds only if all nine
-S661 warnings clear, output is readable, and pre-existing CUT/SEW/marks/units
-remain preserved at `0.001 cm`. This profile is vendor-specific; it is not an
-ASTM/AAMA conformance claim or a V03 pass. Every V03 gate and acceptance
-remains unchanged and unpassed pending actual evidence. See the approved
-decision in `docs/PROJECT-DECISIONS.md` and S663's exit packet.
+S663's broader source study still verifies all 73 supported M-option
+configurations across seven recipes: 716 pieces, 41 stable recipe/role
+contracts, and 358,716/358,716 sampled source-grainline points inside their
+own CUT polygons. This is not the 35-size grade matrix and does not qualify a
+receiver. Before another experiment, S665 will reconcile each V03 gate against
+the latest source, receiver, rendered and S664 evidence, group shared causes,
+and record the shortest decisive route and stop conditions. V03 and EPIC-17
+remain In Progress; every gate, hold, all-seven/options/grades scope, fixed
+threshold, legacy DXF behavior, and protected export byte identity is
+unchanged. `idr-pattern-exchange/2` remains unqualified; no ANSI/AAMA or ASTM
+conformance claim is made. No physical fit, factory acceptance, or production
+readiness claim.
 
 S661 tested one hash-pinned generic AC1014 Polo M fixture with DGS
 `VID:20250610` in `AUTOCAD` mode. The app imported all nine pieces but its

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3874,
-  "updatedAt": "2026-10-10T08:17:51.376Z",
+  "revision": 3884,
+  "updatedAt": "2026-10-10T08:41:59.619Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -737,7 +737,9 @@
         "E-EPIC17-S661-EXIT",
         "E-EPIC17-S662-START",
         "E-EPIC17-S662-EXIT",
-        "E-EPIC17-S663-EXIT"
+        "E-EPIC17-S663-EXIT",
+        "E-EPIC17-S664-START",
+        "E-EPIC17-S664-EXIT"
       ]
     },
     {
@@ -4819,6 +4821,16 @@
           "at": "2026-10-10T08:17:10.591Z",
           "actor": "Codex",
           "text": "S663 establishes source-derived grainline coverage across all seven recipes and 73 supported design-option configurations without production changes. The maintainer approved a narrow empirical DGS trial for one Polo M fixture using idr-pattern-exchange/2. S664 will record actual receiver behavior. No standard-conformance claim or V03 acceptance change; all V03 gates remain pending."
+        },
+        {
+          "at": "2026-10-10T08:19:42.524Z",
+          "actor": "Codex",
+          "text": "S664 is the approved bounded empirical test of the source-derived GRAINLINE block convention in the already-open GetonAgain DGS session. It isolates the exact S661 grainline-warning cause without changing the S648 source fixture, production source, legacy writer or V03 acceptance."
+        },
+        {
+          "at": "2026-10-10T08:41:59.619Z",
+          "actor": "Codex",
+          "text": "S664's bounded approved empirical trial fails warning-free grainline import: DGS reports outside-border for all 9 source-derived grainlines although independent source/CUT sampling verifies each is inside. The exact candidate is not qualified and this does not clear V03 or imply standard conformance. V03 criteria, holds, legacy DXF behavior and protected byte identities are unchanged."
         }
       ],
       "evidenceRefs": [
@@ -5279,7 +5291,9 @@
         "E-EPIC17-S662-START",
         "E-EPIC17-S662-EXIT",
         "E-EPIC17-S663-START",
-        "E-EPIC17-S663-EXIT"
+        "E-EPIC17-S663-EXIT",
+        "E-EPIC17-S664-START",
+        "E-EPIC17-S664-EXIT"
       ],
       "flagKey": null
     },
@@ -12662,6 +12676,16 @@
           "at": "2026-10-10T08:17:10.267Z",
           "actor": "Codex",
           "text": "S663 verifies source-derived grainlines across 7 recipes and 73 supported M-option configurations: 716 piece instances, 41 stable role contracts, and 358,716 sampled points inside their own CUT contours. The maintainer approved one bounded idr-pattern-exchange/2 empirical trial; S664 will add only source-derived GRAINLINE LINEs to the hash-pinned Polo M fixture and re-import once through the frozen DGS route. This approval is not a conformance claim or V03 pass. All acceptance and holds remain. See S663 exit packet."
+        },
+        {
+          "at": "2026-10-10T08:19:42.348Z",
+          "actor": "Codex",
+          "text": "S664 starts the maintainer-approved one-shot DGS import trial for a C:-only copy of the hash-pinned Polo M fixture with exactly the nine source-derived GRAINLINE LINE entities added. It will preserve all original entities and use the unchanged DGS build/mode/settings. No standard-conformance claim or broader V03 gate pass is implied."
+        },
+        {
+          "at": "2026-10-10T08:41:58.061Z",
+          "actor": "Codex",
+          "text": "S664 ran the approved candidate once through DGS VID:20250610 AUTOCAD with frozen S661 settings. All nine pieces loaded and all nine native grainline-outside-border warnings remained. The source-bound candidate check passes but this receiver profile trial fails; no export, retry, alternate mode or setting was tried. No V03 gate clears. Next: reconcile the complete latest V03 matrix and write a grouped, evidence-led stop-first route plan before reserving another candidate."
         }
       ],
       "evidenceRefs": [
@@ -13099,7 +13123,9 @@
         "E-G04-S662-START",
         "E-G04-S662-EXIT",
         "E-G04-S663-START",
-        "E-G04-S663-EXIT"
+        "E-G04-S663-EXIT",
+        "E-G04-S664-START",
+        "E-G04-S664-EXIT"
       ],
       "flagKey": null
     },
@@ -25425,6 +25451,42 @@
       "sha256": null,
       "verified": true,
       "note": "Source-rule coverage proves all-seven/73-option grainline coordinates lie within their matching CUT contours; maintainer-approved empirical profile trial is next. No V03 gate passes or acceptance changes."
+    },
+    {
+      "id": "E-G04-S664-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts one maintainer-approved, bounded DGS AutoCAD-mode re-import of the hash-pinned Polo M fixture with only source-derived grainlines added to the new empirical idr-pattern-exchange/2 trial copy. Existing DXF entities and all V03 acceptance remain unchanged."
+    },
+    {
+      "id": "E-EPIC17-S664-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts one bounded, approved empirical DGS grainline import test; preserves every V03 gate, legacy export behavior and protected bytes."
+    },
+    {
+      "id": "E-G04-S664-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "The one approved idr-pattern-exchange/2 DGS import loads 9/9 Polo M pieces but produces native grainline-outside-border warnings for all 9; source candidate geometry remains inside CUT, so this exact receiver/profile candidate fails its warning-free gate. No V03 gate is cleared and acceptance is unchanged."
+    },
+    {
+      "id": "E-EPIC17-S664-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S664-getonagain-grainline-profile-trial/S664-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S664's single approved DGS grainline trial fails with 9/9 native outside-border warnings despite source-derived lines lying inside their matching CUT contours; candidate not qualified, no V03 acceptance or profile claim."
     }
   ]
 }
