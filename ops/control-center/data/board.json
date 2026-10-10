@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3984,
-  "updatedAt": "2026-10-10T10:51:01.472Z",
+  "revision": 3990,
+  "updatedAt": "2026-10-10T11:23:15.711Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -759,7 +759,9 @@
         "E-G04-S671-PREFLIGHT",
         "E-G04-S671-MATRIX",
         "E-G04-S671-PLAN",
-        "E-G04-S671-EXIT"
+        "E-G04-S671-EXIT",
+        "E-G04-S672-START",
+        "E-G04-S672-EXIT"
       ]
     },
     {
@@ -12892,6 +12894,16 @@
           "at": "2026-10-10T10:51:01.472Z",
           "actor": "Codex",
           "text": "S671 closes at a source-verified boundary. The exact-path derivative is ready and its unit/parser/render checks pass. The actual CLO import was not run because the active computer-use API has no native-app binding (Windows still confirms CLO is running); this is not a receiver result. The next step is one import of the existing C:-only fixture once native app control is exposed. No V03 gate or criterion changed."
+        },
+        {
+          "at": "2026-10-10T10:59:58.319Z",
+          "actor": "Codex",
+          "text": "S672 runs one clean CLO 2026.1.310 Open / Standard DXF import of the exact S671 path-preserving Polo M derivative with the frozen S617 settings. A prior in-memory Add / DXF-AAMA UI misroute is recorded but unscored and will not be treated as the planned result. Compare all nine CUT/SEW contours and all source marks/identities at 0.001 cm and inspect actual rendered whole/detail views. Export only after complete representative input passes. No alternate settings, formats, density variants, or acceptance changes; all remaining V03 gates and holds stay in force. No approval is pending."
+        },
+        {
+          "at": "2026-10-10T11:23:15.711Z",
+          "actor": "Codex",
+          "text": "S672 closes the exact S671 fixture trial. CLO Standard-DXF produces nine pieces, but only 4/9 CUT and 9/9 SEW pass the 0.001 cm gate; `$INSUNITS` changes 5 (cm) to 4 (mm) without numeric rescaling, source identity/semantic layers and typed marks are lost, and the saved whole-layout render is too faint to read. The CLO export happened before the planned import gate was fully closed; this deviation is disclosed and the file is diagnostic only, not a qualified round trip. CLO Standard is disqualified; DGS remains retired. Updated gate matrix and shortest completion plan are in the S672 folder. All V03 acceptance and `/2` grainline approval remain unchanged; no decision is pending."
         }
       ],
       "evidenceRefs": [
@@ -13351,7 +13363,9 @@
         "E-G04-S671-PREFLIGHT",
         "E-G04-S671-MATRIX",
         "E-G04-S671-PLAN",
-        "E-G04-S671-EXIT"
+        "E-G04-S671-EXIT",
+        "E-G04-S672-START",
+        "E-G04-S672-EXIT"
       ],
       "flagKey": null
     },
@@ -25902,6 +25916,24 @@
       "sha256": null,
       "verified": true,
       "note": "Durable S671 preflight boundary; source-path derivative and verification pass, actual CLO import explicitly not run because native app API unavailable; no V03 gate passes."
+    },
+    {
+      "id": "E-G04-S672-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S672-clo-standard-source-path-density/S672-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts one clean CLO Standard-DXF Open import of the exact S671 Polo fixture; a prior in-memory Add/DXF-AAMA misroute is explicitly unscored; fixed V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S672-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S672-clo-standard-source-path-density/S672-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Measured CLO Standard-DXF result: 9/9 SEW and 4/9 CUT at 0.001 cm; units, semantic identities/marks and saved readability fail; exploratory export deviation disclosed and no round-trip claim. Updated V03 matrix and completion plan linked."
     }
   ]
 }

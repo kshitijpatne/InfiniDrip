@@ -1,3 +1,33 @@
+## EPIC-17 / G04 — Slice 672 closed; tested CLO Standard-DXF route disqualified
+
+S672 imported the exact S671 Polo M fixture into CLO 2026.1.310 and captured
+the native 2D snapshot. The exploratory DXF export occurred before completing
+the required native pass; this procedural deviation is explicit in the S672
+exit packet, and the output was not re-imported or called a round trip. Exact
+measurement: 9/9 SEW and 4/9 CUT pass `0.001 cm`; CLO output changes the
+header from `$INSUNITS=5` cm to `$INSUNITS=4` mm without changing numerical
+coordinate magnitude, replaces source piece/layer names with ordinal blocks
+and numeric layers, loses typed mark identities, and produces an unreadably
+faint whole-layout snapshot. The tested route is disqualified. DGS remains
+retired; generic OpenCAD R14 is not an industrial apparel profile. No gate or
+acceptance changed. Source-bound `/2` grainline and other design approvals
+remain settled.
+
+S673's next action is a bounded static feasibility proof of a lossless,
+source-bound adapter using existing exact DXF fixtures. It must bind pieces
+uniquely, restore exact geometry/marks/units/identities, and fail closed on
+ambiguity or unsupported edits before any new receiver operation or production
+change. Updated evidence and priority plan are in
+`docs/research/epic17/S672-clo-standard-source-path-density/`. V01/V02 remain
+Done; V03 remains In Progress. All seven recipes/73 options/grade coverage,
+malformed-input rejection, round-trip/repeatability, readable rendered output,
+legacy DXF, protected bytes, final 100% repository gate, PR, safe merge,
+ancestry and required deployment remain open. No fit/factory claim.
+
+At this safe boundary, `get_goal` reports **active** with wording matching the
+admitted objective through safe merge. The UI “stalled” label is stale; no
+manual resume or goal edit is required.
+
 ## EPIC-17 / G04 — Slice 670 closed; DGS receiver route retired
 
 S670's saved native DGS control produced a 1,223-byte ASTM-menu DXF containing
@@ -11172,3 +11202,35 @@ Started 2026-09-30 12:38:17 UTC from clean S301 `44f7e8424eee14c8f8186d65a9e0b3f
 Verified production matrix is 73 configurations / 146 faces, 4 accepted and 142 held. The 41–46 Epic and 22–26 roadmap estimates and future slice-number assignments were stale: S297–S301 had already landed as V02. Admission, roadmap, active project-state handoff and board now agree on a 57–71 landed-slice total including admission, S302 and final merge; 16–30 remain from the S301 boundary, conditional on source evidence. Breakdown: V02 7–14, V03 5–10 after V02 passes, final review/merge/deployment 3–5. Missing source/rights waits are unpriced and can block completion. No scope, acceptance criterion or status changed; V02 remains In Progress, V03 Backlog. Future V03/final review rows are dependency-labeled and receive slice numbers only from refreshed starts.
 
 Validated board updates: Epic/summary descriptions at revisions 568–569; `E-G04-S302-EXIT` linked to V02 and summary at 570, Epic at 572, exit comment at 573. `npm run control-center:test` passes 33/33; the first run's single failure was a stale assertion on the previous edit reason, diagnosed and corrected. `git diff --check` passes. Elapsed 10m05s (12:38:17–12:48:22 UTC): implementation 0m, evidence re-evaluation 2m, focused verification 1m30s including repair, new rendered review 0m, docs/board 6m35s, external waits 0m, maintainer-decision time 0m. Exact S302 commit ID is captured at the next boundary. Next action: continue source-backed V02 work; do not start V03 until all accepted options/faces pass.
+## EPIC-17 / G04 — Slice 672 active; run the exact CLO Standard import
+
+S672 started at 2026-10-10 10:59:07 UTC from clean commit `c8ed2a7d` on
+`codex/epic-17-g04`. Refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor; S671 is the highest previous slice and S672 is unique.
+Canonical board start replay is revision 3984→3987. G04-V03 and EPIC-17 are
+In Progress; V01/V02 are Done, and no V03 gate is newly passed.
+
+The already-prepared S671 derivative is C:-only and SHA-256
+`487FAD7533BDA83306D3F4FA2DFEF523E469E62F3D808EFF0A9C98A7E38B77F8`.
+Native CLO controls are available. The first in-memory selection used
+Import(Add)/DXF-AAMA by mistake and displayed an informational seam-allowance
+notice; it is explicitly unscored and no DXF was exported or file saved. S672
+now runs exactly one clean File→Import→DXF/Open operation using the prior
+S617 Standard-DXF settings (cm, 100%, Do Not Rotate, Maintain Original, same
+notch/curve-point options). Compare nine source-bound CUT/SEW contours and
+source semantics at `0.001 cm` and inspect real receiver whole/detail output.
+Export only after a complete representative native pass. No alternate mode,
+density, format, encoding, or gate relaxation is allowed. No approval is
+pending, including for the approved `/2` grainline mapping. S672 packet and
+the next-action boundary are in
+`docs/research/epic17/S672-clo-standard-source-path-density/S672-start-packet.md`.
+
+V03 remains unqualified until the profile, seven recipes/73 options/grades,
+identity/relations, semantics, negative-input, repeatability, round-trip and
+readable-output gates all pass. DGS stays retired; CLO mode names do not prove
+ANSI/AAMA or ASTM conformance. Preserve V02 acceptance, legacy DXF, protected
+output identities, final output review, full 100% repository gate, PR, safe
+merge, `origin/main` ancestry and required deployment. No fit, factory or
+production-readiness claim.
+
+## EPIC-17 / G04 — Slice 670 closed; DGS receiver route retired

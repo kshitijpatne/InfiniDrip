@@ -1,3 +1,23 @@
+## EPIC-17 / G04 — Slice 672 closed; current V03 action is S673
+
+S672's actual CLO Standard-DXF evidence and exit are authoritative over older
+pending-import entries below. CLO imports nine pieces, but the saved whole
+layout is too faint to read; export measurements pass only 4/9 CUT and 9/9
+SEW at the unchanged `0.001 cm` gate. The output also changes centimeter
+units to millimeters without rescaling the numeric coordinates, drops source
+piece/layer identities and typed mark entities, and emits receiver-generated
+ordinal blocks. The output was created as a disclosed procedural deviation,
+not a qualified round trip; it was not re-imported. CLO Standard is
+disqualified, DGS stays retired, and no V03 acceptance was relaxed. Grainline
+`/2` is approved; do not reopen it. Read S672's exit packet, gate matrix and
+completion plan in `docs/research/epic17/S672-clo-standard-source-path-density/`.
+S673's next bounded action is a static feasibility proof for a uniquely
+source-bound lossless adapter using existing fixtures; fail closed on
+ambiguous identity or unsupported geometry edits before another receiver
+operation. V01/V02 Done; V03 In Progress. Preserve final all-seven/73-option/
+grade, negative-input, round-trip, rendering, legacy/identity, global 100%
+coverage, PR, safe-merge, ancestry and deployment gates.
+
 ## EPIC-17 / G04 — Slice 670 closed; S671 reconciles CLO candidate evidence
 
 S670's single ASTM-menu export from the DGS native control contains 10 metadata
@@ -9,7 +29,7 @@ CLO imports/exports/renders against source-bound geometry and the fixed gates;
 it must not repeat a failed mode/encoding trial. The `/2` grainline convention
 is approved and final. See `docs/research/epic17/S670-dgs-valid-control/`.
 
-## EPIC-17 / G04 — Slice 671 preflight closed; CLO import awaits native control
+## EPIC-17 / G04 — Slice 671 preflight closed; source-exact fixture prepared
 
 S671 tests a coordinate-exact local subdivision of the long straight CUT
 segments neighboring the five known shallow Polo omissions, then one existing
@@ -23,12 +43,11 @@ grainline and all design approvals are settled. See
 
 S671 preflight is complete and source-exact (2,724 original pairs retained,
 all original points preserved, added coordinates collinear to <`6e-13 cm`,
-0.000 cm path residual). One CLO import remains pending because the task's
-computer-use tool exposes browser-only controls and no native-app binding,
-while Windows confirms CLO is running. This is not a CAD result and passes no
-V03 gate. The exact C:-only fixture and source-only detail render are in
-`S671-preflight-checkpoint.json`; next action is the one actual CLO import and
-native query when app control is available.
+0.000 cm path residual). S671 is only the preparation boundary, not a CAD
+result, and passes no V03 gate. Its exact C:-only fixture and source-only
+detail render are in `S671-preflight-checkpoint.json`. S672 performs the
+receiver operation now that native control is available; it records and
+discards an accidental Add/DXF-AAMA setup route from the planned result.
 The current V03 gate matrix and shortest route are
 `docs/research/epic17/S671-polo-cut-source-path-density/V03-GATE-RECONCILIATION-S671.md`
 and `V03-COMPLETION-PLAN-S671.md`.
@@ -3368,3 +3387,20 @@ product decisions, and unresolved questions:
 
 These references do not authorize physical sampling. Physical validation is on
 hold until the maintainer explicitly reopens it.\n
+## EPIC-17 / G04 — Slice 672 active; exact CLO Standard import next
+
+S672 is the current G04-V03 slice from clean commit `c8ed2a7d`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor, and the
+validated board start is revision 3984→3987. Native CLO control is available.
+One accidental in-memory Add/DXF-AAMA import is explicitly unscored; it is
+not the planned Standard-DXF receiver trial. S672 performs only the prepared
+S671 exact-path derivative through File→Import→DXF/Open with frozen S617
+Standard settings, measures nine CUT/SEW paths at `0.001 cm`, reviews marks
+and rendered whole/detail output, and exports only if every representative
+input gate passes. No approval or decision is pending. Full scope/gates:
+`docs/research/epic17/S672-clo-standard-source-path-density/S672-start-packet.md`;
+V03 matrix/plan:
+`docs/research/epic17/S671-polo-cut-source-path-density/V03-GATE-RECONCILIATION-S671.md`
+and `V03-COMPLETION-PLAN-S671.md`.
+
+## EPIC-17 / G04 — Slice 670 closed; S671 exact-path preflight prepared

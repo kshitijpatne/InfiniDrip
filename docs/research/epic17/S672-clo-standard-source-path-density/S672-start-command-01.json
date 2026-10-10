@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3984,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S672-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S672-clo-standard-source-path-density/S672-start-packet.md",
+    "verified": true,
+    "note": "Starts one clean CLO Standard-DXF Open import of the exact S671 Polo fixture; a prior in-memory Add/DXF-AAMA misroute is explicitly unscored; fixed V03 gates unchanged."
+  }
+}
