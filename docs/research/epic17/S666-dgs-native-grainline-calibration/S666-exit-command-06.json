@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S666's exact AutoCAD/Pattern candidate failed: DGS reported one grainline-outside-border warning although the source has zero grainline entities; the warning remained after one selected-pattern native recreation. The render also contains unexpected internal strokes. No export/reimport was attempted. S667 changes only the documented Pattern/Design choice on the existing S664 source-matched Polo M candidate to determine whether Design mode is a viable clean exchange path. See S666 gate delta and completion plan. All thresholds and V03 acceptance remain unchanged.",
+  "expectedRevision": 3906
+}

@@ -1,3 +1,25 @@
+## EPIC-17 / G04 — Slice 666 closed; run one DGS Design-mode source-matched check next
+
+S666's C:-only source parser passes one named INSERT containing one closed
+20×30 cm CUT polyline and no explicit grainline entity. The exact DGS
+`AUTOCAD`/`Pattern`/`Unit of file` import reports `grainline is outside the
+border` and renders unexpected internal strokes. A single selected-pattern
+native `Ctrl+R` recreation leaves the warning. No output or round trip was
+attempted; this exact candidate fails and the DGS-wide cause remains unproven.
+Screenshots, settings, source parser, gate delta and closeout are in
+`docs/research/epic17/S666-dgs-native-grainline-calibration/`, with actual
+screenshots and fixture evidence only under
+`C:\G04-CLO-DXF-Exchange\S666-dgs-native-grainline-calibration\`.
+
+S667 tests one different documented route on the exact S664 Polo M file:
+DGS AutoCAD `Design` mode, changing only the Pattern/Design selector. S661 and
+S664 failed with the same warning in Pattern mode; this tests that
+mode-specific hypothesis and whether Design retains measurable source data.
+Only a warning-free, readable import within `0.001 cm` can advance to one
+export/parse/reimport. Stop that candidate on its first concrete failure; do
+not test other DGS permutations. The approved grainline mapping is not
+awaiting approval. EPIC-17 acceptance and all holds remain unchanged.
+
 ## EPIC-17 / G04 — Slice 664 DGS grainline trial fails; reconcile V03 evidence next
 
 S664 imported the single approved source-derived `idr-pattern-exchange/2`
@@ -2216,6 +2238,20 @@ decision in `docs/PROJECT-DECISIONS.md` apply to every new or resumed task.
 
 ## Latest EPIC-17/G04 slice evidence
 
+- `docs/research/epic17/S666-dgs-native-grainline-calibration/S666-exit-packet.md`,
+  `V03-GATE-RECONCILIATION-S666.md`, and `V03-COMPLETION-PLAN-S666.md` — the
+  DGS AutoCAD/Pattern control import fails with an unresolved outside-border
+  grainline warning despite zero source grainline entities; native selected-
+  pattern recreation leaves it. No export or reimport was attempted. The exact
+  route is rejected, while the DGS-wide cause remains unproven. Next S667 tests
+  one documented Design-mode import on the existing source-matched Polo M
+  candidate, changing no other setting.
+- `docs/research/epic17/S666-dgs-native-grainline-calibration/S666-start-packet.md`
+  — starts one C:-only synthetic DGS-native grainline calibration. It has a
+  fixed 20×30 cm closed rectangle, one native line, one recorded AutoCAD/No
+  RUL export if available, direct parse and one reimport. Require measurable
+  `0.001 cm`, unchanged geometry and no unresolved loss; no permutations.
+  S665's V03 gate matrix and route remain current. No V03 gate passes at start.
 - `docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md`,
   `V03-GATE-RECONCILIATION-S665.md`, `V03-COMPLETION-PLAN-S665.md`, and
   `S665-review-disposition.md` — reconciles every V03 gate after S640 and

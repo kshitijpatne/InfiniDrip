@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "EPIC-17",
+  "actor": "Codex",
+  "text": "Slice 666 begins from verified S665 commit 253d3b9f and board revision 3897. One DGS-native grainline calibration only; all admitted criteria, holds, V02-before-V03, legacy DXF behavior, protected byte identities and final gates remain unchanged.",
+  "expectedRevision": 3900
+}

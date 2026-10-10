@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S666-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S666-dgs-native-grainline-calibration/S666-exit-packet.md",
+    "verified": true,
+    "note": "S666 independently inspects the synthetic control, records actual DGS settings and warning/render, executes one approved native grainline recreation that leaves the warning, and stops this exact Pattern-mode candidate before export. S667's single Design-mode follow-up is justified by the repeated Pattern warnings and the manual's separate Design choice."
+  },
+  "expectedRevision": 3904
+}
