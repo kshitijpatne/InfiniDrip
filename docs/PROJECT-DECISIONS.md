@@ -1,5 +1,20 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — approved empirical grainline profile trial (2026-10-10)
+
+The maintainer approved the source-derived, additive `idr-pattern-exchange/2`
+grainline convention: emit one `LINE` on `GRAINLINE` inside each same-identity
+piece block, using each recipe's existing grainline rule and current CUT
+geometry. This authorizes a bounded Polo M DGS re-import with the frozen
+`VID:20250610`/`AUTOCAD` route and settings, followed by implementation only
+if the trial and other evidence support it. Preserve every existing DXF
+entity, source geometry, identity, unit, mark and legacy writer behavior. This
+is an empirical vendor-specific candidate; it does not claim ASTM/AAMA
+conformance, clear a V03 gate, or relax the all-seven/options/grades,
+`0.001 cm`, malformed-input, repeatability, round-trip, output-readability,
+rights or protected-byte-identity requirements. Evidence: S662/S663 packets
+and the approved trial recorded at the S663 boundary.
+
 ## EPIC-17/G04 — GetonAgain free desktop evaluation authorization (2026-10-10)
 
 The maintainer confirms they have written confirmation that GetonAgain may be

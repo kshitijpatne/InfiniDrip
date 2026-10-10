@@ -1,4 +1,19 @@
-## Current EPIC-17 / G04 V03 boundary — S662 source-exact grainline proposal awaits decision
+## Current EPIC-17 / G04 V03 boundary — S663 source coverage verified; approved empirical trial next
+
+S663's source analyzer replayed the S330/S459 matrix at source HEAD
+`81e53b6686e7371ff08518a61366de1ec8300ff0`: all 73 design-option M
+configurations draft, and all 716 named piece instances resolve a stable
+grainline rule; 358,716 sampled points lie inside their matching flattened
+CUT contours. This does not cover the 35-size grade matrix. The maintainer
+approved a bounded `idr-pattern-exchange/2` mapping that adds one source-
+derived `LINE` on `GRAINLINE` in each same-identity piece block, preserving
+legacy DXF behavior and all existing entities. S664's next action is one
+hash-pinned Polo M re-import using the existing DGS `VID:20250610` `AUTOCAD`
+route/settings. Require warning-free import, readable output, and unchanged
+CUT/SEW/marks/units at `0.001 cm`. The profile remains a vendor-specific
+empirical candidate; no ASTM/AAMA claim or V03 gate pass follows from the
+approval. Every V03 criterion remains unchanged. Decision and evidence:
+`docs/PROJECT-DECISIONS.md` and the S663 exit packet.
 
 S660 found no primary receiver-specific entity/layer/sidecar contract for
 GetonAgain's ASTM/AAMA menu mode. Public ASTM D6673 material is historical;

@@ -1,4 +1,16 @@
-## EPIC-17 / G04 — Slice 662 closes source-exact grainline derivation; profile trial awaits decision
+## EPIC-17 / G04 — Slice 663 verifies source grainlines across seven recipes; approved DGS trial is next
+
+S663 verified source-rule grainlines against matching CUT contours for all 716
+piece instances in the seven-recipe/73-option S330/S459 M matrix: 358,716
+sampled points are inside their corresponding CUT polygons, with 41 stable
+recipe/role contracts. The reproducible analyzer and full report are in
+`docs/research/epic17/S663-seven-recipe-grainline-source-coverage/`. Maintainer
+approved the bounded source-derived `idr-pattern-exchange/2` trial. Next is
+S664: add the grainline `LINE`s to the hash-pinned Polo M fixture and re-import
+once into the existing DGS `VID:20250610` `AUTOCAD` session/settings. This is
+not a standards claim or gate pass; no V03 acceptance has changed. See
+`PROJECT-STATE.md`, the EPIC-17 admission's current boundary and the S663
+exit packet.
 
 The two bounded read-only Sol high reviews returned WORK FINISHED and their
 corrections are recorded in the S660 plan/matrix. DGS `VID:20250610` and GMS

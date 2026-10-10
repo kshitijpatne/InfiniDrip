@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3867,
+  "evidence": {
+    "id": "E-EPIC17-S663-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S663-seven-recipe-grainline-source-coverage/S663-start-packet.md",
+    "verified": true,
+    "note": "Read-only current-source analysis of source-derived grainline coverage for seven recipes and 73 supported configurations; no DXF, product-source or DGS changes."
+  }
+}

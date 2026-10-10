@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3865,
-  "updatedAt": "2026-10-10T08:02:41.868Z",
+  "revision": 3874,
+  "updatedAt": "2026-10-10T08:17:51.376Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -736,7 +736,8 @@
         "E-EPIC17-S661-START",
         "E-EPIC17-S661-EXIT",
         "E-EPIC17-S662-START",
-        "E-EPIC17-S662-EXIT"
+        "E-EPIC17-S662-EXIT",
+        "E-EPIC17-S663-EXIT"
       ]
     },
     {
@@ -4808,6 +4809,16 @@
           "at": "2026-10-10T08:02:39.365Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. DGS VID:20250610 and GMS remain open past sign-in. S661's one hash-pinned S648 Polo M AutoCAD-mode import loaded nine pieces but reported grainline-outside-border for all; no export or alternate setting was tried. S662 derives all nine grainlines from source and proposes, pending maintainer approval, one LINE on GRAINLINE inside each same-identity block in versioned idr-pattern-exchange/2. GetonAgain's recognition of that encoding is undocumented. Preserve every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current packet: docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md.). Preserve regression-guarded V01/V02 outcome and prior approved Woven/Polo decisions while keeping the S662 V03 handoff current."
+        },
+        {
+          "at": "2026-10-10T08:07:43.700Z",
+          "actor": "Codex",
+          "text": "S663 is limited to read-only source-derived grainline coverage across the accepted seven-recipe, 73-configuration M matrix. It records exact piece rules and CUT-containment evidence to inform, but not replace, the pending maintainer choice on S662's additive empirical profile mapping. V03 acceptance and holds remain unchanged."
+        },
+        {
+          "at": "2026-10-10T08:17:10.591Z",
+          "actor": "Codex",
+          "text": "S663 establishes source-derived grainline coverage across all seven recipes and 73 supported design-option configurations without production changes. The maintainer approved a narrow empirical DGS trial for one Polo M fixture using idr-pattern-exchange/2. S664 will record actual receiver behavior. No standard-conformance claim or V03 acceptance change; all V03 gates remain pending."
         }
       ],
       "evidenceRefs": [
@@ -5266,7 +5277,9 @@
         "E-EPIC17-S661-START",
         "E-EPIC17-S661-EXIT",
         "E-EPIC17-S662-START",
-        "E-EPIC17-S662-EXIT"
+        "E-EPIC17-S662-EXIT",
+        "E-EPIC17-S663-START",
+        "E-EPIC17-S663-EXIT"
       ],
       "flagKey": null
     },
@@ -12639,6 +12652,16 @@
           "at": "2026-10-10T08:00:13.201Z",
           "actor": "Codex",
           "text": "S662 derived all nine Polo M grainlines from source revision ef28519c21314eed0280ed4e6982849284da16b6. The exact existing CUT vertices reconstruct with 0 cm residual; 501/501 sampled points on every rule-resolved grainline lie inside that piece's CUT polygon. Proposed follow-up, pending maintainer decision only: new idr-pattern-exchange/2 profile with one LINE on GRAINLINE inside each existing named block; preserve CUT/SEW/marks/units/identities and legacy writer. DGS support for the layer/entity is undocumented. No code or receiver action this slice; all V03 gates remain unpassed. See S662 exit packet."
+        },
+        {
+          "at": "2026-10-10T08:07:41.818Z",
+          "actor": "Codex",
+          "text": "S663 starts a read-only source-geometry coverage study of recipe-declared grainlines across S459's seven-recipe/73-configuration M matrix. It will check every resolved line against its own current CUT polygon. This may establish whether S662's additive proposal can generalize from Polo; it does not select or implement a profile, write a DXF, or interact with DGS. Preserve every V03 gate and all holds. See the S663 start packet."
+        },
+        {
+          "at": "2026-10-10T08:17:10.267Z",
+          "actor": "Codex",
+          "text": "S663 verifies source-derived grainlines across 7 recipes and 73 supported M-option configurations: 716 piece instances, 41 stable role contracts, and 358,716 sampled points inside their own CUT contours. The maintainer approved one bounded idr-pattern-exchange/2 empirical trial; S664 will add only source-derived GRAINLINE LINEs to the hash-pinned Polo M fixture and re-import once through the frozen DGS route. This approval is not a conformance claim or V03 pass. All acceptance and holds remain. See S663 exit packet."
         }
       ],
       "evidenceRefs": [
@@ -13074,7 +13097,9 @@
         "E-G04-S661-START",
         "E-G04-S661-EXIT",
         "E-G04-S662-START",
-        "E-G04-S662-EXIT"
+        "E-G04-S662-EXIT",
+        "E-G04-S663-START",
+        "E-G04-S663-EXIT"
       ],
       "flagKey": null
     },
@@ -25364,6 +25389,42 @@
       "sha256": null,
       "verified": true,
       "note": "Records source-exact grainline derivation and the precise next profile decision; no implementation or acceptance change, and no V03 technical gate passed."
+    },
+    {
+      "id": "E-G04-S663-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S663-seven-recipe-grainline-source-coverage/S663-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a read-only derivation of source grainlines for all seven recipes and the 73 supported configuration matrix after S661's nine DGS warnings. No profile representation, exchange DXF, product source, or receiver interaction is authorized in this slice."
+    },
+    {
+      "id": "E-EPIC17-S663-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S663-seven-recipe-grainline-source-coverage/S663-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Read-only current-source analysis of source-derived grainline coverage for seven recipes and 73 supported configurations; no DXF, product-source or DGS changes."
+    },
+    {
+      "id": "E-G04-S663-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S663-seven-recipe-grainline-source-coverage/S663-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Replays source grainline rules across all 7 recipes and 73 supported option configurations: 716 piece instances and 358,716/358,716 sampled points inside matching CUT geometry; approved next step is bounded DGS profile trial, with no gate pass claimed."
+    },
+    {
+      "id": "E-EPIC17-S663-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S663-seven-recipe-grainline-source-coverage/S663-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source-rule coverage proves all-seven/73-option grainline coordinates lie within their matching CUT contours; maintainer-approved empirical profile trial is next. No V03 gate passes or acceptance changes."
     }
   ]
 }
