@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "epicId": "EPIC-17",
+  "expectedRevision": 3860,
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Replace the stale pre-import S660 handoff with S661's measured result and S662's source-exact pending profile decision.",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 are Done for all seven recipes, 73 configurations and 146 front/back faces, with all recorded holds preserved. V03 remains In Progress and no technical exchange gate has passed. Rights/local evaluation of GetonAgain Free is authorized and settled; DGS VID:20250610/GMS remain open past sign-in. S661 imported the hash-pinned generic AC1014 S648 Polo M fixture once through DGS AUTOCAD: 9/9 pieces loaded, but all nine received grainline-outside-border warnings; no export/retry occurred. S662 derives all nine source-rule grainlines exactly, reconstructs each CUT with 0 cm residual, and verifies 501/501 samples per line inside the matching cut polygon. Its proposed idr-pattern-exchange/2 adds one source-exact LINE on GRAINLINE per named block while preserving existing content. DGS recognition of that mapping is undocumented and awaits maintainer approval before implementation or re-import. No compatibility/standards claim. Preserve all V03 acceptance, 0.001 cm, C04, all-seven/options/grades, legacy DXF, protected bytes, full gates, safe merge and required deployment. No fit, factory, or production-readiness claim. See S662 packet."
+  }
+}

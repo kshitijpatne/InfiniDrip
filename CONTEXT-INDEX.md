@@ -1,33 +1,36 @@
-## EPIC-17 / G04 — Slice 661 closed; DGS AutoCAD-mode pilot fails grainline validation
+## EPIC-17 / G04 — Slice 662 closes source-exact grainline derivation; profile trial awaits decision
 
 The two bounded read-only Sol high reviews returned WORK FINISHED and their
 corrections are recorded in the S660 plan/matrix. DGS `VID:20250610` and GMS
-are open, with no sign-in dialog; both documents are blank. No fixture has
-been exchanged. S648's actual source is the generic AC1014 DXF at
+remain open past sign-in. S661 imported the hash-pinned S648 fixture into DGS
+once; all nine pieces loaded with native grainline-outside-border warnings.
+No export or retry occurred. S648's actual source is the generic AC1014 DXF at
 `C:\G04-CLO-DXF-Exchange\S648-getonagain-fixture-preflight\Input\polo-m-idr-profile-r14-first.dxf`
 (153,647 bytes, SHA-256
 `ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`). A
 read-only `dxf-parser@1.1.2` check recovers nine piece INSERTs, 11 blocks and
-56 nested entities. The next bounded empirical hypothesis is this input via
-DGS `AUTOCAD` import; that mode choice is not a compatibility or standards
-claim. Settings, numeric parser comparison, actual renders, C04 sidecar gap,
+56 nested entities. S660's settings, numeric parser comparison, actual
+renders, C04 sidecar gap,
 RUL/sew-line limitation, failure scope, and stop conditions are explicit in
 `docs/research/epic17/S660-primary-profile-contract-search/`. Preserve every
 V03 gate, `0.001 cm`, all-seven/options/grades, legacy DXF and protected byte
 identities. S661 tested one hash-pinned generic AC1014 Polo M fixture through
 DGS `AUTOCAD` mode. All nine pieces imported, but DGS reported
 `grainline is outside the border` for each; no export or alternate setting was
-tried. The exact outcome and likely-but-unproven missing grainline mapping are
-recorded in `docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/`.
-This route fails its warning-free pilot criterion; no V03 technical gate or
-acceptance criterion passes/changes. S660 board revision 3838 and focused
-42/42 result remain recorded in its exit packet; S661's validated board exit
-is revision 3850, with focused Control Center tests 42/42 and `git diff
---check` passing. The next bounded step is to derive a source-exact,
-versioned-profile grainline representation and decide whether its dedicated
-layer mapping is an acceptable empirical convention before implementation.
-The approved exchange root is `C:\\G04-CLO-DXF-Exchange\\<slice-folder>` per
-`docs/PROJECT-DECISIONS.md`. DGS remains open for that next test.
+tried. S662 resolved all nine grainlines from the fixture's exact generating
+revision; reconstructed CUT contours have 0 cm residual and all 4,509
+sampled grainline points lie inside their corresponding CUT polygons. Its
+coordinate table and analyzer are in
+`docs/research/epic17/S662-polo-grainline-profile-proposal/`. The proposed
+`idr-pattern-exchange/2` mapping adds one `LINE` on `GRAINLINE` inside each
+same-identity block while preserving all current entities. GetonAgain's
+recognition of this encoding is undocumented; it remains a proposal for
+maintainer approval before implementation/re-import. No V03 technical gate
+passes or acceptance changes. S662 validated board exit is revision 3865;
+focused Control Center tests pass 42/42 and `git diff --check` passes, as
+recorded in the packet. DGS remains open with the S661 warning visible. The approved exchange
+root is `C:\\G04-CLO-DXF-Exchange\\<slice-folder>` per
+`docs/PROJECT-DECISIONS.md`.
 
 ## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
 

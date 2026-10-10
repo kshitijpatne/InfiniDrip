@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3850,
-  "updatedAt": "2026-10-10T07:52:03.497Z",
+  "revision": 3865,
+  "updatedAt": "2026-10-10T08:02:41.868Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. The user reports signing in; direct inspection found DGS and GMS open without a sign-in dialog, each with an empty document. S660's two bounded read-only Sol high reviews are complete. The next hypothesis is one generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD import; it is not a documented profile match or compatibility claim. S660 pins the source hash, settings, independent DXF parsing/rendered evidence method, C04 sidecar requirement, RUL/sew-line limitation, and stop conditions. Keep every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance, or production-readiness claim. Current packet: docs/research/epic17/S660-primary-profile-contract-search/.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. DGS VID:20250610 and GMS remain open past sign-in. S661's one hash-pinned S648 Polo M AutoCAD-mode import loaded nine pieces but reported grainline-outside-border for all; no export or alternate setting was tried. S662 derives all nine grainlines from source and proposes, pending maintainer approval, one LINE on GRAINLINE inside each same-identity block in versioned idr-pattern-exchange/2. GetonAgain's recognition of that encoding is undocumented. Preserve every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current packet: docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -734,7 +734,9 @@
         "E-EPIC17-S660-START",
         "E-EPIC17-S660-EXIT",
         "E-EPIC17-S661-START",
-        "E-EPIC17-S661-EXIT"
+        "E-EPIC17-S661-EXIT",
+        "E-EPIC17-S662-START",
+        "E-EPIC17-S662-EXIT"
       ]
     },
     {
@@ -3263,7 +3265,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17/G04 remains In Progress through V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Preserve V02-before-V03, legacy DXF behavior and protected export identities. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while its technical acceptance gates remain unpassed. GetonAgain DGS VID:20250610 and GMS are open past sign-in; both documents are empty. S660's two bounded read-only Sol high reviews are complete. Next is one falsifiable empirical hypothesis: the hash-pinned generic AC1014 S648 Polo M DXF through DGS AUTOCAD import. This does not establish a documented apparel profile or compatibility claim. S660 records exact settings, independent DXF parser/render comparison, C04 sidecar gap, manual RUL/sew-line limitation, and stop conditions. No technical V03 gate passes. Preserve all existing acceptance, 0.001 cm, all-seven/options/grades, final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. See docs/research/epic17/S660-primary-profile-contract-search/.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Preserve V02-before-V03, legacy DXF behavior and protected export identities. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress and no technical exchange gate has passed. DGS VID:20250610 and GMS remain open past sign-in. S661's one hash-pinned S648 Polo M AutoCAD-mode import loaded nine pieces but reported grainline-outside-border for all; no export/retry occurred. S662 derives all nine source grainlines and proposes, pending maintainer approval, one LINE on GRAINLINE inside each same-identity block in idr-pattern-exchange/2. GetonAgain's recognition of that encoding is undocumented. Preserve all existing acceptance, 0.001 cm, all-seven/options/grades, C04, legacy behavior, protected identities, full gates, safe merge and deployment. No standards, physical-fit, factory-acceptance or production-readiness claim. See docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4786,6 +4788,26 @@
           "at": "2026-10-10T07:52:03.497Z",
           "actor": "Codex",
           "text": "Slice 661 confirms the user is signed in and DGS is usable. The one S648 import yielded all nine pieces but a native grainline-outside-border error for every piece; no export was attempted. The source fixture has no GRAINLINE layer, and the legacy product DXF writer omits modeled grainlines. S661 proposes a source-derived separate-profile mapping for maintainer decision; it does not infer or claim DGS semantics. The empirical trial, artifacts, and unchanged V03 gates are documented in the linked exit packet."
+        },
+        {
+          "at": "2026-10-10T07:55:36.059Z",
+          "actor": "Codex",
+          "text": "Slice 662 is a source-only derivation of exact Polo M grainline geometry following S661's nine native DGS grainline warnings. It will quantify the source facts and make one explicit profile-mapping proposal; no implementation or second import is authorized in this slice. V03 remains In Progress with all acceptance gates unchanged."
+        },
+        {
+          "at": "2026-10-10T08:00:15.938Z",
+          "actor": "Codex",
+          "text": "S662 closes a source-only study of the exact Polo M grainline warning. It found a concrete additive, source-derived profile trial and identified the receiver's layer/entity semantics as the only decision that needs maintainer approval before implementation. No V03 acceptance or gate changed; DGS remains open, and the active Epic goal continues."
+        },
+        {
+          "at": "2026-10-10T08:01:57.689Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 are Done for all seven recipes, 73 configurations and 146 front/back faces, with all recorded holds preserved. V03 remains In Progress and no technical exchange gate has passed. Rights/local evaluation of GetonAgain Free is authorized and settled; DGS VID:20250610/GMS remain open past sign-in. S661 imported the hash-pinned generic AC1014 S648 Polo M fixture once through DGS AUTOCAD: 9/9 pieces loaded, but all nine received grainline-outside-border warnings; no export/retry occurred. S662 derives all nine source-rule grainlines exactly, reconstructs each CUT with 0 cm residual, and verifies 501/501 samples per line inside the matching cut polygon. Its proposed idr-pattern-exchange/2 adds one source-exact LINE on GRAINLINE per named block while preserving existing content. DGS recognition of that mapping is undocumented and awaits maintainer approval before implementation or re-import. No compatibility/standards claim. Preserve all V03 acceptance, 0.001 cm, C04, all-seven/options/grades, legacy DXF, protected bytes, full gates, safe merge and required deployment. No fit, factory, or production-readiness claim. See S662 packet.). Replace the stale pre-import S660 handoff with S661's measured result and S662's source-exact pending profile decision."
+        },
+        {
+          "at": "2026-10-10T08:02:39.365Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. DGS VID:20250610 and GMS remain open past sign-in. S661's one hash-pinned S648 Polo M AutoCAD-mode import loaded nine pieces but reported grainline-outside-border for all; no export or alternate setting was tried. S662 derives all nine grainlines from source and proposes, pending maintainer approval, one LINE on GRAINLINE inside each same-identity block in versioned idr-pattern-exchange/2. GetonAgain's recognition of that encoding is undocumented. Preserve every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current packet: docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md.). Preserve regression-guarded V01/V02 outcome and prior approved Woven/Polo decisions while keeping the S662 V03 handoff current."
         }
       ],
       "evidenceRefs": [
@@ -5242,7 +5264,9 @@
         "E-EPIC17-S660-START",
         "E-EPIC17-S660-EXIT",
         "E-EPIC17-S661-START",
-        "E-EPIC17-S661-EXIT"
+        "E-EPIC17-S661-EXIT",
+        "E-EPIC17-S662-START",
+        "E-EPIC17-S662-EXIT"
       ],
       "flagKey": null
     },
@@ -10543,7 +10567,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS VID:20250610 and GMS are open past sign-in; both documents were empty at the S660 check. S661 starts one falsifiable pilot: copy/hash-check the generic AC1014 S648 Polo M fixture, then import once through the observed DGS AUTOCAD mode with frozen S659 settings. The source is not a documented profile match or compatibility claim. Use independent numeric DXF parsing and actual rendered output; identity/seam/grade relationship claims require a verified version-matched C04 sidecar. The DGS manual says RUL export omits quilt/sew lines; inspect the export dialog once and stop if no documented geometry-bearing non-RUL route is available. Preserve the current maintainer-approved C:\\G04-CLO-DXF-Exchange\\<slice-folder> custody root. Do not generalize any result beyond this exact input/build/mode/settings. No V03 gate passes unless the evidence meets its existing criterion. See S661 and S660 packets under docs/research/epic17/ and S659's exact build record.",
+      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. The user has completed sign-in to GetonAgain DGS VID:20250610; rights and local handling for this bounded evaluation are settled. S661's one generic AC1014 S648 Polo M import through DGS AUTOCAD loaded nine pieces but generated grainline-outside-border errors for all nine; no export or variation followed. S662 derives the exact nine source grainlines and maps them to fixture coordinates; every source CUT matches with 0 cm residual and 501/501 samples on each line lie inside its corresponding piece boundary. Proposed, not approved: idr-pattern-exchange/2, adding one source-resolved LINE on layer GRAINLINE inside each named block while preserving all existing geometry, marks, unit declarations, identities, and legacy output bytes. GetonAgain's recognition of that layer/entity is undocumented. Ask maintainer approval before implementation/re-import. Any single pass clears only that specific pilot question, not the admitted all-seven, grade, C04, marks, malformed-input, repeatability, round-trip, rendered-output, or receiver-qualification gates. See S662 packet.",
       "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
       "acceptanceCriteria": [
         "Record current rights and exact receiver/version/profile evidence before selection.",
@@ -12605,6 +12629,16 @@
           "at": "2026-10-10T07:52:02.013Z",
           "actor": "Codex",
           "text": "S661 exit: DGS VID:20250610 AUTOCAD imported 9/9 S648 patterns but returned grainline-outside-border errors for all nine. The warning-free pilot criterion failed for this exact generic fixture/mode/settings; export was correctly stopped. Independent parsing shows no GRAINLINE layer/entity in S648, while product source has recipe grainline rules omitted by legacy DXF. Likely fixture/profile gap is an inference; receiver semantics remain undocumented. See S661 exit packet and C:-only rendered/source artifacts. All V03 acceptance gates remain unpassed."
+        },
+        {
+          "at": "2026-10-10T07:55:31.842Z",
+          "actor": "Codex",
+          "text": "S662 starts a read-only source proof from S661 commit 9e18b83b. Derive exact grainline segment endpoints for the S648 Polo M DXF from its generating source revision and resolve each against the source piece block. No DXF writer, pattern geometry, legacy output, receiver UI, alternate mode, or acceptance gate changes in this slice. The only possible result requiring maintainer judgment is the encoding convention for an explicitly versioned empirical profile. See the S662 packet."
+        },
+        {
+          "at": "2026-10-10T08:00:13.201Z",
+          "actor": "Codex",
+          "text": "S662 derived all nine Polo M grainlines from source revision ef28519c21314eed0280ed4e6982849284da16b6. The exact existing CUT vertices reconstruct with 0 cm residual; 501/501 sampled points on every rule-resolved grainline lie inside that piece's CUT polygon. Proposed follow-up, pending maintainer decision only: new idr-pattern-exchange/2 profile with one LINE on GRAINLINE inside each existing named block; preserve CUT/SEW/marks/units/identities and legacy writer. DGS support for the layer/entity is undocumented. No code or receiver action this slice; all V03 gates remain unpassed. See S662 exit packet."
         }
       ],
       "evidenceRefs": [
@@ -13038,7 +13072,9 @@
         "E-G04-S660-SOURCES",
         "E-G04-S660-EXIT",
         "E-G04-S661-START",
-        "E-G04-S661-EXIT"
+        "E-G04-S661-EXIT",
+        "E-G04-S662-START",
+        "E-G04-S662-EXIT"
       ],
       "flagKey": null
     },
@@ -25292,6 +25328,42 @@
       "sha256": null,
       "verified": true,
       "note": "Documents the bounded GetonAgain import's actual nine-piece grainline error and evidence-based proposed next mapping; all V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S662-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S662-polo-grainline-profile-proposal/S662-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a source-only derivation of Polo M grainline geometry and a versioned-profile proposal after S661's concrete DGS validation warning. No writer or receiver trial changes are authorized in this slice."
+    },
+    {
+      "id": "E-EPIC17-S662-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S662-polo-grainline-profile-proposal/S662-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a bounded source-only derivation of the actual Polo M grainline segments and a proposed empirical profile mapping; G04 acceptance remains unchanged."
+    },
+    {
+      "id": "E-G04-S662-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Derives the exact nine Polo M grainline segments from the fixture's source revision; reconstructed CUT geometry matches at 0 cm and every 501-sample segment is inside its own source block CUT contour. Proposes one undocumented, additive empirical profile mapping for maintainer decision only."
+    },
+    {
+      "id": "E-EPIC17-S662-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Records source-exact grainline derivation and the precise next profile decision; no implementation or acceptance change, and no V03 technical gate passed."
     }
   ]
 }

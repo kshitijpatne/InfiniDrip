@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "expectedRevision": 3858,
+  "actor": "Codex",
+  "text": "S662 derived all nine Polo M grainlines from source revision ef28519c21314eed0280ed4e6982849284da16b6. The exact existing CUT vertices reconstruct with 0 cm residual; 501/501 sampled points on every rule-resolved grainline lie inside that piece's CUT polygon. Proposed follow-up, pending maintainer decision only: new idr-pattern-exchange/2 profile with one LINE on GRAINLINE inside each existing named block; preserve CUT/SEW/marks/units/identities and legacy writer. DGS support for the layer/entity is undocumented. No code or receiver action this slice; all V03 gates remain unpassed. See S662 exit packet."
+}

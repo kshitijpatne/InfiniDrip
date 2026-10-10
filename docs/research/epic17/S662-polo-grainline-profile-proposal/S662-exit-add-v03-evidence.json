@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 3855,
+  "evidence": {
+    "id": "E-G04-S662-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md",
+    "verified": true,
+    "note": "Derives the exact nine Polo M grainline segments from the fixture's source revision; reconstructed CUT geometry matches at 0 cm and every 501-sample segment is inside its own source block CUT contour. Proposes one undocumented, additive empirical profile mapping for maintainer decision only."
+  }
+}

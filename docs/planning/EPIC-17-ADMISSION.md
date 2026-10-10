@@ -1,12 +1,13 @@
-## Current EPIC-17 / G04 V03 boundary — S661 DGS AutoCAD-mode pilot failed; profile decision next
+## Current EPIC-17 / G04 V03 boundary — S662 source-exact grainline proposal awaits decision
 
 S660 found no primary receiver-specific entity/layer/sidecar contract for
 GetonAgain's ASTM/AAMA menu mode. Public ASTM D6673 material is historical;
 its public summary describes AutoCAD R13 plus a separate ASCII grade table
 and excludes inter-piece relationships, while the ASTM catalogue lists
-D6673-10 withdrawn. Maintainer-authorized rights/local handling are settled;
-the latest direct visual inspection found DGS and GMS open without a sign-in
-dialog, each with an empty document. No DXF has been exchanged. Two bounded
+D6673-10 withdrawn. Maintainer-authorized rights/local handling are settled.
+S660's pre-import visual inspection found DGS and GMS open without a sign-in
+dialog and with empty documents; S661 subsequently imported one fixture and
+recorded the result below. Two bounded
 read-only Sol high reviews returned WORK FINISHED. Their correction is to run
 one falsifiable DGS `VID:20250610` `AUTOCAD` import hypothesis against the
 actual generic AC1014 S648 fixture, not to assume the apparel-labeled mode is
@@ -30,6 +31,18 @@ prepared; **no V03 technical gate has passed**. Keep the decision to introduce
 a dedicated, versioned-profile grainline layer explicit and pending; derive
 the exact line endpoints from source before asking approval. Preserve all
 acceptance, all-seven scope, thresholds, legacy DXF and protected identities.
+S662 resolved all nine Polo M grainlines from the exact generating revision
+`ef28519c21314eed0280ed4e6982849284da16b6` against the hash-pinned S648
+fixture. Every reconstructed CUT polyline matches at 0 cm residual and all
+4,509 sampled points lie inside their matching CUT boundaries. Its coordinate
+table and reproducible analyzer are in
+`docs/research/epic17/S662-polo-grainline-profile-proposal/`. One bounded
+follow-up is proposed, not implemented: `idr-pattern-exchange/2`, with a
+source-resolved DXF `LINE` on `GRAINLINE` in each existing block. GetonAgain's
+recognition of this layer/entity is undocumented; obtain maintainer approval
+before any writer change or second import. S662 leaves every V03 gate and
+acceptance unchanged; its validated board exit and focused checks are recorded
+in the exit packet.
 
 **S659 exit:** The user-completed MPVCI prerequisite is verified by registry.
 S659 applied the hash-pinned DGS 20250610 archive after checking every S657

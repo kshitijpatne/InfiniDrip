@@ -1,4 +1,4 @@
-## EPIC-17 / G04 — Slice 661 closed; DGS AutoCAD-mode pilot fails grainline validation
+## EPIC-17 / G04 — Slice 662 closes source-exact grainline derivation; profile trial awaits decision
 
 S661 tested one hash-pinned generic AC1014 Polo M fixture with DGS
 `VID:20250610` in `AUTOCAD` mode. The app imported all nine pieces but its
@@ -23,10 +23,22 @@ revision 3850. Focused Control Center tests pass 42/42 and `git diff --check`
 passes. No production code or tests changed. Elapsed time is recorded in the
 S661 exit packet. Full tests/100% coverage, build/browser/Electron, final output
 review, PR, safe merge ancestry and required deployment remain Epic exit gates.
-No fit/factory/production-readiness claim. DGS stays open for the next bounded
-step: derive exact grainline endpoints from source, then present one explicit
-versioned-profile layer-mapping decision before any code change or second
-receiver import.
+S662 derives all nine Polo M grainlines from the fixture's exact source
+revision `ef28519c21314eed0280ed4e6982849284da16b6`. All 9/9 reconstructed CUT
+contours match the S648 fixture at 0 cm residual; 501/501 points on each
+source grainline lie inside its corresponding CUT polygon. The exact DXF
+coordinates and reproducible analyzer are in
+`docs/research/epic17/S662-polo-grainline-profile-proposal/`. The packet
+proposes, but does not implement, a new `idr-pattern-exchange/2` profile with
+one `LINE` on `GRAINLINE` inside each existing block. GetonAgain does not
+document this layer/entity mapping, so it awaits explicit maintainer approval
+before a writer change or second import. No V03 gate passes. S662 validated
+start/exit board replay through revision 3865; focused Control Center tests pass
+42/42 and `git diff --check` passes, as recorded in its exit packet. No
+production code or tests changed. DGS
+remains open with the S661 warning visible. Full tests/100% coverage,
+build/browser/Electron, final output review, PR, safe merge ancestry and
+required deployment remain Epic exit gates. No fit/factory/production claim.
 
 ## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
 

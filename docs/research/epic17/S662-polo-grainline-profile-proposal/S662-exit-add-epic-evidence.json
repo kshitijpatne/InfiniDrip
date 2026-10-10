@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3856,
+  "evidence": {
+    "id": "E-EPIC17-S662-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md",
+    "verified": true,
+    "note": "Records source-exact grainline derivation and the precise next profile decision; no implementation or acceptance change, and no V03 technical gate passed."
+  }
+}

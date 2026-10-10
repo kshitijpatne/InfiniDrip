@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "expectedRevision": 3853,
+  "actor": "Codex",
+  "text": "S662 starts a read-only source proof from S661 commit 9e18b83b. Derive exact grainline segment endpoints for the S648 Polo M DXF from its generating source revision and resolve each against the source piece block. No DXF writer, pattern geometry, legacy output, receiver UI, alternate mode, or acceptance gate changes in this slice. The only possible result requiring maintainer judgment is the encoding convention for an explicitly versioned empirical profile. See the S662 packet."
+}

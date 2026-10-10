@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "epicId": "EPIC-17",
+  "expectedRevision": 3863,
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Preserve regression-guarded V01/V02 outcome and prior approved Woven/Polo decisions while keeping the S662 V03 handoff current.",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. DGS VID:20250610 and GMS remain open past sign-in. S661's one hash-pinned S648 Polo M AutoCAD-mode import loaded nine pieces but reported grainline-outside-border for all; no export or alternate setting was tried. S662 derives all nine grainlines from source and proposes, pending maintainer approval, one LINE on GRAINLINE inside each same-identity block in versioned idr-pattern-exchange/2. GetonAgain's recognition of that encoding is undocumented. Preserve every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current packet: docs/research/epic17/S662-polo-grainline-profile-proposal/S662-exit-packet.md."
+  }
+}

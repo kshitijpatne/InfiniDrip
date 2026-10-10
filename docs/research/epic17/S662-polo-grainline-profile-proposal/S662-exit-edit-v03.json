@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G04-V03",
+  "expectedRevision": 3862,
+  "actor": "Codex",
+  "role": "maintainer",
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. The user has completed sign-in to GetonAgain DGS VID:20250610; rights and local handling for this bounded evaluation are settled. S661's one generic AC1014 S648 Polo M import through DGS AUTOCAD loaded nine pieces but generated grainline-outside-border errors for all nine; no export or variation followed. S662 derives the exact nine source grainlines and maps them to fixture coordinates; every source CUT matches with 0 cm residual and 501/501 samples on each line lie inside its corresponding piece boundary. Proposed, not approved: idr-pattern-exchange/2, adding one source-resolved LINE on layer GRAINLINE inside each named block while preserving all existing geometry, marks, unit declarations, identities, and legacy output bytes. GetonAgain's recognition of that layer/entity is undocumented. Ask maintainer approval before implementation/re-import. Any single pass clears only that specific pilot question, not the admitted all-seven, grade, C04, marks, malformed-input, repeatability, round-trip, rendered-output, or receiver-qualification gates. See S662 packet."
+  }
+}
