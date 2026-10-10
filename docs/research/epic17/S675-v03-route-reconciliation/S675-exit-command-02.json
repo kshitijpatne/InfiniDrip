@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4013,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S675 route review is complete. None of the already tested local routes meets the fixed receiver/unit entry gate: LibreCAD R12 omits the source centimeter declaration; CLO is unitless or has measured semantic/readability failures; DGS lacks usable DXF pattern exchange; Open CAD Studio R14 is generic and unitless. Existing 73-option and 35-size evidence remains reusable only after a qualified receiver exists. Preserve all acceptance; no new app/format trial is queued. The exact remaining dependency and optional scope-amendment boundary are in E-G04-S675-EXIT."
+}

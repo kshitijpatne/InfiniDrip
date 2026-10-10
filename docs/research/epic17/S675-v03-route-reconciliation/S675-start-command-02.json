@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4011,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S675 starts from S674 7367bbde at clean branch state; refreshed origin/main remains an ancestor and slice 675 is unique. Scope: reconcile the measured LibreCAD R12 result against C04 and existing source/grade fixtures, plus one bounded read-only high-reasoning review. No new software/format test, code, or acceptance change. Exit will keep V03 In Progress only if an already evidenced route clears the receiver/unit entry gate; otherwise record the precise dependency and Blocked status."
+}

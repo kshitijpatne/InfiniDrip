@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4010,
-  "updatedAt": "2026-10-10T17:00:30.598Z",
+  "revision": 4016,
+  "updatedAt": "2026-10-10T17:07:38.066Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -4961,6 +4961,11 @@
           "at": "2026-10-10T17:00:30.598Z",
           "actor": "Codex",
           "text": "S674 closes after one exact LibreCAD R12 test; its unit-header failure disqualifies that candidate, while geometry/marks/layers passed on one Polo M fixture. G04-V03 remains In Progress with every acceptance gate unchanged. Next: an evidence-backed route eligibility decision before any further software or format test. S674 exit, gate matrix and bounded plan are linked on G04-V03."
+        },
+        {
+          "at": "2026-10-10T17:07:38.066Z",
+          "actor": "Codex",
+          "text": "S675 confirms the V03 receiver/profile entry is blocked by the absence of an evidenced rights-cleared apparel CAD route with explicit units. G04-V03 is Blocked; EPIC-17 remains In Progress. No acceptance changed. The admitted goal is not complete; resume V03 after the specific receiver access or owner-approved criterion decision recorded in E-G04-S675-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -10707,7 +10712,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Blocked",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10769,6 +10774,16 @@
           "note": "The sign-in and documentary-contract prerequisites no longer prevent action: the user reports signing in, the live DGS/GMS workspaces are open, and S660's reviewed plan authorizes one bounded empirical hypothesis. This status records active testing only; no V03 technical acceptance gate is passed.",
           "evidenceRefs": [
             "E-G04-S660-EXIT"
+          ]
+        },
+        {
+          "status": "Blocked",
+          "at": "2026-10-10T17:07:35.310Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Every currently available and reviewed local route fails or leaves unproven the fixed V03 receiver/unit entry gate. Resume only when a specifically named, rights-cleared apparel CAD receiver/version with explicit units is available, or an owner-approved V03 criterion amendment is made.",
+          "evidenceRefs": [
+            "E-G04-S675-EXIT"
           ]
         }
       ],
@@ -12962,6 +12977,16 @@
           "at": "2026-10-10T17:00:28.022Z",
           "actor": "Codex",
           "text": "S674 exits at a measured candidate stop. LibreCAD 2.2.1.5 R12 preserves 18/18 CUT/SEW paths at 0.000 cm, 38/38 typed marks, eight layer names and clean reopen on the pinned Polo M fixture; the output omits source INSUNITS=5, so unit interpretation fails and this generic profile is not qualified. Source identity, grades, negative input, repeatability and complete readable output remain unproven. No format/setting variation or new app trial is queued. See S674 matrix and plan; all V03 acceptance remains unchanged."
+        },
+        {
+          "at": "2026-10-10T17:06:40.132Z",
+          "actor": "Codex",
+          "text": "S675 starts from S674 7367bbde at clean branch state; refreshed origin/main remains an ancestor and slice 675 is unique. Scope: reconcile the measured LibreCAD R12 result against C04 and existing source/grade fixtures, plus one bounded read-only high-reasoning review. No new software/format test, code, or acceptance change. Exit will keep V03 In Progress only if an already evidenced route clears the receiver/unit entry gate; otherwise record the precise dependency and Blocked status."
+        },
+        {
+          "at": "2026-10-10T17:07:32.478Z",
+          "actor": "Codex",
+          "text": "S675 route review is complete. None of the already tested local routes meets the fixed receiver/unit entry gate: LibreCAD R12 omits the source centimeter declaration; CLO is unitless or has measured semantic/readability failures; DGS lacks usable DXF pattern exchange; Open CAD Studio R14 is generic and unitless. Existing 73-option and 35-size evidence remains reusable only after a qualified receiver exists. Preserve all acceptance; no new app/format trial is queued. The exact remaining dependency and optional scope-amendment boundary are in E-G04-S675-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -13429,7 +13454,9 @@
         "E-G04-S674-START",
         "E-G04-S674-EXIT",
         "E-G04-S674-MATRIX",
-        "E-G04-S674-PLAN"
+        "E-G04-S674-PLAN",
+        "E-G04-S675-START",
+        "E-G04-S675-EXIT"
       ],
       "flagKey": null
     },
@@ -26052,6 +26079,24 @@
       "sha256": null,
       "verified": true,
       "note": "Prioritized completion route with explicit stop conditions; older receiver-dependent estimates stale."
+    },
+    {
+      "id": "E-G04-S675-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S675-v03-route-reconciliation/S675-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded review of S674, C04, and existing fixture evidence; no new candidate or acceptance variation."
+    },
+    {
+      "id": "E-G04-S675-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S675-v03-route-reconciliation/S675-route-decision.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "C04/S627/S559/S562 and independent review confirm no existing qualified receiver. Full V03 acceptance remains unchanged; exact access/scope boundary recorded."
     }
   ]
 }

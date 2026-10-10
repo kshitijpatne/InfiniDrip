@@ -1,0 +1,10 @@
+{
+  "expectedRevision": 4014,
+  "type": "updateStatus",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "role": "maintainer",
+  "status": "Blocked",
+  "reason": "Every currently available and reviewed local route fails or leaves unproven the fixed V03 receiver/unit entry gate. Resume only when a specifically named, rights-cleared apparel CAD receiver/version with explicit units is available, or an owner-approved V03 criterion amendment is made.",
+  "evidenceRefs": ["E-G04-S675-EXIT"]
+}

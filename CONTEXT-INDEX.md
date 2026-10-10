@@ -1,29 +1,23 @@
-## EPIC-17 / G04 — Slice 674 closed; next V03 action is route eligibility review
+## EPIC-17 / G04 — Slice 675 closed; V03 Blocked at receiver/profile entry
 
-S674's sole LibreCAD 2.2.1.5 R12 pilot imported the pinned S671 Polo M DXF,
-saved one R12 file, and cleanly reopened it without a warning. Source/output
-comparison passes all 18 CUT/SEW paths at 0.000 cm, all 38 typed marks, and all
-eight semantic layers. The R12 file drops the source `$INSUNITS=5` centimeter
-header, so unit self-description fails and this generic-CAD profile is not
-qualified. Piece/revision identity, grades, negative inputs, repeatability and
-complete readable output remain unproven; a native view showed outlines and
-layers, but no durable screenshot was retained. No production source or export
-baseline changed, and all V03 acceptance remains. S674's exit packet, matrix,
-plan and parser are in `docs/research/epic17/S674-librecad-local-dxf-pilot/`;
-raw comparison is in the named C: exchange folder. Next: evidence-backed
-eligibility review against the unchanged gates. Do not repeat LibreCAD with
-another format/setting or install another candidate without a specific
-qualified route. V01/V02 Done; V03/EPIC-17 In Progress. Preserve all-seven/73-
-option/grade, negative-input, round-trip, rendering, legacy/identity, global
-100% coverage, PR, safe-merge, ancestry and deployment gates.
-
-S672's actual CLO Standard-DXF evidence remains authoritative over older
-pending-import entries below: geometry, units, marks/layers and saved
-readability failed on that route. S673's source audit found no safe loss-
-recovery adapter; C04 sidecar cannot replace geometry or visible marks. CLO,
-DGS, generic OpenCAD and now LibreCAD R12 do not qualify a V03 apparel-CAD
-profile. No standards claim; `/2` grainline and settled design approvals are
-unchanged.
+S675 reconciled the measured S674 LibreCAD 2.2.1.5 R12 failure against accepted
+C04, S627, S559/S562, and one bounded Sol high review. None of the reviewed
+routes qualifies V03: LibreCAD R12 omits the source centimeter header; CLO has
+measured profile/fidelity failures and/or unitless outputs; DGS has no usable
+DXF pattern route; Open CAD Studio R14 is generic and unitless. Existing
+S627's 73/73 source cohort and S559/S562's 35 source-grade fixtures remain
+reusable but do not clear receiver/profile, unit, identity or grade-exchange
+gates. C04 says absent units must fail visibly and limits sidecars to piece
+identity, grades and seam relations. G04-V03 is Blocked; EPIC-17 remains In
+Progress. Acceptance, thresholds and export identities are unchanged. The
+smallest input to resume is access to one named, rights-cleared apparel CAD
+receiver/version usable locally with explicit units, or an explicit owner-
+approved V03 criterion amendment; no paid purchase or new app trial is
+authorized here. See `docs/research/epic17/S675-v03-route-reconciliation/`.
+Preserve V01/V02 Done, all-seven/73-option/grade, negative-input, repeatability,
+round-trip, readable-render, legacy, protected identity, final full coverage,
+PR, safe merge, ancestry and deployment gates. No physical-fit, factory,
+production-readiness, or standards-conformance claim.
 
 ## EPIC-17 / G04 — Slice 670 closed; S671 reconciles CLO candidate evidence
 

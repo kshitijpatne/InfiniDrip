@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4012,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S675-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S675-v03-route-reconciliation/S675-route-decision.md",
+    "verified": true,
+    "note": "C04/S627/S559/S562 and independent review confirm no existing qualified receiver. Full V03 acceptance remains unchanged; exact access/scope boundary recorded."
+  }
+}

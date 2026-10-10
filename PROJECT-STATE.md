@@ -1,3 +1,39 @@
+## EPIC-17 / G04 — S675 closed; V03 blocked at receiver/profile entry
+
+At 2026-10-10 17:10 UTC, S675 closes from clean S674 commit
+`7367bbdeebc263e9d6953f897b78b6cc1d61ecb5` on `codex/epic-17-g04`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Slice 675 is unique. The accepted C04 contract, S627 73-option matrix,
+S559/S562 grade fixtures, S672/S673 candidate results, S674's measured
+LibreCAD pilot, and one read-only Sol high-reasoning review establish no
+currently available receiver/profile that meets the fixed entry gate. S627's
+73/73 generic R14 source cohort and S559/S562's 35 source-grade mappings are
+reusable fixture evidence only; none clears receiver units/identity or apparel
+profile acceptance. C04 treats absent units as a blocking negative case; its
+sidecar allowance is limited to piece identity, grade, and seam relations.
+
+The validated board transition moved G04-V03 to Blocked at revision 4016 and
+left EPIC-17 In Progress. No V03 acceptance, threshold, export baseline or
+physical/standards claim changed. The exact remaining dependency is access to
+one specifically named, rights-cleared apparel CAD receiver/version usable
+locally with an explicit unit contract, or an explicit owner-approved V03
+criterion amendment. No paid acquisition or new format/app trial is authorized
+by this record. S675 details: `docs/research/epic17/S675-v03-route-reconciliation/`.
+
+Focused closeout: `npm run control-center:test` passed 42/42 after current-state
+board assertions were updated for G04-V03 Blocked; `git diff --check` passed.
+No production code changed; global coverage/build/output/legacy gates remain
+for a settled candidate. Slice time: about 7 min elapsed, including 6 min
+active work and 1 min external reviewer wait; focused verification about 2.3
+sec plus diff check; maintainer-decision time 0. No physical-fit or factory
+claim.
+
+The goal record is to be marked Blocked at this verified boundary because the
+same receiver/profile entry condition has recurred across the candidate
+reviews and cannot be resolved with current in-scope tools. Keep the admitted
+objective and full scope intact; resume after the receiver/access or explicit
+acceptance decision is recorded.
+
 ## EPIC-17 / G04 — S674 closed; LibreCAD R12 profile stopped on unit evidence
 
 At 2026-10-10 16:58 UTC, S674 closes from S673 `3412c1574561744dbfed8e5a43f8bbe6fe172367` on `codex/epic-17-g04`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 674 remains unique. LibreCAD 2.2.1.5 imported the hash-pinned S671 Polo M fixture, saved one R12 DXF, and cleanly reopened it with no warning observed. Analysis passes all 18 CUT/SEW paths at 0.000 cm, all 38 typed marks, all eight semantic layers and clean reopen. R12 output omits source `$INSUNITS=5` centimeters, so this tested profile fails unit self-description and is not qualified. Piece/revision identity, grades, malformed inputs, repeatability and complete readability remain unproven. The native view visibly rendered outlines/layers on reopen, but a durable screenshot is absent; do not pass readable-output from outlines alone. The comparison report is in the named C: folder, and exit/matrix/plan are `docs/research/epic17/S674-librecad-local-dxf-pilot/`.

@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4010,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S675-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S675-v03-route-reconciliation/S675-start-packet.md",
+    "verified": true,
+    "note": "Bounded review of S674, C04, and existing fixture evidence; no new candidate or acceptance variation."
+  }
+}
