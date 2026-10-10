@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "itemId": "G04-V03",
+  "expectedRevision": 3790,
+  "patch": {
+    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, and readable rendered output; preserve legacy DXF and protected export identities. Do not claim ANSI/AAMA or ASTM conformance from a vendor menu label. GMS V2024.1 is user-authenticated but its observed local Open dialog is Marker File (*.mkr), not DXF; Output Auto CAD dxf is disabled without a marker. Bundled DGS V2023.1 has not exposed a window after launch. Its official package requires MPVCI 2.7 then DGS update. Rollback copies are preserved; an MPVCI setup attempt left two live installer processes without a targetable window or completion/error state. Do not update DGS until the installer state is resolved. No fixture was exchanged and no V03 gate clears. Keep Blocked. Next: maintainer reports the visible installer/security-prompt state; then complete the prerequisite/update and inspect the local DXF route. See docs/research/epic17/S657-dgs-official-update/S657-exit-packet.md."
+  }
+}

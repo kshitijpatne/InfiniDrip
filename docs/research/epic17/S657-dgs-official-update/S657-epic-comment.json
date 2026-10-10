@@ -1,0 +1,7 @@
+{
+  "actor": "Codex",
+  "type": "addComment",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3795,
+  "text": "S657: official update attempt is paused with two live MPVCI setup processes and no targetable window/result. Rollback is verified; GMS remains open. No V03 gate clears. Next action is maintainer screen-state inspection; preserve all-seven acceptance and export identities."
+}

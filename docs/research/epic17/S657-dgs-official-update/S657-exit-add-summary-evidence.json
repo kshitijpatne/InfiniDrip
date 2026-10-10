@@ -1,0 +1,12 @@
+{
+  "evidence": {
+    "id": "E-EPIC17-S657-EXIT",
+    "verified": true,
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/S657-dgs-official-update/S657-exit-packet.md",
+    "note": "Records exact current installer handoff state and rollback evidence; V03 remains blocked, all acceptance unchanged."
+  },
+  "type": "addEvidence",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3789
+}
