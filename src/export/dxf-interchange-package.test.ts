@@ -1,10 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { STANDARD_M, GARMENTS, gradeRun } from "../drafting";
+import { STANDARD_M, GARMENTS, blockPieces, gradeRun } from "../drafting";
 import optionMatrix from "../../docs/research/epic17/S330-integrated-browser/matrix.json";
+import { exportDxfCentimeters } from "./dxf-centimeters";
 import {
   createDxfInterchangePackage,
   verifyDxfInterchangePackage,
 } from "./dxf-interchange-package";
+
+function canonicalJson(value: unknown): string {
+  if (value === null) return "null";
+  if (typeof value === "string" || typeof value === "boolean") return JSON.stringify(value);
+  if (typeof value === "number" && Number.isFinite(value)) return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  if (typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record).filter((key) => record[key] !== undefined).sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(",")}}`;
+  }
+  throw new Error("not JSON-compatible");
+}
+
+async function sha256(value: string): Promise<string> {
+  const digest = await globalThis.crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
 
 describe("C04-bounded DXF interchange package", () => {
   it("binds every registered recipe and grade row to an exact DXF and seam graph", async () => {
@@ -19,6 +38,29 @@ describe("C04-bounded DXF interchange package", () => {
         expect(candidate.manifest.units).toEqual({ length: "cm", dxfInsunits: 5 });
         expect(candidate.manifest.pieces.map((piece) => piece.role)).toEqual(Object.keys(graded.block.roles));
         expect(candidate.manifest.stitches).toEqual(graded.block.stitches);
+        const expectedMarks = [];
+        let entityOrdinal = 1;
+        for (const [role, piece] of Object.entries(graded.block.roles)) {
+          for (const [markIndex, mark] of (piece.marks ?? []).entries()) {
+            expectedMarks.push({
+              id: `${recipe.name}:${role}:mark:${mark.name}`,
+              pieceId: `${recipe.name}:${role}`,
+              entityOrdinal: entityOrdinal + 2 + markIndex,
+              name: mark.name,
+              kind: mark.kind,
+              entityType: "start" in mark ? "LINE" : mark.kind === "button" ? "CIRCLE" : "POINT",
+              layer: `MARK_${mark.kind.toUpperCase()}`,
+              sourceGeometry: "start" in mark
+                ? { kind: "segment", start: mark.start, end: mark.end }
+                : { kind: "point", at: mark.at },
+              ...(mark.label !== undefined ? { label: mark.label } : {}),
+              ...(mark.labelRole !== undefined ? { labelRole: mark.labelRole } : {}),
+            });
+          }
+          entityOrdinal += 2 + (piece.marks?.length ?? 0);
+        }
+        expect(candidate.manifest.patternMarks).toEqual(expectedMarks);
+        expect(candidate.dxf).toBe(exportDxfCentimeters(blockPieces(graded.block), recipe.allowances, recipe.notches));
         expect(candidate.manifest.drawingSha256).toMatch(/^[0-9a-f]{64}$/);
         expect(candidate.manifest.revisionId).toMatch(/^[0-9a-f]{64}$/);
         expect(candidate.dxf).toContain("9\n$INSUNITS\n70\n5\n");
@@ -101,6 +143,33 @@ describe("C04-bounded DXF interchange package", () => {
       .rejects.toThrow(`polo option "${option.id}" must match its 0 step`);
   });
 
+  it("rejects duplicate and empty source mark identities", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2];
+    const [role, piece] = Object.entries(graded.block.roles).find(([, value]) => value.marks?.length)!;
+    const marks = piece.marks ?? [];
+    const tryMarks = (replacement: typeof marks) => {
+      const block = { ...graded.block, roles: { ...graded.block.roles, [role]: { ...piece, marks: replacement } } };
+      return createDxfInterchangePackage({ ...recipe, draft: () => block }, { ...graded, block });
+    };
+    await expect(tryMarks([{ ...marks[0]!, name: "" }, ...marks.slice(1)]))
+      .rejects.toThrow("Pattern mark identity must be non-empty and unique");
+    await expect(tryMarks([...marks, { ...marks[0]! }]))
+      .rejects.toThrow("Pattern mark identity must be non-empty and unique");
+    const optionalLabels = marks.map((mark, index) => ({
+      ...mark,
+      label: index === 0 ? undefined : "S681 review label",
+      ...(index === 0 ? { labelRole: undefined } : { labelRole: "instruction" as const }),
+    }));
+    const packageWithOptionalLabels = await tryMarks(optionalLabels);
+    const firstRecordId = `${recipe.name}:${role}:mark:${marks[0]!.name}`;
+    const secondRecordId = `${recipe.name}:${role}:mark:${marks[1]!.name}`;
+    expect(packageWithOptionalLabels.manifest.patternMarks.find((record) => record.id === firstRecordId))
+      .not.toHaveProperty("label");
+    expect(packageWithOptionalLabels.manifest.patternMarks.find((record) => record.id === secondRecordId)?.label)
+      .toBe("S681 review label");
+  });
+
   it("rejects a block drafted from a different option set", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const options = Object.fromEntries((recipe.options ?? []).slice(0, 2).map((option) => [option.id, option.defaultValue]));
@@ -122,9 +191,16 @@ describe("C04-bounded DXF interchange package", () => {
   });
 
   it("rejects DXF, manifest, schema and malformed package tampering", async () => {
-    const recipe = GARMENTS[0];
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2];
     const candidate = await createDxfInterchangePackage(recipe, graded);
+    const rebind = async (dxf: string, manifestChanges: Record<string, unknown>) => {
+      const drawingSha256 = await sha256(dxf);
+      const core: Record<string, unknown> = { ...candidate.manifest, ...manifestChanges, drawingSha256 };
+      delete core.revisionId;
+      const revisionId = await sha256(canonicalJson(core));
+      return { dxf, manifest: { ...core, revisionId } };
+    };
 
     expect(await verifyDxfInterchangePackage({ ...candidate, dxf: `${candidate.dxf}0\nEOF\n` })).toBe(false);
     expect(await verifyDxfInterchangePackage({
@@ -135,6 +211,71 @@ describe("C04-bounded DXF interchange package", () => {
       ...candidate,
       manifest: { ...candidate.manifest, pieces: [] },
     })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: candidate.manifest.patternMarks.slice(1) },
+    })).toBe(false);
+    const firstMark = candidate.manifest.patternMarks[0]!;
+    const secondMark = candidate.manifest.patternMarks[1]!;
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: {} as never },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [null] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, id: "" }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [firstMark, firstMark] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [firstMark, { ...secondMark, id: "distinct-mark", entityOrdinal: firstMark.entityOrdinal }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, pieceId: 42 }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, name: " " }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, entityOrdinal: 0 }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, entityOrdinal: 1.5 }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, entityOrdinal: undefined }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, entityType: 42 }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, layer: 42 }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, entityOrdinal: 1 }] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, patternMarks: [{ ...firstMark, entityOrdinal: 99999 }] },
+    })).toBe(false);
+    const entitiesAt = candidate.dxf.indexOf("0\nSECTION\n2\nENTITIES\n");
+    const headerOnly = `${candidate.dxf.slice(0, entitiesAt)}0\nEOF\n`;
+    expect(await verifyDxfInterchangePackage(await rebind(headerOnly, {}))).toBe(false);
     expect(await verifyDxfInterchangePackage({
       ...candidate,
       manifest: { ...candidate.manifest, units: { length: "in", dxfInsunits: 1 } },

@@ -1,3 +1,21 @@
+## EPIC-17 / G04 — S681 closed; source-bound mark identities
+
+### S681 closed — add source mark identity to candidate sidecar
+
+Started 2026-10-10 18:13:08 UTC from clean S680 `5042e110`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 680; S681 is unique. Board start/exit revisions are
+4037→4039 and 4039→4041. EPIC-17/G04-V03 remain In Progress; V01/V02 Done.
+The version-2 candidate sidecar now binds per-mark IDs/names/labels, kind,
+entity type/layer, source geometry and one-based entity ordinal to the exact
+DXF digest. The verifier checks every reference against its drawing entity.
+All seven recipes/grade rows and all 73 S330 options pass source-package
+verification. Focused 45/45, changed-code coverage 100%, build, Control Center
+42/42 and rendered/hash review pass. S681 DXF bytes match S680; legacy and
+protected exports remain unchanged. No receiver or V03 acceptance gate is
+promoted. Exit packet:
+`docs/research/epic17/S681-dxf-mark-identity/S681-exit-packet.md`.
+
 ## EPIC-17 / G04 — S680 closed; option-bound DXF packages
 
 ### S680 closed — complete option-bound package inputs

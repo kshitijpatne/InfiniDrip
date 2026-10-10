@@ -7,6 +7,7 @@ import { createDxfInterchangePackage, verifyDxfInterchangePackage } from "../../
 
 const matrixPath = resolve("docs/research/epic17/S330-integrated-browser/matrix.json");
 const output = resolve(process.argv[2] ?? "C:/G04-CAD-Interchange/S680-option-packages");
+const evidencePrefix = process.env.G04_PACKAGE_PREFIX ?? "S680";
 const matrixBytes = await readFile(matrixPath);
 const matrix = JSON.parse(matrixBytes.toString("utf8")) as {
   cases: Array<{
@@ -135,6 +136,7 @@ for (const testCase of matrix.cases) {
     screenshotSha256: createHash("sha256").update(pngBytes).digest("hex"),
     entityCountsByLayer,
     pieceCount: candidate.manifest.pieces.length,
+    patternMarkCount: candidate.manifest.patternMarks.length,
     stitchCount: candidate.manifest.stitches.length,
     verified: true,
   });
@@ -145,8 +147,8 @@ const cards = await Promise.all(packages.map(async (entry) => {
   return `<figure><figcaption>${entry.caseId}</figcaption><img alt="${entry.caseId}" src="data:image/svg+xml;base64,${svgBytes.toString("base64")}"/></figure>`;
 }));
 const contactSheetHtml = `<!doctype html><meta charset="utf-8"><style>body{font:12px Arial;margin:8px}main{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}figure{margin:0;border:1px solid #bbb;padding:4px;break-inside:avoid}figcaption{height:18px;overflow:hidden;font-weight:600}img{width:100%;height:112px;object-fit:contain;background:white}</style><main>${cards.join("")}</main>`;
-const contactSheetHtmlPath = resolve(output, "S680-option-contact-sheet.html");
-const contactSheetPngPath = resolve(output, "S680-option-contact-sheet.png");
+const contactSheetHtmlPath = resolve(output, `${evidencePrefix}-option-contact-sheet.html`);
+const contactSheetPngPath = resolve(output, `${evidencePrefix}-option-contact-sheet.png`);
 await writeFile(contactSheetHtmlPath, contactSheetHtml, "utf8");
 const sheetPage = await browser.newPage({ viewport: { width: 1500, height: 1200 }, deviceScaleFactor: 1 });
 await sheetPage.setContent(contactSheetHtml);
@@ -164,7 +166,7 @@ const evidence = {
   contactSheetPngSha256: createHash("sha256").update(contactSheetBytes).digest("hex"),
   packages,
 };
-await writeFile(resolve(output, "S680-option-packages-evidence.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+await writeFile(resolve(output, `${evidencePrefix}-option-packages-evidence.json`), `${JSON.stringify(evidence, null, 2)}\n`);
 console.log(`Wrote and verified ${packages.length} option-bound DXF/manifest packages in ${output}`);
 } finally {
   await browser.close();

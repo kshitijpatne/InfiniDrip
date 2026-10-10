@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4037,
-  "updatedAt": "2026-10-10T18:11:17.907Z",
+  "revision": 4041,
+  "updatedAt": "2026-10-10T18:22:01.716Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13047,6 +13047,16 @@
           "at": "2026-10-10T18:11:17.907Z",
           "actor": "Codex",
           "text": "S680 fixes two source-side issues: package manifests now record and validate the complete resolved option set, and valid Woven zero-vent blocks no longer fail comparison on omitted optional JSON fields. All 73 canonical S330 source configurations package and verify. Focused 44/44, changed production coverage 100%, build, Control Center 42/42 and diagnostic rendered output pass. No receiver was tested; no V03 gate or acceptance criterion is promoted."
+        },
+        {
+          "at": "2026-10-10T18:14:15.983Z",
+          "actor": "Codex",
+          "text": "S681 adds a source-bound mark identity table to the additive DXF package manifest because the writer currently drops PatternMark names and labels. Actual mark entities and geometry remain present and unchanged. Reuse the 73-option matrix, preserve legacy/protected outputs, and make no receiver or V03 pass claim."
+        },
+        {
+          "at": "2026-10-10T18:22:01.716Z",
+          "actor": "Codex",
+          "text": "S681 adds the mark identity information our source omitted while preserving all DXF drawing bytes. Each sidecar mark is bound to a visible entity by exact file digest, entity position, type and layer. All 73 option fixtures and every recipe grade row pass. No receiver was run and no V03 gate is promoted; existing receiver failures remain distinct."
         }
       ],
       "evidenceRefs": [
@@ -13526,7 +13536,9 @@
         "E-G04-S679-START",
         "E-G04-S679-EXIT",
         "E-G04-S680-START",
-        "E-G04-S680-EXIT"
+        "E-G04-S680-EXIT",
+        "E-G04-S681-START",
+        "E-G04-S681-EXIT"
       ],
       "flagKey": null
     },
@@ -26257,6 +26269,24 @@
       "sha256": null,
       "verified": true,
       "note": "S680 resolves and validates every recipe option, packages all 73 canonical S330 configurations, and handles valid optional undefined fields in Woven zero-vent comparison. Focused 44/44, changed-module coverage 100%, build, Control Center 42/42, 73 diagnostic renders and contact-sheet review pass. Source evidence only; receiver and V03 gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S681-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S681-dxf-mark-identity/S681-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S681 addresses a source omission identified by the bounded Sol review: package manifests do not carry per-mark names/labels although the DXF entities do carry visible mark geometry. The slice will add source-bound identities to the sidecar while preserving actual DXF entities."
+    },
+    {
+      "id": "E-G04-S681-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S681-dxf-mark-identity/S681-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S681's version-2 package manifest binds source mark IDs/names/labels, types/layers and source geometry to exact DXF entity ordinals. Verifier checks each reference. Seven recipe grade rows and all 73 S330 options pass; focused 45/45, changed module coverage 100%, build, Control Center 42/42 and rendered/hash review pass. DXF drawings are byte-identical to S680. Source evidence only; V03 gates unchanged."
     }
   ]
 }

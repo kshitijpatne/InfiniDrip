@@ -2,10 +2,27 @@ import type { Block } from "../drafting/block";
 import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe } from "../drafting/recipe";
 import type { GradedSize } from "../drafting/grading";
+import type { PatternMark } from "../drafting/pattern-mark";
+import type { Point } from "../geometry";
 import { blockPieces } from "../drafting/block";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 
-const SCHEMA_VERSION = "infinidrip.g04.dxf-package/1" as const;
+const SCHEMA_VERSION = "infinidrip.g04.dxf-package/2" as const;
+
+type DxfPatternMarkRecord = {
+  readonly id: string;
+  readonly pieceId: string;
+  readonly entityOrdinal: number;
+  readonly name: string;
+  readonly kind: PatternMark["kind"];
+  readonly entityType: "LINE" | "CIRCLE" | "POINT";
+  readonly layer: string;
+  readonly sourceGeometry:
+    | { readonly kind: "segment"; readonly start: Point; readonly end: Point }
+    | { readonly kind: "point"; readonly at: Point };
+  readonly label?: string;
+  readonly labelRole?: "label" | "instruction";
+};
 
 export interface DxfInterchangePackageManifest {
   readonly schemaVersion: typeof SCHEMA_VERSION;
@@ -27,6 +44,7 @@ export interface DxfInterchangePackageManifest {
     readonly onFold: boolean;
     readonly edges: readonly string[];
   }[];
+  readonly patternMarks: readonly DxfPatternMarkRecord[];
   readonly stitches: Block["stitches"];
   readonly revisionId: string;
 }
@@ -98,6 +116,63 @@ function pieceRecords(recipe: GarmentRecipe, block: Block): DxfInterchangePackag
   }));
 }
 
+function patternMarkRecords(recipe: GarmentRecipe, block: Block): readonly DxfPatternMarkRecord[] {
+  const records: DxfPatternMarkRecord[] = [];
+  const ids = new Set<string>();
+  let entityOrdinal = 1;
+  for (const [role, piece] of Object.entries(block.roles)) {
+    const marks = piece.marks ?? [];
+    for (const [markIndex, mark] of marks.entries()) {
+      const id = `${recipe.name}:${role}:mark:${mark.name}`;
+      if (!mark.name.trim() || ids.has(id)) {
+        throw new Error(`Pattern mark identity must be non-empty and unique: "${id}"`);
+      }
+      ids.add(id);
+      const isLine = "start" in mark;
+      records.push({
+        id,
+        pieceId: `${recipe.name}:${role}`,
+        entityOrdinal: entityOrdinal + 2 + markIndex,
+        name: mark.name,
+        kind: mark.kind,
+        entityType: isLine ? "LINE" : mark.kind === "button" ? "CIRCLE" : "POINT",
+        layer: `MARK_${mark.kind.toUpperCase()}`,
+        sourceGeometry: isLine
+          ? { kind: "segment", start: mark.start, end: mark.end }
+          : { kind: "point", at: mark.at },
+        ...(mark.label !== undefined ? { label: mark.label } : {}),
+        ...(mark.labelRole !== undefined ? { labelRole: mark.labelRole } : {}),
+      });
+    }
+    entityOrdinal += 2 + marks.length;
+  }
+  return records;
+}
+
+function dxfEntityRefs(dxf: string): readonly { readonly type: string; readonly layer: string }[] {
+  const lines = dxf.replace(/\r\n/g, "\n").split("\n");
+  const refs: { type: string; layer: string }[] = [];
+  let start = 0;
+  while (start + 3 < lines.length && !(lines[start] === "0" && lines[start + 1] === "SECTION" &&
+    lines[start + 2] === "2" && lines[start + 3] === "ENTITIES")) start += 1;
+  if (start + 3 >= lines.length) return refs;
+  for (let index = start + 4; index + 1 < lines.length;) {
+    if (lines[index] !== "0") { index += 2; continue; }
+    const type = lines[index + 1]!;
+    if (type === "ENDSEC" || type === "EOF") break;
+    if (type === "VERTEX" || type === "SEQEND") { index += 2; continue; }
+    let layer = "";
+    let next = index + 2;
+    while (next + 1 < lines.length && lines[next] !== "0") {
+      if (lines[next] === "8") layer = lines[next + 1]!;
+      next += 2;
+    }
+    refs.push({ type, layer });
+    index = next;
+  }
+  return refs;
+}
+
 export async function createDxfInterchangePackage(
   recipe: GarmentRecipe,
   graded: GradedSize,
@@ -133,6 +208,7 @@ export async function createDxfInterchangePackage(
       rule: { ...recipe.grade },
     },
     pieces: pieceRecords(recipe, sourceBlock),
+    patternMarks: patternMarkRecords(recipe, sourceBlock),
     stitches: sourceBlock.stitches.map((stitch) => ({
       label: stitch.label,
       a: { edges: stitch.a.edges.map((reference) => ({ ...reference })) },
@@ -153,6 +229,24 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
   const units = manifest.units as { length?: unknown; dxfInsunits?: unknown } | undefined;
   if (units?.length !== "cm" || units.dxfInsunits !== 5 || !hasCentimeterHeader(candidate.dxf)) return false;
   if (await sha256(candidate.dxf) !== manifest.drawingSha256) return false;
+  if (!Array.isArray(manifest.patternMarks)) return false;
+  const refs = dxfEntityRefs(candidate.dxf);
+  const ids = new Set<string>();
+  const ordinals = new Set<number>();
+  for (const value of manifest.patternMarks) {
+    if (value === null || typeof value !== "object") return false;
+    const mark = value as Partial<DxfPatternMarkRecord>;
+    if (typeof mark.id !== "string" || !mark.id || ids.has(mark.id)) return false;
+    if (typeof mark.pieceId !== "string" || typeof mark.name !== "string" || !mark.name.trim()) return false;
+    if (!Number.isInteger(mark.entityOrdinal)) return false;
+    const ordinal = mark.entityOrdinal as number;
+    if (ordinal < 1 || ordinals.has(ordinal)) return false;
+    if (typeof mark.entityType !== "string" || typeof mark.layer !== "string") return false;
+    const entity = refs[ordinal - 1];
+    if (!entity || entity.type !== mark.entityType || entity.layer !== mark.layer) return false;
+    ids.add(mark.id);
+    ordinals.add(ordinal);
+  }
   const { revisionId, ...core } = manifest;
   try {
     return await sha256(canonicalJson(core)) === revisionId;

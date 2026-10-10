@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4040,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S681 adds the mark identity information our source omitted while preserving all DXF drawing bytes. Each sidecar mark is bound to a visible entity by exact file digest, entity position, type and layer. All 73 option fixtures and every recipe grade row pass. No receiver was run and no V03 gate is promoted; existing receiver failures remain distinct."
+}

@@ -1,3 +1,16 @@
+## EPIC-17 / G04 — Slice 681 closed; source-bound mark identities
+
+S681 follows the bounded Sol review of S680. The version-2 candidate manifest
+now records stable piece-scoped mark IDs, source names/labels, kind, DXF
+entity/layer, source geometry and one-based drawing entity position; the
+verifier checks each listed entity against the exact digest-bound DXF. Across
+all seven recipes and every grade row, tests verify complete source mark
+records. All 73 S330 option packages pass; every S681 DXF drawing hash is
+identical to S680. Focused 45/45, changed-module coverage 100%, build, board
+suite and diagnostic render/hash review pass. This is source-package evidence;
+receiver/V03 gates remain unchanged. Start/exit packet:
+`docs/research/epic17/S681-dxf-mark-identity/`.
+
 ## EPIC-17 / G04 — Slice 680 closed; option-bound DXF packages
 
 S680 makes the package manifest record every resolved recipe option, rejects
