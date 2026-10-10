@@ -1,3 +1,24 @@
+## EPIC-17 / G04 — S682 closed; current V03 gate matrix
+
+### S682 closed — reconcile current V03 evidence without another trial
+
+Started 2026-10-10 18:23:30 UTC from clean S681 `1b1975a1`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 681; S682 is unique. Board start/exit revisions are
+4041→4043 and 4043→4045. Board state keeps
+EPIC-17/G04-V03 In Progress; V01/V02 Done. The complete goal remains active.
+S682 reconciles every fixed V03 gate against current S680/S681 source packages,
+already measured receivers, and the bounded Sol review. Source-side units,
+options, grades, piece/seam relations and named-mark records pass their package
+checks. No single tested receiver passes the unchanged geometry, units,
+malformed-input, all-seven/options/grades, repeatability, readable-output and
+profile gates. See `docs/research/epic17/S682-v03-current-gate-matrix/V03-GATE-MATRIX-S682.md`.
+No new CAD software, candidate, profile, encoding or receiver variation was
+run. EPIC-17 remains in progress; the full goal is not complete. Reopen receiver
+work only when a route qualifies or a source-side change is supported by a
+specific measured gate. Full integration/coverage/PR/merge/deployment gates
+remain pending.
+
 ## EPIC-17 / G04 — S681 closed; source-bound mark identities
 
 ### S681 closed — add source mark identity to candidate sidecar

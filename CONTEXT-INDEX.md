@@ -1,3 +1,15 @@
+## EPIC-17 / G04 — Slice 682 closed; current V03 gate matrix
+
+S682 reconciles every unchanged V03 gate against S680/S681 source packages,
+measured receiver outputs, and the bounded Sol review. Source-side unit,
+option, grade, piece/seam, and named-mark records now pass their source checks.
+CLO fails Polo CUT geometry and malformed input; DGS imports no pattern;
+LibreCAD R12 drops units; generic OpenCAD fails malformed-input/profile gates.
+No tested receiver qualifies all fixed gates. The completion plan specifies
+the single evidence condition for any reopened route and a stop-on-first-failure
+rule; no new app/profile/format trial is queued. Matrix and plan:
+`docs/research/epic17/S682-v03-current-gate-matrix/V03-GATE-MATRIX-S682.md`.
+
 ## EPIC-17 / G04 — Slice 681 closed; source-bound mark identities
 
 S681 follows the bounded Sol review of S680. The version-2 candidate manifest

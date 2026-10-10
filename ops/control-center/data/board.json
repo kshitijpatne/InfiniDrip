@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4041,
-  "updatedAt": "2026-10-10T18:22:01.716Z",
+  "revision": 4045,
+  "updatedAt": "2026-10-10T18:25:19.455Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13057,6 +13057,16 @@
           "at": "2026-10-10T18:22:01.716Z",
           "actor": "Codex",
           "text": "S681 adds the mark identity information our source omitted while preserving all DXF drawing bytes. Each sidecar mark is bound to a visible entity by exact file digest, entity position, type and layer. All 73 option fixtures and every recipe grade row pass. No receiver was run and no V03 gate is promoted; existing receiver failures remain distinct."
+        },
+        {
+          "at": "2026-10-10T18:23:53.245Z",
+          "actor": "Codex",
+          "text": "S682 records the current V03 pass/fail/unproven state and one prioritized path using existing source and receiver evidence only. No additional CAD candidate or profile variation is planned. Acceptance and holds stay unchanged."
+        },
+        {
+          "at": "2026-10-10T18:25:19.455Z",
+          "actor": "Codex",
+          "text": "S682 confirms the source-side fixes and 73-option package matrix pass, but no tested receiver satisfies all unchanged V03 gates. CLO, DGS, LibreCAD R12 and generic OpenCAD have already measured blocking failures. No new app, mode or encoding was tried. The evidence matrix and one-shot stop rule are linked in E-G04-S682-EXIT."
         }
       ],
       "evidenceRefs": [
@@ -13538,7 +13548,9 @@
         "E-G04-S680-START",
         "E-G04-S680-EXIT",
         "E-G04-S681-START",
-        "E-G04-S681-EXIT"
+        "E-G04-S681-EXIT",
+        "E-G04-S682-START",
+        "E-G04-S682-EXIT"
       ],
       "flagKey": null
     },
@@ -26287,6 +26299,24 @@
       "sha256": null,
       "verified": true,
       "note": "S681's version-2 package manifest binds source mark IDs/names/labels, types/layers and source geometry to exact DXF entity ordinals. Verifier checks each reference. Seven recipe grade rows and all 73 S330 options pass; focused 45/45, changed module coverage 100%, build, Control Center 42/42 and rendered/hash review pass. DXF drawings are byte-identical to S680. Source evidence only; V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S682-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S682-v03-current-gate-matrix/S682-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S682 reconciles all unchanged V03 gates against current S680/S681 source-package evidence, prior measured receiver results and a bounded Sol review. Documentation-only; no new app/profile/encoding experiment."
+    },
+    {
+      "id": "E-G04-S682-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S682-v03-current-gate-matrix/V03-GATE-MATRIX-S682.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S682 separates S680/S681 source passes from measured receiver failures and unproven gates, with a bounded no-churn route plan. All acceptance remains unchanged; no receiver trial or code change occurred."
     }
   ]
 }

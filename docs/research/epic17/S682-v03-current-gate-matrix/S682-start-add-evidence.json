@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4041,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S682-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S682-v03-current-gate-matrix/S682-start-packet.md",
+    "verified": true,
+    "note": "S682 reconciles all unchanged V03 gates against current S680/S681 source-package evidence, prior measured receiver results and a bounded Sol review. Documentation-only; no new app/profile/encoding experiment."
+  }
+}
