@@ -1,3 +1,16 @@
+**S659 exit:** The user-completed MPVCI prerequisite is verified by registry.
+S659 applied the hash-pinned DGS 20250610 archive after checking every S657
+rollback hash; all 15 installed payloads match the archive and DGS launches.
+Help/About reports `VID:20250610`, while the file version remains
+`2023.1.0.0`. The actual local DXF import route, `.dxf` filter and import
+options are visible; export is disabled without a pattern. The exact
+entity/layer/identity/sidecar contract remains unspecified by S653's first-
+party manual and the dialog. No fixture was imported; every V03 acceptance
+gate remains unchanged and unproven. Board revision 3817. Start/exit evidence:
+`docs/research/epic17/S659-dgs-update-and-route-check/`. Next: resolve one
+candidate-specific contract from primary evidence before importing a
+source-matched representative fixture.
+
 **S658 exit:** Reconciled S657's live setup state with a fresh Computer Use
 capture: MPVCI 2.7's Information wizard is visible over GMS and has not
 advanced; no Windows Security/elevation prompt is visible. The prior manual

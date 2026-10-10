@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3811,
+  "evidence": {
+    "id": "E-EPIC17-S659-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/S659-dgs-update-and-route-check/S659-exit-packet.md",
+    "verified": true,
+    "note": "Updated official DGS route is operational; exact interchange profile contract remains unproven, so no fixture or V03 acceptance gate clears."
+  }
+}

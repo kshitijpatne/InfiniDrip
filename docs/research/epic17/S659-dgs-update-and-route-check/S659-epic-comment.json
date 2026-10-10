@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "EPIC-17",
+  "expectedRevision": 3814,
+  "actor": "Codex",
+  "text": "S659 applied the official DGS 20250610 payload after registry verification of MPVCI; all 15 files match the package and S657 rollback remains intact. DGS Help/About reports VID:20250610 and File→Import DXF exposes a local .dxf picker. Export is disabled on an empty workspace. Exact entity/layer/sidecar contract remains unproven, so no fixture was opened and V03 remains blocked."
+}

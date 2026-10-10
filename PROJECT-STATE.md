@@ -1,3 +1,19 @@
+## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
+
+MPVCI V2.7 and Microsoft VC++ 2010 x64/x86 10.0.40219 are registered. S659
+applied the hash-pinned official DGS 20250610 package; all 15 files match the
+package and S657 rollback remains intact. DGS launches and Help/About reports
+`VID:20250610` (the executable's file-version field remains `2023.1.0.0`). Its
+actual local import path is File→Import DXF with filter `DXF Files (*.dxf)`;
+the dialog exposes ASTM/AAMA, TIIP and AutoCAD modes and unit/text/seam/grade
+options. Export is disabled in an empty workspace. The manual/observed dialog
+still do not define accepted entity/layer/identity/sidecar semantics, so no
+fixture was imported and no V03 acceptance gate clears. V03 remains Blocked;
+V01/V02 Done. Next: find a specific primary profile contract or matched
+source-exact fixture before one pilot; do not select a mode by assumption.
+Board revision 3817; see
+`docs/research/epic17/S659-dgs-update-and-route-check/S659-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 658 closed; MPVCI wizard directly observed
 
 S658 reconciled the S657 desktop handoff: the MPVCI 2.7 Information wizard is

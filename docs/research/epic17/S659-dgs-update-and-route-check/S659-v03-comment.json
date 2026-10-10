@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "expectedRevision": 3815,
+  "actor": "Codex",
+  "text": "S659 verifies GetonAgain DGS VID:20250610 and its direct local DXF import dialog. No import/export occurred; export remains disabled while blank. Exact accepted DXF entity/mark/identity/sidecar contract is still unspecified by the primary manual. All V03 acceptance gates remain unproven and unchanged."
+}
