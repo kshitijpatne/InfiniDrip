@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4055,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S685-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S685-clo-unit-roundtrip-normalizer/S685-exit-packet.md",
+    "verified": true,
+    "note": "Exact source/return comparison: 5/9 CUT paths and 8/108 drawing-mark entities miss the fixed 0.001 cm gate; all 9 SEW paths pass. CLO changes units/layers and does not preserve source IDs. No header-only normalizer or production change is safe; V03 gates stay open. Evidence files remain on C: in the named interchange folder."
+  }
+}

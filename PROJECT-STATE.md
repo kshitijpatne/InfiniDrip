@@ -1,3 +1,34 @@
+## EPIC-17 / G04 — S685 closed; CLO returned output differs beyond its unit label
+
+S685 compared the exact S684 source and CLO return. The source writer and
+manifest verifier correctly emit/require centimeters. CLO's returned drawing
+declares millimeters but keeps centimeter-sized numeric coordinates. More
+importantly, at the fixed 0.001 cm gate, 5/9 cut outlines and 8/108 source mark
+entities do not match returned geometry; all 9 sew outlines pass. CLO also
+replaces semantic layers and does not retain source identities. A header-only
+normalizer would conceal those measured differences, so no production code was
+changed. Exact source, output, comparison report, distances and limitations are
+in the S685 exit packet; all exchange files remain under `C:\G04-CAD-Interchange\`.
+No other app, profile, mode, format, setting, fixture or threshold was tried.
+The evidence applies to this observed CLO route and one Polo M fixture only.
+
+S685 start/exit board revisions: 4053→4055 and 4055→4057. Focused comparison
+utility syntax check passed; focused Control Center suite result is recorded in
+the slice packet. V03 remains In Progress; V01/V02 Done. No V03 acceptance gate
+passes from this one fixture. Next reconcile the existing gate matrix with
+S685's concrete unit/geometry/mark/identity failures and record the shortest
+credible path without another default software trial or acceptance change.
+Full repository coverage, final output review, PR, safe merge, ancestry, and
+required deployment remain open.
+
+Start: 2026-10-10 18:49:15 UTC; closeout 18:54:24 UTC (5m09s elapsed).
+Implementation: 1m20s; focused verification and closeout: 3m49s; external-agent
+wait: 0; maintainer decision: 0.
+
+Exit packet: `docs/research/epic17/S685-clo-unit-roundtrip-normalizer/S685-exit-packet.md`.
+
+## EPIC-17 / G04 — S684 closed; CLO output unit mismatch recorded
+
 ## EPIC-17 / G04 — S684 closed; CLO output unit mismatch recorded
 
 S684 started 2026-10-10 18:36:33 UTC from clean S683 commit

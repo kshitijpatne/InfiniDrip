@@ -1,3 +1,25 @@
+## EPIC-17 / G04 — Slice 685 closed
+
+Exact comparison of the S684 source and returned Polo M drawings found that
+the unit label is not the only mismatch: 5/9 cut outlines and 8/108 source mark
+entities exceed the fixed 0.001 cm comparison limit. All 9 sew outlines pass.
+The receiver also replaces semantic layer names and does not retain source IDs.
+No safe unit-only normalization or production change is supported. The result
+is specific to the measured CLO 2026.1.310 Standard DXF route and fixture; it
+does not change V03 acceptance. Exit evidence:
+`docs/research/epic17/S685-clo-unit-roundtrip-normalizer/S685-exit-packet.md`.
+Current authoritative status and next action are in `PROJECT-STATE.md`.
+
+## EPIC-17 / G04 — Slice 684 closed
+
+S684 performed one hash-pinned CLO Standard DXF import/export of the current
+Polo M fixture. CLO retained numeric coordinates but changed the unit label
+from centimeters to millimeters, a concrete receiver-output mismatch. This
+single result does not establish full geometry fidelity or qualify CLO/V03.
+Exit packet:
+`docs/research/epic17/S684-current-package-clo-import/S684-exit-packet.md`.
+S685 owns the exact source-to-output diagnosis.
+
 ## EPIC-17 / G04 — Slice 683
 
 S683's current-package CLO attempt stopped before import because the Windows
