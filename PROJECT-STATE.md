@@ -1,4 +1,32 @@
-## EPIC-17 / G04 — S679 active; explicit package units
+## EPIC-17 / G04 — S680 closed; option-bound DXF packages
+
+### S680 closed — complete option-bound package inputs
+
+Started 2026-10-10 18:03:37 UTC from clean S679 `dff78e78`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 679; S680 is unique. Canonical board revision 4033
+keeps V01/V02 Done and G04-V03/EPIC-17 In Progress. Packet:
+`docs/research/epic17/S680-dxf-option-package-coverage/S680-start-packet.md`.
+
+S680 resolves every option from validated inputs plus recipe defaults, rejects
+unknown, malformed, out-of-range and off-step values, and binds those complete
+values to the package revision. It also fixes canonical comparison of optional
+`undefined` object fields so the valid Woven zero-vent source block packages
+correctly. The exact 73-row S330 source matrix generated and verified one
+package per row. Focused 44/44, changed-module coverage 100%, build and Control
+Center 42/42 pass. Diagnostic SVG/PNG output was rendered from emitted DXF
+entities; 73-case contact sheet and representative high-detail outputs were
+reviewed. All output files are under `C:\G04-CAD-Interchange\S680-option-packages`.
+No receiver or V03 acceptance gate is promoted. Exit packet:
+`docs/research/epic17/S680-dxf-option-package-coverage/S680-exit-packet.md`.
+
+The next action is a bounded reconciliation of V03 evidence from the already
+tested receiver/profile routes, separating source defects repaired in S676–S680
+from concrete receiver/profile failures and unproven acceptance gates. Do not
+introduce another CAD application or claim interchange acceptance without the
+unchanged evidence gates.
+
+## EPIC-17 / G04 — S679 closed; explicit package units
 
 ### S679 closed — explicit units in candidate package
 

@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4034,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S680 extends the source package boundary with fully resolved recipe options and fail-closed validation, then packages all 73 canonical S330 configurations. This closes a product-side metadata/option-validation gap but does not claim receiver acceptance. V03 gates and acceptance remain unchanged."
+}

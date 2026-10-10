@@ -36,6 +36,31 @@ export interface DxfInterchangePackage {
   readonly manifest: DxfInterchangePackageManifest;
 }
 
+function resolveOptions(recipe: GarmentRecipe, options: GarmentOptions): GarmentOptions {
+  if (typeof options !== "object" || options === null || Array.isArray(options)) {
+    throw new Error("Package options must be a recipe option object");
+  }
+  const definitions = [...(recipe.options ?? [])].sort((a, b) => a.id.localeCompare(b.id));
+  const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]));
+  const unknown = Object.keys(options).find((id) => !definitionsById.has(id));
+  if (unknown) throw new Error(`Unsupported ${recipe.name} option "${unknown}"`);
+
+  return Object.fromEntries(definitions.map((definition) => {
+    const supplied = Object.prototype.hasOwnProperty.call(options, definition.id);
+    const value: unknown = supplied ? (options as Record<string, unknown>)[definition.id] : definition.defaultValue;
+    if (typeof value !== "number" || !Number.isFinite(value)) {
+      throw new Error(`${recipe.name} option "${definition.id}" must be a finite number`);
+    }
+    if (value < definition.min || value > definition.max) {
+      throw new Error(`${recipe.name} option "${definition.id}" must be between ${definition.min} and ${definition.max}`);
+    }
+    if (definition.step <= 0 || Math.abs((value - definition.min) / definition.step - Math.round((value - definition.min) / definition.step)) > 1e-8) {
+      throw new Error(`${recipe.name} option "${definition.id}" must match its ${definition.step} step`);
+    }
+    return [definition.id, value];
+  }));
+}
+
 function canonicalJson(value: unknown): string {
   if (value === null) return "null";
   if (typeof value === "string" || typeof value === "boolean") return JSON.stringify(value);
@@ -43,7 +68,9 @@ function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
   if (typeof value === "object") {
     const record = value as Record<string, unknown>;
-    return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(",")}}`;
+    const entries = Object.keys(record).filter((key) => record[key] !== undefined).sort()
+      .map((key) => JSON.stringify(key) + ":" + canonicalJson(record[key]));
+    return "{" + entries.join(",") + "}";
   }
   throw new Error("DXF package metadata must contain only JSON-compatible values");
 }
@@ -76,12 +103,13 @@ export async function createDxfInterchangePackage(
   graded: GradedSize,
   options: GarmentOptions = {},
 ): Promise<DxfInterchangePackage> {
+  const resolvedOptions = resolveOptions(recipe, options);
   const size = recipe.sizes.find((entry) => entry.label === graded.label);
   if (!size || size.step !== graded.step) {
     throw new Error(`Selected size "${graded.label}" does not match the recipe's grade table`);
   }
 
-  const sourceBlock = recipe.draft(graded.measurements, options);
+  const sourceBlock = recipe.draft(graded.measurements, resolvedOptions);
   if (canonicalJson(sourceBlock) !== canonicalJson(graded.block)) {
     throw new Error("Selected pattern block does not match the recipe, size and options");
   }
@@ -98,7 +126,7 @@ export async function createDxfInterchangePackage(
     units: { length: "cm", dxfInsunits: 5 } as const,
     drawingSha256,
     recipe: { id: recipe.name, label: recipe.label },
-    options: { ...options },
+    options: resolvedOptions,
     grade: {
       selectedSize: { label: graded.label, step: graded.step },
       sizeRun: recipe.sizes.map((entry) => ({ ...entry })),

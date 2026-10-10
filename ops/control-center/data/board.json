@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4033,
-  "updatedAt": "2026-10-10T18:01:43.421Z",
+  "revision": 4037,
+  "updatedAt": "2026-10-10T18:11:17.907Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13037,6 +13037,16 @@
           "at": "2026-10-10T18:01:43.421Z",
           "actor": "Codex",
           "text": "S679 adds explicit centimeter units to the source package and verifies that the paired DXF itself declares $INSUNITS=5. Seven generated manifests pass; all DXF drawing hashes remain byte-identical to S678. Focused checks 42/42, changed-code coverage 100%, build, Control Center 42/42 and diff hygiene pass. This addresses a source-side C04 omission but does not change S674's measured LibreCAD R12 behavior: its output drops the unit marker. No V03 round-trip or profile gate is claimed; acceptance remains unchanged."
+        },
+        {
+          "at": "2026-10-10T18:04:18.031Z",
+          "actor": "Codex",
+          "text": "S680 extends the source package boundary with fully resolved recipe options and fail-closed validation, then packages all 73 canonical S330 configurations. This closes a product-side metadata/option-validation gap but does not claim receiver acceptance. V03 gates and acceptance remain unchanged."
+        },
+        {
+          "at": "2026-10-10T18:11:17.907Z",
+          "actor": "Codex",
+          "text": "S680 fixes two source-side issues: package manifests now record and validate the complete resolved option set, and valid Woven zero-vent blocks no longer fail comparison on omitted optional JSON fields. All 73 canonical S330 source configurations package and verify. Focused 44/44, changed production coverage 100%, build, Control Center 42/42 and diagnostic rendered output pass. No receiver was tested; no V03 gate or acceptance criterion is promoted."
         }
       ],
       "evidenceRefs": [
@@ -13514,7 +13524,9 @@
         "E-G04-S678-START",
         "E-G04-S678-EXIT",
         "E-G04-S679-START",
-        "E-G04-S679-EXIT"
+        "E-G04-S679-EXIT",
+        "E-G04-S680-START",
+        "E-G04-S680-EXIT"
       ],
       "flagKey": null
     },
@@ -26227,6 +26239,24 @@
       "sha256": null,
       "verified": true,
       "note": "Candidate manifests now explicitly declare centimeters and verify paired DXF $INSUNITS=5. Seven manifests generated and reviewed; all seven drawing hashes are unchanged from S678. Focused checks 42/42, changed-code coverage 100%, build and Control Center 42/42 pass. This clears only source-side unit metadata; LibreCAD R12 output still omits the unit marker and V03 remains open."
+    },
+    {
+      "id": "E-G04-S680-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S680-dxf-option-package-coverage/S680-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S680 binds a complete resolved option set to every source DXF package and reuses the exact S330 73-configuration matrix. This is source-package evidence only; receiver gates remain unchanged."
+    },
+    {
+      "id": "E-G04-S680-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S680-dxf-option-package-coverage/S680-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S680 resolves and validates every recipe option, packages all 73 canonical S330 configurations, and handles valid optional undefined fields in Woven zero-vent comparison. Focused 44/44, changed-module coverage 100%, build, Control Center 42/42, 73 diagnostic renders and contact-sheet review pass. Source evidence only; receiver and V03 gates remain unchanged."
     }
   ]
 }

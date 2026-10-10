@@ -851,6 +851,12 @@ and explicit centimeter units verified against `$INSUNITS=5`. Its SHA-256
 binds the exact DXF and canonical manifest revision. It is a C04-bounded
 companion record, not an importer or receiver-preservation proof; the DXF
 remains the source of CUT/SEW geometry and visible construction marks.
+Package creation resolves and validates every declared recipe option, records
+defaults as well as supplied values, and hashes that complete option set.
+Canonical pattern-block comparison follows JSON object serialization by
+omitting optional `undefined` fields. This lets valid option configurations
+such as Woven zero-vent produce a source package; it does not prove that a
+receiver preserves those values or that the exchange profile passes V03.
 
 The project also keeps reference export files. Tests compare new exports with
 those references so a change to one view or tool does not silently alter

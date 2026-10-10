@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { STANDARD_M, GARMENTS, gradeRun } from "../drafting";
+import optionMatrix from "../../docs/research/epic17/S330-integrated-browser/matrix.json";
 import {
   createDxfInterchangePackage,
   verifyDxfInterchangePackage,
@@ -35,13 +36,69 @@ describe("C04-bounded DXF interchange package", () => {
     const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, options)[2];
     const first = await createDxfInterchangePackage(recipe, graded, options);
     const reordered = await createDxfInterchangePackage(recipe, graded, reversedOptions);
-    const changedOptions = { ...options, [Object.keys(options)[0]]: Object.values(options)[0] + 0.1 };
+    const firstDefinition = recipe.options![0]!;
+    const changedOptions = { ...options, [firstDefinition.id]: firstDefinition.defaultValue + firstDefinition.step };
     const changedGraded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, changedOptions)[2];
     const changed = await createDxfInterchangePackage(recipe, changedGraded, changedOptions);
 
     expect(first.dxf).toBe(reordered.dxf);
     expect(first.manifest.revisionId).toBe(reordered.manifest.revisionId);
     expect(first.manifest.revisionId).not.toBe(changed.manifest.revisionId);
+  });
+
+  it("records every canonical S330 option configuration with fully resolved values", async () => {
+    expect(optionMatrix.cases).toHaveLength(73);
+    for (const testCase of optionMatrix.cases) {
+      const recipe = GARMENTS.find((candidate) => candidate.name === testCase.recipeId)!;
+      const options: Record<string, number> = {};
+      Object.assign(options, testCase.options ?? {});
+      Object.assign(options, testCase.optionValues ?? {});
+      const resolvedOptions = Object.fromEntries((recipe.options ?? []).map((definition) => [
+        definition.id,
+        options[definition.id] ?? definition.defaultValue,
+      ]));
+      const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft, resolvedOptions)[2];
+      let candidate;
+      try {
+        candidate = await createDxfInterchangePackage(recipe, graded, options);
+      } catch (error) {
+        throw new Error(`${testCase.caseId}: ${error instanceof Error ? error.message : String(error)}`);
+      }
+      expect(candidate.manifest.options).toEqual(resolvedOptions);
+      expect(await verifyDxfInterchangePackage(candidate)).toBe(true);
+    }
+  });
+
+  it("materializes recipe defaults and rejects invalid or unsupported options", async () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const definitions = recipe.options ?? [];
+    const fullDefaults = Object.fromEntries(definitions.map((definition) => [definition.id, definition.defaultValue]));
+    const defaultGraded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2];
+    const implicit = await createDxfInterchangePackage(recipe, defaultGraded);
+    const explicit = await createDxfInterchangePackage(recipe, defaultGraded, fullDefaults);
+    expect(implicit.manifest.options).toEqual(fullDefaults);
+    expect(implicit.manifest.revisionId).toBe(explicit.manifest.revisionId);
+
+    const option = definitions[0]!;
+    await expect(createDxfInterchangePackage(recipe, defaultGraded, { unsupported: 1 }))
+      .rejects.toThrow('Unsupported polo option "unsupported"');
+    await expect(createDxfInterchangePackage(recipe, defaultGraded, { [option.id]: Number.NaN }))
+      .rejects.toThrow(`polo option "${option.id}" must be a finite number`);
+    await expect(createDxfInterchangePackage(recipe, defaultGraded, { [option.id]: option.max + option.step }))
+      .rejects.toThrow(`polo option "${option.id}" must be between ${option.min} and ${option.max}`);
+    await expect(createDxfInterchangePackage(recipe, defaultGraded, { [option.id]: option.min + option.step / 2 }))
+      .rejects.toThrow(`polo option "${option.id}" must match its ${option.step} step`);
+    await expect(createDxfInterchangePackage(recipe, defaultGraded, null as never))
+      .rejects.toThrow("Package options must be a recipe option object");
+    await expect(createDxfInterchangePackage(recipe, defaultGraded, [] as never))
+      .rejects.toThrow("Package options must be a recipe option object");
+    await expect(createDxfInterchangePackage(recipe, defaultGraded, "invalid" as never))
+      .rejects.toThrow("Package options must be a recipe option object");
+    await expect(createDxfInterchangePackage({
+      ...recipe,
+      options: [{ ...option, step: 0 }],
+    }, defaultGraded))
+      .rejects.toThrow(`polo option "${option.id}" must match its 0 step`);
   });
 
   it("rejects a block drafted from a different option set", async () => {

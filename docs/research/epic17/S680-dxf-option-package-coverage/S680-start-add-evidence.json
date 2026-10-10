@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4033,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S680-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S680-dxf-option-package-coverage/S680-start-packet.md",
+    "verified": true,
+    "note": "S680 binds a complete resolved option set to every source DXF package and reuses the exact S330 73-configuration matrix. This is source-package evidence only; receiver gates remain unchanged."
+  }
+}

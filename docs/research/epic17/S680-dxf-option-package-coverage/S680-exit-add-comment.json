@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4036,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S680 fixes two source-side issues: package manifests now record and validate the complete resolved option set, and valid Woven zero-vent blocks no longer fail comparison on omitted optional JSON fields. All 73 canonical S330 source configurations package and verify. Focused 44/44, changed production coverage 100%, build, Control Center 42/42 and diagnostic rendered output pass. No receiver was tested; no V03 gate or acceptance criterion is promoted."
+}

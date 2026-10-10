@@ -1,3 +1,16 @@
+## EPIC-17 / G04 — Slice 680 closed; option-bound DXF packages
+
+S680 makes the package manifest record every resolved recipe option, rejects
+invalid values, and verifies all 73 canonical S330 source configurations. It
+also makes canonical block comparison follow JSON's omission of `undefined`
+object fields, allowing the valid S627 Woven zero-vent configuration to be
+packaged. All 73 emitted DXFs/manifests were verified and rendered to SVG/PNG;
+the contact sheet and representative high-detail outputs were inspected.
+Focused tests 44/44, changed-module coverage 100%, build and Control Center
+42/42 pass. These are source-package and diagnostic-render results only; no
+receiver or V03 gate is promoted. Start/exit evidence:
+`docs/research/epic17/S680-dxf-option-package-coverage/`.
+
 ## EPIC-17 / G04 — Slice 679 closed; explicit package units
 
 S679 adds `cm` and DXF unit code `5` to the package manifest and checks both
