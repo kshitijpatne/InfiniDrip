@@ -1,3 +1,26 @@
+## EPIC-17 / G04 — Slice 676 closed; source-unit candidate added
+
+S676 confirmed two separate facts: the S674 input already had centimeter
+information and LibreCAD's saved R12 file omitted it; independently, the live
+InfiniDrip DXF writer emits centimeter coordinates without declaring their
+units. The latter is a product-side gap. A new non-default
+`exportDxfCentimeters` helper prefixes a generic AC1015 centimeter header to
+the exact existing legacy body. Focused coverage is 100% across statements,
+branches, functions and lines; tests, protected legacy export hashes, build,
+Control Center and diff checks pass. It is not exposed in the UI or claimed as
+an apparel-CAD profile. This clears only source-unit declaration for a
+candidate; V03 receiver, identity, grade, marks/labels, malformed-input,
+repeatability, rendered-readability and all-seven round-trip gates remain.
+S674's LibreCAD output loss was a receiver-side observation and was not caused
+by this product-writer omission. Board revision 4021 has G04-V03 and EPIC-17
+In Progress. Details: `docs/research/epic17/S676-source-unit-metadata/`.
+Preserve the unchanged V03 acceptance, legacy behavior, protected export
+identities, final global gates, PR, safe merge, ancestry and deployment.
+
+S675's route reconciliation remains in
+`docs/research/epic17/S675-v03-route-reconciliation/`; its broader statement
+that there was no product-code defect is superseded by the S676 source audit.
+
 ## EPIC-17 / G04 — Slice 675 closed; V03 Blocked at receiver/profile entry
 
 S675 reconciled the measured S674 LibreCAD 2.2.1.5 R12 failure against accepted

@@ -1,3 +1,35 @@
+## EPIC-17 / G04 — S676 closed; source-unit serialization candidate
+
+Started 2026-10-10 17:23:45 UTC from clean S675 commit `336d3a2a` on
+`codex/epic-17-g04`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor and slice 676 is unique. A bounded read-only Sol high review
+finished. It confirmed S674's input already had centimeter metadata before
+LibreCAD R12 omitted it, while the product exporter independently writes no
+unit declaration at all. The earlier S675 statement that no product-code
+defect was involved is therefore too broad; the measured R12 loss remains a
+receiver-side result, and the product writer has its own fixable gap.
+
+S676 added `src/export/dxf-centimeters.ts`, a non-default helper that adds an
+AC1015 centimeter header before the exact existing `exportDxf` byte stream.
+No default writer, UI, geometry, marks, identity, grades, acceptance or
+baseline changed. It is not a selected apparel-CAD profile or compatibility
+claim. `npm run test -- src/export/dxf-centimeters.test.ts
+src/export/regression.test.ts` passed 9/9; focused changed-code coverage passed
+100% statements/branches/functions/lines; `npm run build`,
+`npm run control-center:test` (42/42), and `git diff --check` passed. Build
+reported only the existing large-chunk advisory. Board revisions 4016→4019
+reopened V03 for the bounded source fix and 4019→4021 close S676; EPIC-17
+remains In Progress and all V03 gates remain unchanged.
+
+Slice elapsed about 8.5 minutes: approximately 7 minutes implementation and
+evidence review; focused unit/regression, coverage, Control Center and diff
+checks about 12 seconds plus the production build; Sol reviewer wait about 1
+minute; maintainer-decision time 0. No receiver rendered-output gate was claimed
+for a header-only candidate. Next: S677 source audit of the remaining
+code-owned identity/grade/mark omissions, without changing legacy output or
+claiming receiver acceptance. The full repository 100% gate, final rendered
+exchange evidence, PR, safe merge, ancestry and deployment remain pending.
+
 ## EPIC-17 / G04 — S675 closed; V03 blocked at receiver/profile entry
 
 At 2026-10-10 17:10 UTC, S675 closes from clean S674 commit

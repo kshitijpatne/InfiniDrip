@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4016,
-  "updatedAt": "2026-10-10T17:07:38.066Z",
+  "revision": 4021,
+  "updatedAt": "2026-10-10T17:34:10.382Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10712,7 +10712,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Blocked",
+      "status": "In Progress",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10784,6 +10784,16 @@
           "note": "Every currently available and reviewed local route fails or leaves unproven the fixed V03 receiver/unit entry gate. Resume only when a specifically named, rights-cleared apparel CAD receiver/version with explicit units is available, or an owner-approved V03 criterion amendment is made.",
           "evidenceRefs": [
             "E-G04-S675-EXIT"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-10T17:28:20.934Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "A source-owned DXF gap is now bounded for additive correction under S676. This resumes implementation work without qualifying a receiver, passing V03, changing acceptance, or releasing any export claim.",
+          "evidenceRefs": [
+            "E-G04-S676-START"
           ]
         }
       ],
@@ -12987,6 +12997,16 @@
           "at": "2026-10-10T17:07:32.478Z",
           "actor": "Codex",
           "text": "S675 route review is complete. None of the already tested local routes meets the fixed receiver/unit entry gate: LibreCAD R12 omits the source centimeter declaration; CLO is unitless or has measured semantic/readability failures; DGS lacks usable DXF pattern exchange; Open CAD Studio R14 is generic and unitless. Existing 73-option and 35-size evidence remains reusable only after a qualified receiver exists. Preserve all acceptance; no new app/format trial is queued. The exact remaining dependency and optional scope-amendment boundary are in E-G04-S675-EXIT."
+        },
+        {
+          "at": "2026-10-10T17:28:18.794Z",
+          "actor": "Codex",
+          "text": "S676 starts from clean S675 336d3a2a with refreshed origin/main still an ancestor; slice 676 is unique. Source audit separates the S674 LibreCAD R12 output omission from the product writer's independent missing-unit-header gap. Implement only an additive opt-in centimeter-declared DXF candidate over the exact legacy body; preserve all existing bytes, UI claims and V03 acceptance. No receiver or additional software trial is included."
+        },
+        {
+          "at": "2026-10-10T17:34:10.382Z",
+          "actor": "Codex",
+          "text": "S676 adds an opt-in generic DXF helper that declares centimeters and preserves the exact legacy entity body; all eight protected legacy export identities remain unchanged. Focused test/regression passed 9/9, changed-code coverage is 100% in all four dimensions, build passed, Control Center passed 42/42, and diff check passed. This corrects our product writer's independent missing-units gap; the S674 LibreCAD R12 omission was receiver-side. No UI route, profile claim, acceptance change, or V03 pass. V03 and EPIC-17 remain In Progress; next S677 audits remaining source-owned identity/grade/mark gaps."
         }
       ],
       "evidenceRefs": [
@@ -13456,7 +13476,9 @@
         "E-G04-S674-MATRIX",
         "E-G04-S674-PLAN",
         "E-G04-S675-START",
-        "E-G04-S675-EXIT"
+        "E-G04-S675-EXIT",
+        "E-G04-S676-START",
+        "E-G04-S676-EXIT"
       ],
       "flagKey": null
     },
@@ -26097,6 +26119,24 @@
       "sha256": null,
       "verified": true,
       "note": "C04/S627/S559/S562 and independent review confirm no existing qualified receiver. Full V03 acceptance remains unchanged; exact access/scope boundary recorded."
+    },
+    {
+      "id": "E-G04-S676-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S676-source-unit-metadata/S676-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Source audit finds the product DXF writer omits units; S676 adds an opt-in unit-declared candidate while preserving legacy bytes and making no receiver/profile claim."
+    },
+    {
+      "id": "E-G04-S676-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S676-source-unit-metadata/S676-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Adds a non-default centimeter-declared DXF candidate over the exact legacy byte stream; focused 100% changed-code coverage and preserved export hashes; does not select a profile or pass V03."
     }
   ]
 }

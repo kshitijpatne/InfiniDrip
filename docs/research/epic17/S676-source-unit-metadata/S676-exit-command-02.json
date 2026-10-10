@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4020,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S676 adds an opt-in generic DXF helper that declares centimeters and preserves the exact legacy entity body; all eight protected legacy export identities remain unchanged. Focused test/regression passed 9/9, changed-code coverage is 100% in all four dimensions, build passed, Control Center passed 42/42, and diff check passed. This corrects our product writer's independent missing-units gap; the S674 LibreCAD R12 omission was receiver-side. No UI route, profile claim, acceptance change, or V03 pass. V03 and EPIC-17 remain In Progress; next S677 audits remaining source-owned identity/grade/mark gaps."
+}

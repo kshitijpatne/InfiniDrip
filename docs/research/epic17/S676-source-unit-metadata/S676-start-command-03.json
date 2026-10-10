@@ -1,0 +1,10 @@
+{
+  "expectedRevision": 4018,
+  "type": "updateStatus",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "role": "maintainer",
+  "status": "In Progress",
+  "reason": "A source-owned DXF gap is now bounded for additive correction under S676. This resumes implementation work without qualifying a receiver, passing V03, changing acceptance, or releasing any export claim.",
+  "evidenceRefs": ["E-G04-S676-START"]
+}

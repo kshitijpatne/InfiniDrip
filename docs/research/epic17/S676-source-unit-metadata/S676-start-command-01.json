@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4016,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S676-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S676-source-unit-metadata/S676-start-packet.md",
+    "verified": true,
+    "note": "Source audit finds the product DXF writer omits units; S676 adds an opt-in unit-declared candidate while preserving legacy bytes and making no receiver/profile claim."
+  }
+}
