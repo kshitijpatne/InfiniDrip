@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4058,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S686 updates the existing V03 evidence matrix with S685's measured unit, cut-outline, mark and identity failures, then proposes one shortest evidence-led path and stop condition. No new software/profile permutations or acceptance changes are in scope."
+}

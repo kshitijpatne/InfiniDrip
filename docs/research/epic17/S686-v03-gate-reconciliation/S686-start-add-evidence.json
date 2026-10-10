@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4057,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S686-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S686-v03-gate-reconciliation/S686-start-packet.md",
+    "verified": true,
+    "note": "Reconcile every V03 gate against the S685 exact CLO return comparison and prior evidence; write a bounded completion plan and obtain one read-only Sol review. Acceptance and all thresholds remain unchanged; no new receiver trial is queued."
+  }
+}

@@ -1,3 +1,30 @@
+## EPIC-17 / G04 — S686 closed; no tested receiver meets V03
+
+S686 started 2026-10-10 18:55:01 UTC from clean S685 commit `ef9cf0c4`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. Board start/exit replay was 4057→4059→4061; `npm run
+control-center:test` passed 42/42 and `git diff --check` passed. The updated V03
+matrix uses S685's exact CLO return measurements, S674 LibreCAD R12 evidence,
+prior DGS/OpenCAD findings, and C04's version-matched sidecar allowance.
+The bounded read-only Sol review found no overlooked pass or supported code
+repair. C04 permits a bound sidecar for grades, piece identity and seam
+relations; S685 did not test a returned sidecar, so that CLO result remains
+unproven. Units, outlines and visible marks remain direct exchange gates.
+
+No tested route currently demonstrates the required industrial exchange
+profile and all fixed gates. No maintainer decision is pending. No source or
+acceptance change was made and no new software trial is queued. EPIC-17 and
+G04-V03 remain In Progress; V01/V02 remain Done. Older completion estimates
+that assumed an eligible receiver are stale; remaining time is unbounded until
+route eligibility is evidenced. Resume from the matrix and exit packet:
+`docs/research/epic17/S686-v03-gate-reconciliation/V03-GATE-MATRIX-S686.md`
+and `docs/research/epic17/S686-v03-gate-reconciliation/S686-exit-packet.md`.
+Next action: proceed only if evidence establishes an already available,
+rights-cleared qualifying receiver/profile, then run one exact representative
+pilot and stop at its first fixed-gate miss. Preserve the full matrix, global
+coverage, final output review, PR, safe merge, ancestry and required
+deployment gates.
+
 ## EPIC-17 / G04 — S685 closed; CLO returned output differs beyond its unit label
 
 S685 compared the exact S684 source and CLO return. The source writer and
@@ -26,8 +53,6 @@ Implementation: 1m20s; focused verification and closeout: 3m49s; external-agent
 wait: 0; maintainer decision: 0.
 
 Exit packet: `docs/research/epic17/S685-clo-unit-roundtrip-normalizer/S685-exit-packet.md`.
-
-## EPIC-17 / G04 — S684 closed; CLO output unit mismatch recorded
 
 ## EPIC-17 / G04 — S684 closed; CLO output unit mismatch recorded
 

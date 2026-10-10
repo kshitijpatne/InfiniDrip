@@ -1,3 +1,17 @@
+## EPIC-17 / G04 — Slice 686 active
+
+S686 reconciles every fixed V03 gate against the S682 matrix and the exact
+S685 CLO Standard DXF input/return comparison, then documents one prioritized
+completion path with specific verification and stop conditions. A bounded
+read-only Sol review returned `WORK FINISHED`; C04 sidecar allowance was
+verified and applied without passing any receiver gate. No receiver
+permutation or acceptance change is queued. Matrix, exit packet and start
+packet:
+`docs/research/epic17/S686-v03-gate-reconciliation/V03-GATE-MATRIX-S686.md`,
+`docs/research/epic17/S686-v03-gate-reconciliation/S686-exit-packet.md`, and
+`docs/research/epic17/S686-v03-gate-reconciliation/S686-start-packet.md`.
+Current authoritative progress is in `PROJECT-STATE.md`.
+
 ## EPIC-17 / G04 — Slice 685 closed
 
 Exact comparison of the S684 source and returned Polo M drawings found that
