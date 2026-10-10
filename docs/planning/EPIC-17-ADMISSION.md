@@ -2120,3 +2120,16 @@ the C:-only derivative and S671's full gate matrix/plan. Next is one import of
 the prepared file in the existing CLO session once native desktop control is
 exposed; no approval or re-setup is needed. The goal remains active and current;
 the UI “stalled” label is stale.
+
+## S683 exit — current S681 package prepared; CLO workspace not targetable
+
+S683 refreshes the actual branch/board state and reserves unique slice 683.
+The current S681 Polo M package is copied and hash-verified in its named C:
+evidence folder. CLO 2026.1.310 launches and exposes one window, but the
+computer-use bridge returns `failed to activate captured window` twice, even
+after a fresh app/window query. No import, export, or output review occurred;
+this is not a CLO or exporter failure. No V03 gate or acceptance changes.
+Start/exit packets and board replay 4045→4047→4049 are in
+`docs/research/epic17/S683-current-package-clo-roundtrip/`. Resume the exact
+current-package test when the existing CLO workspace is targetable; don't
+repeat app discovery, launch variants, formats, or settings.

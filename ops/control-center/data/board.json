@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4045,
-  "updatedAt": "2026-10-10T18:25:19.455Z",
+  "revision": 4049,
+  "updatedAt": "2026-10-10T18:30:14.546Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13067,6 +13067,16 @@
           "at": "2026-10-10T18:25:19.455Z",
           "actor": "Codex",
           "text": "S682 confirms the source-side fixes and 73-option package matrix pass, but no tested receiver satisfies all unchanged V03 gates. CLO, DGS, LibreCAD R12 and generic OpenCAD have already measured blocking failures. No new app, mode or encoding was tried. The evidence matrix and one-shot stop rule are linked in E-G04-S682-EXIT."
+        },
+        {
+          "at": "2026-10-10T18:28:23.835Z",
+          "actor": "Codex",
+          "text": "S683 tests the current source-fixed S681 Polo M package once in the existing CLO 2026.1.310 Standard DXF route. Import must pass the fixed geometry/units/visible-mark/readability checks before one export/reopen round trip. All files stay in the named C: evidence folder. Stop on the first measured miss; no format/mode/candidate variation or gate change."
+        },
+        {
+          "at": "2026-10-10T18:30:14.546Z",
+          "actor": "Codex",
+          "text": "S683 prepared the current S681 Polo M DXF with matching source/copy SHA-256 under the named C: folder. CLO launched and exposed one window, but the computer-use bridge returned `failed to activate captured window` twice after one refreshed retry. No receiver action or output occurred; this is not evidence of a CLO or exporter failure. All V03 gates remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13550,7 +13560,9 @@
         "E-G04-S681-START",
         "E-G04-S681-EXIT",
         "E-G04-S682-START",
-        "E-G04-S682-EXIT"
+        "E-G04-S682-EXIT",
+        "E-G04-S683-START",
+        "E-G04-S683-EXIT"
       ],
       "flagKey": null
     },
@@ -26317,6 +26329,24 @@
       "sha256": null,
       "verified": true,
       "note": "S682 separates S680/S681 source passes from measured receiver failures and unproven gates, with a bounded no-churn route plan. All acceptance remains unchanged; no receiver trial or code change occurred."
+    },
+    {
+      "id": "E-G04-S683-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S683-current-package-clo-roundtrip/S683-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S683 starts one targeted CLO Standard DXF test of the current S681 source-fixed Polo M package. It reuses the existing receiver and exact profile, with a stop-on-first-failure rule and unchanged V03 gates."
+    },
+    {
+      "id": "E-G04-S683-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S683-current-package-clo-roundtrip/S683-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S683 hash-verified the current S681 Polo M package in the C: exchange folder, but the Windows computer-use bridge failed to activate CLO twice. No import/export occurred; no V03 gate or product defect is claimed."
     }
   ]
 }

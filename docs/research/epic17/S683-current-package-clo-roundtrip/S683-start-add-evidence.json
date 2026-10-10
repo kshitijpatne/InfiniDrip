@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4045,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S683-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S683-current-package-clo-roundtrip/S683-start-packet.md",
+    "verified": true,
+    "note": "S683 starts one targeted CLO Standard DXF test of the current S681 source-fixed Polo M package. It reuses the existing receiver and exact profile, with a stop-on-first-failure rule and unchanged V03 gates."
+  }
+}

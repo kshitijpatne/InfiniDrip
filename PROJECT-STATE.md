@@ -1,3 +1,18 @@
+## EPIC-17 / G04 — S683 closed; current-package CLO attempt could not reach workspace
+
+S683 reserved the next unique slice after refreshing Git and board state. The
+current S681 Polo M DXF and package manifest were copied under
+`C:\G04-CAD-Interchange\S683-current-package-clo-roundtrip\`; both hashes
+match their source. CLO 2026.1.310 launched and exposed one window, but the
+Windows computer-use bridge failed to activate that window twice, including
+after its one required refreshed retry. No import/export or receiver output
+occurred. This is a tooling-access failure, not a CLO or exporter diagnosis;
+no V03 gate passes or fails from S683. Board replay `4045→4047→4049` preserves
+V01/V02 Done and G04-V03/EPIC-17 In Progress. Exit packet:
+`docs/research/epic17/S683-current-package-clo-roundtrip/S683-exit-packet.md`.
+Next use a supported, targetable CLO workspace route for the exact same
+hash-pinned file; do not vary software, format, mode or criteria.
+
 ## EPIC-17 / G04 — S682 closed; current V03 gate matrix
 
 ### S682 closed — reconcile current V03 evidence without another trial

@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4046,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S683 tests the current source-fixed S681 Polo M package once in the existing CLO 2026.1.310 Standard DXF route. Import must pass the fixed geometry/units/visible-mark/readability checks before one export/reopen round trip. All files stay in the named C: evidence folder. Stop on the first measured miss; no format/mode/candidate variation or gate change."
+}

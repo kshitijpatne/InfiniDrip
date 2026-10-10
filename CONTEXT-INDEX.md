@@ -1,3 +1,11 @@
+## EPIC-17 / G04 — Slice 683
+
+S683's current-package CLO attempt stopped before import because the Windows
+computer-use bridge failed to activate the CLO window twice. No receiver or
+exporter outcome is inferred. Resume from
+`docs/research/epic17/S683-current-package-clo-roundtrip/S683-exit-packet.md`;
+all V03 gates remain unchanged.
+
 ## EPIC-17 / G04 — Slice 682 closed; current V03 gate matrix
 
 S682 reconciles every unchanged V03 gate against S680/S681 source packages,

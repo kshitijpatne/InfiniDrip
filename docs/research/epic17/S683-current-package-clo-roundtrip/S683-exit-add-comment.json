@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4048,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S683 prepared the current S681 Polo M DXF with matching source/copy SHA-256 under the named C: folder. CLO launched and exposed one window, but the computer-use bridge returned `failed to activate captured window` twice after one refreshed retry. No receiver action or output occurred; this is not evidence of a CLO or exporter failure. All V03 gates remain unchanged."
+}
