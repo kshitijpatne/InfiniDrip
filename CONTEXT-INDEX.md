@@ -1,4 +1,4 @@
-## EPIC-17 / G04 — Slice 672 closed; current V03 action is S673
+## EPIC-17 / G04 — Slice 673 closed; current V03 action is S674
 
 S672's actual CLO Standard-DXF evidence and exit are authoritative over older
 pending-import entries below. CLO imports nine pieces, but the saved whole
@@ -11,10 +11,18 @@ not a qualified round trip; it was not re-imported. CLO Standard is
 disqualified, DGS stays retired, and no V03 acceptance was relaxed. Grainline
 `/2` is approved; do not reopen it. Read S672's exit packet, gate matrix and
 completion plan in `docs/research/epic17/S672-clo-standard-source-path-density/`.
-S673's next bounded action is a static feasibility proof for a uniquely
-source-bound lossless adapter using existing fixtures; fail closed on
-ambiguous identity or unsupported geometry edits before another receiver
-operation. V01/V02 Done; V03 In Progress. Preserve final all-seven/73-option/
+S673's source audit found no safe loss-recovery adapter around the tested CLO
+route. Nine source SEW paths correlate to nine CLO blocks only when the frozen
+source is known; five CUT contours, units, and typed marks/layers fail. A C04
+sidecar can carry identity/grade/seam relations, but cannot replace geometry
+or visible marks, and CLO output does not distinguish receiver simplification
+from user edits. OpenMarker is local/open-source but lacks DXF export and is
+not production-ready, so it is not eligible. No production code or acceptance
+change. Read the S673 exit/matrix/plan in
+`docs/research/epic17/S673-lossless-adapter-feasibility/`. S674's next bounded
+action screens first-party evidence for free, offline garment CAD with local
+DXF import and export; no install or fixture before that entry gate. V01/V02
+Done; V03 In Progress. Preserve final all-seven/73-option/
 grade, negative-input, round-trip, rendering, legacy/identity, global 100%
 coverage, PR, safe-merge, ancestry and deployment gates.
 

@@ -28,6 +28,28 @@ At this safe boundary, `get_goal` reports **active** with wording matching the
 admitted objective through safe merge. The UI “stalled” label is stale; no
 manual resume or goal edit is required.
 
+## EPIC-17 / G04 — Slice 673 closed; adapter no-go, S674 candidate screen next
+
+S673's source audit found no safe loss-recovery adapter around the tested CLO
+route. S672's nine source SEW paths map to nine output blocks only with the
+frozen source already known, but five CUT outlines are lossy, units are
+mislabeled, typed marks/layers are missing, and CLO output does not distinguish
+receiver simplification from a user's CAD edit. The C04 sidecar may carry
+identity/grade/seam relationships only; it cannot replace geometry or visible
+marks. No production adapter was added. OpenMarker's first-party README says
+it is local/open-source but still lacks export and is not production-ready,
+so it is not an eligible receiver. No acceptance or threshold changed.
+
+S674's next action is a bounded first-party screen of free, offline apparel
+CAD candidates with explicit local DXF import and export. No download/install
+or fixture operation until a candidate passes that entry screen. If none
+qualifies, record the concrete receiver need; do not repeat CLO/DGS/OpenCAD or
+weaken V03. Exit, matrix and plan:
+`docs/research/epic17/S673-lossless-adapter-feasibility/`. V01/V02 Done; V03
+In Progress. All seven recipes/73 options/grades, `0.001 cm`, typed marks,
+negative-input, repeatability, rendered-output, legacy/byte-identity, final
+100% coverage, PR, merge, ancestry and deployment gates remain open.
+
 ## EPIC-17 / G04 — Slice 670 closed; DGS receiver route retired
 
 S670's saved native DGS control produced a 1,223-byte ASTM-menu DXF containing
