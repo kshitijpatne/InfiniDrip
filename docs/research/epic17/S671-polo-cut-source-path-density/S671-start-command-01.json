@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3970,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S671-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S671-polo-cut-source-path-density/S671-start-packet.md",
+    "verified": true,
+    "note": "Starts one exact-path-preserving CLO test of collinear subdivision adjacent to five source CUT features; fixed V03 gates unchanged."
+  }
+}

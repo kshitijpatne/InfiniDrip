@@ -1,0 +1,8 @@
+{
+  "expectedRevision": 3983,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S671 closes at a source-verified boundary. The exact-path derivative is ready and its unit/parser/render checks pass. The actual CLO import was not run because the active computer-use API has no native-app binding (Windows still confirms CLO is running); this is not a receiver result. The next step is one import of the existing C:-only fixture once native app control is exposed. No V03 gate or criterion changed.",
+  "expectedRevision": 3983
+}

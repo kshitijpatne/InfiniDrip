@@ -1,0 +1,8 @@
+{
+  "expectedRevision": 3980,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S671 refreshed V03 gate matrix and shortest completion plan. It keeps all gates/thresholds unchanged, retires DGS on S670 zero-geometry output, and identifies one remaining high-value CLO import of the already-prepared exact-path derivative. This task currently has browser-only computer controls, so no CLO result is claimed. Current goal record was checked: active, objective still matches EPIC-17 through safe merge; visible stalled label is stale, and no UI resume is needed.",
+  "expectedRevision": 3980
+}

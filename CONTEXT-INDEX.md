@@ -9,6 +9,37 @@ CLO imports/exports/renders against source-bound geometry and the fixed gates;
 it must not repeat a failed mode/encoding trial. The `/2` grainline convention
 is approved and final. See `docs/research/epic17/S670-dgs-valid-control/`.
 
+## EPIC-17 / G04 — Slice 671 preflight closed; CLO import awaits native control
+
+S671 tests a coordinate-exact local subdivision of the long straight CUT
+segments neighboring the five known shallow Polo omissions, then one existing
+CLO Standard import. This is a falsifiable source-to-receiver geometry gate;
+all original CUT points and identities remain, path residual must be 0.000 cm,
+and native CUT/SEW/marks/layers must satisfy V03's unchanged `0.001 cm` and
+semantic gates with readable saved output. Export only after a complete native
+pass. No mode/density alternatives and no gate relaxation. Approved `/2`
+grainline and all design approvals are settled. See
+`docs/research/epic17/S671-polo-cut-source-path-density/`.
+
+S671 preflight is complete and source-exact (2,724 original pairs retained,
+all original points preserved, added coordinates collinear to <`6e-13 cm`,
+0.000 cm path residual). One CLO import remains pending because the task's
+computer-use tool exposes browser-only controls and no native-app binding,
+while Windows confirms CLO is running. This is not a CAD result and passes no
+V03 gate. The exact C:-only fixture and source-only detail render are in
+`S671-preflight-checkpoint.json`; next action is the one actual CLO import and
+native query when app control is available.
+The current V03 gate matrix and shortest route are
+`docs/research/epic17/S671-polo-cut-source-path-density/V03-GATE-RECONCILIATION-S671.md`
+and `V03-COMPLETION-PLAN-S671.md`.
+
+S671 exit packet: `docs/research/epic17/S671-polo-cut-source-path-density/S671-exit-packet.md`.
+The exact derivative is ready under the approved C: folder. No CLO import
+occurred because this task's computer-use connector exposes browser APIs only
+and no native desktop app binding. Windows shows CLO running. No V03 gate
+passes from preflight; next operation is one import of that existing file when
+desktop control is exposed.
+
 ## EPIC-17 / G04 — Slice 669 closed; one manual-backed DGS control remains
 
 S669 found no local DGS DXF/RUL sample. Its one native 10×10 cm control raised DGS's own `Pattern name, Size:M, grainline is outside the border` validator error; the ASTM export parsed as 10 metadata TEXT entities and zero pattern geometry, and its one self-import rendered blank with 0/0 patterns. This malformed control does not reveal a valid profile contract. Together with S667/S668 product-route failures, DGS is retired except for one S670 attempt to correct these exact validator conditions from the installed first-party UI instructions. If no documented native correction exists, stop DGS permanently. Matrix/plan/exit: `docs/research/epic17/S669-dgs-native-profile-control/`. All V03 acceptance and holds remain unchanged; no user decision is pending.

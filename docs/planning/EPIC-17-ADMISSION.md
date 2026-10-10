@@ -2092,3 +2092,31 @@ CLO candidate cannot meet V03, record the specific measured failure and
 smallest technically viable route; preserve all-seven/options/grades and do
 not weaken acceptance. The `/2` grainline convention and all design approvals
 are settled; no approval is pending.
+
+## S671 start — test exact-path CLO handling of five short CUT features
+
+S671 reserves unique slice 671 from S670 commit `43008d3d`, clean board
+revision 3970 and refreshed ancestor `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`.
+It performs one coordinate-exact subdivision of straight neighboring CUT
+segments on the same Polo M source, followed by one CLO Standard import.
+The derivative retains every original point and all semantics and adds only
+collinear points that leave the path mathematically unchanged. The actual
+native CUT and SEW comparison remains against the original generating source
+at `0.001 cm`; marks, layers, identity, warnings and rendered output are also
+checked. Any miss ends this hypothesis without export or another permutation.
+No V03 gate, threshold, scope, hold, or prior approval changes. Packet and
+validated start commands: `docs/research/epic17/S671-polo-cut-source-path-density/`.
+
+## S671 preflight exit — fixture ready; native CLO action still pending
+
+The source-exact derivative retains all original DXF pairs/points and inserts
+776 collinear vertices across the five measured shallow-cut segments;
+independent parse and path checks pass with 0.000 cm mathematical residual.
+The actual CLO import did not run because this task's computer-use surface
+exposes no native app binding, although Windows confirms CLO is running. This
+is not a receiver pass or failure and clears no V03 gate. See
+`docs/research/epic17/S671-polo-cut-source-path-density/S671-exit-packet.md`,
+the C:-only derivative and S671's full gate matrix/plan. Next is one import of
+the prepared file in the existing CLO session once native desktop control is
+exposed; no approval or re-setup is needed. The goal remains active and current;
+the UI “stalled” label is stale.

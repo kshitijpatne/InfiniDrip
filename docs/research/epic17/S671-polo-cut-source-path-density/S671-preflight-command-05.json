@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3977,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S671-PLAN",
+    "kind": "document",
+    "uri": "docs/research/epic17/S671-polo-cut-source-path-density/V03-COMPLETION-PLAN-S671.md",
+    "verified": true,
+    "note": "Prioritized V03 route uses one prepared CLO import, pass-gated round trip, then all-seven breadth and final integrated gates; acceptance unchanged."
+  }
+}

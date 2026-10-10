@@ -1,0 +1,8 @@
+{
+  "expectedRevision": 3979,
+  "type": "addEpicEvidence",
+  "epicId": "EPIC-17",
+  "evidenceId": "E-G04-S671-PLAN",
+  "role": "maintainer",
+  "actor": "Codex"
+}

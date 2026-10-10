@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3973,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S671-PREFLIGHT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S671-polo-cut-source-path-density/S671-preflight-checkpoint.json",
+    "verified": true,
+    "note": "Independent hash-bound source/derivative preflight proves unchanged path and records actual receiver-control availability separately; no CLO result or V03 gate pass claimed."
+  }
+}

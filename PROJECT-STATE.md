@@ -19,6 +19,47 @@ S670 start: 2026-10-10 10:18:18 UTC from `fc21c528`; refreshed
 Board start revision 3961. See start/exit packet and parse report under
 `docs/research/epic17/S670-dgs-valid-control/`.
 
+## EPIC-17 / G04 — Slice 671 preflight closed; one native CLO import pending
+
+S671 starts from committed S670 `43008d3d` at clean board revision 3970;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor and slice 671 is unique. DGS is retired after S670's measured
+metadata-only output. S671 tests one source-exact CLO hypothesis on the
+hash-pinned Polo M fixture: subdivide only long straight segments adjacent to
+the five previously omitted shallow CUT points into collinear steps no longer
+than 0.05 cm, preserving the exact mathematical source path and all original
+records. Run the existing CLO Standard import once; compare all CUT/SEW and
+semantic gates to the original source at `0.001 cm` and inspect actual
+whole/detail output. Export only if all pass; otherwise stop this hypothesis.
+No alternates or acceptance relaxation. Start packet:
+`docs/research/epic17/S671-polo-cut-source-path-density/S671-start-packet.md`.
+
+Preflight is complete: the C:-only derivative retains all 2,724 original DXF
+group/value pairs and all source vertices, adds 776 collinear points, and has
+0.000 cm path residual. Source-only annotated render and independent parse are
+hash-pinned in the S671 packet. The one CLO import is still pending: Windows
+shows the existing CLO process, but this task's CUA surface lists no desktop
+apps and exposes only browser controls. This is an access limitation, not a
+receiver result. Do not close S671 as a gate pass; next is the one prepared
+import and native nine-piece query when a desktop-app control surface is
+available. All V03 gates/holds remain open as previously recorded. At this
+checkpoint `get_goal` reports `active`, and its objective still matches the
+admitted EPIC-17 path through safe merge. The visible “stalled” label is stale;
+no goal status/wording change or manual resume is needed.
+S671's updated all-gate matrix and shortest completion route are
+`docs/research/epic17/S671-polo-cut-source-path-density/V03-GATE-RECONCILIATION-S671.md`
+and `V03-COMPLETION-PLAN-S671.md`.
+
+S671 is at a durable boundary with the exact-path C:-only derivative and full
+source preflight recorded. The receiver action did not run because the
+computer-use connector has no native-app binding in this task; Windows
+confirms CLO is running. This is neither a receiver pass nor a receiver
+failure. The single next action is to expose native app controls and import the
+already-prepared fixture; no approval, format variation, or fixture recreation
+is needed. The active goal was checked: its objective still matches EPIC-17
+through safe merge, the UI “stalled” label is stale, and no manual goal resume
+is required.
+
 ## EPIC-17 / G04 — Slice 669 closed; S670 is the next bounded action
 
 S669 started from S668 `7aacc2d9`, with refreshed `origin/main` an ancestor and board revision 3936. No local DGS sample DXF/RUL was found. One native 10×10 cm rectangle was created; DGS reported `Pattern name, Size:M, grainline is outside the border`: M is the default size, while the validator names the pattern name and outside-border grainline. The one ASTM export is 1,227 bytes and parses as ten metadata TEXT entities with no blocks, geometry, `$ACADVER` or `$INSUNITS`; the exact file's one fresh-document self-import rendered blank/0 patterns. This is not a valid positive control and establishes no passing DGS profile. DGS is retired except one source/manual-backed S670 correction of those exact native validity conditions, followed by one clean validator/export/self-import if supported; otherwise stop DGS and proceed with source-exact CLO evidence. No V03 acceptance gate or hold changes. S669 exit, gate matrix and completion plan: `docs/research/epic17/S669-dgs-native-profile-control/`. Board exit will be validated; DGS/CLO remain open.

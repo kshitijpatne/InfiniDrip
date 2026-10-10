@@ -1,0 +1,45 @@
+{
+  "slice": 671,
+  "fixture": {
+    "sourcePath": "C:/G04-CLO-DXF-Exchange/S617-standard-dxf-units-header/Input/polo-standard-m-cm-units-header.dxf",
+    "sourceSha256": "71F45FDCA602BBDDB32BA53F76F0B5D9B6E92094D96557414C182C5EAF42E5F5",
+    "derivativePath": "C:/G04-CLO-DXF-Exchange/S671-polo-cut-source-path-density/Input/polo-standard-m-cm-units-header-exact-path-density.dxf",
+    "derivativeSha256": "487FAD7533BDA83306D3F4FA2DFEF523E469E62F3D808EFF0A9C98A7E38B77F8",
+    "derivativeBytes": 66206
+  },
+  "sourceBoundVerification": {
+    "originalPairs": 2724,
+    "derivativePairs": 5828,
+    "allOriginalGroupValuePairsPreservedInOrder": true,
+    "sourceAndDerivativeRecordCounts": 56,
+    "sourceAndDerivativeCUTContourCounts": "9 / 9",
+    "originalCUTVerticesRetained": true,
+    "addedOnlyCollinearSubdivisions": true,
+    "maximumMeasuredCollinearityDeviationCm": 5.677182902012501e-13,
+    "mathematicalPathResidualCm": 0,
+    "allNonTargetEntitiesByteValueEquivalent": true
+  },
+  "actualReceiverState": {
+    "windowsProcesses": [
+      {"process": "CLO_Standalone_OnlineAuth_x64", "pid": 62304, "title": "CLO Standalone OnlineAuth"},
+      {"process": "DGS", "pid": 75816, "title": "S670 native control"},
+      {"process": "DGS", "pid": 30504, "title": "S666 native control"}
+    ],
+    "computerUseAppInventory": [],
+    "availableComputerUseSurface": "browser-only; no native app binding or window controls exposed in this task session",
+    "CLOImportPerformed": false,
+    "V03GatePassed": false
+  },
+  "renderEvidence": {
+    "path": "C:/G04-CLO-DXF-Exchange/S671-polo-cut-source-path-density/Evidence/source-path-density-overlays.png",
+    "sha256": "243BE119D3C243D2088621E5B2D4F92696F376A563B2DC1793649D1402A07E73",
+    "purpose": "source-only visualization of original short corners and exact collinear subdivisions; not receiver output"
+  },
+  "durableGoal": {
+    "status": "active",
+    "objectiveMatchesCurrentEPIC17Scope": true,
+    "statusOrWordingChangeNeeded": false,
+    "manualResumeNeeded": false
+  },
+  "nextAction": "Perform one CLO 2026.1.310 Standard-DXF import of the exact derivative in the existing desktop session when native app control is exposed. Compare the returned nine CUT/SEW paths at 0.001 cm and inspect actual whole/detail receiver renders. Export only after a complete gate pass."
+}

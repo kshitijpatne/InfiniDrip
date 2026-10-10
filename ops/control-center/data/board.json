@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3970,
-  "updatedAt": "2026-10-10T10:38:32.785Z",
+  "revision": 3984,
+  "updatedAt": "2026-10-10T10:51:01.472Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -754,7 +754,12 @@
         "E-G04-S669-PLAN",
         "E-G04-S670-START",
         "E-G04-S670-EXIT",
-        "E-G04-S670-VERIFY"
+        "E-G04-S670-VERIFY",
+        "E-G04-S671-START",
+        "E-G04-S671-PREFLIGHT",
+        "E-G04-S671-MATRIX",
+        "E-G04-S671-PLAN",
+        "E-G04-S671-EXIT"
       ]
     },
     {
@@ -12867,6 +12872,26 @@
           "at": "2026-10-10T10:36:45.521Z",
           "actor": "Codex",
           "text": "S670 stop condition met: one ASTM export from the named DGS native control completed without a validator dialog but produced only 10 metadata TEXT entities, zero geometric entities and zero blocks. The same file was not re-imported. Retire DGS as a V03 candidate; no acceptance or other V03 gate changes. Continue with existing source-bound CLO evidence at S671."
+        },
+        {
+          "at": "2026-10-10T10:41:00.532Z",
+          "actor": "Codex",
+          "text": "S671 starts one distinct source-exact hypothesis on the existing Polo M fixture: split only the long straight segment adjacent to each of the five shallow failing CUT corners into collinear steps ≤0.05 cm, preserving the exact represented path and all original source records. CLO Standard import runs once; export only if every native CUT/SEW and semantic gate passes. Stop on a miss; no alternate density/mode or tolerance change. All approvals, including grainline /2, remain settled."
+        },
+        {
+          "at": "2026-10-10T10:47:26.976Z",
+          "actor": "Codex",
+          "text": "S671 C:-only preflight prepared and independently verified a path-identical Polo M fixture; all original records/vertices remain, and the five local CUT segments now have <=0.05 cm collinear spacing. Actual CLO import has not run: Windows reports CLO active, but this task's computer-use app inventory is empty and its control API is browser-only. This is not a receiver result or V03 pass. Next is the single planned import when native desktop control is available; no fixture recreation or DGS/CLO permutation."
+        },
+        {
+          "at": "2026-10-10T10:49:28.069Z",
+          "actor": "Codex",
+          "text": "S671 refreshed V03 gate matrix and shortest completion plan. It keeps all gates/thresholds unchanged, retires DGS on S670 zero-geometry output, and identifies one remaining high-value CLO import of the already-prepared exact-path derivative. This task currently has browser-only computer controls, so no CLO result is claimed. Current goal record was checked: active, objective still matches EPIC-17 through safe merge; visible stalled label is stale, and no UI resume is needed."
+        },
+        {
+          "at": "2026-10-10T10:51:01.472Z",
+          "actor": "Codex",
+          "text": "S671 closes at a source-verified boundary. The exact-path derivative is ready and its unit/parser/render checks pass. The actual CLO import was not run because the active computer-use API has no native-app binding (Windows still confirms CLO is running); this is not a receiver result. The next step is one import of the existing C:-only fixture once native app control is exposed. No V03 gate or criterion changed."
         }
       ],
       "evidenceRefs": [
@@ -13321,7 +13346,12 @@
         "E-G04-S669-PLAN",
         "E-G04-S670-START",
         "E-G04-S670-EXIT",
-        "E-G04-S670-VERIFY"
+        "E-G04-S670-VERIFY",
+        "E-G04-S671-START",
+        "E-G04-S671-PREFLIGHT",
+        "E-G04-S671-MATRIX",
+        "E-G04-S671-PLAN",
+        "E-G04-S671-EXIT"
       ],
       "flagKey": null
     },
@@ -25827,6 +25857,51 @@
       "sha256": null,
       "verified": true,
       "note": "Independent export entity count and focused 42/42 Control Center test plus diff check."
+    },
+    {
+      "id": "E-G04-S671-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S671-polo-cut-source-path-density/S671-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts one exact-path-preserving CLO test of collinear subdivision adjacent to five source CUT features; fixed V03 gates unchanged."
+    },
+    {
+      "id": "E-G04-S671-PREFLIGHT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S671-polo-cut-source-path-density/S671-preflight-checkpoint.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Independent hash-bound source/derivative preflight proves unchanged path and records actual receiver-control availability separately; no CLO result or V03 gate pass claimed."
+    },
+    {
+      "id": "E-G04-S671-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S671-polo-cut-source-path-density/V03-GATE-RECONCILIATION-S671.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "All current V03 gates reconciled through S670 and the source-only S671 preflight; the unrun CLO import is explicitly unproven."
+    },
+    {
+      "id": "E-G04-S671-PLAN",
+      "kind": "document",
+      "uri": "docs/research/epic17/S671-polo-cut-source-path-density/V03-COMPLETION-PLAN-S671.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Prioritized V03 route uses one prepared CLO import, pass-gated round trip, then all-seven breadth and final integrated gates; acceptance unchanged."
+    },
+    {
+      "id": "E-G04-S671-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S671-polo-cut-source-path-density/S671-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Durable S671 preflight boundary; source-path derivative and verification pass, actual CLO import explicitly not run because native app API unavailable; no V03 gate passes."
     }
   ]
 }
