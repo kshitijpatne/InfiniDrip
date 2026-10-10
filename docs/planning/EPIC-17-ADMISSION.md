@@ -2029,3 +2029,11 @@ S296 audited the primary [Fairfield sleeve sew-along](https://threadtheoryblog.w
 ## S667 exit and S668 bounded next route
 
 S667 retired the exact DGS AutoCAD Design candidate after measured output loss. Its complete exit, gate matrix and completion plan are in `docs/research/epic17/S667-dgs-design-mode-source-matched/`. S668 is limited to correcting source-profile XDATA `/1`→`/2` on a C:-only derivative with all other entities verified unchanged, then one DGS apparel-decoder import. Only a clean import permits one export/parse/reimport. No formal ASTM/AAMA claim follows from the menu label. All V03 gates remain unchanged. The approved grainline convention is settled; no maintainer decision is pending.
+
+## S668 active route
+
+The user-approved `idr-pattern-exchange/2` grainline convention is settled. S668 tests the corrected source-derived `/2` candidate once through DGS's distinct ASTM/AAMA apparel decoder. Only a clean, independently measurable import permits one same-route export/parse/reimport; stop that receiver on the first concrete V03 failure. Packet: `docs/research/epic17/S668-dgs-apparel-decoder-import/S668-start-packet.md`. All original V03 gates and holds remain.
+
+## S668 exit; S669 next
+
+The approved `/2` profile fixture changes exactly nine XDATA bytes and independently preserves all source geometry, units, marks and identities. Actual DGS ASTM/AAMA Pattern import returns a blank render and `0/0` patterns; retire the exact candidate without export or reimport. See `docs/research/epic17/S668-dgs-apparel-decoder-import/S668-exit-packet.md`. S669 checks local DGS sample/input-contract material; absent a usable distinct contract, it compares the existing eligible CLO/OpenCAD evidence and chooses one bounded practical candidate. Acceptance unchanged; no approval pending.

@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 3927,
+  "evidence": {
+    "note": "Starts one bounded DGS apparel-decoder import using source-derived grainline profile /2 already approved by maintainer; no external decision pending.",
+    "verified": true,
+    "id": "E-G04-S668-START",
+    "uri": "docs/research/epic17/S668-dgs-apparel-decoder-import/S668-start-packet.md",
+    "kind": "document"
+  },
+  "itemId": "G04-V03",
+  "type": "addEvidence"
+}
