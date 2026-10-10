@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4025,
-  "updatedAt": "2026-10-10T17:50:36.215Z",
+  "revision": 4029,
+  "updatedAt": "2026-10-10T17:57:24.609Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13017,6 +13017,16 @@
           "at": "2026-10-10T17:50:36.215Z",
           "actor": "Codex",
           "text": "S677 adds recipe-owned notch ticks and grainline shaft/chevrons to the opt-in centimeter DXF candidate only, resolving marks through the same live rules and laid-out geometry used by SVG. Seven recipe M-size DXFs were generated and their emitted records rendered/inspected; exact evidence and hashes are in the S677 packet and C:\\G04-CAD-Interchange\\S677-construction-marks. Focused six-suite checks pass 37/37, changed-module coverage is 100% in all dimensions, build passes, Control Center passes 42/42, legacy/protected regressions are unchanged. This does not prove receiver acceptance, identity/grade package, or V03; all gates and acceptance remain unchanged. Next S678: source-bound identity/grade/seam sidecar feasibility and implementation against the C04 contract."
+        },
+        {
+          "at": "2026-10-10T17:52:19.992Z",
+          "actor": "Codex",
+          "text": "S678 starts from clean S677 `280580ad`; refreshed origin/main remains an ancestor and slice 677 is the highest assigned. Board revision 4025, V01/V02 Done and V03/Epic In Progress. Implement deterministic C04-limited package metadata bound to exact DXF SHA-256 and a canonical package revision digest: recipe/piece roles, selected grade/size, options, and Block.stitches relations. Reuse grade fixtures; reject tampering. No UI, legacy writer, receiver/profile, or acceptance changes."
+        },
+        {
+          "at": "2026-10-10T17:57:24.609Z",
+          "actor": "Codex",
+          "text": "S678 closes with a C04-bounded versioned manifest for exact candidate recipe/piece identity, size/grade, options and stitch relationships. It binds to the exact DXF bytes and canonical package revision. All registered recipes and grade rows pass package generation/verification and tamper rejection; seven M-size DXF hashes exactly match the S677 rendered/reviewed candidate. Focused checks 42/42, changed-module coverage 100%, build, Control Center 42/42 and diff hygiene pass. Source-side identity gap fixed; receiver preservation, supported-option round trips, malformed-input handling, repeatability and readable receiver output remain unproven. No V03 gate is marked passed from this sidecar. Next reconcile the selected receiver output with this exact candidate and existing fixtures; no additional application or profile variations."
         }
       ],
       "evidenceRefs": [
@@ -13490,7 +13500,9 @@
         "E-G04-S676-START",
         "E-G04-S676-EXIT",
         "E-G04-S677-START",
-        "E-G04-S677-EXIT"
+        "E-G04-S677-EXIT",
+        "E-G04-S678-START",
+        "E-G04-S678-EXIT"
       ],
       "flagKey": null
     },
@@ -26167,6 +26179,24 @@
       "sha256": null,
       "verified": true,
       "note": "Opt-in centimeter DXF candidate emits recipe-defined notch ticks and grainline shafts/chevrons for all seven recipes; focused protected checks, 100% changed-code coverage, build, 42 Control Center tests, generated seven-recipe DXF-derived renders and manual output review pass. No receiver/profile or V03 acceptance claimed."
+    },
+    {
+      "id": "E-G04-S678-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S678-dxf-interchange-manifest/S678-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S678 adds a C04-limited, versioned and digest-bound sidecar for exact candidate recipe/piece identity, size/grade, options and stitch relations; it cannot replace file geometry or visible marks and makes no receiver claim."
+    },
+    {
+      "id": "E-G04-S678-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S678-dxf-interchange-manifest/S678-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Adds a versioned package sidecar for recipe/piece identity, grade, options and stitch relations bound to exact DXF and manifest digests. Seven recipe M-size drawings match reviewed S677 bytes; every recipe grade row and tamper checks pass. Focused checks 42/42, changed-code coverage 100%, build, Control Center 42/42 and output review pass. No receiver preservation or V03 acceptance claimed."
     }
   ]
 }

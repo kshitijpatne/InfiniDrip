@@ -1,3 +1,17 @@
+## EPIC-17 / G04 — Slice 678 closed; candidate package manifest
+
+S678 added and verified a versioned sidecar for exact recipe/piece identity,
+size/grade, options and stitch relations, bound to the candidate DXF and
+canonical package digests. Seven M-size package drawings are byte-identical to
+the already-reviewed S677 DXFs; all recipe grade rows pass package generation
+and tamper checks. Focused checks 42/42, changed-code coverage 100%, build,
+Control Center 42/42, and diff hygiene pass. This fixes our source-side package
+identity gap; it does not prove receiver preservation or pass V03. Exit packet:
+`docs/research/epic17/S678-dxf-interchange-manifest/S678-exit-packet.md`.
+Next reconcile the exact generated package against the already-selected
+receiver's recorded output, isolating our emitted-file issues from receiver
+behavior before making any further source change.
+
 ## EPIC-17 / G04 — Slice 677 closed; recipe construction marks in candidate
 
 S677's source trace found recipe notch/grainline rules are rendered in SVG but

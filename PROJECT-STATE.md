@@ -8,6 +8,12 @@ Source trace found `src/export/dxf.ts` has no recipe input and omits the recipe-
 
 Next action: begin S678 from a fresh Git/board/usage check. Implement/test a C04-bounded, version-matched manifest for recipe/piece identity, grade/size step and stitch relationships, bound to the exact candidate DXF digest. Reuse existing grade fixtures and preserve visible marks/geometry and all V03 acceptance; do not claim this sidecar survives a receiver until import/export evidence proves it.
 
+### S678 closed — C04-bounded candidate package manifest
+
+Started 2026-10-10 17:51:58 UTC from clean S677 `280580ad0a940cb7b7819f2ac1d21bc804c783ad`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice 677; S678 is unique. Canonical board 4025; V01/V02 Done and V03/EPIC-17 In Progress. Packet `docs/research/epic17/S678-dxf-interchange-manifest/S678-start-packet.md`.
+
+S678 added a versioned sidecar recording recipe/piece identity, selected size/grade, options and source stitch relationships, bound to the exact candidate DXF and canonical manifest revision digests. The package generator validates the size/grade and re-drafts from the same recipe/options to reject mismatched blocks. All seven registered recipes and their grade rows pass package generation and verification; tamper checks pass. Seven M-size drawing hashes match S677 exactly, so S678 does not alter geometry or marks. Focused checks 42/42, changed-module coverage 100%, build and Control Center 42/42 pass. Legacy exports and protected identities remain unchanged. Receiver preservation and all V03 acceptance remain unproven; the sidecar alone does not pass an exchange gate. Exit packet: `docs/research/epic17/S678-dxf-interchange-manifest/S678-exit-packet.md`. Next reconcile the exact package against the selected receiver's recorded output and identify product-side file defects, if any, before further edits.
+
 Started 2026-10-10 17:23:45 UTC from clean S675 commit `336d3a2a` on
 `codex/epic-17-g04`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
 is an ancestor and slice 676 is unique. A bounded read-only Sol high review

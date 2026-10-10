@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4025,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S678-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S678-dxf-interchange-manifest/S678-start-packet.md",
+    "verified": true,
+    "note": "S678 adds a C04-limited, versioned and digest-bound sidecar for exact candidate recipe/piece identity, size/grade, options and stitch relations; it cannot replace file geometry or visible marks and makes no receiver claim."
+  }
+}
