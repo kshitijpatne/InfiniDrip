@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 3838,
+  "evidence": {
+    "id": "E-G04-S661-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/S661-start-packet.md",
+    "verified": true,
+    "note": "Starts one hash-pinned generic AC1014 S648 pilot through DGS VID:20250610 AUTOCAD import with frozen settings; no profile or standards claim."
+  }
+}

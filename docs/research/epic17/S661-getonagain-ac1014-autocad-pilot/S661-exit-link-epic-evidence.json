@@ -1,0 +1,8 @@
+{
+  "type": "addEpicEvidence",
+  "epicId": "EPIC-17",
+  "evidenceId": "E-EPIC17-S661-EXIT",
+  "expectedRevision": 3847,
+  "actor": "Codex",
+  "role": "maintainer"
+}

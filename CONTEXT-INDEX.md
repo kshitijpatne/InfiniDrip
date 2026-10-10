@@ -1,4 +1,4 @@
-## EPIC-17 / G04 — Slice 660 reviewed closeout; DGS pilot remains next
+## EPIC-17 / G04 — Slice 661 closed; DGS AutoCAD-mode pilot fails grainline validation
 
 The two bounded read-only Sol high reviews returned WORK FINISHED and their
 corrections are recorded in the S660 plan/matrix. DGS `VID:20250610` and GMS
@@ -14,10 +14,20 @@ claim. Settings, numeric parser comparison, actual renders, C04 sidecar gap,
 RUL/sew-line limitation, failure scope, and stop conditions are explicit in
 `docs/research/epic17/S660-primary-profile-contract-search/`. Preserve every
 V03 gate, `0.001 cm`, all-seven/options/grades, legacy DXF and protected byte
-identities. G04-V03 is In Progress because the next bounded test is actionable;
-no technical V03 gate passed. S660 review reconciliation and validated board
-revision are recorded in its exit packet. The validated board is revision
-3838; focused Control Center tests pass 42/42 and `git diff --check` passes.
+identities. S661 tested one hash-pinned generic AC1014 Polo M fixture through
+DGS `AUTOCAD` mode. All nine pieces imported, but DGS reported
+`grainline is outside the border` for each; no export or alternate setting was
+tried. The exact outcome and likely-but-unproven missing grainline mapping are
+recorded in `docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/`.
+This route fails its warning-free pilot criterion; no V03 technical gate or
+acceptance criterion passes/changes. S660 board revision 3838 and focused
+42/42 result remain recorded in its exit packet; S661's validated board exit
+is revision 3850, with focused Control Center tests 42/42 and `git diff
+--check` passing. The next bounded step is to derive a source-exact,
+versioned-profile grainline representation and decide whether its dedicated
+layer mapping is an acceptable empirical convention before implementation.
+The approved exchange root is `C:\\G04-CLO-DXF-Exchange\\<slice-folder>` per
+`docs/PROJECT-DECISIONS.md`. DGS remains open for that next test.
 
 ## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
 

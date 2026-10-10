@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 V03 boundary — S660 reviewed source-search exit
+## Current EPIC-17 / G04 V03 boundary — S661 DGS AutoCAD-mode pilot failed; profile decision next
 
 S660 found no primary receiver-specific entity/layer/sidecar contract for
 GetonAgain's ASTM/AAMA menu mode. Public ASTM D6673 material is historical;
@@ -10,18 +10,26 @@ dialog, each with an empty document. No DXF has been exchanged. Two bounded
 read-only Sol high reviews returned WORK FINISHED. Their correction is to run
 one falsifiable DGS `VID:20250610` `AUTOCAD` import hypothesis against the
 actual generic AC1014 S648 fixture, not to assume the apparel-labeled mode is
-matched. The fixture is at the C:-only `S648-getonagain-fixture-preflight`
-folder, 153,647 bytes, SHA-256
-`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`.
-Independent `dxf-parser@1.1.2` parsing recovers nine piece INSERTs, 11 blocks
-and 56 nested entities; exact settings, numeric/render measurement, C04
-sidecar requirement, RUL/sew-line limit and stop conditions are in
-`docs/research/epic17/S660-primary-profile-contract-search/`. This is an
-empirical hypothesis only: no ANSI/AAMA or ASTM claim and no V03 technical
-gate has passed. G04-V03 is In Progress because the next bounded test is
-actionable; acceptance and all technical gates remain unchanged. The validated
-board status/summary corrections and focused test result are recorded in the
-S660 exit packet; no production code changed.
+matched. S661 tested the hash-pinned, C:-only S648 generic AC1014 Polo M file
+(153,647 bytes; SHA-256
+`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`) through
+DGS `VID:20250610` `AUTOCAD` import with frozen settings. All nine pieces
+loaded, but DGS's native error dialog reported
+`grainline is outside the border` for each. This exact route fails the
+warning-free pilot criterion; export and all alternate permutations were
+intentionally not attempted. The fixture has no `GRAINLINE` layer/entity in
+its piece blocks, and product source resolves grainline rules omitted by the
+legacy DXF writer. That is a plausible cause, not verified DGS contract.
+Screenshot and source-structure report are hash-recorded in the C:-only
+exchange folder and summarized in
+`docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/S661-exit-packet.md`.
+The focused Control Center suite passes 42/42; `git diff --check` passes;
+validated board exit is revision 3850. No production code changed. G04-V03
+remains In Progress because a source-derived profile hypothesis can be
+prepared; **no V03 technical gate has passed**. Keep the decision to introduce
+a dedicated, versioned-profile grainline layer explicit and pending; derive
+the exact line endpoints from source before asking approval. Preserve all
+acceptance, all-seven scope, thresholds, legacy DXF and protected identities.
 
 **S659 exit:** The user-completed MPVCI prerequisite is verified by registry.
 S659 applied the hash-pinned DGS 20250610 archive after checking every S657

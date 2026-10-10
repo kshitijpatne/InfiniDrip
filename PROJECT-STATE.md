@@ -1,32 +1,32 @@
-## EPIC-17 / G04 — Slice 660 reviewed closeout; DGS pilot remains next
+## EPIC-17 / G04 — Slice 661 closed; DGS AutoCAD-mode pilot fails grainline validation
 
-The user completed sign-in; Computer Use confirms DGS is at a blank CAD
-workspace, with GMS behind it and no sign-in dialog. Rights/local handling
-for bounded evaluation are settled. A focused primary-source search found no
-GetonAgain-specific entity/layer/sidecar contract and no basis for a standards
-claim. The two bounded read-only Sol high reviews returned WORK FINISHED.
-Their reconciled plan selects one falsifiable local DGS `VID:20250610`
-`AUTOCAD` import hypothesis for generic AC1014 input, not an apparel-standard
-profile. The exact S648 fixture is C:-only, 153,647 bytes, SHA-256
-`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`.
-Independent read-only parsing recovered nine piece INSERTs, 11 blocks and 56
-nested entities. Pin settings, compare source with actual re-export at
-`0.001 cm`, inspect rendered output, and bind C04 relations via a verified
-sidecar before claiming identity/grade relations. The manual's RUL export
-omits quilt/sew lines. No DXF fixture has yet been exchanged. G04-V03 is In
-Progress because its next bounded test is actionable; no technical V03 gate
-passes. Preserve all-seven recipes,
-options/grades, `0.001 cm`, C04, legacy DXF and protected output identities.
-Reserve the pilot as S661 after the S660 correction closeout.
-Matrix/plan/source/exit evidence:
-`docs/research/epic17/S660-primary-profile-contract-search/`.
-Board revisions `3817→3820→3838` include the reviewed route and status
-corrections. The focused Control Center suite passes 42/42 and `git diff
---check` passes; the S660 exit packet records one stale regression assertion,
-the validated board-summary correction, and the successful rerun. The Sol high
-reviews are complete; no production code changed. Full tests/100%
-coverage, build/browser/Electron, final output review, PR, merge ancestry and
-required deployment remain Epic exit gates. No fit/factory/production claim.
+S661 tested one hash-pinned generic AC1014 Polo M fixture with DGS
+`VID:20250610` in `AUTOCAD` mode. The app imported all nine pieces but its
+native Error Box reported `grainline is outside the border` for every piece.
+This exact fixture/build/mode fails the warning-free pilot criterion. No export
+or alternative mode, format, encoding or setting was attempted. The imported
+render, error screenshot, and independent source structure report are
+hash-recorded under `C:\\G04-CLO-DXF-Exchange\\S661-getonagain-ac1014-autocad-pilot\\`;
+the source copy is identical to S648 (153,647 bytes, SHA-256
+`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`). Source
+parsing found no grainline layer/entity in the nine blocks, while the product
+has recipe-derived grainline rules that legacy DXF does not emit. This is a
+plausible cause, not established DGS behavior. No V03 gate passes and no
+acceptance, threshold, all-seven scope, legacy DXF, or protected identity
+changed.
+
+Started 2026-10-10 07:44 UTC from clean S660
+`f2293d8fa26d6ba4650358e100bc2deae2133147`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. S660 was
+highest; S661 was unique. Validated S661 start/exit board commands reached
+revision 3850. Focused Control Center tests pass 42/42 and `git diff --check`
+passes. No production code or tests changed. Elapsed time is recorded in the
+S661 exit packet. Full tests/100% coverage, build/browser/Electron, final output
+review, PR, safe merge ancestry and required deployment remain Epic exit gates.
+No fit/factory/production-readiness claim. DGS stays open for the next bounded
+step: derive exact grainline endpoints from source, then present one explicit
+versioned-profile layer-mapping decision before any code change or second
+receiver import.
 
 ## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
 

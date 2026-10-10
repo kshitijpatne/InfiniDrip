@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3838,
-  "updatedAt": "2026-10-10T07:42:58.736Z",
+  "revision": 3850,
+  "updatedAt": "2026-10-10T07:52:03.497Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -732,7 +732,9 @@
         "E-EPIC17-S659-START",
         "E-EPIC17-S659-EXIT",
         "E-EPIC17-S660-START",
-        "E-EPIC17-S660-EXIT"
+        "E-EPIC17-S660-EXIT",
+        "E-EPIC17-S661-START",
+        "E-EPIC17-S661-EXIT"
       ]
     },
     {
@@ -4774,6 +4776,16 @@
           "at": "2026-10-10T07:40:23.053Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is In Progress while technical exchange gates remain unpassed. Rights/local evaluation of GetonAgain Free is authorized and settled. The user reports signing in; direct inspection found DGS and GMS open without a sign-in dialog, each with an empty document. S660's two bounded read-only Sol high reviews are complete. The next hypothesis is one generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD import; it is not a documented profile match or compatibility claim. S660 pins the source hash, settings, independent DXF parsing/rendered evidence method, C04 sidecar requirement, RUL/sew-line limitation, and stop conditions. Keep every V03 gate, 0.001 cm tolerance, all-seven/options/grades, legacy DXF, protected byte identities, full final gates, safe merge and required deployment. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance, or production-readiness claim. Current packet: docs/research/epic17/S660-primary-profile-contract-search/.). Preserve board summary statements asserted by canonical board regression tests while retaining the reviewed S660 route decision."
+        },
+        {
+          "at": "2026-10-10T07:44:59.015Z",
+          "actor": "Codex",
+          "text": "Slice 661 starts after the user confirmed sign-in. The live DGS workspace is past login but empty. A single hash-pinned S648 generic AC1014 fixture will be piloted through DGS AUTOCAD import with frozen settings; all V03 gates remain technical and unpassed. The C: exchange folder follows the approved C:\\G04-CLO-DXF-Exchange root."
+        },
+        {
+          "at": "2026-10-10T07:52:03.497Z",
+          "actor": "Codex",
+          "text": "Slice 661 confirms the user is signed in and DGS is usable. The one S648 import yielded all nine pieces but a native grainline-outside-border error for every piece; no export was attempted. The source fixture has no GRAINLINE layer, and the legacy product DXF writer omits modeled grainlines. S661 proposes a source-derived separate-profile mapping for maintainer decision; it does not infer or claim DGS semantics. The empirical trial, artifacts, and unchanged V03 gates are documented in the linked exit packet."
         }
       ],
       "evidenceRefs": [
@@ -5228,7 +5240,9 @@
         "E-EPIC17-S659-START",
         "E-EPIC17-S659-EXIT",
         "E-EPIC17-S660-START",
-        "E-EPIC17-S660-EXIT"
+        "E-EPIC17-S660-EXIT",
+        "E-EPIC17-S661-START",
+        "E-EPIC17-S661-EXIT"
       ],
       "flagKey": null
     },
@@ -10529,7 +10543,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS VID:20250610 exposes local DXF import and has passed the sign-in screen; the current DGS/GMS documents are empty. No GetonAgain fixture has been exchanged, and technical V03 acceptance remains blocked. S660's exact candidate hypothesis is the generic AC1014, hash-pinned S648 Polo M fixture through the DGS AUTOCAD import mode. This is not a documented profile match or compatibility claim. Use the fixed settings and compare source/re-export with independent numeric DXF parsing and actual rendered output; use a verified version-matched C04 sidecar before claiming piece/seam/grade relationships. The manual documents that RUL export omits quilt/sew lines. Do not generalize any result beyond this exact input/build/mode/settings. See docs/research/epic17/S660-primary-profile-contract-search/ and S659's exact build record.",
+      "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS VID:20250610 and GMS are open past sign-in; both documents were empty at the S660 check. S661 starts one falsifiable pilot: copy/hash-check the generic AC1014 S648 Polo M fixture, then import once through the observed DGS AUTOCAD mode with frozen S659 settings. The source is not a documented profile match or compatibility claim. Use independent numeric DXF parsing and actual rendered output; identity/seam/grade relationship claims require a verified version-matched C04 sidecar. The DGS manual says RUL export omits quilt/sew lines; inspect the export dialog once and stop if no documented geometry-bearing non-RUL route is available. Preserve the current maintainer-approved C:\\G04-CLO-DXF-Exchange\\<slice-folder> custody root. Do not generalize any result beyond this exact input/build/mode/settings. No V03 gate passes unless the evidence meets its existing criterion. See S661 and S660 packets under docs/research/epic17/ and S659's exact build record.",
       "expectation": "Documented profile scope, units, marks/notches/allowance/grade semantics and receiver-specific fidelity limits supported by actual fixtures.",
       "acceptanceCriteria": [
         "Record current rights and exact receiver/version/profile evidence before selection.",
@@ -12576,6 +12590,21 @@
           "at": "2026-10-10T07:38:59.993Z",
           "actor": "Codex",
           "text": "S660's two read-only Sol high reviews returned WORK FINISHED. Corrected handoff: do not require a documentary dialect match before an explicitly bounded falsification test. The next test hypothesis is the hash-pinned generic AC1014 S648 fixture through DGS VID:20250610 AUTOCAD mode, with fixed settings; this is not compatibility or standards evidence. Independent dxf-parser@1.1.2 source/re-export comparison and rendered output are required; the C04 relationship sidecar is absent and must be separately bound before identity/grade relationship claims. V03 remains Blocked; no technical gate passed. See the corrected S660 matrix, plan and exit packet."
+        },
+        {
+          "at": "2026-10-10T07:44:57.811Z",
+          "actor": "Codex",
+          "text": "S661 started 2026-10-10 07:44 UTC from clean S660 f2293d8. One generic AC1014 S648 fixture, one DGS VID:20250610 AUTOCAD import with frozen settings; export once only if the import and rendered inspection pass. C: custody root follows docs/PROJECT-DECISIONS.md. No compatibility/standards claim and no V03 acceptance gate is pre-passed. Packet: docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/S661-start-packet.md."
+        },
+        {
+          "at": "2026-10-10T07:47:34.457Z",
+          "actor": "Codex",
+          "text": "Before import, the selected DGS AUTOCAD dialog confirms Pattern, Import text on, Grainline 2 Way, and Unit of file; Only base size is disabled/unchecked, Recognize seam and Nest pattern are disabled/checked. These mode-specific states are not being toggled or varied. See the S661 start packet."
+        },
+        {
+          "at": "2026-10-10T07:52:02.013Z",
+          "actor": "Codex",
+          "text": "S661 exit: DGS VID:20250610 AUTOCAD imported 9/9 S648 patterns but returned grainline-outside-border errors for all nine. The warning-free pilot criterion failed for this exact generic fixture/mode/settings; export was correctly stopped. Independent parsing shows no GRAINLINE layer/entity in S648, while product source has recipe grainline rules omitted by legacy DXF. Likely fixture/profile gap is an inference; receiver semantics remain undocumented. See S661 exit packet and C:-only rendered/source artifacts. All V03 acceptance gates remain unpassed."
         }
       ],
       "evidenceRefs": [
@@ -13007,7 +13036,9 @@
         "E-G04-S660-MATRIX",
         "E-G04-S660-PLAN",
         "E-G04-S660-SOURCES",
-        "E-G04-S660-EXIT"
+        "E-G04-S660-EXIT",
+        "E-G04-S661-START",
+        "E-G04-S661-EXIT"
       ],
       "flagKey": null
     },
@@ -25225,6 +25256,42 @@
       "sha256": null,
       "verified": true,
       "note": "Reconciles every V03 gate and selects one user-authorized, version-pinned empirical DGS pilot; no conformance claim or technical acceptance gate passes."
+    },
+    {
+      "id": "E-G04-S661-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/S661-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts one hash-pinned generic AC1014 S648 pilot through DGS VID:20250610 AUTOCAD import with frozen settings; no profile or standards claim."
+    },
+    {
+      "id": "E-EPIC17-S661-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/S661-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a single bounded empirical DGS import pilot after sign-in; all V03 technical gates remain unpassed."
+    },
+    {
+      "id": "E-G04-S661-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/S661-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One DGS AutoCAD-mode S648 import returned nine grainline-outside-border errors; exact candidate stopped before export. C: rendered and parser evidence is listed in the packet."
+    },
+    {
+      "id": "E-EPIC17-S661-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S661-getonagain-ac1014-autocad-pilot/S661-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Documents the bounded GetonAgain import's actual nine-piece grainline error and evidence-based proposed next mapping; all V03 gates remain unchanged."
     }
   ]
 }

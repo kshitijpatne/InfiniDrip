@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "expectedRevision": 3844,
+  "actor": "Codex",
+  "text": "Before import, the selected DGS AUTOCAD dialog confirms Pattern, Import text on, Grainline 2 Way, and Unit of file; Only base size is disabled/unchecked, Recognize seam and Nest pattern are disabled/checked. These mode-specific states are not being toggled or varied. See the S661 start packet."
+}
