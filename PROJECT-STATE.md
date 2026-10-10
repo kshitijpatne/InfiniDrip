@@ -1,3 +1,26 @@
+## EPIC-17 / G04 — S699 closed; loss causes isolated and source repair selected
+
+S699 compared the exact S698 Polo M DXF files with the writer and prior
+controlled evidence. Six CUT contour misses occur after CLO converts the
+high-resolution source; prior classic/LW-polyline, connected-line and exact
+path-density evidence does not support another geometry encoding sweep. The
+three omitted buttonhole points were present as typed POINTs in our source DXF;
+S698 had `Import Draw Curve Points` disabled, so the point-import gate remains
+to be checked with that option enabled. The direct source-structure gap is
+that the DXF is flat and has no piece-named blocks; piece/revision identity is
+in the side manifest. S628 previously round-tripped 12 named Woven blocks and
+all CUT/SEW contours within tolerance, providing a concrete implementation
+path. Read `docs/research/epic17/S699-dxf-loss-root-cause/`.
+
+Next S700: integrate deterministic recipe/role named blocks in the opt-in
+package without changing any geometry/entity payload, update manifest entity
+resolution and exact expansion validation, cover all seven recipes/grades/73
+options, then make one Polo M CLO round trip with Draw Curve Points enabled.
+If the curved CUT gate still fails at 0.001 cm, retire this CLO route; no
+further entity-form or point-density permutations. All acceptance gates,
+legacy identities, holds, cleanup, full gate, PR/merge/ancestry and production
+verification remain unchanged; the goal stays active.
+
 ## EPIC-17 / G04 — S698 closed; corrected-precision CLO return measured
 
 S698 tested the exact S697 six-decimal Polo M candidate once through the

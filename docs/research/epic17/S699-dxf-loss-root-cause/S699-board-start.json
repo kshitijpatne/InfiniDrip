@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S699-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S699-dxf-loss-root-cause/S699-start-packet.md",
+    "verified": true,
+    "note": "Static root-cause audit compares exact S698 DXF input/return entities against the current candidate writer. No receiver/software/settings variation or acceptance change."
+  },
+  "expectedRevision": 4129
+}

@@ -1,4 +1,16 @@
-## Current EPIC-17 / G04 V03 boundary — S698 closed; source precision correction measured
+## Current EPIC-17 / G04 V03 boundary — S699 closed; next repair is source-bound
+
+S699 isolates S698: the candidate source already preserves path/coordinate
+precision; CLO conversion loses curved CUT points. The S698 missing buttonhole
+POINTs were imported with Draw Curve Points off. The concrete exporter gap is
+flat geometry plus sidecar-only piece identity. S628's named-block pilot is a
+measured basis for a source repair. Next S700 implements named piece blocks,
+validates exact expansion across the all-seven/grade/73-option source matrix,
+then performs one existing-CLO Polo M round trip with point import enabled.
+See `PROJECT-STATE.md` and `docs/research/epic17/S699-dxf-loss-root-cause/`.
+V03 remains held; the goal remains active and all gates remain unchanged.
+
+## Prior EPIC-17 / G04 V03 boundary — S698 closed; source precision correction measured
 
 S698 ran one exact CLO 2026.1.310 Standard DXF round trip of the S697
 six-decimal Polo M candidate. Units and all nine SEW paths pass for this
