@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3746,
-  "updatedAt": "2026-10-10T00:03:15.112Z",
+  "revision": 3752,
+  "updatedAt": "2026-10-10T00:22:13.470Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10408,7 +10408,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Blocked",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10450,6 +10450,16 @@
           "note": "The ordered V02 dependency is Done with all-seven current rendered evidence; begin admitted V03 rights/profile and representative round-trip work.",
           "evidenceRefs": [
             "E-G04-S460-START"
+          ]
+        },
+        {
+          "status": "Blocked",
+          "at": "2026-10-10T00:22:13.470Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "S651 found no targetable installer window after the maintainer-authorized launch; a manual Windows security/elevation prompt must be handled by the maintainer before installation can be verified.",
+          "evidenceRefs": [
+            "E-G04-S651-EXIT"
           ]
         }
       ],
@@ -12388,6 +12398,21 @@
           "at": "2026-10-10T00:03:15.112Z",
           "actor": "Codex",
           "text": "S650 closes the GetonAgain rights/locality route screen. The maintainer confirms written product-use/local-DXF permission and conditionally authorizes the official Free Version desktop install only if free and necessary. Online edition excluded. Next S651: install/inspect exact build and input contract; verify actual local DXF path before any fixture import. All V03 gates and holds remain unchanged."
+        },
+        {
+          "at": "2026-10-10T00:04:50.057Z",
+          "actor": "Codex",
+          "text": "S651 is limited to the official free desktop package, exact installed build/manual, and local direct-DXF route inspection. All downloaded/import/export evidence stays under C:\\G04-GetonAgain-CAD-Exchange\\S651. No account creation, personal data, or pattern import; user confirmation is required at installer-run time under the computer-use workflow."
+        },
+        {
+          "at": "2026-10-10T00:14:11.198Z",
+          "actor": "Codex",
+          "text": "S651 downloaded and hash-verified the official Free Version package and V2024.1 manual in the C:-only folder. The manual documents vendor ASTM/AAMA/AutoCAD choices and a graded RUL mark-count limitation, but not full entity semantics or normative conformance. Official page requires mobile-phone registration/login; authentication will not be automated. Package includes two unsigned EXEs, including a separate MPVCI runtime installer; no executable has run. Exact manual and package findings are in S651-package-and-manual-findings.md."
+        },
+        {
+          "at": "2026-10-10T00:22:12.600Z",
+          "actor": "Codex",
+          "text": "S651 closed at the manual Windows elevation handoff. The maintainer approved running the official CAD setup; launch produced no targetable installer window, and three contemporaneous consent.exe processes are consistent with but not attributable to the installer. Please inspect any elevation prompt and approve only if it names the GetonAgain CAD setup; otherwise cancel. No install, pattern import, or receiver qualification is claimed. All V03 gates and holds remain unchanged; details: docs/research/epic17/S651-getonagain-install-contract/S651-exit-packet.md."
         }
       ],
       "evidenceRefs": [
@@ -12796,7 +12821,9 @@
         "E-G04-S649-START",
         "E-G04-S649-EXIT",
         "E-G04-S650-START",
-        "E-G04-S650-EXIT"
+        "E-G04-S650-EXIT",
+        "E-G04-S651-START",
+        "E-G04-S651-EXIT"
       ],
       "flagKey": null
     },
@@ -24726,6 +24753,24 @@
       "sha256": null,
       "verified": true,
       "note": "Official GetonAgain pages distinguish free downloadable desktop from excluded online route. Maintainer confirms written product-use/local-DXF permission and conditionally authorizes install/run only if free and necessary. No candidate/profile qualifies yet; actual build, local path and dialect remain pre-import gates."
+    },
+    {
+      "id": "E-G04-S651-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S651-getonagain-install-contract/S651-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a C:-confined, free-desktop-only GetonAgain package/build/manual and local-DXF contract inspection under conditional maintainer authorization. No account creation or pattern import; stop before running installer for required action-time confirmation."
+    },
+    {
+      "id": "E-G04-S651-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S651-getonagain-install-contract/S651-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S651 acquired/hash-verified the official free desktop package and manual, reviewed its documented gates and inspected default-grade mark counts. After the maintainer's action-time approval, CAD setup launch returned no targetable app/window; read-only process evidence is consistent with an elevation handoff but does not identify a prompt. Manual maintainer elevation action is required. No installation, profile qualification, pattern import, or V03 gate passed; all acceptance and holds remain."
     }
   ]
 }

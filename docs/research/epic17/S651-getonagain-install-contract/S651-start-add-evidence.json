@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3746,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S651-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S651-getonagain-install-contract/S651-start-packet.md",
+    "verified": true,
+    "note": "Starts a C:-confined, free-desktop-only GetonAgain package/build/manual and local-DXF contract inspection under conditional maintainer authorization. No account creation or pattern import; stop before running installer for required action-time confirmation."
+  }
+}

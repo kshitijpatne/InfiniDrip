@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3747,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S651 is limited to the official free desktop package, exact installed build/manual, and local direct-DXF route inspection. All downloaded/import/export evidence stays under C:\\G04-GetonAgain-CAD-Exchange\\S651. No account creation, personal data, or pattern import; user confirmation is required at installer-run time under the computer-use workflow."
+}

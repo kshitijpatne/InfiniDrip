@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3748,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S651 downloaded and hash-verified the official Free Version package and V2024.1 manual in the C:-only folder. The manual documents vendor ASTM/AAMA/AutoCAD choices and a graded RUL mark-count limitation, but not full entity semantics or normative conformance. Official page requires mobile-phone registration/login; authentication will not be automated. Package includes two unsigned EXEs, including a separate MPVCI runtime installer; no executable has run. Exact manual and package findings are in S651-package-and-manual-findings.md."
+}

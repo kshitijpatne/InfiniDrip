@@ -1,5 +1,29 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 651 closed; installation awaits manual elevation handoff
+
+S651 completed bounded acquisition/inspection of only the official GetonAgain
+Garment CAD Free Version desktop package under conditional maintainer
+authorization. Start: 2026-10-10 00:04 UTC from S650 `2c7e1f3d`, clean worktree,
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` ancestor;
+board start revision 3746, advanced to 3752. The official free ZIP (255,970,412 bytes;
+SHA-256 `859B42DB54D51A948A6524D83FEB7D7F89CE694425FAEFEE4BAD4582EFCCE7E6`)
+and official 487-page V2024.1 manual (SHA-256
+`1AC8D9B390C21E205B94F14C4D08566CDA853974A460995CE5EBDEA752D1514C`) are
+stored under `C:\G04-GetonAgain-CAD-Exchange\S651`. The manual documents
+separate ASTM/AAMA/AutoCAD vendor routes and an RUL limitation for size-varying
+drill/buttonhole counts; it does not define entity semantics or prove
+conformance. Official page requires phone registration/login. User approved
+the official CAD setup and DGS update; MPVCI remains held absent a concrete
+missing-runtime error. The CAD setup launch timed out and no targetable setup
+window or process appeared. Three `consent.exe` processes appeared at the
+three launch times, consistent with—but not proving attribution to—a Windows
+elevation handoff. The agent cannot act on security prompts. The maintainer
+must manually approve only a matching GetonAgain setup prompt or cancel it.
+No install, login, or pattern import is verified. Board revision 3752; V03
+work item is Blocked pending handoff while the Epic itself remains In
+Progress. See `docs/research/epic17/S651-getonagain-install-contract/`.
+
 ## EPIC-17 / G04 — Slice 650 closed; GetonAgain desktop evaluation authorized conditionally
 
 S650 screened first-party GetonAgain product/free/online pages. The

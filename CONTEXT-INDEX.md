@@ -1,5 +1,27 @@
 # InfiniDrip context index
 
+## EPIC-17 / G04 — Slice 651 closed blocked at Windows elevation handoff
+
+S650 closed with conditional maintainer authorization for official GetonAgain
+Free Version desktop install/use: the maintainer confirms written product-use
+and local-DXF permission, and requires that it be free and necessary. S651
+started from clean S650 `2c7e1f3d`; refreshed `origin/main` is an ancestor and
+board revision is now 3752. The official free ZIP and V2024.1 manual were
+downloaded/hash-verified under `C:\G04-GetonAgain-CAD-Exchange\S651`; package
+and manual evidence is linked in the S651 packet. The manual documents import/
+export choices and an RUL limitation for size-varying drill/buttonhole counts,
+but not entity semantics or standard conformance. The free version requires
+phone registration/login; do not automate authentication or import patterns.
+After fresh user approval, three setup launch attempts produced no targetable
+installer window; read-only process metadata found three contemporaneous
+`consent.exe` processes, consistent with an elevation handoff but not
+attributable to a specific prompt. The agent cannot act on Windows security
+prompts. The maintainer must manually inspect and approve only a prompt whose
+displayed app/path matches the GetonAgain CAD setup, or cancel it otherwise.
+No installed version or local direct-DXF path is verified. MPVCI stays held;
+no account or pattern was opened. See the durable S651 exit packet and package
+findings at `docs/research/epic17/S651-getonagain-install-contract/`.
+
 ## EPIC-17 / G04 — Slice 650 closed; GetonAgain desktop evaluation authorized conditionally
 
 S650 reviewed first-party GetonAgain pages: the downloadable Free Version is
