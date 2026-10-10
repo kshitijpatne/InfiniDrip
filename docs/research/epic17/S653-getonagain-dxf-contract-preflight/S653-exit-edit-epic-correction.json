@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 3759,
+  "epicId": "EPIC-17",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Restore the canonical S459 all-seven/73-configuration acceptance wording required by the board regression test while retaining the current S653 receiver state.",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03, final output review, required gates and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces; S457 records the approved Woven view conventions. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized its installation. S651 hash-verified its package/manual; S653 reviewed manual pages 239–241, which document mode/options but not DXF entity/layer/version/mark semantics. Two matching Windows consent prompts remain open; installation, installed build and actual local DXF path are not verified. Do not operate the security UI, create/login to an account, or import a fixture before the installed input contract and local route are confirmed. Next: maintainer manually clears the matching prompt, then verify build and local input path and compare the exact receiver contract to a source-exact fixture. Preserve all-seven recipes/options/grades, fixed 0.001 cm geometry gate, marks, identity, malformed-input, repeatability and rendered-output gates, legacy DXF behavior and protected export byte identities. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S653 packet: docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md."
+  }
+}

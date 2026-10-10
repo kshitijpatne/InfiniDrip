@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3756,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S653-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md",
+    "verified": true,
+    "note": "First-party GetonAgain manual pp. 239-241 define user-facing DXF modes/options but not entity semantics. Evaluation is authorized; installed build and actual local input route remain unproven. No V03 gate or hold changed."
+  }
+}

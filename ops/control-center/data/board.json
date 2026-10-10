@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 3755,
-  "updatedAt": "2026-10-10T00:26:03.626Z",
+  "revision": 3761,
+  "updatedAt": "2026-10-10T01:12:09.441Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Maintainer authorization for CLO product-development use and local-only file handling is recorded. S595 independently proves five Polo M periodic degree-1 SPLINE inputs source-exact (1,603 samples; 0 cm residual); one CLO 2026.1.310 DXF-AAMA generation returns nine pieces, passes 4/9 CUT and 9/9 SEW, and fails five CUT contours (back, both stands, both pointed collars) under 0.001 cm. The periodic encoding is rejected for this tested receiver; no CLO cause is inferred and no V03 gate clears. See docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md and V03-CURRENT-GATE-MATRIX-S595.md. Next S596 must identify a specific source- and receiver-measurable entity-translation/stage question before another trial. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every rights/profile/identity/semantics/marks/grades/negative/repeated-round-trip gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.",
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized its installation. S651 hash-verified its package/manual; S653 reviewed manual pages 239–241, which document mode/options but not DXF entity/layer/version/mark semantics. Two matching Windows consent prompts remain open; installation, installed build and actual local DXF path are not verified. Do not operate the security UI, create/login to an account, or import a fixture before the installed input contract and local route are confirmed. Next: maintainer manually clears the matching prompt, then verify build and local input path and compare the exact receiver contract to a source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities, all-seven recipes/options/grades, fixed 0.001 cm geometry, marks, identity, malformed-input, repeatability and rendered-output gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S653 packet: docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -4680,6 +4680,21 @@
           "at": "2026-10-09T08:45:48.231Z",
           "actor": "Codex",
           "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Maintainer authorization for CLO product-development use and local-only file handling is recorded. S595 independently proves five Polo M periodic degree-1 SPLINE inputs source-exact (1,603 samples; 0 cm residual); one CLO 2026.1.310 DXF-AAMA generation returns nine pieces, passes 4/9 CUT and 9/9 SEW, and fails five CUT contours (back, both stands, both pointed collars) under 0.001 cm. The periodic encoding is rejected for this tested receiver; no CLO cause is inferred and no V03 gate clears. See docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md and V03-CURRENT-GATE-MATRIX-S595.md. Next S596 must identify a specific source- and receiver-measurable entity-translation/stage question before another trial. Preserve V02-before-V03, legacy DXF behavior and protected export identities; retain all-seven scope and every rights/profile/identity/semantics/marks/grades/negative/repeated-round-trip gate. No universal compatibility, physical-fit, factory-acceptance or production-readiness claim.). Keep the summary's preserved-gates wording aligned with the existing Control Center regression assertion."
+        },
+        {
+          "at": "2026-10-10T01:11:33.169Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03, final output review, required gates and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 Done; V01/V02 evidence and all-seven technical-flat acceptance remain recorded at S459/S457. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized its installation. S651 hash-verified its package/manual; S653 reviewed manual pages 239–241, which document mode/options but not DXF entity/layer/version/mark semantics. Two matching Windows consent prompts remain open; installation, installed build and actual local DXF path are not verified. Do not operate the security UI, create/login to an account, or import a fixture before the installed input contract and local route are confirmed. Next: maintainer manually clears the matching prompt, then verify build and local input path and compare the exact receiver contract to a source-exact fixture. Preserve all-seven recipes/options/grades, fixed 0.001 cm geometry gate, marks, identity, malformed-input, repeatability and rendered-output gates, legacy DXF behavior and protected export byte identities. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S653 packet: docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md.). Reconcile the canonical Epic summary to the current GetonAgain authorization, manual evidence and install handoff without changing G04 acceptance or statuses."
+        },
+        {
+          "at": "2026-10-10T01:11:50.624Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03, final output review, required gates and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces; S457 records the approved Woven view conventions. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized its installation. S651 hash-verified its package/manual; S653 reviewed manual pages 239–241, which document mode/options but not DXF entity/layer/version/mark semantics. Two matching Windows consent prompts remain open; installation, installed build and actual local DXF path are not verified. Do not operate the security UI, create/login to an account, or import a fixture before the installed input contract and local route are confirmed. Next: maintainer manually clears the matching prompt, then verify build and local input path and compare the exact receiver contract to a source-exact fixture. Preserve all-seven recipes/options/grades, fixed 0.001 cm geometry gate, marks, identity, malformed-input, repeatability and rendered-output gates, legacy DXF behavior and protected export byte identities. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S653 packet: docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md.). Restore the canonical S459 all-seven/73-configuration acceptance wording required by the board regression test while retaining the current S653 receiver state."
+        },
+        {
+          "at": "2026-10-10T01:12:09.441Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO 2026.1.310 empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. The maintainer confirms written product-development/local-DXF permission for the official GetonAgain Free desktop evaluation and authorized its installation. S651 hash-verified its package/manual; S653 reviewed manual pages 239–241, which document mode/options but not DXF entity/layer/version/mark semantics. Two matching Windows consent prompts remain open; installation, installed build and actual local DXF path are not verified. Do not operate the security UI, create/login to an account, or import a fixture before the installed input contract and local route are confirmed. Next: maintainer manually clears the matching prompt, then verify build and local input path and compare the exact receiver contract to a source-exact fixture. Preserve V02-before-V03, legacy DXF behavior and protected export identities, all-seven recipes/options/grades, fixed 0.001 cm geometry, marks, identity, malformed-input, repeatability and rendered-output gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. S653 packet: docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md.). Preserve the canonical V02 acceptance clauses pinned by the Control Center regression test while updating the Epic summary to the current S653 boundary."
         }
       ],
       "evidenceRefs": [
@@ -12418,6 +12433,11 @@
           "at": "2026-10-10T00:26:03.626Z",
           "actor": "Codex",
           "text": "S652 read-only verification confirms that the live Windows consent-window caption names the exact user-authorized GetonAgain CAD setup (`Garment CAD(GetonAgain Free version).exe is requesting your permission`). No installed app was found. Please manually approve the matching prompt to continue installation, or cancel it. Codex did not operate the security UI. G04-V03 remains Blocked; no V03 gate or hold changed. See docs/research/epic17/S652-getonagain-uac-handoff/S652-exit-packet.md."
+        },
+        {
+          "at": "2026-10-10T01:10:56.174Z",
+          "actor": "Codex",
+          "text": "S653 reviewed the verified V2024.1 manual pp. 239-241. ASTM/AAMA and Auto CAD menus are distinct vendor choices; the manual does not define a supported DXF entity/layer/version or metadata contract and limits RUL drill/buttonhole counts to base-size counts. GetonAgain is authorized for bounded evaluation but remains uninstalled/unqualified. Two matching consent prompts remain live; only the maintainer can approve Windows security UI. No V03 gate or hold changed. See docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md."
         }
       ],
       "evidenceRefs": [
@@ -12830,7 +12850,9 @@
         "E-G04-S651-START",
         "E-G04-S651-EXIT",
         "E-G04-S652-START",
-        "E-G04-S652-EXIT"
+        "E-G04-S652-EXIT",
+        "E-G04-S653-START",
+        "E-G04-S653-EXIT"
       ],
       "flagKey": null
     },
@@ -24796,6 +24818,24 @@
       "sha256": null,
       "verified": true,
       "note": "Read-only process caption confirms the live Windows consent prompt names the approved GetonAgain CAD setup. No installed application entry or shortcut found. Manual user confirmation remains required; V03 gates and holds unchanged."
+    },
+    {
+      "id": "E-G04-S653-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Starts a read-only first-party manual preflight for GetonAgain DXF import/export; no security prompt operation or pattern exchange."
+    },
+    {
+      "id": "E-G04-S653-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "First-party GetonAgain manual pp. 239-241 define user-facing DXF modes/options but not entity semantics. Evaluation is authorized; installed build and actual local input route remain unproven. No V03 gate or hold changed."
     }
   ]
 }

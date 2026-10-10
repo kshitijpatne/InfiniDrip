@@ -1,5 +1,23 @@
 # InfiniDrip context index
 
+## EPIC-17 / G04 — Slice 653 closed; official DXF manual contract preflight
+
+The maintainer-confirmed written product-use/local-file permission and
+official free desktop setup authorization are settled. The V2024.1 manual's
+printed pp. 239–241 documents the visible ASTM/AAMA, TIIP, and Auto CAD import
+modes, separate ASTM/AAMA/Auto CAD export choices, unit/base-size/grade/seam/
+mark options, and the RUL variable-drill/buttonhole limitation. It does not
+specify the DXF entity/layer/version/identity/mark contract or prove standards
+conformance. The app is not installed; two matching Windows consent prompts
+remain live and require the maintainer's manual action. No account or fixture
+was opened. V03 remains Blocked pending install/build/local input-route
+verification, then exact input-contract preflight before pattern import. See
+`docs/research/epic17/S653-getonagain-dxf-contract-preflight/` and its S653
+exit packet. All seven-recipe/options/grades, geometry and mark thresholds,
+malformed-input, repeatability, readable-output, protected-identity and legacy
+DXF gates are unchanged. Board revision 3761 retains the canonical S459/S457
+acceptance summary; focused Control Center tests pass 42/42.
+
 ## EPIC-17 / G04 — Slice 652 closed; exact Windows elevation prompt verified
 
 Read-only process inspection finds two live Windows consent processes whose

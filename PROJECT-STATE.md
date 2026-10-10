@@ -1,5 +1,24 @@
 # InfiniDrip — Project State
 
+## EPIC-17 / G04 — Slice 653 closed; GetonAgain DXF contract preflight recorded
+
+The hash-verified first-party Garment CAD V2024.1 manual (printed pp. 239–241)
+documents distinct ASTM/AAMA, TIIP, and Auto CAD import modes; separate ASTM,
+AAMA, and Auto CAD export modes; unit/base-size/grading/seam/mark controls; and
+an RUL limitation that uses base-size counts when drill/buttonhole counts vary
+by size and omits quilt/sew lines. It does not document the entity/layer/
+version/identity/mark contract required to qualify an industrial profile.
+Maintainer written product-use/local-DXF permission and official free setup
+authorization are settled, but installation and the actual local desktop DXF
+route are not verified. Two matching Windows consent prompts remain live; only
+the maintainer can approve them. No login or pattern import. G04-V03 remains
+Blocked; EPIC-17 In Progress; V01/V02 Done; all acceptance gates and holds
+unchanged. S653 evidence and exact next steps:
+`docs/research/epic17/S653-getonagain-dxf-contract-preflight/`. Validated
+board replay `3755→3761`; focused Control Center tests `42/42` and
+`git diff --check` pass. The Epic card retains its canonical S459/S457
+acceptance wording.
+
 ## EPIC-17 / G04 — Slice 652 closed; exact installer prompt confirmed
 
 Read-only inspection found two live Windows consent processes, PIDs 66192 and
