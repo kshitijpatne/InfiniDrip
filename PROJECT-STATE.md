@@ -1,4 +1,25 @@
-## EPIC-17 / G04 — S676 closed; source-unit serialization candidate
+## EPIC-17 / G04 — S679 active; explicit package units
+
+### S679 closed — explicit units in candidate package
+
+Started 2026-10-10 17:59:26 UTC from clean S678 `30a640c2`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 678; S679 is unique. Board revision 4029 keeps V01/
+V02 Done and V03/EPIC-17 In Progress. Packet:
+`docs/research/epic17/S679-dxf-package-unit-contract/S679-start-packet.md`.
+
+S679 adds `units: { length: "cm", dxfInsunits: 5 }` to the versioned manifest
+and requires that record to agree with the paired DXF's `$INSUNITS=5` header.
+This repairs the source-side C04 unit record only; S674 still proves that
+LibreCAD's saved R12 output drops the marker. The change cannot pass receiver
+round-trip acceptance. Seven recipe manifests generated and reviewed; all
+seven DXF hashes remain identical to S678. Focused checks 42/42, changed-code
+coverage 100%, build, Control Center 42/42, and diff hygiene pass. Exit packet:
+`docs/research/epic17/S679-dxf-package-unit-contract/S679-exit-packet.md`.
+Keep all V03 acceptance, thresholds, option/grade gates and protected
+identities unchanged. Next assess only whether the existing exact profile
+permits a source-backed normalization step; do not select another app or infer
+units from coordinates.
 
 ### S677 exit — recipe construction marks in additive DXF
 

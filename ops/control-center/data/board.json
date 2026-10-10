@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4029,
-  "updatedAt": "2026-10-10T17:57:24.609Z",
+  "revision": 4033,
+  "updatedAt": "2026-10-10T18:01:43.421Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13027,6 +13027,16 @@
           "at": "2026-10-10T17:57:24.609Z",
           "actor": "Codex",
           "text": "S678 closes with a C04-bounded versioned manifest for exact candidate recipe/piece identity, size/grade, options and stitch relationships. It binds to the exact DXF bytes and canonical package revision. All registered recipes and grade rows pass package generation/verification and tamper rejection; seven M-size DXF hashes exactly match the S677 rendered/reviewed candidate. Focused checks 42/42, changed-module coverage 100%, build, Control Center 42/42 and diff hygiene pass. Source-side identity gap fixed; receiver preservation, supported-option round trips, malformed-input handling, repeatability and readable receiver output remain unproven. No V03 gate is marked passed from this sidecar. Next reconcile the selected receiver output with this exact candidate and existing fixtures; no additional application or profile variations."
+        },
+        {
+          "at": "2026-10-10T18:00:05.961Z",
+          "actor": "Codex",
+          "text": "S679 addresses a source-side C04 gap: S678's package did not carry a typed units field. Add explicit centimeters and verify the paired DXF itself declares $INSUNITS=5. S674's measured LibreCAD output still omits the unit marker; S679 does not claim that receiver passes or rewrite its output. Acceptance and all V03 gates remain unchanged."
+        },
+        {
+          "at": "2026-10-10T18:01:43.421Z",
+          "actor": "Codex",
+          "text": "S679 adds explicit centimeter units to the source package and verifies that the paired DXF itself declares $INSUNITS=5. Seven generated manifests pass; all DXF drawing hashes remain byte-identical to S678. Focused checks 42/42, changed-code coverage 100%, build, Control Center 42/42 and diff hygiene pass. This addresses a source-side C04 omission but does not change S674's measured LibreCAD R12 behavior: its output drops the unit marker. No V03 round-trip or profile gate is claimed; acceptance remains unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13502,7 +13512,9 @@
         "E-G04-S677-START",
         "E-G04-S677-EXIT",
         "E-G04-S678-START",
-        "E-G04-S678-EXIT"
+        "E-G04-S678-EXIT",
+        "E-G04-S679-START",
+        "E-G04-S679-EXIT"
       ],
       "flagKey": null
     },
@@ -26197,6 +26209,24 @@
       "sha256": null,
       "verified": true,
       "note": "Adds a versioned package sidecar for recipe/piece identity, grade, options and stitch relations bound to exact DXF and manifest digests. Seven recipe M-size drawings match reviewed S677 bytes; every recipe grade row and tamper checks pass. Focused checks 42/42, changed-code coverage 100%, build, Control Center 42/42 and output review pass. No receiver preservation or V03 acceptance claimed."
+    },
+    {
+      "id": "E-G04-S679-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S679-dxf-package-unit-contract/S679-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S679 adds the C04-required explicit centimeter declaration to the source package and validates it against DXF $INSUNITS=5. S674 measured LibreCAD R12 removing this declaration on save; this slice does not claim receiver preservation or V03 acceptance."
+    },
+    {
+      "id": "E-G04-S679-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S679-dxf-package-unit-contract/S679-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Candidate manifests now explicitly declare centimeters and verify paired DXF $INSUNITS=5. Seven manifests generated and reviewed; all seven drawing hashes are unchanged from S678. Focused checks 42/42, changed-code coverage 100%, build and Control Center 42/42 pass. This clears only source-side unit metadata; LibreCAD R12 output still omits the unit marker and V03 remains open."
     }
   ]
 }

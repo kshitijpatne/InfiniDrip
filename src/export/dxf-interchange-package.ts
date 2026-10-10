@@ -11,6 +11,7 @@ export interface DxfInterchangePackageManifest {
   readonly schemaVersion: typeof SCHEMA_VERSION;
   readonly profileLabel: "generic-dxf-centimeters-with-recipe-marks";
   readonly limitations: readonly string[];
+  readonly units: { readonly length: "cm"; readonly dxfInsunits: 5 };
   readonly drawingSha256: string;
   readonly recipe: { readonly id: string; readonly label: string };
   readonly options: GarmentOptions;
@@ -53,6 +54,13 @@ async function sha256(value: string): Promise<string> {
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
+function hasCentimeterHeader(dxf: string): boolean {
+  const lines = dxf.replace(/\r\n/g, "\n").split("\n");
+  return lines.some((line, index) =>
+    line === "$INSUNITS" && lines[index - 1] === "9" && lines[index + 1] === "70" && lines[index + 2] === "5",
+  );
+}
+
 function pieceRecords(recipe: GarmentRecipe, block: Block): DxfInterchangePackageManifest["pieces"] {
   return Object.entries(block.roles).map(([role, piece]) => ({
     id: `${recipe.name}:${role}`,
@@ -87,6 +95,7 @@ export async function createDxfInterchangePackage(
       "The manifest supplements the DXF; it does not replace CUT/SEW geometry or visible construction marks.",
       "The profile label describes this package schema only and is not an apparel-standard or receiver-compatibility claim.",
     ],
+    units: { length: "cm", dxfInsunits: 5 } as const,
     drawingSha256,
     recipe: { id: recipe.name, label: recipe.label },
     options: { ...options },
@@ -113,6 +122,8 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
   if (typeof candidate.dxf !== "string" || candidate.manifest === null || typeof candidate.manifest !== "object") return false;
   const manifest = candidate.manifest as Record<string, unknown>;
   if (manifest.schemaVersion !== SCHEMA_VERSION || typeof manifest.drawingSha256 !== "string" || typeof manifest.revisionId !== "string") return false;
+  const units = manifest.units as { length?: unknown; dxfInsunits?: unknown } | undefined;
+  if (units?.length !== "cm" || units.dxfInsunits !== 5 || !hasCentimeterHeader(candidate.dxf)) return false;
   if (await sha256(candidate.dxf) !== manifest.drawingSha256) return false;
   const { revisionId, ...core } = manifest;
   try {

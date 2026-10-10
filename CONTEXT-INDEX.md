@@ -1,3 +1,13 @@
+## EPIC-17 / G04 — Slice 679 closed; explicit package units
+
+S679 adds `cm` and DXF unit code `5` to the package manifest and checks both
+against the paired `$INSUNITS=5` DXF header. All seven recipe manifests verify;
+all seven drawing hashes remain identical to S678. Focused checks 42/42,
+changed-code coverage 100%, build and Control Center 42/42 pass. This repairs
+source-side C04 metadata only; S674's receiver still drops the unit marker and
+V03 remains open. Exit packet:
+`docs/research/epic17/S679-dxf-package-unit-contract/S679-exit-packet.md`.
+
 ## EPIC-17 / G04 — Slice 678 closed; candidate package manifest
 
 S678 added and verified a versioned sidecar for exact recipe/piece identity,

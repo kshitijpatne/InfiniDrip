@@ -846,10 +846,11 @@ notch ticks and double-ended grainline marks as `MARK_NOTCH` and
 `MARK_GRAINLINE` entities in the candidate only. It is not wired to the UI or
 selected as an apparel-CAD profile; no receiver compatibility is claimed.
 `createDxfInterchangePackage` produces a separate versioned JSON manifest for
-recipe/piece roles, selected size and grade, options, and stitch relationships.
-Its SHA-256 binds the exact DXF and the canonical manifest revision. It is a
-C04-bounded companion record, not an importer or receiver-preservation proof;
-the DXF remains the source of CUT/SEW geometry and visible construction marks.
+recipe/piece roles, selected size and grade, options, stitch relationships,
+and explicit centimeter units verified against `$INSUNITS=5`. Its SHA-256
+binds the exact DXF and canonical manifest revision. It is a C04-bounded
+companion record, not an importer or receiver-preservation proof; the DXF
+remains the source of CUT/SEW geometry and visible construction marks.
 
 The project also keeps reference export files. Tests compare new exports with
 those references so a change to one view or tool does not silently alter

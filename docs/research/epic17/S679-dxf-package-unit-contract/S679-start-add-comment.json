@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4030,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S679 addresses a source-side C04 gap: S678's package did not carry a typed units field. Add explicit centimeters and verify the paired DXF itself declares $INSUNITS=5. S674's measured LibreCAD output still omits the unit marker; S679 does not claim that receiver passes or rewrite its output. Acceptance and all V03 gates remain unchanged."
+}

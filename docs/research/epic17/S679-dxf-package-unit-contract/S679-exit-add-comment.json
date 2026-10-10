@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4032,
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S679 adds explicit centimeter units to the source package and verifies that the paired DXF itself declares $INSUNITS=5. Seven generated manifests pass; all DXF drawing hashes remain byte-identical to S678. Focused checks 42/42, changed-code coverage 100%, build, Control Center 42/42 and diff hygiene pass. This addresses a source-side C04 omission but does not change S674's measured LibreCAD R12 behavior: its output drops the unit marker. No V03 round-trip or profile gate is claimed; acceptance remains unchanged."
+}

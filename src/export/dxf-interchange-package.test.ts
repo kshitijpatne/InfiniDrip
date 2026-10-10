@@ -15,6 +15,7 @@ describe("C04-bounded DXF interchange package", () => {
         expect(candidate.manifest.recipe.id).toBe(recipe.name);
         expect(candidate.manifest.grade.selectedSize).toEqual({ label: graded.label, step: graded.step });
         expect(candidate.manifest.grade.sizeRun).toEqual(recipe.sizes);
+        expect(candidate.manifest.units).toEqual({ length: "cm", dxfInsunits: 5 });
         expect(candidate.manifest.pieces.map((piece) => piece.role)).toEqual(Object.keys(graded.block.roles));
         expect(candidate.manifest.stitches).toEqual(graded.block.stitches);
         expect(candidate.manifest.drawingSha256).toMatch(/^[0-9a-f]{64}$/);
@@ -71,7 +72,15 @@ describe("C04-bounded DXF interchange package", () => {
     expect(await verifyDxfInterchangePackage({ ...candidate, dxf: `${candidate.dxf}0\nEOF\n` })).toBe(false);
     expect(await verifyDxfInterchangePackage({
       ...candidate,
+      dxf: candidate.dxf.replace("9\n$INSUNITS\n70\n5\n", ""),
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
       manifest: { ...candidate.manifest, pieces: [] },
+    })).toBe(false);
+    expect(await verifyDxfInterchangePackage({
+      ...candidate,
+      manifest: { ...candidate.manifest, units: { length: "in", dxfInsunits: 1 } },
     })).toBe(false);
     expect(await verifyDxfInterchangePackage({
       ...candidate,

@@ -1,0 +1,12 @@
+{
+  "expectedRevision": 4029,
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S679-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S679-dxf-package-unit-contract/S679-start-packet.md",
+    "verified": true,
+    "note": "S679 adds the C04-required explicit centimeter declaration to the source package and validates it against DXF $INSUNITS=5. S674 measured LibreCAD R12 removing this declaration on save; this slice does not claim receiver preservation or V03 acceptance."
+  }
+}
