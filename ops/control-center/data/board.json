@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4183,
-  "updatedAt": "2026-10-11T03:02:18.965Z",
+  "revision": 4187,
+  "updatedAt": "2026-10-11T03:11:18.897Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13394,6 +13394,16 @@
           "at": "2026-10-11T03:02:18.965Z",
           "actor": "Codex",
           "text": "S713 closed: the returned-file audit now normalizes only the source identity plus exact selected-grade suffix, preserving the source revision token and one-to-one INSERT binding. It rejects wrong-grade suffixes, duplicates/collisions, and empty labels. Changed verifier coverage is 100% across all four measures; focused tests 27/27, TypeScript, Control Center 42/42, and diff check pass. S711 unit and mark/layer failures and unmeasured geometry remain; no receiver/profile gate or V03 criterion is cleared by this naming fix."
+        },
+        {
+          "at": "2026-10-11T03:06:06.625Z",
+          "actor": "Codex",
+          "text": "S714 is a read-only coordinate comparison of the exact existing S711 CLO return against its source package. It measures all nine CUT/SEW outlines at 0.001 cm despite renamed layers, then separates source/writer behavior from receiver changes. No app, format, or setting variation; no gate or acceptance changes."
+        },
+        {
+          "at": "2026-10-11T03:11:18.897Z",
+          "actor": "Codex",
+          "text": "S714 closed with an exact comparison of the saved S711 return and S708 source: 13/18 CUT/SEW contours are within 0.001 cm; all nine SEW paths pass, while the back, both stands and both collars fail on CUT. Both files use straight polylines; numeric return layers repeat the same contour geometry. Units and source-identifiable marks/layers remain failed. No source, pattern geometry, gate, threshold, or CAD output changed. Next: inspect the five source-side CUT paths for a tolerance-preserving interchange-writer correction; no new CAD candidate or format trial."
         }
       ],
       "evidenceRefs": [
@@ -13950,7 +13960,9 @@
         "E-G04-S712-START",
         "E-G04-S712-EXIT",
         "E-G04-S713-START",
-        "E-G04-S713-EXIT"
+        "E-G04-S713-EXIT",
+        "E-G04-S714-START",
+        "E-G04-S714-EXIT"
       ],
       "flagKey": null
     },
@@ -27410,6 +27422,24 @@
       "sha256": null,
       "verified": true,
       "note": "Return audit accepts only exact source names or exact selected-grade suffixes with one-to-one block/INSERT mapping; wrong grades, collisions, and empty suffix fail. Changed verifier coverage 100%; focused regressions 27/27. This naming check does not clear S711's units, mark/layer, geometry, receiver, or other V03 gates."
+    },
+    {
+      "id": "E-G04-S714-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S714-s711-source-return-measurement/S714-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S714 measures only the existing S711 CLO return against its exact source package at fixed thresholds, independently of renamed layers. No app rerun, format variation, or acceptance change."
+    },
+    {
+      "id": "E-G04-S714-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S714-s711-source-return-measurement/S714-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact S711 CLO return measured against exact S708 source at 0.001 cm: 13/18 contours pass; all SEW pass and five CUT paths fail. No gate or threshold changed."
     }
   ]
 }
