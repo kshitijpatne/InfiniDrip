@@ -150,6 +150,18 @@ only through an explicitly admitted, linked Epic packet.
   commands that attach the merged/deployed UIQ-02 evidence and final coverage,
   close the parent as Done, and record its release comment; use only as
   historical proof and never replay against a newer board.
+- `docs/planning/UIQ-03-INTEGRATION-ADMISSION.md` and
+  `UIQ-03-GOAL.md` — fresh current-main, maintainer-authorized integration of
+  the accepted UIQ-03 guidance panel. Slice 736 uses the stable Design
+  readiness disclosure, embedded flag and exact legacy-checklist fallback;
+  Slice 737 is deployment/board closeout only. Journey navigation, validation,
+  correction semantics, saved data and exports remain protected.
+  `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md` and
+  `docs/research/uiq03-integration/` record the full gate, packaged lifecycle,
+  rendered pressure test and two diagnostic coverage attempts. Slice 736's
+  100% global coverage, build, operational checks, rendered/accessibility and
+  packaged Electron gates are complete; UIQ-03 is entering independent PR
+  review on its admitted branch, not yet merged or deployed.
 - `docs/planning/UI-ENHANCEMENT-BOARD-COMMANDS.json` — additive validated replay
   for newer boards, never replacement of active progress with an older board.
   `UI-ENHANCEMENT-EPIC17-NOTE.md` is the user-pasted non-diverting handoff;

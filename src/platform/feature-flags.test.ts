@@ -45,6 +45,32 @@ describe("embedded feature-flag contract", () => {
     });
   });
 
+  it("enables UIQ guidance by default and preserves the readiness checklist fallback", () => {
+    expect(FEATURE_FLAGS.uiq_guidance).toMatchObject({
+      key: "uiq_guidance",
+      owner: "Codex",
+      audience: "public",
+      defaultValue: true,
+      expiresOn: "2027-01-11",
+      rollout: "embedded",
+      fallback: "compatible-v1",
+    });
+    expect(evaluateFeatureFlag("uiq_guidance", CURRENT)).toMatchObject({
+      enabled: true,
+      status: "enabled",
+      source: "embedded-default",
+      diagnostic: FEATURE_FLAGS.uiq_guidance.onBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_guidance", CURRENT, false)).toMatchObject({
+      enabled: false,
+      status: "disabled",
+      source: "local-override",
+      diagnostic: FEATURE_FLAGS.uiq_guidance.offBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_guidance", new Date("2027-01-12T00:00:00.000Z"), true))
+      .toMatchObject({ enabled: false, status: "stale", source: "diagnostic" });
+  });
+
   it("records Polo V2 as readiness-only because no V1 fallback exists", () => {
     const result = evaluateFeatureFlag("polo_v2", CURRENT, true);
 

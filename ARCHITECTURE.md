@@ -49,6 +49,16 @@ passed and `https://infinidrip-preview.pages.dev` returned HTTP 200. See
 `docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md` for deployment proof and
 `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md` for the implementation gates.
 
+The current isolated integration branch also contains the admitted UIQ-03
+presentation inside the existing Design readiness disclosure, behind embedded
+`uiq_guidance` with the exact existing checklist as its fallback. It renders
+readiness, fit intent and digital validity from existing state; it does not
+change validation, navigation, correction data, persistence, drafting or
+exports. This Slice 736 integration has passed its full, rendered and packaged
+pre-merge gates but is not yet merged or deployed. Its current boundary and
+proofs are in `docs/planning/UIQ-03-INTEGRATION-ADMISSION.md` and
+`docs/release/UIQ-03-INTEGRATION-S736-EXIT.md`. UIQ-04/05/07 remain Backlog.
+
 ## How measurements become pattern shapes
 
 The current design is the common source for most views, checks, planning tools,
@@ -1152,6 +1162,21 @@ maintainer approves the next garment queue.
 No garment has yet been cut, sewn, and fit-tested. Digital checks catch only
 the issues they are programmed to check; a physical sample is needed to learn
 how a garment behaves in fabric on a person. No fit result is claimed here.
+
+## UIQ-03 guidance integration — in progress
+
+The accepted native UIQ-03 panel is integrated in the existing collapsed
+**Design readiness** disclosure on the active candidate branch. It displays
+caller-provided journey, readiness, blocker, and current-note state; fit intent
+appears only after the Style step is explicitly reviewed. An identical current
+blocker note is omitted from the panel's ordinary note list to avoid triple
+repetition alongside the journey banner and blocker action. The embedded
+`uiq_guidance` flag retains the exact existing readiness checklist as its local
+fallback. The journey bar, navigation, correction engine, saved data, pattern,
+and export decisions remain unchanged. This explanatory UI is not physical-fit
+validation. See `docs/planning/UIQ-03-INTEGRATION-ADMISSION.md` and rendered
+evidence in `docs/research/uiq03-integration/`; final gates, merge and
+deployment are pending.
 
 ## Where to find current project information
 

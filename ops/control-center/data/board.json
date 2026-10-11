@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4370,
-  "updatedAt": "2026-10-11T17:35:51.232Z",
+  "revision": 4376,
+  "updatedAt": "2026-10-11T20:18:30.850Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14450,14 +14450,14 @@
       "title": "Actionable guidance and journey presentation candidate",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "Review",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
-      "contributor": "Claude Code",
+      "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
         "UIQ-02"
@@ -14469,13 +14469,15 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Read-only guidance, fit-intent versus validity and current/completed/blocked stage presentation.",
-      "expectation": "Warnings retain actual reason and correction action; no success inferred from selection.",
+      "description": "Current-main integration packet: docs/planning/UIQ-03-INTEGRATION-ADMISSION.md. Mount the accepted native guidance/journey presentation inside the existing Design readiness disclosure; preserve journey navigation, correction behavior and legacy checklist fallback.",
+      "expectation": "Clearly distinguish user-confirmed fit intent from digital validity; show readiness/blocker/guidance honestly, route explicit correction requests to existing controls, and never change engine decisions or infer physical fit.",
       "acceptanceCriteria": [
-        "Fixtures cover invalid/stale/blocked states; Codex alone integrates journey/validation through UIQ-GATE.",
-        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
-        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
-        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+        "Accepted candidate source, CSS and tests match the immutable exit manifest and remain byte-identical.",
+        "Embedded uiq_guidance default, local override, stale/unknown fail-safe and exact legacy checklist fallback are tested.",
+        "Existing journey navigation, validation, blockers, guidance actions, saved data and exports remain unchanged; fit intent is shown only after explicit Style review.",
+        "Changed production code and the settled repository pass 100% statement/branch/function/line coverage, build/typecheck, operational and export-byte-identity gates.",
+        "Actual rendered desktop/narrow/zoom, accessibility/media, no-egress, fallback and required packaged behavior are inspected and recorded.",
+        "Codex reviews/merges the PR; Slice 737 verifies main deployment and closes the canonical board. UIQ-04/05/07 stay Backlog."
       ],
       "statusHistory": [
         {
@@ -14485,6 +14487,24 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-11T18:16:03.934Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer authorized UIQ candidate integration after UIQ-02 shipped. Fresh current-main admission and exact Slice 736/737 gates are recorded in docs/planning/UIQ-03-INTEGRATION-ADMISSION.md and docs/planning/UIQ-03-GOAL.md.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-11T20:18:30.632Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 736 implementation and all pre-merge gates are complete; the exit report is attached. Independent PR review, merge, production deployment and Slice 737 closeout remain pending.",
+          "evidenceRefs": [
+            "E-UIQ03-S736-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -14492,12 +14512,23 @@
           "at": "2026-10-11T14:22:54.000Z",
           "actor": "Codex",
           "text": "S733 reconciled the accepted isolated candidate child and its immutable exit proof on current main. This parent remains Backlog/unshipped; production integration requires its own package admission and verification."
+        },
+        {
+          "at": "2026-10-11T18:16:04.637Z",
+          "actor": "Codex",
+          "text": "Slice 736 admitted from origin/main f25ff257. The accepted component is integrated only inside the existing Design readiness disclosure, behind embedded uiq_guidance with the legacy checklist fallback. Slice 737 is reserved for post-merge deployment/board closeout. No live behavior has changed yet; see docs/planning/UIQ-03-INTEGRATION-ADMISSION.md."
+        },
+        {
+          "at": "2026-10-11T20:18:30.850Z",
+          "actor": "Codex",
+          "text": "Slice 736 is ready for independent review. Global coverage passed 164/164 files, 2,647/2,647 tests and 100% statements/branches/functions/lines; build, operational checks, rendered/no-egress review and packaged Electron output/lifecycle gates passed. See docs/release/UIQ-03-INTEGRATION-S736-EXIT.md. This is not shipped: PR review/merge and Slice 737 deployment/board closeout are still required. UIQ-04/05/07 remain Backlog."
         }
       ],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ03-S736-EXIT"
       ],
-      "flagKey": null
+      "flagKey": "uiq_guidance"
     },
     {
       "id": "UIQ-04",
@@ -28867,6 +28898,15 @@
       "sha256": null,
       "verified": true,
       "note": "Final post-closeout regression gate: 164/164 test files, 2,640/2,640 tests, 100% global statement/branch/function/line coverage; protected export byte identity 9/9."
+    },
+    {
+      "id": "E-UIQ03-S736-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-03-INTEGRATION-S736-EXIT.md",
+      "commit": null,
+      "sha256": "f6b6aa1f17e370f9b062b6411324ebb4e98de96769e82d53be5509218d4ea49c",
+      "verified": true,
+      "note": "Slice 736 integration and pre-merge gate report; PR review, merge and deployment remain pending."
     }
   ]
 }
