@@ -40,14 +40,15 @@ are tracked as Done child work; their parent UIQ feature cards remain
 Backlog/unshipped. Their exact proofs and current integration boundary are
 indexed in `CONTEXT-INDEX.md` and `docs/planning/UIQ-GATE-ADMISSION.md`.
 
-UIQ-GATE depended on EPIC-17 and is now closed as a readiness-only task at
-board revision 4352. Its accepted candidates remain isolated and the parent
-UIQ feature cards remain Backlog/unshipped. UIQ-02 was subsequently admitted
-from current main as Slice 734; its integration now passes the web, repository,
-rendered, and packaged Electron gates. It remains unmerged/unshipped pending
-Codex's final diff review. See
-`docs/planning/UIQ-02-INTEGRATION-ADMISSION.md` and
-`docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`. Closing the gate is not a
+UIQ-GATE depended on EPIC-17 and closed as a readiness-only task at board
+revision 4352. UIQ-02 was subsequently admitted from current main as Slice 734,
+integrated, reviewed and merged in PR #21 at main `5726a1ff`. Its full web,
+repository, rendered and packaged Electron gates passed; production workflow
+`38158498775` deployed successfully and the share URL returned HTTP 200. The
+canonical UIQ-02 parent is Done after Slice 735 closeout at board revision
+4370. See `docs/planning/UIQ-02-INTEGRATION-ADMISSION.md`,
+`docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`, and
+`docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md`. Closing the gate is not a
 promise to integrate every package in one giant PR. Each feature integrates
 and is verified under its own packet; its release is recorded independently.
 Candidate cards must distinguish component delivery from app release in exit
@@ -59,13 +60,13 @@ admitted on `origin/main` `7484fe4` as Slice 734 in
 `docs/planning/UIQ-02-INTEGRATION-ADMISSION.md`. Its bounded host is the active
 guided tour and existing local-storage warning; it does not authorize a global
 shell/control restyle. The embedded flag has no live/remote toggle; rollback
-requires a code-default change and deployment. UIQ-03/04/05/07 remain backlog
-until this package is independently merged and a fresh admission is written
-for the next package. UIQ-02's initial transient Electron runtime-folder rename
+requires a code-default change and deployment. UIQ-03/04/05/07 remain backlog;
+a fresh admission is required before the next package. UIQ-02's initial
+transient Electron runtime-folder rename
 failure is retained as negative evidence; the later clean retry and full
-packaged verification passed. Codex's actual-diff review is complete. The
-parent UIQ-02 is in Review pending PR creation, merge, and deployment
-verification; see its Slice 734 exit packet.
+packaged verification passed. The parent UIQ-02 is Done and deployed; see its
+Slice 735 closeout. The Slice 734 exit packet remains the pre-merge
+implementation record.
 
 No historical roadmap dates are re-promised: target/release/delivery dates for new cards are null until the next admission/scoping decision. Added work uses genuinely spare independent capacity first; shared UI integration is serialized and reforecast rather than squeezing Epic17's gates or adding cosmetic critical-path work. Future Epic18/19/21/22/30 admissions and existing garment, launch-cost, supplier, physical and legal gates remain intact.
 

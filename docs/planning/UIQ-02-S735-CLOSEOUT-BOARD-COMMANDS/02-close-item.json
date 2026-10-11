@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-02",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "expectedRevision": 4367,
+  "reason": "Slice 734 was reviewed and merged by PR #21 at 5726a1ff; production workflow 38158498775 passed and the live Pages URL returned HTTP 200. Slice 735 records the release closeout.",
+  "evidenceRefs": ["E-UIQ02-S735-DEPLOYMENT"]
+}

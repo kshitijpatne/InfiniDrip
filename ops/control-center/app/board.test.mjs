@@ -53,7 +53,7 @@ test("only UIQ-02 is admitted and its packaged gate has verified evidence", () =
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
-    assert.equal(card.deliveredAt, null);
+    assert.equal(card.deliveredAt, card.id === "UIQ-02" ? "2026-10-11" : null);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
     assert.ok(card.evidenceRefs.includes(approval.id));

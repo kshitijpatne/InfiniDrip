@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "command": "npm run coverage -- --pool=threads --poolOptions.threads.singleThread --reporter=dot",
+  "startedAt": "2026-10-11T17:19:59Z",
+  "durationSeconds": 921.19,
+  "host": {
+    "platform": "win32",
+    "node": "v24.15.0",
+    "workerMode": "single-thread"
+  },
+  "testFiles": {
+    "passed": 164,
+    "failed": 0
+  },
+  "tests": {
+    "passed": 2640,
+    "failed": 0
+  },
+  "globalCoveragePercent": {
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  },
+  "protectedExportByteIdentity": {
+    "passed": 9,
+    "failed": 0
+  },
+  "changedTestSuite": {
+    "file": "ops/control-center/app/board.test.mjs",
+    "suite": "only UIQ-02 is admitted and its packaged gate has verified evidence",
+    "result": "passed"
+  },
+  "note": "Final S735 full gate after updating the canonical-board regression expectation for the verified UIQ-02 delivery date. No application source changes were made in S735."
+}
