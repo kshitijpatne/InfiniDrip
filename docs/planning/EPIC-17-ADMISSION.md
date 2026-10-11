@@ -1,4 +1,9 @@
-## Current EPIC-17 / G04 V03 boundary — S711 closed; CLO current-source marks fail
+## Current EPIC-17 / G04 V03 boundary — S712 closed; fail-closed audit contract verified
+
+S712 adds a shared negative-result assertion to the existing returned-DXF audit fixtures. Every rejected input now has a tested nonempty reason and zero partial counts; valid cases still pass. Interchange/package and protected export-identity checks pass 26/26, as do TypeScript, Control Center 42/42, and `git diff --check`. No production code, receiver/profile, or acceptance changed. This proves the audit API contract only; InfiniDrip has no DXF-return import UI, so receiver-visible malformed-input handling remains unproven. Exit packet: `docs/research/epic17/S712-audit-fail-closed-contract/S712-exit-packet.md`.
+
+Continue with source-side work tied to measured S703/S711 return failures. Do not repeat receiver trials or alter the seven-recipe/options/grades scope, 0.001 cm gate, protected output identities, or any V03 acceptance. Final full gate, final necessary-file cleanup, PR, safe merge, ancestry, deployment and production verification remain required; the goal stays active.
+## Historical — S711 closed; CLO current-source marks fail
 
 S711 imports and exports the exact S708 Polo M package once through CLO 2026.1.310 DXF-ASTM. The source's six buttonhole-cross LINE entities are not preserved as identifiable marks: the named mark layer is absent, nearest returned point geometry is 0.249992 cm from each cross center, and the nearest returned path is 1.499992 cm away. CLO also omits the source centimeter header and suffixes all nine piece names with `_M`. The current source-side auditor rejects the return; no acceptance was weakened. S703 still proves five CUT contour failures above 0.001 cm; S711 did not remeasure them or claim readable returned output. The tested CLO route remains unqualified and no standards claim is made. No further receiver variation is planned. Exact hashes and measurements: `docs/research/epic17/S711-clo-current-marks-check/S711-exit-packet.md`; raw return/report stay in `C:\G04-CAD-Interchange\S711-clo-current-marks-check\`.
 
@@ -2285,3 +2290,5 @@ repeat app discovery, launch variants, formats, or settings.
 ## S711 current-source CLO check
 
 S711 is active on `codex/epic-17-g04` from S710 `93849c55554c565bb1052a271868dfd267f2632f`; refreshed `origin/main` is an ancestor. It conducts one already-authorized same-route CLO DXF-ASTM check of the exact S708 current Polo M source, specifically because S705 changed the three point-only buttonhole marks to visible crosses after CLO's earlier measured mark loss. This is not a new receiver/profile selection and cannot clear the known contour failures or the industrial-profile gate. Fixed controls, stop rules and C:-only artifact boundary are in `docs/research/epic17/S711-clo-current-marks-check/S711-start-packet.md`.
+
+\n

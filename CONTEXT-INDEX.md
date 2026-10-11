@@ -1,4 +1,9 @@
-## Current EPIC-17 / G04 V03 boundary — S711 closed; CLO current-source marks fail
+## Current EPIC-17 / G04 V03 boundary — S712 closed; fail-closed audit contract verified
+
+S712 adds a shared assertion requiring every negative returned-DXF audit fixture to report a reason and zero partial-result counts. The round-trip/package and protected export identity suites pass 26/26, TypeScript passes, Control Center passes 42/42, and `git diff --check` passes. No production behavior, receiver, profile, or acceptance changed. This is API-level evidence only; the separate receiving-app visible-error requirement remains unproven because InfiniDrip has no DXF-return import screen. Exit evidence: `docs/research/epic17/S712-audit-fail-closed-contract/S712-exit-packet.md`.
+
+Next: source-side diagnosis tied to measured S703/S711 return failures; no new receiver experiment. Preserve every V03 gate, fixed limit, protected identity, and the final integrated gate/cleanup/PR/merge/deployment requirements.
+## Historical — S711 closed; CLO current-source marks fail
 
 S711 imports and exports the exact S708 Polo M package once through CLO 2026.1.310 DXF-ASTM. The source's six buttonhole-cross LINE entities are not preserved as identifiable marks: the named mark layer is absent, nearest returned point geometry is 0.249992 cm from each cross center, and the nearest returned path is 1.499992 cm away. CLO also omits the source centimeter header and suffixes all nine piece names with `_M`. The current source-side auditor rejects the return; no acceptance was weakened. S703 still proves five CUT contour failures above 0.001 cm; S711 did not remeasure them or claim readable returned output. The tested CLO route remains unqualified and no standards claim is made. No further receiver variation is planned. Exact hashes and measurements: `docs/research/epic17/S711-clo-current-marks-check/S711-exit-packet.md`; raw return/report stay in `C:\G04-CAD-Interchange\S711-clo-current-marks-check\`.
 
@@ -3773,5 +3778,7 @@ unchanged. Independent receiver/profile and remaining V03 gates still need
 proof. Goal is active; do not pause/block/complete it prematurely. Read
 `PROJECT-STATE.md` and `docs/research/epic17/S692-polo-offset-singularity/`.
 
+
+\n
 
 \n

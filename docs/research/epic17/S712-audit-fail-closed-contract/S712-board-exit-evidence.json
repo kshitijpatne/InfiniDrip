@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4177,
+  "evidence": {
+    "id": "E-G04-S712-EXIT",
+    "uri": "docs/research/epic17/S712-audit-fail-closed-contract/S712-exit-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "Existing returned-DXF audit negative fixtures now assert explicit reasons and zero partial counts; valid cases, protected byte-identity regressions, TypeScript, and Control Center pass. API-level contract only; receiver-visible rejection and all other V03 gates remain open."
+  }
+}

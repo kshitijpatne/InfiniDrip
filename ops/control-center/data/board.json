@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4175,
-  "updatedAt": "2026-10-11T02:47:10.439Z",
+  "revision": 4179,
+  "updatedAt": "2026-10-11T02:53:28.357Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13374,6 +13374,16 @@
           "at": "2026-10-11T02:47:10.439Z",
           "actor": "Codex",
           "text": "S711 completed its one authorized current-source CLO round trip. The saved file retains 9 named blocks and 9 inserts but changes each piece name with _M, adds 9 model-space labels, replaces semantic layers with numeric layers, drops the centimeter declaration, and does not retain the six source buttonhole-cross lines as identifiable marks. The closest returned point entity is 0.249992 cm from each source cross center, over the unchanged 0.001 cm limit. The strict audit fails on missing units; known contour failures from S703 remain, and no breadth/profile/readability claim is made. No code or acceptance changed; no further receiver variant is planned."
+        },
+        {
+          "at": "2026-10-11T02:49:51.603Z",
+          "actor": "Codex",
+          "text": "S712 is a focused source-side fail-closed contract check using existing return-audit fixtures. It verifies every rejected file reports a reason and no partial success counts, changing production code only if that contract fails. This does not prove a visible error in a receiving CAD application; InfiniDrip has no DXF-return import screen. No receiver variant, UI expansion, or gate change."
+        },
+        {
+          "at": "2026-10-11T02:53:28.357Z",
+          "actor": "Codex",
+          "text": "S712 closed with test-only enforcement of the returned-DXF audit fail-closed contract: all rejected existing fixtures return an explicit reason and zero partial result counts. Focused interchange/package and protected export identity tests pass 26/26; TypeScript, Control Center 42/42, and diff check pass. This is API-level evidence; InfiniDrip has no DXF-return UI, so receiver-visible rejection remains unproven. No profile, production code, acceptance, threshold, or remaining V03 gate changed."
         }
       ],
       "evidenceRefs": [
@@ -13926,7 +13936,9 @@
         "E-G04-S710-START",
         "E-G04-S710-EXIT",
         "E-G04-S711-START",
-        "E-G04-S711-EXIT"
+        "E-G04-S711-EXIT",
+        "E-G04-S712-START",
+        "E-G04-S712-EXIT"
       ],
       "flagKey": null
     },
@@ -27350,6 +27362,24 @@
       "sha256": null,
       "verified": true,
       "note": "One exact current-source CLO DXF-ASTM return completed. The six source buttonhole-cross lines lost source-identifiable mark layer/anchors (nearest returned point 0.249992 cm from each center), centimeter header absent, and piece names gain _M. Known S703 contour failures remain; no profile, breadth, readable-output or standard conformance pass. All gates unchanged."
+    },
+    {
+      "id": "E-G04-S712-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S712-audit-fail-closed-contract/S712-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S712 checks the existing source-side return-audit negative fixtures for explicit actionable failure and zero partial counts, following S709. It does not claim the separate receiving-app visible-error gate, qualify a profile, or add a UI."
+    },
+    {
+      "id": "E-G04-S712-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S712-audit-fail-closed-contract/S712-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Existing returned-DXF audit negative fixtures now assert explicit reasons and zero partial counts; valid cases, protected byte-identity regressions, TypeScript, and Control Center pass. API-level contract only; receiver-visible rejection and all other V03 gates remain open."
     }
   ]
 }

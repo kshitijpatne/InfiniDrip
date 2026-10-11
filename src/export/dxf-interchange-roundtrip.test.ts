@@ -1,7 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { GARMENTS, STANDARD_M, gradeRun } from "../drafting";
 import { createDxfInterchangePackage } from "./dxf-interchange-package";
-import { auditDxfInterchangeRoundTrip } from "./dxf-interchange-roundtrip";
+import { auditDxfInterchangeRoundTrip as auditRawDxfInterchangeRoundTrip } from "./dxf-interchange-roundtrip";
+
+const auditDxfInterchangeRoundTrip: typeof auditRawDxfInterchangeRoundTrip = async (...args) => {
+  const result = await auditRawDxfInterchangeRoundTrip(...args);
+  if (!result.passed) {
+    expect(result.reason).toBeTruthy();
+    expect(result).toMatchObject({
+      pieceCount: 0,
+      outlineCount: 0,
+      markEntityCount: 0,
+      maxGeometryDeltaCm: 0,
+    });
+  }
+  return result;
+};
 import { dxfEntityTypeAndLayer, readNamedDxfDrawing } from "./named-dxf-blocks";
 
 function replaceEntity(dxf: string, entity: string, replacement: (value: string) => string): string {

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "text": "S712 is a focused source-side fail-closed contract check using existing return-audit fixtures. It verifies every rejected file reports a reason and no partial success counts, changing production code only if that contract fails. This does not prove a visible error in a receiving CAD application; InfiniDrip has no DXF-return import screen. No receiver variant, UI expansion, or gate change.",
+  "actor": "Codex",
+  "expectedRevision": 4176
+}

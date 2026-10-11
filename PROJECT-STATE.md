@@ -1,4 +1,12 @@
-# EPIC-17 / G04 V03 — S711 exit packet
+## EPIC-17/G04 — S712 closed; fail-closed audit contract verified
+
+S712 added a shared assertion to the existing round-trip audit tests: every rejected input must return a nonempty reason and zero piece, outline, mark, and geometry-delta counts. Existing valid cases still pass. Focused interchange/package and protected export identity suites pass 26/26; TypeScript and `git diff --check` pass; Control Center passes 42/42. This is API-level evidence only. InfiniDrip has no DXF-return import UI, so a receiving application's visible malformed-input rejection remains unproven. No production code, receiver/profile, or acceptance changed. Exit packet: `docs/research/epic17/S712-audit-fail-closed-contract/S712-exit-packet.md`.
+
+Board start replay advanced revision 4175→4177; S712 exit evidence/comment are recorded through the validated command layer. Start 2026-10-11 02:49 UTC; close 02:54 UTC; approximate 5m: implementation 1m, focused verification 2m, records/board 2m, external waits 0m, maintainer-decision time 0m. `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor of S711 `6b3020a56b0ce9e1cfb1b0dd4c17f15b814144c3`; S712 is uniquely reserved.
+
+**Next action:** use the measured S703/S711 return failures for one source-side diagnosis/fix with an existing decisive fixture. Do not install/retry another receiver. Keep all V03 gates and fixed thresholds unchanged; receiver/profile rights, full scope, rendered-output and final integrated gates remain open. Goal remains active.
+
+# Historical — S711 exit packet
 
 ## Result
 
@@ -12048,4 +12056,6 @@ production-readiness claim.
 
 
 \n
+\n
+
 \n
