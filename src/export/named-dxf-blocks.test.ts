@@ -15,6 +15,14 @@ const groups = [
   { name: "IDR_TEE_FRONT_A1", leadingEntityCount: 2, trailingEntityCount: 1 },
   { name: "IDR_TEE_BACK_B2", leadingEntityCount: 2, trailingEntityCount: 0 },
 ];
+const withoutObjectMetadata = (entity: string) => {
+  const values = entity.trimEnd().split("\n");
+  const kept: string[] = [];
+  for (let index = 0; index < values.length; index += 2) {
+    if (values[index] !== "5" && values[index] !== "330") kept.push(values[index]!, values[index + 1]!);
+  }
+  return kept.join("\n") + "\n";
+};
 
 describe("named DXF piece blocks", () => {
   it("wraps each piece's original entities and trailing construction marks without changing their payload", () => {
@@ -22,14 +30,14 @@ describe("named DXF piece blocks", () => {
     const drawing = readNamedDxfDrawing(wrapped);
     expect(drawing.blocks.map(({ name }) => name)).toEqual(groups.map(({ name }) => name));
     expect(drawing.inserts.map(({ name }) => name)).toEqual(groups.map(({ name }) => name));
-    expect(drawing.blocks[0]?.entities).toEqual([sourceEntities[0], sourceEntities[1], sourceEntities[4]]);
-    expect(drawing.blocks[1]?.entities).toEqual([sourceEntities[2], sourceEntities[3]]);
-    expect(drawing.blocks[0]?.entities.map((entity) => entity.split("\n")[1])).toEqual(["LINE", "POINT", "LINE"]);
-    expect(drawing.blocks[1]?.entities.map((entity) => entity.split("\n")[1])).toEqual(["POLYLINE", "LINE"]);
-    expect(expandNamedDxfDrawing(wrapped)).toEqual([
+    expect(drawing.blocks[0]?.entities.map(withoutObjectMetadata)).toEqual([sourceEntities[0], sourceEntities[1], sourceEntities[4]]);
+    expect(drawing.blocks[1]?.entities.map(withoutObjectMetadata)).toEqual([sourceEntities[2], sourceEntities[3]]);
+    expect(drawing.blocks[0]?.entities.map((entity) => dxfEntityTypeAndLayer(entity).type)).toEqual(["LINE", "POINT", "LINE"]);
+    expect(drawing.blocks[1]?.entities.map((entity) => dxfEntityTypeAndLayer(entity).type)).toEqual(["POLYLINE", "LINE"]);
+    expect(expandNamedDxfDrawing(wrapped).map(withoutObjectMetadata)).toEqual([
       ...drawing.blocks[0]!.entities,
       ...drawing.blocks[1]!.entities,
-    ]);
+    ].map(withoutObjectMetadata));
     expect(wrapped).toContain("9\n$INSUNITS\n70\n5\n");
     expect(wrapped.indexOf("2\nTABLES\n")).toBeLessThan(wrapped.indexOf("2\nBLOCKS\n"));
     const tableStart = wrapped.indexOf("2\nTABLES\n");
@@ -39,7 +47,20 @@ describe("named DXF piece blocks", () => {
     expect(declaredLayers).toEqual(["0", "CUT", "MARK_BUTTONHOLE", "MARK_NOTCH", "SEW"]);
     const tablePairs = table.trimEnd().split(/\r?\n/u);
     const handles = tablePairs.flatMap((code, index) => code === "5" && index % 2 === 0 ? [tablePairs[index + 1]] : []);
-    expect(new Set(handles).size).toBe(6);
+    expect(new Set(handles).size).toBe(13);
+    expect(wrapped).toContain("2\nBLOCK_RECORD\n");
+    expect(wrapped).toContain("2\n*Model_Space\n");
+    expect(wrapped).toContain("2\n*Paper_Space\n");
+    expect(wrapped).toContain("2\nLTYPE\n");
+    expect(wrapped).toContain("9\n$HANDSEED\n5\n");
+  });
+
+  it("replaces an existing handseed and rejects a source without a header section", () => {
+    const withHandseed = flatDrawing.replace("9\n$INSUNITS\n70\n5\n", "9\n$INSUNITS\n70\n5\n9\n$HANDSEED\n5\nFFFF\n");
+    const wrapped = wrapDxfEntitiesInNamedBlocks(withHandseed, groups);
+    expect([...wrapped.matchAll(/\$HANDSEED/gu)]).toHaveLength(1);
+    expect(wrapped).not.toContain("5\nFFFF\n");
+    expect(() => wrapDxfEntitiesInNamedBlocks(`0\nSECTION\n2\nENTITIES\n${entities}0\nENDSEC\n0\nEOF\n`, groups)).toThrow("no HEADER section");
   });
 
   it("rejects invalid group names, counts, and source entity streams", () => {
@@ -63,10 +84,12 @@ describe("named DXF piece blocks", () => {
 
   it("rejects unresolved blocks, non-identity inserts, and malformed block sections", () => {
     const wrapped = wrapDxfEntitiesInNamedBlocks(flatDrawing, groups);
-    expect(() => expandNamedDxfDrawing(wrapped.replace("IDR_TEE_FRONT_A1", "IDR_UNKNOWN_FRONT"))).toThrow("missing block");
+    const entityStart = wrapped.indexOf("SECTION\n2\nENTITIES\n");
+    expect(() => expandNamedDxfDrawing(`${wrapped.slice(0, entityStart)}${wrapped.slice(entityStart).replace("IDR_TEE_FRONT_A1", "IDR_UNKNOWN_FRONT")}`)).toThrow("missing block");
     expect(() => expandNamedDxfDrawing(wrapped.replace("41\n1\n", "41\n2\n"))).toThrow("non-identity transform");
     expect(() => readNamedDxfDrawing(wrapped.replace("0\nBLOCK\n", "0\nLINE\n"))).toThrow("invalid record");
-    expect(() => readNamedDxfDrawing(wrapped.replace("2\nIDR_TEE_FRONT_A1\n", "70\n0\n"))).toThrow("no name");
+    const blocksAt = wrapped.indexOf("SECTION\n2\nBLOCKS\n");
+    expect(() => readNamedDxfDrawing(`${wrapped.slice(0, blocksAt)}${wrapped.slice(blocksAt).replace("2\nIDR_TEE_FRONT_A1\n", "70\n0\n")}`)).toThrow("no name");
     expect(() => readNamedDxfDrawing(wrapped.replace("0\nENDBLK\n", "0\nENDSEC\n"))).toThrow("no ENDBLK");
     expect(() => readNamedDxfDrawing(wrapped.replace("0\nINSERT\n", "0\nLINE\n"))).toThrow("only INSERT");
     const insertNameStart = wrapped.indexOf("2\nIDR_TEE_FRONT_A1\n", wrapped.indexOf("0\nSECTION\n2\nENTITIES\n"));

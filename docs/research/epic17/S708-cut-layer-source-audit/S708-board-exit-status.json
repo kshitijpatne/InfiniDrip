@@ -1,0 +1,12 @@
+{
+  "type": "updateStatus",
+  "itemId": "G04-V03",
+  "status": "In Progress",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "S708 completed one evidence-backed source correction and same-route round trip. V03 remains unaccepted, but implementation and matrix reconciliation continue; no approval or manual UI action is pending.",
+  "evidenceRefs": [
+    "E-G04-S708-EXIT"
+  ],
+  "expectedRevision": 4162
+}

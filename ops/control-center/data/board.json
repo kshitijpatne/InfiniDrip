@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4158,
-  "updatedAt": "2026-10-11T01:21:27.154Z",
+  "revision": 4163,
+  "updatedAt": "2026-10-11T01:55:14.687Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10740,7 +10740,7 @@
       "title": "G04 V03: documented CAD profile and round trip",
       "epicId": "EPIC-17",
       "releaseId": null,
-      "status": "Blocked",
+      "status": "In Progress",
       "openedAt": "2026-09-29",
       "targetAt": null,
       "deliveredAt": null,
@@ -10876,6 +10876,16 @@
             "E-G04-S691-EXIT",
             "E-G04-S691-MATRIX",
             "E-G04-S691-PLAN"
+          ]
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-11T01:55:14.687Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "S708 completed one evidence-backed source correction and same-route round trip. V03 remains unaccepted, but implementation and matrix reconciliation continue; no approval or manual UI action is pending.",
+          "evidenceRefs": [
+            "E-G04-S708-EXIT"
           ]
         }
       ],
@@ -13324,6 +13334,16 @@
           "at": "2026-10-11T01:21:27.154Z",
           "actor": "Codex",
           "text": "S707 closed the one authorized same-route check. The candidate declared all layers and LibreCAD retained the table, but it still saved all 9 CUT outlines on layer 0; adding a layer table does not fix the semantic-layer failure. This same Polo M return passes piece/revision identity, 18/18 geometry paths at 0.000 cm, 111/111 marks within 0.001 cm, cm units, and visible clean reopen. The layer gate fails; LibreCAD is generic CAD and does not qualify the industrial-apparel profile. No route variation, app search, geometry edit, threshold change, or acceptance change. S708 will audit the exact current writer and already-saved CLO/LibreCAD returns for an entity-level cause, then implement only if those records support a concrete correction. All-seven/options/grades, malformed input, repeatability, complete readability, rights/profile, protected identities, cleanup, integrated gates, PR/merge, ancestry and production checks remain due."
+        },
+        {
+          "at": "2026-10-11T01:27:45.073Z",
+          "actor": "Codex",
+          "text": "S708 is a source-to-return audit using the already-generated S703 CLO, S706 LibreCAD and S707 LibreCAD files plus the current named-block writer. It will compare actual entity types, group-code layer names and geometry to determine whether our writer emits CUT correctly and what the saved receivers change. No software, format, settings or entity-encoding trial will be run. A code correction is in scope only if these exact files prove a writer defect; V03 thresholds, all-seven/options/grades, profile/rights and every other gate remain unchanged."
+        },
+        {
+          "at": "2026-10-11T01:55:14.441Z",
+          "actor": "Codex",
+          "text": "S708 closes the same-fixture layer-preservation failure: the opt-in R2000 writer now emits block records/owners and space definitions, and LibreCAD 2.2.1.5 DXF 2000 preserves all 9 CUT outlines as CUT. Exact piece identities, 18 outline paths, 111 typed marks and centimeters are retained in the Polo M return. This is one empirical fixture, not industrial-apparel profile qualification or V03 acceptance. Continue active V03 work by reconciling the full fixed gate matrix before reserving S709; no new application/format/setting sweep and no acceptance change."
         }
       ],
       "evidenceRefs": [
@@ -13868,7 +13888,9 @@
         "E-G04-S706-START",
         "E-G04-S706-EXIT",
         "E-G04-S707-START",
-        "E-G04-S707-EXIT"
+        "E-G04-S707-EXIT",
+        "E-G04-S708-START",
+        "E-G04-S708-EXIT"
       ],
       "flagKey": null
     },
@@ -27220,6 +27242,24 @@
       "sha256": null,
       "verified": true,
       "note": "One exact LibreCAD DXF 2000 save/reopen retained 9/9 piece identities, 18/18 CUT/SEW outlines at 0.000 cm, 111/111 marks within 0.001 cm, centimeters and visible reopen; all 9 CUT entities still returned on layer 0 despite the retained CUT table entry. Layer-table hypothesis fails; LibreCAD remains generic CAD and unqualified. No acceptance or threshold change. Exact hashes and C:-only render in S707 packet."
+    },
+    {
+      "id": "E-G04-S708-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S708-cut-layer-source-audit/S708-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S708 audits exact existing DXF source/return group codes and the current writer to determine why CUT outlines alone save on layer 0 after a declared CUT table is retained; no route variation or acceptance change."
+    },
+    {
+      "id": "E-G04-S708-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S708's combined R2000 block ownership/space/linetype correction preserves 9/9 CUT layers in one same-profile LibreCAD Polo M round trip; 9/9 piece names and INSERTs, 18/18 outlines, 111/111 marks and centimeters match. Industrial-apparel profile, all-seven breadth and remaining V03 gates remain unpassed."
     }
   ]
 }

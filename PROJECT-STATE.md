@@ -1,26 +1,36 @@
-## EPIC-17/G04 — S707 closed; explicit layer table did not preserve CUT
+## EPIC-17/G04 — S708 closed; named-block structure preserves semantic CUT
 
-S707 added deterministic R2000 layer records to the candidate-only named-piece
-DXF, then performed the single authorized LibreCAD 2.2.1.5 DXF 2000
-save/reopen. The exact Polo M return retained all nine piece/revision
-identities, 18/18 closed CUT/SEW outlines at 0.000 cm, 111/111 typed marks
-within 0.001 cm, centimeter units and clean visible reopen. The LAYER table
-also retained its `CUT` record, but all nine returned cut outlines remained on
-layer `0`. This falsifies the table-only fix; semantic-layer preservation
-fails, and LibreCAD remains generic CAD rather than a qualified industrial
-apparel profile. Exact hashes, parsed counts and C:-only rendered evidence are
-in `docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`.
+S708 corrected the opt-in R2000 named-piece writer's missing block records,
+owner links, model/paper-space definitions, referenced continuous linetype,
+and HANDSEED. On the same Polo M candidate and LibreCAD 2.2.1.5 DXF 2000
+save/reopen used in S707, the return now keeps all 9/9 CUT outlines on `CUT`.
+All nine piece identities/INSERTs match, all 18 CUT/SEW paths have exactly
+matching ordered nonredundant vertices (0 cm difference), all 111 typed marks
+retain type/layer/coordinates, and `$INSUNITS=5` remains. The returned drawing
+was visibly reviewed after clean reopen. This result supports the combined
+source-structure correction on one fixture; it does not isolate the causal
+record, establish formal DXF conformance, qualify an industrial apparel
+profile, or clear V03. See `docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`;
+raw files and comparison reports remain under the named C: folder.
 
-Next S708 audits the current candidate writer and the already-saved S703 CLO,
-S706 LibreCAD and S707 LibreCAD evidence for the entity-level reason that CUT
-alone becomes layer `0`. Reuse those records and do not run another app,
-format, setting or encoding trial. Implement only a specific evidence-backed
-source correction; meanwhile complete independent all-seven/options/grades,
-malformed-input, repeatability, readability, rights/profile and final Epic
-closeout work. Acceptance and thresholds remain unchanged. No new app search
-or installation is queued. V01/V02 remain Done; V03 remains held; EPIC-17 and
-the goal stay active through cleanup, integrated gates, final output review,
-PR/merge, ancestry, deployment and production end-to-end verification.
+The focused all-recipe/all-grade test exceeded its old 30-second test-only
+timeout under coverage by about one second without an assertion failure. Its
+test-specific timer is now 60 seconds; assertions and 100% changed-code
+coverage requirements are unchanged. The protected legacy DXF regression,
+TypeScript check, and remaining focused coverage results are in the S708
+packet. No global gate ran.
+
+Next: reconcile the fixed V03 matrix against S708 before reserving S709. Reuse
+the passing source writer and this exact LibreCAD route only for gates it can
+meaningfully evidence. LibreCAD is generic CAD and cannot satisfy the admitted
+industrial-apparel receiver/profile gate by itself; do not claim V03 complete
+or introduce another application or setting sweep. Keep V01/V02 Done and
+EPIC-17 active through all V03 gates, necessary-file cleanup, the integrated
+global gate, final output review, PR/merge, refreshed `origin/main` ancestry,
+and required production end-to-end verification. No physical-fit, factory-
+acceptance, conformance, or production-readiness claim.
+
+Slice 708 started 2026-10-11 01:26 UTC from S707 `913a2b718c218e541a657c9ac4d684f30e88db05`; `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor. Board start revision 4158→4160; validated exit, commit and separate timing are in the packet.
 
 ## EPIC-17/G04 — S705 closed; candidate buttonhole display verified
 

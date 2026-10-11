@@ -1,4 +1,35 @@
-## Current EPIC-17 / G04 V03 boundary — S696 closed; no eligible receiver profile evidenced
+## Current EPIC-17 / G04 V03 boundary — S708 closed; CUT layer survives one exact return
+
+S708 fixes the opt-in named-block writer's incomplete R2000 object structure:
+it now emits block records/owners, model and paper spaces, a referenced
+continuous linetype, and a matching HANDSEED. The same Polo M fixture and
+LibreCAD 2.2.1.5 DXF 2000 save/reopen used in S707 now retain all 9/9 CUT
+entities on `CUT`. All nine piece identities/INSERTs match; the 18 outline
+paths have identical ordered nonredundant coordinates; all 111 typed marks
+and centimeter units match; the reopened output was visibly inspected. This
+is evidence for the combined source correction on one generic-CAD fixture,
+not an isolated causal record, formal conformance, an industrial profile, or
+V03 completion. No acceptance changed.
+
+The all-recipe/all-grade verification case exceeded its prior 30-second test
+timer by about one second under coverage, without assertion failure. Its
+test-specific timeout is now 60 seconds; assertions and 100% changed-code
+coverage remain unchanged. The changed-source focused coverage, export
+identity, type-check and closeout results are recorded in
+`docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`.
+
+Next S709 reconciles the complete fixed V03 matrix against S708, then selects
+only checks that can advance remaining gates. LibreCAD remains generic and
+cannot by itself satisfy the industrial-apparel receiver/profile gate. Do not
+start another application, profile, or encoding variation. Preserve every
+all-seven/options/grades, threshold, identity, legacy DXF, profile/rights,
+malformed-input, repeatability, readable-output, cleanup, final full-gate,
+PR/merge, ancestry, deployment and production-verification requirement. The
+goal remains active; no physical-fit or factory-acceptance claim.
+
+S708 started 2026-10-11 01:26 UTC from S707 `913a2b718c218e541a657c9ac4d684f30e88db05`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Board start 4158→4160; validated exit revision, commit and separate timing are recorded in the exit packet.
+
+## Historical EPIC-17 / G04 V03 boundary — S696 closed; no eligible receiver profile evidenced
 
 S696 tested the exact current S693 candidate in CLO 2026.1.310 Standard DXF
 with one approved import option change. Six of nine CUT paths still fail the

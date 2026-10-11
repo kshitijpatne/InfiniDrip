@@ -103,7 +103,7 @@ describe("C04-bounded DXF interchange package", () => {
         expect(await verifyDxfInterchangePackage(candidate)).toBe(true);
       }
     }
-  }, 30_000);
+  }, 60_000);
 
   it("uses canonical option-key ordering and changes package revision when option data changes", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;

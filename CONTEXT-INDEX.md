@@ -1,19 +1,24 @@
 ## Prior EPIC-17 / G04 V03 boundary — S706 closed
 
-## Current EPIC-17 / G04 V03 boundary — S707 closed
+## Current EPIC-17 / G04 V03 boundary — S708 closed
 
-S707's exact LibreCAD 2.2.1.5 DXF 2000 return retained 9 piece identities,
-18/18 closed outlines at 0.000 cm, 111/111 marks within 0.001 cm, centimeters,
-the declared CUT layer record, and clean visible reopen. It still assigned all
-nine CUT outlines to layer `0`; the table-only candidate change does not pass
-semantic-layer preservation. LibreCAD is generic CAD and does not qualify the
-industrial-apparel profile gate. See `PROJECT-STATE.md` and
-`docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`.
+S708 adds complete named-block ownership/space/linetype records and a matching
+HANDSEED to the opt-in R2000 writer. One same-fixture LibreCAD 2.2.1.5 DXF
+2000 round-trip now preserves 9/9 CUT layer assignments; all nine piece
+identities/INSERTs match, all 18 CUT/SEW outlines and 111 typed marks match
+their source coordinates, and centimeters remain declared. This only
+supports the combined source correction on the Polo M fixture. It does not
+isolate causality, establish formal DXF conformance or qualify LibreCAD as an
+industrial apparel receiver/profile. See `PROJECT-STATE.md` and
+`docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`.
 
-Next S708 audits already-existing exact source/return evidence for the entity
-reason that CUT alone changes layer. No receiver or settings variation is
-queued. Keep all V03 criteria fixed and the goal active through cleanup, full
-gates, PR/merge, ancestry, deployment and production end-to-end verification.
+Before S709, reconcile the fixed V03 gate matrix against this new evidence and
+select only proof that can clear admitted gates. Keep thresholds,
+all-seven/options/grades, protected identities and industrial-profile
+acceptance fixed. No new application or setting variation is authorized by
+this result. Continue through V03 completion, necessary-file cleanup, full
+gates, final output review, PR/merge, ancestry, deployment and production
+end-to-end verification; keep the goal active until all are complete.
 
 S706's one LibreCAD 2.2.1.5 DXF 2000 round trip retained 9 named pieces,
 18/18 closed CUT/SEW paths at 0.000 cm XY residual, 111/111 typed marks within

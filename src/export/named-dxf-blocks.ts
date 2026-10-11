@@ -45,7 +45,9 @@ function entityEnd(pairs: readonly Pair[], start: number): number {
   if (type === "POLYLINE") {
     const sequenceEnd = pairs.findIndex((entry, index) => index > start && entry[0] === 0 && entry[1] === "SEQEND");
     if (sequenceEnd < 0) throw new Error("DXF POLYLINE has no SEQEND");
-    return sequenceEnd + 1;
+    let end = sequenceEnd + 1;
+    while (end < pairs.length && pairs[end]![0] !== 0) end += 1;
+    return end;
   }
   let end = start + 1;
   while (end < pairs.length && pairs[end]![0] !== 0) end += 1;
@@ -75,24 +77,88 @@ function valueOf(entity: string, code: number): string | undefined {
   return pairs.find(([candidate]) => candidate === code)?.[1];
 }
 
-function entityPairs(entity: string): Pair[] {
-  return parsePairs(entity);
+function tableHeader(name: string, handle: string, count: number): Pair[] {
+  return [pair(0, "TABLE"), pair(2, name), pair(5, handle), pair(330, "0"),
+    pair(100, "AcDbSymbolTable"), pair(70, count)];
 }
 
-function layerTableSection(layers: readonly string[]): Pair[] {
+function ltypeTableSection(nextHandle: () => string): Pair[] {
+  const table = nextHandle();
+  const record = nextHandle();
+  return [
+    ...tableHeader("LTYPE", table, 1),
+    pair(0, "LTYPE"), pair(5, record), pair(330, table),
+    pair(100, "AcDbSymbolTableRecord"), pair(100, "AcDbLinetypeTableRecord"),
+    pair(2, "CONTINUOUS"), pair(70, 0), pair(3, "Solid line"), pair(72, 65),
+    pair(73, 0), pair(40, 0), pair(0, "ENDTAB"),
+  ];
+}
+
+function layerTableSection(layers: readonly string[], nextHandle: () => string): Pair[] {
   const names = [...new Set(["0", ...layers])].sort((a, b) => a.localeCompare(b));
-  const tableHandle = 1;
-  const records = names.flatMap((name, index) => [
-    pair(0, "LAYER"), pair(5, (tableHandle + index + 1).toString(16).toUpperCase()),
+  const tableHandle = nextHandle();
+  const records = names.flatMap((name) => [
+    pair(0, "LAYER"), pair(5, nextHandle()), pair(330, tableHandle),
     pair(100, "AcDbSymbolTableRecord"), pair(100, "AcDbLayerTableRecord"),
     pair(2, name), pair(70, 0), pair(62, 7), pair(6, "CONTINUOUS"),
   ]);
   return [
     pair(0, "SECTION"), pair(2, "TABLES"),
-    pair(0, "TABLE"), pair(2, "LAYER"), pair(5, tableHandle.toString(16).toUpperCase()),
-    pair(100, "AcDbSymbolTable"), pair(70, names.length),
+    ...ltypeTableSection(nextHandle),
+    ...tableHeader("LAYER", tableHandle, names.length),
     ...records, pair(0, "ENDTAB"), pair(0, "ENDSEC"),
   ];
+}
+
+function blockRecordTableSection(names: readonly string[], nextHandle: () => string): { pairs: Pair[]; records: ReadonlyMap<string, string> } {
+  const table = nextHandle();
+  const blockNames = ["*Model_Space", "*Paper_Space", ...names];
+  const records = new Map(blockNames.map((name) => [name, nextHandle()]));
+  return {
+    records,
+    pairs: [
+      ...tableHeader("BLOCK_RECORD", table, blockNames.length),
+      ...blockNames.flatMap((name) => [
+        pair(0, "BLOCK_RECORD"), pair(5, records.get(name)!), pair(330, table),
+        pair(100, "AcDbSymbolTableRecord"), pair(100, "AcDbBlockTableRecord"), pair(2, name),
+      ]),
+      pair(0, "ENDTAB"), pair(0, "ENDSEC"),
+    ],
+  };
+}
+
+function ownedEntity(entity: string, owner: string, nextHandle: () => string): Pair[] {
+  const source = parsePairs(entity);
+  const output: Pair[] = [];
+  for (let index = 0; index < source.length; index += 1) {
+    const current = source[index]!;
+    output.push(current);
+    if (current[0] === 0) output.push(pair(5, nextHandle()), pair(330, owner));
+  }
+  return output;
+}
+
+function blockDefinition(name: string, record: string, entities: readonly string[], nextHandle: () => string): Pair[] {
+  const header = [pair(0, "BLOCK"), pair(5, nextHandle()), pair(330, record),
+    pair(100, "AcDbEntity"), pair(8, "0"), pair(100, "AcDbBlockBegin"),
+    pair(2, name), pair(70, 0), pair(10, 0), pair(20, 0), pair(30, 0), pair(3, name), pair(1, "")];
+  const end = [pair(0, "ENDBLK"), pair(5, nextHandle()), pair(330, record),
+    pair(100, "AcDbEntity"), pair(8, "0"), pair(100, "AcDbBlockEnd")];
+  return [...header, ...entities.flatMap((entity) => ownedEntity(entity, record, nextHandle)), ...end];
+}
+
+function setHeaderHandseed(pairs: Pair[], handseed: string): Pair[] {
+  const bounds = sectionBounds(pairs, "HEADER");
+  const header = pairs.slice(bounds.body, bounds.end);
+  for (let index = 0; index < header.length;) {
+    if (header[index]![0] === 9 && header[index]![1] === "$HANDSEED") {
+      header.splice(index, 2, pair(9, "$HANDSEED"), pair(5, handseed));
+      return [...pairs.slice(0, bounds.body), ...header, ...pairs.slice(bounds.end)];
+    }
+    index += 2;
+  }
+  header.push(pair(9, "$HANDSEED"), pair(5, handseed));
+  return [...pairs.slice(0, bounds.body), ...header, ...pairs.slice(bounds.end)];
 }
 
 export function dxfEntityTypeAndLayer(entity: string): { readonly type: string; readonly layer: string } {
@@ -128,6 +194,9 @@ export function wrapDxfEntitiesInNamedBlocks(dxf: string, groups: readonly Named
     throw new Error(`DXF piece grouping expected ${leadingCount + trailingCount} entities but found ${entities.length}`);
   }
 
+  const handles = { value: 0x100 };
+  const nextHandle = (): string => (handles.value++).toString(16).toUpperCase();
+  const { pairs: blockRecordTable, records: blockRecords } = blockRecordTableSection(names, nextHandle);
   const blocks = groups.map((group, index) => {
     const leadingStart = groups.slice(0, index).reduce((total, previous) => total + previous.leadingEntityCount, 0);
     const trailingStart = leadingCount + groups.slice(0, index).reduce((total, previous) => total + previous.trailingEntityCount, 0);
@@ -135,20 +204,24 @@ export function wrapDxfEntitiesInNamedBlocks(dxf: string, groups: readonly Named
       ...entities.slice(leadingStart, leadingStart + group.leadingEntityCount),
       ...entities.slice(trailingStart, trailingStart + group.trailingEntityCount),
     ];
-    const header = [pair(0, "BLOCK"), pair(8, "0"), pair(2, group.name), pair(70, 0),
-      pair(10, 0), pair(20, 0), pair(30, 0), pair(3, group.name), pair(1, "")];
-    return [...header, ...blockEntities.flatMap(entityPairs), pair(0, "ENDBLK"), pair(8, "0")];
+    return blockDefinition(group.name, blockRecords.get(group.name)!, blockEntities, nextHandle);
   });
-  const tableSection = layerTableSection(layers);
-  const blockSection = [pair(0, "SECTION"), pair(2, "BLOCKS"), ...blocks.flat(), pair(0, "ENDSEC")];
+  const tableSection = layerTableSection(layers, nextHandle);
+  const modelSpace = blockDefinition("*Model_Space", blockRecords.get("*Model_Space")!, [], nextHandle);
+  const paperSpace = blockDefinition("*Paper_Space", blockRecords.get("*Paper_Space")!, [], nextHandle);
+  const blockSection = [pair(0, "SECTION"), pair(2, "BLOCKS"), ...modelSpace, ...paperSpace, ...blocks.flat(), pair(0, "ENDSEC")];
   const inserts = groups.flatMap(({ name }) => [
-    pair(0, "INSERT"), pair(8, "0"), pair(2, name), pair(10, 0), pair(20, 0), pair(30, 0),
+    pair(0, "INSERT"), pair(5, nextHandle()), pair(330, blockRecords.get("*Model_Space")!),
+    pair(100, "AcDbEntity"), pair(8, "0"), pair(100, "AcDbBlockReference"), pair(2, name), pair(10, 0), pair(20, 0), pair(30, 0),
     pair(41, 1), pair(42, 1), pair(43, 1), pair(50, 0),
   ]);
   const entitySection = [pair(0, "SECTION"), pair(2, "ENTITIES"), ...inserts, pair(0, "ENDSEC")];
+  const tables = [...tableSection.slice(0, -1), ...blockRecordTable.slice(0, -1), pair(0, "ENDSEC")];
+  const withHandseed = setHeaderHandseed(pairs, handles.value.toString(16).toUpperCase());
+  const outputBounds = sectionBounds(withHandseed, "ENTITIES");
   return serialize([
-    ...pairs.slice(0, bounds.start), ...tableSection, ...blockSection, ...entitySection,
-    ...pairs.slice(bounds.end + 1),
+    ...withHandseed.slice(0, outputBounds.start), ...tables, ...blockSection, ...entitySection,
+    ...withHandseed.slice(outputBounds.end + 1),
   ]);
 }
 
@@ -164,7 +237,9 @@ export function readNamedDxfDrawing(dxf: string): NamedDxfDrawing {
     let endBlock = headerEnd;
     while (endBlock < bounds.end && !(pairs[endBlock]![0] === 0 && pairs[endBlock]![1] === "ENDBLK")) endBlock += 1;
     if (endBlock >= bounds.end) throw new Error(`DXF block "${name}" has no ENDBLK`);
-    blocks.push({ name, entities: entityStrings(pairs, headerEnd, endBlock) });
+    if (name !== "*Model_Space" && name !== "*Paper_Space") {
+      blocks.push({ name, entities: entityStrings(pairs, headerEnd, endBlock) });
+    }
     index = entityEnd(pairs, endBlock);
   }
 

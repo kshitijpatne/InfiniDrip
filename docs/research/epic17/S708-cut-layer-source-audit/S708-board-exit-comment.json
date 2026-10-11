@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S708 closes the same-fixture layer-preservation failure: the opt-in R2000 writer now emits block records/owners and space definitions, and LibreCAD 2.2.1.5 DXF 2000 preserves all 9 CUT outlines as CUT. Exact piece identities, 18 outline paths, 111 typed marks and centimeters are retained in the Polo M return. This is one empirical fixture, not industrial-apparel profile qualification or V03 acceptance. Continue active V03 work by reconciling the full fixed gate matrix before reserving S709; no new application/format/setting sweep and no acceptance change.",
+  "expectedRevision": 4161
+}

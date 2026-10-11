@@ -1064,10 +1064,17 @@ that CLO or any industrial CAD profile passes G04 V03. See
 
 S707 adds explicit R2000 layer-table declarations to that opt-in package.
 LibreCAD 2.2.1.5 retained the table but saved all nine CUT outline entities on
-layer `0`, although geometry, marks, units and piece identity passed for the
-single Polo M fixture. The table therefore does not prove semantic layer
-preservation; V03 remains held. See
-[`docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`](docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md).
+layer `0` in its Polo M round trip. S708 adds deterministic R2000 block-record
+ownership/space records, the referenced continuous linetype, and HANDSEED to
+the candidate-only writer. On the same LibreCAD 2.2.1.5 DXF 2000 route and
+fixture, the return now preserves all nine CUT assignments, named-piece
+identities, 18 outline paths, 111 typed marks, and centimeter units; the
+reopened drawing was visually reviewed. This is empirical one-fixture evidence
+for the combined source correction, not a formal conformance claim or an
+industrial-apparel profile qualification. The legacy DXF contract remains
+unchanged and V03 acceptance remains open. See
+[`docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`](docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md)
+and the historical [`S707 result`](docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md).
 ## What is outside the current product
 
 Accounts, profiles, a hosted database, cloud sync, monitoring, email, and
