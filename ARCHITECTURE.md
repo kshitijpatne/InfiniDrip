@@ -1062,6 +1062,21 @@ package structure therefore improves source-side identity but does not claim
 that CLO or any industrial CAD profile passes G04 V03. See
 [`docs/research/epic17/S700-named-piece-package/S700-exit-packet.md`](docs/research/epic17/S700-named-piece-package/S700-exit-packet.md).
 
+S710 adds a separate returned-file audit that checks receiver-rewritten named
+blocks against the unchanged schema-v5 source manifest while preserving the
+original package's exact-byte hash contract. It checks returned piece and
+instance identities, planar INSERT placement, centimeter units, CUT/SEW
+vertex sequences, closure, mark layers and entities at the fixed 0.001 cm
+limit. A LibreCAD 2.2.1.5 return of the existing Polo M fixture passes with
+nine pieces, 18 outlines, 111 mark entities and zero measured XY difference.
+The audit checks normalized vertices, per-vertex curve bulges and widths, plus
+outline elevation and extrusion; it tolerates identical duplicate vertices
+removed by the receiver. It accepts zero Z scale because it does not alter the
+flat XY geometry, while rejecting translation, rotation, in-plane scaling and
+repeated instances. This is one generic-CAD fixture and a source-side verifier
+result; it does not qualify the receiver profile or establish broad exchange
+behavior.
+
 S707 adds explicit R2000 layer-table declarations to that opt-in package.
 LibreCAD 2.2.1.5 retained the table but saved all nine CUT outline entities on
 layer `0` in its Polo M round trip. S708 adds deterministic R2000 block-record
@@ -1075,6 +1090,7 @@ industrial-apparel profile qualification. The legacy DXF contract remains
 unchanged and V03 acceptance remains open. See
 [`docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`](docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md)
 and the historical [`S707 result`](docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md).
+
 ## What is outside the current product
 
 Accounts, profiles, a hosted database, cloud sync, monitoring, email, and

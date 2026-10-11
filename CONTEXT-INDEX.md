@@ -1,22 +1,21 @@
-## Current EPIC-17 / G04 V03 boundary — S709 closed
+## Current EPIC-17 / G04 V03 boundary — S710 closed
 
-S709 reconciles the fixed gates against S640/S700/S704/S708 and a bounded
-Sol high review. The S708 R2000 source correction passes one exact LibreCAD
-Polo M fixture, but LibreCAD remains generic CAD; the admitted industrial
-apparel receiver/profile gate is still unproven. The review identified an
-independent source task: compare rewritten receiver DXF against the unchanged
-sidecar without weakening original-byte integrity, and run existing negative
-fixtures through the product fail-closed boundary. Do not run the 73-option
-receiver matrix until an eligible profile passes a representative pilot.
-GetonAgain was installed based on official free-edition/DXF claims, but the
-exact installed workflow should have been verified before install; S667/S670
-record the tested-route failures. S708 also corrected a demonstrated writer
-defect. See the S709 gate matrix and completion plan plus `PROJECT-STATE.md`.
+S710's separate source-side return audit passes the saved S708 LibreCAD Polo M
+return: nine named pieces, 18 CUT/SEW outlines, 111 mark entities and zero XY
+difference. Its new tests and existing package-verifier negative cases pass at
+100% focused coverage; protected export identity tests, type-check and diff
+check pass. The audit retains the original exact-byte source-package contract
+and accepts only 2D-neutral zero Z scale. It does not prove readable UI errors,
+qualify a receiver, or establish broad/repeatable exchange behavior. LibreCAD
+remains generic CAD; the industrial apparel profile, current eligible pilot,
+seven-recipe breadth, repeatability and full rendered-output gates remain.
+S709 matrix and completion plan remain the authoritative fixed gate/route
+decision; S710 evidence is in
+`docs/research/epic17/S710-returned-package-verifier/`.
 
-Next: S710 returned-file identity verification and malformed/unsupported
-fail-closed fixtures; no new application or receiver variant. Acceptance,
-thresholds, all-seven scope, protected bytes, cleanup and merge gates remain
-fixed. Keep the goal active to production end-to-end completion.
+No software or format variation was run. All acceptance, thresholds,
+all-seven/options/grades, protected legacy bytes, cleanup and merge gates stay
+fixed. Keep the goal active through verified production completion.
 
 ## Prior EPIC-17 / G04 V03 boundary — S706 closed
 

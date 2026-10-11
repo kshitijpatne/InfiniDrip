@@ -1,4 +1,30 @@
-## Current EPIC-17 / G04 V03 boundary — S709 closed; source-side identity audit next
+## Current EPIC-17 / G04 V03 boundary — S710 closed; returned-file audit verified
+
+S710 adds a source-side returned-file audit without weakening the original
+package's exact-byte integrity check. The existing S708 LibreCAD Polo M
+return passes: nine named pieces, 18 CUT/SEW outlines, 111 mark entities,
+centimeter units and 0.000 cm maximum XY difference. Focused audit and package
+negative-input tests pass at 100% coverage; protected export identity tests,
+type-check and diff check pass. See `PROJECT-STATE.md` and
+`docs/research/epic17/S710-returned-package-verifier/S710-exit-packet.md`.
+
+The return is one generic-CAD fixture; LibreCAD does not satisfy the admitted
+industrial apparel profile gate. All-seven/options/grades breadth, eligible
+profile, repeatability, malformed receiver behavior and readable round-trip
+output remain required. Do not run the 73-option receiver matrix until an
+eligible exact profile passes a current-source pilot. All acceptance,
+thresholds, holds, protected legacy bytes, final cleanup, PR/merge, ancestry,
+deployment and production end-to-end gates remain fixed. No new app or format
+trial is planned from S710.
+
+The GetonAgain install sequence was my process mistake: I should have checked
+the exact installed workflow before installation. S667/S670 record the tested
+modes' failures but do not prove every issue was solely the software or solely
+our source. S708 separately exposed and fixed a real source-writer defect.
+Keep the goal active through full completion. S710 started 2026-10-11 02:04
+UTC from S709 `15274f91`; refreshed `origin/main` remained an ancestor.
+
+## Historical boundary — S709 closed; source-side identity audit next
 
 S709 reconciles every V03 gate against S640, S700, S704 and the exact S708
 return, then records one bounded read-only Sol high review. The current matrix

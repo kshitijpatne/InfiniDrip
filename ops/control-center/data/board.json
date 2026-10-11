@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4167,
-  "updatedAt": "2026-10-11T02:03:13.284Z",
+  "revision": 4171,
+  "updatedAt": "2026-10-11T02:20:54.584Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13354,6 +13354,16 @@
           "at": "2026-10-11T02:03:13.284Z",
           "actor": "Codex",
           "text": "S709 closes the S640/S700/S704/S708 gate reconciliation and bounded Sol high review. S708's R2000 writer correction passes one LibreCAD Polo M fixture; LibreCAD is generic and cannot pass the admitted industrial-apparel profile gate. Do not spend a 73-row run on it. Next S710 advances source-side return identity and fail-closed checks against the existing evidence; no new app/mode/acceptance change. CLO/DGS tested failures, fixed thresholds, all-seven/options/grades, protected exports, final cleanup/merge/production gates remain recorded. G04-V03 and Epic stay In Progress; no gate is declared Done."
+        },
+        {
+          "at": "2026-10-11T02:04:50.216Z",
+          "actor": "Codex",
+          "text": "S710 fixes our source-side verification gap: the package verifier binds the original drawing hash but cannot compare a rewritten receiver DXF back to its unchanged manifest. Add a separate fail-closed return audit and test existing negative fixtures; use S708's saved Polo M return as evidence. No new app/format/mode, 73-option run, geometry change or gate relaxation. This advances identity/safety checks but does not qualify the industrial profile."
+        },
+        {
+          "at": "2026-10-11T02:20:54.584Z",
+          "actor": "Codex",
+          "text": "S710 is verified and closed. The saved S708 LibreCAD return passes our new source-side auditor. Its initial rejection was our bug: we treated a zero Z scale on a flat 2D insert as if it changed the drawing. The corrected audit accepts that harmless Z value but still rejects moves, rotation, in-plane scaling and duplicate instances. Focused audit and existing package negative tests are green at 100% coverage; protected byte-identity tests pass. This one generic-CAD fixture does not qualify the industrial profile or clear breadth/repeatability/readability gates. No acceptance or threshold changed."
         }
       ],
       "evidenceRefs": [
@@ -13902,7 +13912,9 @@
         "E-G04-S708-START",
         "E-G04-S708-EXIT",
         "E-G04-S709-START",
-        "E-G04-S709-EXIT"
+        "E-G04-S709-EXIT",
+        "E-G04-S710-START",
+        "E-G04-S710-EXIT"
       ],
       "flagKey": null
     },
@@ -27290,6 +27302,24 @@
       "sha256": null,
       "verified": true,
       "note": "S709 reconciles every fixed V03 gate after S708 and records one Sol high read-only review plus a prioritized no-churn plan. Profile remains unproven; next is a source-side returned-file/manifest audit and fail-closed fixture verification, not another receiver trial."
+    },
+    {
+      "id": "E-G04-S710-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S710-returned-package-verifier/S710-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S710 starts a source-side returned-DXF versus unchanged manifest verifier and product fail-closed fixture checks using existing S708 evidence; no receiver trial or acceptance change."
+    },
+    {
+      "id": "E-G04-S710-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S710-returned-package-verifier/S710-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S710 adds a returned-DXF audit without changing original package hash validation. The saved S708 LibreCAD Polo M return passes: 9 pieces, 18 outlines, 111 marks, cm units, 0.000 cm XY delta. Focused audit/package negatives have 100% coverage; export byte-identity tests pass. This is one generic-CAD fixture, not an industrial profile or breadth pass."
     }
   ]
 }

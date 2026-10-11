@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S710 fixes our source-side verification gap: the package verifier binds the original drawing hash but cannot compare a rewritten receiver DXF back to its unchanged manifest. Add a separate fail-closed return audit and test existing negative fixtures; use S708's saved Polo M return as evidence. No new app/format/mode, 73-option run, geometry change or gate relaxation. This advances identity/safety checks but does not qualify the industrial profile.",
+  "expectedRevision": 4168
+}

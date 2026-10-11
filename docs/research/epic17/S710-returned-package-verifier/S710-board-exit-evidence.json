@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S710-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S710-returned-package-verifier/S710-exit-packet.md",
+    "verified": true,
+    "note": "S710 adds a returned-DXF audit without changing original package hash validation. The saved S708 LibreCAD Polo M return passes: 9 pieces, 18 outlines, 111 marks, cm units, 0.000 cm XY delta. Focused audit/package negatives have 100% coverage; export byte-identity tests pass. This is one generic-CAD fixture, not an industrial profile or breadth pass."
+  },
+  "expectedRevision": 4169
+}

@@ -1,35 +1,42 @@
-## EPIC-17/G04 — S709 closed; fixed V03 gates and next source-side work recorded
+## EPIC-17/G04 — S710 closed; returned DXF audit verified on saved fixture
 
-S709 reconciles the S640, S700, S704 and S708 evidence and obtains one bounded
-read-only Sol high review. The ranked gate matrix and completion plan are
-`docs/research/epic17/S709-v03-reconcile-and-stop-churn/V03-GATE-MATRIX-S709.md`
-and `V03-COMPLETION-PLAN-S709.md`. S708 is a real source-side R2000 structure
-correction that now preserves 9/9 CUT layers, 18/18 outline paths, 111/111
-marks, nine block identities and centimeters through one LibreCAD Polo M
-round trip. LibreCAD remains generic CAD and does not pass the admitted
-industrial-apparel profile gate. CLO's tested route fails measured contours;
-GetonAgain/DGS's tested modes fail usable identity/geometry. No further
-application/format/setting trial is planned.
+S710 adds a separate schema-v5 receiver-return audit without weakening the
+source package's exact-byte hash check. It binds returned piece and INSERT
+identities to the source manifest, requires centimeter units, checks planar
+placement, CUT/SEW vertex sequence and closure, and compares piece marks and
+layers at the fixed 0.001 cm limit. The audit accepts LibreCAD's zero Z scale
+for flat XY geometry but rejects planar movement, rotation, scaling and
+repeated instances.
 
-The review found a source-side task: exact source-hash validation is correct
-for the original package but cannot bind a receiver-rewritten drawing to its
-unchanged sidecar. S710 will add a separate returned-file audit and exercise
-the existing malformed/unsupported fixtures at the product fail-closed
-boundary. Do not run all-seven receiver breadth until an already-authorized
-industrial profile is eligible and its current-source representative pilot
-passes. All V03 gates, thresholds, all-seven/options/grades, export identities
-and holds remain unchanged. The next action requires no maintainer input.
+The exact saved S708 LibreCAD Polo M return passes: nine pieces, 18 outlines,
+111 mark entities, 0.000 cm maximum XY difference. Eight new audit tests pass
+with 100% changed-code statement/branch/function/line coverage. The existing
+package contract suite passes 10/10 with 100% coverage and includes its
+malformed/tampered inputs; the eight protected export identity regressions,
+TypeScript check and diff check pass. The package suite took 67.56 seconds;
+its 73-option and all-recipe/all-grade fixture generation accounts for most
+time. No worker memory pressure was observed, so runner defaults were not
+changed.
 
-The GetonAgain candidate was chosen from first-party free-edition/DXF claims,
-but its exact installed workflow should have been verified before install.
-S667/S670 show observed mode failures; they do not establish that the
-software alone caused them. S708 separately corrected a demonstrated writer
-defect. The goal remains active through implementation, final cleanup, full
-gates, PR/merge, ancestry, deployment and production end-to-end.
+This is source-verifier evidence for one generic-CAD return, not a receiver
+profile pass, UI-readable error proof, or broad exchange qualification. The
+industrial apparel profile and remaining breadth/repeatability/readability
+gates stay open. No gate, threshold, seven-recipe/options/grades requirement,
+hold or legacy export identity changed. No new receiver/app/format trial was
+run. Next action: reconcile S710 against the V03 matrix and pursue the next
+source-side issue only where the fixed plan gives a direct decisive check.
 
-S709 started 2026-10-11 01:56 UTC from S708 `17ffedd2`; refreshed
-`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
-Board start revisions 4163→4165; exit replay and timing are in the S709 packet.
+GetonAgain/DGS was installed based on official free-edition/DXF claims before
+the exact installed workflow had been checked. That sequencing was my
+mistake. Its recorded tested modes lost required content, but those results
+do not prove the software alone was at fault; S708 independently found a real
+writer-structure defect in our code. Keep the goal active through final
+implementation, necessary-file cleanup, full gates, PR/merge, ancestry,
+deployment and production end-to-end verification.
+
+S710 started 2026-10-11 02:04 UTC from clean S709 `15274f91`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board start revisions 4167→4169; exit replay and timing are in the S710 packet.
 
 ## Historical EPIC-17/G04 — S708 closed; named-block structure preserves semantic CUT
 
