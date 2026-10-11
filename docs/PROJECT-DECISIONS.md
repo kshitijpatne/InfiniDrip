@@ -1,16 +1,21 @@
 # InfiniDrip — Confirmed project decisions
 
-## EPIC-17/G04 — S726 accepted V03 sampling correction; S731 CI correction
+## EPIC-17/G04 — S732 closeout verified; no additional CAD software
 
 The maintainer-approved S726 V03 evidence definition remains unchanged and
-complete. PR #17 merged the reviewed tree to main as one squash commit. Its
-automatic production workflow exposed a missing GitHub Actions prerequisite:
-the existing S425 rendered test requires Playwright's pinned Chromium browser,
-but the workflow installed npm packages only. One of 2,366 tests failed with
-the exact missing headless-shell executable; 2,365 passed. S731 installs the
-required Chromium runtime in CI before the same test suite. This is not a new
-CAD receiver, purchase, or product change. Keep the Epic and goal active until
-the corrected main deployment and production end-to-end exchange check pass.
+complete. The user vetoed the proposed paid Gerber AccuMark route; that
+suggestion is withdrawn. No paid application, new receiver, or further CAD
+trial is required. PR #17 contains the reviewed G04 tree and PR #18 corrects
+the missing lockfile-matched Playwright Chromium prerequisite. Both are merged;
+main workflow `38141301239` passed tests, production build, deterministic
+artifact proof, and Pages deployment. A live production browser run exercised
+Garment → Measure → Style → Check → Export and the return-audit accepted the
+hash-bound XL source package and reviewed LibreCAD return at 0.000000 cm with
+zero browser errors. S732 records 158/158 files, 2,366/2,366 tests, and 100%
+statements/branches/functions/lines. V03 remains the exact S726 empirical
+profile claim, not an industrial, ANSI/AAMA/ASTM, universal DXF, physical-fit,
+factory-acceptance, or production-readiness claim. The final S732 closeout PR
+and its main workflow are the remaining administrative integration step.
 
 ## Prior completed decision — S726 V03 sampling correction / S730 repository hygiene
 

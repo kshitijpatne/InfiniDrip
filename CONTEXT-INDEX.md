@@ -1,17 +1,19 @@
-## Current EPIC-17 / G04 release boundary — S731 CI browser runtime
+## Current EPIC-17 / G04 release boundary — S732 production verified
 
-PR #17 merged the reviewed S730 tree to `origin/main` at
-`653c01a2589da1b78fec79539f72f2ebf45d48af`; its tree exactly matches the PR
-head, and the prior main commit is its parent. The automatic Pages workflow
-failed during `npm test`: 157/158 files and 2,365/2,366 tests passed; S425's
-rendered-option test could not launch Playwright's pinned Chromium headless
-shell because the CI workflow omitted browser installation. S731 starts from
-the merged commit and adds the lockfile-matched Playwright Chromium install
-before tests. This is CI browser setup, not another CAD receiver/software
-trial. V03 acceptance remains complete as approved in S726; the Epic and goal
-stay In Progress until deployment and production end-to-end pass. See
-`docs/research/epic17/S731-github-actions-playwright-browser/S731-start-packet.md`
-and the preserved failure log under `C:\G04-CAD-Interchange\`.
+PR #17 contains the reviewed implementation and cleanup; PR #18 supplies the
+Playwright Chromium prerequisite required by the existing CI suite. Both are
+merged to `origin/main`, which is `548481bba85be0458200931841fc7a53c0275e93`.
+Main workflow `38141301239` passed tests, build, deterministic artifact proof,
+and Pages deployment. The production UI was driven through Garment → Measure
+→ Style → Check → Export, and its return-audit accepted the hash-bound XL
+source package and reviewed LibreCAD 2.2.1.5 DXF 2000 return at 0.000000 cm.
+Global coverage passes 158/158 files and 2,366/2,366 tests at 100% statements,
+branches, functions, and lines. S726's maintainer-approved V03 acceptance and
+its exact 11-return compatibility claim are unchanged. The Gerber AccuMark
+suggestion is withdrawn; no paid or additional CAD software is needed. S732
+records the validated board/Epic closeout; complete the closeout PR and its
+main workflow before marking the goal complete. See
+`docs/research/epic17/S732-final-closeout/S732-exit-packet.md`.
 
 ## Prior completed boundary — S730 repository-evidence hygiene
 
