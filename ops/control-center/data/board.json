@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4222,
-  "updatedAt": "2026-10-11T04:55:13.215Z",
+  "revision": 4226,
+  "updatedAt": "2026-10-11T05:13:47.446Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13491,6 +13491,16 @@
           "at": "2026-10-11T04:54:08.772Z",
           "actor": "Codex",
           "text": "S722 records the maintainer-authorized refinement: V03 is an evidence-based, version-specific compatibility profile on an existing local receiver; the industrial-CAD category is removed. No fidelity, coverage, geometry tolerance, protected identity or final release gate is relaxed. LibreCAD 2.2.1.5/DXF 2000 remains a candidate only on one Polo M fixture. AccuMark is withdrawn. Next: one bounded existing-route breadth check, with no new software."
+        },
+        {
+          "at": "2026-10-11T04:58:34.283Z",
+          "actor": "Codex",
+          "text": "S723 starts the exact already measured LibreCAD 2.2.1.5/DXF 2000 route on one representative current-source size from each of seven recipes. Source packages, returns and reports stay under the named C: S723 folder. Compare returned geometry, units, identity/relations, layers/marks and actual reopened readability; stop on any real row-level miss. No new software, settings search, acceptance change or status change. See S723 start packet."
+        },
+        {
+          "at": "2026-10-11T05:13:47.446Z",
+          "actor": "Codex",
+          "text": "S723 closes with seven passing source-bound LibreCAD 2.2.1.5/DXF 2000 M-size round trips and reopened output review. This provides the first all-seven representative empirical-profile evidence: 7/7 audit rows preserve units, piece identity, CUT/SEW outlines and marks with 0.000 cm measured geometry delta. It does not prove the 73 option/grade rows or a semantic repeat. Trouser's visible crossing and all prior V02 holds remain. No production code, app, format, or setting change. S724: run the existing 73-row matrix and one semantic repeat on this same route. Goal active; V03 remains In Progress."
         }
       ],
       "evidenceRefs": [
@@ -14065,7 +14075,9 @@
         "E-G04-S721-START",
         "E-G04-S721-EXIT",
         "E-G04-S722-START",
-        "E-G04-S722-EXIT"
+        "E-G04-S722-EXIT",
+        "E-G04-S723-START",
+        "E-G04-S723-EXIT"
       ],
       "flagKey": null
     },
@@ -27687,6 +27699,24 @@
       "sha256": null,
       "verified": true,
       "note": "Records maintainer-directed V03 acceptance change to a named app/version empirical DXF profile. Retains all-seven/73-row scope, fixed 0.001 cm geometry, semantics, readable/repeatable output, product-side negative input, legacy identities and final merge gates. LibreCAD remains a one-fixture candidate, not a pass."
+    },
+    {
+      "id": "E-G04-S723-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S723-librecad-seven-recipe-roundtrip/S723-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One bounded current-LibreCAD 2.2.1.5 DXF 2000 check across seven representative source recipes; no new software, setting search, or acceptance changes."
+    },
+    {
+      "id": "E-G04-S723-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S723-librecad-seven-recipe-roundtrip/S723-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S723 passes the source-bound audit and actual saved-return reopen review for one M-size package from all seven registered recipes on LibreCAD 2.2.1.5/DXF 2000: zero geometry delta, units, piece identity, CUT/SEW, and marks retained. This is empirical profile evidence, not an industrial/standards claim; 73 rows and repeat remain. Existing V02 holds are unchanged."
     }
   ]
 }

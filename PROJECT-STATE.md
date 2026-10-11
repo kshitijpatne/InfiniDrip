@@ -1,3 +1,16 @@
+## EPIC-17 / G04 — S723 closed; seven representative CAD returns pass
+
+LibreCAD 2.2.1.5 DXF 2000 round trips passed the existing source-bound audit
+for one M-size package from each of seven registered recipes: zero measured
+geometry delta, units, piece identity, CUT/SEW outlines and marks retained.
+All seven saved returns also reopened visibly in LibreCAD. This supports the
+existing-receiver empirical route; it does not prove 73 option/grade rows,
+repeatability, or clear existing V02 visual holds. No production code changed.
+See `docs/research/epic17/S723-librecad-seven-recipe-roundtrip/S723-exit-packet.md`.
+
+S724 is the next unique slice: reuse the existing 73-row configuration matrix
+on the same receiver/profile and prove one semantic repeat. No new CAD app,
+format, setting, or industrial-standard claim. The full release gates remain.
 ## EPIC-17 / G04 — S722 V03 acceptance refined; empirical profile route
 
 The maintainer directed Codex to complete V03 with the CAD software already

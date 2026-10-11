@@ -1,3 +1,11 @@
+## Current EPIC-17 / G04 V03 boundary — S723 closed, S724 next
+
+The exact existing LibreCAD 2.2.1.5/DXF 2000 route passed source-bound
+geometry/units/identity/marks audit and reopened visual review on one M-size
+fixture from all seven recipes. S724 reuses the existing 73-row matrix and
+proves one semantic repeat; no extra software or format search. See
+`PROJECT-STATE.md`, the S723 exit packet, the revised S722 V03 decision, and
+the canonical Control Center board.
 ## Current EPIC-17 / G04 V03 decision — S722
 
 S722 replaces the unachievable “industrial receiver” category requirement
