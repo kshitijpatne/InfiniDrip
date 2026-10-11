@@ -1,4 +1,18 @@
-## Current EPIC-17 / G04 boundary — S730 final candidate hygiene
+## Current EPIC-17 / G04 boundary — S731 deployment workflow correction
+
+PR #17 merged S730 at `653c01a2589da1b78fec79539f72f2ebf45d48af`. Its tree
+matches the PR head and its parent is the previous `origin/main` commit.
+Deployment run 38139722106 reached the full test suite but failed only when
+S425 launched Playwright without the pinned Chromium headless-shell browser
+installed on the Ubuntu runner (157/158 files, 2,365/2,366 tests passed).
+S731's sole implementation change installs lockfile-matched Chromium after
+`npm ci` and before `npm test`; no CAD application or product acceptance is
+changed. S726's V03 acceptance remains complete under the approved empirical
+profile. Keep EPIC-17 and the goal In Progress through S731 CI, deployment, and
+production E2E. Start packet:
+`docs/research/epic17/S731-github-actions-playwright-browser/S731-start-packet.md`.
+
+## Prior completed boundary — S730 final candidate hygiene
 
 S726 closes V03 technical acceptance under the maintainer-directed criterion
 that separates complete product-side option/grade output verification from

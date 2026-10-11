@@ -1,4 +1,19 @@
-## Current EPIC-17 / G04 boundary — S730 repository-evidence hygiene
+## Current EPIC-17 / G04 release boundary — S731 CI browser runtime
+
+PR #17 merged the reviewed S730 tree to `origin/main` at
+`653c01a2589da1b78fec79539f72f2ebf45d48af`; its tree exactly matches the PR
+head, and the prior main commit is its parent. The automatic Pages workflow
+failed during `npm test`: 157/158 files and 2,365/2,366 tests passed; S425's
+rendered-option test could not launch Playwright's pinned Chromium headless
+shell because the CI workflow omitted browser installation. S731 starts from
+the merged commit and adds the lockfile-matched Playwright Chromium install
+before tests. This is CI browser setup, not another CAD receiver/software
+trial. V03 acceptance remains complete as approved in S726; the Epic and goal
+stay In Progress until deployment and production end-to-end pass. See
+`docs/research/epic17/S731-github-actions-playwright-browser/S731-start-packet.md`
+and the preserved failure log under `C:\G04-CAD-Interchange\`.
+
+## Prior completed boundary — S730 repository-evidence hygiene
 
 S726 completes V03's technical acceptance under the maintainer-directed
 exchange-structure sampling definition. All 365 option × grade packages are
