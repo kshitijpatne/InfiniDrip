@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4226,
-  "updatedAt": "2026-10-11T05:13:47.446Z",
+  "revision": 4234,
+  "updatedAt": "2026-10-11T06:01:04.111Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -3297,7 +3297,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17: G04 — Professional flats and CAD interchange. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress. DGS S667 AutoCAD/Design lost units, geometry, identities and layers; S668 approved /2 ASTM/AAMA Pattern import returned blank/0; S669 invalid native control exported metadata text only and exact self-import rendered blank/0. DGS remains retired except one first-party-instructions-bounded native validity check in S670; no standards claim. Continue existing CLO evidence and preserve all-seven/options/grades, 0.001 cm, all V03 gates, final output review, PR, safe merge, ancestry and deployment. Grainline /2 and all other design approvals are settled. No physical-fit, factory-acceptance or production-readiness claim. See S669 gate matrix and completion plan.",
+      "description": "EPIC-17 / G04 — Professional flats and CAD interchange. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven’s 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 is In Progress under the S724 correction: source-side package verification covers all supported option × grade outputs; the S330 73-row receiver matrix is 73 M-size option scenarios, not grade pairs. Receiver compatibility is an exact empirical claim limited to representative fixtures actually verified on a named installed app/version/profile. Ten LibreCAD 2.2.1.5/DXF 2000 returns currently pass geometry/units/piece/marks at 0.000 cm and a Tee repeat passes. The Trouser return is visibly crowded/crossed; readable output remains under S725 diagnosis. Preserve 0.001 cm, all seven recipes, supported options/grades, final output review/cleanup/PR/merge/ancestry/deployment gates. No standards, factory, physical-fit, or production-readiness claim.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -10758,14 +10758,15 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "Prove one named, version-specific empirical DXF compatibility profile on an already-installed local CAD receiver. Compatibility is limited to the exact measured app/version/workflow; make no ANSI/AAMA/ASTM or factory-conformance claim without separate evidence. Retain all seven recipes and 73 supported option/grade configurations; 0.001 cm geometry; units; source-bound piece/revision/grade and stitch identity; CUT/SEW and construction marks/grainlines; readable output; repeatability; product-side malformed-input fail-closed behavior; legacy DXF and protected byte identities. No additional software is needed or planned. LibreCAD 2.2.1.5/DXF 2000 is only a one-Polo-M candidate from S708/S710. See the S722 packet.",
-      "expectation": "A documented empirical receiver profile with exact version/settings, local handling, compatibility limits and source-bound evidence for every admitted configuration.",
+      "description": "V03 uses a named, version-specific empirical DXF receiver profile. Preserve all seven recipes, every supported option and grade size, 0.001 cm geometry, units, source-bound piece/revision/grade and stitch metadata, CUT/SEW, construction marks/grainlines, readability, repeatability, product-side malformed-input fail-closed behavior, legacy DXF, and protected byte identities. Source-package validation covers all supported option × grade outputs; receiver round trips use named representative fixtures across all recipes and materially distinct geometry/topology classes, with claims limited to the exact fixtures verified. Grade/options/stitches in the digest-bound companion manifest are product-package metadata, not generic-CAD interpreted fields. No ANSI/AAMA/ASTM, industrial-CAD, factory, physical-fit, or production-readiness claim.",
+      "expectation": "All supported source packages validate across recipes/options/grade sizes, and one exact local receiver profile passes documented representative round trips and readable-output review across seven recipes and distinct source geometry/topology classes.",
       "acceptanceCriteria": [
-        "Record rights/local-use basis, exact receiver version, profile/settings, local workflow and limitations; label compatibility only for the exact app/version that passes. Do not claim standards or factory conformance from labels/menu options.",
-        "Round-trip and audit all seven recipes and all 73 supported option/grade configurations at no more than 0.001 cm geometry difference; retain centimeters, source-bound identity/relations, CUT/SEW and marks/grainlines.",
-        "Prove a repeated semantic exchange on the same profile and inspect readable receiver output for each recipe and representative option/grade extremes; machine-audit every row.",
-        "Keep product-side malformed/unsupported DXF inputs fail-closed with no partial acceptance; do not misstate this as receiver validation.",
-        "Preserve existing legacy DXF behavior and every protected byte identity; run final integrated global coverage/build/browser/Electron/output review before release."
+        "Verify each supported recipe, option scenario, and grade size as a source-bound DXF plus digest-bound manifest; preserve revision, selected grade, options, piece identity, stitch graph, geometry, CUT/SEW, construction marks/grainlines, and centimeter units.",
+        "Document exact installed receiver/version, local handling, profile, steps, fixture list and limitations. Claim compatibility only for exact passing fixtures; make no standards, industrial, factory, or physical-fit claim.",
+        "Audit every selected receiver return at maximum 0.001 cm geometry delta, with no missing/extra contours or marks, retained units and piece identity. Fixture set covers all seven recipes and source-derived distinct geometry/topology classes; grade/option/stitch data in the manifest is not claimed as receiver-interpreted.",
+        "Perform one semantic repeat exchange and inspect saved/reopened output for every selected fixture, including distinct option and grade representatives; crossing, overlap, clipping, or unreadable output fails regardless of machine audit.",
+        "Product-side malformed/unsupported inputs fail closed with no partial acceptance; do not describe this as receiver validation.",
+        "Preserve legacy DXF behavior and all protected export byte identities; complete global 100% coverage, integrated build/browser/Electron and output review before PR/merge."
       ],
       "statusHistory": [
         {
@@ -13501,6 +13502,16 @@
           "at": "2026-10-11T05:13:47.446Z",
           "actor": "Codex",
           "text": "S723 closes with seven passing source-bound LibreCAD 2.2.1.5/DXF 2000 M-size round trips and reopened output review. This provides the first all-seven representative empirical-profile evidence: 7/7 audit rows preserve units, piece identity, CUT/SEW outlines and marks with 0.000 cm measured geometry delta. It does not prove the 73 option/grade rows or a semantic repeat. Trouser's visible crossing and all prior V02 holds remain. No production code, app, format, or setting change. S724: run the existing 73-row matrix and one semantic repeat on this same route. Goal active; V03 remains In Progress."
+        },
+        {
+          "at": "2026-10-11T05:17:08.309Z",
+          "actor": "Codex",
+          "text": "S724 begins the existing 73-row option/grade matrix on the only already installed receiver with current-source all-seven representative evidence: LibreCAD 2.2.1.5/DXF 2000. Reuse the S330 matrix, S680 package generator and S710 return auditor. Preserve the fixed numerical/semantic gates and all V02 holds; no new app, format, or setting. Exact matrix artifacts remain on C:."
+        },
+        {
+          "at": "2026-10-11T05:59:17.444Z",
+          "actor": "Codex",
+          "text": "S724: ten named M-size LibreCAD 2.2.1.5/DXF 2000 returns pass the unchanged audit at 0.000 cm; Tee default-M semantic repeat passes twice. The S330 73 rows are M-only option cases, not grade cases. Acceptance now requires all supported option × grade source packages and a representative exact receiver profile, not 73 repetitive receiver saves. Trouser’s saved return has visible crossing/crowding and fails readability pending S725 layout diagnosis; this is a V03 receiver-output gate, not a V02 hold. No standards/factory claim; all fidelity thresholds and protected export gates remain."
         }
       ],
       "evidenceRefs": [
@@ -14077,7 +14088,9 @@
         "E-G04-S722-START",
         "E-G04-S722-EXIT",
         "E-G04-S723-START",
-        "E-G04-S723-EXIT"
+        "E-G04-S723-EXIT",
+        "E-G04-S724-START",
+        "E-G04-S724-EXIT"
       ],
       "flagKey": null
     },
@@ -27717,6 +27730,24 @@
       "sha256": null,
       "verified": true,
       "note": "S723 passes the source-bound audit and actual saved-return reopen review for one M-size package from all seven registered recipes on LibreCAD 2.2.1.5/DXF 2000: zero geometry delta, units, piece identity, CUT/SEW, and marks retained. This is empirical profile evidence, not an industrial/standards claim; 73 rows and repeat remain. Existing V02 holds are unchanged."
+    },
+    {
+      "id": "E-G04-S724-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S724-librecad-option-grade-matrix/S724-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S724 reuses the existing canonical 73-row options/grades source matrix and the S723-passing LibreCAD 2.2.1.5/DXF 2000 route. No new candidate or setting. S723's seven representative current-source round trips all passed at 0.000 cm; this slice tests full breadth and repeatability with all fidelity gates unchanged."
+    },
+    {
+      "id": "E-G04-S724-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S724-librecad-option-grade-matrix/S724-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S724 ten exact LibreCAD 2.2.1.5/DXF 2000 fixture audits, one Tee repeat, source-matrix correction, and revised V03 acceptance model. Trouser readability remains open."
     }
   ]
 }

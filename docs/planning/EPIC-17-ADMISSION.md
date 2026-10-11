@@ -1,3 +1,19 @@
+## Current V03 acceptance amendment — S724
+
+The S722 empirical-profile decision is refined by S724. The S330 matrix is 73
+M-size option scenarios, not 73 option/grade rows. Product-side package
+verification must cover all supported option settings at every supported
+grade size. Receiver round trips use a documented representative fixture set
+across all seven recipes and each materially distinct source geometry or
+topology class; compatibility is claimed only for the exact receiver version,
+workflow and fixtures whose round-trip and readability evidence passes. This
+corrects the over-broad requirement for one external CAD save per option row
+without reducing supported product output, the 0.001 cm threshold, or any
+other fidelity/release gate. Grade, option, and stitch records carried only in
+the digest-bound companion manifest are not claimed as receiver-interpreted
+fields. S724's ten exact LibreCAD returns and S725's next proof are recorded
+in `docs/research/epic17/S724-librecad-option-grade-matrix/`.
+
 ## Current EPIC-17 / G04 V03 boundary — S715 closed
 
 S715 confirms the exact S711 return preserves source vertices (within 0.000038 cm) but omits shallow CUT corners; five contours still exceed the unchanged 0.001 cm limit. Existing optimizer, format/entity, unit, mode and point-density experiments already tested the plausible writer-side fixes. No source defect or evidence-backed repeat trial was found. See `docs/research/epic17/S715-source-cut-contour-cause/S715-exit-packet.md`.

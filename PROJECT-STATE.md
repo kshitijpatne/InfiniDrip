@@ -1,16 +1,20 @@
-## EPIC-17 / G04 — S723 closed; seven representative CAD returns pass
+## EPIC-17 / G04 — S724 closed; V03 evidence model corrected
 
-LibreCAD 2.2.1.5 DXF 2000 round trips passed the existing source-bound audit
-for one M-size package from each of seven registered recipes: zero measured
-geometry delta, units, piece identity, CUT/SEW outlines and marks retained.
-All seven saved returns also reopened visibly in LibreCAD. This supports the
-existing-receiver empirical route; it does not prove 73 option/grade rows,
-repeatability, or clear existing V02 visual holds. No production code changed.
-See `docs/research/epic17/S723-librecad-seven-recipe-roundtrip/S723-exit-packet.md`.
+S724's ten LibreCAD 2.2.1.5 / DXF 2000 receiver returns pass the unchanged
+source-bound audit at 0.000 cm; a Tee M repeat also passes. The 73 S330 rows
+are M-size option scenarios, not option/grade pairs, and the nine entity-count
+signatures do not prove geometric classes. S723's actual Trouser return is
+crowded/crossed; this is a V03 receiver readability finding, not a V02 hold.
+The prior “73 receiver round trips” plan is superseded by the S724 product-side
+all-options/all-grades source matrix plus an exact, representative empirical
+receiver profile claim. No source geometry, threshold, supported recipe,
+option, grade, protected export identity, or final gate is dropped. See
+`docs/research/epic17/S724-librecad-option-grade-matrix/S724-exit-packet.md`.
 
-S724 is the next unique slice: reuse the existing 73-row configuration matrix
-on the same receiver/profile and prove one semantic repeat. No new CAD app,
-format, setting, or industrial-standard claim. The full release gates remain.
+S725: measure the Trouser receiver drawing layout, correct only its candidate
+display spacing if source evidence identifies the cause, and prove the
+73-option-by-grade source package matrix. Reopen and inspect the selected
+LibreCAD returns; preserve V03 In Progress and the active goal.
 ## EPIC-17 / G04 — S722 V03 acceptance refined; empirical profile route
 
 The maintainer directed Codex to complete V03 with the CAD software already

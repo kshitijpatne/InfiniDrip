@@ -1,11 +1,12 @@
-## Current EPIC-17 / G04 V03 boundary — S723 closed, S724 next
+## Current EPIC-17 / G04 V03 boundary — S724 closed
 
-The exact existing LibreCAD 2.2.1.5/DXF 2000 route passed source-bound
-geometry/units/identity/marks audit and reopened visual review on one M-size
-fixture from all seven recipes. S724 reuses the existing 73-row matrix and
-proves one semantic repeat; no extra software or format search. See
-`PROJECT-STATE.md`, the S723 exit packet, the revised S722 V03 decision, and
-the canonical Control Center board.
+S724 records ten passing LibreCAD 2.2.1.5/DXF 2000 fixture audits and one
+semantic Tee M repeat. The 73 S330 rows are M-size option cases, not grade
+cases; the initial all-73-receiver-saves plan is superseded. S725 will verify
+every option across supported grade sizes on the product/package side, correct
+the source-supported Trouser candidate-layout readability issue, and inspect
+the selected actual receiver returns. V03 remains In Progress. Read
+`PROJECT-STATE.md`, the S724 exit/start packets, and the validated board.
 ## Current EPIC-17 / G04 V03 decision — S722
 
 S722 replaces the unachievable “industrial receiver” category requirement

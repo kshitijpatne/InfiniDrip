@@ -1,5 +1,24 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — S724 corrects V03 breadth measurement
+
+The maintainer directed Codex to correct V03's receiver/acceptance logic and
+finish with installed tools, with no paid receiver or additional software.
+S724 established that the “73 option/grade rows” are 73 M-size option
+scenarios. The revised gate keeps all seven recipes, every supported option
+and grade size, the 0.001 cm contour limit, protected export identities and
+all release gates. Product-side source-package verification must cover every
+supported option across every grade size. Actual LibreCAD round-trip evidence
+is a precise empirical profile with representative fixtures across all seven
+recipes and materially distinct geometry/topology classes; it must not imply
+that every CAD UI row or grade was imported. Grade/options/stitch relations
+that live in the digest-bound manifest are product-package guarantees, not
+claims that LibreCAD interprets those fields. Every claimed receiver fixture
+still needs exact geometry, units, piece identity, marks, repeat and
+readable-output evidence. S723's crowded/crossed Trouser return is a V03
+readability issue, not a V02 failure. See the S724 exit packet. No standards,
+industrial, physical-fit, factory or production-readiness claim follows.
+
 ## EPIC-17/G04 — S722 replaces the industrial receiver gate
 
 The maintainer directed completion using already installed CAD tools and
