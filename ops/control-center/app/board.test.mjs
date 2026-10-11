@@ -34,7 +34,7 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 
-test("UIQ-02 is shipped and UIQ-03 is the next admitted candidate integration", () => {
+test("UIQ-02 and UIQ-03 integration status follows their release evidence", () => {
   const ids = Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`);
   const cards = ids.map((id) => board.workItems.find((item) => item.id === id));
   const gate = board.workItems.find((item) => item.id === "UIQ-GATE");
@@ -48,13 +48,12 @@ test("UIQ-02 is shipped and UIQ-03 is the next admitted candidate integration", 
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
   for (const card of cards) {
     assert.ok(card);
-    if (card.id === "UIQ-02") assert.equal(card.status, "Done");
-    else if (card.id === "UIQ-03") assert.ok(["In Progress", "Review"].includes(card.status));
+    if (card.id === "UIQ-02" || card.id === "UIQ-03") assert.equal(card.status, "Done");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
-    assert.equal(card.deliveredAt, card.id === "UIQ-02" ? "2026-10-11" : null);
+    assert.equal(card.deliveredAt, ["UIQ-02", "UIQ-03"].includes(card.id) ? "2026-10-11" : null);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
     assert.ok(card.evidenceRefs.includes(approval.id));
