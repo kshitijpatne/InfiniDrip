@@ -1,3 +1,18 @@
+## EPIC-17 / G04 — S701 closed; exact return entity diagnosis
+
+S701 parsed the saved S700 source and CLO return directly. Five CUT contours
+are genuinely simplified on return beyond 0.001 cm; their source DXF matches
+the prior exact source bytes. Three source buttonhole points have no returned
+mark entity; the repeated 1.4999984 cm nearest-path distance ends at a
+continuous placket edge and is not a valid mark match. No source-geometry
+workaround or comparator exception is safe, and no code changed. No app or
+receiver trial was repeated. V03 remains held, EPIC-17 and the goal remain
+active. Next: reconcile existing receiver/profile records and first-party
+profile documentation against the remaining fixed gates, without new software
+or format trials. Full integration gates, necessary-file cleanup, PR, safe
+merge, ancestry and required production end-to-end check remain due.
+See `docs/research/epic17/S701-return-geometry-diagnosis/`.
+
 ## EPIC-17 / G04 — S700 closed; named piece package measured in CLO
 
 S700 implements deterministic named DXF blocks bound to recipe role and

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4135,
-  "updatedAt": "2026-10-10T23:59:45.835Z",
+  "revision": 4138,
+  "updatedAt": "2026-10-11T00:03:08.257Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13279,6 +13279,11 @@
           "at": "2026-10-10T23:59:45.835Z",
           "actor": "Codex",
           "text": "S700 completed the bounded source fix: the opt-in package now carries deterministic role/revision named piece blocks and exact expansion tests; the legacy writer is unchanged. All registered recipes/grades and 73 option configurations pass focused checks with 100% changed-code coverage. The one planned CLO test retained all nine names with `_M`, but failed the unchanged 0.001 cm CUT limit on the back, both stands and both collar leaves, and three buttonhole points remain absent despite Draw Curve Points being enabled. The saved return and render evidence are hash-pinned in the C: folder. The predeclared stop condition is met: do not repeat a CLO setting/format or switch to another app for these same misses. V03 remains held; no acceptance or threshold changed. Next: reconcile the exact returned entities and admitted profile gate, then implement only a source defect proven by that evidence."
+        },
+        {
+          "at": "2026-10-11T00:03:08.257Z",
+          "actor": "Codex",
+          "text": "S701 parsed the exact saved S700 entities. Five return CUT contours are genuinely simplified by CLO and exceed 0.001 cm; the source drawing bytes and coordinates are unchanged. The three buttonhole POINTs are genuinely absent: the 1.4999984 cm nearest path is a continuous placket boundary, not an individual mark, so accepting its midpoint would be a false pass. No product-code or geometry workaround is supported. This ends testing of the CLO candidate. Next use only existing evidence and first-party profile documentation to reconcile the already-installed apparel CAD workflows against the remaining fixed V03 gates; do not install, switch apps, or repeat trials absent a distinct profile proof that addresses the measured misses. All acceptance and thresholds remain unchanged; V03 stays held."
         }
       ],
       "evidenceRefs": [
@@ -13809,7 +13814,9 @@
         "E-G04-S699-START",
         "E-G04-S699-EXIT",
         "E-G04-S700-START",
-        "E-G04-S700-EXIT"
+        "E-G04-S700-EXIT",
+        "E-G04-S701-START",
+        "E-G04-S701-EXIT"
       ],
       "flagKey": null
     },
@@ -27035,6 +27042,24 @@
       "sha256": null,
       "verified": true,
       "note": "Opt-in package now emits exact-expanding source-revision named piece blocks; tests, all-seven/grade/73-option matrix, typecheck and changed-code coverage pass. Actual CLO return retains nine names but fails five of nine CUT contours and three buttonhole points at fixed limits, so CLO remains unqualified and V03 stays held."
+    },
+    {
+      "id": "E-G04-S701-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S701-return-geometry-diagnosis/S701-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Static diagnosis of exact S700 source/return DXF entities and existing renders to distinguish actual geometry loss from comparator artifacts; no CAD app, receiver variation or new files outside C:."
+    },
+    {
+      "id": "E-G04-S701-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S701-return-geometry-diagnosis/S701-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exact S700 entities confirm five real CLO CUT-contour losses and three absent buttonhole marks; the shared 1.5 cm offset is to a continuous placket boundary, not a buttonhole glyph. Source serialization is exact; no safe source geometry change or comparator exception is justified."
     }
   ]
 }

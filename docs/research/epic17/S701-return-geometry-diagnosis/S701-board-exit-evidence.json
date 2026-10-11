@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S701-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S701-return-geometry-diagnosis/S701-exit-packet.md",
+    "verified": true,
+    "note": "Exact S700 entities confirm five real CLO CUT-contour losses and three absent buttonhole marks; the shared 1.5 cm offset is to a continuous placket boundary, not a buttonhole glyph. Source serialization is exact; no safe source geometry change or comparator exception is justified."
+  },
+  "expectedRevision": 4136
+}

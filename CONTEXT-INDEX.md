@@ -1,3 +1,15 @@
+## Current EPIC-17 / G04 V03 boundary — S701 closed; actual return losses confirmed
+
+S701 confirmed the five S700 CUT misses are receiver-side contour
+simplification, not source serialization, and that the three buttonhole marks
+are genuinely absent; the 1.5 cm distance is to a continuous placket edge, not
+a valid glyph match. No safe code-side geometry fix is supported by these
+files. Do not repeat a receiver/app trial. Read `PROJECT-STATE.md` and
+`docs/research/epic17/S701-return-geometry-diagnosis/S701-exit-packet.md`.
+V03 remains held and the goal remains active through unchanged acceptance,
+cleanup, integrated verification, PR, safe merge, ancestry, and production
+checks.
+
 ## Current EPIC-17 / G04 V03 boundary — S700 closed; named blocks do not clear CLO losses
 
 S700 adds source-revision and piece-role named DXF blocks to the opt-in
