@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S705 implements a candidate-only schema v5 buttonhole encoding: each source point stays fixed and is displayed as a centered 0.25 cm half-span cross. The manifest binds both emitted lines and their transformed center to the piece/revision and source anchor; v4/v3/v2 verification remains covered. Changed modules have 100% focused coverage, protected legacy byte regressions pass, and a C:-only rendered placket detail confirms three readable crosses. This does not clear a receiver/profile or any V03 round-trip gate. Next is one current-package LibreCAD 2.2.1.5 DXF 2000 test; all acceptance and holds remain unchanged.",
+  "expectedRevision": 4150
+}

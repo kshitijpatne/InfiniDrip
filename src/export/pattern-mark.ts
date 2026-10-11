@@ -40,6 +40,7 @@ const dxfNum = (n: number, coordinateDecimals: 3 | 6): string => {
 /** DXF R12 entities on named construction layers. */
 export function patternMarksDxf(
   marks: readonly PatternMark[] | undefined, height: number, coordinateDecimals: 3 | 6 = 3,
+  buttonholePointStyle: "point" | "cross" = "point",
 ): string {
   if (!marks) return "";
   return marks.map((mark) => {
@@ -52,6 +53,16 @@ export function patternMarksDxf(
     if (mark.kind === "button") {
       return dxfPair(0, "CIRCLE") + dxfPair(8, layer) +
         dxfPair(10, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(20, dxfNum(height - mark.at.y, coordinateDecimals)) + dxfPair(40, "0.15");
+    }
+    if (buttonholePointStyle === "cross" && mark.kind === "buttonhole") {
+      const halfSpan = 0.25;
+      const centerY = height - mark.at.y;
+      return dxfPair(0, "LINE") + dxfPair(8, layer) +
+        dxfPair(10, dxfNum(mark.at.x - halfSpan, coordinateDecimals)) + dxfPair(20, dxfNum(centerY, coordinateDecimals)) +
+        dxfPair(11, dxfNum(mark.at.x + halfSpan, coordinateDecimals)) + dxfPair(21, dxfNum(centerY, coordinateDecimals)) +
+        dxfPair(0, "LINE") + dxfPair(8, layer) +
+        dxfPair(10, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(20, dxfNum(centerY - halfSpan, coordinateDecimals)) +
+        dxfPair(11, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(21, dxfNum(centerY + halfSpan, coordinateDecimals));
     }
     return dxfPair(0, "POINT") + dxfPair(8, layer) +
       dxfPair(10, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(20, dxfNum(height - mark.at.y, coordinateDecimals));

@@ -1,3 +1,26 @@
+## EPIC-17/G04 — S705 closed; candidate buttonhole display verified
+
+S705 adds a source-centered two-line buttonhole display only to candidate DXF
+package schema v5. The point anchor, cut outline, seam graph, and default/legacy
+DXF output remain unchanged. The manifest binds each pair to the same piece,
+revision, source anchor, and packed drawing coordinates; it rejects shifted,
+missing, wrong-layer, malformed, and misidentified pairs. The all-seven/grade/
+73-option suite and schema-v4/v3/v2 verifier tests pass. Focused changed-code
+coverage is 100% for statements, branches, functions and lines; protected
+export regressions pass. A C:-only rendered placket detail shows three legible,
+separated crosses. See
+`docs/research/epic17/S705-candidate-buttonhole-cross/S705-exit-packet.md`.
+
+GMS/DGS is retired. Its exact tests are evidence of an unusable route: the
+apparel import completed with a blank canvas and 0/0 patterns, while the native
+DXF control export contained metadata text and no geometry. This candidate
+should have been disqualified by an exact-build input/output check before the
+install. No further GMS work is queued. Next: S706's single current-package
+LibreCAD 2.2.1.5 DXF 2000 round trip from the designated C: folder. No new app,
+receiver permutation, or V03 acceptance change. V03 stays held, EPIC-17 and
+the goal stay active, and all final cleanup, full gate, PR/merge, ancestry and
+production checks remain due.
+
 ## EPIC-17 / G04 — S704 closed; current R2000 candidate and source plan recorded
 
 S704 restores full context/state history lost in S703 and corrects S703 unit

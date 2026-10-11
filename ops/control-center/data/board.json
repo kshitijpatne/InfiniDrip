@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4148,
-  "updatedAt": "2026-10-11T00:23:50.232Z",
+  "revision": 4151,
+  "updatedAt": "2026-10-11T00:44:40.521Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13304,6 +13304,11 @@
           "at": "2026-10-11T00:23:50.232Z",
           "actor": "Codex",
           "text": "S704 reconciles every fixed V03 gate with the exact S703 return, existing R2000/CLO/DGS/GMS/OpenCAD evidence and current candidate writer. S703 source-unit wording is corrected: source declares $INSUNITS=5; only CLO return drops it. No more CLO or new-software variations. Existing LibreCAD 2.2.1.5 R2000 is the only previously measured route passing one fixture for geometry, units, marks, layers and reopen; it remains a generic-CAD empirical candidate, and the admitted industrial-profile gate is not claimed passed. Next is a candidate-only buttonhole cross using the existing PDF renderer convention, then one exact R2000 current-package test; no geometry, threshold, acceptance or legacy writer changes."
+        },
+        {
+          "at": "2026-10-11T00:44:40.521Z",
+          "actor": "Codex",
+          "text": "S705 implements a candidate-only schema v5 buttonhole encoding: each source point stays fixed and is displayed as a centered 0.25 cm half-span cross. The manifest binds both emitted lines and their transformed center to the piece/revision and source anchor; v4/v3/v2 verification remains covered. Changed modules have 100% focused coverage, protected legacy byte regressions pass, and a C:-only rendered placket detail confirms three readable crosses. This does not clear a receiver/profile or any V03 round-trip gate. Next is one current-package LibreCAD 2.2.1.5 DXF 2000 test; all acceptance and holds remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13842,7 +13847,9 @@
         "E-G04-S703-START",
         "E-G04-S703-EXIT",
         "E-G04-S704-START",
-        "E-G04-S704-EXIT"
+        "E-G04-S704-EXIT",
+        "E-G04-S705-START",
+        "E-G04-S705-EXIT"
       ],
       "flagKey": null
     },
@@ -27140,6 +27147,24 @@
       "sha256": null,
       "verified": true,
       "note": "Restores full history-bearing context/state files after S703 closeout damage; corrects the S703 source $INSUNITS=5 parser omission; provides a gate-by-gate V03 matrix and prioritized source-evidence plan with no new app or receiver variation. All accepted criteria stay fixed."
+    },
+    {
+      "id": "E-G04-S705-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S705-candidate-buttonhole-cross/S705-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S705 implements a candidate-only source-centered buttonhole cross with versioned entity/transform binding and verifier proof. Legacy DXF defaults and protected byte identities remain unchanged; no receiver test or acceptance change."
+    },
+    {
+      "id": "E-G04-S705-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S705-candidate-buttonhole-cross/S705-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implements the source-centered two-LINE buttonhole display only in candidate schema v5 with transformed-anchor validation and legacy defaults preserved. Seven-recipe/grade/73-option focused tests, schema v4 and legacy verifier coverage, protected export regressions, 100% changed-module coverage, and C:-only rendered evidence recorded. No receiver gate passed."
     }
   ]
 }

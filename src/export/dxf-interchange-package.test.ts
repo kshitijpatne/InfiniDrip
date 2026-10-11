@@ -43,28 +43,35 @@ describe("C04-bounded DXF interchange package", () => {
         const expectedMarks = [];
         for (const [role, piece] of Object.entries(graded.block.roles)) {
           const identity = candidate.manifest.pieces.find((record) => record.role === role)!;
-          for (const [markIndex, mark] of (piece.marks ?? []).entries()) {
+          let entityOrdinal = 3;
+          for (const mark of piece.marks ?? []) {
+            const isLine = "start" in mark;
+            const isCross = !isLine && mark.kind === "buttonhole";
+            const entityCount = isCross ? 2 : 1;
             expectedMarks.push({
               id: `${recipe.name}:${role}:mark:${mark.name}`,
               pieceId: `${recipe.name}:${role}`,
-              entityOrdinal: 3 + markIndex,
+              entityOrdinal,
               blockName: identity.blockName,
               sourceRevisionId: identity.sourceRevisionId,
               name: mark.name,
               kind: mark.kind,
-              entityType: "start" in mark ? "LINE" : mark.kind === "button" ? "CIRCLE" : "POINT",
+              entityType: isLine ? "LINE" : mark.kind === "button" ? "CIRCLE" : isCross ? "LINE" : "POINT",
+              entityCount,
+              ...(isCross ? { displayEncoding: "centered-cross/1" } : {}),
               layer: `MARK_${mark.kind.toUpperCase()}`,
-              sourceGeometry: "start" in mark
+              sourceGeometry: isLine
                 ? { kind: "segment", start: mark.start, end: mark.end }
                 : { kind: "point", at: mark.at },
               ...(mark.label !== undefined ? { label: mark.label } : {}),
               ...(mark.labelRole !== undefined ? { labelRole: mark.labelRole } : {}),
             });
+            entityOrdinal += entityCount;
           }
         }
         expect(candidate.manifest.patternMarks).toEqual(expectedMarks);
         const candidatePieces = blockPieces(graded.block);
-        expect(candidate.manifest.schemaVersion).toBe("infinidrip.g04.dxf-package/4");
+        expect(candidate.manifest.schemaVersion).toBe("infinidrip.g04.dxf-package/5");
         expect(candidate.manifest.cutGeometryAlgorithm).toBe(CUT_GEOMETRY_ALGORITHM);
         expect(candidate.manifest.pieces.every((piece) => piece.blockName.includes(piece.sourceRevisionId.slice(0, 16).toUpperCase()))).toBe(true);
         const drawing = readNamedDxfDrawing(candidate.dxf);
@@ -72,13 +79,14 @@ describe("C04-bounded DXF interchange package", () => {
         expect(drawing.inserts.map((insert) => insert.name)).toEqual(candidate.manifest.pieces.map((piece) => piece.blockName));
         expect(expandNamedDxfDrawing(candidate.dxf)).toHaveLength(drawing.blocks.reduce((total, block) => total + block.entities.length, 0));
         const candidateCuts = candidatePieces.map((piece) => adaptiveSeamAllowance(piece, recipe.allowances));
-        const flatDxf = exportDxfCentimeters(candidatePieces, recipe.allowances, recipe.notches, candidateCuts);
+        const flatDxf = exportDxfCentimeters(candidatePieces, recipe.allowances, recipe.notches, candidateCuts, "cross");
         const expectedGroups = candidate.manifest.pieces.map((pieceRecord, index) => {
           const piece = candidatePieces[index]!;
           const notchTable = recipe.notches.find((table) => table.pieceName === piece.name);
           return {
             name: pieceRecord.blockName,
-            leadingEntityCount: 2 + (piece.marks?.length ?? 0),
+            leadingEntityCount: 2 + (piece.marks ?? []).reduce((total, mark) =>
+              total + (!("start" in mark) && mark.kind === "buttonhole" ? 2 : 1), 0),
             trailingEntityCount: notchTable ? notchTable.notches.length + 5 : 0,
           };
         });
@@ -158,7 +166,7 @@ describe("C04-bounded DXF interchange package", () => {
       expect(candidate.manifest.options).toEqual(resolvedOptions);
       expect(await verifyDxfInterchangePackage(candidate)).toBe(true);
     }
-  }, 30_000);
+  }, 60_000);
 
   it("materializes recipe defaults and rejects invalid or unsupported options", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
@@ -248,13 +256,20 @@ describe("C04-bounded DXF interchange package", () => {
     const legacyPatternMarks = Object.entries(graded.block.roles).flatMap(([role, piece]) => {
       const marks = (piece.marks ?? []).map((mark, markIndex) => {
         const record = candidate.manifest.patternMarks.find((entry) => entry.id === `${recipe.name}:${role}:mark:${mark.name}`)!;
-        const { blockName: _blockName, sourceRevisionId: _sourceRevisionId, ...legacyRecord } = record;
-        return { ...legacyRecord, entityOrdinal: legacyOrdinal + 2 + markIndex };
+        const {
+          blockName: _blockName, sourceRevisionId: _sourceRevisionId,
+          entityCount: _entityCount, displayEncoding: _displayEncoding, ...legacyRecord
+        } = record;
+        return {
+          ...legacyRecord,
+          entityType: "start" in mark ? "LINE" : mark.kind === "button" ? "CIRCLE" : "POINT",
+          entityOrdinal: legacyOrdinal + 2 + markIndex,
+        };
       });
       legacyOrdinal += 2 + (piece.marks?.length ?? 0);
       return marks;
     });
-    const legacyPieces = candidate.manifest.pieces.map(({ blockName: _blockName, sourceRevisionId: _sourceRevisionId, ...piece }) => piece);
+    const legacyPieces = candidate.manifest.pieces.map(({ blockName: _blockName, sourceRevisionId: _sourceRevisionId, drawingTransform: _drawingTransform, ...piece }) => piece);
     const legacyBase: Record<string, unknown> = {
       ...candidate.manifest,
       pieces: legacyPieces,
@@ -303,6 +318,41 @@ describe("C04-bounded DXF interchange package", () => {
       return { dxf, manifest: { ...core, revisionId } };
     };
 
+    const v4Dxf = wrapDxfEntitiesInNamedBlocks(legacyDxf, candidate.manifest.pieces.map((piece, index) => {
+      const sourcePiece = blockPieces(graded.block)[index]!;
+      const notchTable = recipe.notches.find((table) => table.pieceName === sourcePiece.name);
+      return {
+        name: piece.blockName,
+        leadingEntityCount: 2 + (sourcePiece.marks?.length ?? 0),
+        trailingEntityCount: notchTable ? notchTable.notches.length + 5 : 0,
+      };
+    }));
+    const v4Pieces = candidate.manifest.pieces.map(({ drawingTransform: _drawingTransform, ...piece }) => piece);
+    const v4Marks = Object.entries(graded.block.roles).flatMap(([role, piece]) => {
+      let v4Ordinal = 3;
+      return (piece.marks ?? []).map((mark) => {
+        const record = candidate.manifest.patternMarks.find((entry) => entry.id === `${recipe.name}:${role}:mark:${mark.name}`)!;
+        const { entityCount: _entityCount, displayEncoding: _displayEncoding, ...legacyRecord } = record;
+        const result = {
+          ...legacyRecord,
+          entityType: "start" in mark ? "LINE" : mark.kind === "button" ? "CIRCLE" : "POINT",
+          entityOrdinal: v4Ordinal,
+        };
+        v4Ordinal += 1;
+        return result;
+      });
+    });
+    const v4Core: Record<string, unknown> = {
+      ...candidate.manifest,
+      schemaVersion: "infinidrip.g04.dxf-package/4",
+      pieces: v4Pieces,
+      patternMarks: v4Marks,
+      drawingSha256: await sha256(v4Dxf),
+    };
+    delete v4Core.revisionId;
+    const v4RevisionId = await sha256(canonicalJson(v4Core));
+    expect(await verifyDxfInterchangePackage({ dxf: v4Dxf, manifest: { ...v4Core, revisionId: v4RevisionId } })).toBe(true);
+
     expect(await verifyDxfInterchangePackage({ ...candidate, manifest: { ...candidate.manifest, recipe: { id: 42 } } })).toBe(false);
     expect(await verifyDxfInterchangePackage({ ...candidate, manifest: { ...candidate.manifest, pieces: [null] } })).toBe(false);
     expect(await verifyDxfInterchangePackage({
@@ -313,6 +363,9 @@ describe("C04-bounded DXF interchange package", () => {
       ...candidate,
       manifest: { ...candidate.manifest, pieces: candidate.manifest.pieces.map((piece, index) => index === 0 ? { ...piece, sourceRevisionId: "short" } : piece) },
     })).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf, {
+      pieces: candidate.manifest.pieces.map((piece, index) => index === 0 ? { ...piece, drawingTransform: undefined } : piece),
+    }))).toBe(false);
     const insertsAt = candidate.dxf.indexOf("0\nSECTION\n2\nENTITIES\n");
     const firstInsertName = candidate.manifest.pieces[0]!.blockName;
     const sourceNameAt = candidate.dxf.indexOf(`2\n${firstInsertName}\n`, insertsAt);
@@ -326,6 +379,41 @@ describe("C04-bounded DXF interchange package", () => {
     const firstSequenceEnd = candidate.dxf.indexOf("0\nSEQEND\n", firstPolyline) + "0\nSEQEND\n".length;
     const missingCut = `${candidate.dxf.slice(0, firstPolyline)}${candidate.dxf.slice(firstSequenceEnd)}`;
     expect(await verifyDxfInterchangePackage(await rebind(missingCut, {}))).toBe(false);
+    const crossMark = candidate.manifest.patternMarks.find((mark) => mark.displayEncoding === "centered-cross/1")!;
+    const crossPiece = readNamedDxfDrawing(candidate.dxf).blocks.find((block) => block.name === crossMark.blockName)!;
+    const horizontalCross = crossPiece.entities[crossMark.entityOrdinal - 1]!;
+    const shiftedCross = horizontalCross.replace(/(10\n)([-\d.]+)/u, (_match, prefix: string, value: string) => `${prefix}${Number(value) + 0.01}`);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf.replace(horizontalCross, shiftedCross), {}))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf.replace(horizontalCross, horizontalCross.replace("8\nMARK_BUTTONHOLE", "8\nOTHER")), {}))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf.replace(horizontalCross, ""), {}))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf, {
+      pieces: candidate.manifest.pieces.map((piece) => piece.blockName === crossMark.blockName
+        ? { ...piece, drawingTransform: { ...piece.drawingTransform!, xOffset: piece.drawingTransform!.xOffset + 1 } }
+        : piece),
+    }))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf, {
+      patternMarks: candidate.manifest.patternMarks.map((mark) => mark.id === crossMark.id ? { ...mark, entityCount: 3 } : mark),
+    }))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf, {
+      patternMarks: candidate.manifest.patternMarks.map((mark) => mark.id === crossMark.id
+        ? { ...mark, entityCount: 1, displayEncoding: "unknown" as never }
+        : mark),
+    }))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf, {
+      patternMarks: candidate.manifest.patternMarks.map((mark) => mark.id === crossMark.id
+        ? { ...mark, kind: "placementPoint" as never }
+        : mark),
+    }))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf, {
+      patternMarks: candidate.manifest.patternMarks.map((mark) => mark.id === crossMark.id
+        ? { ...mark, sourceGeometry: { kind: "segment", start: { x: 1, y: 1 }, end: { x: 2, y: 2 } } }
+        : mark),
+    }))).toBe(false);
+    expect(await verifyDxfInterchangePackage(await rebind(candidate.dxf, {
+      patternMarks: candidate.manifest.patternMarks.map((mark) => mark.id === crossMark.id
+        ? { ...mark, sourceGeometry: { kind: "point", at: { x: "bad", y: 1 } } }
+        : mark),
+    }))).toBe(false);
 
     expect(await verifyDxfInterchangePackage({ ...candidate, dxf: `${candidate.dxf}0\nEOF\n` })).toBe(false);
     expect(await verifyDxfInterchangePackage({

@@ -1,3 +1,19 @@
+## Current EPIC-17 / G04 V03 boundary — S705 closed
+
+S705 implements a versioned candidate-only buttonhole cross bound to its exact
+source anchor, piece/revision, and drawing transform. All seven recipes, grade
+rows, 73 options, schema backward compatibility, protected legacy export
+regressions and rendered placket evidence are verified; changed-code coverage
+is 100%. No receiver gate passed. See `PROJECT-STATE.md` and
+`docs/research/epic17/S705-candidate-buttonhole-cross/S705-exit-packet.md`.
+
+GMS/DGS is retired: the tested apparel import opened the file but produced no
+registered pattern; its native DXF control export had no geometry. The exact
+build should have been input/output-screened before install. Next is one
+current-package LibreCAD 2.2.1.5 DXF 2000 round trip. G04-V03 remains held;
+EPIC-17 and its goal stay active through unchanged gates, final cleanup, full
+verification, PR/merge, ancestry, deployment and production end-to-end checks.
+
 ## Current EPIC-17 / G04 V03 boundary — S704 closed; source and receiver gates reconciled
 
 S704 restores the complete history-bearing context/state documents after an

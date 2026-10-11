@@ -39,6 +39,7 @@ function polyline(pts: Polyline, layer: string, height: number, coordinateDecima
 export function exportDxf(
   pieces: readonly Piece[], allowance: AllowanceSpec, cutOutlines?: readonly Polyline[],
   coordinateDecimals: 3 | 6 = 3,
+  buttonholePointStyle: "point" | "cross" = "point",
 ): string {
   if (cutOutlines && cutOutlines.length !== pieces.length) {
     throw new Error("DXF cut outline count must match its piece count");
@@ -59,7 +60,7 @@ export function exportDxf(
         placedBounds.minX - originalBounds.minX, placedBounds.minY - originalBounds.minY);
       return polyline(p.cut, "CUT", layout.height, coordinateDecimals) +
         polyline(p.sew, "SEW", layout.height, coordinateDecimals) +
-        patternMarksDxf(marks, layout.height, coordinateDecimals);
+        patternMarksDxf(marks, layout.height, coordinateDecimals, buttonholePointStyle);
     })
     .join("");
   return pair(0, "SECTION") + pair(2, "ENTITIES") + entities +

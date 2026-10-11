@@ -21,11 +21,12 @@ export function exportDxfCentimeters(
   pieces: readonly Piece[], allowance: AllowanceSpec,
   notchTables: readonly PieceNotches[] = [],
   cutOutlines?: readonly Polyline[],
+  buttonholePointStyle: "point" | "cross" = "point",
 ): string {
   if (cutOutlines && cutOutlines.length !== pieces.length) {
     throw new Error("DXF cut outline count must match its piece count");
   }
-  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance, cutOutlines, 6);
+  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance, cutOutlines, 6, buttonholePointStyle);
   if (notchTables.length === 0) return output;
 
   const byPiece = new Map<string, PieceNotches>();

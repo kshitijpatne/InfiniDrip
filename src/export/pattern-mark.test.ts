@@ -29,6 +29,15 @@ describe("export pattern marks", () => {
     expect(patternMarksDxf(undefined, 20)).toBe("");
   });
 
+  it("keeps the legacy point by default and can draw a buttonhole cross at its exact center", () => {
+    const legacy = patternMarksDxf([MARKS[4]], 20);
+    const candidate = patternMarksDxf([MARKS[4]], 20, 6, "cross");
+    expect(legacy).toContain("0\nPOINT\n8\nMARK_BUTTONHOLE");
+    expect(candidate.match(/\nLINE\n/g)).toHaveLength(2);
+    expect(candidate).toContain("10\n3.75\n20\n13\n11\n4.25\n21\n13\n");
+    expect(candidate).toContain("10\n4\n20\n12.75\n11\n4\n21\n13.25\n");
+  });
+
   it("writes true-scale PDF operators and optional labels", () => {
     const pdf = patternMarksPdfOps(MARKS, 20);
     expect(pdf).toContain("CUT SLIT");

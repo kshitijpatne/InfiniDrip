@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S705-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S705-candidate-buttonhole-cross/S705-exit-packet.md",
+    "verified": true,
+    "note": "Implements the source-centered two-LINE buttonhole display only in candidate schema v5 with transformed-anchor validation and legacy defaults preserved. Seven-recipe/grade/73-option focused tests, schema v4 and legacy verifier coverage, protected export regressions, 100% changed-module coverage, and C:-only rendered evidence recorded. No receiver gate passed."
+  },
+  "expectedRevision": 4149
+}

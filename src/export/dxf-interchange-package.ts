@@ -6,8 +6,10 @@ import type { PatternMark } from "../drafting/pattern-mark";
 import type { Piece } from "../drafting/piece";
 import type { Point } from "../geometry";
 import { blockPieces } from "../drafting/block";
+import { outlinePoints } from "../render";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
+import { layoutPieces, polylineBounds } from "./layout";
 import {
   dxfEntityTypeAndLayer,
   expandNamedDxfDrawing,
@@ -15,8 +17,9 @@ import {
   wrapDxfEntitiesInNamedBlocks,
 } from "./named-dxf-blocks";
 
-const SCHEMA_VERSION = "infinidrip.g04.dxf-package/4" as const;
-const PREVIOUS_SCHEMA_VERSION = "infinidrip.g04.dxf-package/3" as const;
+const SCHEMA_VERSION = "infinidrip.g04.dxf-package/5" as const;
+const PREVIOUS_SCHEMA_VERSION = "infinidrip.g04.dxf-package/4" as const;
+const OLDER_SCHEMA_VERSION = "infinidrip.g04.dxf-package/3" as const;
 const LEGACY_SCHEMA_VERSION = "infinidrip.g04.dxf-package/2" as const;
 
 type DxfPatternMarkRecord = {
@@ -28,6 +31,8 @@ type DxfPatternMarkRecord = {
   readonly name: string;
   readonly kind: PatternMark["kind"];
   readonly entityType: "LINE" | "CIRCLE" | "POINT";
+  readonly entityCount?: number;
+  readonly displayEncoding?: "centered-cross/1";
   readonly layer: string;
   readonly sourceGeometry:
     | { readonly kind: "segment"; readonly start: Point; readonly end: Point }
@@ -58,6 +63,7 @@ export interface DxfInterchangePackageManifest {
     readonly edges: readonly string[];
     readonly blockName: string;
     readonly sourceRevisionId: string;
+    readonly drawingTransform?: { readonly xOffset: number; readonly yOffset: number; readonly drawingHeight: number };
   }[];
   readonly patternMarks: readonly DxfPatternMarkRecord[];
   readonly stitches: Block["stitches"];
@@ -164,9 +170,10 @@ function pieceRecords(
   recipe: GarmentRecipe,
   block: Block,
   identities: readonly PieceIdentity[],
+  transforms: readonly { readonly xOffset: number; readonly yOffset: number; readonly drawingHeight: number }[],
 ): DxfInterchangePackageManifest["pieces"] {
   const identityByRole = new Map(identities.map((identity) => [identity.role, identity]));
-  return Object.entries(block.roles).map(([role, piece]) => {
+  return Object.entries(block.roles).map(([role, piece], index) => {
     const identity = identityByRole.get(role)!;
     return {
       id: `${recipe.name}:${role}`,
@@ -176,6 +183,7 @@ function pieceRecords(
       edges: piece.edges.map((edge) => edge.name),
       blockName: identity.blockName,
       sourceRevisionId: identity.sourceRevisionId,
+      drawingTransform: transforms[index]!,
     };
   });
 }
@@ -191,22 +199,27 @@ function patternMarkRecords(
   for (const [role, piece] of Object.entries(block.roles)) {
     const identity = identityByRole.get(role)!;
     const marks = piece.marks ?? [];
-    for (const [markIndex, mark] of marks.entries()) {
+    let entityOrdinal = 3;
+    for (const mark of marks) {
       const id = `${recipe.name}:${role}:mark:${mark.name}`;
       if (!mark.name.trim() || ids.has(id)) {
         throw new Error(`Pattern mark identity must be non-empty and unique: "${id}"`);
       }
       ids.add(id);
       const isLine = "start" in mark;
+      const isCross = !isLine && mark.kind === "buttonhole";
+      const entityCount = isCross ? 2 : 1;
       records.push({
         id,
         pieceId: `${recipe.name}:${role}`,
-        entityOrdinal: 3 + markIndex,
+        entityOrdinal,
         blockName: identity.blockName,
         sourceRevisionId: identity.sourceRevisionId,
         name: mark.name,
         kind: mark.kind,
-        entityType: isLine ? "LINE" : mark.kind === "button" ? "CIRCLE" : "POINT",
+        entityType: isLine ? "LINE" : mark.kind === "button" ? "CIRCLE" : isCross ? "LINE" : "POINT",
+        entityCount,
+        ...(isCross ? { displayEncoding: "centered-cross/1" as const } : {}),
         layer: `MARK_${mark.kind.toUpperCase()}`,
         sourceGeometry: isLine
           ? { kind: "segment", start: mark.start, end: mark.end }
@@ -214,6 +227,7 @@ function patternMarkRecords(
         ...(mark.label !== undefined ? { label: mark.label } : {}),
         ...(mark.labelRole !== undefined ? { labelRole: mark.labelRole } : {}),
       });
+      entityOrdinal += entityCount;
     }
   }
   return records;
@@ -227,7 +241,8 @@ function pieceBlockGroups(
   const notchesByPiece = new Map(recipe.notches.map((table) => [table.pieceName, table]));
   return pieces.map((piece, index) => {
     const identity = identities[index]!;
-    const marks = piece.marks?.length ?? 0;
+    const marks = (piece.marks ?? []).reduce((total, mark) =>
+      total + (!("start" in mark) && mark.kind === "buttonhole" ? 2 : 1), 0);
     const notchTable = notchesByPiece.get(piece.name);
     return {
       name: identity.blockName,
@@ -280,7 +295,18 @@ export async function createDxfInterchangePackage(
   const pieces = blockPieces(sourceBlock);
   const cutOutlines = pieces.map((piece) => adaptiveSeamAllowance(piece, recipe.allowances));
   const identities = await pieceIdentities(recipe, sourceBlock, resolvedOptions, graded);
-  const flatDxf = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches, cutOutlines);
+  const sourceFlats = pieces.map((piece, index) => ({ name: piece.name, sew: outlinePoints(piece), cut: cutOutlines[index]! }));
+  const layout = layoutPieces(sourceFlats);
+  const transforms = pieces.map((_, index) => {
+    const sourceBounds = polylineBounds(cutOutlines[index]!);
+    const drawingBounds = polylineBounds(layout.pieces[index]!.cut);
+    return {
+      xOffset: drawingBounds.minX - sourceBounds.minX,
+      yOffset: layout.pieces[index]!.cut[0]!.y - cutOutlines[index]![0]!.y,
+      drawingHeight: layout.height,
+    };
+  });
+  const flatDxf = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches, cutOutlines, "cross");
   const dxf = wrapDxfEntitiesInNamedBlocks(flatDxf, pieceBlockGroups(pieces, recipe, identities));
   const drawingSha256 = await sha256(dxf);
   const core = {
@@ -289,6 +315,7 @@ export async function createDxfInterchangePackage(
     profileLabel: "generic-dxf-centimeters-with-recipe-marks" as const,
     limitations: [
       "The manifest supplements the DXF; it does not replace CUT/SEW geometry or visible construction marks.",
+      "Buttonhole point crosses are display glyphs centered on source anchors, not cut or stitch paths.",
       "The profile label describes this package schema only and is not an apparel-standard or receiver-compatibility claim.",
     ],
     units: { length: "cm", dxfInsunits: 5 } as const,
@@ -300,7 +327,7 @@ export async function createDxfInterchangePackage(
       sizeRun: recipe.sizes.map((entry) => ({ ...entry })),
       rule: { ...recipe.grade },
     },
-    pieces: pieceRecords(recipe, sourceBlock, identities),
+    pieces: pieceRecords(recipe, sourceBlock, identities, transforms),
     patternMarks: patternMarkRecords(recipe, sourceBlock, identities),
     stitches: sourceBlock.stitches.map((stitch) => ({
       label: stitch.label,
@@ -318,11 +345,13 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
   const candidate = value as { dxf?: unknown; manifest?: unknown };
   if (typeof candidate.dxf !== "string" || candidate.manifest === null || typeof candidate.manifest !== "object") return false;
   const manifest = candidate.manifest as Record<string, unknown>;
-  if (![SCHEMA_VERSION, PREVIOUS_SCHEMA_VERSION, LEGACY_SCHEMA_VERSION].includes(manifest.schemaVersion as never) ||
+  const schema = manifest.schemaVersion;
+  const hasPieceBlocks = schema === SCHEMA_VERSION || schema === PREVIOUS_SCHEMA_VERSION;
+  if (![SCHEMA_VERSION, PREVIOUS_SCHEMA_VERSION, OLDER_SCHEMA_VERSION, LEGACY_SCHEMA_VERSION].includes(schema as never) ||
       typeof manifest.drawingSha256 !== "string" || typeof manifest.revisionId !== "string") return false;
-  if ((manifest.schemaVersion === SCHEMA_VERSION || manifest.schemaVersion === PREVIOUS_SCHEMA_VERSION) &&
+  if ([SCHEMA_VERSION, PREVIOUS_SCHEMA_VERSION, OLDER_SCHEMA_VERSION].includes(schema as never) &&
       manifest.cutGeometryAlgorithm !== CUT_GEOMETRY_ALGORITHM) return false;
-  if (manifest.schemaVersion === LEGACY_SCHEMA_VERSION && manifest.cutGeometryAlgorithm !== undefined) return false;
+  if (schema === LEGACY_SCHEMA_VERSION && manifest.cutGeometryAlgorithm !== undefined) return false;
   const units = manifest.units as { length?: unknown; dxfInsunits?: unknown } | undefined;
   if (units?.length !== "cm" || units.dxfInsunits !== 5 || !hasCentimeterHeader(candidate.dxf)) return false;
   if (await sha256(candidate.dxf) !== manifest.drawingSha256) return false;
@@ -332,7 +361,7 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
   let refs: readonly { readonly type: string; readonly layer: string }[] = [];
   let blocksByName = new Map<string, readonly string[]>();
   let piecesByBlock = new Map<string, Record<string, unknown>>();
-  if (manifest.schemaVersion === SCHEMA_VERSION) {
+  if (hasPieceBlocks) {
     if (!Array.isArray(manifest.pieces) || manifest.pieces.length === 0 ||
         manifest.recipe === null || typeof manifest.recipe !== "object") return false;
     const recipe = manifest.recipe as Record<string, unknown>;
@@ -346,6 +375,11 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
           !/^[a-f0-9]{64}$/u.test(piece.sourceRevisionId) ||
           !piece.blockName.endsWith(piece.sourceRevisionId.slice(0, 16).toUpperCase()) ||
           piecesByBlock.has(piece.blockName)) return false;
+      if (schema === SCHEMA_VERSION) {
+        const transform = piece.drawingTransform as Record<string, unknown> | undefined;
+        if (!transform || !Number.isFinite(transform.xOffset) || !Number.isFinite(transform.yOffset) ||
+            !Number.isFinite(transform.drawingHeight)) return false;
+      }
       piecesByBlock.set(piece.blockName, piece);
     }
     try {
@@ -375,16 +409,46 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
     const ordinal = mark.entityOrdinal as number;
     if (ordinal < 1) return false;
     if (typeof mark.entityType !== "string" || typeof mark.layer !== "string") return false;
-    if (manifest.schemaVersion === SCHEMA_VERSION) {
+    if (hasPieceBlocks) {
       if (typeof mark.blockName !== "string" || typeof mark.sourceRevisionId !== "string") return false;
       const piece = piecesByBlock.get(mark.blockName);
       const entities = blocksByName.get(mark.blockName);
       const entityKey = `${mark.blockName}:${ordinal}`;
       if (!piece || !entities || mark.pieceId !== piece.id || mark.sourceRevisionId !== piece.sourceRevisionId || ordinals.has(entityKey)) return false;
-      const entity = entities[ordinal - 1];
-      const identity = entity ? dxfEntityTypeAndLayer(entity) : undefined;
-      if (!identity || identity.type !== mark.entityType || identity.layer !== mark.layer) return false;
-      ordinals.add(entityKey);
+      const entityCount = schema === SCHEMA_VERSION ? mark.entityCount : 1;
+      if (!Number.isInteger(entityCount) || (entityCount !== 1 && entityCount !== 2)) return false;
+      const isCross = schema === SCHEMA_VERSION && mark.displayEncoding === "centered-cross/1";
+      if (isCross && (entityCount !== 2 || mark.entityType !== "LINE" || mark.kind !== "buttonhole" || mark.layer !== "MARK_BUTTONHOLE" ||
+          !mark.sourceGeometry || mark.sourceGeometry.kind !== "point")) return false;
+      if (!isCross && (entityCount !== 1 || mark.displayEncoding !== undefined)) return false;
+      const markEntities = entities.slice(ordinal - 1, ordinal - 1 + entityCount);
+      if (markEntities.length !== entityCount || markEntities.some((entity) => {
+        const identity = dxfEntityTypeAndLayer(entity);
+        return identity.type !== mark.entityType || identity.layer !== mark.layer;
+      })) return false;
+      if (isCross) {
+        const transform = piece.drawingTransform as { xOffset: number; yOffset: number; drawingHeight: number };
+        const geometry = mark.sourceGeometry as { kind: "point"; at: Point };
+        if (!Number.isFinite(geometry.at?.x) || !Number.isFinite(geometry.at?.y)) return false;
+        const centerX = geometry.at.x + transform.xOffset;
+        const centerY = transform.drawingHeight - (geometry.at.y + transform.yOffset);
+        const coordinates = markEntities.map((entity) => {
+          const pairs = entity.trim().split(/\r?\n/u);
+          const values = new Map<number, string>();
+          for (let index = 0; index + 1 < pairs.length; index += 2) values.set(Number(pairs[index]), pairs[index + 1]!);
+          return [10, 20, 11, 21].map((code) => Number(values.get(code)));
+        });
+        const expected = [
+          [centerX - 0.25, centerY, centerX + 0.25, centerY],
+          [centerX, centerY - 0.25, centerX, centerY + 0.25],
+        ];
+        if (coordinates.some((line, index) => line.some((value, coordinate) =>
+          !Number.isFinite(value) || Math.abs(value - expected[index]![coordinate]!) > 0.000001))) return false;
+      }
+      for (let offset = 0; offset < entityCount; offset += 1) {
+        const currentKey = `${mark.blockName}:${ordinal + offset}`;
+        ordinals.add(currentKey);
+      }
     } else {
       if (ordinals.has(String(ordinal))) return false;
       const entity = refs[ordinal - 1];
