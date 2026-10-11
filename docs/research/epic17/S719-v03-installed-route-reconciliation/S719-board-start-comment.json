@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "expectedRevision": 4204,
+  "text": "S719 starts a bounded reconciliation of the saved CLO/DGS/LibreCAD/OpenCAD evidence and the authorized read-only source-fix review. No repeated receiver trial or acceptance change. V01/V02 remain Done; V03/Epic and goal remain In Progress/active."
+}

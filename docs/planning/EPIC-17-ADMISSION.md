@@ -2292,3 +2292,30 @@ repeat app discovery, launch variants, formats, or settings.
 S711 is active on `codex/epic-17-g04` from S710 `93849c55554c565bb1052a271868dfd267f2632f`; refreshed `origin/main` is an ancestor. It conducts one already-authorized same-route CLO DXF-ASTM check of the exact S708 current Polo M source, specifically because S705 changed the three point-only buttonhole marks to visible crosses after CLO's earlier measured mark loss. This is not a new receiver/profile selection and cannot clear the known contour failures or the industrial-profile gate. Fixed controls, stop rules and C:-only artifact boundary are in `docs/research/epic17/S711-clo-current-marks-check/S711-start-packet.md`.
 
 \n
+
+## S719 installed-route reconciliation
+
+S719 compares the canonical G04-V03 receiver/profile and all-seven/options/
+grades contract against the existing source/return reports and receives a
+bounded read-only Sol high-reasoning review. The review finds no evidence-
+supported source/writer correction that can restore CLO's omitted shallow CUT
+vertices while preserving source geometry and the unchanged `0.001 cm` gate.
+The exact return also omits its centimeter declaration and source-identifiable
+mark/layer data. The reviewer made no edits; Codex verified the saved
+S711/S714/S715 evidence and current source/auditor code. No application,
+setting, encoding or receiver trial repeats prior work.
+
+S719 current matrix and completion plan:
+`docs/research/epic17/S719-v03-installed-route-reconciliation/`. CLO's tested
+route fails measured fixed gates; DGS has recorded data-loss/blank-import
+results; LibreCAD passes one Polo M generic-DXF round trip but is not an
+industrial apparel receiver/profile; local fail-closed UI results from
+S716–S718 do not establish a passing external route. All V03 criteria,
+thresholds, all-seven/options/grades, legacy behavior, protected export
+identities, final verification, cleanup, merge and deployment remain
+unchanged. V01/V02 stay Done, V03 and EPIC-17 stay In Progress, and the goal
+stays active. No physical, factory, conformance, or production-readiness
+claim. S719 is uniquely reserved after S718; refreshed `origin/main` remains
+an ancestor. Validated board replay 4203→4205→4207; Control Center 42/42 and
+`git diff --check` pass. See the S719 start/exit packets for timing, review
+limits and verification.

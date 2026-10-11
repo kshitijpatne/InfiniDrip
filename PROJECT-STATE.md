@@ -1,3 +1,44 @@
+## EPIC-17/G04 — S719 V03 installed-route reconciliation
+
+S719 compared the exact current board contract and S709 stop-churn plan with
+the saved S711/S714/S715 CLO return and a bounded read-only Sol review of the
+source writer, unit contract, round-trip auditor and tests. The review found no
+evidence-supported source-code correction that restores CLO's omitted shallow
+CUT vertices while preserving source geometry and the fixed `0.001 cm` gate.
+The returned vertices themselves match source vertices; five omitted corners
+cause 0.00258–0.03294 cm contour deviations. The exact CLO return also lacks
+the centimeter declaration and source-identifiable semantic marks/layers.
+Changing the auditor cannot recover absent receiver data.
+
+LibreCAD 2.2.1.5 DXF 2000 preserves one Polo M fixture (18 exact contours,
+units and 111 typed marks) but remains generic CAD and does not satisfy the
+industrial apparel receiver/profile requirement. DGS V2024.1 routes have
+recorded geometry/identity/unit loss or blank 0/0 imports. CLO and DGS are not
+passing candidates. S716–S718 pass only the tested product-local fail-closed
+UI cases; they do not prove receiver behavior. No V03 acceptance gate passed
+in S719; all seven-recipe/options/grade, profile, repeatability and eligible
+receiver-readable-output proof remains. No new software, format, mode, entity
+encoding, pattern, threshold, or product source change was used.
+
+The updated current gate matrix and evidence-led plan are in
+`docs/research/epic17/S719-v03-installed-route-reconciliation/`. Do not repeat
+the settled candidate routes. V01/V02 stay Done, V03 and EPIC-17 stay In
+Progress, and the goal stays active. Preserve all fixed criteria, legacy DXF,
+protected export identities, final 100% repository/build/browser/Electron/
+output checks, necessary-file cleanup, PR, safe merge, ancestry, required
+deployment and production E2E. No conformance, physical-fit, factory, or
+production-readiness claim.
+
+S719 start: 2026-10-11 03:56 UTC from S718 `5282eab2`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+board start replay 4203→4205 and validated exit replay 4205→4207. Time:
+implementation 0m; source/report comparison and review about 4m; external
+reviewer wait 0m in this continuation (the authorized read-only review had
+already finished); maintainer-decision time 0m. The two pre-existing untracked S700
+diagnostics remain untouched.
+
+---
+
 ## EPIC-17/G04 — S718 closed; local return-audit failure matrix exercised
 
 S718 routes seven malformed/misleading returned-DXF cases through the actual

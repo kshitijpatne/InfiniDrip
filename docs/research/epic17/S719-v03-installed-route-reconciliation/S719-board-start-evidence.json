@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4203,
+  "evidence": {
+    "id": "E-G04-S719-START",
+    "uri": "docs/research/epic17/S719-v03-installed-route-reconciliation/S719-start-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "S719 reconciles existing installed-route artifacts and one bounded read-only Sol review against the exact fixed V03 contract; no receiver, format, mode, or encoding variation is authorized."
+  }
+}
