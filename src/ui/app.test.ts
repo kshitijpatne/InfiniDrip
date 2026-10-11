@@ -48,9 +48,9 @@ import { PATTERN_MEASUREMENT_MAP, type PatternMeasurementDefinition, type Patter
 const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
   Record<string, Record<string, PatternMeasurementDefinition>>;
 
-function mount(): HTMLDivElement {
+function mount(options: Parameters<typeof mountApp>[1] = {}): HTMLDivElement {
   const root = document.createElement("div");
-  mountApp(root);
+  mountApp(root, options);
   return root;
 }
 const viewBox = (root: HTMLElement): string =>
@@ -3503,10 +3503,24 @@ describe("guided journey", () => {
     HTMLAnchorElement.prototype.click = vi.fn();
   };
 
+  it("keeps the current tour DOM intact when the local foundation override is off", () => {
+    const root = mount({ uiqFoundationEnabled: false });
+    const panel = root.querySelector<HTMLElement>("#tutorial-panel");
+    expect(panel?.classList.contains("uiq-foundation-panel")).toBe(false);
+    expect(panel?.querySelector(".uiq-foundation-panel-title")).toBeNull();
+    expect(root.querySelector("#tutorial-title")?.textContent).toBe("Welcome");
+    expect(root.querySelector("#welcome-start")?.textContent).toBe("Start the tour");
+    expect(root.querySelector("#welcome-skip")).not.toBeNull();
+    root.remove();
+  });
+
   it("opens the first run on the approved non-modal Welcome without hiding Garment", () => {
     const root = mount();
     expect(root.querySelector("#tutorial-panel")?.textContent).toContain("fits your design intent");
     expect(root.querySelector("#tutorial-panel")?.getAttribute("role")).toBe("region");
+    expect(root.querySelector("#tutorial-panel")?.classList.contains("uiq-foundation-panel")).toBe(true);
+    expect(root.querySelector("#tutorial-title")?.textContent).toBe("Welcome");
+    expect(root.querySelector("#welcome-start")?.textContent).toBe("Start the tour");
     expect(root.querySelector("#tutorial-host")).not.toBeNull();
     expect(root.querySelector<HTMLButtonElement>("#journey-next")!.hidden).toBe(true);
     expect(hidden(root, "#garment-toggle-host")).toBe(false);
@@ -3578,6 +3592,8 @@ describe("guided journey", () => {
     jclick(root, "welcome-start");
     expect(root.querySelector(".tutorial-storage-notice")?.textContent)
       .toContain("progress may not survive a reload");
+    expect(root.querySelector(".tutorial-storage-notice .uiq-foundation-status-label")?.textContent)
+      .toBe("Warning");
     expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("start");
     expect(root.querySelector("#tutorial-title")!.textContent).toContain("Choose what to design");
   });

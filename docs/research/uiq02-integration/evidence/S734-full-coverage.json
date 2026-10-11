@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "command": "npm run coverage -- --pool=threads --poolOptions.threads.singleThread --reporter=dot",
+  "startedAt": "2026-10-11T16:49:47Z",
+  "durationSeconds": 861.19,
+  "host": {
+    "platform": "win32",
+    "node": "v24.15.0",
+    "workerMode": "single-thread"
+  },
+  "testFiles": {
+    "passed": 164,
+    "failed": 0
+  },
+  "tests": {
+    "passed": 2640,
+    "failed": 0
+  },
+  "globalCoveragePercent": {
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  },
+  "protectedExportByteIdentity": {
+    "passed": 9,
+    "failed": 0
+  },
+  "slowMountSuite": {
+    "file": "src/ui/app.test.ts",
+    "passed": 273,
+    "durationMs": 506831
+  },
+  "note": "Settled UIQ-02 integration source including the deterministic local OFF override. No source, test, test-configuration, or dependency changes were made after this gate."
+}

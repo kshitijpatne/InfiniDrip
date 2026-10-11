@@ -32,6 +32,18 @@ export interface FeatureFlagResolution {
  * imply that a compatible rollback exists.
  */
 export const FEATURE_FLAGS = Object.freeze({
+  uiq_foundation: Object.freeze({
+    key: "uiq_foundation",
+    owner: "Codex",
+    audience: "public",
+    defaultValue: true,
+    expiresOn: "2027-01-11",
+    removalRelease: "UIQ visual-foundation adoption/cleanup; no later than expiry",
+    rollout: "embedded",
+    fallback: "compatible-v1",
+    onBehavior: "Use the scoped native foundation on active guided-tour panels and the storage warning.",
+    offBehavior: "Keep the existing guided-tour markup and legacy panel styling.",
+  } satisfies FeatureFlagDefinition),
   polo_v2: Object.freeze({
     key: "polo_v2",
     owner: "Codex",

@@ -1,0 +1,36 @@
+{
+  "productionUrl": "http://127.0.0.1:4175/",
+  "devUrl": "http://127.0.0.1:4173/",
+  "checks": [
+    "production app renders flagged foundation panel",
+    "welcome copy and caveat remain visible",
+    "primary and secondary action IDs remain stable",
+    "native title remains the focus target",
+    "foundation tour actions have at least 44px minimum target",
+    "foundation panel uses an opaque solid background",
+    "keyboard modality exposes a visible focus ring",
+    "guided-tour panel has no WCAG 2.1 A/AA violations",
+    "320px view has no tutorial-panel horizontal overflow",
+    "320px view creates no page-level horizontal overflow",
+    "reduced-motion suppresses transitions",
+    "forced-colors mode is active",
+    "forced-colors disables glass and retains a system background",
+    "welcome action still advances the existing journey",
+    "foundation remains on the next active tour step",
+    "storage failure produces a visible labelled status",
+    "foundation persists into the Measure tour step",
+    "legacy OFF view omits foundation classes",
+    "legacy OFF view preserves original button sizing",
+    "no browser page errors",
+    "no non-local network requests"
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "screenshots": [
+    "docs/research/uiq02-integration/evidence/S734-foundation-desktop.png",
+    "docs/research/uiq02-integration/evidence/S734-foundation-narrow.png",
+    "docs/research/uiq02-integration/evidence/S734-foundation-forced-colors.png",
+    "docs/research/uiq02-integration/evidence/S734-legacy-fallback-desktop.png"
+  ],
+  "axeViolations": []
+}

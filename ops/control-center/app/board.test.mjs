@@ -34,18 +34,22 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 
-test("approved UI packages remain backlog after the readiness-only UIQ gate closes", () => {
+test("only UIQ-02 is admitted and its packaged gate has verified evidence", () => {
   const ids = Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`);
   const cards = ids.map((id) => board.workItems.find((item) => item.id === id));
   const gate = board.workItems.find((item) => item.id === "UIQ-GATE");
   const approval = board.evidence.find((entry) => entry.id === "E-UIQ-APPROVAL");
   const gateExit = board.evidence.find((entry) => entry.id === "E-UIQ-GATE-S733-VERIFICATION");
+  const integrationAdmission = board.evidence.find((entry) => entry.id === "E-UIQ02-INTEGRATION-ADMISSION-S734");
+  const packageBlock = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-BLOCK");
+  const packagePass = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-VERIFIED");
   assert.equal(approval?.kind, "decision");
   assert.equal(approval?.verified, true);
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
   for (const card of cards) {
     assert.ok(card);
-    assert.equal(card.status, "Backlog");
+    if (card.id === "UIQ-02") assert.ok(["In Progress", "Review", "Done"].includes(card.status));
+    else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
@@ -55,6 +59,17 @@ test("approved UI packages remain backlog after the readiness-only UIQ gate clos
     assert.ok(card.evidenceRefs.includes(approval.id));
     assert.ok(card.acceptanceCriteria.length >= 4);
   }
+  assert.equal(cards[1].contributor, "Codex");
+  assert.equal(cards[1].flagKey, "uiq_foundation");
+  assert.equal(integrationAdmission?.verified, false);
+  assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
+  assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));
+  assert.equal(packageBlock?.verified, false);
+  assert.equal(packageBlock?.uri, "tmp/epic9-release/verification.json");
+  assert.ok(cards[1].evidenceRefs.includes(packageBlock.id));
+  assert.equal(packagePass?.verified, true);
+  assert.equal(packagePass?.uri, "docs/research/uiq02-integration/evidence/S734-electron-packaged-verification.json");
+  assert.ok(cards[1].evidenceRefs.includes(packagePass.id));
   assert.equal(gate?.status, "Done");
   assert.equal(gate?.releaseId, null);
   assert.equal(gate?.deliveredAt, "2026-10-11");
