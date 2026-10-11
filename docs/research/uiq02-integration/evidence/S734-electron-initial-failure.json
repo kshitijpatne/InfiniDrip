@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-10-11T16:14:24.030Z",
+  "host": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.15.0",
+    "electron": "44.1.0",
+    "packaged": true
+  },
+  "smoke": null,
+  "freshProfile": null,
+  "offlineReload": false,
+  "staleState": null,
+  "outputs": [],
+  "parity": [],
+  "rendered": null,
+  "failures": [],
+  "lifecycle": null,
+  "windowRecovery": null,
+  "windowLifecycle": null,
+  "package": null,
+  "errors": [
+    "package: No supported unpacked Electron artifact was found. Expected one of: C:\\Users\\kshit\\.codex\\worktrees\\uiq02-integration\\designApp\\release\\win-unpacked\\InfiniDrip.exe Run `npm run electron:pack` first.",
+    "smoke: No supported unpacked Electron artifact was found. Expected one of: C:\\Users\\kshit\\.codex\\worktrees\\uiq02-integration\\designApp\\release\\win-unpacked\\InfiniDrip.exe Run `npm run electron:pack` first.",
+    "window: No supported unpacked Electron artifact was found. Expected one of: C:\\Users\\kshit\\.codex\\worktrees\\uiq02-integration\\designApp\\release\\win-unpacked\\InfiniDrip.exe Run `npm run electron:pack` first."
+  ],
+  "ok": false
+}

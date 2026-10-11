@@ -1,4 +1,38 @@
-## Current boundary — EPIC-17 and UIQ-GATE closed; next UIQ-02 admission
+## Current boundary — UIQ-02 integration in final review (Slice 734)
+
+EPIC-17/G04 is complete and UIQ-GATE readiness is closed. PR #20 merged
+Slice 733 to `origin/main` at `7484fe4452f9d34a8760bf1f2eeda0ee05d20209`;
+its Pages deployment passed. The accepted UIQ candidates remain isolated
+proofs, not shipped behavior.
+
+The maintainer has now authorized serial integration of completed candidates.
+UIQ-02 is first under `docs/planning/UIQ-02-INTEGRATION-ADMISSION.md` on a
+clean branch from the current main. Slice 734 is reserved. The bounded target
+is the active guided-tour panel and existing local-storage warning only,
+behind `uiq_foundation` (embedded default on, compatible current-tour fallback).
+The flag has no live user-facing/remote control; production rollback needs a
+new build/deploy. No global restyle or journey/data behavior change is allowed.
+
+The bounded integration is implemented on `codex/uiq02-integration` and all
+required focused/full web, repository, browser, and packaged Electron gates
+now pass. The package initially encountered a transient Windows `EPERM`
+runtime-folder rename, but a later clean retry succeeded and the complete
+offline/render/export lifecycle verification passed. The app-level local
+override also explicitly exercises the legacy fallback. Codex final diff
+review is complete; this is not yet merged or deployed. Evidence is in
+`docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`.
+
+UIQ-02 is Review on the canonical board pending PR merge and deployment. The
+failed first package attempt remains retained as unverified negative evidence,
+and separate verified records document the successful package, browser, and
+coverage gates. The source/test/web changes remain local to the integration
+branch; no PR, push, merge, or deployment has occurred.
+UIQ-03/04/05/07 remain Backlog and unshipped until their own sequential
+admissions. Current branch/worktree and exact acceptance gates are in the
+admission. Codex's actual-diff review is complete; the single next action is to
+commit Slice 734 and open its PR for merge.
+
+## Prior boundary — EPIC-17 and UIQ-GATE closed
 
 EPIC-17/G04 is complete and PR #19 is merged to `origin/main` at
 `89e52024b3599d3c1977a2a73aec60476cdc5a74` (`Slice 732: close EPIC-17 after

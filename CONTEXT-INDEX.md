@@ -133,8 +133,18 @@ only through an explicitly admitted, linked Epic packet.
   `docs/release/UIQ-GATE-S733-EXIT.md` / `UIQ-GATE-S733-VERIFICATION.json` —
   post-EPIC-17 readiness gate, closed at board revision 4352. The packet freezes
   current host/props/style ownership and candidate provenance; S733 does not
-  wire features. Parent UIQ cards remain Backlog/unshipped. Next: separately
-  admit UIQ-02 on the then-current main.
+  wire features. Parent UIQ cards remain Backlog/unshipped. UIQ-02 was
+  subsequently admitted as Slice 734; its current gate and next action are in
+  the integration admission and exit packet below.
+- `docs/planning/UIQ-02-INTEGRATION-ADMISSION.md` — maintainer-authorized
+  current-main Slice 734 integration boundary for the accepted native
+  foundation on the active guided tour and its local-storage warning only.
+  It defines the embedded flag/default/fallback, shared-file ownership,
+  rendered acceptance and explicit non-goals. Passed gate evidence and the
+  current review boundary are in
+  `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`. This is not a global
+  redesign; later accepted UIQ candidates still require separate serialized
+  admissions.
 - `docs/planning/UI-ENHANCEMENT-BOARD-COMMANDS.json` — additive validated replay
   for newer boards, never replacement of active progress with an older board.
   `UI-ENHANCEMENT-EPIC17-NOTE.md` is the user-pasted non-diverting handoff;

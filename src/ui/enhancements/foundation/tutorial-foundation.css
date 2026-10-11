@@ -1,0 +1,5 @@
+/* Keep the active-tour integration narrower than the reusable candidate. */
+.uiq-foundation.tutorial-panel .tutorial-actions button,
+.uiq-foundation.tutorial-panel > button {
+  min-height: 44px;
+}

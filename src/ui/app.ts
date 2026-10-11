@@ -83,6 +83,8 @@ import {
   requireSavedCaptureCopy,
 } from "./custom-size-materialization";
 import { ProjectManager } from "./project-manager";
+import { evaluateFeatureFlag } from "../platform/feature-flags";
+import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import type { LoadedProject } from "./project-repository";
 import { isCustomOneSizeStyle, type MeasurementCaptureDraft, type RecoveryPayload, type SavedDesign } from "./project-records";
 import {
@@ -214,6 +216,8 @@ export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
 }
 
 export interface MountAppOptions {
+  /** Local-only override for deterministic UIQ-02 fallback verification. */
+  readonly uiqFoundationEnabled?: boolean;
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
@@ -1673,6 +1677,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const markup = tutorialMarkup(journey.tutorial, tutorialStorageUnavailable);
     if (renderedTutorialMarkup !== markup) {
       tutorialHost.innerHTML = markup;
+      applyTutorialFoundation(
+        tutorialHost,
+        evaluateFeatureFlag("uiq_foundation", new Date(), options.uiqFoundationEnabled).enabled,
+      );
       renderedTutorialMarkup = markup;
     }
     syncTutorialTargets();

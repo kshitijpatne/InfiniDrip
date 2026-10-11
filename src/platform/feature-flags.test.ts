@@ -21,6 +21,30 @@ const ACTIVE_FLAG: FeatureFlagDefinition = {
 };
 
 describe("embedded feature-flag contract", () => {
+  it("enables the bounded UIQ foundation by default and retains the tour fallback", () => {
+    expect(FEATURE_FLAGS.uiq_foundation).toMatchObject({
+      key: "uiq_foundation",
+      owner: "Codex",
+      audience: "public",
+      defaultValue: true,
+      expiresOn: "2027-01-11",
+      rollout: "embedded",
+      fallback: "compatible-v1",
+    });
+    expect(evaluateFeatureFlag("uiq_foundation", CURRENT)).toMatchObject({
+      enabled: true,
+      status: "enabled",
+      source: "embedded-default",
+      diagnostic: FEATURE_FLAGS.uiq_foundation.onBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_foundation", CURRENT, false)).toMatchObject({
+      enabled: false,
+      status: "disabled",
+      source: "local-override",
+      diagnostic: FEATURE_FLAGS.uiq_foundation.offBehavior,
+    });
+  });
+
   it("records Polo V2 as readiness-only because no V1 fallback exists", () => {
     const result = evaluateFeatureFlag("polo_v2", CURRENT, true);
 

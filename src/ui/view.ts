@@ -43,6 +43,8 @@ import {
 } from "../export/nesting-intelligence";
 import type { Handle } from "../edit";
 import "./studio.css";
+import "./enhancements/foundation/foundation.css";
+import "./enhancements/foundation/tutorial-foundation.css";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4352,
-  "updatedAt": "2026-10-11T14:53:38.257Z",
+  "revision": 4366,
+  "updatedAt": "2026-10-11T17:06:29.268Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14321,30 +14321,37 @@
       "title": "Native visual foundation candidate",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "Review",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
       "priority": "P1",
       "risk": "low",
       "owner": "Codex",
-      "contributor": "Claude Code",
+      "contributor": "Codex",
       "reviewer": "Codex",
-      "dependencies": [],
+      "dependencies": [
+        "UIQ02-CANDIDATE",
+        "UIQ-GATE"
+      ],
       "protectedSurfaces": [
-        "active Epic17 file ownership",
         "local-first/no-cost boundary",
+        "accepted candidate API/CSS hashes",
+        "existing tutorial text/actions/focus/persistence",
+        "compatible-v1 fallback",
         "100% coverage",
         "export byte identity",
-        "source/revision identity"
+        "no network egress",
+        "no global restyle"
       ],
-      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Isolated native typography/spacing/contrast/focus/panel/opaque/reduced-motion package.",
-      "expectation": "Reusable scoped presentation without global styling or app wiring.",
+      "description": "Admitted current-main Slice 734 integration: apply accepted native foundation only to active guided-tour content and its local-storage warning. See docs/planning/UIQ-02-INTEGRATION-ADMISSION.md.",
+      "expectation": "Scoped native UI primitives improve active tour readability/accessibility while preserving exact content, navigation, persistence and legacy OFF rendering.",
       "acceptanceCriteria": [
-        "Rendered desktop/narrow/keyboard/contrast/reduced-motion evidence; production wiring waits for UIQ-GATE.",
-        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
-        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
-        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+        "Flag metadata, enabled/disabled paths and compatible-v1 fallback are verified; no user-facing/remote flag control or persistent setting is added.",
+        "Existing tour copy, action IDs, navigation, focus behavior and storage warning semantics remain intact.",
+        "Actual browser desktop/narrow, keyboard, focus, reduced-motion, forced-colors and off-fallback rendering are visually reviewed; no egress.",
+        "Changed code has 100% four-metric coverage; full suite/global coverage, build, packaged Electron and export identity gates pass.",
+        "Codex review and PR merge only after all gates; verify main deployment."
       ],
       "statusHistory": [
         {
@@ -14354,6 +14361,45 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-11T15:36:23.622Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "The maintainer authorized serial integration of accepted UIQ candidates; start the freshly admitted current-main UIQ-02 boundary without changing other UIQ packages.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Blocked",
+          "at": "2026-10-11T16:20:19.721Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Required packaged Electron verification is blocked by reproducible electron-builder EPERM while renaming its temporary runtime folder; no merge or release until the packaged gate passes.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-11T16:48:29.072Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Packaged Electron gate passed on the current candidate after a transient runtime extraction lock cleared; final full gate and Codex diff review remain.",
+          "evidenceRefs": [
+            "E-UIQ02-S734-ELECTRON-VERIFIED"
+          ]
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-11T17:06:29.268Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 734 implementation, full coverage, rendered browser and packaged Electron evidence have passed; Codex actual-diff review is complete and the candidate is submitted for merge review.",
+          "evidenceRefs": [
+            "E-UIQ02-S734-FULL-COVERAGE",
+            "E-UIQ02-S734-BROWSER",
+            "E-UIQ02-S734-ELECTRON-VERIFIED",
+            "E-UIQ02-S734-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -14361,12 +14407,25 @@
           "at": "2026-10-11T14:22:54.000Z",
           "actor": "Codex",
           "text": "S733 reconciled the accepted isolated candidate child and its immutable exit proof on current main. This parent remains Backlog/unshipped; production integration requires its own package admission and verification."
+        },
+        {
+          "at": "2026-10-11T15:36:23.683Z",
+          "actor": "Codex",
+          "text": "Slice 734 admitted on current main. Integration is limited to the active guided tour and storage-unavailable notice. uiq_foundation defaults on with the exact current tour as compatible fallback; flag is embedded/programmatic only, so public rollback requires a code change and deploy. No global restyle. See docs/planning/UIQ-02-INTEGRATION-ADMISSION.md."
         }
       ],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ02-INTEGRATION-ADMISSION-S734",
+        "E-UIQ02-S734-ELECTRON-BLOCK",
+        "E-UIQ02-S734-ELECTRON-INITIAL-FAILURE",
+        "E-UIQ02-S734-ELECTRON-PACK-EPERM",
+        "E-UIQ02-S734-ELECTRON-VERIFIED",
+        "E-UIQ02-S734-FULL-COVERAGE",
+        "E-UIQ02-S734-BROWSER",
+        "E-UIQ02-S734-EXIT"
       ],
-      "flagKey": null
+      "flagKey": "uiq_foundation"
     },
     {
       "id": "UIQ-03",
@@ -28701,6 +28760,78 @@
       "sha256": "79b717653b6010802335e1365f6792679f252bdb04925fc1c03fe7420384df7b",
       "verified": true,
       "note": "S733 control-center tests, full 100% coverage, production build, diff check and candidate provenance verification; historical browser/no-egress evidence remains explicitly candidate-only."
+    },
+    {
+      "id": "E-UIQ02-INTEGRATION-ADMISSION-S734",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": false,
+      "note": "Fresh current-main integration scope, flag/fallback, file ownership and gates; not proof of completion."
+    },
+    {
+      "id": "E-UIQ02-S734-ELECTRON-BLOCK",
+      "kind": "test",
+      "uri": "tmp/epic9-release/verification.json",
+      "commit": null,
+      "sha256": "136c078d2e828a3e440d0bf05e7db096414153ce36969a585025376067ca8fe6",
+      "verified": false,
+      "note": "Packaged release check could not start application verification: electron-builder failed at Windows Electron runtime-directory rename (EPERM); see S734 exit packet. Negative evidence only."
+    },
+    {
+      "id": "E-UIQ02-S734-ELECTRON-INITIAL-FAILURE",
+      "kind": "test",
+      "uri": "docs/research/uiq02-integration/evidence/S734-electron-initial-failure.json",
+      "commit": null,
+      "sha256": "bb2cd25e2b9faa09cd0874a902f7c3ab368a514ea38bf90396281f30409d9d31",
+      "verified": false,
+      "note": "Initial packaged verifier failure before an unpacked app existed; retained as negative evidence, not a passed gate."
+    },
+    {
+      "id": "E-UIQ02-S734-ELECTRON-PACK-EPERM",
+      "kind": "test",
+      "uri": "docs/research/uiq02-integration/evidence/S734-electron-pack-initial-EPERM.md",
+      "commit": null,
+      "sha256": "dd7136088cec32ed7ead082efd1ec79cbf4a23a87ee26c7abca91518ec04340b",
+      "verified": false,
+      "note": "Initial transient electron-builder runtime rename failures; later clean retry succeeded. Negative evidence only."
+    },
+    {
+      "id": "E-UIQ02-S734-ELECTRON-VERIFIED",
+      "kind": "test",
+      "uri": "docs/research/uiq02-integration/evidence/S734-electron-packaged-verification.json",
+      "commit": null,
+      "sha256": "4b4218ad7c9ca1815e69ea6cd684559728dbef0e6569e3cb886048e337d62958",
+      "verified": true,
+      "note": "Current-source packaged Electron verification passed: offline fresh launch/reload, 72-file inventory/no dev path, stale-state recovery, six button/menu output pairs byte-identical, failure handling, lifecycle/window recovery."
+    },
+    {
+      "id": "E-UIQ02-S734-FULL-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/uiq02-integration/evidence/S734-full-coverage.json",
+      "commit": null,
+      "sha256": "9fe9439ae3df6226ac6f8f42177382e7d7225732eebda7e46242fcfd32f6bd6b",
+      "verified": true,
+      "note": "Final current-source full gate: 164 files, 2,640 tests, 100% global statement/branch/function/line coverage; export identity 9/9."
+    },
+    {
+      "id": "E-UIQ02-S734-BROWSER",
+      "kind": "test",
+      "uri": "docs/research/uiq02-integration/evidence/S734-browser-verification.json",
+      "commit": null,
+      "sha256": "54ad114017621e68c96d304b6b72884b8161bf5c9c05eb88328f1f66e6b31602",
+      "verified": true,
+      "note": "Current-source rendered browser replay: 21 checks, no egress/errors/Axe violations; desktop, 320px, forced-colors, legacy fallback visually reviewed."
+    },
+    {
+      "id": "E-UIQ02-S734-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-02-INTEGRATION-S734-EXIT.md",
+      "commit": null,
+      "sha256": "9d22257dd72cf91d766b0a02e1907bfc76cb2f4206880255b16123f503b336e3",
+      "verified": true,
+      "note": "Verified Slice 734 implementation and gate summary; release not yet merged/deployed."
     }
   ]
 }
