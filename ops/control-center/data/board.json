@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4187,
-  "updatedAt": "2026-10-11T03:11:18.897Z",
+  "revision": 4191,
+  "updatedAt": "2026-10-11T03:16:18.430Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13404,6 +13404,16 @@
           "at": "2026-10-11T03:11:18.897Z",
           "actor": "Codex",
           "text": "S714 closed with an exact comparison of the saved S711 return and S708 source: 13/18 CUT/SEW contours are within 0.001 cm; all nine SEW paths pass, while the back, both stands and both collars fail on CUT. Both files use straight polylines; numeric return layers repeat the same contour geometry. Units and source-identifiable marks/layers remain failed. No source, pattern geometry, gate, threshold, or CAD output changed. Next: inspect the five source-side CUT paths for a tolerance-preserving interchange-writer correction; no new CAD candidate or format trial."
+        },
+        {
+          "at": "2026-10-11T03:13:22.185Z",
+          "actor": "Codex",
+          "text": "S715 compares the actual source/return CUT vertices for the five S714 failures and inspects only the opt-in interchange writer, rounding, transforms and path ordering. A code-side candidate proceeds only if source geometry remains within 0.001 cm and it addresses the measured loss. If so, one same-route CLO check is allowed; no new app, format, setting, or entity encoding. All V03 gates and legacy identities remain fixed."
+        },
+        {
+          "at": "2026-10-11T03:16:18.430Z",
+          "actor": "Codex",
+          "text": "S715 closes source CUT diagnosis: every returned contour vertex maps to an input vertex within 0.000038 cm; the same five shallow corners are omitted and exceed 0.001 cm. The source writer already emits all points at six decimals. S503 already tested Optimize All Curve Points on/off without changing the five CUT contours; prior entity, unit, mode and density trials also settle those variants. No code-side defect or supported new trial exists, so no pattern/writer change or repeat CLO test was made. Continue with the independent local malformed-return UX gate; all profile, geometry, breadth, and remaining V03 gates stay unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13962,7 +13972,9 @@
         "E-G04-S713-START",
         "E-G04-S713-EXIT",
         "E-G04-S714-START",
-        "E-G04-S714-EXIT"
+        "E-G04-S714-EXIT",
+        "E-G04-S715-START",
+        "E-G04-S715-EXIT"
       ],
       "flagKey": null
     },
@@ -27440,6 +27452,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact S711 CLO return measured against exact S708 source at 0.001 cm: 13/18 contours pass; all SEW pass and five CUT paths fail. No gate or threshold changed."
+    },
+    {
+      "id": "E-G04-S715-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S715-source-cut-contour-cause/S715-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S715 isolates why five exact S711 returned CUT paths lose contour fidelity by comparing source/return points and the interchange-only writer. Any source candidate must keep source geometry within 0.001 cm; unchanged receiver/format/settings and all gates remain fixed."
+    },
+    {
+      "id": "E-G04-S715-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S715-source-cut-contour-cause/S715-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S714/S715 show CLO removes source CUT vertices; retained vertices match source. Prior on/off optimizer and format/density evidence already tested the relevant path. No source defect or new setting/encoding trial is justified."
     }
   ]
 }

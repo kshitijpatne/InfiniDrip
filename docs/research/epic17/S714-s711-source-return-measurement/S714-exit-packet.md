@@ -41,4 +41,3 @@ The return has no centimeter unit declaration. Its nine source piece names and n
 ## Next action
 
 S715 will inspect only the source-side CUT path construction for the five failing contours and measure which source points the saved return removed. It will test whether the current DXF interchange writer can emit a simpler but tolerance-equivalent path without modifying the pattern/stitch graph, legacy DXF, byte-identity baselines, or the 0.001 cm limit. Any candidate must pass source-geometry checks before one same-route CLO return is considered; no new CAD app, format, or setting is planned. Keep the all-seven/options/grades, rights/profile, repeatability, malformed-input UI and readable-output gates unchanged.
-

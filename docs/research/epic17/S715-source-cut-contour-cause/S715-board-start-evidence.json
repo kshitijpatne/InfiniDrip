@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4187,
+  "evidence": {
+    "id": "E-G04-S715-START",
+    "uri": "docs/research/epic17/S715-source-cut-contour-cause/S715-start-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "S715 isolates why five exact S711 returned CUT paths lose contour fidelity by comparing source/return points and the interchange-only writer. Any source candidate must keep source geometry within 0.001 cm; unchanged receiver/format/settings and all gates remain fixed."
+  }
+}
