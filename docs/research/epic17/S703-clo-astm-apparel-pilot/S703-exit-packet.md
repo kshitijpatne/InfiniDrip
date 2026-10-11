@@ -22,10 +22,11 @@ the nine piece instances. It does **not** pass the fixed return checks:
   coordinates. Nearest returned POINT distances are `3.418`, `2.100`, and
   `3.418 cm`; nearest returned path is `1.500 cm` away. All three fail the
   fixed `0.001 cm` anchor check.
-- Piece names survive, but source semantic layer names do not: CUT and SEW
-  return on numeric layers `14` and `8`. Neither source nor return has an
-  explicit units header. The CLO dialogs were set to centimeters; that setting
-  alone does not prove the file carries a portable units declaration.
+- Piece names survive, but the source semantic layer names do not: CUT and
+  SEW return on numeric layers `14` and `8`. The source declares centimeters
+  with `$INSUNITS=5`; the returned AC1009 file has no `$INSUNITS` declaration
+  despite centimeter selections in the CLO dialogs, so returned units are not
+  self-describing.
 - No returned-file rendered inspection was made after the predeclared geometry
   and mark stop conditions failed. Do not claim rendered-output acceptance.
 
@@ -63,5 +64,4 @@ relaxation is authorized by this result.
   CLO interaction approximately 4m; saved-output analysis approximately 5m; focused verification approximately 1m; external-agent wait 0m; maintainer-decision time 0m;
   durable closeout and validated board replay approximately 2m (revision 4141→4144).
 - No product code changed. No receiver rerun is warranted. The focused Control
-  Center tests and `git diff --check` are required after the validated board
-  closeout. No full-repository gate is due for this evidence-only slice.
+  Center suite passed 42/42; `git diff --check` passed; validated board revision 4144 preserves G04-V03 Blocked / EPIC-17 In Progress. No full-repository gate is due for this evidence-only slice.

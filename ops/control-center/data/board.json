@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4144,
-  "updatedAt": "2026-10-11T00:16:49.274Z",
+  "revision": 4148,
+  "updatedAt": "2026-10-11T00:23:50.232Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13294,6 +13294,16 @@
           "at": "2026-10-11T00:16:49.274Z",
           "actor": "Codex",
           "text": "S703 ran the one predeclared CLO DXF-ASTM apparel-mode pilot on the exact S700 Polo M fixture. It retains nine named pieces, but the saved return definitively fails the unchanged 0.001 cm geometry gate on the back, both stands, both collar leaves, and all three checked buttonhole marks. Numeric layer names replace semantic layers and neither file has an explicit units header. The one-sided report proves those failures but does not prove passes for below-threshold contours. The returned-render gate was not reached after the stop condition. No code, acceptance or threshold changed; do not repeat CLO modes/settings/encodings or start another CAD app for these failures. Next: reconcile exact returns against current source and the fixed V03 matrix, then identify only code-side corrections supported by inspection."
+        },
+        {
+          "at": "2026-10-11T00:23:20.574Z",
+          "actor": "Codex",
+          "text": "S704 correction to S703 units wording: the exact source DXF header declares centimeters with $INSUNITS=5. The first S703 JSON parser only inventoried group-0 entities and therefore omitted the header variable. The actual CLO AC1009 return has no $INSUNITS and replaces source semantic layers with numeric layers. S703 packet and C:-only report are corrected; no unit-only source-code fix or receiver inference is claimed."
+        },
+        {
+          "at": "2026-10-11T00:23:50.232Z",
+          "actor": "Codex",
+          "text": "S704 reconciles every fixed V03 gate with the exact S703 return, existing R2000/CLO/DGS/GMS/OpenCAD evidence and current candidate writer. S703 source-unit wording is corrected: source declares $INSUNITS=5; only CLO return drops it. No more CLO or new-software variations. Existing LibreCAD 2.2.1.5 R2000 is the only previously measured route passing one fixture for geometry, units, marks, layers and reopen; it remains a generic-CAD empirical candidate, and the admitted industrial-profile gate is not claimed passed. Next is a candidate-only buttonhole cross using the existing PDF renderer convention, then one exact R2000 current-package test; no geometry, threshold, acceptance or legacy writer changes."
         }
       ],
       "evidenceRefs": [
@@ -13830,7 +13840,9 @@
         "E-G04-S702-START",
         "E-G04-S702-EXIT",
         "E-G04-S703-START",
-        "E-G04-S703-EXIT"
+        "E-G04-S703-EXIT",
+        "E-G04-S704-START",
+        "E-G04-S704-EXIT"
       ],
       "flagKey": null
     },
@@ -27110,6 +27122,24 @@
       "sha256": null,
       "verified": true,
       "note": "One CLO 2026.1.310 DXF-ASTM round trip retains nine named pieces but fails the fixed 0.001 cm limit on five CUT contours and all three checked buttonhole points. One-sided metrics, hashes and gate limits are recorded; no conformance or returned-render pass claimed."
+    },
+    {
+      "id": "E-G04-S704-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S704-v03-source-and-gate-reconciliation/S704-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Restore complete context/state history after S703 closeout damage and perform a source-and-return-based V03 gate reconciliation and prioritized implementation plan. No new receiver/app trial or acceptance change."
+    },
+    {
+      "id": "E-G04-S704-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S704-v03-source-and-gate-reconciliation/S704-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Restores full history-bearing context/state files after S703 closeout damage; corrects the S703 source $INSUNITS=5 parser omission; provides a gate-by-gate V03 matrix and prioritized source-evidence plan with no new app or receiver variation. All accepted criteria stay fixed."
     }
   ]
 }

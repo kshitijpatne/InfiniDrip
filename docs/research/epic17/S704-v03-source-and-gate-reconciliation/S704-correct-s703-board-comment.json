@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S704 correction to S703 units wording: the exact source DXF header declares centimeters with $INSUNITS=5. The first S703 JSON parser only inventoried group-0 entities and therefore omitted the header variable. The actual CLO AC1009 return has no $INSUNITS and replaces source semantic layers with numeric layers. S703 packet and C:-only report are corrected; no unit-only source-code fix or receiver inference is claimed.",
+  "expectedRevision": 4145
+}
