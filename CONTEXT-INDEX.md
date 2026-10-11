@@ -1,3 +1,25 @@
+## EPIC-17 / G04 V03 — S720 closed
+
+S720 tested one evidence-backed CLO 2026.1.310 DXF-ASTM setting with a
+same-source off/on pair. **Import Draw Curve Points** made no change to measured
+contours. Five CUT paths still fail 0.001 cm; all nine SEW and four other CUT
+paths pass only for Polo M. Both returned files omit centimeter units and use
+numeric layers; route/profile and identity/mark holds remain. CLO visually
+rendered the expected nine source pieces in both cells without an error dialog.
+No source or acceptance change. Durable results:
+`docs/research/epic17/S720-clo-draw-curve-points/S720-exit-packet.md`; exact
+exchange files and measurement/audit artifacts remain in the named C: evidence
+folder recorded there.
+
+Validated board revisions 4207–4211 link S720 start and exit evidence and
+closeout. V01/V02 remain Done, V03/EPIC-17 remain In Progress, and the goal
+stays active. Keep the fixed all-seven/options/grades, receiver/profile,
+rights, geometry, units, identity, marks, malformed-input, repeatability,
+readable-output, legacy DXF and protected byte gates unchanged. Next: follow
+S719's stop-churn plan and change product code only where exact source evidence
+supports a fix without masking receiver loss; do not repeat settled receivers,
+settings or encodings. Preserve the final integrated gate, output review,
+necessary-file cleanup, PR, safe merge, ancestry, deployment and production E2E.
 ## Current EPIC-17 / G04 V03 boundary — S718 closed
 
 S718 passes seven malformed/misleading returned-DXF cases through the actual

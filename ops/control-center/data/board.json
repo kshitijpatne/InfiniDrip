@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4207,
-  "updatedAt": "2026-10-11T04:01:02.476Z",
+  "revision": 4211,
+  "updatedAt": "2026-10-11T04:32:35.600Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13454,6 +13454,16 @@
           "at": "2026-10-11T04:01:02.476Z",
           "actor": "Codex",
           "text": "S719 closes with a fresh gate matrix and evidence-led plan. Bounded Sol review plus exact saved S711/S714/S715 evidence confirms no supported source/writer correction for CLO's omitted CUT vertices; CLO also lacks units and identifiable marks/layers. DGS has blank/data-loss results. LibreCAD passes one generic fixture, not the required industrial apparel profile. No tested route passes the representative V03 gates; no threshold, criterion, or status changed. Control Center 42/42 and diff check pass. Goal remains active. Do not repeat these routes or encodings."
+        },
+        {
+          "at": "2026-10-11T04:17:13.455Z",
+          "actor": "Codex",
+          "text": "S720 tests one previously untested CLO import control. CLO support recommended Import Draw Curve Points for an incomplete ASTM DXF; S503 screenshots show it off, and S714/S715 measure missing CUT vertices. A same-source off/on pair isolates only this control against the unchanged 0.001 cm gate. No additional format, app, encoding, or acceptance change."
+        },
+        {
+          "at": "2026-10-11T04:32:35.600Z",
+          "actor": "Codex",
+          "text": "S720 closes the one evidence-backed CLO setting comparison. On and off returns have identical contour measurements; five CUT paths still fail the unchanged 0.001 cm gate, and both outputs omit centimeter units and use numeric layers. Nine pieces import/render without an error dialog. No source change, candidate qualification, acceptance relaxation or standards claim. V01/V02 stay Done; V03/Epic stay In Progress and the goal stays active. S719's stop-churn plan remains controlling."
         }
       ],
       "evidenceRefs": [
@@ -14022,7 +14032,9 @@
         "E-G04-S718-START",
         "E-G04-S718-EXIT",
         "E-G04-S719-START",
-        "E-G04-S719-EXIT"
+        "E-G04-S719-EXIT",
+        "E-G04-S720-START",
+        "E-G04-S720-EXIT"
       ],
       "flagKey": null
     },
@@ -27590,6 +27602,24 @@
       "sha256": null,
       "verified": true,
       "note": "S719 reconciles fixed V03 gates against saved CLO/DGS/LibreCAD evidence and a bounded Sol review. No source-preserving CLO correction is supported; all gates/statuses stay unchanged and the goal remains active. Current matrix and no-churn plan are attached in the same packet directory."
+    },
+    {
+      "id": "E-G04-S720-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S720-clo-draw-curve-points/S720-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S720 starts one same-source CLO DXF-ASTM off/on comparison of the previously untested Import Draw Curve Points control, directly tied to measured CUT-vertex loss and CLO's specific support recommendation. Only that option changes; all V03 gates stay fixed."
+    },
+    {
+      "id": "E-G04-S720-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S720-clo-draw-curve-points/S720-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One same-source CLO 2026.1.310 DXF-ASTM off/on comparison completed. Import Draw Curve Points made no change to measured geometry; five CUT contours still exceed 0.001 cm, and both returns omit $INSUNITS and semantic layer names. Exact files, hashes, measurement comparison and block audit are in the S720 C:-only evidence directory. No code or acceptance change; all V03 holds remain."
     }
   ]
 }

@@ -1,3 +1,14 @@
+## EPIC-17/G04 — S720 closed; CLO import setting comparison had no effect
+
+S720 tested one evidence-backed same-source CLO 2026.1.310 DXF-ASTM off/on pair for `Import Draw Curve Points`. It produced no change in measured outline geometry: the candidate and control reports are identical except for the return-file hash. Five CUT contours still fail the fixed `0.001 cm` limit (back 0.0025785809 cm; outer/inner stand 0.0329337961/0.0329350687 cm; upper/under collar 0.0108510435/0.0108510683 cm). All nine SEW contours and four other CUT contours pass this fixture only.
+
+Both returns omit the source `$INSUNITS=5` centimeter declaration; model space contains nine INSERT and nine TEXT records on numeric layer 1; returned block entities use numeric layers. This retains the known CLO identity/layer/mark limitations and does not qualify its route/profile. CLO showed the expected nine pieces in both cells without an import error/warning. Saved projects, two DXF returns, exact hashes, measurements and the comparison/block audit are under `C:\G04-CAD-Interchange\S720-clo-draw-curve-points\`. No source, test, geometry, export baseline, acceptance or threshold changed.
+
+The validated board links S720 exit evidence at revision 4210 and its closeout comment at 4211. Start was 2026-10-11 04:15:21 UTC from `fc3504649ac5871e5019896cc6c989e4b445eede`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S720 is unique after S719. The two pre-existing untracked S700 coverage diagnostics remain untouched. V01/V02 stay Done; V03 and EPIC-17 stay In Progress; the goal remains active. All-seven, fixed-threshold, receiver/profile, rights, legacy DXF and protected export-identity gates remain unchanged. No ANSI/AAMA/ASTM conformance, physical-fit, factory-acceptance or production-readiness claim.
+
+S720 time: 17m from start to closeout — receiver interaction/output preservation about 12m; focused output/report review about 3m; external-agent wait 0m; maintainer decision time 0m. Board validation and diff check are recorded in the exit packet. No production code changed; no changed-code coverage or full repository gate was due.
+
+Continue from S719's V03 matrix and stop-churn plan. Do not repeat this setting or another settled receiver/mode/encoding. Select the next code task only when source evidence supports a specific fix that advances a fixed gate without disguising receiver data loss; retain route/profile eligibility before any breadth test. Preserve the integrated full gate, output review, end-only necessary-file cleanup, PR, safe merge, fresh ancestry, required deployment and production E2E as final gates.
 ## EPIC-17/G04 — S719 V03 installed-route reconciliation
 
 S719 compared the exact current board contract and S709 stop-churn plan with

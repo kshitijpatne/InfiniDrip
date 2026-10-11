@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "expectedRevision": 4208,
+  "text": "S720 tests one previously untested CLO import control. CLO support recommended Import Draw Curve Points for an incomplete ASTM DXF; S503 screenshots show it off, and S714/S715 measure missing CUT vertices. A same-source off/on pair isolates only this control against the unchanged 0.001 cm gate. No additional format, app, encoding, or acceptance change."
+}
