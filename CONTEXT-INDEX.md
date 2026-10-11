@@ -1,13 +1,29 @@
-## Current EPIC-17 / G04 V03 boundary — S725 closed
+## Current EPIC-17 / G04 V03 boundary — S726 closed
+
+S726 completes V03's technical acceptance under the maintainer-directed
+exchange-structure sampling definition. All 365 option × grade packages are
+source-verified; ten receiver fixtures cover all ten distinct DXF exchange
+structure classes, and an additional Trouser XL grade-boundary return passes
+the same LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000 save/reopen audit at
+0.000 cm (9 pieces, 18 outlines, 103 marks). The ten prior fixtures plus XL
+were visually reviewed. The 365 packages contain 315 exact normalized shape
+signatures; the receiver claim does not say all 315 were round-tripped. It is
+limited to the exact 11 returns inspected and audited. No new application or
+format was introduced, and no standards, industrial, fit, factory, or
+production-readiness claim is made. V03 acceptance is complete; EPIC-17 stays
+In Progress through its integrated final gate, necessary-file cleanup, PR,
+safe merge, ancestry, deployment, and production E2E. Read `PROJECT-STATE.md`,
+`docs/research/epic17/S726-source-class-and-profile-evidence/`, and the
+validated board.
+
+## Prior boundary — S725 closed
 
 S725 corrected only the opt-in Trouser package's layout gap (5 cm; other
 recipes and legacy DXF remain at 2 cm), visually reviewed the regenerated
 LibreCAD return, and verified 365/365 option-by-grade source packages. The
 return audit is 9 pieces, 18 outlines, 103 marks, 0.000 cm geometry delta.
-V03 remains In Progress: source-derived geometry/topology class coverage and
-the exact LibreCAD empirical profile rights/claim record remain to reconcile.
-Read `PROJECT-STATE.md`, `docs/research/epic17/S725-trouser-readable-output/`,
-the S724 packet, and the validated board.
+See `docs/research/epic17/S725-trouser-readable-output/` and the validated
+board.
 
 ## Prior boundary — S724 closed
 

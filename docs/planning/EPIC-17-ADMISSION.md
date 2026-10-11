@@ -1,15 +1,32 @@
-## Current V03 progress — S725
+## Current EPIC-17 / G04 boundary — S726 V03 technical acceptance complete
+
+S726 closes V03 technical acceptance under the maintainer-directed criterion
+that separates complete product-side option/grade output verification from
+representative receiver evidence. All 365 source packages pass. The existing
+ten LibreCAD fixtures cover all ten distinct serialized DXF exchange-structure
+classes across seven recipes, and the additional Trouser XL boundary return
+passes the unchanged source-bound audit. All 11 returns pass at 0.000 cm and
+the selected outputs were visually reviewed. The source matrix contains 315
+exact normalized geometry signatures; the acceptance and claim do not describe
+them as individually round-tripped. The exact empirical profile is LibreCAD
+2.2.1.5 / Drawing Exchange DXF 2000, limited to the 11 audited/reviewed
+returns. No standards or industrial-apparel conformance claim is made. The
+durable matrix, license, fixture, and grade-boundary evidence is in
+`docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`.
+
+S727 is the integrated release candidate gate: full repository coverage,
+build/browser/Electron checks, final output review, necessary-file cleanup,
+PR, safe merge, origin ancestry, required deployment, and production E2E.
+No new receiver or software trial is queued; preserve legacy DXF behavior,
+protected export identities, and every final gate.
+
+## Prior V03 progress — S725
 
 S725 passed the 73-option × five-size product-package matrix (365/365) and
 resolved Trouser whole-layout readability through a candidate-only 5 cm
 spacing rule; no source pattern geometry or legacy export changed. The exact
 LibreCAD 2.2.1.5 / DXF 2000 Trouser return passes at 0.000 cm across 9 pieces,
-18 outlines and 103 marks, and all ten selected outputs were visually
-reviewed. V03 remains open only for source-derived fixture geometry/topology
-class coverage and the exact empirical-profile rights/workflow/claim record,
-plus final integrated gates. Next: S726 maps normalized classes to the
-existing fixtures and records the precise LibreCAD profile evidence; no new
-software/format trial or acceptance relaxation.
+18 outlines and 103 marks. See its linked exit packet.
 
 ## Prior V03 acceptance amendment — S724
 

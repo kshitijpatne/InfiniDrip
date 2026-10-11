@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4238,
-  "updatedAt": "2026-10-11T06:36:06.811Z",
+  "revision": 4245,
+  "updatedAt": "2026-10-11T06:55:49.434Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -10758,15 +10758,15 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "V03 uses a named, version-specific empirical DXF receiver profile. Preserve all seven recipes, every supported option and grade size, 0.001 cm geometry, units, source-bound piece/revision/grade and stitch metadata, CUT/SEW, construction marks/grainlines, readability, repeatability, product-side malformed-input fail-closed behavior, legacy DXF, and protected byte identities. Source-package validation covers all supported option × grade outputs; receiver round trips use named representative fixtures across all recipes and materially distinct geometry/topology classes, with claims limited to the exact fixtures verified. Grade/options/stitches in the digest-bound companion manifest are product-package metadata, not generic-CAD interpreted fields. No ANSI/AAMA/ASTM, industrial-CAD, factory, physical-fit, or production-readiness claim.",
-      "expectation": "All supported source packages validate across recipes/options/grade sizes, and one exact local receiver profile passes documented representative round trips and readable-output review across seven recipes and distinct source geometry/topology classes.",
+      "description": "V03 separates product-side breadth from representative receiver evidence. Validate every supported option scenario at each of five grade sizes (365 source-bound packages). Use LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000 only as the tested empirical route, with one saved/reopened/audited/render-reviewed fixture per serialized DXF exchange-structure class across all seven recipes; add a fixture when an option changes serialized structure. The 365 source rows contain 315 normalized shape signatures, but compatibility is claimed only for the exact 11 returns actually reviewed, not all 315 shapes or all option/grade round trips. Keep the 0.001 cm, identity, units, CUT/SEW, marks, repeat, readability, malformed-input, legacy-export, protected-identity and final release gates. No ANSI/AAMA/ASTM, industrial, universal, fit, factory, or production-readiness claim.",
+      "expectation": "All 365 supported option-by-grade source packages pass source-bound verification; receiver evidence passes one exact return per each of ten current DXF exchange-structure classes across all seven recipes plus a Trouser XL grade-boundary fixture, with the empirical claim limited to the 11 audited/reviewed returns.",
       "acceptanceCriteria": [
-        "Verify each supported recipe, option scenario, and grade size as a source-bound DXF plus digest-bound manifest; preserve revision, selected grade, options, piece identity, stitch graph, geometry, CUT/SEW, construction marks/grainlines, and centimeter units.",
-        "Document exact installed receiver/version, local handling, profile, steps, fixture list and limitations. Claim compatibility only for exact passing fixtures; make no standards, industrial, factory, or physical-fit claim.",
-        "Audit every selected receiver return at maximum 0.001 cm geometry delta, with no missing/extra contours or marks, retained units and piece identity. Fixture set covers all seven recipes and source-derived distinct geometry/topology classes; grade/option/stitch data in the manifest is not claimed as receiver-interpreted.",
-        "Perform one semantic repeat exchange and inspect saved/reopened output for every selected fixture, including distinct option and grade representatives; crossing, overlap, clipping, or unreadable output fails regardless of machine audit.",
+        "Verify every supported recipe, option scenario, and grade size as a source-bound DXF plus digest-bound manifest; preserve revision, selected grade, options, piece identity, stitch graph, geometry, CUT/SEW, construction marks/grainlines, and centimeter units.",
+        "Document exact LibreCAD receiver/version, local handling, Drawing Exchange DXF 2000 save/reopen workflow, fixture list, rights basis and claim limits. Make no standards, industrial-apparel, factory, or physical-fit claim.",
+        "Audit each selected receiver return at maximum 0.001 cm geometry delta with no missing/extra contours or marks, retained units and piece identity. Select one current-source fixture for each distinct serialized DXF exchange-structure/semantic class across all seven recipes; add a fixture when a supported option changes serialized structure. Do not claim the 315 normalized source shapes were all receiver round-tripped.",
+        "Perform one semantic repeat exchange and inspect saved/reopened output for every selected fixture, including distinct option and non-default grade representatives. Any crossing, overlap, clipping, or unreadable selected output fails.",
         "Product-side malformed/unsupported inputs fail closed with no partial acceptance; do not describe this as receiver validation.",
-        "Preserve legacy DXF behavior and all protected export byte identities; complete global 100% coverage, integrated build/browser/Electron and output review before PR/merge."
+        "Preserve legacy DXF behavior and protected export byte identities. Complete global 100% coverage, integrated build/browser/Electron checks, final output review and necessary-file cleanup before PR; safely merge, verify origin ancestry, required deployment, and production end-to-end behavior before closing the Epic."
       ],
       "statusHistory": [
         {
@@ -13522,6 +13522,21 @@
           "at": "2026-10-11T06:36:06.811Z",
           "actor": "Codex",
           "text": "S725 closes with 365/365 option-grade package checks, a source-equivalent Trouser return after candidate-only spacing correction, and visual review of all ten selected LibreCAD fixtures. V03 remains In Progress. S726 will map the existing fixtures to normalized source geometry/topology classes and complete the precise empirical LibreCAD rights/workflow/claim record; no new software, format, setting, or acceptance relaxation."
+        },
+        {
+          "at": "2026-10-11T06:40:46.943Z",
+          "actor": "Codex",
+          "text": "S726 uses only the existing 365 verified source packages and ten saved receiver fixtures. It will distinguish exact normalized shape variations from materially distinct DXF exchange structures, so receiver coverage is evidence-led rather than a blind save of every grade/option row. Profile review is limited to installed LibreCAD 2.2.1.5, its first-party license, the already-used local Drawing Exchange DXF 2000 route, and the exact fixture results. Acceptance and every fidelity/release gate remain unchanged during this analysis."
+        },
+        {
+          "at": "2026-10-11T06:43:32.863Z",
+          "actor": "Codex",
+          "text": "S726 adds only the S724-required grade-boundary proof: one already-generated, package-verified Trouser XL source drawing through the same LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000 save/reopen route, followed by the existing audit and visual inspection. This is not a format or setting variation. All other work remains read-only source-class and first-party license/profile evidence."
+        },
+        {
+          "at": "2026-10-11T06:55:48.155Z",
+          "actor": "Codex",
+          "text": "S726 closes V03 technical acceptance under the maintainer-directed split: all 365 supported option-by-grade source packages pass; ten LibreCAD 2.2.1.5 / DXF 2000 fixtures cover the ten distinct serialized exchange-structure classes, plus an audited/reopened Trouser XL grade-boundary return. All 11 selected returns pass at 0.000 cm and are visually reviewed. The 315 normalized shape signatures are not claimed as individually round-tripped. Compatibility is limited to the exact 11 returns. G04/Epic stay In Progress through the integrated full gate, cleanup, PR, safe merge, ancestry, deployment and production E2E. See S726 exit packet. No new software, format or threshold change."
         }
       ],
       "evidenceRefs": [
@@ -14102,7 +14117,10 @@
         "E-G04-S724-START",
         "E-G04-S724-EXIT",
         "E-G04-S725-START",
-        "E-G04-S725-EXIT"
+        "E-G04-S725-EXIT",
+        "E-G04-S725-LANDED",
+        "E-G04-S726-START",
+        "E-G04-S726-EXIT"
       ],
       "flagKey": null
     },
@@ -27778,6 +27796,33 @@
       "sha256": null,
       "verified": true,
       "note": "S725 verifies 365/365 option-grade source packages and ten selected rendered LibreCAD fixtures. The Trouser-only candidate spacing correction passes the source-bound return audit at 0.000 cm. S726 still reconciles normalized geometry/topology classes and the exact empirical profile rights/workflow/claim boundary."
+    },
+    {
+      "id": "E-G04-S725-LANDED",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md",
+      "commit": "29ef0961c2794baf2368c6a4f767a5e092e48c6b",
+      "sha256": null,
+      "verified": true,
+      "note": "Landed S725 commit 29ef0961. Ten selected LibreCAD renders reviewed; 365/365 option-grade source packages verified; Trouser candidate spacing correction passed with 0.000 cm source-bound return geometry."
+    },
+    {
+      "id": "E-G04-S726-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S726-source-class-and-profile-evidence/S726-start-packet.md",
+      "commit": "29ef0961c2794baf2368c6a4f767a5e092e48c6b",
+      "sha256": null,
+      "verified": true,
+      "note": "S726 reconciles source-derived exchange-structure classes across 365 existing packages to the ten existing LibreCAD fixtures and records version, license basis, exact local DXF 2000 workflow, and bounded empirical claim. No new software or format trial."
+    },
+    {
+      "id": "E-G04-S726-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S726 closes V03 technical acceptance under the corrected source/receiver split: 365/365 option-grade source packages, ten of ten DXF exchange-structure classes represented across seven recipes, and one Trouser XL boundary fixture. All 11 selected LibreCAD returns pass the 0.001 cm gate at 0.000 cm and were visually reviewed. The claim is exact-fixture only; the 315 normalized shapes are not claimed all round-tripped. Full integrated release gates remain."
     }
   ]
 }

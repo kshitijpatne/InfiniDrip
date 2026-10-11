@@ -1,21 +1,27 @@
-## EPIC-17 / G04 — S725 closed; package breadth and Trouser readability verified
+## Current EPIC-17 / G04 V03 boundary — S726 technical acceptance complete
 
-S725 found zero actual inter-piece intersections in the Trouser source and
-return. Its 2 cm layout gaps looked crowded at whole-page scale, so the
-opt-in package now uses 5 cm for Trouser only. Other recipes retain 2 cm and
-legacy DXF retains its 2 cm default and byte identities. No pattern geometry,
-stitches, marks, or source identity changed. The LibreCAD 2.2.1.5 / DXF 2000
-Trouser return passes at 0.000 cm across 9 pieces, 18 outlines, and 103 marks;
-all ten selected receiver drawings were visually reviewed. The S330 73-option
-matrix crossed with five supported sizes produced 365/365 verified packages.
-V03 remains In Progress: map the existing receiver fixtures to normalized
-source geometry/topology classes and finish the precise LibreCAD rights,
-workflow, and claim-boundary record. No new software or receiver variation.
-See `docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md`.
+S726 records the maintainer-directed V03 acceptance correction and closes its
+technical evidence gates. The 365 supported option × grade source packages
+pass product-side verification. Receiver evidence uses one audited, visibly
+reviewed fixture for every distinct serialized DXF exchange-structure class
+(10/10 across all seven recipes), plus the S724-required Trouser XL boundary
+fixture; all 11 selected returns pass the unchanged 0.001 cm audit at 0.000
+cm. LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000 is the exact empirical route.
+The source matrix has 315 normalized geometric shape signatures, which are
+not represented as 315 receiver tests; compatibility is claimed only for the
+11 exact audited/reviewed returns. Product malformed-input behavior and
+semantic repeat evidence retain their prior narrow scope. No industrial,
+ANSI/AAMA/ASTM, universal DXF, physical-fit, factory-acceptance, or
+production-readiness claim is made. S726 packet:
+`docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`.
 
-S726: derive and verify the source geometry/topology fixture mapping and
-complete the exact empirical-profile record from current evidence. Preserve
-the active goal and every final integrated gate.
+EPIC-17 remains In Progress. S727 is the integrated candidate boundary for
+the full repository 100% coverage gate, build/browser/Electron checks, final
+output review, necessary-file cleanup, PR, safe merge, refreshed origin
+ancestry, required automatic deployment, and production end-to-end check.
+Keep the goal active through that verified completion. Read the S726 packet,
+this state, `docs/PROJECT-DECISIONS.md`, `docs/planning/EPIC-17-ADMISSION.md`,
+and the validated Control Center board before continuing.
 
 ## Prior boundary — S724 closed; V03 evidence model corrected
 

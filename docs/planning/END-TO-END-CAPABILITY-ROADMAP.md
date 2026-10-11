@@ -1,6 +1,23 @@
 # InfiniDrip end-to-end capability roadmap
 
-### G04 current V03 acceptance decision — S724 (2026-10-11)
+### G04 current V03 acceptance and evidence — S726 (2026-10-11)
+
+S726 makes the receiver sample criterion explicit at the serialized DXF
+exchange-structure/semantic level. The product still verifies every supported
+option at all five grade sizes (365/365). The receiver sample covers each
+distinct exchange structure across all seven recipes (10/10 classes) and
+includes one non-default Trouser XL boundary return. Each selected return
+passes the unchanged 0.001 cm audit and visible reopen review. The 365 source
+packages contain 315 normalized shape signatures; the exact LibreCAD empirical
+claim covers only the 11 fixtures actually saved/reopened and does not claim
+that every coordinate shape passed a CAD round trip. Any supported option
+that creates a new serialized structure class requires its own fixture. The
+route is LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000, with no standards or
+industrial-apparel conformance claim. This transparent sampling correction
+preserves source-side breadth, fixed fidelity checks, protected exports, and
+all release gates. See the S726 exit packet and current project state.
+
+### Prior G04 V03 acceptance decision — S724 (2026-10-11)
 
 The maintainer directed V03 acceptance to measure the product's supported
 output plus an exact empirical receiver profile, rather than require a CAD UI
@@ -21,7 +38,7 @@ factory-conformance claim. See
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### EPIC-17/G04 current evidence — S725
+### EPIC-17/G04 prior evidence — S725
 
 S725 verified all 73 supported option scenarios across five sizes (365/365
 source packages) and corrected only the opt-in Trouser candidate drawing's

@@ -1108,18 +1108,21 @@ unchanged and V03 acceptance remains open. See
 [`docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`](docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md)
 and the historical [`S707 result`](docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md).
 
-S725 verified the 73 supported option scenarios across five size grades in
-the product package path (365/365 generated and source-verified packages).
-It also widened the opt-in Trouser drawing's piece spacing to 5 cm because
-the prior 2 cm gaps looked crowded at whole-layout scale; source and returned
-geometry had zero inter-piece segment intersections. Other recipes and the
-legacy DXF path retain 2 cm. The regenerated LibreCAD Trouser return passes
-the existing source-bound audit at 0.000 cm for nine pieces, 18 outlines, and
-103 marks, and the ten selected fixtures were visually reviewed. This remains
-a bounded empirical candidate. Source-derived geometry/topology class
-coverage and the exact profile rights/workflow/claim record remain open for
-V03. See
-[`docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md`](docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md).
+S725 verified 365/365 source packages for the 73 supported option scenarios
+across five sizes and corrected only the opt-in Trouser page gap (5 cm); other
+recipes and legacy DXF remain at 2 cm. Source and returned geometry have no
+inter-piece intersections. Its LibreCAD return passes at 0.000 cm for nine
+pieces, 18 outlines, and 103 marks, and the ten selected fixtures were visually
+reviewed. S726 then completed V03 technical acceptance: the ten LibreCAD
+2.2.1.5 / Drawing Exchange DXF 2000 fixtures cover all ten serialized
+exchange-structure classes, and a saved/reopened Trouser XL grade-boundary
+fixture also passes. All 11 selected returns pass at 0.000 cm and were visibly
+reviewed. Product-side source verification covers all 365 option × grade
+packages; the matrix's 315 normalized shape signatures are not described as
+315 receiver round trips. The compatibility claim is limited to the exact 11
+fixtures. No standards, industrial-apparel, fit, factory, or production claim
+is made. See
+[`docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`](docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md).
 
 ## What is outside the current product
 
