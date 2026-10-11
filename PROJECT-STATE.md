@@ -1,3 +1,27 @@
+## EPIC-17/G04 — S706 closed; current LibreCAD route stopped on CUT layer loss
+
+The one S706 LibreCAD 2.2.1.5 DXF 2000 current-package round trip retained all
+9 named Polo M pieces, 18/18 closed CUT/SEW outlines at 0.000 cm XY residual,
+111/111 typed marks within 0.001 cm, centimeter units, and a clean visible
+reopen. It changed the semantic `CUT` layer to `0`. LibreCAD is generic CAD,
+not a qualifying industrial apparel profile, and this exact route fails the
+semantic-layer gate. Do not repeat the route or vary its format/settings. The
+source and return hashes and rendered capture are in S706's packet; generated
+CAD/evidence files remain only under the named C: folder. No source code or
+acceptance changed. See
+`docs/research/epic17/S706-librecad-r2000-current-package/S706-exit-packet.md`.
+
+GMS/DGS remains retired: the apparel import showed 0/0 patterns and its
+control output contained no geometry. No more software installs or app search
+are queued. Next is a single source-side audit of the exact S703 CLO DXF-ASTM
+and S706 LibreCAD returns against the current candidate writer. Continue only
+with a specific code change supported by those entity differences; otherwise
+identify the smallest concrete requirement that no installed route can prove.
+V01/V02 remain Done; V03 remains held; EPIC-17 and the goal remain active.
+Unchanged all-seven/options/grades, thresholds, protected export identities,
+cleanup inventory, integrated full gate, final output review, PR/merge,
+ancestry, deployment, and production end-to-end gates remain due.
+
 ## EPIC-17/G04 — S705 closed; candidate buttonhole display verified
 
 S705 adds a source-centered two-line buttonhole display only to candidate DXF
@@ -10,16 +34,6 @@ coverage is 100% for statements, branches, functions and lines; protected
 export regressions pass. A C:-only rendered placket detail shows three legible,
 separated crosses. See
 `docs/research/epic17/S705-candidate-buttonhole-cross/S705-exit-packet.md`.
-
-GMS/DGS is retired. Its exact tests are evidence of an unusable route: the
-apparel import completed with a blank canvas and 0/0 patterns, while the native
-DXF control export contained metadata text and no geometry. This candidate
-should have been disqualified by an exact-build input/output check before the
-install. No further GMS work is queued. Next: S706's single current-package
-LibreCAD 2.2.1.5 DXF 2000 round trip from the designated C: folder. No new app,
-receiver permutation, or V03 acceptance change. V03 stays held, EPIC-17 and
-the goal stay active, and all final cleanup, full gate, PR/merge, ancestry and
-production checks remain due.
 
 ## EPIC-17 / G04 — S704 closed; current R2000 candidate and source plan recorded
 

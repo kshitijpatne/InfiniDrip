@@ -1,18 +1,19 @@
-## Current EPIC-17 / G04 V03 boundary — S705 closed
+## Current EPIC-17 / G04 V03 boundary — S706 closed
 
-S705 implements a versioned candidate-only buttonhole cross bound to its exact
-source anchor, piece/revision, and drawing transform. All seven recipes, grade
-rows, 73 options, schema backward compatibility, protected legacy export
-regressions and rendered placket evidence are verified; changed-code coverage
-is 100%. No receiver gate passed. See `PROJECT-STATE.md` and
-`docs/research/epic17/S705-candidate-buttonhole-cross/S705-exit-packet.md`.
+S706's one LibreCAD 2.2.1.5 DXF 2000 round trip retained 9 named pieces,
+18/18 closed CUT/SEW paths at 0.000 cm XY residual, 111/111 typed marks within
+0.001 cm, cm units, and a clean visible reopen. It changed semantic `CUT` to
+layer `0`; LibreCAD is generic CAD and does not qualify the industrial apparel
+profile gate. The exact route is stopped with no format/settings variation.
+See `PROJECT-STATE.md` and
+`docs/research/epic17/S706-librecad-r2000-current-package/S706-exit-packet.md`.
 
-GMS/DGS is retired: the tested apparel import opened the file but produced no
-registered pattern; its native DXF control export had no geometry. The exact
-build should have been input/output-screened before install. Next is one
-current-package LibreCAD 2.2.1.5 DXF 2000 round trip. G04-V03 remains held;
-EPIC-17 and its goal stay active through unchanged gates, final cleanup, full
-verification, PR/merge, ancestry, deployment and production end-to-end checks.
+Next is a single source-side audit of the exact CLO DXF-ASTM and LibreCAD
+returns against the current candidate writer. Make a code change only if the
+existing entity evidence supports a specific remediation. No further app
+search/install is queued. G04-V03 remains held; EPIC-17 and its goal stay
+active through unchanged acceptance, final cleanup, full verification,
+PR/merge, ancestry, deployment and production end-to-end checks.
 
 ## Current EPIC-17 / G04 V03 boundary — S704 closed; source and receiver gates reconciled
 

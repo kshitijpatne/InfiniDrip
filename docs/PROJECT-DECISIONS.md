@@ -1,5 +1,24 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — S706 LibreCAD current-package route stopped (2026-10-11)
+
+The exact S705 Polo M candidate was saved and reopened once in LibreCAD 2.2.1.5
+using Drawing Exchange DXF 2000. S706 found 9/9 piece/revision identities,
+18/18 closed CUT/SEW outlines at 0.000 cm XY residual, 111/111 typed marks
+within 0.001 cm, `$INSUNITS=5`, and a visible reopen. The returned drawing
+renamed the semantic `CUT` layer to `0`; the route is also generic CAD, not an
+industrial apparel profile. This route does not satisfy V03 and must not be
+repeated or varied. No source geometry, legacy export, threshold, or acceptance
+changed. Exact evidence is in
+`docs/research/epic17/S706-librecad-r2000-current-package/S706-exit-packet.md`;
+CAD files and render remain under `C:\G04-CAD-Interchange\S706-librecad-r2000-current-package\`.
+
+Next work is a source-side comparison of the exact S703 CLO DXF-ASTM and S706
+LibreCAD returns with the current candidate writer. Continue implementation
+only if existing entity evidence supports a precise source change; do not
+search for or install another receiver. V03 acceptance and every fixed gate
+remain unchanged.
+
 ## EPIC-17/G04 — approved empirical grainline profile trial (2026-10-10)
 
 The maintainer approved the source-derived, additive `idr-pattern-exchange/2`
