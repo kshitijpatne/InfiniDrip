@@ -49,6 +49,7 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   for (const card of cards) {
     assert.ok(card);
     if (card.id === "UIQ-02" || card.id === "UIQ-03") assert.equal(card.status, "Done");
+    else if (card.id === "UIQ-04") assert.equal(card.status, "Review");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
@@ -63,6 +64,14 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   assert.equal(cards[1].flagKey, "uiq_foundation");
   assert.equal(cards[2].contributor, "Codex");
   assert.equal(cards[2].flagKey, "uiq_guidance");
+  assert.equal(cards[3].title, "Material clarity integration");
+  assert.equal(cards[3].contributor, "Codex");
+  assert.equal(cards[3].flagKey, "uiq_material");
+  assert.deepEqual(cards[3].dependencies, ["UIQ-02", "UIQ-03", "UIQ-GATE", "UIQ04-CANDIDATE"]);
+  assert.ok(cards[3].description.includes("docs/planning/UIQ-04-INTEGRATION-ADMISSION.md"));
+  assert.ok(cards[3].comments.some((comment) => comment.text.includes("Slice 739 work started")));
+  assert.ok(cards[3].comments.some((comment) => comment.text.includes("Slice 739 is ready for review")));
+  assert.ok(cards[3].evidenceRefs.includes("E-UIQ04-S739"));
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));
@@ -79,7 +88,7 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   assert.ok(gate?.evidenceRefs.includes(gateExit.id));
   assert.deepEqual(gate?.dependencies, ["EPIC-17"]);
   assert.deepEqual(cards[2].dependencies, ["UIQ-02"]);
-  assert.deepEqual(cards[3].dependencies, ["UIQ-02"]);
+  assert.deepEqual(cards[3].dependencies, ["UIQ-02", "UIQ-03", "UIQ-GATE", "UIQ04-CANDIDATE"]);
   assert.deepEqual(cards[4].dependencies, []);
   assert.deepEqual(cards[12].dependencies, ["UIQ-07", "UIQ-GATE"]);
   assert.equal(board.workItems.find((item) => item.id === "EPIC-17").dependencies.some((id) => ids.includes(id)), false);

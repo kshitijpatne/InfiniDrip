@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-04",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "Slice 739 implementation and pre-merge gates passed; final Codex diff review, PR review and merge remain pending.",
+  "evidenceRefs": ["E-UIQ04-S739"],
+  "expectedRevision": 4387
+}

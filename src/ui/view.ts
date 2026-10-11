@@ -46,6 +46,7 @@ import "./studio.css";
 import "./enhancements/foundation/foundation.css";
 import "./enhancements/foundation/tutorial-foundation.css";
 import "./enhancements/guidance/guidance-panel.css";
+import "./enhancements/material/material-panel.css";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";
@@ -1336,6 +1337,7 @@ export function appShellMarkup(
   activeGarment = "tee",
   appearance: Appearance = DEFAULT_APPEARANCE,
   fieldObservations?: FieldObservationRecord,
+  uiqMaterialEnabled = false,
 ): string {
   const activeGarmentLabel = GARMENTS.find((g) => g.name === activeGarment)?.label ?? activeGarment;
   return `<main id="infini-shell" aria-labelledby="product-title">` +
@@ -1360,6 +1362,9 @@ export function appShellMarkup(
     `<div id="project-manager-host"></div>${garmentToggleMarkup(activeGarment)}<div id="review-context"></div>` +
     `<details id="readiness-details"><summary>Design readiness</summary><div id="readiness-host"></div></details>` +
     `<div id="style-host"></div>${fabricStretchMarkup(stretchFabric)}${fabricSwatchesMarkup(fabric, appearance)}` +
+    (uiqMaterialEnabled
+      ? `<details id="material-clarity-details"><summary>Material and screen appearance guidance</summary><div id="material-clarity-host"></div></details>`
+      : "") +
     `${controlsMarkup(m, fields, [], {}, activeGarment, fieldObservations)}` +
     `<details id="guidance-details"><summary>Guidance & corrections</summary><div id="guidance-host"></div></details>` +
     `${exportButtonsMarkup(sizes)}</aside>` +

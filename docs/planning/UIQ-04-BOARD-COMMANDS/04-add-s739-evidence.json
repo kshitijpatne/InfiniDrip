@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-04",
+  "expectedRevision": 4386,
+  "evidence": {
+    "id": "E-UIQ04-S739",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-04-INTEGRATION-S739-EXIT.md",
+    "verified": true,
+    "note": "Slice 739 pre-merge implementation, 2,653 passing tests with 100% global coverage, production build, operational checks, rendered browser/no-egress checks, and packaged Electron release verification. Merge/deployment remain pending Slice 740."
+  }
+}

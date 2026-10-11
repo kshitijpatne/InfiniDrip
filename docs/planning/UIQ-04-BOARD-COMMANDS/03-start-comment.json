@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-04",
+  "actor": "Codex",
+  "text": "Slice 739 work started from origin/main 9bdea4bc. Admission/goal are linked at the verified current-main board boundary (revision 4385). Accepted UIQ-04 material source/CSS/tests match the immutable candidate manifest; their app-shell placement, mapping, flag, exact fallback, ownership and exit gates are frozen in docs/planning/UIQ-04-INTEGRATION-ADMISSION.md. UIQ-05/07 remain Backlog and unadmitted.",
+  "expectedRevision": 4385
+}

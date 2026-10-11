@@ -60,8 +60,9 @@ page errors or off-origin requests. Slice 736's implementation gates are in
 `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md`; Slice 737's release/board proof
 is in `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. Closeout PR #24 and
 main workflow `38176394059` also passed, and the same public URL was verified
-again. UIQ-03's goal is complete; UIQ-04/05/07 remain Backlog and no further
-integration is admitted.
+again. UIQ-03's goal is complete. At that closeout boundary UIQ-04/05/07 were
+Backlog; UIQ-04 was later admitted and is currently in Review, while UIQ-05/07
+remain Backlog and unadmitted.
 
 ## How measurements become pattern shapes
 
@@ -1167,20 +1168,30 @@ No garment has yet been cut, sewn, and fit-tested. Digital checks catch only
 the issues they are programmed to check; a physical sample is needed to learn
 how a garment behaves in fabric on a person. No fit result is claimed here.
 
-## UIQ-03 guidance integration — in progress
+## UIQ-03 and UIQ-04 material clarity
 
-The accepted native UIQ-03 panel is integrated in the existing collapsed
-**Design readiness** disclosure on the active candidate branch. It displays
-caller-provided journey, readiness, blocker, and current-note state; fit intent
-appears only after the Style step is explicitly reviewed. An identical current
-blocker note is omitted from the panel's ordinary note list to avoid triple
-repetition alongside the journey banner and blocker action. The embedded
-`uiq_guidance` flag retains the exact existing readiness checklist as its local
-fallback. The journey bar, navigation, correction engine, saved data, pattern,
-and export decisions remain unchanged. This explanatory UI is not physical-fit
-validation. See `docs/planning/UIQ-03-INTEGRATION-ADMISSION.md` and rendered
-evidence in `docs/research/uiq03-integration/`; final gates, merge and
-deployment are pending.
+UIQ-03 is merged and deployed in the existing collapsed **Design readiness**
+disclosure behind embedded `uiq_guidance`; when disabled, the exact former
+readiness checklist remains. The presentation reads caller-owned journey,
+readiness, blocker, and note state; fit intent appears only after explicit
+Style review. It does not change journey navigation, correction, validation,
+saved data, patterns, or export decisions. Its final release proof is
+`docs/release/UIQ-03-S738-FINAL-CLOSEOUT.md`.
+
+UIQ-04 material clarity is admitted under
+`docs/planning/UIQ-04-INTEGRATION-ADMISSION.md`. It adds the accepted native
+read-only material/appearance panel in a collapsed disclosure beside existing
+material and appearance controls, visible only during Fit when those controls
+are available, behind embedded `uiq_material`. Flag-off,
+unknown, or stale retains the exact existing app shell. The panel reuses the
+current selected fabric, existing ease guidance, color, and appearance values;
+compatibility remains explicitly unknown. Review buttons focus existing
+controls without changing them. This is not drape simulation, compatibility
+validation, or physical-fit evidence. Slice 739's gates are recorded in
+`docs/release/UIQ-04-INTEGRATION-S739-EXIT.md`; UIQ-04 is in Review at board
+revision 4390. Final coverage passed; final diff review, unique-slice recheck,
+commit/PR and merge remain pending before Slice 740 deployment closeout.
+UIQ-05/07 remain unadmitted.
 
 ## Where to find current project information
 

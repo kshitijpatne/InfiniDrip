@@ -72,7 +72,7 @@ implementation record.
 
 No historical roadmap dates are re-promised: target/release/delivery dates for new cards are null until the next admission/scoping decision. Added work uses genuinely spare independent capacity first; shared UI integration is serialized and reforecast rather than squeezing Epic17's gates or adding cosmetic critical-path work. Future Epic18/19/21/22/30 admissions and existing garment, launch-cost, supplier, physical and legal gates remain intact.
 
-### Current integration status — 2026-10-11
+### UIQ-03 integration status — 2026-10-11
 
 UIQ-02 is Done/deployed. The maintainer authorized UIQ-03 as the next serial
 integration; its fresh current-main admission is
@@ -87,9 +87,27 @@ are in `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md` and
 `38173525917` passed and the existing public URL returned HTTP 200 with the
 panel visible. Slice 737 closed UIQ-03 Done at board revision 4380; see
 `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. UIQ-04/05/07 remain
-Backlog; no next integration is admitted. Final closeout PR #24 and main
+Backlog at this historical UIQ-03 closeout boundary. Final closeout PR #24 and main
 workflow `38176394059` succeeded, and the existing public URL passed a fresh
 post-deployment browser check; see `docs/release/UIQ-03-S738-FINAL-CLOSEOUT.md`.
+
+### Current integration status — 2026-10-11, UIQ-04 admitted
+
+After UIQ-03's complete merge, deployment and board closeout, the maintainer
+authorized the next ordered package: UIQ-04 material clarity. Its fresh
+current-main contract is `docs/planning/UIQ-04-INTEGRATION-ADMISSION.md` and
+the active goal ledger is `docs/planning/UIQ-04-GOAL.md`. Slice 739 is the
+bounded, flag-gated additive integration and complete pre-merge gate; Slice
+740 is deployment and board closeout after merge. The accepted component is
+collapsed by default next to existing material/appearance controls and appears
+only during Fit, when those existing controls are available. All old controls
+remain unchanged, and flag-off/unknown/stale renders the exact legacy shell.
+Compatibility remains explicitly unknown; no material math, saved state,
+renderer, global restyle, or physical claim is admitted. Slice 739 gates are
+recorded in `docs/release/UIQ-04-INTEGRATION-S739-EXIT.md`; UIQ-04 is Review at
+board revision 4390. The final full gate passed; final diff review,
+unique-slice recheck and commit/PR remain pending. UIQ-05 and UIQ-07 remain
+backlog and require separate authorization/admission.
 
 ## Parallel boundaries
 

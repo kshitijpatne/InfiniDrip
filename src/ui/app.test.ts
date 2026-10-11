@@ -11,6 +11,7 @@ import {
   type CaptureDraft,
   guidedCaptureStageBlocker,
   guidedCaptureFieldId,
+  materialSnapshotFromExistingState,
   mountApp,
   serializeCaptureDrafts,
   renderSemanticEditorPiece,
@@ -31,11 +32,12 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, draftTshirt, gradeRun, rolePiece, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, rolePiece, type GarmentRecipe } from "../drafting";
 import * as editEngine from "../edit";
 import * as semanticEditEngine from "../edit/semantic-edit";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
+import { DEFAULT_APPEARANCE } from "./appearance";
 import { currentFieldObservation, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
@@ -71,6 +73,27 @@ const reachExportStage = (root: HTMLElement): void => {
 };
 
 describe("mountApp", () => {
+  it("fails unresolved material and missing ease guidance to null without inference", () => {
+    const snapshot = materialSnapshotFromExistingState({
+      revisionLabel: "Design revision test",
+      stretchFabric: { name: "Unresolved", family: "woven", stretchPercent: 0 },
+      notes: [],
+      color: "#123456",
+      appearance: DEFAULT_APPEARANCE,
+    });
+    expect(snapshot).toMatchObject({
+      revisionLabel: "Design revision test",
+      fabric: null,
+      easeGuidance: null,
+      compatibility: {
+        state: "unknown",
+        detail: "The app has no separate fabric/material compatibility assessment.",
+      },
+      color: "#123456",
+      appearance: DEFAULT_APPEARANCE,
+    });
+  });
+
   it("persists Single/Marker as a preview preference without dirtying or adding undo history", async () => {
     localStorage.clear();
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
@@ -3546,6 +3569,78 @@ describe("guided journey", () => {
       .toContain("Garment chosen");
     expect(root.querySelector("#journey-step-fit")).not.toBeNull();
     expect(root.querySelector("#journey-next")).not.toBeNull();
+    root.remove();
+  });
+
+  it("mounts the UIQ-04 material panel as a collapsed, read-only view of existing state", () => {
+    const root = mount();
+    document.body.append(root);
+    const disclosure = root.querySelector<HTMLDetailsElement>("#material-clarity-details")!;
+    expect(disclosure.hidden).toBe(true);
+    clickId(root, "journey-step-fit");
+    expect(disclosure.hidden).toBe(false);
+    const panel = root.querySelector<HTMLElement>("#material-clarity-host .uiq-material")!;
+    const selectedFabric = root.querySelector<HTMLSelectElement>("#stretch-select")!.value;
+    const currentColor = root.querySelector<HTMLInputElement>("#appearance-hex")!.value;
+    const currentShine = root.querySelector<HTMLInputElement>("#appearance-shine")!.value;
+    const selectedPreset = STRETCH_FABRICS.find((candidate) => candidate.name === selectedFabric)!;
+
+    expect(disclosure.open).toBe(false);
+    disclosure.open = true;
+    expect(panel.textContent).toContain(`Design revision`);
+    expect(panel.textContent).toContain(`${selectedPreset.name} (${selectedPreset.family}) — Known preset.`);
+    expect(panel.querySelector(".uiq-material-compatibility-label")?.textContent).toBe("Unknown");
+    expect(panel.querySelector(".uiq-material-compatibility-detail")?.textContent)
+      .toBe("The app has no separate fabric/material compatibility assessment.");
+    const existingEaseNote = root.querySelector<HTMLElement>(
+      '#guidance-host [data-guidance-field="ease"] > span:nth-child(2)',
+    )?.textContent;
+    expect(panel.querySelector(".uiq-material-ease-guidance")?.textContent).toBe(existingEaseNote);
+
+    const reviewFabric = panel.querySelector<HTMLButtonElement>(".uiq-material-review-fabric")!;
+    reviewFabric.click();
+    expect(document.activeElement).toBe(root.querySelector<HTMLButtonElement>("#stretch-host [data-material-option]"));
+
+    const reviewAppearance = panel.querySelector<HTMLButtonElement>(".uiq-material-review-appearance")!;
+    reviewAppearance.click();
+    expect(root.querySelector<HTMLElement>("#appearance-editor")!.hidden).toBe(false);
+    expect(document.activeElement).toBe(root.querySelector<HTMLInputElement>("#appearance-hex"));
+    reviewAppearance.focus();
+    reviewAppearance.click();
+    expect(root.querySelector<HTMLElement>("#appearance-editor")!.hidden).toBe(false);
+    expect(document.activeElement).toBe(root.querySelector<HTMLInputElement>("#appearance-hex"));
+
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe(selectedFabric);
+    expect(root.querySelector<HTMLInputElement>("#appearance-hex")!.value).toBe(currentColor);
+    expect(root.querySelector<HTMLInputElement>("#appearance-shine")!.value).toBe(currentShine);
+    root.remove();
+  });
+
+  it("keeps the exact legacy material and appearance shell when UIQ material is disabled", () => {
+    const root = mount({ uiqMaterialEnabled: false });
+    expect(root.querySelector("#material-clarity-details")).toBeNull();
+    expect(root.querySelector("#stretch-host [data-material-option]")).not.toBeNull();
+    expect(root.querySelector("#swatch-host #appearance-toggle")).not.toBeNull();
+    expect(root.querySelector("#stretch-select")).not.toBeNull();
+    expect(root.querySelector("#appearance-editor")).not.toBeNull();
+    root.remove();
+  });
+
+  it("updates the same UIQ material panel when existing material or appearance state changes", () => {
+    const root = mount();
+    clickId(root, "journey-step-fit");
+    const panel = root.querySelector<HTMLElement>("#material-clarity-host .uiq-material")!;
+    const reviewButton = panel.querySelector<HTMLButtonElement>(".uiq-material-review-fabric")!;
+    const before = root.querySelector<HTMLSelectElement>("#stretch-select")!.value;
+    const nextCard = [...root.querySelectorAll<HTMLButtonElement>("#stretch-host [data-material-option]")]
+      .find((button) => button.dataset.materialOption !== before)!;
+    nextCard.click();
+
+    expect(root.querySelector("#material-clarity-host .uiq-material")).toBe(panel);
+    expect(panel.querySelector<HTMLButtonElement>(".uiq-material-review-fabric")).toBe(reviewButton);
+    expect(root.querySelector<HTMLSelectElement>("#stretch-select")!.value).toBe(nextCard.dataset.materialOption);
+    expect(panel.textContent).toContain(`${nextCard.dataset.materialOption} (`);
+    expect(panel.textContent).toContain("Design revision");
     root.remove();
   });
 

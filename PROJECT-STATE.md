@@ -1,4 +1,41 @@
-## Current boundary — UIQ-03 integration shipped (Slices 736–737)
+## Current boundary — UIQ-04 material clarity integration admitted (Slice 739)
+
+The maintainer authorized the next ordered UI package after UIQ-03 shipped.
+UIQ-04 is admitted from `origin/main` `9bdea4bc46d6a8fa282a4679dbb87ab544998ede`
+on branch `codex/uiq04-integration`. Its durable contract is
+`docs/planning/UIQ-04-INTEGRATION-ADMISSION.md`; the running goal, gate ledger
+and time-accounting record are `docs/planning/UIQ-04-GOAL.md`.
+
+Scope is strictly additive: mount the accepted immutable native material and
+screen-appearance panel in a collapsed disclosure beside existing material and
+appearance controls, visible only during the Fit step when those controls are
+available, behind embedded `uiq_material`. Disabled/unknown/stale preserves
+the exact previous shell. Reuse only caller-owned state, never infer material
+compatibility, and route review actions to existing controls without editing a
+value or changing the journey. No new material math, renderer, saved field,
+service, dependency, or wider UI redesign is admitted.
+
+Slice 739 is reserved for admission, integration, full pre-merge verification,
+review and PR. Slice 740 is post-merge deployment/public verification and board
+closeout only. At the start, current main and reachable slice history were
+verified through Slice 738, board revision 4383, and no open PR or active UIQ
+integration owner was found. The clean integration worktree is based on that
+current main. UIQ-04 is now Review at canonical board revision 4390 after
+validated evidence/status/comment commands. The accepted source, CSS and test
+hashes match the immutable candidate manifest; line-ending normalization is
+recorded in `docs/research/uiq04-integration/accepted-candidate-identity.json`.
+Slice 739 implementation gates are recorded in
+`docs/release/UIQ-04-INTEGRATION-S739-EXIT.md` and
+`docs/research/uiq04-integration/evidence/S739-verification.json`.
+
+Next action: complete the final diff review, recheck the unique Slice 739
+reservation and current `origin/main`, then make the single Slice 739 commit
+and open its PR. The settled full gate passed after the final board-test
+change. After merge, Slice 740 alone covers deployment/public verification and
+board closure.
+UIQ-05 and UIQ-07 remain Backlog/unadmitted.
+
+## Prior boundary — UIQ-03 integration shipped (Slices 736–738)
 
 UIQ-03 is merged, deployed to the existing Pages preview, publicly verified,
 and closed as Done on the canonical Control Center board. PR #23 merged Slice
@@ -35,8 +72,9 @@ The integration is limited to a read-only presentation inside Design
 readiness behind the embedded `uiq_guidance` flag, with the exact legacy
 checklist fail-safe. It does not alter validation, measurements, persistence,
 pattern generation or exports. This remains a local-first, no-cost preview;
-no login, database, profiles, cloud sync or paid/new service was added. UIQ-04,
-UIQ-05 and UIQ-07 remain Backlog. No next integration is admitted; follow
+no login, database, profiles, cloud sync or paid/new service was added. At the
+UIQ-03 closeout boundary UIQ-04/05/07 were Backlog; UIQ-04 was later admitted
+and is now in Review, while UIQ-05/07 remain Backlog. No next integration is admitted; follow
 `PROJECT-STATE.md`, the board and a fresh maintainer authorization before
 starting another package.
 

@@ -171,7 +171,22 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/uiq03-integration/evidence/S738-final-closeout.json` and
   `docs/release/UIQ-03-S738-FINAL-CLOSEOUT.md`. Board revision 4383 retains
   UIQ-03 Done with the final proof; the UIQ-03 goal is complete.
-  UIQ-04/05/07 remain Backlog; no further integration is admitted.
+  UIQ-04/05/07 remain Backlog at that historical closeout boundary; the
+  maintainer subsequently admitted UIQ-04 on current main. Its exact host,
+  value mapping, `uiq_material` fallback, file boundaries and two-slice gates
+  are in `docs/planning/UIQ-04-INTEGRATION-ADMISSION.md`; live goal and
+  verification ledger are in `docs/planning/UIQ-04-GOAL.md`. Slice 739 is
+  integration/pre-merge review; Slice 740 is post-merge release closeout.
+  Slice 739 gates and browser/package evidence are in
+  `docs/release/UIQ-04-INTEGRATION-S739-EXIT.md` and
+  `docs/research/uiq04-integration/evidence/S739-verification.json`. UIQ-04 is
+  currently Review at board revision 4390; the final full gate passed; final
+  diff review, unique-slice recheck, commit/PR and merge remain pending.
+  UIQ-05/07 remain Backlog and unadmitted.
+- `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
+  `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
+  immutable UIQ-04 isolated candidate. Candidate completion is not shipped
+  behavior; use the fresh UIQ-04 integration admission for app wiring.
 - `docs/planning/UI-ENHANCEMENT-BOARD-COMMANDS.json` — additive validated replay
   for newer boards, never replacement of active progress with an older board.
   `UI-ENHANCEMENT-EPIC17-NOTE.md` is the user-pasted non-diverting handoff;

@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-04",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Maintainer authorized the next ordered UIQ package after UIQ-03 merged and deployed. Current-main UIQ-04 integration admission, unique S739/S740 boundaries, exact scope, flag/fallback, risks, and gates are recorded in docs/planning/UIQ-04-INTEGRATION-ADMISSION.md and UIQ-04-GOAL.md.",
+  "expectedRevision": 4384
+}

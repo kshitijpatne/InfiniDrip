@@ -56,6 +56,18 @@ export const FEATURE_FLAGS = Object.freeze({
     onBehavior: "Show the accepted native guidance and journey summary inside Design readiness.",
     offBehavior: "Keep the existing Design readiness checklist and all current journey behavior.",
   } satisfies FeatureFlagDefinition),
+  uiq_material: Object.freeze({
+    key: "uiq_material",
+    owner: "Codex",
+    audience: "public",
+    defaultValue: true,
+    expiresOn: "2027-01-11",
+    removalRelease: "UIQ material clarity adoption/cleanup; no later than expiry",
+    rollout: "embedded",
+    fallback: "compatible-v1",
+    onBehavior: "Show the accepted read-only material behavior and screen-appearance panel beside existing controls.",
+    offBehavior: "Keep the existing material and appearance controls with no added disclosure.",
+  } satisfies FeatureFlagDefinition),
   polo_v2: Object.freeze({
     key: "polo_v2",
     owner: "Codex",

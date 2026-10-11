@@ -1,0 +1,68 @@
+{
+  "slice": 739,
+  "status": "pre-merge gates passed; review and PR pending",
+  "base": "9bdea4bc46d6a8fa282a4679dbb87ab544998ede",
+  "branch": "codex/uiq04-integration",
+  "acceptedCandidateIdentity": "docs/research/uiq04-integration/accepted-candidate-identity.json",
+  "globalCoverage": {
+    "testFilesPassed": 164,
+    "testFilesFailed": 0,
+    "testsPassed": 2653,
+    "testsFailed": 0,
+    "statementsPercent": 100,
+    "branchesPercent": 100,
+    "functionsPercent": 100,
+    "linesPercent": 100,
+    "workerCount": 1,
+    "durationSeconds": 946.08,
+    "exportByteIdentityTests": "passed"
+  },
+  "build": {
+    "production": "passed",
+    "previewTypecheck": "passed",
+    "chunkSizeAdvisory": "existing >500 kB warning"
+  },
+  "operationalGates": {
+    "controlCenter": { "passed": 42, "failed": 0 },
+    "webRelease": { "passed": 10, "failed": 0 },
+    "readinessDrill": { "passed": 5, "failed": 0 }
+  },
+  "browser": {
+    "target": "built production dist via local preview",
+    "viewportsCssPx": [1280, 640, 320],
+    "documentWidth320": 320,
+    "horizontalOverflow": false,
+    "reviewButtonTouchTargetsMinHeight": 44,
+    "keyboardDisclosure": "passed",
+    "reviewActionsPreserveValues": true,
+    "visibilityFollowsExistingMaterialControls": true,
+    "reducedMotionAndForcedColors": "passed",
+    "offOriginRequests": [],
+    "pageErrors": [],
+    "screenshots": [
+      "docs/research/uiq04-integration/rendered/desktop-collapsed.png",
+      "docs/research/uiq04-integration/rendered/desktop-expanded.png",
+      "docs/research/uiq04-integration/rendered/narrow-320.png"
+    ]
+  },
+  "packagedElectron": {
+    "platform": "win32-x64",
+    "electron": "44.1.0",
+    "result": "passed",
+    "inventoryFiles": 72,
+    "inventorySha256": "b6476aaef2b43716a729db252bd8a5939515f99d80192a44980ff46ee22ece09",
+    "executableBytes": 245289984,
+    "noAbsoluteDevPath": true,
+    "sixOutputFamiliesButtonMenuByteIdentity": true,
+    "offlineFreshProfileAndReload": true,
+    "cancelFailureAndWindowLifecycle": "passed",
+    "errors": []
+  },
+  "diagnosticAttempt": {
+    "parallelCoverage": "one pre-existing S425 all-option replay timed out at 60 seconds under concurrency",
+    "isolatedS425Seconds": 3.24,
+    "settledSingleWorkerS425Seconds": 4.85,
+    "settledGlobalRun": "all tests and 100% thresholds passed"
+  },
+  "deployment": "not performed; Slice 740 is post-merge only"
+}
