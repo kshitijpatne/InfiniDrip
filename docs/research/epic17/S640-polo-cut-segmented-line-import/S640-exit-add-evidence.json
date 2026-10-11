@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3703,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S640-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S640-polo-cut-segmented-line-import/S640-exit-packet.md",
+    "verified": true,
+    "note": "S640 tested one new connected-LINE representation on five Polo CUT contours in CLO Standard DXF. Native pre-export comparison passes four of nine contours but fails back, both collar stands and both pointed collars at the unchanged 0.001 cm gate; no export/reimport was performed. Hash-pinned native comparison and actual nine-piece CLO overview are retained in the named C: evidence folder. This rejects only this representation; V03 gates, all-seven scope and all holds remain unchanged."
+  }
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3130,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S504-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S504-s503-diff-hygiene/S504-exit-packet.md",
+      "verified": true,
+      "note": "S504 separately removes two S503 trailing-blank-line findings and corrects the exact check record without rewriting S503. Staged and unstaged diff checks pass; V03 remains in progress with all gates unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3131,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S504 closes the S503 packet hygiene follow-up. The two staged diff-check findings are fixed in a new uniquely numbered commit; S503 history is preserved. Control Center tests pass 42/42 and staged/unstaged diff checks pass. No acceptance or V03 status change; goal remains open."
+  }
+]

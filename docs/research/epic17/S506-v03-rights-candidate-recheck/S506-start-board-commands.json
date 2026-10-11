@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3135,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S506-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S506-v03-rights-candidate-recheck/S506-start-packet.md",
+      "verified": true,
+      "note": "S506 rechecks official rights, privacy/local handling, host support and apparel-DXF documentation for the previously identified Richpeace V8 Free English and V10 Demo Free candidates. It performs no installation, terms acceptance, file transfer or fixture test and changes no V03 gate. OpenCode receives a disjoint official-source audit in exact Muse Spark 1.3 xhigh normal mode; Codex owns synthesis and verification."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3136,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S506 is a bounded official-source recheck of the existing Richpeace V8/V10 leads, not another general receiver search. No install, terms acceptance, contact, or pattern/fixture operation is authorized. Exact V03 rights, local handling, profile, grade, negative-control, round-trip and all-seven gates remain in force."
+  }
+]

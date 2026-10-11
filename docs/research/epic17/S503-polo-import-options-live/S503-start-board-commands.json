@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3125,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S503-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S503-polo-import-options-live/S503-start-packet.md",
+      "verified": true,
+      "note": "Retry the exact four-cell Polo M CLO import matrix (AAMA/ASTM × Optimize All Curve Points off/on) in the already-running window; hash-pin and confine all exchange material to the named C: folder. Preserve 0.001 cm and all V03 gates."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3126,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S503 retries the four-cell Polo import-option matrix because the maintainer reports CLO running and the Windows app inventory returned one running CLO window. First inspect that exact window; use only fresh state-derived actions. If it is not controllable, stop after the documented recovery attempt. All files stay under C:\\G04-CLO-DXF-Exchange\\S503-polo-import-options; preserve every V03 gate."
+  }
+]

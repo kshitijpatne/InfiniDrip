@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2713,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S451-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S451-woven-decision-proposals/G04-WOVEN-BLOCKER-DECISION-PROPOSALS-S451.md",
+      "verified": true,
+      "note": "Starts a source/evidence reconciliation and exact proposal packet for the two remaining Woven V02 holds; no prior view choice or acceptance is changed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2714,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S451 reuses existing exact-source evidence rather than repeating general research or candidate scans. It states which two prior view decisions a source-free design trial would need to supersede, its measured output tradeoffs, and the applicable 28-option gates. Until separately approved, retain all Woven holds."
+  }
+]

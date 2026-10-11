@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3518,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S597-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S597-clo-helper-recovery/S597-start-packet.md",
+    "verified": true,
+    "note": "S597 permits one automation-helper reset and fresh CLO window observation; a read-only pattern query is conditional on coherent accessibility and screenshot state. CLO is not restarted and no DXF exchange repeats."
+  }
+}

@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2232,"itemId":"G04-V02","evidence":{"id":"E-G04-S400-START","kind":"document","uri":"docs/research/epic17/S400-woven-placket-marker-implementation/G04-V02-WOVEN-PLACKET-MARKER-IMPLEMENTATION-S400.md","verified":true,"note":"Begins implementation and exact 28-option verification of the maintainer-approved S396 Woven W marker treatment. Ring remains at the exact buttonPlacket.top midpoint, painted below source strokes, with only the W glyph offset; all face holds remain."}},
+  {"type":"addEvidence","expectedRevision":2233,"itemId":"EPIC-17","evidenceId":"E-G04-S400-START"}
+]

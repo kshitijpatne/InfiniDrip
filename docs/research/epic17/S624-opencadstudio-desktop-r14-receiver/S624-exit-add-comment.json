@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3636,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S624 establishes a positive local general-CAD R14 result: the official signed Open CAD Studio v2026.40.1 CLI preserves all CUT/SEW contours for seven current-source M recipe fixtures and Tee XS/XL, passes two byte-identical R14 generations, rejects malformed input, and produces reviewed receiver plots. It does not establish an apparel industrial profile, stable garment/mark semantics, supported-option or grading exchange, so no full V03 gate clears. V02 remains Done; G04-V03 and EPIC-17 remain In Progress. Continue from the matrix; keep every admitted criterion unchanged. See E-G04-S624-EXIT and E-G04-S624-MATRIX."
+}

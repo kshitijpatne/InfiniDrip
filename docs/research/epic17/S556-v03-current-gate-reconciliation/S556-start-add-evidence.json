@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3337,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S556-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S556-v03-current-gate-reconciliation/S556-start-packet.md",
+    "verified": true,
+    "note": "Reconcile every current V03 pass/fail/partial/unknown gate to source evidence and identify minimum remaining proof without repeating known CLO scenarios or changing acceptance."
+  }
+}

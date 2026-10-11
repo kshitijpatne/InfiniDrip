@@ -1,0 +1,5708 @@
+{
+  "method": "Exact S406 emitted FRONT_FLAT SVG path data; cubic curves screened at 120 chords; strict interior segment intersections clustered to 0.015 cm. This is a visual-path diagnostic, not a seam-validity test.",
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "pairs": [
+    {
+      "pair": "front <> outerStand",
+      "configurations": 28,
+      "totalPathPairs": 56,
+      "pointCounts": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "pair": "front <> underCollar",
+      "configurations": 28,
+      "totalPathPairs": 112,
+      "pointCounts": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "pair": "front <> upperCollar",
+      "configurations": 28,
+      "totalPathPairs": 112,
+      "pointCounts": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "pair": "buttonholePlacket <> outerStand",
+      "configurations": 28,
+      "totalPathPairs": 28,
+      "pointCounts": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "pair": "buttonholePlacket <> underCollar",
+      "configurations": 28,
+      "totalPathPairs": 53,
+      "pointCounts": [
+        2,
+        2,
+        2,
+        1,
+        2,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "pair": "buttonholePlacket <> upperCollar",
+      "configurations": 28,
+      "totalPathPairs": 53,
+      "pointCounts": [
+        2,
+        2,
+        2,
+        1,
+        2,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "pair": "buttonPlacket <> underCollar",
+      "configurations": 28,
+      "totalPathPairs": 53,
+      "pointCounts": [
+        2,
+        2,
+        2,
+        1,
+        2,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "pair": "buttonPlacket <> upperCollar",
+      "configurations": 28,
+      "totalPathPairs": 53,
+      "pointCounts": [
+        2,
+        2,
+        2,
+        1,
+        2,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "pair": "buttonPlacket <> outerStand",
+      "configurations": 28,
+      "totalPathPairs": 28,
+      "pointCounts": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.466307168996147,
+              "y": 0.49326143379922943
+            },
+            {
+              "x": 12.466307168996147,
+              "y": 0.49326143379922943
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.466307168996147,
+              "y": 0.49326143379922943
+            },
+            {
+              "x": 12.466307168996147,
+              "y": 0.49326143379922943
+            },
+            {
+              "x": -0.8427012871589177,
+              "y": 7.971896138523247
+            },
+            {
+              "x": 0.8427012871589177,
+              "y": 7.971896138523247
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.466307168996147,
+              "y": 0.49326143379922943
+            },
+            {
+              "x": 12.466307168996147,
+              "y": 0.49326143379922943
+            },
+            {
+              "x": -0.8427012871589177,
+              "y": 7.971896138523247
+            },
+            {
+              "x": 0.8427012871589177,
+              "y": 7.971896138523247
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.623904811265401
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.623904811265401
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.623904811265401
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8
+            },
+            {
+              "x": 5,
+              "y": 9.623904811265401
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8
+            },
+            {
+              "x": 5,
+              "y": 9.623904811265401
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.623904811265401
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -13.214198867367571,
+              "y": 0.5242976313548026
+            },
+            {
+              "x": 13.214198867367571,
+              "y": 0.5242976313548026
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -13.214198867367571,
+              "y": 0.5242976313548026
+            },
+            {
+              "x": 13.214198867367571,
+              "y": 0.5242976313548026
+            },
+            {
+              "x": -0.8420496557993047,
+              "y": 8.573851032602086
+            },
+            {
+              "x": 0.8420496557993047,
+              "y": 8.573851032602086
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -13.214198867367571,
+              "y": 0.5242976313548026
+            },
+            {
+              "x": 13.214198867367571,
+              "y": 0.5242976313548026
+            },
+            {
+              "x": -0.8420496557993047,
+              "y": 8.573851032602086
+            },
+            {
+              "x": 0.8420496557993047,
+              "y": 8.573851032602086
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 10.275691873963517
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 10.275691873963517
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.6
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 10.275691873963517
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.6
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.6
+            },
+            {
+              "x": 5,
+              "y": 10.275691873963517
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.6
+            },
+            {
+              "x": 5,
+              "y": 10.275691873963517
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 10.275691873963517
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -11.729380919824965,
+              "y": 0.30191447343366623
+            },
+            {
+              "x": 11.729380919824965,
+              "y": 0.30191447343366623
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -11.729380919824965,
+              "y": 0.30191447343366623
+            },
+            {
+              "x": 11.729380919824965,
+              "y": 0.30191447343366623
+            },
+            {
+              "x": -0.5032987220308646,
+              "y": 8.190103833907406
+            },
+            {
+              "x": 0.5032987220308646,
+              "y": 8.190103833907406
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -11.729380919824965,
+              "y": 0.30191447343366623
+            },
+            {
+              "x": 11.729380919824965,
+              "y": 0.30191447343366623
+            },
+            {
+              "x": -0.5032987220308646,
+              "y": 8.190103833907406
+            },
+            {
+              "x": 0.5032987220308646,
+              "y": 8.190103833907406
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 8.783839633823685
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 8.783839633823685
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 8.783839633823685
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 8.783839633823685
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 8.783839633823685
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 8.783839633823685
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -13.701883658647763,
+              "y": 0.7044660527852575
+            },
+            {
+              "x": 13.701883658647763,
+              "y": 0.7044660527852575
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -13.701883658647763,
+              "y": 0.7044660527852575
+            },
+            {
+              "x": 13.701883658647763,
+              "y": 0.7044660527852575
+            },
+            {
+              "x": -1.1847902949583835,
+              "y": 8.14562911512485
+            },
+            {
+              "x": 1.1847902949583835,
+              "y": 8.14562911512485
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -13.701883658647763,
+              "y": 0.7044660527852575
+            },
+            {
+              "x": 13.701883658647763,
+              "y": 0.7044660527852575
+            },
+            {
+              "x": -1.1847902949583835,
+              "y": 8.14562911512485
+            },
+            {
+              "x": 1.1847902949583835,
+              "y": 8.14562911512485
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 10.896991683824188
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 10.896991683824188
+            },
+            {
+              "x": -1.1666666666666667,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 10.896991683824188
+            },
+            {
+              "x": -1.1666666666666667,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 1.1666666666666667,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 10.896991683824188
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 1.1666666666666667,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 10.896991683824188
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 10.896991683824188
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -1.2818053625634753,
+              "y": 8.136389274873048
+            },
+            {
+              "x": 1.2818053625634753,
+              "y": 8.136389274873048
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -1.2818053625634753,
+              "y": 8.136389274873048
+            },
+            {
+              "x": 1.2818053625634753,
+              "y": 8.136389274873048
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.628841527721126,
+              "y": 8.184633889115496
+            },
+            {
+              "x": 0.628841527721126,
+              "y": 8.184633889115496
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.628841527721126,
+              "y": 8.184633889115496
+            },
+            {
+              "x": 0.628841527721126,
+              "y": 8.184633889115496
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -4,
+              "y": 10.157413251083067
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -4,
+              "y": 10.157413251083067
+            },
+            {
+              "x": -0.8333333333333334,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -4,
+              "y": 10.157413251083067
+            },
+            {
+              "x": -0.8333333333333334,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333334,
+              "y": 8.2
+            },
+            {
+              "x": 4,
+              "y": 10.157413251083067
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333334,
+              "y": 8.2
+            },
+            {
+              "x": 4,
+              "y": 10.157413251083067
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 4,
+              "y": 10.157413251083067
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -6,
+              "y": 9.440082688910698
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -6,
+              "y": 9.440082688910698
+            },
+            {
+              "x": -0.8333333333333334,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -6,
+              "y": 9.440082688910698
+            },
+            {
+              "x": -0.8333333333333334,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333334,
+              "y": 8.2
+            },
+            {
+              "x": 6,
+              "y": 9.440082688910698
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333334,
+              "y": 8.2
+            },
+            {
+              "x": 6,
+              "y": 9.440082688910698
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 6,
+              "y": 9.440082688910698
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": 12.715632824489138,
+              "y": 0.5031903723447217
+            },
+            {
+              "x": -0.8424349315258872,
+              "y": 8.172695205422338
+            },
+            {
+              "x": 0.8424349315258872,
+              "y": 8.172695205422338
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -5,
+              "y": 9.841155352180163
+            },
+            {
+              "x": -0.8333333333333333,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8333333333333333,
+              "y": 8.2
+            },
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 5,
+              "y": 9.841155352180163
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pathCounts": {
+        "front": 8,
+        "outerStand": 2,
+        "underCollar": 2,
+        "upperCollar": 2,
+        "buttonPlacket": 3,
+        "buttonholePlacket": 3
+      },
+      "collarIdenticalPathCounts": {
+        "outerStand_underCollar": 0,
+        "outerStand_upperCollar": 0,
+        "underCollar_upperCollar": 2
+      },
+      "crossings": [
+        {
+          "pair": "front <> outerStand",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -13.208782561546627,
+              "y": 0.6038331758258422
+            },
+            {
+              "x": 13.208782561546627,
+              "y": 0.6038331758258422
+            }
+          ]
+        },
+        {
+          "pair": "front <> underCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -13.208782561546627,
+              "y": 0.6038331758258422
+            },
+            {
+              "x": 13.208782561546627,
+              "y": 0.6038331758258422
+            },
+            {
+              "x": -0.8654060319336707,
+              "y": 8.171078888232152
+            },
+            {
+              "x": 0.8654060319336707,
+              "y": 8.171078888232152
+            }
+          ]
+        },
+        {
+          "pair": "front <> upperCollar",
+          "entityPathPairs": 4,
+          "pointGroups": 4,
+          "points": [
+            {
+              "x": -13.208782561546627,
+              "y": 0.6038331758258422
+            },
+            {
+              "x": 13.208782561546627,
+              "y": 0.6038331758258422
+            },
+            {
+              "x": -0.8654060319336707,
+              "y": 8.171078888232152
+            },
+            {
+              "x": 0.8654060319336707,
+              "y": 8.171078888232152
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": -6,
+              "y": 9.984367897727273
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -6,
+              "y": 9.984367897727273
+            },
+            {
+              "x": -0.8571428571428571,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonholePlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": -6,
+              "y": 9.984367897727273
+            },
+            {
+              "x": -0.8571428571428571,
+              "y": 8.2
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> underCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8571428571428571,
+              "y": 8.2
+            },
+            {
+              "x": 6,
+              "y": 9.984367897727273
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> upperCollar",
+          "entityPathPairs": 2,
+          "pointGroups": 2,
+          "points": [
+            {
+              "x": 0.8571428571428571,
+              "y": 8.2
+            },
+            {
+              "x": 6,
+              "y": 9.984367897727273
+            }
+          ]
+        },
+        {
+          "pair": "buttonPlacket <> outerStand",
+          "entityPathPairs": 1,
+          "pointGroups": 1,
+          "points": [
+            {
+              "x": 6,
+              "y": 9.984367897727273
+            }
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "front",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:front:outline:view-clip-shoulder",
+          "clip": "G04-S404-WOVEN-SHOULDER-COLLAR-OCCLUSION"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonholePlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonholePlacket:outline:approved-left-closure:view-clip-top",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        },
+        {
+          "role": "buttonPlacket",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline:view-clip-outerRaw",
+          "clip": "G04-S406-WOVEN-COLLAR-OVER-PLACKETS"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2546,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S431-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S431-evidence-backed-blocker-review/G04-V02-EVIDENCE-BACKED-BLOCKER-REVIEW-S431.md",
+      "verified": true,
+      "note": "Reconciles exact Opus 5.5 repository research with current Woven/Polo source and retained output; establishes no verified Woven remedy, an unapproved Polo residual-applicability decision, and preserves all holds and G04 gates."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2547,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S431-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2548,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S431 reconciles exact-model read-only findings with current source and retained output. No verified Woven front/back fix is established; the local-Y reflection is an unverified view candidate. Polo's exact S351 eased-seam residual repeats at 0.677835 cm across 17 options; a narrowly scoped residual exemption requires approval. All 56 Woven/34 Polo faces remain held and the numeric 0.25 cm limit/all-seven/V02-before-V03 gates are unchanged."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2549,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S431 closes the bounded research slice without clearing a V02 blocker or weakening scope. V03 remains gated by all-seven V02 and a rights-cleared receiver/profile plus round-trip evidence."
+  }
+]

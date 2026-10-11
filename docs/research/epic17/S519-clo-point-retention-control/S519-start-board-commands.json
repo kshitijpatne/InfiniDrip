@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3187,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S519-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S519-clo-point-retention-control/S519-start-packet.md",
+      "verified": true,
+      "note": "S519 will inspect only official CLO documentation for a previously untested source-vertex retention control and reconcile it with S503/S516; run one same-fixture setting test only if official evidence ties it directly to preserving contour vertices. No matrix, geometry edit, threshold change, profile claim, or repeat of the S518 native save."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3188,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S519 is limited to finding a documented reason for one new CLO point-retention test. The user authorized local CLO trial use, but this does not authorize speculative repeats. If no official documentation ties an untested control to vertex preservation, do not run another fixture and focus next on a rights-reviewed alternative receiver/profile."
+  }
+]

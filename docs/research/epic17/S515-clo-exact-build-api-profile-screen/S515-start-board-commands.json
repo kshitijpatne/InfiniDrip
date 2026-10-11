@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":3171,"itemId":"G04-V03","evidence":{"id":"E-G04-S515-START","kind":"document","uri":"docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-start-packet.md","verified":true,"note":"S515 is a source-only refresh of official CLO API option and SDK version docs for exact .310 profile mapping. No SDK download/install or CLO/file operation; all V03 gates unchanged."}},
+  {"type":"addComment","expectedRevision":3172,"itemId":"G04-V03","actor":"Codex","text":"S515 checks whether current official CLO docs now provide a matching .310 SDK or DXF profile enum mapping. This is bounded source review only; no repeated practical tests, install, or format inference. Keep CLO running and preserve the one-pilot plan under S503 authorization."}
+]

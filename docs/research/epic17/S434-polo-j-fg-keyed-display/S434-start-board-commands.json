@@ -1,0 +1,28 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2574,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S434-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S434-polo-j-fg-keyed-display/G04-V02-POLO-J-FG-KEYED-DISPLAY-S434.md",
+      "verified": true,
+      "note": "Starts implementation and 17-option review of the exact maintainer-approved Polo J/FG keyed callout trial; acceptance, statuses and all view holds remain unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2575,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S434 from clean S433 9939c65. Implement only the approved exact J marker at outerStand.frontEnd start and shared FG ring at outerStand.frontNeckline start with its three distinct full-text POM rows. Preserve source anchors, geometry, stitches, other keys, exports and all holds. Replay/render all 17 options; approval authorizes verification only."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2576,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "Start S434 applies the approved Polo J/FG callout presentation only. V02 remains In Progress and no face is accepted pending complete option-wide and rendered checks; preserve the all-seven/V02-before-V03 and all CAD/export gates."
+  }
+]

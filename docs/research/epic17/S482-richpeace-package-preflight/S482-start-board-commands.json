@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2983,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S482-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-start-packet.md",
+      "verified": true,
+      "note": "S482 inspects only the official Richpeace V8 Free English package metadata/signature without executing it. The installer and all exchange-related material stay in C:\\G04-CLO-DXF-Exchange."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2984,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S482-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S482-richpeace-package-preflight/S482-start-packet.md",
+      "verified": true,
+      "note": "S482 performs a static pre-install inspection of the official Richpeace V8 package; no execution, fixture use, or V03 gate change."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2985,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S482-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2986,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S482 checks the exact official V8 package metadata and signature without running it. No installation or fixture use is authorized by this slice."
+  }
+]

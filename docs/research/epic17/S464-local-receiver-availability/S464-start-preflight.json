@@ -1,0 +1,47 @@
+{
+  "startRevision": 2842,
+  "exitRevision": 2846,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2842,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S464-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S464-local-receiver-availability/S464-start-packet.md",
+        "verified": true,
+        "note": "S464 performs a read-only installed CAD receiver name/version check; no license details, trial, install, or file transfer are inspected or initiated."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2843,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S464-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S464-local-receiver-availability/S464-start-packet.md",
+        "verified": true,
+        "note": "S464 is a bounded local receiver availability audit with no external contact, spending, installation, or license-data access."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2844,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S464-START"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2845,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S464 checks for an already installed receiver without reading activation or license data. An installed app alone will not count as rights/access evidence. V03 remains In Progress. See E-G04-S464-START."
+    }
+  ]
+}

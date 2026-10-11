@@ -1,0 +1,117 @@
+{
+  "trialOnly": true,
+  "proposedOrder": "projected collar remains foreground; clip only the body front.neckline seam from its source center-front endpoint through the first same-revision collar intersection on each reflected side",
+  "sourceIdentityPreserved": true,
+  "cutGeometryChanged": false,
+  "stitchGraphChanged": false,
+  "productionOutputChanged": false,
+  "browserErrors": 0,
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "edits": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "crossingCm": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "tFromCenterFront": 0.05010526195652941,
+          "removedNecklineLengthCm": 0.8430253199287283,
+          "retainedStart": {
+            "x": 0.8424349315258872,
+            "y": 8.172704588001162
+          }
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "crossingCm": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "tFromCenterFront": 0.05010526195652941,
+          "removedNecklineLengthCm": 0.8430253199287283,
+          "retainedStart": {
+            "x": -0.8424349315258872,
+            "y": 8.172704588001162
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "edits": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "crossingCm": {
+            "x": 0.8427012871589177,
+            "y": 7.971896138523247
+          },
+          "tFromCenterFront": 0.05138835189139915,
+          "removedNecklineLengthCm": 0.843322458813298,
+          "retainedStart": {
+            "x": 0.8427012871589176,
+            "y": 7.9719980143886335
+          }
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "crossingCm": {
+            "x": -0.8427012871589177,
+            "y": 7.971896138523247
+          },
+          "tFromCenterFront": 0.05138835189139916,
+          "removedNecklineLengthCm": 0.8433224588132981,
+          "retainedStart": {
+            "x": -0.8427012871589177,
+            "y": 7.9719980143886335
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "edits": [
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "crossingCm": {
+            "x": 0.8420496557993047,
+            "y": 8.573851032602086
+          },
+          "tFromCenterFront": 0.04772929662019185,
+          "removedNecklineLengthCm": 0.8425852387635586,
+          "retainedStart": {
+            "x": 0.8420496557993049,
+            "y": 8.574007565628007
+          }
+        },
+        {
+          "entityId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline:physical-pair-reflection",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "crossingCm": {
+            "x": -0.8420496557993047,
+            "y": 8.573851032602086
+          },
+          "tFromCenterFront": 0.04772929662019186,
+          "removedNecklineLengthCm": 0.8425852387635597,
+          "retainedStart": {
+            "x": -0.8420496557993051,
+            "y": 8.574007565628007
+          }
+        }
+      ]
+    }
+  ],
+  "hiddenLengthBoundsCm": {
+    "min": 0.8425852387635586,
+    "max": 0.8433224588132981
+  }
+}

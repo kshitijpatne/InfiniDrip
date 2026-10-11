@@ -1,0 +1,36 @@
+[
+  {
+    "type": "editItem",
+    "expectedRevision": 2768,
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. S458 current tally: 112 locally accepted / 34 pending integrated all-seven acceptance across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The former S457/board claim of a 0.68 cm Polo sleeve-cap residual against 0.25 cm was stale: current 17-option/34-face production replay verifies the exact approved S351 relation exception with zero such diagnostics; every other relation retains the 0.25 cm gate. Polo current revisions, output paths, 13 keyed POM/full-text rows per front and full-label audit pass local checks; final all-seven acceptance is still pending. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 needs rights-reviewed receiver/version/profile and representative observed round-trip evidence before exact format claims. No physical-fit, factory-acceptance or production-readiness claim. Current status/evidence: docs/research/epic17/S458-polo-current-output-reconciliation/S458-exit-packet.md."
+    }
+  },
+  {
+    "type": "editEpic",
+    "expectedRevision": 2769,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Synchronize the canonical Epic record with S458's verified current Polo output and preserve its integrated all-seven V02 gate.",
+    "patch": {
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. S458 current tally: 112 locally accepted / 34 pending integrated all-seven acceptance across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The former S457/board claim of a 0.68 cm Polo sleeve-cap residual against 0.25 cm was stale: current 17-option/34-face production replay verifies the exact approved S351 relation exception with zero such diagnostics; every other relation retains the 0.25 cm gate. Polo current revisions, output paths, 13 keyed POM/full-text rows per front and full-label audit pass local checks; final all-seven acceptance is still pending. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 needs rights-reviewed receiver/version/profile and representative observed round-trip evidence before exact format claims. No physical-fit, factory-acceptance or production-readiness claim. Current status/evidence: docs/research/epic17/S458-polo-current-output-reconciliation/S458-exit-packet.md."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2770,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S458-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2771,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S458 corrects stale S457 status: Polo's 0.68 cm-vs-0.25 cm residual is not an active blocker under the exact approved S351 same-revision mapping. Current all-17-option production replay and audits pass Polo local checks. Preserve 34 face requests as pending the integrated all-seven V02 review; no acceptance criteria or threshold changed. V03 remains gated. Evidence E-EPIC17-S458-EXIT."
+  }
+]

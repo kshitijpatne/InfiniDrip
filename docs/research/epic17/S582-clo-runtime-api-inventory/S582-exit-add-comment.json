@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3444,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S582 ran one read-only dir(pattern_api) inventory in CLO 2026.1.310 and captured 217 public names. GetPatternInformation, GetPatternInputInformation, GetPatternInternalShapePoints, GetPatternBaselinePoints, GetPatternOutlinePoints and GetPatternLineInfo are exposed; GetInnerShapeList and GetInternalShapeInformation are not. No getter was invoked and no geometry or acceptance claim changes. Next S583 makes one bounded call to the two documented JSON information getters across the nine existing imported patterns, then the work returns to direct V03 exchange acceptance checks. See E-G04-S582-EXIT."
+}

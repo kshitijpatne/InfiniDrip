@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3516,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S596-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S596-clo-periodic-import-boundary/S596-exit-packet.md",
+    "verified": true,
+    "note": "S596 records a concrete CLO UI automation mismatch: accessibility reports Export DXF while the fresh screenshot shows only the canvas and no separate dialog is targetable. No pattern API call or file operation occurred; V03 gates remain unchanged."
+  }
+}

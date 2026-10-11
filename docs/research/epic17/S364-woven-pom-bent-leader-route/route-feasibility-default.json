@@ -1,0 +1,68 @@
+{
+  "source": "docs/research/epic17/S362-woven-full-collar/woven-shirt-default-front.svg",
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+  "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+  "anchor": {
+    "x": 2.5,
+    "y": 8.2
+  },
+  "labelEndpoint": {
+    "x": 8.5632,
+    "y": 10.7637
+  },
+  "collarSubsegments": 256,
+  "clearanceCm": 0.25,
+  "grid": {
+    "stepCm": 0.05,
+    "width": 341,
+    "height": 321,
+    "visitedNodes": 79721
+  },
+  "found": true,
+  "route": [
+    {
+      "x": 2.5,
+      "y": 8.2
+    },
+    {
+      "x": 12.75,
+      "y": -0.3999999999999999
+    },
+    {
+      "x": 13,
+      "y": -0.09999999999999964
+    },
+    {
+      "x": 13.05,
+      "y": 0
+    },
+    {
+      "x": 12.9,
+      "y": 1.5499999999999998
+    },
+    {
+      "x": 12.55,
+      "y": 2.95
+    },
+    {
+      "x": 12.15,
+      "y": 3.95
+    },
+    {
+      "x": 8.5632,
+      "y": 10.7637
+    }
+  ],
+  "routeLengthCm": 25.66,
+  "directLengthCm": 6.583,
+  "routeToDirectLengthRatio": 3.9,
+  "minimumMeasuredClearanceCm": 0.251,
+  "collarCrossingCount": 0,
+  "collarCrossings": [],
+  "visibleCollarInstances": {
+    "outerStand": 2,
+    "underCollar": 2,
+    "upperCollar": 2
+  }
+}

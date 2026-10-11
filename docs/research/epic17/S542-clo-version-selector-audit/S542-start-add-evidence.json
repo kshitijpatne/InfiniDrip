@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3279,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S542-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S542-clo-version-selector-audit/S542-start-packet.md",
+    "verified": true,
+    "note": "Check official CLO export documentation and existing saved dialog evidence for an exact DXF version/edition selector; no app operation or exchange."
+  }
+}

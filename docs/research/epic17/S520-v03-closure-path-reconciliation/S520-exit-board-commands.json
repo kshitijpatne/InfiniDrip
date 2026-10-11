@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3193,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S520-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S520-v03-closure-path-reconciliation/S520-exit-packet.md",
+      "verified": true,
+      "note": "S520 reconciles current official CLO terms and current source repositories with existing measured tests. No currently reviewed candidate clears permission, local handling, apparel-DXF bidirectional capability and the unchanged all-seven round-trip gates. No UI, file, install, account, or external-message action occurred; CLO remains open and idle."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3194,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "One-pass V03 candidate reconciliation is complete. Stop repeated CLO UI checks: S519's actual output still fails the Polo 0.001 cm geometry gate, and S520 found no alternate candidate with demonstrated rights plus apparel-DXF import/export. The only new external fact that can clear CLO Gate 0 is a written answer on permitted local evaluation and data handling; the prepared message was not sent. CLO remains open and idle."
+  }
+]

@@ -11,7 +11,7 @@ export default defineConfig({
     // Operational Control Center and delivery-proof tests use Node's built-in
     // runner and are invoked explicitly by their own gate. Keep Vitest's
     // application suite focused on the TypeScript product tests.
-    exclude: ["**/node_modules/**", "**/.git/**", "ops/**/*.test.mjs"],
+    exclude: ["**/node_modules/**", "**/.git/**", "ops/**/*.test.mjs", "docs/**/*.test.mjs"],
     coverage: {
       provider: "v8",
       include: ["src/**/*.ts"],

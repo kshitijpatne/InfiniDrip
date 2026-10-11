@@ -26,7 +26,7 @@ import { NecklineParams, necklineEdge } from "./neckline";
 import { sleevelessArmhole } from "./armhole";
 import { PieceNotches } from "./tshirt-notches";
 import { Pom } from "./pom";
-import { TSHIRT_POMS } from "./tshirt-pom";
+import { TEE_POMS } from "./tshirt-pom";
 import { easeRange, armholeDepthCheck, shoulderCheck } from "./tshirt-guidance";
 
 /** Shoulder + side only — no sleeve underarm, no cap-ease. The armhole is
@@ -138,4 +138,5 @@ export const TANK_NOTCHES: readonly PieceNotches[] = [
 /** The tee's first 7 POMs (Body chest through Front neck drop) — the last 3
  *  (Sleeve length/bicep/hem) all read `rolePiece(b,"sleeve")`, which throws
  *  on a tank. */
-export const TANK_POMS: readonly Pom[] = TSHIRT_POMS.slice(0, 7);
+/** Tank reuses the source-backed Tee body methods, excluding the three sleeve POMs. */
+export const TANK_POMS: readonly Pom[] = TEE_POMS.slice(0, 7);

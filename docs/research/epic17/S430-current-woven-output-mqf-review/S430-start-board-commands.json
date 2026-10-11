@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2538,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S430-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S430-current-woven-output-mqf-review/G04-V02-CURRENT-WOVEN-OUTPUT-MQF-REVIEW-S430.md",
+      "verified": true,
+      "note": "Starts a bounded review of MQF-004–007/011/012/015 against the latest Woven POM output; keeps every finding To be reviewed and all V02 holds/gates unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2539,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S430 from clean S429 86434ae. Review the exact current Woven 14:14 output and S429 POM/readability evidence against the durable G04 manual-finding register, reusing S397/S408 prior dispositions. Preserve all findings as To be reviewed, all 56 Woven/34 Polo holds and every G04 gate; no implementation or scope expansion."
+  }
+]

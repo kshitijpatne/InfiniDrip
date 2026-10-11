@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2305,"itemId":"G04-V02","evidence":{"id":"E-G04-S406-START","kind":"document","uri":"docs/research/epic17/S406-woven-approved-view-conventions/G04-V02-WOVEN-APPROVED-VIEW-CONVENTIONS-S406.md","verified":true,"note":"Starts focused implementation/review of the four exact maintainer-approved Woven front view conventions. Preserves source/cut/stitch geometry, all V02 gates and all face holds; no acceptance is inferred."}},
+  {"type":"addEpicEvidence","expectedRevision":2306,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S406-START"},
+  {"type":"addComment","expectedRevision":2307,"itemId":"G04-V02","actor":"Codex","text":"S406 implements only the approved Woven D marker, pocket foreground, shoulder/collar occlusion and collar-over-plackets layer. It requires exact same-revision 28-option source/render checks and accepts no face."}
+]

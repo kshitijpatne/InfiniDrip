@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3258,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S536 closes the geometry-identical LWPOLYLINE encoding trial: it does not resolve Polo's five CUT-outline losses in CLO AAMA exchange. Do not repeat this encoding or the failed Polo AAMA→ASTM path. V03 remains In Progress with profile, all-seven, round-trip, grading, and semantic gates unchanged. The maintainer confirms written trial-use and handling permission; CLO stays open for G04."
+}

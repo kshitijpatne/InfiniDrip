@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3594,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S615's controlled 1000% Standard-DXF import-scale trial re-imported nine pieces without a format error, but line-normalized comparison shows the emitted geometry is identical to S614's 100% result (only output style name and creation time differ). The front remains 2.850001 × 7.3274 versus source 28.5 × 73.274; 8/18 paths match only at diagnostic 0.1 scale and 10 have changed vertices. The source has no $INSUNITS/$MEASUREMENT. This is a concrete, reproduced scale failure, not a profile qualification. All-seven acceptance, the 0.001 cm geometry gate, V03 holds, legacy behavior and protected export identities remain unchanged. Next isolate the import-unit selector at 100% scale. See E-G04-S615-EXIT and the S615 packet."
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2665,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S444-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S444-build-baseline-typecheck/G04-BUILD-BASELINE-REPAIR-S444.md",
+      "verified": true,
+      "note": "Repairs the saved S441 baseline TypeScript errors without runtime/output changes; focused renderer coverage is 100%, the build passes, and protected export identity regressions pass. All G04 holds and V02/V03 gates remain."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2666,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S444 clears the reproduced TypeScript build blocker using explicit primitive-union narrowing and test fixture guards only. technical-flat-live/svg focused suites pass 87/87; technical-flat-svg changed-module coverage is 100% statements/branches/functions/lines; npm run build passes; protected export identity/regression tests pass 17/17. No runtime/rendered output, geometry, mapping, face or acceptance change. Woven holds from S443, all-seven V02 and V02-before-V03 remain unchanged."
+  }
+]

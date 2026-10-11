@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3450,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S584 opens the hash-pinned S574 post-input-import/pre-export project in the existing CLO 2026.1.310 session and captures GetPatternInputInformation once across nine indexes. This isolates whether S583's pattern point geometry is already present before export. CLO stays open. No import/export or project save is performed, and no stage cause or V03 gate is presumed. See E-G04-S584-START."
+}

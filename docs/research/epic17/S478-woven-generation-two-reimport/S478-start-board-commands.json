@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2951,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S478-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-start-packet.md",
+      "verified": true,
+      "note": "S478 uses the CLO UI to reimport S477's C:-only Woven generation-two DXF and inspect the actual output. Only receiver-trial files are saved under C:\\G04-CLO-DXF-Exchange; V03 claims/gates remain unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2952,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S478-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S478-woven-generation-two-reimport/S478-start-packet.md",
+      "verified": true,
+      "note": "S478 is a bounded second-generation Woven CLO DXF reimport trial; no product behavior, acceptance criteria, or compatibility claim changes."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2953,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S478-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2954,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S478 is a bounded local CLO UI test of reimporting the C:-only Woven DXF re-exported from an earlier CLO reimport project. It will record actual settings, visible 2D results, and hash-bound comparison only. This does not select a standard/profile, satisfy broader V03 acceptance, or claim compatibility."
+  }
+]

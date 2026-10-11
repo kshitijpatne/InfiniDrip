@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3538,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S602-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S602-short-edge-fix-independent-review/S602-start-packet.md",
+    "verified": true,
+    "note": "S602 commissions one read-only, independent technical review of the five pinned Polo CUT vertex omissions for a materially new, primary-source-supported fix or receiver path. No CLO rerun, fixture transfer, product edit, gate change, or broad receiver search."
+  }
+}

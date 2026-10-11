@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3153,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S510-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S510-clo-aama-workspace-recovery/S510-exit-packet.md",
+      "verified": true,
+      "note": "CLO exposed its workspace, but the import-menu target was rejected and fresh-window activation failed with 'no monitor found for window'. No DXF opened and no AAMA result exists; all V03 gates/status remain unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3154,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S510 records the resumed CLO access check: one fresh window exposed the 2D workspace and File menu, but the Import action targeted outside its window; re-enumeration then activation failed with 'no monitor found for window'. No DXF was opened, so this remains a desktop-control failure—not an AAMA result. Keep every V03 gate, all-seven acceptance and status unchanged."
+  }
+]

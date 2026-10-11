@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3393,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S570-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-start-packet.md",
+    "verified": true,
+    "note": "S570 cross-checks current official CLO DXF profile/grade documentation against retained V03 evidence and makes a fresh read-only CLO window observation. No UI input or exchange is authorized from contradictory screenshot/accessibility state; all gates remain unchanged."
+  }
+}

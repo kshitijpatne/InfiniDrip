@@ -1,0 +1,22 @@
+
+> InfiniDrip@0.0.1 coverage
+> vitest run --coverage src/render/technical-flat-assembly.test.ts --coverage.include=src/render/technical-flat-assembly.ts
+
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp
+      Coverage enabled with v8
+
+ ✓ src/render/technical-flat-assembly.test.ts (17 tests) 190ms
+
+ Test Files  1 passed (1)
+      Tests  17 passed (17)
+   Start at  14:08:18
+   Duration  2.65s (transform 646ms, setup 0ms, collect 935ms, tests 190ms, environment 0ms, prepare 349ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |      100 |     100 |     100 |
+ ...at-assembly.ts |     100 |      100 |     100 |     100 |
+-------------------|---------|----------|---------|---------|-------------------

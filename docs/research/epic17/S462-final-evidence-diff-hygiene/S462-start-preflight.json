@@ -1,0 +1,46 @@
+{
+  "startRevision": 2821,
+  "exitRevision": 2825,
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2821,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S462-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S462-final-evidence-diff-hygiene/S462-start-packet.md",
+        "verified": true,
+        "note": "S462 removes one extra EOF blank line flagged in S461 staged diff check, preserves S460/S461 commits, and verifies clean staged diff before commit."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2822,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S462-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S462-final-evidence-diff-hygiene/S462-start-packet.md",
+        "verified": true,
+        "note": "S462 is a one-line evidence hygiene follow-up; V03 remains In Progress pending the exact lawful receiver/version and round-trip proof."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2823,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S462-START"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2824,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S462 removes one extra blank line at the end of the S461 start packet after staged diff checking caught it. S461's separate commit remains unchanged; stage and verify all S462 files before commit. No V03 acceptance, receiver or board-status change. See E-G04-S462-START."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3515,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S596 will use one read-only GetPatternLineInfo query on the saved S595 pre-export periodic-SPLINE scene and compare its output against pinned source geometry. This is a distinct input representation from S580, which used a line-based fixture; it makes no new DXF exchange and does not assume the API assigns CUT/SEW semantics or importer-stage causation. All V03 gates remain unchanged."
+}

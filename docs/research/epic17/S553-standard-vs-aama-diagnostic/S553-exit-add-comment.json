@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3328,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S553's single Standard DXF export from the existing S551-imported Polo workspace matches AAMA exactly for all 18 contour residuals (max absolute difference 0); the same five source indices are omitted. This rules out an AAMA-only exporter explanation but cannot distinguish CLO import/internal geometry from behavior common to both exporters. Keep every V03 hold and qualify a rights-reviewed industrial receiver/profile next."
+}

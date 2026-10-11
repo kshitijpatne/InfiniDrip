@@ -1,0 +1,5500 @@
+{
+  "generatedAt": "2026-10-02T05:36:55.334Z",
+  "inputEvidence": "S356 production Chromium output replay; production code unchanged since that replay through S357",
+  "configurations": 28,
+  "faces": 56,
+  "revisions": [
+    "live-draft:woven-shirt:14:14"
+  ],
+  "identicalUpperUnderPaths": 56,
+  "records": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.0991 1.5223 L1.0244 10.3821 M1.0244 10.3821 L-0.5373 8.4299",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.225 -12.1785 L40.2997 -21.0382 M40.2997 -21.0382 L38.738 -22.9904",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.0991 1.5223 L1.0244 10.3821 M1.0244 10.3821 L-4.2855 6.9462 M-4.2855 6.9462 L7.6699 -2.6181",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.225 -12.1785 L40.2997 -21.0382 M40.2997 -21.0382 L38.1133 -26.9728 M38.1133 -26.9728 L26.1579 -17.4085",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.0991 1.5223 L1.0244 10.3821 M1.0244 10.3821 L-4.2855 6.9462 M-4.2855 6.9462 L7.6699 -2.6181",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.225 -12.1785 L40.2997 -21.0382 M40.2997 -21.0382 L38.1133 -26.9728 M38.1133 -26.9728 L26.1579 -17.4085",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9701 0.681 L9.5334 -2.4701",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9701 0.681 L-11.4736 3.832",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9701 0.681 L9.5334 -2.4701 M12.0928 3.0263 L0.754 6.4279",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9701 0.681 L-11.4736 3.832 M-10.5848 9.8296 L0.754 6.4279",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9701 0.681 L9.5334 -2.4701 M12.0928 3.0263 L0.754 6.4279",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9701 0.681 L-11.4736 3.832 M-10.5848 9.8296 L0.754 6.4279",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.8894 1.4901 L0.9841 11.0143 M0.9841 11.0143 L-0.5776 9.0621",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M31.2998 -13.2383 L43.2051 -22.7625 M43.2051 -22.7625 L41.6433 -24.7147",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.8894 1.4901 L0.9841 11.0143 M0.9841 11.0143 L-4.3258 7.5785 M-4.3258 7.5785 L8.4602 -2.6504",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M31.2998 -13.2383 L43.2051 -22.7625 M43.2051 -22.7625 L41.0187 -28.6971 M41.0187 -28.6971 L28.2326 -18.4683",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.8894 1.4901 L0.9841 11.0143 M0.9841 11.0143 L-4.3258 7.5785 M-4.3258 7.5785 L8.4602 -2.6504",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M31.2998 -13.2383 L43.2051 -22.7625 M43.2051 -22.7625 L41.0187 -28.6971 M41.0187 -28.6971 L28.2326 -18.4683",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.989 0.9116 L10.3022 -2.4758",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.989 0.9116 L-12.2802 4.299",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.989 0.9116 L10.3022 -2.4758 M12.8617 3.0206 L0.7351 6.6586",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.989 0.9116 L-12.2802 4.299 M-11.3915 10.2965 L0.7351 6.6586",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.989 0.9116 L10.3022 -2.4758 M12.8617 3.0206 L0.7351 6.6586",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.989 0.9116 L-12.2802 4.299 M-11.3915 10.2965 L0.7351 6.6586",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M11.7378 0.7307 L0.3863 9.8119 M0.3863 9.8119 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.2919 -13.3126 L40.6435 -22.3939 M40.6435 -22.3939 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M11.7378 0.7307 L0.3863 9.8119 M0.3863 9.8119 L-4.9236 6.3761 M-4.9236 6.3761 L7.3087 -3.4097",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.2919 -13.3126 L40.6435 -22.3939 M40.6435 -22.3939 L38.4571 -28.3285 M38.4571 -28.3285 L26.2247 -18.5426",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M11.7378 0.7307 L0.3863 9.8119 M0.3863 9.8119 L-4.9236 6.3761 M-4.9236 6.3761 L7.3087 -3.4097",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.2919 -13.3126 L40.6435 -22.3939 M40.6435 -22.3939 L38.4571 -28.3285 M38.4571 -28.3285 L26.2247 -18.5426",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.6891 1.7157 L10.077 -1.5141",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.6891 1.7157 L-11.4551 4.9455",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.6891 1.7157 L10.077 -1.5141 M12.6364 3.9822 L1.035 7.4626",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.6891 1.7157 L-11.4551 4.9455 M-10.5664 10.943 L1.035 7.4626",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.6891 1.7157 L10.077 -1.5141 M12.6364 3.9822 L1.035 7.4626",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.6891 1.7157 L-11.4551 4.9455 M-10.5664 10.943 L1.035 7.4626",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.9872 2.2924 L1.6357 11.3737 M1.6357 11.3737 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M30.5413 -11.7509 L41.8929 -20.8321 M41.8929 -20.8321 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.9872 2.2924 L1.6357 11.3737 M1.6357 11.3737 L-3.6743 7.9378 M-3.6743 7.9378 L8.5581 -1.848",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M30.5413 -11.7509 L41.8929 -20.8321 M41.8929 -20.8321 L39.7064 -26.7667 M39.7064 -26.7667 L27.4741 -16.9809",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.9872 2.2924 L1.6357 11.3737 M1.6357 11.3737 L-3.6743 7.9378 M-3.6743 7.9378 L8.5581 -1.848",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M30.5413 -11.7509 L41.8929 -20.8321 M41.8929 -20.8321 L39.7064 -26.7667 M39.7064 -26.7667 L27.4741 -16.9809",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-1.2638 -0.2 L9.5023 -3.4298",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-1.2638 -0.2 L-12.0298 3.0298",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-1.2638 -0.2 L9.5023 -3.4298 M12.0617 2.0666 L0.4603 5.547",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-1.2638 -0.2 L-12.0298 3.0298 M-11.1411 9.0274 L0.4603 5.547",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-1.2638 -0.2 L9.5023 -3.4298 M12.0617 2.0666 L0.4603 5.547",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-1.2638 -0.2 L-12.0298 3.0298 M-11.1411 9.0274 L0.4603 5.547",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-3.0496 8.7187 M-3.0496 8.7187 L9.1827 -1.0671",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L40.3311 -25.9859 M40.3311 -25.9859 L28.0988 -16.2",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-3.0496 8.7187 M-3.0496 8.7187 L9.1827 -1.0671",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L40.3311 -25.9859 M40.3311 -25.9859 L28.0988 -16.2",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M11.7744 1.1087 L0.173 4.5892",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-11.4284 8.0696 L0.173 4.5892",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M11.7744 1.1087 L0.173 4.5892",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-11.4284 8.0696 L0.173 4.5892",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-5.5483 5.5952 M-5.5483 5.5952 L6.684 -4.1906",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L37.8324 -29.1093 M37.8324 -29.1093 L25.6001 -19.3235",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-5.5483 5.5952 M-5.5483 5.5952 L6.684 -4.1906",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L37.8324 -29.1093 M37.8324 -29.1093 L25.6001 -19.3235",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.9238 4.94 L1.3224 8.4205",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.279 11.9009 L1.3224 8.4205",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.9238 4.94 L1.3224 8.4205",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.279 11.9009 L1.3224 8.4205",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.3625 1.5115 L1.011 10.5928 M1.011 10.5928 L-4.299 7.157 M-4.299 7.157 L7.9334 -2.6289",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M29.9166 -12.5317 L41.2682 -21.613 M41.2682 -21.613 L39.0818 -27.5476 M39.0818 -27.5476 L26.8494 -17.7617",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L9.7897 -2.472 M12.3491 3.0244 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-0.9764 0.7578 L-11.7425 3.9877 M-10.8537 9.9852 L0.7477 6.5048",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M12.6749 1.902 L1.3233 10.9832 M1.3233 10.9832 L-0.5508 8.6406",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M30.229 -12.1413 L41.5805 -21.2226 M41.5805 -21.2226 L39.7064 -23.5652",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M12.6749 1.902 L1.3233 10.9832 M1.3233 10.9832 L-4.6113 6.7665 M-4.6113 6.7665 L7.621 -3.0193",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M30.229 -12.1413 L41.5805 -21.2226 M41.5805 -21.2226 L38.7694 -27.938 M38.7694 -27.938 L26.5371 -18.1522",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M12.6749 1.902 L1.3233 10.9832 M1.3233 10.9832 L-4.6113 6.7665 M-4.6113 6.7665 L7.621 -3.0193",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:FRONT_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M30.229 -12.1413 L41.5805 -21.2226 M41.5805 -21.2226 L38.7694 -27.938 M38.7694 -27.938 L26.5371 -18.1522",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "layerOrder": [
+        "GARMENT_SILHOUETTE",
+        "ARTWORK",
+        "SEAM",
+        "CONSTRUCTION",
+        "DART",
+        "PLEAT",
+        "CLOSURE",
+        "TOPSTITCH",
+        "CALLOUT",
+        "ANNOTATION",
+        "TEXT_LABELS",
+        "SOURCE_NOTICES"
+      ],
+      "rolePathCounts": {
+        "outerStand": 2,
+        "innerStand": 0,
+        "upperCollar": 2,
+        "underCollar": 2
+      },
+      "upperUnderPathIdentity": true,
+      "roles": {
+        "outerStand": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-1.1201 0.2789 L9.646 -2.9509",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:outerStand:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:outerStand",
+            "d": "M-1.1201 0.2789 L-11.8861 3.5088",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "innerStand": [],
+        "upperCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-1.1201 0.2789 L9.646 -2.9509 M12.4927 3.5033 L0.8914 6.9837",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:upperCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:upperCollar",
+            "d": "M-1.1201 0.2789 L-11.8861 3.5088 M-10.71 10.4641 L0.8914 6.9837",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ],
+        "underCollar": [
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-1.1201 0.2789 L9.646 -2.9509 M12.4927 3.5033 L0.8914 6.9837",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          },
+          {
+            "entityId": "flat:woven-shirt:BACK_FLAT:component:underCollar:outline:fold-reflection",
+            "sourceId": "pattern:woven-shirt:role:underCollar",
+            "d": "M-1.1201 0.2789 L-11.8861 3.5088 M-10.71 10.4641 L0.8914 6.9837",
+            "fill": "none",
+            "stroke": "#19222b",
+            "layer": "GARMENT_SILHOUETTE"
+          }
+        ]
+      }
+    }
+  ]
+}

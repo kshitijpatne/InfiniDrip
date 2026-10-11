@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3264,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S538 records the maintainer's written confirmation for bounded CLO product-development use and local DXF processing, then checks whether the existing app window can be targeted without repeating prior imports/exports. All V03 criteria stay unchanged."
+}

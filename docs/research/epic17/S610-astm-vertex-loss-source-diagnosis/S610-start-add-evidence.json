@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3570,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S610-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S610-astm-vertex-loss-source-diagnosis/S610-start-packet.md",
+    "verified": true,
+    "note": "Source/output diagnosis of S609's five missing-vertex CUT failures. This read-only investigation uses the existing hash-pinned CLO trial and will not change geometry, export settings, thresholds, acceptance, or any V03 hold."
+  }
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "editEpic",
+    "expectedRevision": 2528,
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Preserve the exact S406 historical summary assertion while retaining S428 current status.",
+    "epicId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S425 implements the approved Polo H display; S426's corrected full-label replay reports zero label/marker overlaps across 17 Polo options. S427 proves the production Polo sleeve uses one 43 cm cap/bicep span and anchors its ±0.6 cm Sleeve bicep width POM at those cap endpoints; the 0.25 cm residual threshold requires a diagnostic 35.730905 cm span, changing that POM by −7.269095 cm and the cap height from 1.786944 to 10.978524 cm. This exceeds tolerance; no production source/geometry edit is made or recommended. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. S428 confirms the approved single Woven body-neckline base seam is visible in 28/28 options with no duplicate stand-base stroke; the 28-front collar contact and 28-back sleeve-hem crossing remain unresolved. The maintainer confirms preserving all holds, rejecting the unsupported Polo cap change and retaining the implemented segmented H. The 0.68 cm residual and all 34 Polo/56 Woven holds persist. Preserve all-seven V02, V02-before-V03, legacy DXF, protected export identities, V03 rights/round-trip evidence and claim limits. See the S428 packet."
+    }
+  }
+]

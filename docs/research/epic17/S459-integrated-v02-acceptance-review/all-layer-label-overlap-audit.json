@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-10-08T03:53:07.039Z",
+  "method": "Pairwise actual-SVG Chromium text getBBox across every rendered text node and every named output layer; 0.002 cm epsilon",
+  "totals": {
+    "facesWithTextOverlaps": 0,
+    "overlapPairs": 0,
+    "byRecipe": {
+      "tee": 0,
+      "fitted": 0,
+      "tank": 0,
+      "polo": 0,
+      "woven-shirt": 0,
+      "skirt": 0,
+      "trouser": 0
+    }
+  },
+  "faces": []
+}

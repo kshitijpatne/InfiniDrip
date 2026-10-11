@@ -1,0 +1,28 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2604,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S437-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S437-woven-topology-view-boundary-audit/G04-V02-WOVEN-TOPOLOGY-VIEW-BOUNDARY-AUDIT-S437.md",
+      "verified": true,
+      "note": "Starts a read-only exact-source and production-output audit of the two repeated Woven V02 hold classes. No new mapping or face release is authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2605,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S437: trace the current exact Woven front neckline/collar contact and back reflected sleeve-hem crossing to source edge/stitch topology, approved projection, emitted paths and rendered output. Read-only; preserve the continuous neckline, complete hems, all 56 Woven and 34 Polo holds, and all G04 gates."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2606,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S437 is a Woven source/output hold audit only. It does not change all-seven V02 acceptance, V02-before-V03, legacy DXF/protected export identities, V03 rights and round-trip gates, or physical/factory claim boundaries."
+  }
+]

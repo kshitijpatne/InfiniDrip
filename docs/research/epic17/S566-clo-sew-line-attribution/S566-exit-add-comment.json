@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3380,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S566's output comparison sharpens the S565 failure: every S/M/L/XL waistband block has a candidate matching the XS source sew shape within 0.000015 cm, but no candidate matches its size's source sew contour within 0.001 cm. This supports an ungraded base-size-shaped internal path in the output, while numeric layer IDs do not prove the path's semantic identity and cannot locate whether import/edit/export lost the grade. The saved CLO archive's XML is environment-only and core geometry payloads are opaque binary. The visible capture/accessibility modal still disagree, so no UI input or repeated export was sent. Keep all V03 holds. See E-G04-S566-EXIT."
+}

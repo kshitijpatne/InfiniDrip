@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2979,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S481-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-exit-packet.md",
+      "verified": true,
+      "note": "S481 finds no candidate currently satisfies all V03 gates. Richpeace V8 remains conditional on user-authorized installation, exact evaluation rights/local handling, and Windows host behavior; no gate is weakened."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2980,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S481-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S481-v03-candidate-access-reconciliation/S481-exit-packet.md",
+      "verified": true,
+      "note": "No reviewed receiver currently passes V03 rights/local/profile/round-trip/grade/negative gates. The remaining local lead and its exact conditions are documented; scope unchanged."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2981,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S481-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2982,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S481 identifies no currently qualified receiver. Richpeace V8 is the sole documented local lead, conditional on user-authorized install attempt, terms/local-handling review, exact modes, and unsupported-host behavior. No fixture until preflight passes."
+  }
+]

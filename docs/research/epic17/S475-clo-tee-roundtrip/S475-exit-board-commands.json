@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2931,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S475-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md",
+      "verified": true,
+      "note": "S475 witnessed one local CLO Tee DXF-ASTM round trip. Six source contours match within 0.0000161 cm, below the 0.001 cm C04 limit, and reimport renders expected pieces. Numeric-layer duplicate semantics, rights review, Polo/Woven and grade evidence remain open; V03 stays In Progress."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2932,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S475-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md",
+      "verified": true,
+      "note": "S475 closes a local Tee receiver trial and identifies its exact geometry result and remaining V03 gates without asserting general format compatibility or ASTM conformance."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2933,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S475-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2934,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S475 passes the C04 coordinate threshold for six Tee contours (max 0.0000161 cm) in one observed CLO DXF-ASTM round trip. It also exposes duplicate coincident layer representations that need semantic review. Rights/scope, Polo/Woven, grade, and broader round-trip evidence remain. V03 and EPIC-17 remain In Progress; no conformance claim."
+  }
+]

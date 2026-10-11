@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3333,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S555-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S555-polo-contour-remediation-analysis/S555-start-packet.md",
+    "verified": true,
+    "note": "Analyze the five repeated Polo CUT vertex losses from source/output and DXF standard evidence; do not repeat prior CLO settings, units, LWPOLYLINE, or native-project trials. No implementation or new CLO action until an evidence-backed candidate exists."
+  }
+}

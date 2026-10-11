@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3699,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S639-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S639-clo-native-button-dxf-probe/S639-exit-packet.md",
+    "verified": true,
+    "note": "S639 completed one CLO 2026.1.310 DXF-AAMA native Button/Buttonhole export and clean reimport from a disposable Woven project. CLO returned 12 pieces without an import error, but the button became a radius-1.0 cm 24-vertex polygon instead of the source radius-0.15 cm MARK_BUTTON circle; the buttonhole became a slot instead of its source MARK_BUTTONHOLE point. Both centers shifted about 0.07616 cm, above the unchanged 0.001 cm limit. Detailed reimport readability remains unverified because the live 2D view is zoom-cropped. No V03 gate or hold clears. CLO remains open; all raw files and hashes are C:-only."
+  }
+}

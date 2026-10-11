@@ -1,0 +1,5126 @@
+{
+  "method": "independent exact 2D finite-segment intersection over saved S372 production SVG M/L commands",
+  "sourceOutput": "S372 live Chromium UI replay",
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "backFaces": 28,
+  "allTwoSleeveInstances": true,
+  "crossingCountDistribution": {
+    "1": 28
+  },
+  "matchesS365SleevePathsEveryConfiguration": true,
+  "distinctIntersectionCoordinates": [
+    {
+      "x": 8.881784197001252e-16,
+      "y": 23.665129568243216
+    },
+    {
+      "x": 0,
+      "y": 24.095012130533036
+    },
+    {
+      "x": -8.881784197001252e-16,
+      "y": 22.231831063235624
+    }
+  ],
+  "matchesS365EveryConfiguration": true,
+  "browserErrors": 0,
+  "records": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L8.1375 34.8671 M8.1375 34.8671 L-3.0137 20.1056"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-8.1375 34.8671 M-8.1375 34.8671 L3.0137 20.1056"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 7.479148348435974,
+            "y": -14.766030534274282
+          },
+          "rotationDegrees": 52.931724352344354,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999989283919051,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 0,
+        "y": 24.095012130533036,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.4732 33.5879 M7.4732 33.5879 L-2.6967 18.134"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.4732 33.5879 M-7.4732 33.5879 L2.6967 18.134"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 10.036555576900916,
+            "y": -15.98334455074098
+          },
+          "rotationDegrees": 56.65180005808255,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987981994929,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": -8.881784197001252e-16,
+        "y": 22.231831063235624,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "faceStatus": "BACK_FLAT emitted; held under V02 output acceptance",
+      "instances": [
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M27.5 24 L7.971 34.5649 M7.971 34.5649 L-2.9495 19.6319"
+        },
+        {
+          "entityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sourceId": "pattern:woven-shirt:role:sleeve",
+          "layer": "GARMENT_SILHOUETTE",
+          "segments": 2,
+          "pathData": "M-27.5 24 L-7.971 34.5649 M-7.971 34.5649 L2.9495 19.6319"
+        }
+      ],
+      "placement": {
+        "baseRoleTransform": {
+          "offset": {
+            "x": 8.084062986215491,
+            "y": -15.072511387680134
+          },
+          "rotationDegrees": 53.822232999873584,
+          "mirrorX": false
+        },
+        "mirroredPair": "approved view pair reflected across back.centerBack; the second entity is suffixed :approved-view-pair",
+        "sourcePairMetadata": {
+          "sleeve": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          },
+          "sleeveRuns": [
+            {
+              "edgeId": "capLeft",
+              "from": {
+                "kind": "normalized-edge-transfer",
+                "edgeId": "capLeft",
+                "fraction": 0.9999987696228056,
+                "basis": "WOVEN_SLEEVE_CAP",
+                "decisionId": "G04-S321-WOVEN-SLEEVE-CAP-ARCLENGTH"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capLeft",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "capRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "capRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "sideRight",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-endpoint",
+                "edgeId": "sideRight",
+                "endpoint": "end"
+              }
+            },
+            {
+              "edgeId": "hem",
+              "from": {
+                "kind": "edge-endpoint",
+                "edgeId": "hem",
+                "endpoint": "start"
+              },
+              "to": {
+                "kind": "edge-arclength",
+                "edgeId": "hem",
+                "fraction": 0.5
+              }
+            }
+          ],
+          "band": {
+            "axisRoleId": "back",
+            "edgeId": "centerBack",
+            "axis": "ASSEMBLED_BODY_CENTER",
+            "source": "WOVEN_SHIRT_PHYSICAL_ROLES",
+            "decisionId": "G04-S321-WOVEN-SLEEVE-BAND-VIEW-PAIR",
+            "quantity": 2
+          }
+        },
+        "sourceStitches": [
+          {
+            "label": "Woven sleeve-cap ease",
+            "a": [
+              {
+                "piece": "sleeve",
+                "edge": "capLeft"
+              },
+              {
+                "piece": "sleeve",
+                "edge": "capRight"
+              }
+            ],
+            "b": [
+              {
+                "piece": "front",
+                "edge": "armhole"
+              },
+              {
+                "piece": "yoke",
+                "edge": "armholeUpper"
+              },
+              {
+                "piece": "back",
+                "edge": "armholeLower"
+              }
+            ],
+            "ease": {
+              "lo": -1,
+              "hi": 4
+            }
+          },
+          {
+            "label": "Folded sleeve band ↔ sleeve hem",
+            "a": [
+              {
+                "piece": "sleeveBand",
+                "edge": "top"
+              }
+            ],
+            "b": [
+              {
+                "piece": "sleeve",
+                "edge": "hem"
+              }
+            ],
+            "ease": null
+          }
+        ]
+      },
+      "crossing": {
+        "x": 8.881784197001252e-16,
+        "y": 23.665129568243216,
+        "firstPathSegmentIndex": 1,
+        "secondPathSegmentIndex": 1,
+        "sourceEdges": [
+          "pattern:woven-shirt:role:sleeve:edge:hem",
+          "pattern:woven-shirt:role:sleeve:edge:hem"
+        ],
+        "sourceBasis": "Both current BACK_FLAT projection runs include sleeve.hem from its authored start to its 0.5 arclength station.",
+        "matchesS365": true
+      }
+    }
+  ]
+}

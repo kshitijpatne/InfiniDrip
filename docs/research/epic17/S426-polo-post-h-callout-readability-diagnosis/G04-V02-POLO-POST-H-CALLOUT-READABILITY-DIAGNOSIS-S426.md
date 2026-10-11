@@ -1,0 +1,48 @@
+# G04 V02 — Polo post-H callout readability diagnosis — Slice 426
+
+## Start boundary and authority
+
+- Started 2026-10-07 15:50:59 UTC from clean S425 `408ec16b91dc0736bcf748fd2785cd8059e1f523` on `codex/epic-17-g04`. Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Highest assigned slice is 425; reserve 426. Board revision 2491; EPIC-17 In Progress, G04-V01 Done, G04-V02 In Progress, G04-V03 Backlog. Goal is active with the admitted EPIC-17 scope. Usage entry: 4% primary / 9% weekly; ordinary usage allowed.
+- S425's approved H segmented marker is landed. The maintainer rejected the proposed 8.654851 cm bicep reduction (retain the 0.25 cm gate and all Polo holds) and retained Woven's continuous neckline (all 28 fronts held). All 56 Woven and 34 Polo faces remain held; current tally stays 56 accepted / 90 held across 73 configurations / 146 faces.
+
+## Objective and scope boundary
+
+Diagnose remaining Polo callout/source-label readability blockers after S425, using the exact 17 S399 source revisions/options and the current production technical-flat renderer. Attribute each remaining collision to source POM identity, target path/landmark, displayed annotation/text and intersecting source path/mark. Compare emitted SVG geometry and full rendered output, including the already-approved A/B/C/D/E/FG/H/I marker treatments and S425 segmentation. Distinguish a marker-source contact already removed by S425 from remaining label/text/path overlaps and from the separate 0.68 cm sleeve residual.
+
+This is a bounded diagnostic/evidence slice. Produce a 17-option matrix and annotated/rendered representative views, identify repeated blockers, report what the pattern source encodes, and present only concrete remaining design choices that source geometry and existing approvals cannot settle. Do not reopen approved marker mappings/offsets, alter source geometry/stitch graph/POMs/options/tolerances, implement a new semantic mapping without explicit approval, relax the 0.25 cm gate, or release any face. If only nonsemantic label placement remains, state its exact proposed change, affected callouts/options, tradeoff and held views before implementation.
+
+## Acceptance and non-goals
+
+- Reproduce and inspect all 17 exact option/revision rows with the production SVG renderer and Chromium; preserve pattern component paths, source marks, exact POM IDs/targets/values and all schedule rows.
+- Count and identify remaining collisions separately by POM and rendered obstacle; assert S425 H ring retains zero sampled source-stroke contacts and do not count that resolved marker contact as a remaining failure.
+- Inspect full default and worst-case option output plus targeted crops. The matrix must retain browser errors, option values, revision identities, source path/mark identities and exact held status.
+- All 34 Polo faces and 56 Woven faces remain held. No all-seven acceptance change, no V03/CAD start, no legacy DXF or protected export change, no G05/G09 work, UI redesign, new recipe, physical sampling, supplier contact, launch spend, hosted service, fit/factory acceptance or production-readiness claim.
+
+## Required gates and ownership
+
+- Follow `AGENTS.md` and `docs/OPENCODE-WORKFLOW.md`. Codex owns the renderer/source trace and final rendered review. This same-revision multi-label diagnosis has no safe disjoint low-risk delegated unit; no external agent is used.
+- Since this slice is diagnostic/evidence-only, run targeted harness/assertions, rendered Chromium review, board tests/validated commands, board validation and `git diff --check`; no changed-production-code coverage/build/export gate is triggered. Preserve the one full repository test/global-coverage, integrated build, export-identity and all-recipe browser/output gate for the settled integrated Epic/PR candidate.
+- Full hold and acceptance state is an invariant. If a specific user decision is needed, ask once with the exact anchor/geometry, proposal, evidence, practical tradeoff and which views stay held. Continue no-dependency work only while such a decision is pending.
+
+## Diagnostic result and rendered review
+
+The corrected replay is the authoritative S426 result. It uses the 17 exact S399 option SVGs and revisions, restores every source mark label, recreates each of the three unkeyed source POM callouts as a callout primitive with its original target, `sourceEntityId`, anchor and label position, and applies the current production renderer including S425's segmented H treatment. It emits a full SVG/PNG for every option and runs Chromium collision checks on the actual SVG text/marker output.
+
+Across 17/17 rows, all 36 source-label identities and texts per view are preserved (610 total instances); 51 label anchors move by at most 0.698 cm under the current renderer's existing label placement. All 50 applicable unkeyed callouts retain their exact source IDs, targets, source entities, anchor coordinates and label positions. The sideVentDepth-min configuration correctly contains two such callouts because its source lacks the vent edge/POM. Every row preserves 11 keyed schedule rows and all source component path data/revision identities. There are zero source-label pair overlaps, zero keyed marker-glyph/source-label overlaps, zero renderer issues, and zero browser errors. S425 H retains its approved segmented appearance in all 17 outputs. The 52 raw text-box/path “contacts” in the preliminary `S426-polo-label-collision-matrix.json` are superseded: that first replay omitted source labels and treated target-station contacts as label collisions. The corrected full-label replay finds no such remaining text collision; the preliminary artifact is retained as diagnostic history, not acceptance evidence.
+
+Manual output review includes the corrected full default, the maximum `collarPointExtension` output, the `sideVentDepth-min` output, targeted default A/B/C/H crops, and the maximum-stand-height H crop. The H ring sits at a crowded shoulder station but does not cover the nearby “SHOULDER” source labels; C remains at its approved collar/front-slit station. Placket-base and shoulder labels are dense but distinct in these views. The screenshots show technical-flat annotations at working scale and do not claim arbitrary zoom readability. Files: `S426-source-label-output-matrix.json`, `rendered-source-labels/`, `rendered-full/`, and `rendered-crops-source-labels/`.
+
+The only reproduced Polo assembly blocker represented in this slice is independent of callout readability: S423's exact 17-option `Sleeve-cap ease` endpoint diagnostic shows `sleeve.capLeft` to `front.armhole` (reversed underarm-to-shoulder) and `sleeve.capRight` to reflected `back.armhole`, with 0.677835 cm hard-anchor RMS on both faces; the best unconstrained two-endpoint rigid lower bound is 0.479302 cm. Both exceed the unchanged 0.25 cm gate. The S423 source revisions are its own saved diagnostic fixtures; the current S426 output uses S399 fixtures, and both report the same option-invariant construction result. This audit does not make the residual pass, propose changing source geometry, or release either view. All 34 Polo and 56 Woven views stay held (56 accepted / 90 held across 73 configurations / 146 faces). No new design decision is needed for the S426 text/callout finding; no other G04 gate is waived.
+
+## Exit verification
+
+- `node docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/replay-source-labels.mjs` completed the exact 17-option replay and wrote the matrix/full SVGs/PNGs; matrix invariants: 17 options, 36 labels per view, 610 source-label instances, 50 applicable unkeyed POM instances, all 34 Polo faces held, zero source-label pair overlaps, zero marker-label overlaps, no browser errors, and all outputs rendered with S425 H.
+- `node docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/render-preserved-label-crops.mjs` regenerated the targeted actual-output crops. They were visually reviewed alongside the rendered default and option outputs.
+- Validated Control Center exit and summary-reconciliation commands take board revision 2491→2503 without status changes; `readBoardFile()` returns the schema-v2 board at revision 2503. `npm run control-center:test` passes 42/42; the first run failed two regression assertions because the new summaries dropped the maintained S406 evidence phrases. The summaries were corrected and those stale wording assertions were updated to the verified S426/Woven state; the next run passes. The failing log and passing log are retained. `git diff --check` passes (PowerShell reports only Git's existing LF→CRLF working-copy notices).
+- Diagnostic-only slice; no production source or test was modified, so changed-production-code coverage, export-baseline, and full repository gates are not due here. Preserve the single global coverage/build/export/all-recipe rendered gate for the settled integrated Epic candidate.
+
+## Time record and handoff
+
+Implementation: 0m (diagnostic-only). Focused verification: ~5m (replay assertions, board preflight/replay and 42/42 Control Center test). Rendered-output review: ~5m. Durable packet/state/board and closeout: ~17m. Maintainer-decision time: 0m (no new design decision was required). External-agent waits: 0m. Total elapsed: approximately 27 minutes from 15:50:59 UTC to slice close.
+
+**Next action:** continue V02 with a bounded Polo sleeve-cap construction/source-repair diagnostic. S424's large bicep reduction was rejected, so do not edit production pattern geometry or stitch graphs without a new source-backed proposal and maintainer approval. Retain all current holds and gates until every applicable V02 check passes.

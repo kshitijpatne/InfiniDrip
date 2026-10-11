@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3201,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S522-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S522-clo-import-control-evidence-screen/S522-exit-packet.md",
+      "verified": true,
+      "note": "Current official CLO DXF guide checked against prior actual controls. No new safe, documented point-retention setting exists; Remove Non-Grading Points explicitly deletes ungraded points and was not tested. No UI/file operation occurred. V03 gates unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3202,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S522 closes the current CLO control screen without another UI operation. S503 curve-optimization variants and S519 Draw Curve Points did not fix the measured Polo loss. The remaining documented Remove Non-Grading Points option deletes points without grade information and is not a safe fix for the ungraded input. Do not repeat these settings; require a new source-backed mechanism plus rights evidence before another CLO trial."
+  }
+]

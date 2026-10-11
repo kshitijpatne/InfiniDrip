@@ -1,0 +1,47 @@
+{
+  "startRevision": 2851,
+  "exitRevision": 2855,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2851,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S465-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-start-packet.md",
+        "verified": true,
+        "note": "S465 screens a free local-first browser CAD candidate; no receiver/profile selected and no product fixture uploaded or compatibility claim made."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2852,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S465-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S465-free-browser-receiver-candidate/S465-start-packet.md",
+        "verified": true,
+        "note": "S465 tests whether a free browser receiver candidate can safely satisfy admitted V03 without altering the rights/profile/round-trip gates."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2853,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S465-START"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2854,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S465 checks the free Pixie Space browser candidate after the maintainer asked to consider an online option. Its self-reported local-only and AAMA/DXF claims are hypotheses to verify, not receiver selection or compatibility evidence. Keep all V03 rights, fixtures, grade, and round-trip gates unchanged. See E-G04-S465-START."
+    }
+  ]
+}

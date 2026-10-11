@@ -1,0 +1,47 @@
+{
+  "startRevision": 2883,
+  "exitRevision": 2887,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2883,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S469-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S469-local-receiver-trial-runbook/S469-start-packet.md",
+        "verified": true,
+        "note": "S469 prepares a local receiver operator runbook from the existing S463 synthetic fixtures and S468 candidate; no install or compatibility claim."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2884,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S469-START",
+        "kind": "document",
+        "uri": "docs/research/epic17/S469-local-receiver-trial-runbook/S469-start-packet.md",
+        "verified": true,
+        "note": "S469 converts the pending exact-build/local-rights receiver check into a reproducible operator sequence without changing V03 gates."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2885,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S469-START"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2886,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S469 writes the exact preflight and synthetic-fixture round-trip steps for the S468 local CAD candidate; no fixture is opened until rights, exact build, exchange modes and local processing are confirmed. See E-G04-S469-START."
+    }
+  ]
+}

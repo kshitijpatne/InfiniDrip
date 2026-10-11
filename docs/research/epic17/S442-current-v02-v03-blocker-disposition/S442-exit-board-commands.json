@@ -1,0 +1,33 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2654,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S442-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S442-current-v02-v03-blocker-disposition/G04-V02-V03-BLOCKER-DISPOSITION-S442.md",
+      "verified": true,
+      "note": "Reconciles the user's S441 keep-layout decision and exact remaining G04 blockers from current Woven, Polo, and CAD-rights evidence. No production mapping, acceptance, face, or status changes."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2655,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S442-DECISION",
+      "kind": "decision",
+      "uri": "docs/PROJECT-DECISIONS.md",
+      "verified": true,
+      "note": "Records the maintainer's decision to preserve S370 detached-band positions and retain all Woven BACK_FLAT holds; the S441 local-Y trial is not authorized for implementation."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2656,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S442 blocker disposition: Woven front 28 remain held at the S417 continuous-neckline/collar contacts per the prior keep-seam decision; Woven back 28 remain held at the full joined sleeve-hem crossing, with the maintainer now explicitly retaining the S370 band positions and rejecting the S441 local-Y/layout change. S436 found no current local Polo compiler/render/overlay/POM/readability defect, but no Polo face is accepted ahead of the all-seven integrated V02 review. V03 remains gated by V02, a rights-cleared receiver/profile and observed representative round-trip fixtures. Counts and statuses unchanged."
+  }
+]

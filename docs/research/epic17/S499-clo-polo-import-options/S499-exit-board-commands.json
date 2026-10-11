@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3103,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S499-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S499-clo-polo-import-options/S499-exit-packet.md",
+      "verified": true,
+      "note": "The four-profile CLO matrix did not run: the relaunched window became untargetable and capture returned foreground window did not report a process id. No receiver behavior inferred. Dedicated C: input hash checked; all V03 gates retained."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3104,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S499-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3105,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S499 stopped before importing a file: the relaunched CLO startup window was not a usable app window, and refreshed state capture returned foreground window did not report a process id. No profile matrix or compatibility inference resulted. The pinned input remains in the dedicated C: folder. Preserve all V03 gates; next diagnose S498 point-removal evidence without assuming an import-setting cause."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3106,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S499 closed as a concrete CLO window-handle interruption; the import-option hypothesis remains untested. CLO still appears running and could not be closed through File → Quit. V03 remains In Progress. Continue with offline analysis of S498 artifacts; resume the UI matrix only when a usable responsive CLO window is available."
+  }
+]

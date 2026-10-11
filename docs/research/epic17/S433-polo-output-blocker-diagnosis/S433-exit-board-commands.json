@@ -1,0 +1,55 @@
+[
+  {
+    "type": "editItem",
+    "expectedRevision": 2560,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "G04 V02 remains In Progress. The integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S433 fixes the repeated Polo back sleeve colorway contour error by including the exact existing same-revision body armhole source seam as a fill-only contour boundary under the approved S351 mapping; actual colorway output passes 17/17 options. No Polo face is accepted. The two exact Polo front POM label placements (`finished-collar-stand-height`, `stand-front-rise`) still fail in all 17 options. An in-memory J/FG keyed-marker proposal preserves source edges and full-text POM schedule, but awaits approval and is not implemented. All 34 Polo views remain held. Woven's 28/28 front neckline/collar contacts and 28/28 back sleeve-hem crossings remain held; all 56 Woven views remain held. Preserve all-seven V02, the exact approved S351 residual applicability rule and 0.25 cm limit elsewhere, V02-before-V03, legacy DXF behavior, protected export identities, and V03 rights/round-trip gates. Current packet: docs/research/epic17/S433-polo-output-blocker-diagnosis/G04-V02-POLO-OUTPUT-BLOCKER-DIAGNOSIS-S433.md"
+    }
+  },
+  {
+    "type": "editEpic",
+    "expectedRevision": 2561,
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Record S433's verified Polo fill-boundary correction and current held output decision without changing EPIC scope or status.",
+    "epicId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. Preserve all-seven V02, the exact approved S351 residual applicability rule only for validated same-revision Polo Sleeve-cap ease (0.25 cm remains elsewhere), V02-before-V03, legacy DXF, and protected export identities. S433 fixes Polo back sleeve colorway contour closure by including the already visible exact same-revision armhole seam as a fill-only boundary; all 17 actual colorway renders pass, but no face is accepted. The repeated two front POM label placement failures remain in all 17 options; the exact J/FG marker/full-schedule proposal awaits approval and remains unimplemented. All 34 Polo faces remain held. Woven's 28 front neckline/collar contacts and 28 back sleeve-hem crossings remain unresolved; all 56 Woven faces remain held. V03 remains gated by all-seven V02 and rights-cleared receiver/profile plus representative round-trip evidence. See docs/research/epic17/S433-polo-output-blocker-diagnosis/G04-V02-POLO-OUTPUT-BLOCKER-DIAGNOSIS-S433.md."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2562,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S433-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S433-polo-output-blocker-diagnosis/G04-V02-POLO-OUTPUT-BLOCKER-DIAGNOSIS-S433.md",
+      "verified": true,
+      "note": "Diagnoses and source-corrects Polo back colorway closure across 17 exact options; records actual rendered evidence and the pending front J/FG presentation decision. All Polo/Woven holds and G04 gates remain."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2563,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S433-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2564,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S433 verified the exact source-role cause of Polo back sleeve colorway closure and fixes it with a fill-only same-revision armhole boundary duplicate. Actual colorway rendering passes 17/17. Front label placement still fails for two POMs in 17/17; the J/FG keyed full-schedule proposal is unimplemented pending approval. All 34 Polo/56 Woven faces remain held; V02 and V03 gates are unchanged."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2565,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S433 closes with the independent Polo back colorway renderer issue corrected and the repeated front marker presentation decision documented. No face was accepted. Continue held-face V02 diagnosis; do not start V03 until all-seven V02 plus rights/round-trip prerequisites pass."
+  }
+]

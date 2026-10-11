@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3552,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S605-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S605-clo-readonly-internal-geometry/S605-exit-packet.md",
+    "verified": true,
+    "note": "S605's exact-build read-only CLO query returned numeric piece names and empty outlines; utility_api was undefined and internal shapes could not be enumerated. Existing S582/S581 evidence confirms the required pattern_api index getters are absent. S603 remains held; no V03 gate clears. Return to an actual exchange gate at S606."
+  }
+}

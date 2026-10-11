@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3273,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S540-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S540-clo-swap-import-option/S540-exit-packet.md",
+    "verified": true,
+    "note": "A real CLO DXF-AAMA import/export with the documented CUT/SEW swap enabled left the synthetic source-to-output layer mapping unchanged: CUT appears on 1/14/8 and SEW on 8. This option does not clear semantic acceptance."
+  }
+}

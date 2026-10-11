@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3227,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S529-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-start-packet.md",
+    "verified": true,
+    "note": "One public-source audit of GetonAgain product/free-build identity, DXF direction, rights, and local handling. No contact, account/phone, download, pattern transfer, CLO action, or V03 change."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3315,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S550-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S550-polo-unit-invariance-control/S550-exit-packet.md",
+    "verified": true,
+    "note": "The mm exchange did not begin: CLO showed a Windows Save File picker while accessibility exposed the underlying CLO save prompt and no picker controls. Rights/local handling are user-confirmed; this is a UI-targetability result, not a format failure. All V03 gates remain unchanged."
+  }
+}

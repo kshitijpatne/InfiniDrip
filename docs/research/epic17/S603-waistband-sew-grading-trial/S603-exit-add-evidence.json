@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3544,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S603-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S603-waistband-sew-grading-trial/S603-exit-packet.md",
+    "verified": true,
+    "note": "S603 fail-closed: the visible waistband internal line was not semantically distinguishable from CUT grading in CLO; the selected values (20,0 mm) did not match source SEW increments. No grade edit/export/import occurred; no V03 gate clears. Screenshot and hash are in the C:-confined packet."
+  }
+}

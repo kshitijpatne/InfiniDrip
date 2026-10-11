@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3349,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S559-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S559-source-backed-grade-fixture/S559-start-packet.md",
+    "verified": true,
+    "note": "Trace existing recipe size/grade source to decide if a real CLO grade-inclusion fixture can be produced; no invented grading or repeated M/default trials."
+  }
+}

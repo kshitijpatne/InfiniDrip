@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3592,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S615 tests the measured S614 10× Standard-DXF scale discrepancy by changing only import scale from 100% to 1000%, on the exact same Polo M source and with the same CLO build, cm units, import options, ASTM export settings, and 0.001 cm threshold. This diagnoses unit handling for one fixture; it does not rescale output or qualify a profile. All-seven V03 criteria and holds remain. See E-G04-S615-START."
+}

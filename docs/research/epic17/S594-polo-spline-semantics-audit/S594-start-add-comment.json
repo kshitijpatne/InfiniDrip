@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3501,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S594 starts from committed S593 42317d23 with refreshed origin/main still an ancestor; S593 is the highest prior slice and 594 is uniquely reserved. This read-only audit checks all five hash-pinned S591/S592 degree-1 SPLINE entities against Autodesk's published DXF/API field semantics and an independent de Boor curve evaluation of their source contours. It will not run another CLO trial or modify a fixture, product source, gate or claim. The measured Polo CUT hold and all other V03 gates remain. See docs/research/epic17/S594-polo-spline-semantics-audit/S594-start-packet.md."
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3317,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S551-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-start-packet.md",
+    "verified": true,
+    "note": "Attempt one prepared Polo cm/mm AAMA differential using only the visibly exposed screenshot-coordinate controls to recover CLO's native Save File picker. Preserve the open project and store every file in the named C: folder; stop on any unverified input."
+  }
+}

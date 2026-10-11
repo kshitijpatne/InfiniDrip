@@ -1,0 +1,12 @@
+[
+  {"type":"addEvidence","expectedRevision":1985,"itemId":"G04-V02","evidence":{"id":"E-G04-S384-EXIT","kind":"document","uri":"docs/research/epic17/S384-polo-anchor-topology-review/G04-V02-POLO-ANCHOR-TOPOLOGY-REVIEW-S384.md","verified":true,"note":"S384 source-topology and rendered marker-style review; all Polo faces remain held and no production mapping is approved."}},
+  {"type":"addEvidence","expectedRevision":1986,"itemId":"G04-V02","evidence":{"id":"E-G04-S384-MATRIX","kind":"document","uri":"docs/research/epic17/S384-polo-anchor-topology-review/station-path-incidence.json","verified":true,"note":"Exact source-path incidence, POM targets, path identities and S380 revision matching for all 17 Polo options."}},
+  {"type":"addEvidence","expectedRevision":1987,"itemId":"G04-V02","evidence":{"id":"E-G04-S384-RENDERED","kind":"rendered-output","uri":"docs/research/epic17/S384-polo-anchor-topology-review/rendered/polo-default-open-marker.png","verified":true,"note":"Actual-renderer open-ring comparison; all four S380 configurations preserve source paths and show no browser errors."}},
+  {"type":"addEvidence","expectedRevision":1988,"itemId":"EPIC-17","evidenceId":"E-G04-S384-EXIT"},
+  {"type":"addEvidence","expectedRevision":1989,"itemId":"EPIC-17","evidenceId":"E-G04-S384-MATRIX"},
+  {"type":"addEvidence","expectedRevision":1990,"itemId":"EPIC-17","evidenceId":"E-G04-S384-RENDERED"},
+  {"type":"addEpicEvidence","expectedRevision":1991,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S384-EXIT"},
+  {"type":"addEpicEvidence","expectedRevision":1992,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S384-MATRIX"},
+  {"type":"addEpicEvidence","expectedRevision":1993,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S384-RENDERED"},
+  {"type":"addComment","expectedRevision":1994,"itemId":"G04-V02","actor":"Codex","text":"S384 traced each proposed Polo key against exact S380 source paths and source topology. Source-authored attachmentLine/front-slit relations are separated from E's unrelated reinforcement-fold coincidence and I's distinct on-fold marks. Open rings preserve source strokes but leave E/H/I overlay/crowding questions and the independent 0.68 cm residual. No production change, V02 pass or hold release; all 34 Polo faces remain held."}
+]

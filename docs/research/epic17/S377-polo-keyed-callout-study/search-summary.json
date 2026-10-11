@@ -1,0 +1,31 @@
+{
+  "configurations": 17,
+  "renderedConfigurations": 15,
+  "baseRenderFailures": [
+    {
+      "caseId": "polo-standFrontRise-max",
+      "issues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "issues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ]
+    }
+  ],
+  "markerPairPassCount": 15,
+  "minimumMarkerClearanceCm": 0.5599999999999998,
+  "colorwayFillRendered": false,
+  "browserErrors": 0,
+  "productionFaceHoldsUnchanged": 34
+}

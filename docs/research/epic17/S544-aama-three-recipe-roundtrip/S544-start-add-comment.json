@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3288,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S544 runs the three missing M/default recipes through the same CLO DXF-AAMA mode used for S523's four recipes. It tests a specific remaining profile path without asserting conformance or changing any V03 gate."
+}

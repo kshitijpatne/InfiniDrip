@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2927,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S475-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-start-packet.md",
+      "verified": true,
+      "note": "S475 records a single local CLO Tee ASTM trial; receiver files remain only in C:\\G04-CLO-DXF-Exchange. Numeric output comparison and rendered review are pending; V03 gates remain unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2928,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S475-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S475-clo-tee-roundtrip/S475-start-packet.md",
+      "verified": true,
+      "note": "S475 performs and analyzes an actual CLO ASTM round trip for one hash-identified Tee fixture; profile compatibility and G04 V03 remain unproven pending exact output evidence."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2929,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S475-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2930,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S475 records the actual CLO 2026.1.310 Tee import/native save/reopen/DXF-ASTM export and matching ASTM reimport. The receiver files are confined to C:\\G04-CLO-DXF-Exchange. CLO reported seam allowances imported in Custom mode. Entity-by-entity C04 comparison and rendered assessment remain pending; V03 is still In Progress."
+  }
+]

@@ -1,0 +1,3955 @@
+{
+  "summary": {
+    "configurations": 28,
+    "exactRevisionRows": 28,
+    "candidateRenders": 28,
+    "candidateRendererFailures": [],
+    "originalRendererFailures": [
+      {
+        "caseId": "woven-shirt-default",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-neckEase-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-neckEase-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-standHeight-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-standHeight-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-collarLeafDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-collarLeafDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonCount-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonCount-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonSpacing-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonSpacing-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-frontOverlap-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-placketWidth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 2.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-yokeDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-yokeDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketWidth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketWidth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketHeight-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketHeight-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sleeveBandDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sleeveBandDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sideVentDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sideVentDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-hemTurn-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-hemTurn-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      }
+    ],
+    "originalIssueRows": [
+      {
+        "caseId": "woven-shirt-default",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-neckEase-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-neckEase-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-standHeight-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-standHeight-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-collarLeafDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-collarLeafDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonCount-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonCount-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonSpacing-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-buttonSpacing-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-frontOverlap-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-placketWidth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 2.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-yokeDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-yokeDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketWidth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketWidth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketHeight-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-pocketHeight-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sleeveBandDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sleeveBandDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sideVentDepth-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-sideVentDepth-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-hemTurn-min",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      },
+      {
+        "caseId": "woven-shirt-hemTurn-max",
+        "issues": [
+          {
+            "code": "TEXT_COLLISION",
+            "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+          }
+        ]
+      }
+    ],
+    "geometryOnlyBaselineFailures": [],
+    "geometryPreserved": 28,
+    "exactWMarkers": 28,
+    "exactScheduleRows": 28,
+    "colorwayRows": 28,
+    "sourcePathRingOverlaps": [
+      {
+        "caseId": "woven-shirt-neckEase-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": -0.007797207149481081
+      },
+      {
+        "caseId": "woven-shirt-placketWidth-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": -0.0833880695911285
+      }
+    ],
+    "sourcePathRingNearContacts": [
+      {
+        "caseId": "woven-shirt-default",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-neckEase-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.009454632623029105
+      },
+      {
+        "caseId": "woven-shirt-standHeight-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-standHeight-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-collarLeafDepth-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-collarLeafDepth-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-buttonCount-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-buttonCount-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-buttonSpacing-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-buttonSpacing-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-frontOverlap-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-frontOverlap-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-yokeDepth-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-yokeDepth-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-pocketWidth-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-pocketWidth-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-pocketHeight-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-pocketHeight-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-sleeveBandDepth-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-sleeveBandDepth-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-sideVentDepth-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-sideVentDepth-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-hemTurn-min",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      },
+      {
+        "caseId": "woven-shirt-hemTurn-max",
+        "pathId": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+        "clearanceCm": 0.0034243804583122955
+      }
+    ],
+    "minimumIndependentPathRingClearanceCm": -0.0833880695911285,
+    "minimumSourceMarkRingClearanceCm": 0.2624982586181172,
+    "visualSafetyPass": false,
+    "visualSafetyDisposition": "No-go: source-centered 0.22 cm ring overlaps or nearly contacts the independent front neckline in the supported option matrix.",
+    "browserErrors": 0,
+    "nonSourceDisplayProposal": {
+      "key": "W",
+      "markerStyle": "open-halo",
+      "markerRadiusCm": 0.22,
+      "markerCenter": "exact current source-bound POM anchor at buttonPlacket.top midpoint",
+      "schedule": "complete unchanged source POM text once in keyed schedule",
+      "leader": "none"
+    },
+    "allFacesHeld": true,
+    "sourceOrStitchGraphChanges": 0,
+    "productionMappingImplemented": false
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.07,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 7.884791374206543,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.09310884510769925,
+          "ringClearanceCm": 0.009454632623029105
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977576384195
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24124184250831604
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.599999999999998
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.6,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.67,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.48479175567627,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.07714297458193753,
+          "ringClearanceCm": -0.007797207149481081
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977561145396
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24124088883399963
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.28391677141189575
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 33
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [],
+      "originalStatus": "rendered",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 1.361574215888977,
+          "ringClearanceCm": 1.2624975916626768
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.2589627510229702
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.3652976286411285,
+          "ringClearanceCm": 0.2625000000000363
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.2589627510229702
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 2.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 2.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 1.8790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.004716885440338124,
+          "ringClearanceCm": -0.0833880695911285
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.36157421588897704,
+          "ringClearanceCm": 0.2624982586181172
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 2.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 2.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 4.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 3,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [],
+      "originalStatus": "rendered",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 3,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 3,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.8790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.1897016069511705,
+          "ringClearanceCm": 0.10936549645251674
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 1.361574215888977,
+          "ringClearanceCm": 1.2624975916626768
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.7795926206913691
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 4.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 4.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812569677829742,
+          "height": 0.23812569677829742
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123965203762054
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812532424926758,
+          "height": 0.23812532424926758
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.2412400245666504
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790767192840576,
+          "y": 8.08479118347168,
+          "width": 0.23812565207481384,
+          "height": 0.23812565207481384
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763366474600899,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.861573977470398,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24124065041542053
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 78.1146011352539,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 34
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 3.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 2.5,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "message": "Text “Finished placket width: 3.0 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "originalStatus": "held-render-failure",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 2.5,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.3790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.08763464070430965,
+          "ringClearanceCm": 0.0034243804583122955
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615742158889771,
+          "ringClearanceCm": 0.7624977584012327
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "text": "FOLD",
+          "clearanceCm": 0.24123993515968323
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 3.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 35
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourcePOM": {
+        "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "sourceClass": "PATTERN_DERIVED",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "fullText": "Finished placket width: 4.0 cm (±0.2 cm)",
+        "layerBefore": "CALLOUT",
+        "anchor": {
+          "primitiveId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+          "point": {
+            "x": 3,
+            "y": 8.200000000000003
+          },
+          "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+        },
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top"
+      },
+      "originalIssues": [],
+      "originalStatus": "rendered",
+      "geometryOnlyIssues": [],
+      "candidateIssues": [],
+      "candidateStatus": "rendered",
+      "geometryPathIdentityUnchanged": true,
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "cx": 3,
+        "cy": 8.2,
+        "r": 0.22,
+        "glyph": "W",
+        "glyphX": 3,
+        "glyphY": 8.27,
+        "glyphBox": {
+          "x": 2.8790769577026367,
+          "y": 8.084792137145996,
+          "width": 0.23812541365623474,
+          "height": 0.23812541365623474
+        },
+        "nearestOtherPath": {
+          "id": "flat:woven-shirt:FRONT_FLAT:view-seam:front:neckline",
+          "sourceId": "pattern:woven-shirt:role:front:edge:neckline",
+          "box": {},
+          "glyphClearanceCm": 0.1897016069511705,
+          "ringClearanceCm": 0.10936549645251674
+        },
+        "nearestMark": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "sourceId": "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+          "box": {},
+          "glyphClearanceCm": 0.8615743350982666,
+          "ringClearanceCm": 0.7624978776104626
+        },
+        "nearestOtherLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "text": "CLOSURE",
+          "clearanceCm": 0.3096403181552887
+        }
+      },
+      "schedule": {
+        "rowCount": 1,
+        "exactPOMRow": {
+          "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+          "text": "W  Finished placket width: 4.0 cm (±0.2 cm)",
+          "sourceId": "pom:woven-shirt:finished-placket-width",
+          "revisionId": "live-draft:woven-shirt:14:14",
+          "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+        },
+        "rows": [
+          {
+            "id": "flat:woven-shirt:FRONT_FLAT:callout:finished-placket-width",
+            "text": "W  Finished placket width: 4.0 cm (±0.2 cm)",
+            "sourceId": "pom:woven-shirt:finished-placket-width",
+            "revisionId": "live-draft:woven-shirt:14:14",
+            "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline"
+          }
+        ],
+        "box": {
+          "x": -53.58300018310547,
+          "y": 77.62419891357422,
+          "width": 7.0131001472473145,
+          "height": 2
+        },
+        "overflow": false
+      },
+      "textMetrics": {
+        "pathCount": 30,
+        "sourceMarkPathCount": 11,
+        "colorwayGroups": 1,
+        "sourceLabels": 33
+      }
+    }
+  ]
+}

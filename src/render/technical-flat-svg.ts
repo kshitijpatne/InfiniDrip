@@ -1,0 +1,1011 @@
+import {
+  TECHNICAL_FLAT_LAYER_ORDER,
+  validateTechnicalFlat,
+  type FlatPathCommand,
+  type FlatPoint,
+  type FlatCirclePrimitive,
+  type FlatPointMarkPrimitive,
+  type TechnicalFlatPrimitive,
+  type TechnicalFlatView,
+  type TechnicalFlatLayer,
+} from "./technical-flat";
+import type { TechnicalFlatColorwayOverlay } from "./technical-flat-overlays";
+import { technicalFlatLeaderCrossesBox, technicalFlatLeaderSegmentsCross } from "./technical-flat-poms";
+
+const FONT_SIZE_CM = 0.32;
+const FONT_FAMILY = "Arial, sans-serif";
+const EDGE_STROKE_CM = 0.035;
+const MARK_RADIUS_CM = 0.11;
+const PADDING_CM = 0.7;
+const NOTICE_WIDTH_CM = 30;
+const LABEL_GAP_CM = 0.08;
+const LABEL_SEARCH_STEP_CM = 0.25;
+const LABEL_SEARCH_RINGS = 96;
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+export interface TechnicalFlatTextMetrics {
+  readonly widthCm: number;
+  readonly ascentCm: number;
+  readonly descentCm: number;
+}
+
+/** Metrics are measured in the same browser/font settings that will display the SVG. */
+export type TechnicalFlatMeasureText = (text: string, fontSizeCm: number, fontFamily: string) => TechnicalFlatTextMetrics;
+
+export interface TechnicalFlatSvgOptions {
+  readonly measureText: TechnicalFlatMeasureText;
+  readonly colorway?: TechnicalFlatColorwayOverlay;
+  readonly title?: string;
+}
+
+export interface TechnicalFlatSvgIssue {
+  readonly code: "INVALID_VIEW" | "FONT_METRICS_UNAVAILABLE" | "INVALID_FONT_METRICS"
+    | "COLORWAY_REVISION_MISMATCH" | "COLORWAY_TARGET_MISSING" | "COLORWAY_CONTOUR_UNCLOSED"
+    | "VIEW_CLIP_CONTOUR_UNAVAILABLE" | "TEXT_COLLISION" | "MARKER_SEGMENTATION_UNAVAILABLE";
+  readonly entityId?: string;
+  readonly message: string;
+}
+
+export interface TechnicalFlatSvgResult {
+  readonly svg: string | null;
+  readonly issues: readonly TechnicalFlatSvgIssue[];
+  readonly textBounds: Readonly<Record<string, { readonly minX: number; readonly minY: number; readonly maxX: number; readonly maxY: number }>>;
+}
+
+interface Bounds { minX: number; minY: number; maxX: number; maxY: number }
+interface TextItem {
+  id: string;
+  text: string;
+  at: FlatPoint;
+  anchor: "start" | "middle";
+  source: TechnicalFlatPrimitive["source"];
+  feature: TechnicalFlatPrimitive["feature"];
+  layer: TechnicalFlatLayer;
+  callout?: Extract<TechnicalFlatPrimitive, { kind: "callout" }>;
+}
+interface PlacedText { readonly item: TextItem; readonly bounds: Bounds; readonly at: FlatPoint }
+
+const finite = (value: number): boolean => Number.isFinite(value);
+const escapeXml = (value: string): string => value.replace(/&/g, "&amp;").replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
+const fmt = (value: number): string => Number(value.toFixed(4)).toString();
+
+function union(a: Bounds, b: Bounds): Bounds {
+  return { minX: Math.min(a.minX, b.minX), minY: Math.min(a.minY, b.minY),
+    maxX: Math.max(a.maxX, b.maxX), maxY: Math.max(a.maxY, b.maxY) };
+}
+
+function pointBounds(point: FlatPoint, radius = 0): Bounds {
+  return { minX: point.x - radius, minY: point.y - radius, maxX: point.x + radius, maxY: point.y + radius };
+}
+
+function pathBounds(commands: readonly FlatPathCommand[]): Bounds | null {
+  let bounds: Bounds | null = null;
+  for (const command of commands) {
+    const points = command.op === "cubic"
+      ? [command.control1, command.control2, command.point]
+      : command.op === "close" ? [] : [command.point];
+    for (const point of points) bounds = bounds ? union(bounds, pointBounds(point)) : pointBounds(point);
+  }
+  return bounds;
+}
+
+function artworkBounds(primitive: Extract<TechnicalFlatPrimitive, { kind: "artwork" }>): Bounds {
+  const radians = primitive.transform.rotationDegrees * Math.PI / 180;
+  const sx = primitive.widthCm * primitive.transform.scale / 2;
+  const sy = primitive.heightCm * primitive.transform.scale / 2;
+  const corners = [[-sx, -sy], [sx, -sy], [sx, sy], [-sx, sy]] as const;
+  const points = corners.map(([x, y]) => ({
+    x: primitive.transform.dx + x * Math.cos(radians) - y * Math.sin(radians),
+    y: primitive.transform.dy + x * Math.sin(radians) + y * Math.cos(radians),
+  }));
+  return points.reduce((result, point) => union(result, pointBounds(point)), pointBounds(points[0]!));
+}
+
+function primitiveBounds(primitive: TechnicalFlatPrimitive): Bounds | null {
+  switch (primitive.kind) {
+    case "path": return pathBounds(primitive.commands);
+    case "circle": return pointBounds(primitive.center, primitive.radius);
+    case "mark": return pointBounds(primitive.at, MARK_RADIUS_CM);
+    case "text": return pointBounds(primitive.at);
+    case "artwork": return artworkBounds(primitive);
+    case "callout": {
+      const markerPoint = primitive.presentation?.markerPoint?.point ?? primitive.anchor.point;
+      const base = primitive.presentation
+        ? pointBounds(markerPoint, primitive.presentation.markerRadiusCm)
+        : union(pointBounds(primitive.anchor.point), pointBounds(primitive.labelAt));
+      return (primitive.dimensionReferences?.references ?? []).reduce((result, reference) =>
+        union(result, pointBounds(reference.point)), base);
+    }
+  }
+}
+
+function pathData(commands: readonly FlatPathCommand[]): string {
+  return commands.map((command) => {
+    if (command.op === "close") return "Z";
+    if (command.op === "move") return `M${fmt(command.point.x)} ${fmt(command.point.y)}`;
+    if (command.op === "line") return `L${fmt(command.point.x)} ${fmt(command.point.y)}`;
+    return `C${fmt(command.control1.x)} ${fmt(command.control1.y)} ${fmt(command.control2.x)} ${fmt(command.control2.y)} ${fmt(command.point.x)} ${fmt(command.point.y)}`;
+  }).join(" ");
+}
+
+/** Connect only explicitly coincident authored edge endpoints for area paint.
+ * The separate source edge path remains responsible for all visible strokes. */
+interface ContourEdge {
+  readonly from: FlatPoint;
+  readonly to: FlatPoint;
+  readonly command: Extract<FlatPathCommand, { op: "line" | "cubic" }>;
+  readonly ownerId: string;
+  readonly sourceEdgeId?: string;
+}
+
+function sourceEdges(commands: readonly FlatPathCommand[], ownerId: string, sourceEdgeIds?: readonly string[]): ContourEdge[] | null {
+  let start: FlatPoint | null = null;
+  let current: FlatPoint | null = null;
+  let subpathHasEdge = false;
+  let subpathIndex = -1;
+  let sourceEdgeId: string | undefined;
+  const edges: ContourEdge[] = [];
+  for (const command of commands) {
+    if (command.op === "move") {
+      subpathIndex += 1;
+      sourceEdgeId = sourceEdgeIds?.[subpathIndex];
+      start = command.point;
+      current = command.point;
+      subpathHasEdge = false;
+    } else if (command.op === "line") {
+      edges.push({ from: current!, to: command.point, command, ownerId, sourceEdgeId });
+      current = command.point;
+      subpathHasEdge = true;
+    } else if (command.op === "cubic") {
+      edges.push({ from: current!, to: command.point, command, ownerId, sourceEdgeId });
+      current = command.point;
+      subpathHasEdge = true;
+    } else {
+      // A source close command explicitly authors the final segment back to
+      // the first point; unlike separate edge subpaths, this needs no inferred
+      // join or assumed closure.
+      if (!start || !current || !subpathHasEdge) return null;
+      edges.push({ from: current, to: start, command: { op: "line", point: start }, ownerId,
+        sourceEdgeId });
+      start = null;
+      current = null;
+    }
+  }
+  return edges;
+}
+
+function contourEdgeData(edge: ContourEdge, reverse = false): string {
+  const command = edge.command;
+  const point = reverse ? edge.from : edge.to;
+  if (command.op === "line") return `L${fmt(point.x)} ${fmt(point.y)}`;
+  if (reverse) return `C${fmt(command.control2.x)} ${fmt(command.control2.y)} ${fmt(command.control1.x)} ${fmt(command.control1.y)} ${fmt(point.x)} ${fmt(point.y)}`;
+  return `C${fmt(command.control1.x)} ${fmt(command.control1.y)} ${fmt(command.control2.x)} ${fmt(command.control2.y)} ${fmt(command.point.x)} ${fmt(command.point.y)}`;
+}
+
+function pointKey(point: FlatPoint): string {
+  // The SVG path serializer emits four decimal centimetres. Compare the
+  // canonical values that will actually be emitted, so shared mapped
+  // landmarks remain exactly coincident after serialization.
+  return `${fmt(point.x)},${fmt(point.y)}`;
+}
+
+function cancelSharedFoldContourEdges(edges: readonly ContourEdge[]): ContourEdge[] {
+  const reflectedSuffix = ":attached-fold-reflection";
+  const edgeKey = (edge: ContourEdge) => {
+    const owner = edge.ownerId.endsWith(reflectedSuffix)
+      ? edge.ownerId.slice(0, -reflectedSuffix.length) : edge.ownerId;
+    const endpoints = [pointKey(edge.from), pointKey(edge.to)].sort();
+    return `${owner}\u0000${edge.sourceEdgeId ?? ""}\u0000${endpoints[0]}\u0000${endpoints[1]}`;
+  };
+  const groups = new Map<string, { base: ContourEdge[]; reflected: ContourEdge[] }>();
+  for (const edge of edges) {
+    const reflected = edge.ownerId.endsWith(reflectedSuffix);
+    const key = edgeKey(edge);
+    const group = groups.get(key) ?? { base: [], reflected: [] };
+    group[reflected ? "reflected" : "base"].push(edge);
+    groups.set(key, group);
+  }
+  return [...groups.values()].flatMap(({ base, reflected }) =>
+    base.length === 1 && reflected.length === 1 ? [] : [...base, ...reflected]);
+}
+
+function closedContourData(primitives: readonly Extract<TechnicalFlatPrimitive, { kind: "path" }>[]): string | null {
+  const edges: ContourEdge[] = [];
+  for (const primitive of primitives) {
+    const source = sourceEdges(primitive.commands, primitive.id, primitive.sourceEdgeIds);
+    if (!source) return null;
+    edges.push(...source);
+  }
+  const excludedAxisEdges = new Set<string>();
+  for (const primitive of primitives) {
+    if (!primitive.sourceEdgeIds) continue;
+    const reflected = primitives.find((candidate) => candidate.id === `${primitive.id}:attached-fold-reflection`
+      && candidate.source.sourceId === primitive.source.sourceId && candidate.source.revisionId === primitive.source.revisionId);
+    if (reflected?.kind !== "path" || !reflected.sourceEdgeIds) continue;
+    for (const sourceEdgeId of primitive.sourceEdgeIds) {
+      if (!reflected.sourceEdgeIds.includes(sourceEdgeId)) excludedAxisEdges.add(`${primitive.id}\u0000${sourceEdgeId}`);
+    }
+  }
+  const contourEdges = cancelSharedFoldContourEdges(edges.filter((edge) =>
+    !edge.sourceEdgeId || !excludedAxisEdges.has(`${edge.ownerId}\u0000${edge.sourceEdgeId}`)));
+  if (contourEdges.length < 3) return null;
+  const adjacency = new Map<string, number[]>();
+  contourEdges.forEach((edge, index) => {
+    const from = pointKey(edge.from); const to = pointKey(edge.to);
+    adjacency.set(from, [...(adjacency.get(from) ?? []), index]);
+    adjacency.set(to, [...(adjacency.get(to) ?? []), index]);
+  });
+  if ([...adjacency.values()].some((incident) => incident.length !== 2)) return null;
+
+  const used = new Set<number>();
+  const contours: string[] = [];
+  for (let seed = 0; seed < contourEdges.length; seed += 1) {
+    if (used.has(seed)) continue;
+    const first = contourEdges[seed]!;
+    const start = first.from;
+    let current = first.to;
+    const path = [`M${fmt(start.x)} ${fmt(start.y)}`, contourEdgeData(first)];
+    used.add(seed);
+    let edgeCount = 1;
+    while (pointKey(current) !== pointKey(start)) {
+      const next = adjacency.get(pointKey(current))!.filter((index) => !used.has(index));
+      const index = next[0]!;
+      const edge = contourEdges[index]!;
+      const forward = pointKey(edge.from) === pointKey(current);
+      path.push(contourEdgeData(edge, !forward));
+      current = forward ? edge.to : edge.from;
+      used.add(index);
+      edgeCount += 1;
+    }
+    if (edgeCount < 3) return null;
+    contours.push(`${path.join(" ")} Z`);
+  }
+  return contours.join(" ");
+}
+
+interface ColorwayFillPath {
+  readonly path: string;
+  readonly sourceIds: readonly string[];
+}
+
+function colorwayFillPaths(view: TechnicalFlatView, colorway: TechnicalFlatColorwayOverlay): Map<string, ColorwayFillPath> {
+  const fills = new Map<string, ColorwayFillPath>();
+  for (const roleId of colorway.targetRoleIds) {
+    const outlines = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+      primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE"
+      && primitive.colorwayBoundaryOnly !== true && roleFor(primitive) === roleId);
+    const fillBoundaries = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+      primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE"
+      && primitive.colorwayBoundaryOnly === true && roleFor(primitive) === roleId);
+    const contourPaths = [...outlines, ...fillBoundaries];
+    if (view.recipeId === "trouser" && roleId === "waistband") {
+      const attachedPanelRoles = new Set(outlines.flatMap((primitive) => {
+        const match = /:waistband:waistband:(frontLeft|frontRight|backLeft|backRight):waist:side-boundary$/u.exec(primitive.id);
+        return match ? [match[1]!] : [];
+      }));
+      for (const panelRole of attachedPanelRoles) {
+        const panelOutline = view.primitives.find((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+          primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE"
+          && primitive.source.sourceId === `pattern:trouser:role:${panelRole}`);
+        if (!panelOutline) continue;
+        const seamEdgeId = `pattern:trouser:role:${panelRole}:edge:waist`;
+        const seamPath = selectSourceEdgeSubpaths(panelOutline, [seamEdgeId]);
+        if (seamPath) contourPaths.push(seamPath);
+      }
+    }
+    let contour: string | null;
+    if (view.recipeId === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(roleId)) {
+      const reflectionSuffix = ":attached-fold-reflection";
+      const original = contourPaths.filter((primitive) => !primitive.id.endsWith(reflectionSuffix));
+      const reflected = contourPaths.filter((primitive) => primitive.id.endsWith(reflectionSuffix));
+      const exactFoldPair = original.length > 0 && original.length === reflected.length
+        && original.every((primitive) => reflected.some((candidate) => candidate.id === `${primitive.id}${reflectionSuffix}`
+          && candidate.source.sourceId === primitive.source.sourceId
+          && candidate.source.revisionId === primitive.source.revisionId));
+      if (exactFoldPair) {
+        const halves = [closedContourData(original), closedContourData(reflected)];
+        contour = halves.every((half): half is string => half !== null) ? halves.join(" ") : null;
+      } else contour = null;
+    } else contour = closedContourData(contourPaths);
+    if (contour && outlines[0]) fills.set(outlines[0].id, { path: contour,
+      sourceIds: [...new Set(contourPaths.flatMap((primitive) => primitive.sourceEdgeIds?.length
+        ? primitive.sourceEdgeIds : [primitive.source.sourceId]))] });
+  }
+  return fills;
+}
+
+function roleHasCompleteFill(outlines: readonly TechnicalFlatPrimitive[], fills: ReadonlyMap<string, ColorwayFillPath>): boolean {
+  return outlines.length > 0 && fills.has(outlines[0]!.id);
+}
+
+function roleFor(primitive: TechnicalFlatPrimitive): string | null {
+  const pattern = /^pattern:[^:]+:role:([^:]+)(?::edge:[^:]+)?$/u.exec(primitive.source.sourceId);
+  if (pattern) return pattern[1]!;
+  const boundary = /^view:[^:]+:role:([^:]+):/u.exec(primitive.source.sourceId);
+  if (boundary) return boundary[1]!;
+  return /:waistband:waistband:(?:frontLeft|frontRight|backLeft|backRight):waist:side-boundary$/u.test(primitive.id) ? "waistband" : null;
+}
+
+function viewRoleContour(view: TechnicalFlatView, roleId: string): string | null {
+  const outlines = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+    primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly !== true
+      && roleFor(primitive) === roleId);
+  const boundaries = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "path" }> =>
+    primitive.kind === "path" && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly === true
+      && roleFor(primitive) === roleId);
+  const paths = [...outlines, ...boundaries];
+  if (!paths.length) return null;
+  if (view.recipeId === "woven-shirt" && ["outerStand", "upperCollar", "underCollar"].includes(roleId)) {
+    const suffix = ":attached-fold-reflection";
+    const original = paths.filter((primitive) => !primitive.id.endsWith(suffix));
+    const reflected = paths.filter((primitive) => primitive.id.endsWith(suffix));
+    const paired = original.length > 0 && original.length === reflected.length
+      && original.every((primitive) => reflected.some((candidate) => candidate.id === `${primitive.id}${suffix}`
+        && candidate.source.sourceId === primitive.source.sourceId && candidate.source.revisionId === primitive.source.revisionId));
+    if (!paired) return null;
+    const halves = [closedContourData(original), closedContourData(reflected)];
+    return halves.every((half): half is string => half !== null) ? halves.join(" ") : null;
+  }
+  return closedContourData(paths);
+}
+
+function selectSourceEdgeSubpaths(
+  primitive: Extract<TechnicalFlatPrimitive, { kind: "path" }>,
+  sourceEdgeIds: readonly string[],
+): Extract<TechnicalFlatPrimitive, { kind: "path" }> | null {
+  if (!primitive.sourceEdgeIds) return null;
+  const groups: FlatPathCommand[][] = [];
+  let current: FlatPathCommand[] = [];
+  for (const command of primitive.commands) {
+    if (command.op === "move" && current.length > 0) {
+      groups.push(current);
+      current = [];
+    }
+    current.push(command);
+  }
+  if (current.length > 0) groups.push(current);
+  if (groups.length !== primitive.sourceEdgeIds.length) return null;
+  const selected = primitive.sourceEdgeIds.flatMap((sourceEdgeId, index) =>
+    sourceEdgeIds.includes(sourceEdgeId) ? [{ id: sourceEdgeId, commands: groups[index]! }] : []);
+  if (selected.length !== sourceEdgeIds.length) return null;
+  return { ...primitive, id: `${primitive.id}:colorway-boundary`, sourceEdgeIds: selected.map((item) => item.id),
+    commands: selected.flatMap((item) => item.commands) };
+}
+
+function styleFor(primitive: TechnicalFlatPrimitive, positions: ReadonlyMap<string, FlatPoint> = new Map()): string {
+  const shared = `data-entity-id="${escapeXml(primitive.id)}" data-feature="${primitive.feature}" data-source-id="${escapeXml(primitive.source.sourceId)}" data-source-class="${primitive.source.sourceClass}" data-revision-id="${escapeXml(primitive.source.revisionId)}"`;
+  switch (primitive.kind) {
+    case "path": {
+      if (primitive.colorwayBoundaryOnly === true) return "";
+      const clipKey = primitive.viewClip
+        ? `${primitive.viewClip.decisionId}:${[...primitive.viewClip.roleIds].sort().join(",")}` : undefined;
+      const clipId = clipKey === undefined ? undefined
+        : `view-clip-${clipKey.replace(/[^a-zA-Z0-9_-]/gu, "-")}`;
+      const mask = clipId ? ` mask="url(#${escapeXml(clipId)})" data-view-clip="${escapeXml(primitive.viewClip!.decisionId)}"` : "";
+      const dash = primitive.patternMark?.kind === "foldLine" ? ` stroke-dasharray="0.18 0.1"` : "";
+      return `<path ${shared} data-layer="${primitive.layer}" d="${pathData(primitive.commands)}" fill="none" stroke="#19222b" stroke-width="${EDGE_STROKE_CM}" stroke-linecap="round" stroke-linejoin="round"${dash}${mask}/>`;
+    }
+    case "circle": return `<circle ${shared} data-layer="${primitive.layer}" cx="${fmt(primitive.center.x)}" cy="${fmt(primitive.center.y)}" r="${fmt(primitive.radius)}" fill="none" stroke="#19222b" stroke-width="${EDGE_STROKE_CM}"/>`;
+    case "mark": {
+      const shape = primitive.markKind === "buttonhole"
+        ? `<rect x="${fmt(primitive.at.x - MARK_RADIUS_CM)}" y="${fmt(primitive.at.y - MARK_RADIUS_CM / 2)}" width="${MARK_RADIUS_CM * 2}" height="${MARK_RADIUS_CM}" rx="${MARK_RADIUS_CM / 2}"/>`
+        : `<circle cx="${fmt(primitive.at.x)}" cy="${fmt(primitive.at.y)}" r="${MARK_RADIUS_CM}"/>`;
+      return `<g ${shared} data-layer="${primitive.layer}" data-mark-kind="${primitive.markKind}" fill="none" stroke="#19222b" stroke-width="${EDGE_STROKE_CM}">${shape}</g>`;
+    }
+    case "text": return "";
+    case "artwork": {
+      const radians = primitive.transform.rotationDegrees;
+      const x = primitive.transform.dx - primitive.widthCm * primitive.transform.scale / 2;
+      const y = primitive.transform.dy - primitive.heightCm * primitive.transform.scale / 2;
+      const width = primitive.widthCm * primitive.transform.scale;
+      const height = primitive.heightCm * primitive.transform.scale;
+      const transform = `rotate(${fmt(radians)} ${fmt(primitive.transform.dx)} ${fmt(primitive.transform.dy)})`;
+      return `<g ${shared} data-layer="ARTWORK" data-artwork-kind="${primitive.artworkKind}" data-placement-id="${escapeXml(primitive.placementId)}" data-asset-id="${escapeXml(primitive.assetId ?? "")}" data-z-order="${primitive.zOrder}" transform="${transform}"><rect x="${fmt(x)}" y="${fmt(y)}" width="${fmt(width)}" height="${fmt(height)}" fill="none" stroke="#526677" stroke-dasharray="0.12 0.08" stroke-width="${EDGE_STROKE_CM}"/><title>Artwork placement: ${escapeXml(primitive.sourceName)}${primitive.assetId ? `; asset ${escapeXml(primitive.assetId)} is not embedded` : "; asset reference missing"}</title></g>`;
+    }
+    case "callout": {
+      if (primitive.presentation) return "";
+      const labelAt = positions.get(primitive.id) ?? primitive.labelAt;
+      const sourceEntity = primitive.anchor.sourceEntityId === undefined ? ""
+        : ` data-callout-source-entity="${escapeXml(primitive.anchor.sourceEntityId)}"`;
+      const references = primitive.dimensionReferences;
+      const referenceMarkup = references ? references.references.map((reference) =>
+        `<circle data-dimension-source-entity="${escapeXml(reference.sourceEntityId)}" cx="${fmt(reference.point.x)}" cy="${fmt(reference.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#526677" stroke-width="${EDGE_STROKE_CM}"/>`).join("") : "";
+      const levelLine = references?.kind === "vertical-levels" ? `<path data-dimension-kind="vertical-levels" d="M${fmt(references.references[0]!.point.x)} ${fmt(references.references[0]!.point.y)} L${fmt(references.references[1]!.point.x)} ${fmt(references.references[1]!.point.y)}" fill="none" stroke="#526677" stroke-width="${EDGE_STROKE_CM}" stroke-dasharray="0.16 0.12"/>` : "";
+      const dimensionKind = references ? ` data-dimension-kind="${references.kind}"` : "";
+      return `<g ${shared} data-layer="${primitive.layer}" data-callout-target="${escapeXml(primitive.anchor.primitiveId)}"${sourceEntity}${dimensionKind}>${levelLine}${referenceMarkup}<path d="M${fmt(primitive.anchor.point.x)} ${fmt(primitive.anchor.point.y)} L${fmt(labelAt.x)} ${fmt(labelAt.y)}" fill="none" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/><circle cx="${fmt(primitive.anchor.point.x)}" cy="${fmt(primitive.anchor.point.y)}" r="${MARK_RADIUS_CM / 2}" fill="#fff" stroke="#344d60" stroke-width="${EDGE_STROKE_CM}"/></g>`;
+    }
+  }
+}
+
+function colorwayAreaMarkup(primitive: Extract<TechnicalFlatPrimitive, { kind: "path" }>, d: string,
+  colorway: TechnicalFlatColorwayOverlay, sourceIds: readonly string[]): string {
+  return `<path data-colorway-fill-for="${escapeXml(primitive.id)}" data-colorway-contour-sources="${escapeXml(sourceIds.join(" "))}" data-feature="silhouette" data-source-id="${escapeXml(primitive.source.sourceId)}" data-source-class="${primitive.source.sourceClass}" data-revision-id="${escapeXml(primitive.source.revisionId)}" data-layer="${primitive.layer}" d="${d}" fill="${colorway.colorHex}" stroke="none" pointer-events="none"/>`;
+}
+
+function intersects(a: Bounds, b: Bounds): boolean {
+  return a.minX < b.maxX && b.minX < a.maxX && a.minY < b.maxY && b.minY < a.maxY;
+}
+
+function padded(bounds: Bounds, gap: number): Bounds {
+  return { minX: bounds.minX - gap, minY: bounds.minY - gap,
+    maxX: bounds.maxX + gap, maxY: bounds.maxY + gap };
+}
+
+function pathSegments(commands: readonly FlatPathCommand[]): Array<readonly [FlatPoint, FlatPoint]> {
+  const result: Array<readonly [FlatPoint, FlatPoint]> = [];
+  let current: FlatPoint | null = null;
+  let subpath: FlatPoint | null = null;
+  for (const command of commands) {
+    if (command.op === "move") { current = command.point; subpath = command.point; }
+    else if (command.op === "line") {
+      if (current) result.push([current, command.point]);
+      current = command.point;
+    } else if (command.op === "cubic") {
+      if (current) {
+        let previous = current;
+        for (let step = 1; step <= 16; step += 1) {
+          const t = step / 16;
+          const inverse = 1 - t;
+          const point = { x: inverse ** 3 * current.x + 3 * inverse ** 2 * t * command.control1.x
+            + 3 * inverse * t ** 2 * command.control2.x + t ** 3 * command.point.x,
+          y: inverse ** 3 * current.y + 3 * inverse ** 2 * t * command.control1.y
+            + 3 * inverse * t ** 2 * command.control2.y + t ** 3 * command.point.y };
+          result.push([previous, point]);
+          previous = point;
+        }
+      }
+      current = command.point;
+    } else if (command.op === "close" && current && subpath) {
+      result.push([current, subpath]);
+      current = subpath;
+    }
+  }
+  return result;
+}
+
+interface SegmentedMarker {
+  readonly path: string;
+  readonly arcCount: number;
+  readonly retainedCoverage: number;
+}
+
+function squaredDistanceToSegment(point: FlatPoint, start: FlatPoint, end: FlatPoint): number {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+  if (lengthSquared === 0) return (point.x - start.x) ** 2 + (point.y - start.y) ** 2;
+  const ratio = Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared));
+  return (point.x - (start.x + ratio * dx)) ** 2 + (point.y - (start.y + ratio * dy)) ** 2;
+}
+
+function roundedButtonholeSegments(at: FlatPoint): Array<readonly [FlatPoint, FlatPoint]> {
+  const halfWidth = MARK_RADIUS_CM;
+  const halfHeight = MARK_RADIUS_CM / 2;
+  const radius = halfHeight;
+  const cornerCenters = [
+    { center: { x: at.x + halfWidth - radius, y: at.y }, start: -Math.PI / 2, end: Math.PI / 2 },
+    { center: { x: at.x - halfWidth + radius, y: at.y }, start: Math.PI / 2, end: Math.PI * 1.5 },
+  ];
+  const points: FlatPoint[] = [{ x: at.x - halfWidth + radius, y: at.y - halfHeight }];
+  points.push({ x: at.x + halfWidth - radius, y: at.y - halfHeight });
+  for (const { center, start, end } of cornerCenters.slice(0, 1)) {
+    for (let index = 1; index <= 12; index += 1) {
+      const angle = start + (end - start) * index / 12;
+      points.push({ x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius });
+    }
+  }
+  points.push({ x: at.x - halfWidth + radius, y: at.y + halfHeight });
+  for (const { center, start, end } of cornerCenters.slice(1)) {
+    for (let index = 1; index <= 12; index += 1) {
+      const angle = start + (end - start) * index / 12;
+      points.push({ x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius });
+    }
+  }
+  points.push(points[0]!);
+  return points.slice(1).map((point, index) => [points[index]!, point] as const);
+}
+
+function flattenedPathSegments(commands: readonly FlatPathCommand[]): Array<readonly [FlatPoint, FlatPoint]> {
+  const result: Array<readonly [FlatPoint, FlatPoint]> = [];
+  let current: FlatPoint | null = null;
+  let subpath: FlatPoint | null = null;
+  for (const command of commands) {
+    if (command.op === "move") { current = command.point; subpath = command.point; }
+    else if (command.op === "line") {
+      if (current) result.push([current, command.point]);
+      current = command.point;
+    } else if (command.op === "cubic") {
+      if (current) {
+        let previous = current;
+        for (let step = 1; step <= 32; step += 1) {
+          const t = step / 32;
+          const inverse = 1 - t;
+          const point = { x: inverse ** 3 * current.x + 3 * inverse ** 2 * t * command.control1.x
+            + 3 * inverse * t ** 2 * command.control2.x + t ** 3 * command.point.x,
+          y: inverse ** 3 * current.y + 3 * inverse ** 2 * t * command.control1.y
+            + 3 * inverse * t ** 2 * command.control2.y + t ** 3 * command.point.y };
+          result.push([previous, point]);
+          previous = point;
+        }
+      }
+      current = command.point;
+    } else if (command.op === "close" && current && subpath) {
+      result.push([current, subpath]);
+      current = subpath;
+    }
+  }
+  return result;
+}
+
+function segmentedPoloMarker(view: TechnicalFlatView, center: FlatPoint, radius: number): SegmentedMarker | null {
+  const samples = 720;
+  const clearanceCm = 0.045;
+  const minimumArcCm = 0.04;
+  const pathSegmentsForView = view.primitives.flatMap((primitive) =>
+    primitive.kind === "path" && primitive.colorwayBoundaryOnly !== true
+      && primitive.source.revisionId === view.revisionId
+      && primitive.source.sourceId.startsWith("pattern:polo:")
+      ? flattenedPathSegments(primitive.commands) : []);
+  const circles = view.primitives.filter((primitive): primitive is FlatCirclePrimitive => primitive.kind === "circle"
+    && primitive.source.revisionId === view.revisionId && primitive.source.sourceId.startsWith("pattern:polo:"));
+  const marks = view.primitives.filter((primitive): primitive is FlatPointMarkPrimitive => primitive.kind === "mark"
+    && primitive.source.revisionId === view.revisionId && primitive.source.sourceId.startsWith("pattern:polo:"));
+  const buttonholeSegments = marks.filter((primitive) => primitive.markKind === "buttonhole")
+    .flatMap((primitive) => roundedButtonholeSegments(primitive.at));
+  const markedCircles = marks.filter((primitive) => primitive.markKind !== "buttonhole");
+  const halfStroke = EDGE_STROKE_CM / 2;
+  const blocked = Array.from({ length: samples }, (_, index) => {
+    const angle = 2 * Math.PI * index / samples;
+    const point = { x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius };
+    const hitsPath = pathSegmentsForView.some(([start, end]) => squaredDistanceToSegment(point, start, end) <= halfStroke ** 2);
+    if (hitsPath) return true;
+    const hitsCircle = circles.some((circle) => Math.abs(Math.hypot(point.x - circle.center.x, point.y - circle.center.y)
+      - circle.radius) <= halfStroke);
+    if (hitsCircle) return true;
+    const hitsButtonhole = buttonholeSegments.some(([start, end]) => squaredDistanceToSegment(point, start, end) <= halfStroke ** 2);
+    if (hitsButtonhole) return true;
+    return markedCircles.some((mark) => Math.abs(Math.hypot(point.x - mark.at.x, point.y - mark.at.y)
+      - MARK_RADIUS_CM) <= halfStroke);
+  });
+  const buffered = blocked.slice();
+  const pad = Math.ceil(clearanceCm / (2 * Math.PI * radius / samples));
+  blocked.forEach((isBlocked, index) => {
+    if (!isBlocked) return;
+    for (let offset = -pad; offset <= pad; offset += 1) buffered[(index + offset + samples) % samples] = true;
+  });
+  const openCount = buffered.filter((isBlocked) => !isBlocked).length;
+  const arcs: Array<{ start: number; end: number; samples: number; lengthCm: number }> = [];
+  if (openCount > 0 && openCount < samples) {
+    const start = buffered.findIndex((isBlocked, index) => !isBlocked && buffered[(index + samples - 1) % samples]);
+    let index = start;
+    let visited = 0;
+    while (visited < samples) {
+      if (buffered[index]) { index = (index + 1) % samples; visited += 1; continue; }
+      const first = index;
+      let count = 0;
+      while (!buffered[index] && count < samples) { count += 1; index = (index + 1) % samples; visited += 1; }
+      const lengthCm = count * 2 * Math.PI * radius / samples;
+      if (lengthCm >= minimumArcCm) arcs.push({ start: first * 2 * Math.PI / samples,
+        end: (first + count) * 2 * Math.PI / samples, samples: count, lengthCm });
+    }
+  }
+  const retainedCount = arcs.reduce((sum, arc) => sum + arc.samples, 0);
+  const retainedCoverage = retainedCount / samples;
+  if (arcs.length < 2 || arcs.length > 3 || retainedCoverage < 0.5) return null;
+  const d = arcs.map((arc) => {
+    const x1 = center.x + Math.cos(arc.start) * radius;
+    const y1 = center.y + Math.sin(arc.start) * radius;
+    const x2 = center.x + Math.cos(arc.end) * radius;
+    const y2 = center.y + Math.sin(arc.end) * radius;
+    return `M${fmt(x1)} ${fmt(y1)} A${fmt(radius)} ${fmt(radius)} 0 ${arc.end - arc.start > Math.PI ? 1 : 0} 1 ${fmt(x2)} ${fmt(y2)}`;
+  }).join(" ");
+  return { path: d, arcCount: arcs.length, retainedCoverage };
+}
+
+function primitiveBlocksText(primitive: TechnicalFlatPrimitive, box: Bounds): boolean {
+  if (primitive.kind === "artwork") return intersects(artworkBounds(primitive), box);
+  if (primitive.kind === "path") return primitive.colorwayBoundaryOnly !== true && pathSegments(primitive.commands)
+    .some(([start, end]) => technicalFlatLeaderCrossesBox(start, end, padded(box, EDGE_STROKE_CM / 2)));
+  if (primitive.kind === "circle") return intersects(pointBounds(primitive.center, primitive.radius + EDGE_STROKE_CM / 2), box);
+  if (primitive.kind === "mark") return intersects(pointBounds(primitive.at, MARK_RADIUS_CM + EDGE_STROKE_CM / 2), box);
+  if (primitive.kind === "callout" && primitive.presentation) {
+    return intersects(pointBounds(primitive.anchor.point,
+      primitive.presentation.markerRadiusCm + EDGE_STROKE_CM / 2), box);
+  }
+  return false;
+}
+
+function calloutLeadersConflict(a: FlatPoint, b: FlatPoint, c: FlatPoint, d: FlatPoint): boolean {
+  // Two leaders may meet at a source vertex they both represent. Same-ray
+  // overlap is still prevented because the later leader may not cross the
+  // earlier callout's measured text box.
+  return (a.x !== c.x || a.y !== c.y) && technicalFlatLeaderSegmentsCross(a, b, c, d);
+}
+
+function calloutLeaderCrossesWovenCollar(callout: Extract<TechnicalFlatPrimitive, { kind: "callout" }>,
+  at: FlatPoint, primitives: readonly TechnicalFlatPrimitive[]): boolean {
+  if (callout.source.sourceId !== "pom:woven-shirt:finished-placket-width") return false;
+  const start = callout.anchor.point;
+  const leaderBounds = pointBounds(start);
+  const bounds = union(leaderBounds, pointBounds(at));
+  for (const primitive of primitives) {
+    if (primitive.kind !== "path" || primitive.id === callout.anchor.primitiveId
+      || primitive.colorwayBoundaryOnly === true
+      || !/:component:(?:outerStand|innerStand|upperCollar|underCollar):outline$/u.test(primitive.id)) continue;
+    const geometryBounds = pathBounds(primitive.commands);
+    if (!geometryBounds || !intersects(bounds, geometryBounds)) continue;
+    if (pathSegments(primitive.commands).some(([pathStart, pathEnd]) =>
+      technicalFlatLeaderSegmentsCross(start, at, pathStart, pathEnd))) return true;
+  }
+  return false;
+}
+
+function labelCandidates(item: TextItem, metric: TechnicalFlatTextMetrics): FlatPoint[] {
+  const candidates = [item.at];
+  const directions = Array.from({ length: 32 }, (_, index) => ({
+    x: Math.cos(index * Math.PI / 16), y: Math.sin(index * Math.PI / 16),
+  }));
+  for (let ring = 1; ring <= LABEL_SEARCH_RINGS; ring += 1) {
+    const radius = ring * LABEL_SEARCH_STEP_CM + Math.max(metric.widthCm, metric.ascentCm + metric.descentCm) / 2;
+    for (const direction of directions) candidates.push({ x: item.at.x + direction.x * radius,
+      y: item.at.y + direction.y * radius });
+  }
+  return candidates;
+}
+
+function placeMeasuredLabel(item: TextItem, metric: TechnicalFlatTextMetrics,
+  placed: readonly PlacedText[], primitives: readonly TechnicalFlatPrimitive[]): FlatPoint | null {
+  for (const at of labelCandidates(item, metric)) {
+    const box = textBounds(at, metric, item.anchor);
+    const separated = padded(box, LABEL_GAP_CM);
+    if (placed.some((previous) => intersects(separated, padded(previous.bounds, LABEL_GAP_CM)))) continue;
+    if (primitives.some((primitive) => primitive.id !== item.id && primitiveBlocksText(primitive, separated))) continue;
+    const leaderConflict = placed.some((previous) => previous.item.callout
+      && technicalFlatLeaderCrossesBox(previous.item.callout.anchor.point, previous.at, separated));
+    if (leaderConflict) continue;
+    if (item.callout && placed.some((previous) => technicalFlatLeaderCrossesBox(
+      item.callout!.anchor.point, at, padded(previous.bounds, LABEL_GAP_CM)))) continue;
+    if (item.callout && placed.some((previous) => previous.item.callout
+      && calloutLeadersConflict(item.callout!.anchor.point, at,
+        previous.item.callout.anchor.point, previous.at))) continue;
+    if (item.callout && calloutLeaderCrossesWovenCollar(item.callout, at, primitives)) continue;
+    return at;
+  }
+  return null;
+}
+
+function metricFor(text: string, measureText: TechnicalFlatMeasureText, fontSizeCm = FONT_SIZE_CM): TechnicalFlatTextMetrics | null {
+  let metric: TechnicalFlatTextMetrics;
+  try { metric = measureText(text, fontSizeCm, FONT_FAMILY); }
+  catch { return null; }
+  if (!metric || !finite(metric.widthCm) || !finite(metric.ascentCm) || !finite(metric.descentCm)
+    || metric.widthCm < 0 || metric.ascentCm < 0 || metric.descentCm < 0) return null;
+  return metric;
+}
+
+function textBounds(at: FlatPoint, metric: TechnicalFlatTextMetrics, anchor: "start" | "middle" = "start"): Bounds {
+  const left = anchor === "middle" ? at.x - metric.widthCm / 2 : at.x;
+  return { minX: left, minY: at.y - metric.ascentCm, maxX: left + metric.widthCm, maxY: at.y + metric.descentCm };
+}
+
+function wrap(text: string, maxWidth: number, measureText: TechnicalFlatMeasureText): string[] | null {
+  const result: string[] = [];
+  let line = "";
+  for (const word of text.split(/\s+/)) {
+    const candidate = line ? `${line} ${word}` : word;
+    const metric = metricFor(candidate, measureText);
+    if (!metric) return null;
+    if (metric.widthCm > maxWidth && line) {
+      result.push(line);
+      line = word;
+      const wordMetric = metricFor(line, measureText);
+      if (!wordMetric || wordMetric.widthCm > maxWidth) return null;
+    } else if (metric.widthCm > maxWidth) return null;
+    else line = candidate;
+  }
+  if (line) result.push(line);
+  return result;
+}
+
+/** Measure in SVG user units with the active browser's SVG text engine. */
+export function createBrowserTechnicalFlatTextMeasurer(doc: Document): TechnicalFlatMeasureText {
+  if (!doc.body) return () => ({ widthCm: Number.NaN, ascentCm: Number.NaN, descentCm: Number.NaN });
+  const measuringSvg = doc.createElementNS(SVG_NS, "svg");
+  measuringSvg.setAttribute("aria-hidden", "true");
+  measuringSvg.setAttribute("style", "position:fixed;left:-10000px;top:-10000px;visibility:hidden;overflow:visible");
+  measuringSvg.setAttribute("width", "100cm");
+  measuringSvg.setAttribute("height", "100cm");
+  measuringSvg.setAttribute("viewBox", "0 0 100 100");
+  doc.body.append(measuringSvg);
+  return (text, fontSizeCm, fontFamily) => {
+    const element = doc.createElementNS(SVG_NS, "text");
+    element.setAttribute("font-size", fmt(fontSizeCm));
+    element.setAttribute("font-family", fontFamily);
+    element.textContent = text;
+    measuringSvg.append(element);
+    try {
+      const box = element.getBBox();
+      return { widthCm: element.getComputedTextLength(), ascentCm: Math.max(0, -box.y),
+        descentCm: Math.max(0, box.y + box.height) };
+    } finally {
+      element.remove();
+    }
+  };
+}
+
+/** Render a fully revision-validated semantic view as ordered, inspectable SVG. */
+export function renderTechnicalFlatSvg(view: TechnicalFlatView, options: TechnicalFlatSvgOptions): TechnicalFlatSvgResult {
+  const issues: TechnicalFlatSvgIssue[] = [];
+  const viewIssues = validateTechnicalFlat(view);
+  if (viewIssues.length) {
+    return { svg: null, issues: viewIssues.map((issue) => ({ code: "INVALID_VIEW", entityId: issue.entityId,
+      message: issue.message })), textBounds: {} };
+  }
+  if (!options || typeof options.measureText !== "function") {
+    return { svg: null, issues: [{ code: "FONT_METRICS_UNAVAILABLE", message: "Open this flat in a browser with text measurement enabled before judging label readability." }], textBounds: {} };
+  }
+  if (options.colorway && options.colorway.revisionId !== view.revisionId) {
+    issues.push({ code: "COLORWAY_REVISION_MISMATCH", entityId: options.colorway.id,
+      message: "Fabric colorway and flat must use the same saved design revision." });
+  }
+  const fillPaths = options.colorway ? colorwayFillPaths(view, options.colorway) : new Map<string, ColorwayFillPath>();
+  if (options.colorway) {
+    for (const roleId of options.colorway.targetRoleIds) {
+      const outlines = view.primitives.filter((primitive) => primitive.kind === "path"
+        && primitive.layer === "GARMENT_SILHOUETTE" && primitive.colorwayBoundaryOnly !== true && roleFor(primitive) === roleId);
+      if (outlines.length === 0) {
+        issues.push({ code: "COLORWAY_TARGET_MISSING", entityId: options.colorway.id,
+          message: `The ${roleId} colorway has no emitted source outline; keep this face withheld until its role is mapped.` });
+        continue;
+      }
+      if (!roleHasCompleteFill(outlines, fillPaths)) {
+        issues.push({ code: "COLORWAY_CONTOUR_UNCLOSED", entityId: outlines[0]?.id,
+          message: `The ${roleId} colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.` });
+      }
+    }
+  }
+
+  const geometry = view.primitives.map(primitiveBounds).filter((bounds): bounds is Bounds => bounds !== null);
+  let bounds = geometry[0] ?? { minX: -0.5, minY: -0.5, maxX: 0.5, maxY: 0.5 };
+  for (const item of geometry.slice(1)) bounds = union(bounds, item);
+  const textItems: TextItem[] = [];
+  const addText = (primitive: TechnicalFlatPrimitive, text: string, at: FlatPoint, anchor: "start" | "middle") => {
+    textItems.push({ id: primitive.id, text, at, anchor, source: primitive.source, feature: primitive.feature, layer: primitive.layer });
+  };
+  for (const primitive of view.primitives) {
+    if (primitive.kind === "text") addText(primitive, primitive.text, primitive.at, "start");
+    else if (primitive.kind === "callout" && !primitive.presentation) {
+      addText(primitive, primitive.text, primitive.labelAt, "middle");
+      textItems[textItems.length - 1]!.callout = primitive;
+    }
+    else if (primitive.kind === "mark" && primitive.label) addText(primitive, primitive.label,
+      { x: primitive.at.x + MARK_RADIUS_CM * 1.5, y: primitive.at.y }, "start");
+    else if (primitive.kind === "path" && primitive.patternMark?.label) {
+      const path = pathBounds(primitive.commands)!;
+      addText(primitive, primitive.patternMark.label, { x: path.maxX + MARK_RADIUS_CM, y: path.minY }, "start");
+    }
+  }
+  const measured: Record<string, Bounds> = {};
+  const positions = new Map<string, FlatPoint>();
+  const placed: PlacedText[] = [];
+  for (const item of textItems) {
+    const metric = metricFor(item.text, options.measureText);
+    if (!metric) {
+      issues.push({ code: "INVALID_FONT_METRICS", entityId: item.id,
+        message: "The browser returned invalid font metrics; keep the flat unreviewed until text can be measured." });
+      continue;
+    }
+    const at = placeMeasuredLabel(item, metric, placed, view.primitives);
+    if (!at) {
+      issues.push({ code: "TEXT_COLLISION", entityId: item.id,
+        message: `Text “${item.text}” has no collision-free measured position near its source; reposition the annotation before review.` });
+      continue;
+    }
+    positions.set(item.id, at);
+    const textBox = textBounds(at, metric, item.anchor);
+    measured[item.id] = textBox;
+    placed.push({ item, bounds: textBox, at });
+    bounds = union(bounds, textBox);
+  }
+
+  const padBounds = { minX: bounds.minX - PADDING_CM, minY: bounds.minY - PADDING_CM,
+    maxX: bounds.maxX + PADDING_CM, maxY: bounds.maxY + PADDING_CM };
+  const visibleNotices = [
+    ...view.notices,
+    ...view.primitives.flatMap((primitive) => primitive.kind === "artwork" ? [{
+      id: `notice:${view.recipeId}:${view.kind}:${primitive.id}:asset-content`,
+      feature: "artwork" as const,
+      reason: "SOURCE_NOT_REPRESENTED" as const,
+      sourceId: primitive.source.sourceId,
+      message: `Artwork “${primitive.sourceName}” is shown as a placement boundary only; its image content is not embedded in this SVG flat.`,
+    }] : []),
+  ];
+  const noticeLines = visibleNotices.flatMap((notice) => {
+    const lines = wrap(notice.message, NOTICE_WIDTH_CM, options.measureText);
+    if (!lines) {
+      issues.push({ code: "INVALID_FONT_METRICS", entityId: notice.id,
+        message: "A visible source notice could not be measured or wrapped; keep the flat blocked until browser text metrics are available." });
+      return [];
+    }
+    return lines.map((line, index) => ({ notice, line, index, count: lines.length }));
+  });
+  const noticeTop = padBounds.maxY + 0.45;
+  const noticeMetrics = noticeLines.map(({ line }) => metricFor(line, options.measureText));
+  if (noticeMetrics.some((metric) => metric === null)) {
+    issues.push({ code: "INVALID_FONT_METRICS",
+      message: "A visible source notice could not be measured for panel placement; keep the flat blocked until browser text metrics are available." });
+  }
+  const validNoticeMetrics = noticeMetrics.filter((metric): metric is TechnicalFlatTextMetrics => metric !== null);
+  const noticeAscent = Math.max(0, ...validNoticeMetrics.map((metric) => metric.ascentCm));
+  const noticeDescent = Math.max(0, ...validNoticeMetrics.map((metric) => metric.descentCm));
+  const noticeLineHeight = noticeAscent + noticeDescent + 0.12;
+  const noticeTextOffset = noticeAscent + 0.12;
+  const noticeHeight = noticeLines.length
+    ? noticeTextOffset + Math.max(0, noticeLines.length - 1) * noticeLineHeight + noticeDescent + 0.12 : 0;
+  const keyedCallouts = view.primitives.filter((primitive): primitive is Extract<TechnicalFlatPrimitive, { kind: "callout" }> =>
+    primitive.kind === "callout" && primitive.presentation !== undefined);
+  const keyedMarkerGroups = new Map<string, typeof keyedCallouts>();
+  for (const callout of keyedCallouts) {
+    const group = keyedMarkerGroups.get(callout.presentation!.key) ?? [];
+    group.push(callout);
+    keyedMarkerGroups.set(callout.presentation!.key, group);
+  }
+  for (const [key, group] of keyedMarkerGroups) {
+    const first = group[0]!;
+    const firstPoint = first.presentation!.markerPoint?.point ?? first.anchor.point;
+    if (group.some((callout) => callout.source.revisionId !== view.revisionId
+      || (callout.presentation!.markerPoint?.point ?? callout.anchor.point).x !== firstPoint.x
+      || (callout.presentation!.markerPoint?.point ?? callout.anchor.point).y !== firstPoint.y
+      || callout.presentation!.markerRadiusCm !== first.presentation!.markerRadiusCm
+      || (callout.presentation!.markerStyle ?? "filled") !== (first.presentation!.markerStyle ?? "filled"))) {
+      issues.push({ code: "TEXT_COLLISION", entityId: key,
+        message: "A shared keyed marker requires exact same-revision co-location and one marker presentation; keep the flat withheld." });
+    }
+  }
+  const keyedHeaderMetrics = keyedCallouts.length ? metricFor("SOURCE POM", options.measureText, 0.28) : undefined;
+  if (keyedHeaderMetrics === null) issues.push({ code: "INVALID_FONT_METRICS",
+    message: "A keyed POM schedule heading could not be measured; keep the flat withheld." });
+  const keyedRows = keyedCallouts.flatMap((callout) => {
+    const key = callout.presentation!.key;
+    const text = `${key}  ${callout.text}`;
+    const metric = metricFor(text, options.measureText);
+    if (!metric) {
+      issues.push({ code: "INVALID_FONT_METRICS", entityId: callout.id,
+        message: "A keyed POM schedule row could not be measured; keep the flat withheld." });
+      return [];
+    }
+    const bounds = textBounds({ x: 0, y: 0 }, metric);
+    measured[`${callout.id}:schedule`] = bounds;
+    return [{ callout, key, text, metric }];
+  });
+  const keyedScheduleLineHeight = Math.max(0.44, ...keyedRows.map(({ metric }) =>
+    metric.ascentCm + metric.descentCm + 0.12));
+  const keyedScheduleHeight = keyedRows.length ? Math.max(2,
+    1.45 + (keyedRows.length > 1 ? 0.35 : 0) + Math.max(0, keyedRows.length - 1) * keyedScheduleLineHeight) : 0;
+  const keyedScheduleTop = keyedRows.length
+    ? (noticeLines.length ? noticeTop + noticeHeight : padBounds.maxY) + 0.45 : 0;
+  const keyedScheduleWidth = Math.max(keyedHeaderMetrics?.widthCm ?? 0, ...keyedRows.map(({ metric }) => metric.widthCm))
+    + (keyedRows.length ? 0.9 : 0);
+  const width = Math.max(padBounds.maxX - padBounds.minX, NOTICE_WIDTH_CM + PADDING_CM * 2);
+  const baseHeight = padBounds.maxY - padBounds.minY + noticeHeight + (noticeLines.length ? 0.7 : 0);
+  const height = Math.max(baseHeight, keyedRows.length
+    ? keyedScheduleTop + keyedScheduleHeight + 0.3 - padBounds.minY : baseHeight);
+  const finalWidth = Math.max(width, keyedScheduleWidth + 1.2);
+  const viewBox = `${fmt(padBounds.minX)} ${fmt(padBounds.minY)} ${fmt(finalWidth)} ${fmt(height)}`;
+
+  const clipRules = new Map<string, { decisionId: string; roleIds: string[]; owners: string[] }>();
+  for (const primitive of view.primitives) {
+    if (primitive.kind !== "path" || !primitive.viewClip) continue;
+    const key = `${primitive.viewClip.decisionId}:${[...primitive.viewClip.roleIds].sort().join(",")}`;
+    const rule = clipRules.get(key) ?? { decisionId: primitive.viewClip.decisionId,
+      roleIds: [...primitive.viewClip.roleIds], owners: [] };
+    rule.owners.push(primitive.id);
+    clipRules.set(key, rule);
+  }
+  const clipIds = new Map<string, string>();
+  const clipDefinitions: string[] = [];
+  for (const [key, rule] of clipRules) {
+    const contours = rule.roleIds.map((roleId) => viewRoleContour(view, roleId));
+    if (contours.some((contour) => contour === null)) {
+      issues.push({ code: "VIEW_CLIP_CONTOUR_UNAVAILABLE", entityId: rule.owners[0],
+        message: `Approved view-only clip ${rule.decisionId} lacks a complete same-revision closed contour for ${rule.roleIds.join(", ")}; keep this flat withheld.` });
+      continue;
+    }
+    const id = `view-clip-${key.replace(/[^a-zA-Z0-9_-]/gu, "-")}`;
+    clipIds.set(key, id);
+    clipDefinitions.push(`<mask id="${escapeXml(id)}" maskUnits="userSpaceOnUse" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}"><rect x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}" fill="#fff"/><path d="${contours.join(" ")}" fill="#000" fill-rule="nonzero"/></mask>`);
+  }
+
+  const ordered = [...view.primitives].sort((a, b) => {
+    const layer = TECHNICAL_FLAT_LAYER_ORDER.indexOf(a.layer) - TECHNICAL_FLAT_LAYER_ORDER.indexOf(b.layer);
+    if (layer) return layer;
+    if (view.recipeId === "woven-shirt" && view.kind === "FRONT_FLAT") {
+      const wovenRank = (primitive: TechnicalFlatPrimitive) => {
+        const role = roleFor(primitive);
+        return role === "buttonholePlacket" ? 10 : role === "buttonPlacket" ? 11
+          : role === "outerStand" ? 12 : role === "underCollar" ? 13 : role === "upperCollar" ? 14 : 0;
+      };
+      const roleOrder = wovenRank(a) - wovenRank(b);
+      if (roleOrder) return roleOrder;
+    }
+    if (a.kind === "artwork" && b.kind === "artwork") return a.zOrder - b.zOrder;
+    return a.id.localeCompare(b.id);
+  });
+  const wovenMarkerUnderlays = view.recipeId === "woven-shirt"
+    ? [...keyedMarkerGroups.entries()].filter(([key]) => key === "W" || key === "D").map(([key, group]) => {
+      const callout = group[0]!;
+      const point = callout.presentation!.markerPoint?.point ?? callout.anchor.point;
+      const sourceIds = group.map((item) => item.source.sourceId).join("|");
+      const markerSources = callout.presentation!.markerPoint?.sourceEntityIds.join("|") ?? callout.anchor.sourceEntityId ?? "";
+      return `<g data-entity-id="${escapeXml(callout.id)}:key-marker-ring" data-feature="pom" data-marker-underlay-for="${escapeXml(key)}" data-source-id="${escapeXml(sourceIds)}"${callout.presentation!.markerPoint ? ` data-marker-source-entities="${escapeXml(markerSources)}"` : ""} data-revision-id="${escapeXml(callout.source.revisionId)}"><circle cx="${fmt(point.x)}" cy="${fmt(point.y)}" r="${fmt(callout.presentation!.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/></g>`;
+    }).join("") : "";
+  const body = TECHNICAL_FLAT_LAYER_ORDER.map((layer: TechnicalFlatLayer) => {
+    const layerPrimitives = ordered.filter((primitive) => primitive.layer === layer);
+    const areaPaths = layer === "GARMENT_SILHOUETTE" && options.colorway
+      ? [...fillPaths.entries()].map(([id, fill]) => {
+        const primitive = layerPrimitives.find((candidate) => candidate.id === id)! as Extract<TechnicalFlatPrimitive, { kind: "path" }>;
+        return colorwayAreaMarkup(primitive, fill.path, options.colorway!, fill.sourceIds);
+      }).join("") : "";
+    const areas = areaPaths && options.colorway
+      ? `<g data-colorway-area-group="${escapeXml(options.colorway.id)}" data-colorway-revision="${escapeXml(options.colorway.revisionId)}" opacity="0.16">${areaPaths}</g>` : "";
+    const shapes = layerPrimitives.map((primitive) => styleFor(primitive, positions)).join("");
+    const markerUnderlays = layer === "GARMENT_SILHOUETTE" ? wovenMarkerUnderlays : "";
+    return `<g data-layer-group="${layer}" aria-label="${layer.toLowerCase().replace(/_/g, " ")}">${areas}${markerUnderlays}${shapes}</g>`;
+  }).join("");
+  const keyedMarkers = [...keyedMarkerGroups.entries()].map(([key, group]) => {
+    const callout = group[0]!;
+    const presentation = callout.presentation!;
+    const { anchor } = callout;
+    const markerPoint = presentation.markerPoint?.point ?? anchor.point;
+    const sourceIds = group.map((item) => item.source.sourceId).join("|");
+    const targets = group.map((item) => item.anchor.primitiveId).join("|");
+    const sourceEntities = group.map((item) => item.anchor.sourceEntityId ?? "").join("|");
+    const wovenWovenMarker = view.recipeId === "woven-shirt" && (key === "W" || key === "D");
+    const segmented = presentation.markerStyle === "segmented-open-halo"
+      ? segmentedPoloMarker(view, markerPoint, presentation.markerRadiusCm) : null;
+    if (presentation.markerStyle === "segmented-open-halo" && (view.recipeId !== "polo" || view.kind !== "FRONT_FLAT" || !segmented)) {
+      issues.push({ code: "MARKER_SEGMENTATION_UNAVAILABLE", entityId: key,
+        message: "The same-revision Polo source paths and marks do not support a legible 2–3 arc keyed locator; keep this flat withheld." });
+    }
+    const marker = wovenWovenMarker ? "" : segmented
+      ? `<path d="${segmented.path}" fill="none" stroke="#991b1b" stroke-width="0.07" stroke-linecap="round" data-segmented-marker="S425"/>`
+      : presentation.markerStyle === "open-halo"
+      ? `<circle cx="${fmt(markerPoint.x)}" cy="${fmt(markerPoint.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="none" stroke="#991b1b" stroke-width="0.07"/>`
+      : `<circle cx="${fmt(markerPoint.x)}" cy="${fmt(markerPoint.y)}" r="${fmt(presentation.markerRadiusCm)}" fill="#fff" stroke="#991b1b" stroke-width="0.07"/>`;
+    const halo = presentation.markerStyle === "open-halo" ? ` stroke="#fff" stroke-width="0.09" stroke-linejoin="round" paint-order="stroke"` : "";
+    const entityId = group.length === 1 ? `${callout.id}:key-marker` : `${key}:key-marker`;
+    const markerSources = presentation.markerPoint?.sourceEntityIds.join("|") ?? "";
+    const targetMetadata = `data-callout-target="${escapeXml(targets)}"${group.length === 1
+      ? (anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(anchor.sourceEntityId)}"`)
+      : ` data-callout-targets="${escapeXml(targets)}" data-callout-source-entities="${escapeXml(sourceEntities)}"`}`;
+    const title = group.length > 1 ? `<title>${escapeXml(group.map((item) => item.text).join("; "))}</title>` : "";
+    const glyphOffset = view.recipeId === "woven-shirt" && (key === "W" || key === "D") ? { x: 0.2121, y: 0.2121 }
+      : view.recipeId === "polo" && key === "FG" ? { x: -0.424264, y: -0.424264 }
+      : view.recipeId === "polo" && key === "E" ? { x: -0.38, y: -0.34 }
+      : view.recipeId === "polo" && key === "I" ? { x: 0.34, y: -0.32 }
+        : view.recipeId === "polo" && key === "H" ? { x: 0.45, y: 0.45 } : { x: 0, y: 0 };
+    return `<g data-entity-id="${escapeXml(entityId)}" data-feature="pom" data-layer="ANNOTATION" data-source-id="${escapeXml(sourceIds)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-pom-key="${escapeXml(key)}"${segmented ? ` data-marker-arc-count="${segmented.arcCount}" data-marker-retained-coverage="${fmt(segmented.retainedCoverage)}"` : ""}${presentation.markerPoint ? ` data-marker-source-entities="${escapeXml(markerSources)}"` : ""} ${targetMetadata}>${title}${marker}<text x="${fmt(markerPoint.x + glyphOffset.x)}" y="${fmt(markerPoint.y + 0.07 + glyphOffset.y)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="0.20" font-weight="700" fill="#991b1b"${halo}>${escapeXml(key)}</text></g>`;
+  }).join("");
+  const labels = textItems.map((item) => {
+    const metric = metricFor(item.text, options.measureText);
+    if (!metric) return "";
+    const anchor = item.anchor === "middle" ? "middle" : "start";
+    const at = positions.get(item.id) ?? item.at;
+    return `<text data-label-for="${escapeXml(item.id)}" data-feature="${item.feature}" data-source-id="${escapeXml(item.source.sourceId)}" data-source-class="${item.source.sourceClass}" data-revision-id="${escapeXml(item.source.revisionId)}" data-source-layer="${item.layer}" x="${fmt(at.x)}" y="${fmt(at.y)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" text-anchor="${anchor}" fill="#19222b">${escapeXml(item.text)}</text>`;
+  }).join("");
+  const renderedNotices = noticeLines.map(({ notice, line }, lineIndex) => `<text data-notice-id="${escapeXml(notice.id)}" data-notice-reason="${notice.reason}" data-notice-source="${escapeXml(notice.sourceId ?? "")}" x="${fmt(padBounds.minX + 0.2)}" y="${fmt(noticeTop + noticeTextOffset + lineIndex * noticeLineHeight)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" fill="#713c16">${escapeXml(line)}</text>`).join("");
+  const keyedScheduleX = padBounds.minX + 0.6;
+  const keyedSchedule = keyedRows.length ? `<g data-layer-group="POM_SCHEDULE" data-revision-id="${escapeXml(view.revisionId)}"><rect x="${fmt(keyedScheduleX)}" y="${fmt(keyedScheduleTop)}" width="${fmt(keyedScheduleWidth)}" height="${fmt(keyedScheduleHeight)}" rx="0.12" fill="#fff" stroke="#64748b" stroke-width="0.06"/><text x="${fmt(keyedScheduleX + 0.35)}" y="${fmt(keyedScheduleTop + 0.6)}" font-family="${FONT_FAMILY}" font-size="0.28" font-weight="700" fill="#334155">SOURCE POM</text>${keyedRows.map(({ callout, key, text, metric }, index) => {
+    const baseline = keyedScheduleTop + 1.35 + index * keyedScheduleLineHeight;
+    measured[`${callout.id}:schedule`] = textBounds({ x: keyedScheduleX + 0.35, y: baseline }, metric);
+    return `<text data-schedule-for="${escapeXml(callout.id)}" data-pom-key="${escapeXml(key)}" data-source-id="${escapeXml(callout.source.sourceId)}" data-source-class="${callout.source.sourceClass}" data-revision-id="${escapeXml(callout.source.revisionId)}" data-callout-target="${escapeXml(callout.anchor.primitiveId)}"${callout.anchor.sourceEntityId === undefined ? "" : ` data-callout-source-entity="${escapeXml(callout.anchor.sourceEntityId)}"`} x="${fmt(keyedScheduleX + 0.35)}" y="${fmt(baseline)}" font-family="${FONT_FAMILY}" font-size="${FONT_SIZE_CM}" fill="#111827">${escapeXml(text)}</text>`;
+  }).join("")}</g>` : "";
+  const fabric = options.colorway ? ` data-colorway-id="${escapeXml(options.colorway.id)}" data-colorway-revision="${escapeXml(options.colorway.revisionId)}" data-color="${escapeXml(options.colorway.colorHex)}" data-texture="${options.colorway.texture}" data-shine="${fmt(options.colorway.shine)}"` : "";
+  const title = escapeXml(options.title ?? `${view.recipeId} ${view.kind.replace("_", " ")}`);
+  const svg = `<svg xmlns="${SVG_NS}" role="img" aria-labelledby="flat-title" data-view-id="${escapeXml(view.viewId)}" data-revision-id="${escapeXml(view.revisionId)}" data-recipe-id="${escapeXml(view.recipeId)}" data-view-kind="${view.kind}" data-units="cm"${fabric} width="${fmt(finalWidth)}cm" height="${fmt(height)}cm" viewBox="${viewBox}"><title id="flat-title">${title}</title><desc>Pattern-derived technical flat in centimetres. Source and design revision are attached to every entity.</desc>${clipDefinitions.length ? `<defs>${clipDefinitions.join("")}</defs>` : ""}<rect data-technical-flat-paper="true" x="${fmt(padBounds.minX)}" y="${fmt(padBounds.minY)}" width="${fmt(finalWidth)}" height="${fmt(height)}" fill="#fff"/>${body}${keyedMarkers.length ? `<g data-layer-group="POM_KEY_MARKERS">${keyedMarkers}</g>` : ""}<g data-layer-group="TEXT_LABELS">${labels}</g>${noticeLines.length ? `<g data-layer-group="SOURCE_NOTICES" role="note"><rect x="${fmt(padBounds.minX)}" y="${fmt(noticeTop)}" width="${fmt(width)}" height="${fmt(noticeHeight)}" fill="#fff7ed" stroke="#b45309" stroke-width="0.025"/>${renderedNotices}</g>` : ""}${keyedSchedule}</svg>`;
+  return { svg: issues.length ? null : svg, issues, textBounds: measured };
+}
+
+/** Keep an import-time guard available to tests without relying on DOM globals. */
+export const TECHNICAL_FLAT_SVG_NAMESPACE = SVG_NS;

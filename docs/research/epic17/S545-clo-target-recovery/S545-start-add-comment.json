@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3292,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S545 starts with one fresh supported observation of the existing CLO session. Use the saved S544 inputs only after visible and accessible target states agree; otherwise stop and preserve the concrete UI mismatch."
+}

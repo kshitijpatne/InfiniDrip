@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3664,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S631-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S631-s617-astm-mark-audit/S631-start-packet.md",
+    "verified": true,
+    "note": "Audits existing hash-pinned S617 CLO DXF-ASTM-labeled output, same-fixture source marks and saved Standard-DXF reimport render offline. No CLO operation, acceptance or V03 status change; all-seven/profile/mark/grade/identity/negative-input/repeatability/render gates remain."
+  }
+}

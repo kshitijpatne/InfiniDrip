@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3692,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S638-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S638-v03-profile-rights-reconciliation/S638-start-packet.md",
+    "verified": true,
+    "note": "Reserves S638 once for a current V03 gate-matrix and official apparel-profile status/rights reconciliation, incorporating the measured S634–S637 receiver results. Research only; no repeated CLO settings/entity trial, no spending/supplier contact, no standard-reproduction claim, and no acceptance/status/hold changes. CLO stays open."
+  }
+}

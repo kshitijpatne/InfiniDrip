@@ -48,10 +48,325 @@ measurements + design choices
               ↓
        pattern-piece shapes
               ↓
- shared views, checks and planning
+shared views, checks and planning
               ↓
        digital files to save
 ```
+
+For Woven `sideVentDepth=0`, the front and back drafts join the side seam
+directly to the curved hem: the degenerate vent edge and `VENT TOP` marker do
+not exist, and the side-vent POM has no geometry anchor. Positive vent depths
+retain the explicit vent edge and marker. The zero-depth case is represented
+as a closed construction rather than a zero-length open seam, preventing the
+seam-allowance offset from generating non-finite cut coordinates.
+The live view also fails closed at positive depth if its authored open-vent
+edge no longer meets the source-adjacent edges; it does not project a broken
+seam by guessing replacement endpoints.
+
+### Live technical flats (EPIC-17/G04)
+
+The advanced **Technical flat** canvas view turns the current recipe draft into
+revision-bound front and back SVG drawings. Each face uses its mapped role
+geometry and source construction data, rigid sewn-role placement, applicable
+saved artwork boundaries, fabric colorway and POM callouts anchored to the
+geometry they measure. Supported option values are checked against the exact
+draft topology before a face is rendered. Missing source details, unresolved
+joins, back-view POMs without geometry anchors, and unreadable text remain
+visible as notices or block that drawing; the renderer does not fill gaps by
+guessing.
+
+Source-to-view identity reads complete colon-delimited `role`, `mark`, and
+`dart` tokens. This prevents a role whose name prefixes another role (for
+example, `sleeve` and `sleeveBand`) from inheriting the other role's placement
+or moving its geometry and anchored annotations.
+
+Slice 457 adds two approved Woven view conventions bound to the exact pattern
+revision. FRONT_FLAT clips the source `front.neckline` strokes only inside the
+rendered upper/under collar leaf fills, leaving the open-V segment visible.
+BACK_FLAT reflects the sleeve pair on local Y and relocates the two source-scale
+detached band details outward to clear the sleeve silhouettes. Neither mapping
+changes piece cut geometry, stitch topology, POMs, option values, or source
+revision. The back layout expands its viewBox by 41.1474–44.863 cm over the
+prior fixed-band output. Source-wide option and rendered audits are in
+`docs/research/epic17/S457-woven-front-back-resolution/`. Woven's 56 faces pass
+their local checks; integrated V02 remains open on 34 held Polo faces and its
+all-seven recipe gate. The Polo residual remains 0.68 cm against 0.25 cm.
+
+Slice 434 adds Polo's source-bound J/FG presentation without moving either
+source measurement. The J key stays anchored to `outerStand.frontEnd`; one FG
+ring is centered at `outerStand.frontNeckline` and groups three independent
+full-text schedule rows (`finished-placket-width`, `front-neck-drop`, and
+`stand-front-rise`). Each row retains its own revision, target outline, source
+edge, value, tolerance, and text. Only the two approved source IDs bypass
+inline label placement because their schedule rows carry the readable text;
+other callouts keep the normal overlap-aware placement. Key markers are view
+annotations and never add pattern notches or construction joins. Option-wide
+rendering is necessary but does not clear a face while separate readability,
+construction, or residual gates remain open.
+
+Slice 318 paints a requested colorway area only when emitted silhouette paths,
+source-declared reflected edges and mapped view boundaries form exact closed
+loops at the same four-decimal coordinates serialized to SVG. The area is
+composited once at 16% opacity beneath the unchanged independently stroked
+edges. Missing, ambiguous or open contours withhold the complete SVG and
+explain which mapped role needs review. Trouser waistband area uses the exact
+source waist-edge fragments and mapped waistband side boundaries. This makes
+the tint visible on accepted roles; it does not release any previously held
+face or infer unfinished construction.
+
+Slice 380 adds the maintainer-approved keyed presentation for Polo's front
+`Collar point extension` POM. Its `C` ring is centered on the exact same-revision
+`upperCollar.frontTip:end` source anchor; the renderer places the unchanged full
+POM text and value in a measured `C` row below construction notices. The key and
+row carry the original POM, target outline and revision identity. This is a
+view-only callout convention and does not add a physical notch or change pattern
+geometry. The all-option diagnostic confirms the two previously recorded C
+label collisions clear, while other Polo callout crossings and the 0.68 cm
+sleeve residual above the fixed 0.25 cm gate continue to hold all Polo faces.
+The production compiler remains fail-closed on that residual. The colorway
+render check covers the mapped body/placket/stand/collar roles; the unresolved
+sleeve colorway contour is excluded and remains held.
+
+Slice 386 extends the Polo front schedule with approved source-centered open
+keys A/B/D/E/FG/H/I for ten current POMs. Distinct POMs that share a key retain
+their own full text/value/tolerance schedule rows; one ring is drawn only when
+the keyed anchors have exact same-revision coordinates. Each mapping validates
+the current source POM, target geometry and source entity. Open rings keep
+underlying source strokes visible, and the existing C marker stays filled with
+its prior single-row layout. The 17-option browser replay renders all eight
+stations and eleven POM rows with unchanged pattern paths and paired-back
+output, but source labels and construction marks still crowd H/FG/D and the
+center-back I station. This display trial therefore does not pass Polo
+readability or release any face; the 0.68 cm sleeve residual and fixed 0.25 cm
+gate remain independent holds.
+
+Slice 390 applies the maintainer-approved Polo E/I glyph-only display offsets:
+E `(-0.38,-0.34 cm)` and I `(+0.34,-0.32 cm)` relative to their former
+source-centered text positions. The renderer scopes these offsets to Polo;
+other recipes retain their existing keyed-letter positions. The 0.22 cm keyed
+rings remain centered on the exact same-revision POM anchors, and the key/source/target metadata, source
+marks and paths, complete schedule rows, other key positions and paired backs
+remain fixed. These translations change annotation glyph placement only; they
+do not assert pattern construction or erase a nearby mark. The approval permits
+17-option verification, not view release. All Polo faces remain held for the
+remaining V02 checks and independent 0.68 cm sleeve residual above the fixed
+0.25 cm gate.
+
+Slice 400 maps only the exact same-revision Woven front `Finished placket
+width` POM and its `buttonPlacket.top` source edge to the approved keyed W
+annotation; the live compiler fails closed on missing, duplicate, or mismatched
+identity. Its open 0.22 cm ring stays at the source midpoint, renders after a
+colorway fill and beneath source strokes, and only the glyph is translated
+`(+0.2121,+0.2121 cm)`. The unchanged full POM row remains below the flat. The
+28-option production compiler/renderer/Chromium replay preserves source
+path/colorway identity and continuous strokes, and confirms the marker and
+schedule. This annotation order does not move, remove, or imply a gap in
+construction geometry. The approval and successful marker replay do not accept
+any view: all 56 Woven and 34 Polo faces remain held for independent topology,
+crossing, assembly, and residual gates.
+
+Slice 406 adds four maintainer-approved Woven front display conventions to the
+same revision-bound renderer: a D interval marker at the midpoint of the two
+source button marks, pocket foreground over only coincident/overlapping
+placket strokes, projected collar over the body shoulder from HPS to its first
+intersection, and projected collar over both closure plackets while preserving
+button-placket over buttonhole-placket beneath it. The source marks, piece
+outlines, stitches, POM data and schedule remain unchanged. The view-only clip
+metadata names the exact source decision and role contours; the renderer fails
+closed if those same-revision contours are unavailable. Its 28-option replay
+preserves all paired back SVGs, but other front intersections and the back
+sleeve/band crossing remain. The replay therefore releases none of the 56
+Woven or 34 Polo faces and does not satisfy all-seven V02 acceptance.
+
+Slice 425 implements the maintainer-approved Polo H locator as a view-only
+segmented ring. Only H changes from a continuous open ring; its same-revision
+source anchor, 0.22 cm radius, full POM schedule, glyph and targets stay fixed.
+The renderer samples source component paths, circles and point marks, keeps
+0.045 cm clearance, drops arcs shorter than 0.04 cm, and fails closed unless
+2–3 arcs covering at least half the ring remain. All 17 exact S399 output
+revisions replay with 60.28–72.22% ring coverage, preserved source paths and
+schedule, and zero sampled post-paint source-stroke contacts. This focused
+output test does not bypass the live compiler's independent Polo residual
+hold: 0.68 cm remains above 0.25 cm, and no Polo face is accepted. The
+maintainer rejected S424's 8.654851 cm bicep reduction and retained the
+continuous Woven neckline with its 28 front holds; see
+`docs/PROJECT-DECISIONS.md` and the S425 packet.
+
+Tee and Tank share a dedicated body-POM set with exact same-block back
+endpoints for chest, body length, across shoulder and neck width. The legacy
+`TSHIRT_POMS` set remains front-only for Polo. These anchors can be compiled
+against the represented back outline when that complete face is renderable;
+they do not permit a partial flat. Tee's unresolved sleeve contour continues
+to hold both complete faces.
+
+The drawing keeps centimetre coordinates in its SVG. In the live canvas it fits
+to the available width and scrolls vertically, so measured labels stay readable
+on the dark app surface. The colorway is a light tint over a white drawing
+sheet, which preserves technical line contrast for darker fabric choices. Its
+`live-draft` token binds one synchronous screen snapshot; it is not a saved
+style revision or outside acceptance record. Sewn-role placement is a digital
+assembly aid, not a qualified finished silhouette. It does not establish
+sewability, fit, factory readiness, or CAD compatibility. Pattern-linked
+side/oblique/inside assembled views remain G09/D04; production tech-pack content
+remains G05. Generic DXF and the protected export byte identities stay on their
+existing paths. S286 adds source-derived Woven collar shoulder station and
+exact zero-depth closed-vent view metadata without changing cut geometry. Its
+production Chromium review found crossing/separated front components and
+conflicting back sleeve-cap ease placement, so both Woven faces remain held
+until source-supported assembly produces a coherent view. S287 confirmed that
+the current Woven sleeve-cap stitch only locates an aggregate eased interface;
+the authored pattern has no front/back cap split marks or sleeve view-instance
+rule, so its faces remain held until those source semantics are defined.
+The S295 projection map now also records view-only reflection for the Woven
+back-lower and yoke roles from their exact source-declared `onFold` center-back
+edges. The authored fold edges are excluded from the exterior contour and the
+existing face compiler preserves exact component geometry. This does not alter
+cut geometry or release a partial live face: the front pair/placket, sleeve
+cap, and collar assembly requirements still withhold both complete Woven views.
+S297 adds a separate physical-pair reflection contract for the Woven front:
+the physical-role source declares two mirrored separate pieces, and the live
+front map validates its exact straight `centerFront` edge on local x=0 with the
+draft on one side. This is view metadata, not `Piece.onFold`; the source
+coordinates and cut shape stay unchanged. Geometry reflection preserves source
+IDs and revision binding, while the complete Woven face remains withheld until
+the placket instances/overlap, sleeve-cap split, collar landmark and assembled
+output are all supported and reviewed.
+S298 changes only how repeated live-flat edge holds are presented: identical
+geometry messages from one role are grouped with the complete list of source
+edge IDs, while distinct roles, stages, and POM/assembly/overlay issues remain
+separate. The live issue records, face holds and accepted SVG output are
+unchanged.
+
+S324 adds revision-bound, view-only Woven sleeve-cap segmentation by
+transferring the ordered sewn-armhole fraction to the ordered sleeve-cap
+arclength. It assigns the front cap prefix/side/hem interval and complementary
+back interval without drawing a partition seam, validates the authored band
+attachment and fold mark, and puts the yoke on the back-facing seam layer. It
+also applies the approved view-only closure convention: the source right
+button placket overlays a reflected left buttonhole placket. No pattern
+coordinates, cut geometry, source stitch graph, or DXF behavior changes. The
+mapping is not accepted at the face level: current production Chromium holds
+all 56 Woven face requests across 28 option configurations. Front faces fail
+exact colorway-contour closure; back faces fail the solved `Woven sleeve-cap
+ease` placement. A geometry-only held candidate lacks solved seam placements
+and cannot establish joins, crossings, or final readability. Keep both faces
+held until the exact conflicts are resolved and complete rendered output
+passes review.
+
+Slice 334 corrects two Woven view-traversal correspondences using the exact
+authored interface order: the front `armhole` is traversed in reverse against
+`sleeve.capLeft`, and the back `yokeSeam` is traversed in reverse against the
+coincident, oppositely directed yoke edge. The revision-bound projection map
+validates each exception against the current stitch references and source
+endpoints. This changes rigid-placement correspondence only; source stitches,
+ease, piece coordinates and cut geometry are unchanged. It does not resolve
+the remaining sleeve-cap placement conflicts across the option matrix or the
+unclosed front colorway contours, so all 56 Woven faces remain held.
+
+Slice 335 adds exact, revision-bound fill-only view boundaries for Woven's
+front sleeve, outer stand, upper and under collars, and reflected buttonhole
+placket. The sleeve and collar transfer stations implement already-approved
+view conventions; they do not add a physical seam, notch or visible partition.
+The buttonhole-placket fill closure uses its source-authored `attachmentRaw`
+edge after validating the center-front stitch and approved closure A. These
+closures make all five role areas topologically closed at the SVG coordinate
+precision across all 28 supported Woven configurations. A closed color area
+does not prove a valid assembled join: the live renderer now withholds Woven
+front/back output while `Woven sleeve-cap ease` or `Outer stand ↔ woven
+neckline` exceeds the existing 0.25 cm residual gate, and preserves the
+existing inconsistent-transform hold. The 28-case production replay therefore
+continues to emit no Woven SVGs. Source geometry, source stitches, cut roles,
+layer order, generic DXF and protected export identities remain unchanged;
+Woven V02 is still incomplete.
+
+Slice 343 records the maintainer-approved Woven base-seam display at the
+face-mapping boundary: `front.neckline` is the single visible front seam and
+`yoke.neckline` the single visible back seam; the duplicate
+`outerStand.neckline` stroke is suppressed in assembled technical-flat output
+while its source path remains available only as a hidden colorway-fill
+boundary. The revision-bound validator accepts this exception only for the
+exact `Outer stand ↔ woven neckline` source stitch and its validated front/back
+edge mapping. It changes no source stitch, cut geometry, rigid role placement,
+or residual tolerance elsewhere. All 56 Woven faces remain held because the
+independent sleeve-cap ease residual and solved-placement conflict persist;
+the display decision does not accept partial output.
+
+Slice 346 applies the approved normalized-arclength collar exterior closure to
+both Woven faces and resolves same-revision exterior POMs against their exact
+source roles, edges or button mark. A zero-length side-vent edge remains
+table-only rather than receiving a false visible anchor. The full 28-option
+production replay now emits 56 SVG candidates, but manual review still rejects
+every Woven face: front collar contours remain detached/crossing and long back
+strokes cross the torso. Emission and closed fill contours are not proof of a
+valid assembly; all Woven faces remain held pending a source-supported view
+correction.
+
+Slice 372 applies the maintainer-approved Woven back-flat band detail as a
+view-only composition. It removes the assembled-position `sleeveBand` outline
+and fold mark from BACK_FLAT, then emits two same-revision source outlines and
+`bandFold` marks in side gutters using rigid transforms around the exact
+`back.centerBack` axis. The annotation distinguishes the full source stitch
+(`sleeveBand.top` to full `sleeve.hem`) from the displayed back receiver interval
+`[0, 0.5]` and says the details are not at their assembly location. The source
+piece, cut geometry and stitch graph are unchanged, and the front output is
+byte-identical in the replayed emitted cases. All 28 back SVGs now include the
+details, but the independent mirrored sleeve-cap strokes still cross the back
+torso. Woven V02 holds remain; emission of the details is not a passed flat.
+
+S306 adds a narrow assembly contract for the Trouser's single closed
+waistband source role. The exact ordered zero-ease waist interface yields
+front/back edge intervals and separate rigid placements relative to the sewn
+leg panels; the back view therefore does not assign one transform to the
+whole strip. Slice 307 consumes these intervals in
+`src/render/technical-flat-fragment-compiler.ts`. It clips only authored top
+and short-end line edges that correspond to the intervals, composes each
+fragment transform with the same-revision panel placement, and emits view-only
+boundary paths under the original role and source edge IDs. The sewn lower
+edge remains represented by body waist geometry once. The complete Trouser
+back flat now renders with its top, side and center-back closure boundaries;
+the front remains withheld because its current assembled center-front joins
+do not coincide exactly. Band artwork that cannot be clipped to a fragment
+interval is explicitly held. This compiler changes technical views only: the
+draft, role count, stitch graph, DXF and protected exports remain unchanged.
+
+Slice 326 implements the maintainer-approved Trouser front fly repair in the
+pattern source. The separate `flyUnderlap` cut role is 3.5 cm wide and follows
+the live `flyLength`; `frontRight.flyEdge` joins its `frontEdge`, then its
+`shieldEdge` joins the distinct `flyShield.right`, while `frontLeft.flyEdge`
+remains on `flyShield.left`. The front mapping records the approved
+`behindRoleId: "frontLeft"` relation and validates it against an earlier
+visible role on that face; the underlap remains hidden interior support on
+both exterior faces. Its lengthwise grainline follows the existing fly
+shield's top-to-bottom source-coordinate convention. A separate maintainer
+decision adds a midpoint balance mark to `flyUnderlap.shieldEdge` at `t=0.5`,
+using the existing `flyShield.left` midpoint notch as a location convention.
+The stitch graph actually joins `flyUnderlap.shieldEdge` to `flyShield.right`,
+so this is not a seam-matched notch; both underlap short edges remain unmarked
+and their finishing method remains unspecified. This changes the Trouser recipe's
+piece list so new DXF output includes the new cut piece, while the DXF writer
+and all protected legacy hashes stay unchanged. The assembly graph solves all
+24 supported option configurations with upright front panels and the existing
+waistband fragments. Current browser output still holds all 24 front views for
+the open waistband colorway contour and hip-depth callout collision; the 24
+backs render and pass their output checks. No face-level V02 acceptance,
+physical construction, fit, factory acceptance or CAD compatibility is
+claimed from this implementation.
+
+POM leaders use recipe-declared face anchors and resolve against exact
+same-revision view geometry. A back point on a role outline uses that role's
+assembled output transform; a mark target names an authored mark and must
+resolve to its already-composed emitted entity. The Trouser waistband-depth
+POM targets the authored waistband `centerBack` mark alongside the existing
+back-rise anchor; its leader marker is emitted at that exact point. The Skirt's
+front and back quarter panels are generated by the same `panel(m, position)`
+source with the same measurements, so its existing waist and hip POMs anchor
+to corresponding vertices on either accepted face. Tank chest, body-length,
+across-shoulder and neck-width POMs use exact same-draft back vertices already
+represented by their source methods; its front neck-drop remains front-only.
+The Skirt length POM has no discrete source point and remains table-only until a
+truthful geometry anchor is authored. POM values and tolerances stay with the
+existing recipe measures. Missing targets or unreadable placement block the
+affected view instead of moving a leader to unrelated geometry.
 
 Each garment has its own rule set (called a **recipe** in the code). It says
 which measurements, options, pieces, and construction details to use. A tee
@@ -178,6 +493,278 @@ show or check the same current draft:
   controls. A committed movement is stored with the active style, checked
   across its registered size run, and consumed by its dependent outputs.
 
+G04 adds a separate versioned technical-flat model in
+`src/render/technical-flat.ts`. Each vector entity records a stable identity,
+its source class and source revision, semantic layer and feature, and geometry
+in centimetres. Front and back views have distinct view kinds. Artwork retains
+its placement transform and stack order. A callout must point to geometry in
+the same view, and missing construction sources are represented as explicit
+notices. This model is the V01 contract; explicit role-to-face mapping is now
+recorded for all seven admitted recipes in
+`src/render/technical-flat-mapping.ts`. Exact role membership is checked
+against each drafted block and supported option endpoints. Stitch visibility
+remains unresolved until a drawing rule has source evidence; missing
+topstitch/pleat data stays visible as a notice. Live rendered flats are still
+in progress. `src/render/technical-flat-transform.ts` provides rigid
+translation, rotation and reflection for these primitives; cubic path controls,
+authored artwork dimensions, source/revision identity and semantic layers are
+preserved. Scaling and invalid or overflowing coordinates are rejected. Its
+geometry fixtures preserve drafted edge lengths across all seven default
+recipes, but it does not assemble or render the live views. The existing
+Assembled view remains schematic and is not used as pattern-derived evidence.
+`src/render/technical-flat-geometry.ts` now compiles mapped block outlines,
+declared dart legs and construction marks into exact, revision-bound vector
+source geometry. Point marks keep their source kind and coordinate without an
+assumed symbol radius, while line marks retain their authored label metadata.
+The compiled paths stay in their component-local coordinates until later V02
+assembly rules place them.
+The approved Tee/Fitted sleeve projection now uses a straight-edge arclength
+landmark for its hidden hem midpoint, with front and back cap/side/hem runs
+bound to the exact draft. A separate maintainer-decision tag authorizes the
+second sleeve display instance to reflect across that face's assembled body
+center axis. The midpoint emits no seam or visible partition line, and source
+piece coordinates remain unchanged. This mapping currently remains held in
+production output: default sleeve colorway contours do not close, and the
+reviewed changed-measurement draft fails the existing sleeve-cap rigid-placement
+length check. These conflicts must pass before the affected faces are accepted.
+Slices 321–323 extend the projection contract only where a source fact or
+explicit maintainer view decision supports it. The Polo outer stand uses its
+authored `backCollar`/`frontCollar` endpoint as the shoulder station. Polo
+upper/under collar exteriors and Woven stand/upper/under exteriors transfer the
+base or stitched-neckline shoulder fraction onto the live exterior edge by
+normalized arclength; the transfer is revision-bound and adds no physical
+notch or seam. Cubic intervals are split with exact Bézier subcurves. The
+current browser replay checks 17 Polo and 28 Woven configurations. S331 closes
+the approved Polo stand and upper/under collar color areas with revision-bound
+fill-only boundaries. Rendered review then exposed a separate sleeve contour
+crossing the bodice interior, so all 34 Polo front/back requests remain held
+with no partial output. The S331 browser replay verifies that hold across all
+17 configurations. Woven front sleeve/closure mappings remain unresolved, and
+Woven back sleeve-cap placement is inconsistent. The collar metadata alone
+does not establish assembled joins, crossings, overlap, POM readability or
+accepted faces. See the S321–S331 evidence in `docs/research/epic17/` and the
+live handoff in `PROJECT-STATE.md`.
+`src/render/technical-flat-options.ts` checks raw recipe-option values before
+calling a recipe draft, so invalid user values cannot be hidden by a resolver's
+fallback. A valid draft must pass role/stitch/POM and front/back source-geometry
+checks before its pair is returned. This is a model gate; live UI rendering and
+visible finished-seam rules remain in progress.
+`src/render/technical-flat-overlays.ts` maps the current saved artwork placements
+and selected fabric color/appearance values onto each face using that draft's
+cut frames. Placements retain source, asset and revision identity, dimensions,
+transform and stack order. Unknown or interior-only targets fail visibly;
+missing artwork assets, out-of-frame placements and overlapping placements
+carry actionable review notices. The color/texture/shine data remains
+presentation metadata until the later live renderer consumes it; this compiler
+does not resolve asset bytes or claim that the fabric appearance is rendered.
+`src/render/technical-flat-poms.ts` evaluates each face-specific POM method on
+the same draft, requires its anchor to be a real vertex on the mapped role, and
+creates revision-bound callouts targeting that face's outline. The existing
+back anchors cover Trouser back rise, Skirt waist/hip, and Tank chest,
+body-length, across-shoulder and neck-width. Trouser waistband depth targets
+its explicit `centerBack` mark. Other front anchors remain front-only and
+receive a visible omission notice on the back rather than a guessed mirror.
+Methods without an anchor on a face remain table-only there. The first
+candidate positions use a provisional
+source-space character-width estimate. `technical-flat-svg.ts` then measures every label with the active
+browser font and deterministically searches nearby positions using those exact
+metrics. It preserves each POM's source anchor and geometry target while
+moving only its presentation label and leader endpoint. Text boxes keep a small
+gap from other labels, visible vector strokes, artwork placement bounds, and
+other POM leaders. Leaders for callouts sharing the same exact source vertex
+may meet at that represented vertex; same-ray overlap remains blocked by the
+measured label-box check, and leaders from distinct vertices may not cross.
+The S363 Woven finished-placket-width leader also fails closed when its straight
+route crosses an unrelated projected collar outline (`outerStand`,
+`innerStand`, `upperCollar`, or `underCollar`). If the measured search finds no
+clear label and leader position, the complete face is withheld; the source
+anchor and POM are never moved or suppressed. This check does not resolve the
+separate Woven sleeve/band crossing.
+When no measured position is available, the complete face remains withheld
+with a specific collision issue. The renderer's measured
+collision checks and 14-face default browser review are recorded in
+`docs/research/epic17/G04-V02-LABEL-REFLOW-S273.md`.
+
+Polo's two approved dimension-only POM references are typed in `Pom.viewDimension`
+and resolved by `mapPoloDimensionCallouts` from the same drafted block and
+revision as the flat. The pointed-collar leaf measurement references the
+authored `upperCollar.centerBack` fold edge by its endpoints without drawing
+that fold as a garment edge. The back-hem-drop dimension uses the exact
+`front.hem.start` and `back.hem.start` source levels; the front level is
+projected onto the back flat as an annotation-only dashed bracket one centimetre
+outside the back hem. These are measurement/view references, not construction
+marks or a front/back stitch join. The renderer validates the named source
+identities, includes the annotation in the view bounds, and keeps both marks on
+the annotation layer. Slice 340 records the 17-configuration diagnostic and
+production replay. The dimensions do not bypass Polo's held status: all 34
+faces remain withheld for the sleeve-cap residual and POM-label conflicts.
+
+`src/render/technical-flat-assembly.ts` derives per-face component placements
+from ordered `Block.stitches` interfaces. It partitions each interface at exact
+cumulative edge-length boundaries, honors explicit source-edge reversal, and
+uses the adjoining roles' matching endpoints to solve rigid rotation and
+translation. It preserves drafted curves and dimensions. Hidden mapped
+components may provide construction links but are excluded from returned
+exterior transforms. A bad/missing interface, unplaced visible role, endpoint
+residual over 0.25 cm or contradictory cycle returns an explicit issue. The
+sole view-specific residual exception is Polo's exact validated S351
+`Sleeve-cap ease` arclength representation: that displayed eased seam does not
+use rigid endpoint RMS as its correspondence check. The numeric 0.25 cm gate
+remains active for every other relation. This is drafted transform evidence
+only; it does not merge a component into a face-specific garment contour by
+itself or accept any face.
+
+Slice 345 adds an exact-revision Woven sleeve-cap projection to the live flat
+pipeline. `technical-flat-projection.ts` validates the approved ordered body
+stitch and maps the authored eased cap to the corresponding body interface by
+normalized arclength; `technical-flat-geometry.ts` transfers the display path,
+and assembly/live rendering emit the shared seam once while suppressing the
+duplicate cap stroke. The back-facing yoke seam uses its approved `SEAM` layer.
+This changes only the view: source piece coordinates, cut geometry, stitch
+graph, authored ease and generic assembly tolerance remain unchanged. The S345
+28-configuration production replay emits front candidates but rendered review
+does not accept them because collar strokes cross/overlap and ten front POMs
+lack geometry anchors. All backs remain held by three open collar colorway
+contours. See `docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md`
+and `docs/research/epic17/S345-woven-sleeve/manual-review.md`; the projection
+does not establish physical fit or complete G04 acceptance.
+
+Slice 362 extends the same revision-bound, view-only projection contract to
+Woven `outerStand`, `innerStand`, `upperCollar` and `underCollar`. The map
+splits the source collar at its source-length shoulder station, transfers each
+side onto the exact same-revision body or reversed yoke neckline, and preserves
+signed source-normal offsets and stable source-edge identity. Straight and
+curved source paths are sampled before transfer so mapped paths follow the
+receiver contour instead of spanning it with endpoint chords. Shared source
+endpoints are canonicalized to retain exact joins. The renderer validates the
+approved fold-reflection pair and builds each mirrored colorway half as its
+own closed contour; one exact shared fold-boundary pair is cancelled only
+while assembling the fill path. No pattern coordinates, cut geometry, stitch
+graph, option values or export output change. Although all 56 Woven render
+requests compile cleanly, all remain held: the max-stand-height placket-width
+leader crosses unrelated collar lines, and the rejected S361 sleeve/band
+candidate still crosses on the back. The current rigid artwork primitive also
+cannot be projected as a complete collar area, so collar-targeted artwork now
+fails closed instead of moving only its origin; the S362 replay contains no
+collar artwork placement. See
+`docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md` and its
+retained matrix/render evidence.
+
+Slice 336 records an additional source-order rule in the versioned projection
+metadata: Woven's `Outer stand ↔ woven neckline` stitch lists the stand edge
+from CF to CB, while the `front.neckline` and `yoke.neckline` edges run from CF
+or CB toward their shoulder endpoints. The view reverses the yoke (or fallback
+back) neckline traversal so the back interface follows the authored stitch
+order; it does not alter the stitch graph or contour. Exact topology validation
+checks both stand junctions, body center/shoulder endpoints, role identity and
+the permitted reversal. The front shoulder station still misses by about
+0.71 cm and the back by about 0.27 cm on the default revision, so all Woven
+faces remain held. Approved normalized-arclength collar exterior transfers
+remain view conventions and do not create physical notches. See
+`docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md` for the full
+configuration trace and current holds.
+
+`src/render/technical-flat-svg.ts` renders a validated semantic view in stable
+layer order. SVG width and height use physical centimetres and source geometry
+remains unscaled. Every emitted entity carries its source and revision IDs;
+artwork source assets that are not embedded receive a visible notice. The
+browser measures labels with the same SVG font family and user-unit size used
+by the output. The rendered text extents expand the view box; measured reflow
+avoids label, visible-stroke, artwork-bound and leader overlap. A face stays
+withheld when no collision-free placement exists. Production Chromium renders
+and parses eleven of fourteen default faces without label collisions; three
+defaults remain withheld by source assembly-cycle issues (Woven-shirt back,
+Trouser front and Trouser back), with actionable guidance. Slice 274 exercised
+32 recipe-scoped option fields at min/max and retained 146 front/back requests:
+70 SVGs passed measured label, notice, revision and POM-anchor checks, while 76
+views remained withheld by the existing Woven-shirt and Trouser stitch
+placement conflicts. The local overlay trace confirmed same-revision artwork
+targeting and colorway fills. Accepted Polo and Woven-shirt component outlines
+still cross visually and do not form coherent professional flats. Slice 275
+records exact interface subdivision and explicit Trouser waist traversal, but
+its 146-face matrix has the same 70 accepted SVGs/76 visible holds as S274.
+Full role outlines still appear in both faces, and the Woven-shirt and Trouser
+source-cycle holds persist. V02 remains open for face-specific source-to-view
+correction and a new rendered exit review. No physical fit, factory acceptance
+or CAD compatibility is inferred.
+
+Slice 327 closes the exact Trouser front waistband colorway contour from the
+two stitched front-waist subpaths and their source-derived face boundaries,
+without drawing a duplicate center-front boundary. Its same-anchor callout
+layout rule preserves the exact POM targets while allowing two leaders to meet
+at the shared `frontLeft.sideUpper` vertex. Fresh production Chromium accepts
+all 48 Trouser faces across 24 configurations; an integrated replay accepts
+52/146 faces and retains the prior 94 Tee, Fitted, Polo and Woven holds. The
+S327 packet records the output checks and screenshots; this remains digital
+view evidence and does not establish physical fit or factory acceptance.
+S328 adds decision-bound, fill-only closure metadata for the approved Tee/Fitted
+sleeve halves. Production review found their projected side paths inside the
+bodice and the mirrored instances overlapping across the center. Those four
+faces fail closed with the exact source edge and hold reason until a
+body-relative transform passes rendered join and overlap review. The integrated
+replay remains 52/146 accepted and 94 held; cut geometry is unchanged.
+
+Slice 276 tested reflecting every non-fold edge of a cut-on-fold role across
+its local centre axis, then rejected that output after production screenshots
+still showed crossed Polo and Woven-shirt contours. `Piece.onFold` describes
+pattern cutting, not finished-face visibility or role-instance count. The
+current collar sources also lack explicit exterior-edge landmarks at the
+front/back split. Do not use a whole-role mirror or stitch length alone as a
+finished-face projection rule. Slice 277 defines the explicit G04-owned
+projection-mapping metadata already called for by V01's admitted source-to-view
+map. It binds exact edge runs and landmarks to the drafted block/revision,
+fails closed when the source cannot support a partition, and leaves pattern
+cut geometry unchanged. It must not infer split points from a screenshot.
+
+Slice 278 adds a projection-aware path to the source-geometry compiler. It
+emits only validated edge runs, records each contributing source edge while
+preserving the role-outline ID used by POM anchors, and withholds a visible
+face when any included role has an unresolved edge. Slice 279 connects explicit
+recipe maps to the live renderer with same-block/revision validation. Its
+production output review rejected all eight emitted defaults as incomplete
+half-pattern assemblies with crossing lines; V02 remains open. Polo/Woven
+collar contours stay held pending exact source landmarks. The maintainer has
+authorized view-only fold-axis reflection only when a source-declared
+`onFold` role also has an explicit garment center edge on local `x=0` and its
+remaining drafted geometry stays on one side. The reflected SVG keeps source
+IDs, avoids duplicating the center edge, and does not mutate the draft. A
+construction fold on a component such as the Skirt waistband is not a garment
+center axis and is explicitly excluded. Face-specific landmarks or
+multiplicity still require direct construction evidence; no instance count is
+inferred. Slice 281's source review adds fail-closed projection holds for the
+Tee/Fitted sleeve roles and the Skirt waistband on both faces. Ordered sleeve
+cap interfaces do not define the exterior front/back contour or sleeve view
+instances; the Skirt waistband role spans both waist interfaces and its full
+strip cannot be shown on either individual face. These holds leave source
+geometry intact and keep misleading partial assemblies out of the live view.
+The production Chromium evidence and exact issue text are recorded in
+`docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md`.
+
+Slice 282's source audit found that the Skirt waistband stitch lists front and
+back waist in the same authored direction, although both panel edges run
+center-to-side. Its ordered boundary therefore maps front-side to back-center
+and conflicts with the adjacent side-seam endpoints. Reversing only the
+back-waist `EdgeRef` makes the junction agree with both authored side
+endpoints; the joined length then lands at the straight waistband seam
+midpoint and its exact corresponding top-edge point. Slice 283 reverses only
+the back-waist stitch reference and compiles the paired boundary from this
+ordered relation on the same live block and revision. Each face receives its
+matching band segment, reflected only across that sewn-to body's exact center
+axis. The emitted connector is provenance-tagged as a view silhouette
+boundary; it does not alter the pattern, notch, seam or export geometry. The
+waistband's own short `fold` edge remains excluded as a garment axis. Production
+Chromium shows coherent Skirt body/band outlines at three waist/ease
+configurations without a continuous center-fold line. Slice 284 re-ran all 73
+configurations/146 faces: Tank and Skirt front/back are the only four emitted
+views; Tee/Fitted sleeve, Polo/Woven collar, Woven vent and Trouser assembly
+faces remain held. Same-revision Tank artwork/colorway overlay passes, but
+Woven-shirt button visibility and Polo collar depiction remain unverified.
+V02 is not accepted. Slice 285 must check available construction references
+for exact missing source landmarks; unsupported roles remain visibly held. See
+`docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md`,
+`docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md` and
+`docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md`.
+
 The **Edit** view keeps user-authored deltas against stable recipe-owned
 anchors, rather than saving a disconnected picture. Pointer drags and keyboard
 coordinate edits become semantic operations; Undo, Redo, Clear and explicit
@@ -252,6 +839,55 @@ and [Slice 239 revision evidence](docs/research/epic15/F03-IMMUTABLE-REVISIONS-S
   paginate. It is a draft reference, not a finished technical-flat set,
   factory-approved specification, or production release. None of these files
   proves physical fit or successful sewing.
+
+The existing DXF download remains the protected legacy output: its coordinates
+use centimeters but the file does not declare units. `exportDxfCentimeters`
+is a separate, non-default serialization candidate that adds a centimeter
+header and writes coordinates to six decimal places so serialization error
+stays well below the fixed `0.001 cm` exchange contour gate. When recipe mark
+rules are supplied, it additionally writes resolved notch ticks and
+double-ended grainline marks as `MARK_NOTCH` and `MARK_GRAINLINE` entities.
+The protected legacy `exportDxf` remains at its existing three-decimal
+precision and its recorded byte identities are unchanged. The candidate is
+not wired to the UI or selected as an apparel-CAD profile; no receiver
+compatibility is claimed.
+G04 V03 now uses a named, version-specific **empirical compatibility profile**
+for an already installed receiver instead of requiring the receiver to belong
+to an “industrial CAD” category. A pass is limited to the exact measured
+application/version/workflow and remains subject to all-seven, geometry,
+identity, marks, units, repeatability, malformed-input, and readable-output
+gates. This label is not ANSI/AAMA/ASTM conformance or factory acceptance.
+LibreCAD 2.2.1.5/DXF 2000 is only a candidate from the single Polo M evidence
+in S708/S710. The opt-in candidate/package remains separate from and cannot
+change legacy `exportDxf` bytes. Current status and bounded checks are in
+`PROJECT-STATE.md` and the S722 packet.
+`createDxfInterchangePackage` produces a separate versioned JSON manifest for
+recipe/piece roles, selected size and grade, options, stitch relationships,
+and explicit centimeter units verified against `$INSUNITS=5`. Its SHA-256
+binds the exact DXF and canonical manifest revision. It is a C04-bounded
+companion record, not an importer or receiver-preservation proof; the DXF
+remains the source of CUT/SEW geometry and visible construction marks.
+Package creation resolves and validates every declared recipe option, records
+defaults as well as supplied values, and hashes that complete option set.
+Canonical pattern-block comparison follows JSON object serialization by
+omitting optional `undefined` fields. This lets valid option configurations
+such as Woven zero-vent produce a source package; it does not prove that a
+receiver preserves those values or that the exchange profile passes V03.
+The version-3 package manifest also records every source pattern mark's stable
+piece-scoped ID, source name/label, kind, DXF entity type/layer, source-space
+geometry and one-based entity position in the exact digest-bound drawing. It
+declares `adaptive-normal-offset/1`, which adaptively samples the mathematical
+allowance offset for this candidate only and includes that algorithm identity
+in the canonical package revision. It retains the existing 1 cm recipe
+allowance and sew geometry; the source pattern and legacy DXF writer are
+unchanged. The version-2 package remains verifiable for existing artifacts.
+The visible DXF mark is still required; this companion record identifies it
+but does not replace it or prove that a receiver retains either file. See the
+S693 and S697 evidence packets for rendered comparison and the fixed-coverage
+results. S697 measured maximum coordinate-rounding displacement of
+`0.000000703 cm` for the six-decimal candidate, down from `0.000701219 cm` at
+three decimals; this addresses source precision only and does not resolve the
+measured receiver geometry/mark failures or qualify a receiver/profile.
 
 The project also keeps reference export files. Tests compare new exports with
 those references so a change to one view or tool does not silently alter
@@ -423,6 +1059,73 @@ or run by the app. The existing Nesting view remains in use. Any retry needs
 fresh maintainer approval and must keep the app's own checks and return to the
 existing layout if the helper cannot offer a safe result. See the
 [Epic 8 exit report](docs/release/EPIC-8-EXIT-REPORT.md).
+
+## G04 technical-flat presentation
+
+The seven supported pattern recipes can render front and back technical flats from one live pattern revision. The renderer preserves source piece/entity identity and coordinates, maps declared construction through revision-bound view metadata, places colorway fills in the declared layer order, and binds POM callouts to same-face source geometry. Unsupported source features and table-only POMs are reported as notices rather than invented. A zoomable canvas supports close inspection of dense construction schedules. S459 reviewed 73 supported configurations and 146 views; it accepted digital V02 output only. It does not establish physical sewing, fit, factory acceptance, or industrial CAD interoperability. CAD receiver/profile rights and round-trip proof remain V03 work; the generic legacy DXF contract remains protected.
+
+The opt-in C04 DXF interchange package writes one named BLOCK/INSERT per
+pattern role. Its versioned manifest binds the block name, role, source
+revision, and piece-scoped construction marks; expanding the blocks reproduces
+the flat drawing without changing its geometry. This does not alter the
+protected legacy DXF export. In the single measured CLO 2026.1.310 return,
+nine piece names survived with a receiver suffix, while five CUT contours and
+three buttonhole points still exceeded the fixed acceptance checks. The
+package structure therefore improves source-side identity but does not claim
+that CLO or any industrial CAD profile passes G04 V03. See
+[`docs/research/epic17/S700-named-piece-package/S700-exit-packet.md`](docs/research/epic17/S700-named-piece-package/S700-exit-packet.md).
+
+S710 adds a separate returned-file audit that checks receiver-rewritten named
+blocks against the unchanged schema-v5 source manifest while preserving the
+original package's exact-byte hash contract. It checks returned piece and
+instance identities, planar INSERT placement, centimeter units, CUT/SEW
+vertex sequences, closure, mark layers and entities at the fixed 0.001 cm
+limit. A LibreCAD 2.2.1.5 return of the existing Polo M fixture passes with
+nine pieces, 18 outlines, 111 mark entities and zero measured XY difference.
+The audit checks normalized vertices, per-vertex curve bulges and widths, plus
+outline elevation and extrusion; it tolerates identical duplicate vertices
+removed by the receiver. It accepts zero Z scale because it does not alter the
+flat XY geometry, while rejecting translation, rotation, in-plane scaling and
+repeated instances. This is one generic-CAD fixture and a source-side verifier
+result; it does not qualify the receiver profile or establish broad exchange
+behavior.
+
+S716 exposes that package writer and auditor in the Export panel. Users can
+save the opt-in schema-v5 DXF and its integrity-bound JSON package, then select
+the JSON package and a returned DXF for a local, accessible pass/fail result.
+The files are read in the app and are not uploaded or persisted by this audit
+flow. This is a generic package and source-side audit surface; it makes no
+receiver or standards claim and does not change the protected legacy DXF path.
+
+S707 adds explicit R2000 layer-table declarations to that opt-in package.
+LibreCAD 2.2.1.5 retained the table but saved all nine CUT outline entities on
+layer `0` in its Polo M round trip. S708 adds deterministic R2000 block-record
+ownership/space records, the referenced continuous linetype, and HANDSEED to
+the candidate-only writer. On the same LibreCAD 2.2.1.5 DXF 2000 route and
+fixture, the return now preserves all nine CUT assignments, named-piece
+identities, 18 outline paths, 111 typed marks, and centimeter units; the
+reopened drawing was visually reviewed. This is empirical one-fixture evidence
+for the combined source correction, not a formal conformance claim or an
+industrial-apparel profile qualification. The legacy DXF contract remains
+unchanged and V03 acceptance remains open. See
+[`docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`](docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md)
+and the historical [`S707 result`](docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md).
+
+S725 verified 365/365 source packages for the 73 supported option scenarios
+across five sizes and corrected only the opt-in Trouser page gap (5 cm); other
+recipes and legacy DXF remain at 2 cm. Source and returned geometry have no
+inter-piece intersections. Its LibreCAD return passes at 0.000 cm for nine
+pieces, 18 outlines, and 103 marks, and the ten selected fixtures were visually
+reviewed. S726 then completed V03 technical acceptance: the ten LibreCAD
+2.2.1.5 / Drawing Exchange DXF 2000 fixtures cover all ten serialized
+exchange-structure classes, and a saved/reopened Trouser XL grade-boundary
+fixture also passes. All 11 selected returns pass at 0.000 cm and were visibly
+reviewed. Product-side source verification covers all 365 option × grade
+packages; the matrix's 315 normalized shape signatures are not described as
+315 receiver round trips. The compatibility claim is limited to the exact 11
+fixtures. No standards, industrial-apparel, fit, factory, or production claim
+is made. See
+[`docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`](docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md).
 
 ## What is outside the current product
 

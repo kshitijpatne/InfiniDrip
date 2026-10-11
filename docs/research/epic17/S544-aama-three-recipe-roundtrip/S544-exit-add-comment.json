@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3290,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S544 stopped before exchange after visible screenshot/accessibility mismatch persisted through supported refresh and Raise failed. Inputs remain hash-pinned under C:; no output or acceptance change. Resume same trial after fresh targetable CLO state."
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3159,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S512-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S512-open-source-cad-format-screen/S512-start-packet.md",
+      "verified": true,
+      "note": "S512 rechecks official current format/release/license facts for the already-screened Seamly2D/Valentina open-source lead. No installation, acceptance change, or profile selection is authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3160,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S512 begins a bounded official-source refresh of the existing open-source apparel CAD lead. It will assess whether a current receiver/profile merits rights and round-trip qualification while preserving every V03 gate and the user's C:-only CLO evidence boundary."
+  }
+]

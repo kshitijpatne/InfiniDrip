@@ -1,0 +1,6 @@
+First S545 exit replay-helper invocation failed before either command ran:
+Node spawnSync could not resolve the `npm` executable (ENOENT) when the helper
+attempted `npm run control-center:command`. The canonical board remained at
+revision 3293. The replay helper was changed to invoke the exact repository
+command-layer CLI with `process.execPath`; no command payload or board data was
+changed. The retry result is recorded in the exit packet.

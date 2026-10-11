@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3455,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S585-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md",
+    "verified": true,
+    "note": "Hash-checked existing CLO Standard, AAMA/ASTM, and AAMA Polo evidence shows every tested output path fails the unchanged geometry/round-trip gate or renders collapsed outlines. CLO is closed only as a candidate for these tested configurations; V03 gates remain."
+  }
+}

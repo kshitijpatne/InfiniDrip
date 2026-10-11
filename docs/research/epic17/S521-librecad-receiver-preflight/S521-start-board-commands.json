@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3195,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S521-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S521-librecad-receiver-preflight/S521-start-packet.md",
+      "verified": true,
+      "note": "S521 screens LibreCAD 2.2.1.5 as a free generic DXF receiver candidate and prepares one all-seven round-trip protocol. It is not apparel CAD or an AAMA/ASTM conformance claim. No download/install or CLO interaction has occurred; one test requires maintainer approval."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3196,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "One possible independent candidate has been identified: LibreCAD stable 2.2.1.5 (GPLv2), with documented generic DXF read/write and R12 support. It is not an apparel CAD or standards certificate. No files or installer were downloaded. Proposed next test is one C:-confined all-seven R12 round trip with fixed settings and the existing 0.001 cm gate; await maintainer authorization before software installation/execution. CLO stays open and untouched."
+  }
+]

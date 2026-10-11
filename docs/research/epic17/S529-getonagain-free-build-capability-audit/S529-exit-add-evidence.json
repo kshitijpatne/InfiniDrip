@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3229,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S529-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-exit-packet.md",
+    "verified": true,
+    "note": "Official GetonAgain V2024.1 manual verifies apparel AAMA/ASTM DXF import and export for that product version. Official free package is dated but not version-matched; applicable rights and local-only handling remain unverified. No app execution, registration, vendor contact, pattern transfer, or gate change."
+  }
+}

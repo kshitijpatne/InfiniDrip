@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3673,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S633 reconciles the current V03 acceptance gates against the verified S627 matrix and newer S628-S632 exit evidence. It is documentation-only: preserve every gate, hold, status, the 0.001 cm threshold and all-seven acceptance; do not repeat a CLO/receiver mode permutation. Deliver a current evidence-linked matrix and exactly one dependency-led next action. See E-G04-S633-START."
+}

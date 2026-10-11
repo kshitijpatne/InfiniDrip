@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3427,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S578-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S578-clo-outline-api-smoke/S578-exit-packet.md",
+    "verified": true,
+    "note": "CLO 2026.1.310 exposed all three documented getters; count/name returned nine patterns (0-8), but every outline getter returned empty for the visible imported pieces. No Python exception, project save, or acceptance change."
+  }
+}

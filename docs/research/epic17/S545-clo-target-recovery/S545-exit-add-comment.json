@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3294,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S545 recovered the targetable existing CLO window and completed the three-recipe, M/default two-cycle trial. Five Polo cut contours remain above the unchanged 0.001 cm gate; Tee and Woven geometry pass this limited check. Preserve all V03 holds and use S546 to isolate the first-cycle Polo delta before any setting change. See E-G04-S545-EXIT."
+}

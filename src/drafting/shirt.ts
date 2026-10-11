@@ -321,17 +321,19 @@ function curvedHemAndVent(piece: Piece, ventDepth: number): Piece {
   const ventTop = point(sideEnd.x, sideEnd.y - ventDepth);
   const updatedEdges = piece.edges.flatMap((edge): Edge[] => {
     if (edge.name === "sideLower") {
+      if (ventDepth === 0) return [edge];
       return [{ kind: "line", name: "sideLower", start: edgeStart(edge), end: ventTop }];
     }
     if (edge.name === "hem") {
-      return [
+      const curvedHem: Edge = { kind: "curve", name: "hem", curve: {
+        start: sideEnd,
+        control1: point((sideEnd.x * 0.66), sideEnd.y + 1),
+        control2: point((sideEnd.x * 0.33), sideEnd.y + 1),
+        end: edgeEnd(edge),
+      } };
+      return ventDepth === 0 ? [curvedHem] : [
         { kind: "line", name: "vent", start: ventTop, end: sideEnd },
-        { kind: "curve", name: "hem", curve: {
-          start: sideEnd,
-          control1: point((sideEnd.x * 0.66), sideEnd.y + 1),
-          control2: point((sideEnd.x * 0.33), sideEnd.y + 1),
-          end: edgeEnd(edge),
-        } },
+        curvedHem,
       ];
     }
     return [edge];
@@ -339,7 +341,7 @@ function curvedHemAndVent(piece: Piece, ventDepth: number): Piece {
   return {
     ...piece,
     edges: updatedEdges,
-    marks: [
+    marks: ventDepth === 0 ? piece.marks : [
       ...(piece.marks ?? []),
       pointMark("placementPoint", "ventTop", ventTop, "VENT TOP"),
     ],
@@ -515,46 +517,69 @@ const markPoint = (piece: Piece, name: string): { readonly x: number; readonly y
   return mark.at;
 };
 
+const pomEdgeMidpoint = (block: Block, roleId: string, edgeId: string) => {
+  const edge = pieceEdge(block.roles[roleId]!, edgeId);
+  const start = edgeStart(edge);
+  const end = edgeEnd(edge);
+  return point((start.x + end.x) / 2, (start.y + end.y) / 2);
+};
+
 export const WOVEN_SHIRT_POMS: readonly Pom[] = [
   {
     label: "Body chest (finished)", tolerance: 1.3,
     measure: (b) => 4 * edgeStart(pieceEdge(b.roles.front, "sideUpper")).x,
+    anchor: (b) => edgeStart(pieceEdge(b.roles.front, "sideUpper")), anchorRoleId: "front", anchorEdgeId: "sideUpper",
   },
   {
     label: "Body length (HPS–hem)", tolerance: 1.3,
     measure: (b) => edgeStart(pieceEdge(b.roles.front, "centerFront")).y - edgeStart(pieceEdge(b.roles.front, "shoulder")).y,
+    anchor: (b) => edgeStart(pieceEdge(b.roles.front, "centerFront")), anchorRoleId: "front", anchorEdgeId: "centerFront",
   },
   {
     label: "Neck circumference (pattern)", tolerance: 0.6,
     measure: (b) => 2 * (edgeLength(pieceEdge(b.roles.front, "neckline")) + edgeLength(pieceEdge(b.roles.yoke, "neckline"))),
+    anchor: (b) => edgeStart(pieceEdge(b.roles.front, "neckline")), anchorRoleId: "front", anchorEdgeId: "neckline",
   },
   {
     label: "Back yoke depth", tolerance: 0.5,
     measure: (b) => edgeStart(pieceEdge(b.roles.back, "yokeSeam")).y,
+    backAnchor: (b) => edgeStart(pieceEdge(b.roles.back, "yokeSeam")), backAnchorRoleId: "back", backAnchorEdgeId: "yokeSeam",
   },
   {
     label: "Finished placket width", tolerance: 0.2,
     measure: (b) => edgeLength(pieceEdge(b.roles.buttonPlacket, "top")) - 2,
+    anchor: (b) => pomEdgeMidpoint(b, "buttonPlacket", "top"), anchorRoleId: "buttonPlacket", anchorEdgeId: "top",
+    viewDimension: { kind: "edge-length", view: "FRONT_FLAT", roleId: "buttonPlacket", edgeId: "top" },
   },
   {
     label: "Front button spacing", tolerance: 0.2,
     measure: (b) => distance(markPoint(b.roles.buttonPlacket, "button-1"), markPoint(b.roles.buttonPlacket, "button-2")),
+    frontMarkAnchor: { roleId: "buttonPlacket", markName: "button-1", point: "at" },
   },
   {
     label: "Patch pocket width", tolerance: 0.3,
     measure: (b) => edgeLength(pieceEdge(b.roles.pocket, "top")),
+    anchor: (b) => pomEdgeMidpoint(b, "pocket", "top"), anchorRoleId: "pocket", anchorEdgeId: "top",
+    viewDimension: { kind: "edge-length", view: "FRONT_FLAT", roleId: "pocket", edgeId: "top" },
   },
   {
     label: "Patch pocket height", tolerance: 0.3,
     measure: (b) => edgeLength(pieceEdge(b.roles.pocket, "sideRight")),
+    anchor: (b) => pomEdgeMidpoint(b, "pocket", "sideRight"), anchorRoleId: "pocket", anchorEdgeId: "sideRight",
+    viewDimension: { kind: "edge-length", view: "FRONT_FLAT", roleId: "pocket", edgeId: "sideRight" },
   },
   {
     label: "Finished sleeve band depth", tolerance: 0.2,
     measure: (b) => edgeLength(pieceEdge(b.roles.sleeveBand, "sideRight")),
+    anchor: (b) => pomEdgeMidpoint(b, "sleeveBand", "sideRight"), anchorRoleId: "sleeveBand", anchorEdgeId: "sideRight",
+    viewDimension: { kind: "edge-length", view: "FRONT_FLAT", roleId: "sleeveBand", edgeId: "sideRight" },
   },
   {
     label: "Side vent depth", tolerance: 0.3,
     measure: (b) => edgeLength(pieceEdge(b.roles.front, "vent")),
+    anchor: (b) => pomEdgeMidpoint(b, "front", "vent"), anchorRoleId: "front", anchorEdgeId: "vent",
+    anchorAvailable: (b) => b.roles.front.edges.some((edge) => edge.name === "vent" && edgeLength(edge) > 0),
+    viewDimension: { kind: "edge-length", view: "FRONT_FLAT", roleId: "front", edgeId: "vent" },
   },
 ];
 

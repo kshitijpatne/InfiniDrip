@@ -1,0 +1,53 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3034,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S488-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-exit-packet.md",
+      "verified": true,
+      "note": "S488 confirms GRAFIS free training disables pattern exchange and AccuMark has no documented no-cost path; neither candidate clears V03 Gate 0 or round-trip evidence. All gates remain unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3035,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S488-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-codex-candidate-matrix.md",
+      "verified": true,
+      "note": "Codex primary-source matrix records candidate-by-candidate no-cost, Windows, local handling, apparel profile, round-trip, grading, and negative-input evidence with unknowns left open."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3036,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S488-OPENCODE-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-opencode-review.md",
+      "verified": true,
+      "note": "Codex checked the separate exact-model OpenCode screen against primary GRAFIS and Lectra/Gerber sources and corrected absence-of-evidence wording."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3037,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S488-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3038,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S488 screened GRAFIS and Gerber AccuMark. GRAFIS's free edition disables import/export; AccuMark's reviewed sources document licensed/subscription access but no no-cost route. Neither is selected. V03 remains held until a rights-cleared local apparel-profile receiver and actual representative round-trip evidence are available."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3401,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S572-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-start-packet.md",
+    "verified": true,
+    "note": "S572 reserves one bounded, C:-confined CLO 2026.1.310 pre-export observation of the five known Polo M CUT corners to isolate stage attribution only if native geometry and UI state can be directly verified. No geometry, profile, gate, or legacy output change is authorized."
+  }
+}

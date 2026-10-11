@@ -1,0 +1,29 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2461,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S422-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S422-v02-unresolved-display-decisions/G04-V02-DISPLAY-DECISIONS-S422.md",
+      "verified": true,
+      "note": "S422 reconciles the current exact-revision Woven neckline/collar and Polo H-locator display decisions. User direction is required before either semantic mapping changes; all faces and gates remain held."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2462,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S422-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2463,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S422 manually reviewed exact S417 Woven and S419 Polo Chromium crops and consolidated two concrete pending display decisions. Woven clipping removes 0.8426–0.8433 cm/side of the continuous source base seam; keeping it continuous preserves source fidelity and retains the 28-front hold. Polo H segmentation retains 60.139–72.361% as 2–3 clear arcs with zero sampled source-stroke contact over 17 options; approval would permit implementation/review only, not release. No behavior, acceptance, gate or hold changed. See E-G04-S422-EXIT."
+  }
+]

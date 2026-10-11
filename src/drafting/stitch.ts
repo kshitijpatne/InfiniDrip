@@ -22,8 +22,12 @@ import { distance } from "../geometry";
 export interface EdgeRef {
   readonly piece: string;
   readonly edge: string;
+  /** Traverse this source edge from its authored end toward its start when it
+   * participates in an ordered multi-edge seam. Length checks ignore direction. */
+  readonly reversed?: boolean;
 }
-export const edgeRef = (piece: string, edge: string): EdgeRef => ({ piece, edge });
+export const edgeRef = (piece: string, edge: string, reversed = false): EdgeRef =>
+  reversed ? { piece, edge, reversed: true } : { piece, edge };
 
 /** A sewable internal cut line. A slash has two physical sides, so `side`
  * keeps each attachment explicit while both sides measure the same line. */

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3533,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S600 useful-detail evidence is from the S595 input-side CLO scene, not the exported DXF round-trip. The 1:1 sheet shows all nine outlines but collar label 5 crowds outlines; some marks are visible without source identity. It clears no V03 gate. Preserve all five S595 CUT failures and every other hold."
+}

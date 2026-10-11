@@ -1,0 +1,13 @@
+Slice 312 production replay diagnostics
+
+Initial runner failure 1:
+- Attempted to select the Skirt waist field page after advancing the app to Style.
+- The Style step exposed only control-page option value ["2"], while waist belonged to page 0. Playwright timed out waiting for the unavailable selector option; no SVG assertion ran.
+
+Initial runner failure 2:
+- Moved measurement edits to the Measure step, but also attempted to change ease.
+- Ease is on the Fit allowance page (page 2); Measure exposed only option values ["0", "1"]. The runner stopped before output assertions; no product defect was observed.
+
+Resolution:
+- The durable replay enters Measure before editing waist, hip, hipDepth and length, keeps default ease, then advances to Style and requests both technical-flat faces.
+- Final fresh production replay: 2 measurement configurations, 4 front/back requests, exact target/revision/vertex checks passed, label bounds/no-overlap passed, 0 browser/page/request errors.

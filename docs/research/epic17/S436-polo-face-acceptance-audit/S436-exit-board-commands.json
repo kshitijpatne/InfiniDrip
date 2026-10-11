@@ -1,0 +1,37 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2600,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S436-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S436-polo-face-acceptance-audit/S436-polo-face-audit-matrix.json",
+      "verified": true,
+      "note": "Per-case audit joins exact option values while retaining slice revision identity; verifies 34 issue-free current S434 faces, all 17 closed back sleeve fills, source POM schedule exceptions, and zero S435 front label overlaps. No face accepted."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2601,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S436-EXIT"
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2602,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S436-MATRIX"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2603,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S436 per-face audit: the current 17-option Polo evidence has no remaining local compiler, source-revision, colorway, S351 residual, keyed POM, or measured label-overlap blocker. All 34 Polo faces remain held; none is newly accepted. Overall V02 remains blocked by Woven's 28 front collar/neckline contacts and 28 back sleeve-hem crossings. No V02/V03, all-seven, export, or claim gate changed."
+  }
+]

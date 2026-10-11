@@ -1,0 +1,25 @@
+{
+  "fixture": {
+    "file": "inputs/tee-standard-m.dxf",
+    "bytes": 6750,
+    "sha256": "0b6cba95c9afd4cc6f17a2171f67303e0891babb94828816c149767935165fc9",
+    "matchesS463": true
+  },
+  "screenshots": [
+    {
+      "file": "evidence/clo-import-menu.png",
+      "bytes": 160872,
+      "sha256": "4be43ea9e81ba33670c406e8fa4b95e19e8420e148524636d2d6d3a20e9b30a8"
+    },
+    {
+      "file": "evidence/clo-export-menu.png",
+      "bytes": 163754,
+      "sha256": "7ee41e5de9e2ac5c9b2bb39d91b5e9ffbe5790c5efa39b8b8f24fed7839739c5"
+    }
+  ],
+  "receiverOutputsReady": true,
+  "receiverOutputReturned": false,
+  "observedImportMenu": "File > Import > DXF",
+  "observedExportMenu": "File > Export > DXF",
+  "profileAndUnitsObserved": false
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3379,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S566-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S566-clo-sew-line-attribution/S566-exit-packet.md",
+    "verified": true,
+    "note": "Read-only S565 DXF analysis finds a candidate matching the XS source SEW shape within 0.000015 cm in every larger-size block, while no candidate matches the larger-size source SEW contours within 0.001 cm. Numeric output layers do not prove semantics; source of loss is unresolved. The saved CLO project exposes no decodable grading map, and its UI capture/accessibility states disagree, so no UI input was sent. V03 remains held."
+  }
+}

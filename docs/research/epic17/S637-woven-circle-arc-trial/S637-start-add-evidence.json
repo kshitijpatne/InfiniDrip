@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3688,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S637-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S637-woven-circle-arc-trial/S637-start-packet.md",
+    "verified": true,
+    "note": "Reserves a single C:-confined CLO DXF-AAMA trial converting only eight source Woven button CIRCLEs to four exact same-layer quarter-ARCs each, based on S629's measured 0.005113 cm native circle sagitta. Native CUT/SEW/marks and detailed render are checked first; export remains fail-closed. No production geometry or V03 hold changes."
+  }
+}

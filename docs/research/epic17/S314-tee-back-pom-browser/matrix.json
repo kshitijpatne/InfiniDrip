@@ -1,0 +1,168 @@
+{
+  "generatedAt": "2026-09-30T19:22:47.092Z",
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "url": "http://127.0.0.1:4175/",
+  "viewport": {
+    "width": 1440,
+    "height": 2600
+  },
+  "cases": [
+    {
+      "caseId": "tee-default",
+      "measurements": {
+        "chest": 100,
+        "shoulderWidth": 45,
+        "bicep": 38,
+        "length": 70,
+        "armholeDepth": 24,
+        "sleeveLength": 22,
+        "ease": 10
+      },
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "guidance": "geometry · pattern:tee:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.\npom · flat:tee:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+          "statuses": [
+            "",
+            "Unsaved changes · style recovery saved",
+            "Saved project is ready on this device.",
+            "",
+            "Save the current style before freezing outputs.",
+            "Image optional — you can add a placement without a file.",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Show in Assembled",
+            "",
+            "",
+            "",
+            "Technical flat withheld. Resolve the source or assembly issues below; no partial face is shown.",
+            "geometry · pattern:tee:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.pom · flat:tee:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+            "Project backup in progress."
+          ],
+          "svgCount": 0,
+          "issueCount": 2,
+          "messagesSleeveSpecific": true
+        },
+        {
+          "kind": "BACK_FLAT",
+          "guidance": "geometry · pattern:tee:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.\npom · flat:tee:BACK_FLAT:component:back:outline: POM callouts need the mapped role outline in the same face and revision.",
+          "statuses": [
+            "",
+            "Unsaved changes · style recovery saved",
+            "Saved project is ready on this device.",
+            "",
+            "Save the current style before freezing outputs.",
+            "Image optional — you can add a placement without a file.",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Show in Assembled",
+            "",
+            "",
+            "",
+            "Technical flat withheld. Resolve the source or assembly issues below; no partial face is shown.",
+            "geometry · pattern:tee:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.pom · flat:tee:BACK_FLAT:component:back:outline: POM callouts need the mapped role outline in the same face and revision.",
+            "Project backup in progress."
+          ],
+          "svgCount": 0,
+          "issueCount": 2,
+          "messagesSleeveSpecific": true
+        }
+      ]
+    },
+    {
+      "caseId": "tee-measurement-variant",
+      "measurements": {
+        "chest": 92,
+        "shoulderWidth": 39,
+        "bicep": 38,
+        "length": 66,
+        "armholeDepth": 21,
+        "sleeveLength": 22,
+        "ease": 10
+      },
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "guidance": "geometry · pattern:tee:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.\nassembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” does not provide a length-compatible rigid placement for this view.\nassembly · sleeve: Visible role “sleeve” has no rigid placement supported by a sewn interface on this face.\npom · flat:tee:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+          "statuses": [
+            "",
+            "Unsaved changes · field value history recorded",
+            "Saved project is ready on this device.",
+            "",
+            "Save the current style before freezing outputs.",
+            "Image optional — you can add a placement without a file.",
+            "",
+            "",
+            "Changing Target underarm drop invalidates for recomputation: pattern pieces; POM/spec values; graded measurements and pattern pieces; single-size/graded nesting; pattern/body/assembled/nesting/spec/check/edit views; SVG, DXF, tiled PDF, tech-pack PDF, projector SVG, A0 PDF exports. The open view updates now; other views and exports rebuild on open/export. Unaffected: surface-art sheet SVG. This does not establish fit or production readiness.",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "No direct highlight for Armhole depth in this view.Show in Assembled",
+            "",
+            "",
+            "",
+            "Technical flat withheld. Resolve the source or assembly issues below; no partial face is shown.",
+            "geometry · pattern:tee:role:sleeve: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” does not provide a length-compatible rigid placement for this view.assembly · sleeve: Visible role “sleeve” has no rigid placement supported by a sewn interface on this face.pom · flat:tee:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+            "Project backup in progress."
+          ],
+          "svgCount": 0,
+          "issueCount": 4,
+          "messagesSleeveSpecific": true
+        },
+        {
+          "kind": "BACK_FLAT",
+          "guidance": "geometry · pattern:tee:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.\nassembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” does not provide a length-compatible rigid placement for this view.\nassembly · sleeve: Visible role “sleeve” has no rigid placement supported by a sewn interface on this face.\npom · flat:tee:BACK_FLAT:component:back:outline: POM callouts need the mapped role outline in the same face and revision.",
+          "statuses": [
+            "",
+            "Unsaved changes · field value history recorded",
+            "Saved project is ready on this device.",
+            "",
+            "Save the current style before freezing outputs.",
+            "Image optional — you can add a placement without a file.",
+            "",
+            "",
+            "Changing Target underarm drop invalidates for recomputation: pattern pieces; POM/spec values; graded measurements and pattern pieces; single-size/graded nesting; pattern/body/assembled/nesting/spec/check/edit views; SVG, DXF, tiled PDF, tech-pack PDF, projector SVG, A0 PDF exports. The open view updates now; other views and exports rebuild on open/export. Unaffected: surface-art sheet SVG. This does not establish fit or production readiness.",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "No direct highlight for Armhole depth in this view.Show in Assembled",
+            "",
+            "",
+            "",
+            "Technical flat withheld. Resolve the source or assembly issues below; no partial face is shown.",
+            "geometry · pattern:tee:role:sleeve: Visible BACK_FLAT is withheld because edge “one of the listed source edges” is unresolved: The sleeve-cap stitch locates sewn cap intervals but the source does not identify the front/back visible sleeve contour or supported sleeve view instances. Affected source edges: pattern:tee:role:sleeve:edge:capLeft, pattern:tee:role:sleeve:edge:capRight, pattern:tee:role:sleeve:edge:sideRight, pattern:tee:role:sleeve:edge:hem, pattern:tee:role:sleeve:edge:sideLeft.assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” does not provide a length-compatible rigid placement for this view.assembly · sleeve: Visible role “sleeve” has no rigid placement supported by a sewn interface on this face.pom · flat:tee:BACK_FLAT:component:back:outline: POM callouts need the mapped role outline in the same face and revision.",
+            "Project backup in progress."
+          ],
+          "svgCount": 0,
+          "issueCount": 4,
+          "messagesSleeveSpecific": true
+        }
+      ]
+    }
+  ],
+  "browserErrors": []
+}

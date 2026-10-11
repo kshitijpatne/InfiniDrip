@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3083,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S496-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S496-clo-startup-diagnostics/S496-start-packet.md",
+      "verified": true,
+      "note": "S496 performs read-only local diagnostics of the S495 nonresponsive CLO startup; no app settings, account, or exchange file will be changed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3084,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S496 diagnoses the concrete S495 CLO startup stall through local logs and bounded Windows Application events only. No app/system settings or exchange files will be changed; V03 gates and statuses remain unchanged."
+  }
+]

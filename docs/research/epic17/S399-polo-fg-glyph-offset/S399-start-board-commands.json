@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2220,"itemId":"G04-V02","evidence":{"id":"E-G04-S399-START","kind":"document","uri":"docs/research/epic17/S399-polo-fg-glyph-offset/G04-V02-POLO-FG-GLYPH-OFFSET-S399.md","verified":true,"note":"Begins implementation and exact 17-option verification of the maintainer-approved Polo FG glyph-only offset. Fixed ring/source identities, schedule, geometry, output identities and all holds remain unchanged."}},
+  {"type":"addEvidence","expectedRevision":2221,"itemId":"EPIC-17","evidenceId":"E-G04-S399-START"}
+]

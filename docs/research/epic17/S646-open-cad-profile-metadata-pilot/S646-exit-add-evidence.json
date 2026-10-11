@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3728,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S646-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S646-open-cad-profile-metadata-pilot/S646-exit-packet.md",
+    "verified": true,
+    "note": "S646's bounded custom-metadata R14 pilot preserves all 56 Polo M entities exactly across two byte-identical OpenCAD generations, with centimeter units, named blocks and role/revision IDs. One actual CLO 2026.1.310 DXF-AAMA import preserves nine names but fails the unchanged 0.001 cm geometry gate on the same five CUT contours (13/18 CUT/SEW contours pass); the fail-closed pre-export gate stopped before export. Actual CLO overview render saved and reviewed. Generic OpenCAD metadata evidence does not qualify an industrial apparel profile. All V03 gates, seven-recipe scope and holds remain unchanged. See S646 exit packet, matrix and C:-only raw evidence."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3321,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S552-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-start-packet.md",
+    "verified": true,
+    "note": "Map the five repeat Polo contour failures to exact source vertices/edges and compare the S545 cm and S551 mm outputs; check official CLO documentation for a specific point-preservation rule. Read-only, no geometry/settings/acceptance changes."
+  }
+}

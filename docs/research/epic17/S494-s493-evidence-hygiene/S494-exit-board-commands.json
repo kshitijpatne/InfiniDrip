@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3073,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S494-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S494-s493-evidence-hygiene/S494-exit-packet.md",
+      "verified": true,
+      "note": "S494 removes the extra S493 packet EOF blank lines and accurately records that staged diff review found them; no acceptance or evidence changed."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3074,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S494-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3075,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S494 closes the staged-diff hygiene correction: S493's two packet EOFs are normalized and its record accurately discloses the initial pre-stage check limitation. V03 measurements, criteria and status are unchanged. See E-G04-S494-EXIT."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3076,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S494 corrects only staged documentation hygiene for S493 and records the verification finding. Epic and V03 remain In Progress; V01/V02 remain Done. See E-G04-S494-EXIT."
+  }
+]

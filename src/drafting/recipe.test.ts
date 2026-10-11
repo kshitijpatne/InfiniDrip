@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { STANDARD_M } from "./measurements";
+import { defaultGarmentOptions } from "./options";
 import { TEE, FITTED, TANK, POLO, WOVEN_SHIRT, TROUSER, GARMENTS, garmentByName } from "./recipe";
 import { dartOf } from "./dart";
 import { rolePiece, blockPieces } from "./block";
@@ -54,6 +55,15 @@ describe("Polo recipe pipeline", () => {
   });
 });
 
+describe("Tank fabric tech-pack selection", () => {
+  it("selects woven construction steps and preserves the knit pack", () => {
+    const woven = TANK.techPackForFabric!({ name: "Cotton woven", family: "woven", stretchPercent: 0 });
+    const knit = TANK.techPackForFabric!({ name: "Cotton jersey", family: "knit", stretchPercent: 25 });
+    expect(woven.construction).toContain("Bind the neckline and both armholes with self-fabric binding.");
+    expect(knit).toEqual(TANK.techPack);
+  });
+});
+
 describe("recipes are self-describing", () => {
   it("each drafts a block of named pieces (two or more)", () => {
     for (const g of GARMENTS) {
@@ -97,6 +107,24 @@ describe("recipes are self-describing", () => {
     expect(fittedChecks).not.toContain("Hem square to the fold"); // untrued, opts out
 
     expect(typeof TEE.sizeMetric(TEE.draft(STANDARD_M))).toBe("number");
+  });
+});
+
+describe("recipe callbacks", () => {
+  it("keeps every registered recipe's current draft and presentation callbacks callable", () => {
+    for (const recipe of GARMENTS) {
+      const options = defaultGarmentOptions(recipe.options ?? []);
+      const block = recipe.draft(STANDARD_M, options);
+      expect(recipe.checks(block, STANDARD_M)).toBeInstanceOf(Array);
+      expect(recipe.guidance(block, STANDARD_M, options)).toBeInstanceOf(Array);
+      expect(recipe.sizeMetric(block)).toBeGreaterThan(0);
+      expect(recipe.techPackForOptions?.(options) ?? recipe.techPack).toBeTruthy();
+      recipe.frontNeckline?.(STANDARD_M);
+      recipe.backNeckline?.(STANDARD_M);
+      recipe.strapWidth?.(STANDARD_M);
+      recipe.techPackForFabric?.({ name: "Cotton woven", family: "woven", stretchPercent: 0 });
+      recipe.techPackForFabric?.({ name: "Cotton jersey", family: "knit", stretchPercent: 25 });
+    }
   });
 });
 
@@ -154,11 +182,11 @@ describe("Trouser recipe integration (Slice 100)", () => {
     expect(TROUSER.styles.map((style) => style.name)).toContain("Relaxed straight trouser");
   });
 
-  it("runs the live eight-role block through the generic production report", () => {
+  it("runs the live nine-role block through the generic production report", () => {
     const block = TROUSER.draft(STANDARD_M);
     expect(Object.keys(block.roles)).toEqual([
       "frontLeft", "frontRight", "backLeft", "backRight",
-      "waistband", "flyShield", "pocketBagLeft", "pocketBagRight",
+      "waistband", "flyShield", "flyUnderlap", "pocketBagLeft", "pocketBagRight",
     ]);
     expect(garmentReport(TROUSER, STANDARD_M).ok).toBe(true);
     expect(TROUSER.sizeMetric(block)).toBeGreaterThan(0);

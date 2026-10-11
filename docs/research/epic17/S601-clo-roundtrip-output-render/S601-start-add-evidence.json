@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3534,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S601-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S601-clo-roundtrip-output-render/S601-start-packet.md",
+    "verified": true,
+    "note": "S601 imports only the exact hash-pinned S595 CLO DXF-AAMA output into a clean CLO scene and captures output-side rendered evidence. No second export, profile variation, geometry edit, or gate relaxation."
+  }
+}

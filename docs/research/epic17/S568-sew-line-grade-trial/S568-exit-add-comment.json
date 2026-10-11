@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3388,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S568 confirmed the concrete obstacle: sky.list_windows returns only CLO window 257823880 and no separate modal. A fresh screenshot of that window shows the base workspace, while its accessibility tree says an Export DXF child dialog is present. No UI input, save, import, or export was sent. This blocks safe point grading and export through this surface; it does not show a CLO format failure. Keep every V03 gate held. Next: check only official version-matched CLO scripting/automation docs for a safe direct route, while continuing independent V03 evidence. See E-G04-S568-EXIT."
+}

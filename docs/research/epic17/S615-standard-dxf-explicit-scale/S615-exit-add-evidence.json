@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3593,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S615-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S615-standard-dxf-explicit-scale/S615-exit-packet.md",
+    "verified": true,
+    "note": "S615 changed only CLO Standard-DXF import scale from 100% to 1000%. The same nine-piece ASTM round trip succeeds operationally, but output geometry remains identical to S614 except metadata and the front remains 0.1x source size; 8/18 paths match only at diagnostic 0.1 scaling and 10 have vertex changes. No V03 gate clears; all-seven acceptance, 0.001 cm threshold and holds remain."
+  }
+}

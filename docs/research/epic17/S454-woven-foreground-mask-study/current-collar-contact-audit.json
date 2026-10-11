@@ -1,0 +1,903 @@
+{
+  "method": "120-chord strict-interior segment intersections on freshly replayed current production renderer SVGs, compared against SVG fill membership transition on the exact same front:neckline path. This is output geometry, not a stitch/join claim.",
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8427012871589177,
+          "y": 7.971896138523247
+        },
+        {
+          "x": -0.8427012871589177,
+          "y": 7.971896138523247
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8427012871589177,
+            "y": 7.971896138523247
+          },
+          "boundaryMatchCm": 0.0001005797982177625
+        },
+        {
+          "point": {
+            "x": -0.8427012871589177,
+            "y": 7.971896138523247
+          },
+          "boundaryMatchCm": 0.0001005797982177625
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8420496557993047,
+          "y": 8.573851032602086
+        },
+        {
+          "x": -0.8420496557993047,
+          "y": 8.573851032602086
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8420496557993047,
+            "y": 8.573851032602086
+          },
+          "boundaryMatchCm": 0.00015738205422488271
+        },
+        {
+          "point": {
+            "x": -0.8420496557993047,
+            "y": 8.573851032602086
+          },
+          "boundaryMatchCm": 0.00015738205422488271
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.5032987220308646,
+          "y": 8.190103833907406
+        },
+        {
+          "x": -0.5032987220308646,
+          "y": 8.190103833907406
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.5032987220308646,
+            "y": 8.190103833907406
+          },
+          "boundaryMatchCm": 0.00018969502797926052
+        },
+        {
+          "point": {
+            "x": -0.5032987220308646,
+            "y": 8.190103833907406
+          },
+          "boundaryMatchCm": 0.00018969502797926052
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 1.1847902949583835,
+          "y": 8.14562911512485
+        },
+        {
+          "x": -1.1847902949583835,
+          "y": 8.14562911512485
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 1.1847902949583835,
+            "y": 8.14562911512485
+          },
+          "boundaryMatchCm": 0.00019582482119597327
+        },
+        {
+          "point": {
+            "x": -1.1847902949583835,
+            "y": 8.14562911512485
+          },
+          "boundaryMatchCm": 0.00019582482119597327
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 1.2818053625634753,
+          "y": 8.136389274873048
+        },
+        {
+          "x": -1.2818053625634753,
+          "y": 8.136389274873048
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 1.2818053625634753,
+            "y": 8.136389274873048
+          },
+          "boundaryMatchCm": 0.00013282138438178813
+        },
+        {
+          "point": {
+            "x": -1.2818053625634753,
+            "y": 8.136389274873048
+          },
+          "boundaryMatchCm": 0.00013282138438178813
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.628841527721126,
+          "y": 8.184633889115496
+        },
+        {
+          "x": -0.628841527721126,
+          "y": 8.184633889115496
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.628841527721126,
+            "y": 8.184633889115496
+          },
+          "boundaryMatchCm": 0.0001940113698905773
+        },
+        {
+          "point": {
+            "x": -0.628841527721126,
+            "y": 8.184633889115496
+          },
+          "boundaryMatchCm": 0.0001940113698905773
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8424349315258872,
+          "y": 8.172695205422338
+        },
+        {
+          "x": -0.8424349315258872,
+          "y": 8.172695205422338
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        },
+        {
+          "point": {
+            "x": -0.8424349315258872,
+            "y": 8.172695205422338
+          },
+          "boundaryMatchCm": 9.948001351753364e-7
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "sourceRevision": "live-draft:woven-shirt:14:14",
+      "centerCollarContacts": 2,
+      "sourceJoinedShoulderEndpoints": 2,
+      "centerContacts": [
+        {
+          "x": 0.8654060319336707,
+          "y": 8.171078888232152
+        },
+        {
+          "x": -0.8654060319336707,
+          "y": 8.171078888232152
+        }
+      ],
+      "matchesToLeafFillStart": [
+        {
+          "point": {
+            "x": 0.8654060319336707,
+            "y": 8.171078888232152
+          },
+          "boundaryMatchCm": 0.00010692344677117688
+        },
+        {
+          "point": {
+            "x": -0.8654060319336707,
+            "y": 8.171078888232152
+          },
+          "boundaryMatchCm": 0.00010692344677117688
+        }
+      ]
+    }
+  ]
+}

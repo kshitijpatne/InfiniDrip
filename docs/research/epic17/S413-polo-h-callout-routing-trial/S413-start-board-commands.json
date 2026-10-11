@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2388,"itemId":"G04-V02","evidence":{"id":"E-G04-S413-START","kind":"document","uri":"docs/research/epic17/S413-polo-h-callout-routing-trial/G04-V02-POLO-H-CALLOUT-ROUTING-TRIAL-S413.md","verified":true,"note":"Bounded diagnostic of source-anchored H marker/leader candidates across 17 current S399 Polo outputs; no production layout, source mark, POM, geometry, threshold or face-hold changes."}},
+  {"type":"addEpicEvidence","expectedRevision":2389,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S413-START"},
+  {"type":"addComment","expectedRevision":2390,"itemId":"G04-V02","actor":"Codex","text":"S413 screens exact source-anchored H marker/leader placements across the current 17 Polo option outputs, preserving the two distinct shoulder source marks and all POM semantics. This is a diagnostic trial only; every Polo view remains held."}
+]

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3353,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S560-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S560-grade-format-source-review/S560-start-packet.md",
+    "verified": true,
+    "note": "Reconcile official CLO grade export/import documentation, ASTM profile status/rights, and the exact S559 size-identity failure before any new grade-bearing CLO trial; no guessed syntax or acceptance changes."
+  }
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3095,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S498-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S498-clo-practical-retest/S498-start-packet.md",
+      "verified": true,
+      "note": "Maintainer reports CLO is now running and explicitly authorizes practical local import/export testing; inspect the existing window before testing, keep all exchange files under C:\\G04-CLO-DXF-Exchange, preserve all V03 gates and claim limits."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3096,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S498 will inspect the already-running CLO window and, if a responsive workspace is present, retest the existing Tee/Polo/Woven M fixtures using new outputs under C:\\G04-CLO-DXF-Exchange\\S498-practical-retest. Preserve the 0.001 cm gate, all warnings/failures, and every rights/local-handling/semantics/grade/negative/independent-receiver hold."
+  }
+]

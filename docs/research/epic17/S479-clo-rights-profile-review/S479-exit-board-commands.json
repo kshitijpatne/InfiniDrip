@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2963,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S479-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md",
+      "verified": true,
+      "note": "S479 records that CLO is not selected as a rights-cleared V03 receiver/profile; further CLO pattern trials await rights evidence. Existing criteria and bounded technical observations remain unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2964,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S479-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md",
+      "verified": true,
+      "note": "S479 completes official CLO rights/profile research. No receiver/profile is selected and no G04 gate or claim changes."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2965,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S479-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2966,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S479 rights review leaves CLO unselected as a V03 receiver/profile. The product-development license scope is not established, and no further CLO pattern trials are planned absent rights evidence. Next use S465–S471 results to qualify or reject a free/local rights-compatible alternative; preserve every V03 and all-seven V02 gate."
+  }
+]

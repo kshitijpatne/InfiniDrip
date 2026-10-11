@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3410,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S574 tests one geometry-preserving DXF representation candidate in the live CLO session: Polo M CUT POLYLINEs become exact connected R12 LINE chains. It stops if CLO does not render closed shapes. This is diagnostic only; thresholds, product source, legacy output, baselines and all V03 gates remain unchanged."
+}

@@ -1,0 +1,414 @@
+{
+  "generatedAt": "2026-10-01T20:54:47.156Z",
+  "sourceMatrix": "../S330-integrated-browser/matrix.json",
+  "currentMatrix": "production-replay/matrix.json",
+  "configurations": 73,
+  "faceRequests": 146,
+  "optionFieldCount": 32,
+  "browserErrors": [],
+  "recipes": {
+    "tee": {
+      "configurations": 1,
+      "accepted": 2,
+      "held": 0,
+      "faces": {
+        "FRONT_FLAT": {
+          "accepted": 1,
+          "held": 0
+        },
+        "BACK_FLAT": {
+          "accepted": 1,
+          "held": 0
+        }
+      }
+    },
+    "fitted": {
+      "configurations": 1,
+      "accepted": 2,
+      "held": 0,
+      "faces": {
+        "FRONT_FLAT": {
+          "accepted": 1,
+          "held": 0
+        },
+        "BACK_FLAT": {
+          "accepted": 1,
+          "held": 0
+        }
+      }
+    },
+    "tank": {
+      "configurations": 1,
+      "accepted": 2,
+      "held": 0,
+      "faces": {
+        "FRONT_FLAT": {
+          "accepted": 1,
+          "held": 0
+        },
+        "BACK_FLAT": {
+          "accepted": 1,
+          "held": 0
+        }
+      }
+    },
+    "polo": {
+      "configurations": 17,
+      "accepted": 0,
+      "held": 34,
+      "faces": {
+        "FRONT_FLAT": {
+          "accepted": 0,
+          "held": 17
+        },
+        "BACK_FLAT": {
+          "accepted": 0,
+          "held": 17
+        }
+      }
+    },
+    "woven-shirt": {
+      "configurations": 28,
+      "accepted": 0,
+      "held": 56,
+      "faces": {
+        "FRONT_FLAT": {
+          "accepted": 0,
+          "held": 28
+        },
+        "BACK_FLAT": {
+          "accepted": 0,
+          "held": 28
+        }
+      }
+    },
+    "skirt": {
+      "configurations": 1,
+      "accepted": 2,
+      "held": 0,
+      "faces": {
+        "FRONT_FLAT": {
+          "accepted": 1,
+          "held": 0
+        },
+        "BACK_FLAT": {
+          "accepted": 1,
+          "held": 0
+        }
+      }
+    },
+    "trouser": {
+      "configurations": 24,
+      "accepted": 48,
+      "held": 0,
+      "faces": {
+        "FRONT_FLAT": {
+          "accepted": 24,
+          "held": 0
+        },
+        "BACK_FLAT": {
+          "accepted": 24,
+          "held": 0
+        }
+      }
+    }
+  },
+  "statusChangesFromS330": [],
+  "blockers": [
+    {
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "stage": "pom",
+      "sourceId": "pom:polo:sleeve-bicep-width",
+      "count": 17,
+      "examples": [
+        "pom · pom:polo:sleeve-bicep-width: POM “Sleeve bicep width” has no readable label/leader position in the supported search area; adjust the view layout before rendering.",
+        "pom · pom:polo:sleeve-bicep-width: POM “Sleeve bicep width” has no readable label/leader position in the supported search area; adjust the view layout before rendering.",
+        "pom · pom:polo:sleeve-bicep-width: POM “Sleeve bicep width” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+      ],
+      "residualsCm": [],
+      "residualRangeCm": null
+    },
+    {
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "stage": "assembly",
+      "sourceId": "stitch:Sleeve-cap ease",
+      "count": 17,
+      "examples": [
+        "assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release. Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release. Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release. Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance."
+      ],
+      "residualsCm": [
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68
+      ],
+      "residualRangeCm": [
+        0.68,
+        0.68
+      ]
+    },
+    {
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "stage": "pom",
+      "sourceId": "pom:polo:finished-collar-stand-height",
+      "count": 17,
+      "examples": [
+        "pom · pom:polo:finished-collar-stand-height: POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering.",
+        "pom · pom:polo:finished-collar-stand-height: POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering.",
+        "pom · pom:polo:finished-collar-stand-height: POM “Finished collar stand height” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+      ],
+      "residualsCm": [],
+      "residualRangeCm": null
+    },
+    {
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "stage": "pom",
+      "sourceId": "pom:polo:stand-front-rise",
+      "count": 17,
+      "examples": [
+        "pom · pom:polo:stand-front-rise: POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering.",
+        "pom · pom:polo:stand-front-rise: POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering.",
+        "pom · pom:polo:stand-front-rise: POM “Stand front rise” has no readable label/leader position in the supported search area; adjust the view layout before rendering."
+      ],
+      "residualsCm": [],
+      "residualRangeCm": null
+    },
+    {
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "stage": "assembly",
+      "sourceId": "stitch:Sleeve-cap ease",
+      "count": 17,
+      "examples": [
+        "assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release. Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release. Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Sleeve-cap ease: Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release. Polo front/back flats are withheld until this sleeve-cap join is within the 0.25 cm acceptance tolerance."
+      ],
+      "residualsCm": [
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68,
+        0.68
+      ],
+      "residualRangeCm": [
+        0.68,
+        0.68
+      ]
+    },
+    {
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "stage": "assembly",
+      "sourceId": "stitch:Outer stand ↔ woven neckline",
+      "count": 28,
+      "examples": [
+        "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.27 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.26 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.28 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance."
+      ],
+      "residualsCm": [
+        0.27,
+        0.26,
+        0.28,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27,
+        0.27
+      ],
+      "residualRangeCm": [
+        0.26,
+        0.28
+      ]
+    },
+    {
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "stage": "assembly",
+      "sourceId": "stitch:Woven sleeve-cap ease",
+      "count": 55,
+      "examples": [
+        "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+        "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.39 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement."
+      ],
+      "residualsCm": [
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.73,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39,
+        0.39
+      ],
+      "residualRangeCm": [
+        0.39,
+        0.73
+      ]
+    },
+    {
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "stage": "assembly",
+      "sourceId": "stitch:Outer stand ↔ woven neckline",
+      "count": 28,
+      "examples": [
+        "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.71 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.69 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Outer stand ↔ woven neckline: Stitch “Outer stand ↔ woven neckline” leaves its sewn endpoints 0.74 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance."
+      ],
+      "residualsCm": [
+        0.71,
+        0.69,
+        0.74,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71,
+        0.71
+      ],
+      "residualRangeCm": [
+        0.69,
+        0.74
+      ]
+    },
+    {
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "stage": "assembly",
+      "sourceId": "stitch:Woven sleeve-cap ease",
+      "count": 28,
+      "examples": [
+        "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance.",
+        "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” leaves its sewn endpoints 0.47 cm apart after rigid placement; review this construction line before release. Woven front/back flats are withheld until this sleeve or collar join is within the 0.25 cm acceptance tolerance."
+      ],
+      "residualsCm": [
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47,
+        0.47
+      ],
+      "residualRangeCm": [
+        0.47,
+        0.47
+      ]
+    }
+  ]
+}

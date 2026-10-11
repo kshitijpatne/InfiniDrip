@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2453,"itemId":"G04-V03","evidence":{"id":"E-G04-S421-START","kind":"document","uri":"docs/research/epic17/S421-cad-rights-prerequisite-review/G04-V03-CAD-RIGHTS-PREREQUISITE-REVIEW-S421.md","verified":true,"note":"S421 is prerequisite public-source rights/capability research only. V03 remains Backlog pending all-seven V02; no receiver/profile selected and no implementation or exact compatibility claim."}},
+  {"type":"addEpicEvidence","expectedRevision":2454,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S421-START"},
+  {"type":"addComment","expectedRevision":2455,"itemId":"G04-V03","actor":"Codex","text":"S421 researches public rights and documented capabilities of no-cost CAD receiver/parser candidates as a prerequisite only. V03 stays Backlog behind all-seven V02; no receiver/profile selection, implementation, software install, spending or exact compatibility claim is in scope."}
+]

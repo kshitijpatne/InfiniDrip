@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3377,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S566-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S566-clo-sew-line-attribution/S566-start-packet.md",
+    "verified": true,
+    "note": "S566 is a read-only attribution study of S565's larger-size waistband SEW residuals. It will compare saved CLO project contents and DXF output with the source CUT/SEW paths under the unchanged 0.001 cm gate. The visible CLO screenshot and accessibility tree currently disagree, so no UI input or repeat export is authorized in this slice; all V03 holds remain."
+  }
+}

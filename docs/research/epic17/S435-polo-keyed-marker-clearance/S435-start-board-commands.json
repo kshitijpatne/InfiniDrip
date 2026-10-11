@@ -1,0 +1,28 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2588,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S435-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S435-polo-keyed-marker-clearance/G04-V02-POLO-KEYED-MARKER-CLEARANCE-S435.md",
+      "verified": true,
+      "note": "Starts read-only diagnosis of remaining Polo keyed glyph/source overlaps against S434's current 17-option production SVGs. No marker change or view release is authorized; all holds remain."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2589,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S435 is a bounded read-only diagnosis of non-J Polo keyed marker clearances using exact S434 source/options/production SVGs and S426's method. Classify intentional source-anchor contact separately from unreadable overlap; make no mapping change and keep all 34 Polo/56 Woven faces held. The separate S434 J-text decision remains pending and is not a dependency."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2590,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "Start S435 continues G04 V02 evidence review only; no acceptance or scope changes. Preserve all seven recipes, every current Polo/Woven hold, protected export identities, and V03's all-V02/rights/round-trip gates."
+  }
+]

@@ -74,6 +74,7 @@ export const PATTERN_MEASUREMENT_MAP: Readonly<Record<string, Readonly<Record<st
     "trouser back right": trouserLeg,
     "trouser waistband": linked("waist", "ease"),
     "trouser fly shield": optionOnly("This block is controlled by Front closure options, not body measurements."),
+    "trouser fly underlap": optionOnly("This block is controlled by Front closure options, not body measurements."),
     "trouser pocket bag left": linked("waist", "ease"),
     "trouser pocket bag right": linked("waist", "ease"),
   },

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3520,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S597-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S597-clo-helper-recovery/S597-exit-packet.md",
+    "verified": true,
+    "note": "S597 records the coherent CLO read-only line-info query on the saved periodic-SPLINE scene. Nine returned outlines are closed with matching bounds; five directly screen near literal source contours and four do not. This diagnostic assigns no CUT/SEW semantics or garment identities and clears no V03 gate."
+  }
+}

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Piece } from "./piece";
+import { edgeStart, edgeEnd } from "./piece";
 import { Block, block } from "./block";
 import { Point } from "../geometry";
 import { Stitch, edgeRef, iface, interfaceLength, markRef, stitchChecks, matchedNotch } from "./stitch";
@@ -235,6 +236,25 @@ describe("SKIRT_NOTCHES matches the pre-migration hand table, plus Slice 57's wa
   it("waistband: the same front/back join point, on the band's own seam edge", () => {
     const band = SKIRT_NOTCHES.find((r) => r.pieceName === "waistband")!;
     expect(band.notches).toEqual([{ edgeName: "seam", t: 0.5 }]);
+  });
+});
+
+describe("SKIRT waistband interface traversal follows the exact side-seam junction", () => {
+  it.each([[70, 2], [84, 10], [112, 12]])("joins front/back side endpoints at waist=%i ease=%i", (waist, ease) => {
+    const drafted = SKIRT.draft({ ...STANDARD_M, waist, ease });
+    const waistband = drafted.stitches.find((stitch) => stitch.label.startsWith("Waistband"))!;
+    expect(waistband.a.edges).toEqual([
+      { piece: "front", edge: "waist" },
+      { piece: "back", edge: "waist", reversed: true },
+    ]);
+    const edge = (role: string, name: string) => drafted.roles[role]!.edges.find((candidate) => candidate.name === name)!;
+    const frontSide = edgeStart(edge("front", "sideUpper"));
+    const backSide = edgeStart(edge("back", "sideUpper"));
+    const frontWaist = edgeEnd(edge("front", "waist"));
+    const backWaist = edgeEnd(edge("back", "waist"));
+    expect(frontWaist).toEqual(frontSide);
+    expect(backWaist).toEqual(backSide);
+    expect(frontSide).toEqual(backSide);
   });
 });
 

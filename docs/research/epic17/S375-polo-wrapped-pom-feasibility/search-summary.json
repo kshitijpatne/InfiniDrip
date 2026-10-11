@@ -1,0 +1,27 @@
+{
+  "configurations": 17,
+  "configurationsWithJointCandidate": 0,
+  "configurationsWithoutJointCandidate": [
+    "polo-default",
+    "polo-placketLength-min",
+    "polo-placketLength-max",
+    "polo-placketWidth-min",
+    "polo-placketWidth-max",
+    "polo-standHeight-min",
+    "polo-standHeight-max",
+    "polo-collarLeafDepth-min",
+    "polo-collarLeafDepth-max",
+    "polo-standFrontRise-min",
+    "polo-standFrontRise-max",
+    "polo-collarPointExtension-min",
+    "polo-collarPointExtension-max",
+    "polo-sideVentDepth-min",
+    "polo-sideVentDepth-max",
+    "polo-backHemDrop-min",
+    "polo-backHemDrop-max"
+  ],
+  "defaultCandidate": null,
+  "allOptionsMatrixPass": false,
+  "browserErrors": 0,
+  "productionFaceHoldsUnchanged": 34
+}

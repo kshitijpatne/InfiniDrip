@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2727,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S453-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S453-supplied-menswear-book-review/G04-SUPPLIED-MENSWEAR-BOOK-REVIEW-S453.md",
+      "verified": true,
+      "note": "Two supplied menswear PDFs were reviewed with rendered pages; neither settles the source-specific Woven front/back view decisions. S407's 0.84 cm center-to-intersection clip removes neckline inside the open V, not beneath collar leaves. All holds remain."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2728,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-G04-S453-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2729,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S453 reviewed the supplied Kim & Kim first edition and Kershaw menswear book. They provide general construction references but do not settle the source-specific collar visibility or fixed-S370 back layout. Codex's rendered audit found S407's center-to-intersection clip removes continuous neckline inside the open V, not beneath the collar leaves; do not treat it as a valid foreground-collar fix. All 56 Woven and 34 Polo faces remain held."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2730,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S453 evidence-only closeout preserves all G04 gates and holds. Current tally remains 56 accepted / 90 held across 73 configurations / 146 faces. The book reviews do not decide Woven view semantics; next is a bounded exact silhouette-mask trial, followed by any necessary maintainer decision."
+  }
+]

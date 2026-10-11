@@ -1,0 +1,53 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3027,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S487-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-exit-packet.md",
+      "verified": true,
+      "note": "Current official CLO trial terms and 2026 trial-help eligibility do not affirmatively clear rights Gate 0 for future G04 product-development tests; CLO remains excluded and all gates stay unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3028,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S487-CODEX-FINDINGS",
+      "kind": "document",
+      "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-codex-rights-findings.md",
+      "verified": true,
+      "note": "Codex clause matrix separates official trial-purpose text from unknown account/project facts and preserves the no-breach/no-legal-advice boundary."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3029,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S487-OPENCODE-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-opencode-rights-review.md",
+      "verified": true,
+      "note": "Codex reviewed the independent exact-model OpenCode clause cross-check, verified official sources, and corrected an unsupported inference about project commercial status."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3030,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S487-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3031,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S487 checked the current official CLO terms and trial help. They do not affirmatively clear Gate 0 for future G04 product-development fixtures; CLO remains excluded on the present evidence. All seven-recipe V02 acceptance and V03 gates remain unchanged. Continue only with a separately rights-cleared local apparel-CAD receiver/profile."
+  }
+]

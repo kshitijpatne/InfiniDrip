@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3418,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S576 inspects only the existing hash-pinned CLO post-import and post-gen1-reimport project artifacts for transparent per-piece geometry usable at 0.001 cm. No CLO UI/import/export action or proprietary reverse engineering. All V03/V02 gates and holds remain unchanged; next action depends on whether exact project geometry is accessible. See E-G04-S576-START."
+}

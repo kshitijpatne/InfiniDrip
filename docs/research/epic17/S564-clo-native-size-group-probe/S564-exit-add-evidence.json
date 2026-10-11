@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3371,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S564-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S564-clo-native-size-group-probe/S564-exit-packet.md",
+    "verified": true,
+    "note": "Practical CLO native size-group trial exported front/back and waistband as separate DXF-ASTM/Graded Nest files. All 6 XS contours match at 0.001 cm, but only 1/6 contours pass for each S/M/L/XL; maximum residuals are 2/4/6/8 cm. The waistband remains XS width in every block despite visible 20 mm step offsets; CLO re-import renders one coincident outline and reports absent seam allowances/Custom mode. V03 remains held."
+  }
+}

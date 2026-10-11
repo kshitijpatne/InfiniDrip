@@ -1,0 +1,10 @@
+[
+  {
+    "type": "editItem",
+    "expectedRevision": 2747,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Current S454 tally: 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. V01 Done; V02 In Progress; V03 Backlog. Woven fronts: candidate-only same-revision mask from actual projected upper/under-collar fill paths clears the recurring contact in 28 rendered options, but visually hides 13.2536–14.4041 cm of source neckline per side and conflicts with S425. Await explicit decision; no production mapping or face release. Woven backs: retain all 28 holds and the approved S370 band positions. Polo: no current local renderer blocker per S436; retain all 34 holds under all-seven V02. Preserve every V02 criterion, the 0.25 cm Polo gate, V02-before-V03, legacy DXF, protected export identities and all face holds. S454 packet/matrix/render evidence: docs/research/epic17/S454-woven-foreground-mask-study/. Historical decision checks remain linked: S381 found no evidence supporting a false Woven back-hem gap. S419 tested a 2–3-arc Polo H locator across 17 options. S406's approved Woven collar-over-plackets order remains implemented. The maintainer keeps the Woven body neckline continuous. Preserve all-seven V02, keep V03 gated. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces."
+    }
+  }
+]

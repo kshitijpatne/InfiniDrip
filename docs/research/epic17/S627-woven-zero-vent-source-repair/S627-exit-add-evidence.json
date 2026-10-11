@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3649,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S627-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S627-woven-zero-vent-source-repair/S627-exit-packet.md",
+    "verified": true,
+    "note": "Repairs Woven sideVentDepth=0 without a degenerate vent edge/marker; finite geometry and unchanged 0.5 cm control pass. Regenerated final-source 73-row R14 matrix passes CUT/SEW/MARK_* at 0.001 cm with byte-identical reopens. One CLO DXF-AAMA Woven zero-vent round trip also passes 12-piece CUT/SEW geometry and rendered review; it does not qualify an industrial profile or clear full V03. All gates unchanged."
+  }
+}

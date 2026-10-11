@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3363,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S562-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S562-grade-point-topology-map/S562-exit-packet.md",
+    "verified": true,
+    "note": "Across seven recipes and five sizes, source edge/point/sample identities are stable; all 35 generated legacy DXF hashes match S559, and every source sew sample maps exactly to the DXF SEW polyline. This proves source mapping only; no serialized names/grade rules or grade-bearing interchange. All V03 holds remain."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3307,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S549-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S549-polo-unit-invariance-control/S549-start-packet.md",
+    "verified": true,
+    "note": "Test one geometry-equivalent cm-to-mm representation against CLO's already-tested AAMA exchange to see whether the five repeated Polo corner losses depend on numeric units. C:-only evidence, same profile, one import/export, no settings sweep or acceptance change."
+  }
+}

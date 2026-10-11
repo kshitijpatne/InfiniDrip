@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3366,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S563 checks a source-backed five-size Skirt fixture through CLO 2026.1.310's documented DXF-ASTM UI route. The current window capture and accessibility tree agree. No synthetic grade syntax, pattern-source change, repeated S559 Tee case, or V03 gate relaxation is allowed. All CAD files/captures stay in the named C:-only slice folder; stop at a concrete UI/output limitation if the native route cannot represent a valid size group."
+}

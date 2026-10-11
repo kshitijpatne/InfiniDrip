@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3644,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S626-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-exit-packet.md",
+    "verified": true,
+    "note": "73 canonical size-M option rows ran through two local Open CAD Studio R14 generations; all reopen files are byte-identical. CUT/SEW and named MARK_* geometry pass exactly for 72 valid source rows. Woven sideVentDepth=0 generates NaN coordinates from a zero-length vent edge with 1 cm allowance; the receiver accepts/normalizes it, so that row and numeric-malformed-input policy fail. Units and option-wide plots remain open; no V03 gate clears."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3577,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S611 found no free/local receiver ready to qualify. Seamly2D's current upstream README does not document DXF apparel import/round-trip; OpenPatterns and Super V8 remain blocked by S480/S485 evidence. garment.dev claims broad AAMA/ASTM validation but is invite-based and hosted, outside current scope; no pattern was uploaded. Next use one source-backed CLO Standard-DXF import-mode test on the exact S609 fixture, holding other settings fixed, to isolate whether AAMA import is implicated. All V03 holds and scope remain. See E-G04-S611-EXIT."
+}

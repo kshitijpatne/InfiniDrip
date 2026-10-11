@@ -1,0 +1,172 @@
+{
+  "generatedAt": "2026-09-30T05:18:40.739Z",
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "configurations": [
+    {
+      "id": "default",
+      "waist": null,
+      "ease": null
+    },
+    {
+      "id": "waist-70-ease-2",
+      "waist": 70,
+      "ease": 2
+    },
+    {
+      "id": "waist-112-ease-12",
+      "waist": 112,
+      "ease": 12
+    }
+  ],
+  "faces": [
+    {
+      "name": "default-front",
+      "recipeId": "skirt",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:skirt:1:1",
+      "entityIds": [
+        "flat:skirt:FRONT_FLAT:component:front:outline",
+        "flat:skirt:FRONT_FLAT:component:front:outline:fold-reflection",
+        "flat:skirt:FRONT_FLAT:component:waistband:outline",
+        "flat:skirt:FRONT_FLAT:component:waistband:outline:attached-fold-reflection",
+        "flat:skirt:FRONT_FLAT:component:waistband:view-boundary:side-seam-outline",
+        "flat:skirt:FRONT_FLAT:component:waistband:view-boundary:side-seam-outline:attached-fold-reflection",
+        "flat:skirt:FRONT_FLAT:callout:hip-finished",
+        "flat:skirt:FRONT_FLAT:callout:waist-finished"
+      ],
+      "labels": [
+        "Waist (finished): 94.0 cm (±1.0 cm)",
+        "Hip (finished): 110.0 cm (±1.3 cm)",
+        "Topstitch geometry is not represented by the current pattern model.",
+        "Pleat geometry is not represented by the current pattern model.",
+        "No dart is declared for this drafted recipe block.",
+        "No pocket shape or opening is represented by this drafted recipe block.",
+        "No closure marks are represented by this drafted recipe block.",
+        "POM “Length (waist–hem)” has no geometry anchor and remains table-only."
+      ]
+    },
+    {
+      "name": "default-back",
+      "recipeId": "skirt",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:skirt:1:1",
+      "entityIds": [
+        "flat:skirt:BACK_FLAT:component:back:outline",
+        "flat:skirt:BACK_FLAT:component:back:outline:fold-reflection",
+        "flat:skirt:BACK_FLAT:component:waistband:outline",
+        "flat:skirt:BACK_FLAT:component:waistband:outline:attached-fold-reflection",
+        "flat:skirt:BACK_FLAT:component:waistband:view-boundary:side-seam-outline",
+        "flat:skirt:BACK_FLAT:component:waistband:view-boundary:side-seam-outline:attached-fold-reflection"
+      ],
+      "labels": [
+        "Topstitch geometry is not represented by the current pattern model.",
+        "Pleat geometry is not represented by the current pattern model.",
+        "No dart is declared for this drafted recipe block.",
+        "No pocket shape or opening is represented by this drafted recipe block.",
+        "No closure marks are represented by this drafted recipe block.",
+        "POM “Waist (finished)” has a front-only source anchor; no back anchor is inferred.",
+        "POM “Hip (finished)” has a front-only source anchor; no back anchor is inferred."
+      ]
+    },
+    {
+      "name": "waist-70-ease-2-front",
+      "recipeId": "skirt",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:skirt:3:3",
+      "entityIds": [
+        "flat:skirt:FRONT_FLAT:component:front:outline",
+        "flat:skirt:FRONT_FLAT:component:front:outline:fold-reflection",
+        "flat:skirt:FRONT_FLAT:component:waistband:outline",
+        "flat:skirt:FRONT_FLAT:component:waistband:outline:attached-fold-reflection",
+        "flat:skirt:FRONT_FLAT:component:waistband:view-boundary:side-seam-outline",
+        "flat:skirt:FRONT_FLAT:component:waistband:view-boundary:side-seam-outline:attached-fold-reflection",
+        "flat:skirt:FRONT_FLAT:callout:hip-finished",
+        "flat:skirt:FRONT_FLAT:callout:waist-finished"
+      ],
+      "labels": [
+        "Waist (finished): 72.0 cm (±1.0 cm)",
+        "Hip (finished): 102.0 cm (±1.3 cm)",
+        "Topstitch geometry is not represented by the current pattern model.",
+        "Pleat geometry is not represented by the current pattern model.",
+        "No dart is declared for this drafted recipe block.",
+        "No pocket shape or opening is represented by this drafted recipe block.",
+        "No closure marks are represented by this drafted recipe block.",
+        "POM “Length (waist–hem)” has no geometry anchor and remains table-only."
+      ]
+    },
+    {
+      "name": "waist-70-ease-2-back",
+      "recipeId": "skirt",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:skirt:3:3",
+      "entityIds": [
+        "flat:skirt:BACK_FLAT:component:back:outline",
+        "flat:skirt:BACK_FLAT:component:back:outline:fold-reflection",
+        "flat:skirt:BACK_FLAT:component:waistband:outline",
+        "flat:skirt:BACK_FLAT:component:waistband:outline:attached-fold-reflection",
+        "flat:skirt:BACK_FLAT:component:waistband:view-boundary:side-seam-outline",
+        "flat:skirt:BACK_FLAT:component:waistband:view-boundary:side-seam-outline:attached-fold-reflection"
+      ],
+      "labels": [
+        "Topstitch geometry is not represented by the current pattern model.",
+        "Pleat geometry is not represented by the current pattern model.",
+        "No dart is declared for this drafted recipe block.",
+        "No pocket shape or opening is represented by this drafted recipe block.",
+        "No closure marks are represented by this drafted recipe block.",
+        "POM “Waist (finished)” has a front-only source anchor; no back anchor is inferred.",
+        "POM “Hip (finished)” has a front-only source anchor; no back anchor is inferred."
+      ]
+    },
+    {
+      "name": "waist-112-ease-12-front",
+      "recipeId": "skirt",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:skirt:5:5",
+      "entityIds": [
+        "flat:skirt:FRONT_FLAT:component:front:outline",
+        "flat:skirt:FRONT_FLAT:component:front:outline:fold-reflection",
+        "flat:skirt:FRONT_FLAT:component:waistband:outline",
+        "flat:skirt:FRONT_FLAT:component:waistband:outline:attached-fold-reflection",
+        "flat:skirt:FRONT_FLAT:component:waistband:view-boundary:side-seam-outline",
+        "flat:skirt:FRONT_FLAT:component:waistband:view-boundary:side-seam-outline:attached-fold-reflection",
+        "flat:skirt:FRONT_FLAT:callout:hip-finished",
+        "flat:skirt:FRONT_FLAT:callout:waist-finished"
+      ],
+      "labels": [
+        "Waist (finished): 124.0 cm (±1.0 cm)",
+        "Hip (finished): 112.0 cm (±1.3 cm)",
+        "Topstitch geometry is not represented by the current pattern model.",
+        "Pleat geometry is not represented by the current pattern model.",
+        "No dart is declared for this drafted recipe block.",
+        "No pocket shape or opening is represented by this drafted recipe block.",
+        "No closure marks are represented by this drafted recipe block.",
+        "POM “Length (waist–hem)” has no geometry anchor and remains table-only."
+      ]
+    },
+    {
+      "name": "waist-112-ease-12-back",
+      "recipeId": "skirt",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:skirt:5:5",
+      "entityIds": [
+        "flat:skirt:BACK_FLAT:component:back:outline",
+        "flat:skirt:BACK_FLAT:component:back:outline:fold-reflection",
+        "flat:skirt:BACK_FLAT:component:waistband:outline",
+        "flat:skirt:BACK_FLAT:component:waistband:outline:attached-fold-reflection",
+        "flat:skirt:BACK_FLAT:component:waistband:view-boundary:side-seam-outline",
+        "flat:skirt:BACK_FLAT:component:waistband:view-boundary:side-seam-outline:attached-fold-reflection"
+      ],
+      "labels": [
+        "Topstitch geometry is not represented by the current pattern model.",
+        "Pleat geometry is not represented by the current pattern model.",
+        "No dart is declared for this drafted recipe block.",
+        "No pocket shape or opening is represented by this drafted recipe block.",
+        "No closure marks are represented by this drafted recipe block.",
+        "POM “Waist (finished)” has a front-only source anchor; no back anchor is inferred.",
+        "POM “Hip (finished)” has a front-only source anchor; no back anchor is inferred."
+      ]
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": []
+}

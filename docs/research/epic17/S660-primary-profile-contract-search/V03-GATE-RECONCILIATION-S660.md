@@ -1,0 +1,42 @@
+# EPIC-17 / G04 V03 — gate reconciliation after S660
+
+This matrix refreshes S649 using the latest DGS source, the actual updated
+receiver route (S659), the S640 result, and the bounded primary-source search
+in S660. A status applies only to the named route/evidence; it is not inferred
+from a menu label. Standards conformance is not claimed.
+
+| Gate | Status | Strongest evidence now | Shared cause | Remaining proof or code change |
+|---|---|---|---|---|
+| Rights, local handling, and receiver availability | **Passed for bounded GetonAgain evaluation** | Maintainer's written product-development/local-file confirmation and official free-edition authorization in `docs/PROJECT-DECISIONS.md`; S659 verified the installed/upgraded DGS route and native local file picker; S660 observed DGS/GMS open with no sign-in dialog. | Unblocks testing; independent of technical fidelity. | Keep inputs/outputs in the named C: exchange folder and record exact mode/session. No further rights research is a prerequisite absent a new contrary fact. |
+| Exact receiver/profile identity and standards status | **Unproven** | S659 pins DGS `VID:20250610`, executable SHA-256 `97CBBEFCAAD74EF558D19695F898611F7FE0E8E503525D0832EECAC01C859EB0`, and observed menu modes. S660 confirms first-party labels but no mode-to-entity contract. ASTM D6673-01's public summary is historical and excludes piece relationships; D6673-10 is listed withdrawn. | Candidate identification and empirical behavior; menu/source language alone cannot establish semantics. | Test one vendor/build/mode/settings hypothesis: generic AC1014 S648 input through DGS `AutoCAD` import. This does not establish standards conformance or generic compatibility. Pin actual export mode/settings only after import succeeds. |
+| Units, axes, origin, scale, and numeric precision | **Unproven** | S659 observed `Unit of file`; S648 source manifest records cm; no GetonAgain exchange exists. S640's fixed-scale CLO result is receiver-specific. | Same empirical round trip; use parsed source and exported DXF coordinates plus actual rendering. | Compare independent parser output without repair/alignment under `0.001 cm`; fail if units/transform are ambiguous or outside tolerance. |
+| Source validity and CUT/SEW geometry | **Failed on CLO S640 and prior routes; unproven on DGS** | S640 converted only five Polo CUT contours to coordinate-identical connected LINEs; actual CLO import still passed 4 and failed 5 CUT contours at `0.001 cm`, so no export. Generic OpenCAD R14 evidence is not a garment-CAD receiver. | Receiver-specific representation handling; decisive early stop condition. | Run a single source-bound DGS representative import. Stop this route on any CUT/SEW miss; do not alter source geometry or threshold. |
+| Seven recipes, supported options, and grades | **Unproven** | S459 V02 acceptance covers seven recipes / 73 configurations / 146 faces, not CAD. S627's corrected generic R14 cohort covers option rows but not this receiver. S559/S562 retain reusable grade fixtures. | Depends on representative geometry/marks and a version-matched sidecar. | After pilot, sidecar and repeatability checks pass, replay the same 73-row/seven-recipe matrix and grade fixtures through the identical route. |
+| Garment, piece, revision, and inter-piece identity | **Unproven** | S648 contains named blocks and revision/piece XDATA, but no DGS import/export and no C04 relationship sidecar. C04 permits version-matched integrity-bound sidecars; it does not require every relation in native DXF. | Input carries piece labels/revision; seam/grade relationships require an associated C04 sidecar or remain unsupported. | Verify round-trip identity or exact C04 sidecar binding, relation data and mismatch rejection. S648 alone cannot pass seam relationships or grade identity. |
+| CUT/SEW, notches, allowances, and manufacturing marks | **Failed on tested CLO mark path; unproven on DGS** | S637 CLO Woven circle marks not retained under the tested representation; S631/S632 document CLO loss/approximation. S646 OpenCAD retains `MARK_*` entities only as generic R14. DGS manual discusses controls but not entity semantics. | Receiver's entity/layer interpretation; pilot inventory and detail render. | Compare source marks/values/locations/roles one-to-one on DGS output and inspect readable detailed crops. Fail on omission or semantic substitution. |
+| Clean import and warning behavior | **Unproven** | S640 CLO seam-allowance notice was informational; S531 malformed CLO input silently omitted SEW geometry. DGS warning behavior has not been observed with any fixture. | Same empirical import; warnings require actual output comparison. | Capture all warnings on the representative import; no unresolved loss warning or silent omission. |
+| Malformed input, invalid options, and fail-closed behavior | **Failed on tested CLO AAMA and generic OpenCAD negative controls; unproven on DGS** | S531 found CLO silently accepted malformed DXF and omitted SEW; S626 OpenCAD accepted nonfinite input and emitted degenerate output. These results are candidate-specific. | Receiver parser/policy, distinct from valid-input geometry. | After valid DGS round-trip and sidecar proof, run existing negative fixtures before 73-row breadth; require explicit rejection with no partial output, repair, or clamp. |
+| Repeatability and repeated round trips | **Unproven for DGS** | Generic OpenCAD R14 output was byte-identical for two rounds; repeated CLO has failures and S640 stopped before export. | Depends on representative import/export first. | On passing profile, execute two frozen-revision import/export/reimport rounds and compare identity, geometry, marks, sidecar, hashes or defined semantic equivalence. |
+| External import/export and exchange | **Failed for S640 CLO; unproven for DGS** | S640 CLO returned nine patterns but failed five CUT contours and did not export. S659 shows DGS import enabled/export disabled when empty. | Combination of route eligibility and all technical checks. | Import the exact S648 input in AutoCAD mode once; if inspection has no decisive failure, inspect export dialog once and export through one pinned route. Compare actual reimported file; no mode permutations. |
+| Rendered output and readability | **Unproven for DGS** | S640 overview shows nine CLO pieces only at gross scale; detail/output rendering was withheld after numeric failure. No DGS output exists. | Mark semantics, hierarchy, and readable export after valid geometry. | Save whole-layout and detail/callout crops from actual DGS exchange; inspect all seven recipes/options only after pilot qualifies. |
+| Legacy DXF behavior and protected byte identities | **Passed to date; integrated final gate pending** | No production writer, legacy baseline, or protected output changed in S640–S660. | Any later production change and settled PR candidate. | Preserve current behavior and identity; run final full repository regression/coverage gate before merge. |
+| V02 prerequisite and source-bound technical flats | **Passed** | S459 rendered/verified seven recipes, 73 configurations and 146 front/back faces; board has V01/V02 Done. | None; does not imply interchange acceptance. | No V02 rework absent a specific exchanged-output regression. |
+
+## Plan decision at this checkpoint
+
+There is no GetonAgain fixture failure yet. Keep CLO and generic OpenCAD
+negative results scoped to those exact routes. S660 selects only a falsifiable
+empirical hypothesis: the hash-pinned generic AC1014 S648 source in DGS
+`AutoCAD` import mode, because it is closer to generic AutoCAD DXF than the
+apparel-labeled route. No compatibility is presumed. A read-only parse with
+the independent `dxf-parser@1.1.2` library recovered nine piece INSERTs, 11
+blocks and 56 nested entities from the actual source; use the same parser for
+the eventual export and coordinate comparison. The file has no seam/grade
+sidecar. Prepare a version-bound C04 sidecar before making relationship or
+grade claims. Pin build/mode/settings and stop at the first measured route
+failure; a result applies only to this input/build/mode/settings combination.
+
+The full prioritized plan and stop conditions are in
+`V03-COMPLETION-PLAN-S660.md`. Older 3–5 plus 2–3 estimates from S649 are
+stale now that the receiver is installed, rights are settled, and a local
+input route is verified; the updated plan gives only conditional work ranges.

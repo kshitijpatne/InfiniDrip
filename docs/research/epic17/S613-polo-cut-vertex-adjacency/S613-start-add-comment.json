@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3583,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S613 is a C:-only offline source/output adjacency diagnosis. It will locate the exact omitted source vertex in the five repeated Polo CUT failures, measure its incident edge lengths/turn and compare both hash-pinned AAMA/ASTM outputs. No CLO UI, source/writer edit, baseline, tolerance, acceptance or hold changes. See E-G04-S613-START."
+}

@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2281,"itemId":"G04-V02","evidence":{"id":"E-G04-S404-START","kind":"document","uri":"docs/research/epic17/S404-woven-collar-station-diagnosis/G04-V02-WOVEN-COLLAR-STATION-DIAGNOSIS-S404.md","verified":true,"note":"Starts a diagnostic-only source/station trace of the repeated Woven front shoulder/collar crossing. Independent of the pending S402 D-marker and S403 pocket-order decisions; all face holds and gates remain."}},
+  {"type":"addEpicEvidence","expectedRevision":2282,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S404-START"},
+  {"type":"addComment","expectedRevision":2283,"itemId":"G04-V02","actor":"Codex","text":"S404 traces the repeated Woven front shoulder/collar crossing through the exact approved projection and same-revision options. No production mapping changes; preserve all current holds and gates."}
+]

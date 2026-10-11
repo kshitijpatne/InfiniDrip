@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3435,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S580-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S580-clo-line-info-runtime/S580-exit-packet.md",
+    "verified": true,
+    "note": "Exact-build CLO read-only line-info evidence: 8/9 returned paths geometrically match source SEW contours and 0/9 match source CUT within unchanged 0.001 cm; no V03 gate clears. C-only raw output, comparison, and live screenshot are hash-recorded."
+  }
+}

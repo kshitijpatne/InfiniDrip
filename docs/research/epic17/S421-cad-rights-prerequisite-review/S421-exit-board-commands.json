@@ -1,0 +1,29 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2456,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S421-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S421-cad-rights-prerequisite-review/G04-V03-CAD-RIGHTS-PREREQUISITE-REVIEW-S421.md",
+      "verified": true,
+      "note": "Official-source prerequisite research only: no no-cost industrial apparel receiver is qualified; CLO's documented trial crosses the paid/payment-data gate. No receiver/profile, import round trip or compatibility claim. V03 remains Backlog behind all-seven V02."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2457,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S421-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2458,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S421 exit: checked official public evidence qualifies no no-cost industrial apparel receiver. CLO documents bidirectional Standard DXF/AAMA/ASTM support but its trial requires payment information and converts to paid access. Valentina's reviewed DXF claim is export-oriented; Seamly2D receiver behavior is not established; LibreCAD is generic DXF only. No selection, install, terms, contact, fixture round-trip or compatibility claim. Keep V03 Backlog pending all-seven V02 and rights-cleared access. See E-G04-S421-EXIT."
+  }
+]

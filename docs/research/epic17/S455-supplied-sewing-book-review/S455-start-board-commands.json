@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2748,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S455-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S455-supplied-sewing-book-review/G04-REMAINING-SUPPLIED-SEWING-BOOK-REVIEW-S455.md",
+      "verified": true,
+      "note": "Starts the authorized evidence-only review of the remaining five user-supplied sewing books for G04 and wider product usefulness; no production, decision, acceptance, or hold changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2749,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S455 reviews the five remaining supplied books with independent Claude/OpenCode reports on disjoint titles and a Codex review of the repair/upcycling title. Findings must be checked against the actual books and classified as source fact, general convention, or product inference. S454's unapproved Woven neckline mask, S425 continuous-visible-neckline choice, S442 fixed S370 layout, every hold, and all G04 gates remain unchanged."
+  }
+]

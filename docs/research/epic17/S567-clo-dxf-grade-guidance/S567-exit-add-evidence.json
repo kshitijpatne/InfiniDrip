@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3383,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S567-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S567-clo-dxf-grade-guidance/S567-exit-packet.md",
+    "verified": true,
+    "note": "Current official CLO guidance supports grading internal-line segment points with Edit Grading. Source sew contour deltas are mapped exactly for all five sizes. This provides a specific practical test for S565/S566's base-XS-shaped internal path, but does not prove version 2026.1.310's saved project/export behavior. CLO UI screenshot/accessibility mismatch still prevents safe interaction. All V03 gates remain held."
+  }
+}

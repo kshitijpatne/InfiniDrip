@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3564,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S608-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S608-clo-input-side-stage-diagnosis/S608-exit-packet.md",
+    "verified": true,
+    "note": "Read-only query of the S601-confirmed S595 input-side CLO scene: all nine SEW identities match, but no API-returned path matches the five failed CUTs within 0.001 cm. Because CLO does not document the getter's path semantics, import-versus-export cause remains unattributable; all V03 holds remain."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3308,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S549 runs one geometry-preserving unit-invariance control: transform the exact Polo M fixture from cm to mm and import/export once in the same AAMA profile/settings. This checks whether the repeat five-corner loss depends on unit representation. Save all data under C:\\G04-CLO-DXF-Exchange\\S549-polo-unit-invariance-control. No other settings, app restart, source edit, or acceptance change."
+}

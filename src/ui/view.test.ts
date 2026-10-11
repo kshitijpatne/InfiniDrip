@@ -3,7 +3,7 @@ import { STANDARD_M, GARMENTS, TSHIRT_SIZES, TEE, WOVEN_SHIRT, WOVEN_SHIRT_OPTIO
 import { garmentToggleMarkup, dartControlsMarkup, exportButtonsMarkup, fieldHistoryDialogContent, fieldObservationSummary, patternAnnotationKeyMarkup, customOneSizeSpecMarkup } from "./view";
 import { DEFAULT_FABRIC, BLUEPRINT } from "../render";
 import { matchStyle, styleNames, TEE_STYLES } from "../style";
-import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
+import { controlsMarkup, appShellMarkup, guidanceMarkup, styleMarkup, surfaceMarkup, nestIntelMarkup, nestIntelReadout, fabricSwatchesMarkup, fabricStretchMarkup, specTableMarkup, viewToggleMarkup, bodyCroquisToggleMarkup, technicalFlatFaceToggleMarkup, fabricWidthMarkup, checkMarkup, editorHintMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup } from "./view";
 import { ARTWORK_CATALOG, ARTWORK_CATEGORIES } from "../surface/artwork-library/catalog";
 import { assessArtworkUse } from "../surface/artwork-library/search";
 import type { ArtworkCatalogRecord } from "../surface/artwork-library/catalog";
@@ -257,9 +257,9 @@ describe("viewToggleMarkup", () => {
   it("keeps all seven unique and puts secondary views in native disclosure", () => {
     const html = viewToggleMarkup("spec");
     const ids = [
-      "view-pattern", "view-body", "view-nest", "view-spec", "view-fabric", "view-check", "view-edit",
+      "view-pattern", "view-body", "view-nest", "view-spec", "view-fabric", "view-check", "view-edit", "view-flat",
     ];
-    const advancedIds = ["view-nest", "view-spec", "view-fabric", "view-check", "view-edit"];
+    const advancedIds = ["view-nest", "view-spec", "view-fabric", "view-check", "view-edit", "view-flat"];
     const detailsStart = html.indexOf('<details id="advanced-views">');
     const menuStart = html.indexOf('<div class="advanced-view-menu">', detailsStart);
     const menuEnd = html.indexOf("</div></details>", menuStart);
@@ -270,7 +270,7 @@ describe("viewToggleMarkup", () => {
     expect(menuStart).toBeGreaterThan(detailsStart);
     expect(menuEnd).toBeGreaterThan(menuStart);
     expect((html.match(/aria-pressed="true"/g) ?? [])).toHaveLength(1);
-    expect((html.match(/aria-pressed="false"/g) ?? [])).toHaveLength(6);
+    expect((html.match(/aria-pressed="false"/g) ?? [])).toHaveLength(7);
 
     for (const id of ids) {
       expect((html.match(new RegExp(`id="${id}"`, "g")) ?? [])).toHaveLength(1);
@@ -291,6 +291,13 @@ describe("viewToggleMarkup", () => {
     const html = viewToggleMarkup("edit");
     expect(html).toContain('id="view-edit"');
     expect(html).toContain(">Edit<");
+  });
+
+  it("offers an accessible front/back technical-flat face selector", () => {
+    const html = technicalFlatFaceToggleMarkup("BACK_FLAT");
+    expect(html).toContain('role="group" aria-label="Technical flat face"');
+    expect(html).toContain('data-technical-flat-face="FRONT_FLAT" aria-pressed="false"');
+    expect(html).toContain('data-technical-flat-face="BACK_FLAT" aria-pressed="true"');
   });
 });
 

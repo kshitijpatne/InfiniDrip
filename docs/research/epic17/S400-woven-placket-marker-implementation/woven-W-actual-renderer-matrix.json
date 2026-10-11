@@ -1,0 +1,1672 @@
+{
+  "summary": {
+    "configurations": 28,
+    "rendered": 28,
+    "exactSourcePOM": 28,
+    "liveCompilerMappedCallout": 28,
+    "underlayAfterColorway": 28,
+    "ringBelowEverySourceStroke": 28,
+    "exactRingAndGlyph": 28,
+    "exactSchedule": 28,
+    "allPathIdentityUnchanged": 28,
+    "minimumGlyphToSourcePathClearanceCm": 0.07939140319824219,
+    "minimumGlyphToExistingLabelClearanceCm": 0.029140576720237732,
+    "browserErrors": 0,
+    "all56WovenAnd34PoloFacesRemainHeld": true,
+    "independentWovenBackHemCrossingRemainsHeld": true
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.2821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.02914181351661682
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.6,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.8821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "box": {},
+          "text": "CLOSURE",
+          "gapCm": 0.2247413694858551
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.36203861236572266
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.36203861236572266
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.2121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 3,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 3.2121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:outerStand:stand-button:attached-fold-reflection",
+          "box": {},
+          "text": "STAND BUTTON",
+          "gapCm": 0.5817417204380035
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140576720237732
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140949249267578
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140621423721313
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 78.1146011352539,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 2.5,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 2.7121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:placketFace",
+          "box": {},
+          "text": "FOLD",
+          "gapCm": 0.029140859842300415
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "rendererIssues": [],
+      "sourcePathCount": 30,
+      "sourceStrokeOverRing": true,
+      "underlayAfterColorway": true,
+      "ring": {
+        "cx": 3,
+        "cy": 8.2,
+        "r": 0.22,
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "revisionId": "live-draft:woven-shirt:14:14"
+      },
+      "marker": {
+        "key": "W",
+        "sourceId": "pom:woven-shirt:finished-placket-width",
+        "targetId": "flat:woven-shirt:FRONT_FLAT:component:buttonPlacket:outline",
+        "sourceEntityId": "pattern:woven-shirt:role:buttonPlacket:edge:top",
+        "revisionId": "live-draft:woven-shirt:14:14",
+        "glyph": "W",
+        "glyphX": 3.2121,
+        "glyphY": 8.4821,
+        "foregroundRingCount": 0,
+        "glyphPathClearanceCm": 0.07939140319824219,
+        "nearestLabel": {
+          "id": "flat:woven-shirt:FRONT_FLAT:mark:buttonPlacket:closureLine",
+          "box": {},
+          "text": "CLOSURE",
+          "gapCm": 0.09754124283790588
+        }
+      },
+      "scheduleRows": 1,
+      "scheduleBox": {
+        "x": -53.58300018310547,
+        "y": 77.62419891357422,
+        "width": 7.0131001472473145,
+        "height": 2
+      },
+      "exactSchedule": true,
+      "scheduleInsideFrame": true,
+      "colorwayPathIdentityUnchanged": true,
+      "allPathIdentityUnchanged": true
+    }
+  ]
+}

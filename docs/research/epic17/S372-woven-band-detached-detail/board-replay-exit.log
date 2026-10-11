@@ -1,0 +1,8 @@
+S372 validated board exit replay
+Start board revision: 1775 (validated S372 start commands already applied)
+First attempt: commands 1–6 applied; command 7 rejected unsupported evidence kind "image"; board reached revision 1781.
+Recovery: unapplied suffix replayed with the supported "rendered-output" kind; all commands succeeded through executeBoardCommand.
+Recovery command sequence: revisions 1782–1794.
+Supplemental test/log evidence commands: revisions 1795–1800.
+Final board revision: 1800.
+Control Center regression after the exit replay: 42 passed, 0 failed.

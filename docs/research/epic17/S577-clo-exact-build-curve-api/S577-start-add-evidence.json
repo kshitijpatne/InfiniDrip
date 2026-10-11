@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3421,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S577-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S577-clo-exact-build-curve-api/S577-start-packet.md",
+    "verified": true,
+    "note": "Narrow refresh of official CLO sources for a version-matched 2026.1.310 API that can return exact 2D pattern outline coordinates. Reconciles S513/S515/S569 rather than repeating general research; no API execution or CLO operation."
+  }
+}

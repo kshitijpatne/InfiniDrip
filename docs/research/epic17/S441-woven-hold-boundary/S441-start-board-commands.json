@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2643,"itemId":"G04-V02","evidence":{"id":"E-G04-S441-START","kind":"document","uri":"docs/research/epic17/S441-woven-hold-boundary/G04-V02-WOVEN-HOLD-BOUNDARY-S441.md","verified":true,"note":"Starts a diagnostic-only source/topology check of the specific S431 local-Y sleeve reflection hypothesis and reconciles remaining Woven V02 holds; no implementation or gate change authorized."}},
+  {"type":"addComment","expectedRevision":2644,"itemId":"G04-V02","actor":"Codex","text":"Start S441: verify whether the specific prior local-Y Woven sleeve reflection hypothesis can preserve exact cap/underarm/band relationships and all 28 outputs, using the current S440 commit in a separate read-only Opus 5.5 worktree. Preserve all holds and V02/V03 gates; no production changes authorized."}
+]

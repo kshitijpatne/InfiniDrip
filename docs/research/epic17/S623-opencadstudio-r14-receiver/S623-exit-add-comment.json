@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3631,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S623 screened Open CAD Studio using only a synthetic R12 rectangle/line fixture. It renders the drawing and exposes DXF R14, but the browser Save As dialog provides no verifiable route to the required named C: folder; no product file or R14 output was made. This candidate preflight hold clears no V03 gate. Qualify a distinct local receiver workflow with destination control before supplying any product fixture. All G04/V03 criteria and holds remain unchanged. See E-G04-S623-EXIT and E-G04-S623-MATRIX."
+}

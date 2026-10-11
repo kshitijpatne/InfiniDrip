@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3425,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S578-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S578-clo-outline-api-smoke/S578-start-packet.md",
+    "verified": true,
+    "note": "S578 reserves an exact-build, read-only CLO 2026.1.310 API getter smoke test against the existing Polo project; all gates and holds remain unchanged."
+  }
+}

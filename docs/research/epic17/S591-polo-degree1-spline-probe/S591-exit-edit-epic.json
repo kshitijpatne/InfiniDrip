@@ -1,0 +1,11 @@
+{
+  "type": "editEpic",
+  "expectedRevision": 3481,
+  "epicId": "EPIC-17",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Synchronize the EPIC description with S591's measured degree-1 SPLINE round-trip failure while preserving all admitted gates and statuses.",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 has written product-development/local-file-processing permission and the narrow CLO 2026.1.310 / DXF-AAMA test identity. S591's one clean-scene degree-1 SPLINE probe represented five Polo M CUT outlines with their exact source piecewise-linear control coordinates; source deviation is 0 cm, but the CLO round trip still fails those five CUT contours at conservative bounds 0.841822–13.113897 cm. Four unaffected CUT and all nine SEW pass. This rejects only the tested encoding/build/profile/fixture and does not infer CLO's internal SPLINE behavior. Details: docs/research/epic17/S591-polo-degree1-spline-probe/S591-exit-packet.md and V03-CURRENT-GATE-MATRIX-S591.md. S592 tests only the SPLINE closed flag, after a fresh source proof. Preserve V02-before-V03, legacy DXF behavior and protected export identities, all-seven scope and every V03 gate. No universal format, physical-fit, factory-acceptance or production-readiness claim."
+  }
+}

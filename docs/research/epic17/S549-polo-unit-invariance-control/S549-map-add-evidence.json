@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3311,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S549-POINT-MAP",
+    "kind": "document",
+    "uri": "docs/research/epic17/S549-polo-unit-invariance-control/S549-current-aama-point-mapping.json",
+    "verified": true,
+    "note": "Hash-pinned source and both current AAMA Polo outputs confirm identical omitted vertex indices in gen1/gen2 for all five failures; incoming segments 0.0456–0.0470 cm, residual 0.0127–0.0140 cm. Cause remains unproven."
+  }
+}

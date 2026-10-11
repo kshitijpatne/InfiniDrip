@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3224,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S528 reconciles the newly discovered candidate against the admitted hosted-service non-goal. It will not authorize or perform any hosted-app access, vendor contact, registration, installation, or CLO action. All V03 holds remain."
+}

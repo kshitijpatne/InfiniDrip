@@ -1,0 +1,79 @@
+{
+  "status": "complete",
+  "summary": "Neither Woven blocker can be fixed by a fact in the source code or by a reference written for this pattern while your decisions stand. FRONT: the contact is forced by the source dimensions. Every supported option has collarLeafDepth (4–8 cm) greater than standHeight (1.5–3.5 cm). The collar leaf's stand edge is sewn to the stand top. So the leaf's front edge runs from one side of the visible neckline to the other and must cross it. I traced how this happens in the projection code: past CF the projection extends the neckline tangent, and the edge meets the opposite neckline half about 2·standHeight/collarLeafDepth cm beyond CF. That prediction is within 0.003–0.032 cm of all 7 S437 rows I checked. BACK: the S344 cap fit leaves exactly two possible sleeve placements, unmirrored or mirrored (mirrorX false/true). Both have been rendered in all 28 options. Unmirrored lays the sleeve over the back body and the hems cross (S373). Mirrored is the local-Y pose already approved for Tee/Fitted/Polo backs; it clears the crossing but hits the S370 band boxes in 28/28 options, and the sleeve alone reaches about ±49 cm against the ±32.2 cm frame (S441). No external source can change source dimensions or the S370/frame layout decision, so I ran zero web searches. No files were changed and no faces were released.",
+  "model": "claude-opus-5-5",
+  "commit": "eed90823a7b2d909a449e87cf651e3d4452f5246",
+  "changed_files": [],
+  "blockers": [
+    {
+      "area": "Woven front",
+      "source_encoded_facts": [
+        "src/drafting/shirt.ts:92,108-120 — collarPiece: stand edge (0,0)→(L,0), where L is the full stand collar-edge length; frontTip (L,0)→(L+COLLAR_TIP_FLARE,depth) with COLLAR_TIP_FLARE=2; outer edge (L+2,depth)→(0,depth). Upper and under collar are built from the same formulas.",
+        "src/drafting/shirt.ts:94-106,161-166 — standPiece: collar edge at y=0, neckline at y=h. Stand length = front.neckline + yoke/back neckline. No front extension past the body centerFront.",
+        "src/drafting/shirt.ts:122-153 — stitches: outerStand.neckline ↔ front.neckline + yoke.neckline; underCollar.stand ↔ outerStand.collar; upperCollar.stand ↔ innerStand.collar; upper ↔ under frontTip+outer. There is no body-to-collar-exterior stitch, roll/fold line, or layer relation.",
+        "src/drafting/shirt-contract.ts:46-47 — standHeight 1.5–3.5 (default 2.5); collarLeafDepth 4–8 (default 6). So collarLeafDepth − standHeight ≥ 0.5 cm for every supported value: the leaf always extends past the base seam.",
+        "src/drafting/piece.ts:21-26 and src/drafting/stitch.ts:59-64 — Piece has no face/right-side/fold-state field. Stitch has no seam type, side or layer. Whether the leaf hides the base seam is therefore not encoded. docs/research/garments/WOVEN-SHIRT-RESEARCH.md:68 says 'Equal flat layers do not prove roll; define treatment and retain physical uncertainty.'",
+        "Approved projection (convention, not source fact): src/render/woven-collar-view-projection.ts:231 sets the leaf base offset to −h; line 257 sets the offset to −h+y. Line 247 places frontTip interior points by their position along the stand base, while lines 242-256 map the tip itself by the normalized exterior rule. Line 258 clamps the along-the-neckline position to 1.1; lines 149-161 extend past the CF end of the neckline along its CF tangent. Result: the frontTip at parameter t sits 2t cm past CF at offset −h+d·t, and its last sampled segment jumps back to the tip at CF."
+      ],
+      "pattern_specific_references": [
+        "None found, and no web search was run. WOVEN-SHIRT-RESEARCH.md records that no source supplies one complete formula for this block, so no external reference can be specific to these pieces. A general reference could at most support the leaf hiding the seam, which is the rejected clip. Nothing external can change the source dimensions that force the contact."
+      ],
+      "existing_output_evidence": [
+        "S417 woven-collar-stack-crossings.json: 2 neckline/collar contacts per front in 28/28 options. Entity pairing: underCollar:outline × front:neckline:physical-pair-reflection, and underCollar:outline:attached-fold-reflection × front:neckline. Each collar half crosses the opposite neckline half.",
+        "Prediction |x| ≈ 2·standHeight/collarLeafDepth vs S437 trace (predicted/measured cm): default 0.8333/0.8424; neckEase-min 0.8333/0.8427; neckEase-max 0.8333/0.8420; standHeight-min 0.5000/0.5033; standHeight-max 1.1667/1.1848; collarLeafDepth-min 1.2500/1.2818; collarLeafDepth-max 0.6250/0.6288.",
+        "S410: the two neckline strokes (paint indices 21–22) are already painted after the collar outlines (17–20). Paint order cannot remove a geometric intersection.",
+        "S407 trial-matrix.json: the 0.8426–0.8433 cm hidden length covers only default and neckEase-min/max. Across all 28 options the equivalent CF-to-contact interval would be about 0.50–1.29 cm per side (derived from S437 |x|; not rendered).",
+        "Orientation (my measurement, not in prior packets): in the S417 default crop and the S406 whole render, the stand-button marks sit about 1.2 cm below the visible neckline, near (±1.09, 9.39) vs neckline y≈8.17. The stand-top contour is about 2.5 cm below the neckline and the leaf outer edge about 3.5 cm above, forming the neck opening; the collar tips meet at about (0, 4.69). So the stand/leaf stack is drawn mirrored across the base seam compared with a worn shirt (stand up, leaf folded down). This matches the −h offset in the code. It is not source-encoded either way, and the contact location is the same under either sign."
+      ],
+      "verified_fix": null,
+      "candidate_or_missing_fact": "No source-backed fix exists, because the contact is mathematically forced. The leaf front edge runs from offset −h (stand top) to offset +(d−h) on the other side of the neckline, and d−h ≥ 0.5 cm in every option. So any continuous drawing that keeps the leaf on the stand and the whole HPS–CF–HPS neckline visible must cross the neckline at least once per collar half. Changing the frontTip placement rule (for example, not letting it run past CF) only moves the contact to the shared CF point; that would dodge a strict-interior intersection screen but is still a crossing, so it is not admissible. What is missing is a display rule, not a pattern fact: what the visible base seam does where the folded leaf lies over it. The smallest future decision is one of two. (A) A narrow V02 crossing rule that accepts exactly these 56 predicted contacts (2 per front × 28, same revision and entities, at |x|≈2h/d) as an allowed overlay, keeping every other crossing check. It keeps the continuous visible neckline and changes no geometry, but like S351 it changes where a check applies. (B) Reverse S425 and let the leaf hide part of the neckline (about 0.50–1.29 cm per side across the 28 options). Drawing the collar unfolded would also avoid the contact, but it reverses the approved S359 stacking and is a larger change. I am not recommending A or B over keeping the hold.",
+      "assumptions_and_effect": [
+        "The 2h/d mechanism comes from reading the code and matches the 7 S437 rows I checked. I did not execute it; Codex can confirm it across all 28 rows of the existing trace without rendering.",
+        "The 'forced' argument assumes the leaf stays on the stand (source stitch plus S359 offset) and the neckline is drawn as one continuous curve through CF (S342/S425). Both are current decisions.",
+        "Option A: no change to geometry, stitches, POMs, exports or front paths. It is an acceptance-applicability change that needs explicit maintainer approval. All other V02 checks would still apply.",
+        "Option B contradicts the current S425/S437 decision.",
+        "Flipping the collar stack to the worn orientation would not clear the contact (same t* = h/d). It is listed only for Codex review as possibly misleading construction (admission criterion 4)."
+      ],
+      "faces_that_remain_held": "All 28 Woven FRONT_FLAT faces. All 28 Woven BACK_FLAT and all 34 Polo faces also stay held; tally unchanged at 56 accepted / 90 held."
+    },
+    {
+      "area": "Woven back",
+      "source_encoded_facts": [
+        "src/drafting/shirt.ts:391-410 — wovenSleeve is one uncut piece, onFold:false. capLeft (0,capHeight)→(w/2,0); capRight (w/2,0)→(w,capHeight); sideRight (w,capHeight)→rightHem; hem rightHem→leftHem; sideLeft. Width w = bicep + 0.5·ease; taper 3.",
+        "src/drafting/shirt.ts:426-438 — 'Woven sleeve-cap ease' (−1..4 cm) joins capLeft+capRight to front.armhole + yoke.armholeUpper + back.armholeLower. 'Folded sleeve band ↔ sleeve hem' joins the whole hem to sleeveBand.top. There is no sleeve-to-sleeve stitch, hem split, crossing station, notch or over/under order.",
+        "src/drafting/shirt-contract.ts:86-87 — sleeve and band have quantity 2, onFold false, and no mirror-pair or handedness flag. piece.ts:21-26 and stitch.ts:59-64 have no face or seam-side semantics. Which side of the armhole the finished sleeve lies on is not encoded.",
+        "Derived from source coordinates (geometry, not a construction reference): capRight runs crown→underarm and the yoke+back armhole runs shoulder→underarm, and both have their piece interior on the same side. So an unmirrored cap fit lays the sleeve over the back body, and only a mirrored fit puts it outside the armhole.",
+        "Projection metadata: src/render/technical-flat-projection.ts:424-499 — BACK runs are capRight[station→end], sideRight, hem[0,0.5], reflected about back.centerBack (quantity 2), with the S344 cap representation. Woven has no localYReflection. Tee/Fitted/Polo BACK_FLAT sleeves do (376-379); validation allows it only for those recipes (1687-1705); it becomes mirrorX in technical-flat-assembly.ts:439. S370 band-detail metadata is at 524-531."
+      ],
+      "pattern_specific_references": [
+        "None found, and no web search was run. No reference can be specific to this custom recipe. The remaining conflict is between the outward sleeve pose and your fixed S370 positions and frame; no construction source can resolve a layout conflict. S296 already checked the Fairfield sleeve sew-along and found no view-placement fact."
+      ],
+      "existing_output_evidence": [
+        "S373 default: base sleeve offset (8.0840629862, −15.0725113877), rotation 53.8222329999°, mirrorX=false. Path M27.5 24 L7.971 34.5649 L−2.9495 19.6319: sideRight runs inward from the underarm and the hem half crosses x=0. One crossing per option at (0, 22.23183 | 23.66513 | 24.09501) cm, 28/28; unchanged in S406/S437.",
+        "S441 mirrorX=true (local-Y): 0 sleeve-pair crossings and 0 body crossings or fill penetrations in 28/28. But the S370 boxes are hit in 28/28 at 0.05 cm clearance. The default bands had to move from x=28.5–31.5 to 50.2425–53.2425 cm, so the sleeve itself reaches about ±49.2 cm against the current ±32.2 cm frame.",
+        "S440: 0/28 feasible rotations even with extra non-rigid freedom. S439 source-length contact, S438 body mask and S373/S381 gap were all rejected.",
+        "Completeness: the S344 rigid cap fit leaves only mirrorX false or true. Both have been measured in all 28 options, so no admissible pose is left under S344 + fixed S370 positions + current frame + full hems + no gap/order/mask.",
+        "Precedent: Polo had the same 'sleeve contour crossing the bodice interior' (ARCHITECTURE.md:517-518, S331), resolved by the S333 local-Y back reflection; Tee/Fitted by S321. The S370 side-gutter positions were fitted while the sleeve was still drawn inward (mirrorX=false)."
+      ],
+      "verified_fix": null,
+      "candidate_or_missing_fact": "No. The missing fact is which side of the armhole seam the finished sleeve occupies (piece face/handedness/seam turn). That is the only thing that distinguishes the two possible poses, and the source does not encode it. Even if it were supplied (it would favour mirrorX=true, the existing Tee/Fitted/Polo convention), that pose conflicts with the fixed S370 positions and current frame in 28/28 options, so no reference can clear the hold under current decisions. Smallest future decision: extend the approved back-sleeve local-Y convention (G04-S321-TEE-FITTED-SLEEVE-VIEW-PAIR / G04-S333-POLO-SLEEVE-VIEW-MAP) to Woven, together with a position-only change to the two S370 band details and the BACK_FLAT frame. S441 measured this as +20.5737–22.4315 cm per side and a viewBox +41.1474–44.863 cm wider. Band scale, count, 90° rotation, fold marks, labels and source relation stay unchanged. Any other place for the band details is untested and would still need a wider frame for the sleeves themselves.",
+      "assumptions_and_effect": [
+        "The two-pose result relies on S440's statement that S344 fixes a rigid transform. Non-rigid placements alter the drawn cut outline and were already rejected.",
+        "The side-of-seam derivation agrees with the S373 output, but it is geometry, not a construction reference, and does not by itself authorize mirrorX=true.",
+        "Effect of the named decision: no change to source geometry, stitches, POMs or exports. S441 fronts were byte-identical. The BACK_FLAT sheet grows from 64.4 cm to about 105.5–109.3 cm wide. It reverses the S442 decision. Every face stays held until the full 28-option V02 review.",
+        "Accepting the CB crossing would change the criterion; not recommended.",
+        "This decision alone would not release Woven: the 28 fronts stay held by the forced collar contact."
+      ],
+      "faces_that_remain_held": "All 28 Woven BACK_FLAT faces. All 28 Woven FRONT_FLAT and all 34 Polo faces also stay held; 56 accepted / 90 held."
+    }
+  ],
+  "scope_recommendation": "preserve current all-seven scope — no source-encoded fact or pattern-specific reference resolves either Woven blocker under the current decisions. All-seven V02 can only exit if the maintainer later makes both decisions listed in follow_up_needed, each followed by full 28-option verification.",
+  "follow_up_needed": [
+    "Codex: recompute |x| ≈ 2·standHeight/collarLeafDepth for all 28 S437 rows (expected excess about +0.003 to +0.032 cm) to confirm the forced-contact mechanism. No rendering needed.",
+    "Codex: review the observed front collar orientation (stand drawn on the body side; collar tips meeting at the neck opening) against admission criterion 4. It is independent of the contact and not source-encoded either way.",
+    "Records: the rejected clip's '0.8426–0.8433 cm per side' figure covers only default and neckEase-min/max. The all-28 equivalent is about 0.50–1.29 cm (derived, not rendered). This matters if option B is ever revisited.",
+    "Maintainer, not requested now: V02 exit needs a front choice (A: narrow crossing rule for the 56 predicted contacts, or B: leaf hides part of the neckline) and a back choice (local-Y plus S370 position/frame change). Without both, the Woven holds are permanent.",
+    "Setup limits: model ID claude-opus-5-5 is confirmed from the session; the reasoning-effort setting is not visible from inside the session, so confirm xhigh from CLI metadata. HEAD was verified by reading the worktree HEAD file (eed90823…); with no shell I could not run git status. The plan-mode harness asked for a plan file and ExitPlanMode, but those tools are not available here; nothing was written. Zero web searches or fetches. Several MCP connectors (Slack, Notion, Linear, etc.) need authorization via claude.ai connector settings or /mcp; none were needed."
+  ]
+}
+WORK FINISHED

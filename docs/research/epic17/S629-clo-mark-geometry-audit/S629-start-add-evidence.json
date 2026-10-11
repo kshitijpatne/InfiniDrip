@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3656,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S629-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S629-clo-mark-geometry-audit/S629-start-packet.md",
+    "verified": true,
+    "note": "Audits source MARK_* geometry against the already-produced, hash-pinned S628 CLO DXF-AAMA output for one repaired Woven size-M fixture. No new receiver operation or layer-semantic inference; exact 0.001 cm, all-seven, profile, mark semantics, grades and all other V03 gates remain unchanged."
+  }
+}

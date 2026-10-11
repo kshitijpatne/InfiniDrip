@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2719,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S452-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md",
+      "verified": true,
+      "note": "Starts a narrow reproduction/repair of the documented final-candidate TypeScript build failure; no Woven decision, V02 acceptance, or view hold changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2720,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S452 checks whether the S441 TypeScript build failure still exists at current HEAD and repairs only verified compile issues. This is independent of pending Woven display choices; all V02 statuses, all-seven acceptance and holds remain unchanged."
+  }
+]

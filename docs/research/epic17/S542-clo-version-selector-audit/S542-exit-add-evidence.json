@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3281,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S542-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S542-clo-version-selector-audit/S542-exit-packet.md",
+    "verified": true,
+    "note": "Official CLO docs expose DXF-AAMA/ASTM/Standard DXF but no database-version or standard-edition choice; the saved build dialog likewise shows none. Current CLO route is not evidenced to emit ASTM D6673-04 R13; V03 gates unchanged."
+  }
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "editItem",
+    "expectedRevision": 2501,
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "EPIC-17/G04 is In Progress through its admitted V01→V02→V03 sequence and safe merge. Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display; S426's corrected full-label replay reports zero source-label or marker-label overlaps across 17 exact Polo options while preserving source POMs, marks, component paths and schedules. The maintainer keeps the Woven body neckline continuous. S406's approved Woven collar-over-plackets display remains implemented. The proposed Polo bicep reduction remains rejected; all 34 Polo faces stay held at the 0.68 cm versus 0.25 cm residual gate, and all 56 Woven faces stay held. Preserve all-seven V02, V02-before-V03, legacy DXF, protected exports, CAD-rights/round-trip gates and claim limits."
+    }
+  },
+  {
+    "type": "editEpic",
+    "expectedRevision": 2502,
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Preserve the canonical S406 collar-over-plackets evidence phrase while correcting the current S426 and Woven decision summary.",
+    "epicId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S425 implements and verifies the approved Polo H segmented-ring display across all 17 exact S399 output revisions without changing pattern geometry, source paths or POM schedule, and releases no face. S426's corrected full-label replay reports zero source-label or marker-label overlaps across 17 Polo options and confirms preserved source POMs, marks, paths and schedules; no Polo face is released. The Woven body neckline remains continuous by maintainer decision. S406's approved view-only collar-over-plackets order remains implemented. The maintainer rejected S424's unsupported 8.654851 cm Polo bicep reduction; the 0.68 cm sleeve-cap endpoint residual still exceeds the fixed 0.25 cm gate. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, V02-before-V03, generic legacy DXF, protected export byte identities, V03 rights/profile/round-trip evidence, and physical/factory/production-readiness claim limits. See PROJECT-STATE.md and the S426 packet."
+    }
+  }
+]

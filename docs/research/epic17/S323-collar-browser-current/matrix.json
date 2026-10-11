@@ -1,0 +1,1974 @@
+{
+  "generatedAt": "2026-10-01T03:47:42.907Z",
+  "viewport": {
+    "width": 1440,
+    "height": 3000
+  },
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "recipes": [
+    "polo",
+    "woven-shirt"
+  ],
+  "cases": [
+    {
+      "caseId": "polo-default",
+      "recipeId": "polo",
+      "kind": "default",
+      "optionValues": {},
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketLength": 14
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketLength": 30
+      },
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketWidth": 2
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketWidth": 4
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standHeight": 1
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standHeight": 3
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarLeafDepth": 4
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarLeafDepth": 7
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standFrontRise": 0
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standFrontRise": 2
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarPointExtension": 0.5
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarPointExtension": 3
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sideVentDepth": 0
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sideVentDepth": 15
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      }
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "backHemDrop": 0
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      }
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "recipeId": "polo",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "backHemDrop": 5
+      },
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      }
+    },
+    {
+      "caseId": "woven-shirt-default",
+      "recipeId": "woven-shirt",
+      "kind": "default",
+      "optionValues": {},
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "neckEase": 0
+      },
+      "options": {
+        "neckEase": 0,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "neckEase": 3
+      },
+      "options": {
+        "neckEase": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standHeight": 1.5
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "standHeight": 3.5
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarLeafDepth": 4
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "collarLeafDepth": 8
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "buttonCount": 6
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "buttonCount": 7
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "buttonSpacing": 6
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "buttonSpacing": 9
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "frontOverlap": 1
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "frontOverlap": 3
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketWidth": 2
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "placketWidth": 4
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "yokeDepth": 7
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "yokeDepth": 15
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketWidth": 9
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketWidth": 16
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketHeight": 10
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "pocketHeight": 18
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sleeveBandDepth": 2
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sleeveBandDepth": 5
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sideVentDepth": 0
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "sideVentDepth": 8
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "hemTurn": 0.7
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "recipeId": "woven-shirt",
+      "kind": "single-option-endpoint",
+      "optionValues": {
+        "hemTurn": 2
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "recipeId": "woven-shirt",
+      "kind": "source-test-backed-combination",
+      "optionValues": {
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "pocketWidth": 14,
+        "pocketHeight": 15
+      },
+      "options": {
+        "neckEase": 1,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      }
+    }
+  ],
+  "faces": [
+    {
+      "name": "polo-default-front",
+      "caseId": "polo-default",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:1:1",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-default-front.png"
+    },
+    {
+      "name": "polo-default-back",
+      "caseId": "polo-default",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:1:1",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-default-back.png"
+    },
+    {
+      "name": "polo-placketLength-min-front",
+      "caseId": "polo-placketLength-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:1:1",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-placketLength-min-back",
+      "caseId": "polo-placketLength-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:1:1",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-placketLength-max-front",
+      "caseId": "polo-placketLength-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:2:2",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-placketLength-max-back",
+      "caseId": "polo-placketLength-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:2:2",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-placketWidth-min-front",
+      "caseId": "polo-placketWidth-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:4:4",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-placketWidth-min-back",
+      "caseId": "polo-placketWidth-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:4:4",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-placketWidth-max-front",
+      "caseId": "polo-placketWidth-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:5:5",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-placketWidth-max-back",
+      "caseId": "polo-placketWidth-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:5:5",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standHeight-min-front",
+      "caseId": "polo-standHeight-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:7:7",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standHeight-min-back",
+      "caseId": "polo-standHeight-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:7:7",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standHeight-max-front",
+      "caseId": "polo-standHeight-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:8:8",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standHeight-max-back",
+      "caseId": "polo-standHeight-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:8:8",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarLeafDepth-min-front",
+      "caseId": "polo-collarLeafDepth-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:10:10",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarLeafDepth-min-back",
+      "caseId": "polo-collarLeafDepth-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:10:10",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarLeafDepth-max-front",
+      "caseId": "polo-collarLeafDepth-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:11:11",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarLeafDepth-max-back",
+      "caseId": "polo-collarLeafDepth-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:11:11",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standFrontRise-min-front",
+      "caseId": "polo-standFrontRise-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:13:13",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standFrontRise-min-back",
+      "caseId": "polo-standFrontRise-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:13:13",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standFrontRise-max-front",
+      "caseId": "polo-standFrontRise-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:14:14",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-standFrontRise-max-back",
+      "caseId": "polo-standFrontRise-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:14:14",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarPointExtension-min-front",
+      "caseId": "polo-collarPointExtension-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:16:16",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarPointExtension-min-back",
+      "caseId": "polo-collarPointExtension-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:16:16",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarPointExtension-max-front",
+      "caseId": "polo-collarPointExtension-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:17:17",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-collarPointExtension-max-back",
+      "caseId": "polo-collarPointExtension-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:17:17",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-sideVentDepth-min-front",
+      "caseId": "polo-sideVentDepth-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:19:19",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-sideVentDepth-min-back",
+      "caseId": "polo-sideVentDepth-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:19:19",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-sideVentDepth-max-front",
+      "caseId": "polo-sideVentDepth-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:20:20",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-sideVentDepth-max-back",
+      "caseId": "polo-sideVentDepth-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:20:20",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-backHemDrop-min-front",
+      "caseId": "polo-backHemDrop-min",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:22:22",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-backHemDrop-min-back",
+      "caseId": "polo-backHemDrop-min",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:22:22",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-backHemDrop-max-front",
+      "caseId": "polo-backHemDrop-max",
+      "recipeId": "polo",
+      "face": "FRONT_FLAT",
+      "revision": "live-draft:polo:23:23",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "polo-backHemDrop-max-back",
+      "caseId": "polo-backHemDrop-max",
+      "recipeId": "polo",
+      "face": "BACK_FLAT",
+      "revision": "live-draft:polo:23:23",
+      "issues": "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:underCollar:outline: The underCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:upperCollar:outline: The upperCollar colorway has no exact closed source contour; review its mapped source edges and view boundaries before rendering a color area.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "polo-backHemDrop-max-back.png"
+    },
+    {
+      "name": "woven-shirt-default-front",
+      "caseId": "woven-shirt-default",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "woven-shirt-default-front.png"
+    },
+    {
+      "name": "woven-shirt-default-back",
+      "caseId": "woven-shirt-default",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "woven-shirt-default-back.png"
+    },
+    {
+      "name": "woven-shirt-neckEase-min-front",
+      "caseId": "woven-shirt-neckEase-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-neckEase-min-back",
+      "caseId": "woven-shirt-neckEase-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-neckEase-max-front",
+      "caseId": "woven-shirt-neckEase-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-neckEase-max-back",
+      "caseId": "woven-shirt-neckEase-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-standHeight-min-front",
+      "caseId": "woven-shirt-standHeight-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-standHeight-min-back",
+      "caseId": "woven-shirt-standHeight-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-standHeight-max-front",
+      "caseId": "woven-shirt-standHeight-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-standHeight-max-back",
+      "caseId": "woven-shirt-standHeight-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-collarLeafDepth-min-front",
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-collarLeafDepth-min-back",
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-collarLeafDepth-max-front",
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-collarLeafDepth-max-back",
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-buttonCount-min-front",
+      "caseId": "woven-shirt-buttonCount-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "woven-shirt-buttonCount-min-front.png"
+    },
+    {
+      "name": "woven-shirt-buttonCount-min-back",
+      "caseId": "woven-shirt-buttonCount-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-buttonCount-max-front",
+      "caseId": "woven-shirt-buttonCount-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-buttonCount-max-back",
+      "caseId": "woven-shirt-buttonCount-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-buttonSpacing-min-front",
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-buttonSpacing-min-back",
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-buttonSpacing-max-front",
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-buttonSpacing-max-back",
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-frontOverlap-min-front",
+      "caseId": "woven-shirt-frontOverlap-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-frontOverlap-min-back",
+      "caseId": "woven-shirt-frontOverlap-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-frontOverlap-max-front",
+      "caseId": "woven-shirt-frontOverlap-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-frontOverlap-max-back",
+      "caseId": "woven-shirt-frontOverlap-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-placketWidth-min-front",
+      "caseId": "woven-shirt-placketWidth-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-placketWidth-min-back",
+      "caseId": "woven-shirt-placketWidth-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-placketWidth-max-front",
+      "caseId": "woven-shirt-placketWidth-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-placketWidth-max-back",
+      "caseId": "woven-shirt-placketWidth-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-yokeDepth-min-front",
+      "caseId": "woven-shirt-yokeDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-yokeDepth-min-back",
+      "caseId": "woven-shirt-yokeDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-yokeDepth-max-front",
+      "caseId": "woven-shirt-yokeDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-yokeDepth-max-back",
+      "caseId": "woven-shirt-yokeDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketWidth-min-front",
+      "caseId": "woven-shirt-pocketWidth-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketWidth-min-back",
+      "caseId": "woven-shirt-pocketWidth-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketWidth-max-front",
+      "caseId": "woven-shirt-pocketWidth-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketWidth-max-back",
+      "caseId": "woven-shirt-pocketWidth-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketHeight-min-front",
+      "caseId": "woven-shirt-pocketHeight-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketHeight-min-back",
+      "caseId": "woven-shirt-pocketHeight-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketHeight-max-front",
+      "caseId": "woven-shirt-pocketHeight-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-pocketHeight-max-back",
+      "caseId": "woven-shirt-pocketHeight-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-sleeveBandDepth-min-front",
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-sleeveBandDepth-min-back",
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-sleeveBandDepth-max-front",
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-sleeveBandDepth-max-back",
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-sideVentDepth-min-front",
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "woven-shirt-sideVentDepth-min-front.png"
+    },
+    {
+      "name": "woven-shirt-sideVentDepth-min-back",
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": "woven-shirt-sideVentDepth-min-back.png"
+    },
+    {
+      "name": "woven-shirt-sideVentDepth-max-front",
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-sideVentDepth-max-back",
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-hemTurn-min-front",
+      "caseId": "woven-shirt-hemTurn-min",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-hemTurn-min-back",
+      "caseId": "woven-shirt-hemTurn-min",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-hemTurn-max-front",
+      "caseId": "woven-shirt-hemTurn-max",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-hemTurn-max-back",
+      "caseId": "woven-shirt-hemTurn-max",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-combined-supported-front",
+      "caseId": "woven-shirt-combined-supported",
+      "recipeId": "woven-shirt",
+      "face": "FRONT_FLAT",
+      "revision": null,
+      "issues": "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-cap boundary and explicit right/left placket instances and overlap order. Keep the complete face held until these remaining visible roles have coherent source-backed mappings and assembly. Affected source edges: pattern:woven-shirt:role:front:edge:neckline, pattern:woven-shirt:role:front:edge:shoulder, pattern:woven-shirt:role:front:edge:armhole, pattern:woven-shirt:role:front:edge:sideUpper, pattern:woven-shirt:role:front:edge:sideMiddle, pattern:woven-shirt:role:front:edge:sideLower, pattern:woven-shirt:role:front:edge:vent, pattern:woven-shirt:role:front:edge:hem, pattern:woven-shirt:role:front:edge:centerFront.pom · flat:woven-shirt:FRONT_FLAT:component:front:outline: POM callouts need the mapped role outline in the same face and revision.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    },
+    {
+      "name": "woven-shirt-combined-supported-back",
+      "caseId": "woven-shirt-combined-supported",
+      "recipeId": "woven-shirt",
+      "face": "BACK_FLAT",
+      "revision": null,
+      "issues": "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.",
+      "blocked": true,
+      "guidanceVisible": true,
+      "screenshot": null
+    }
+  ],
+  "summary": {
+    "faceCount": 90,
+    "accepted": 0,
+    "withheld": 90,
+    "blockedByReason": {
+      "COLORWAY_CONTOUR_UNCLOSED · flat:polo:FRONT_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view b": 17,
+      "COLORWAY_CONTOUR_UNCLOSED · flat:polo:BACK_FLAT:component:outerStand:outline: The outerStand colorway has no exact closed source contour; review its mapped source edges and view bo": 17,
+      "geometry · pattern:woven-shirt:role:front: Visible FRONT_FLAT is withheld because edge “one of the listed source edges” is unresolved: Woven source still lacks a front/back sleeve-": 28,
+      "assembly · stitch:Woven sleeve-cap ease: Stitch “Woven sleeve-cap ease” conflicts with the solved sewn placement.": 28
+    },
+    "optionFieldCount": 21,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestErrors": []
+  }
+}

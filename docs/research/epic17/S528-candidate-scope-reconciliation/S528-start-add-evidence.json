@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3223,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S528-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S528-candidate-scope-reconciliation/S528-start-packet.md",
+    "verified": true,
+    "note": "Documentation-only correction of S527 next-step recommendation against EPIC-17 admission non-goals. No app or external action; no V03 gate change."
+  }
+}

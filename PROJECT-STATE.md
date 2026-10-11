@@ -1,16 +1,7266 @@
+## Current EPIC-17 / G04 boundary — S730 repository-evidence hygiene
+
+S726 records the maintainer-directed V03 acceptance correction and closes its
+technical evidence gates. The 365 supported option × grade source packages
+pass product-side verification. Receiver evidence uses one audited, visibly
+reviewed fixture for every distinct serialized DXF exchange-structure class
+(10/10 across all seven recipes), plus the S724-required Trouser XL boundary
+fixture; all 11 selected returns pass the unchanged 0.001 cm audit at 0.000
+cm. LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000 is the exact empirical route.
+The source matrix has 315 normalized geometric shape signatures, which are
+not represented as 315 receiver tests; compatibility is claimed only for the
+11 exact audited/reviewed returns. Product malformed-input behavior and
+semantic repeat evidence retain their prior narrow scope. No industrial,
+ANSI/AAMA/ASTM, universal DXF, physical-fit, factory-acceptance, or
+production-readiness claim is made. S726 packet:
+`docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`.
+
+EPIC-17 remains In Progress. S727's integrated gate failures are recorded in
+its exit packet. S728 corrected the runner/inventory/test issues and vent
+adjacency validation without changing V03 acceptance or testing another CAD
+application. The settled full gate, builds, Control Center/web checks, current
+73-option/146-face Chromium replay, text-overlap audit, visual review and
+packaged Electron export/lifecycle checks pass; evidence and hashes are in
+`docs/research/epic17/S728-integrated-gate-corrections/S728-exit-packet.md`.
+S729 confirmed the goal record is active and aligned, refreshed origin/main
+remains an ancestor, and closed the S728 verification record. S730 archives
+6,390 unreferenced generated files (409,943,310 bytes) after SHA-256
+verification to C:. It retains all 81 required linked/dynamic-test inputs;
+the Markdown-link audit reports zero moved or missing links. The cleaned-tree
+integrated gate passes 158 files/2,366 tests at 100% global coverage; build,
+packaged Electron, focused release suites, and the S728 production replay pass.
+Exact evidence is in
+`docs/research/epic17/S730-repository-evidence-hygiene/S730-exit-packet.md`.
+EPIC-17 and the goal remain In Progress through final diff review, PR, merge,
+ancestry, deployment and production E2E.
+
+## Prior boundary — S724 closed; V03 evidence model corrected
+
+S724's ten LibreCAD 2.2.1.5 / DXF 2000 receiver returns pass the unchanged
+source-bound audit at 0.000 cm; a Tee M repeat also passes. The 73 S330 rows
+are M-size option scenarios, not option/grade pairs, and the nine entity-count
+signatures do not prove geometric classes. S723's actual Trouser return is
+crowded/crossed; this is a V03 receiver readability finding, not a V02 hold.
+The prior “73 receiver round trips” plan is superseded by the S724 product-side
+all-options/all-grades source matrix plus an exact, representative empirical
+receiver profile claim. No source geometry, threshold, supported recipe,
+option, grade, protected export identity, or final gate is dropped. See
+`docs/research/epic17/S724-librecad-option-grade-matrix/S724-exit-packet.md`.
+
+S725: measure the Trouser receiver drawing layout, correct only its candidate
+display spacing if source evidence identifies the cause, and prove the
+73-option-by-grade source package matrix. Reopen and inspect the selected
+LibreCAD returns; preserve V03 In Progress and the active goal.
+## EPIC-17 / G04 — S722 V03 acceptance refined; empirical profile route
+
+The maintainer directed Codex to complete V03 with the CAD software already
+available and expressly rejected further paid-software candidates. S722
+replaces the admission's “industrial CAD receiver/profile” category gate with
+a named, version-specific **empirical DXF compatibility profile**. This is an
+explicit acceptance refinement, not an industry-standard or factory
+conformance claim. The strongest existing receiver evidence is LibreCAD
+2.2.1.5 DXF 2000 on one Polo M fixture (S708/S710); it is only a candidate
+until the retained all-seven/73-configuration, repeat, and rendered gates
+pass. CLO, GMS/DGS and OpenCAD keep their measured route limitations; no
+further software will be installed or purchased.
+
+All fidelity criteria remain: seven recipes/73 supported configurations,
+`0.001 cm` geometry, centimeter units, source-bound piece/revision/grade and
+stitch identity, CUT/SEW and construction marks/grainlines, readable output,
+repeatability, product-side malformed-input fail-closed behavior, legacy DXF,
+and protected byte identities. No source geometry compensation. Full global
+coverage/build/browser/Electron/output review, necessary-file cleanup, PR,
+safe merge, refreshed ancestry, required deployment and production E2E remain
+completion gates. S721's AccuMark candidate/access plan is withdrawn and
+superseded; no purchase or vendor contact.
+
+S722 records are linked in the validated board at revision 4222. Focused
+Control Center tests pass 42/42; `git diff --check` passes. Packet and revised
+plan: `docs/research/epic17/S722-v03-empirical-profile-acceptance/S722-exit-packet.md`.
+Next: one bounded evidence pass using the existing LibreCAD route and fixtures;
+do not restart old CLO/DGS/GMS/OpenCAD trials. The goal remains active and the
+board remains In Progress. No physical-fit or factory-acceptance claim.
+## EPIC-17/G04 — S721 closed; AccuMark documented route is not locally available
+
+S721 identifies Gerber AccuMark Pattern Design as a concrete official
+bidirectional ASTM/AAMA candidate: Gerber documents import from other CAD
+systems and model export in ASTM/AAMA DXF. Its official download workflow
+lists software assigned to the user's license. A read-only device check found
+no AccuMark/Lectra uninstall entry, expected install directory, process, or
+window. The user's online license assignment was not checked; the reviewed
+official pages do not document a public self-serve free trial. Thus the exact build, license/rights, local handling, and every actual
+round-trip gate remain unproven. No installation, contact, purchase, upload,
+file exchange, test variation, or acceptance change occurred. CLO, DGS,
+LibreCAD and OpenCAD evidence remains as in S719/S720. Packet:
+`docs/research/epic17/S721-accumark-route-access-review/S721-exit-packet.md`.
+
+Board closeout revisions 4214–4216 link S721 to G04-V03, including a scope
+clarification that online account/license status was not checked. EPIC-17 and V03
+remain In Progress; V01/V02 remain Done and the goal stays active. Continue
+only if an assigned AccuMark evaluation/license and rights/local-handling
+basis become available within the admitted no-spending/no-supplier-contact
+scope; then use one existing representative pilot before any breadth matrix.
+All V03 gates, thresholds, seven-recipe/options/grades, legacy DXF, protected
+export identities, cleanup, full gate, output review, PR, merge, ancestry,
+deployment and production E2E remain unchanged.
+
+## EPIC-17/G04 — S720 closed; CLO import setting comparison had no effect
+
+S720 tested one evidence-backed same-source CLO 2026.1.310 DXF-ASTM off/on pair for `Import Draw Curve Points`. It produced no change in measured outline geometry: the candidate and control reports are identical except for the return-file hash. Five CUT contours still fail the fixed `0.001 cm` limit (back 0.0025785809 cm; outer/inner stand 0.0329337961/0.0329350687 cm; upper/under collar 0.0108510435/0.0108510683 cm). All nine SEW contours and four other CUT contours pass this fixture only.
+
+Both returns omit the source `$INSUNITS=5` centimeter declaration; model space contains nine INSERT and nine TEXT records on numeric layer 1; returned block entities use numeric layers. This retains the known CLO identity/layer/mark limitations and does not qualify its route/profile. CLO showed the expected nine pieces in both cells without an import error/warning. Saved projects, two DXF returns, exact hashes, measurements and the comparison/block audit are under `C:\G04-CAD-Interchange\S720-clo-draw-curve-points\`. No source, test, geometry, export baseline, acceptance or threshold changed.
+
+The validated board links S720 exit evidence at revision 4210 and its closeout comment at 4211. Start was 2026-10-11 04:15:21 UTC from `fc3504649ac5871e5019896cc6c989e4b445eede`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S720 is unique after S719. The two pre-existing untracked S700 coverage diagnostics remain untouched. V01/V02 stay Done; V03 and EPIC-17 stay In Progress; the goal remains active. All-seven, fixed-threshold, receiver/profile, rights, legacy DXF and protected export-identity gates remain unchanged. No ANSI/AAMA/ASTM conformance, physical-fit, factory-acceptance or production-readiness claim.
+
+S720 time: 17m from start to closeout — receiver interaction/output preservation about 12m; focused output/report review about 3m; external-agent wait 0m; maintainer decision time 0m. Board validation and diff check are recorded in the exit packet. No production code changed; no changed-code coverage or full repository gate was due.
+
+Continue from S719's V03 matrix and stop-churn plan. Do not repeat this setting or another settled receiver/mode/encoding. Select the next code task only when source evidence supports a specific fix that advances a fixed gate without disguising receiver data loss; retain route/profile eligibility before any breadth test. Preserve the integrated full gate, output review, end-only necessary-file cleanup, PR, safe merge, fresh ancestry, required deployment and production E2E as final gates.
+## EPIC-17/G04 — S719 V03 installed-route reconciliation
+
+S719 compared the exact current board contract and S709 stop-churn plan with
+the saved S711/S714/S715 CLO return and a bounded read-only Sol review of the
+source writer, unit contract, round-trip auditor and tests. The review found no
+evidence-supported source-code correction that restores CLO's omitted shallow
+CUT vertices while preserving source geometry and the fixed `0.001 cm` gate.
+The returned vertices themselves match source vertices; five omitted corners
+cause 0.00258–0.03294 cm contour deviations. The exact CLO return also lacks
+the centimeter declaration and source-identifiable semantic marks/layers.
+Changing the auditor cannot recover absent receiver data.
+
+LibreCAD 2.2.1.5 DXF 2000 preserves one Polo M fixture (18 exact contours,
+units and 111 typed marks) but remains generic CAD and does not satisfy the
+industrial apparel receiver/profile requirement. DGS V2024.1 routes have
+recorded geometry/identity/unit loss or blank 0/0 imports. CLO and DGS are not
+passing candidates. S716–S718 pass only the tested product-local fail-closed
+UI cases; they do not prove receiver behavior. No V03 acceptance gate passed
+in S719; all seven-recipe/options/grade, profile, repeatability and eligible
+receiver-readable-output proof remains. No new software, format, mode, entity
+encoding, pattern, threshold, or product source change was used.
+
+The updated current gate matrix and evidence-led plan are in
+`docs/research/epic17/S719-v03-installed-route-reconciliation/`. Do not repeat
+the settled candidate routes. V01/V02 stay Done, V03 and EPIC-17 stay In
+Progress, and the goal stays active. Preserve all fixed criteria, legacy DXF,
+protected export identities, final 100% repository/build/browser/Electron/
+output checks, necessary-file cleanup, PR, safe merge, ancestry, required
+deployment and production E2E. No conformance, physical-fit, factory, or
+production-readiness claim.
+
+S719 start: 2026-10-11 03:56 UTC from S718 `5282eab2`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+board start replay 4203→4205 and validated exit replay 4205→4207. Time:
+implementation 0m; source/report comparison and review about 4m; external
+reviewer wait 0m in this continuation (the authorized read-only review had
+already finished); maintainer-decision time 0m. The two pre-existing untracked S700
+diagnostics remain untouched.
+
+---
+
+## EPIC-17/G04 — S718 closed; local return-audit failure matrix exercised
+
+S718 routes seven malformed/misleading returned-DXF cases through the actual
+local panel and production return auditor: malformed structure, missing piece
+identity, wrong CUT layer, non-finite geometry, over-tolerance geometry,
+missing outline, and duplicate piece. Every result displays the real auditor
+reason as an accessible alert with no partial counts. Focused tests pass
+12/12; changed panel-module coverage remains 100% across statements, branches,
+functions and lines. Alongside S716/S717 it closes local fail-closed UI checks
+for these tested classes, not receiver rejection, profile qualification,
+external readability, breadth, or repeatability. See
+`docs/research/epic17/S718-return-audit-ui-negative-matrix/S718-exit-packet.md`.
+
+Verified S718 boundary: 2026-10-11 03:40 UTC from S717
+`d89c3805` (`Slice 717: exercise real DXF audit UI path`); refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+board start revisions 4199–4201. S718 closes after validated exit replay.
+V01/V02 remain Done, EPIC-17/G04-V03 remain In Progress, and the goal remains
+active. The two pre-existing untracked S700 diagnostics remain untouched.
+The V03 receiver/profile, measured CLO fixed-gate failures, all-seven
+round-trip, repeatability and receiver-readable output remain unresolved or
+unproven. Keep all gates, thresholds, legacy DXF, protected export identities,
+final full coverage/build/output review, necessary-file cleanup, PR, safe
+merge, ancestry, deployment and production E2E unchanged.
+
+## Prior boundary — S717 closed; local audit integration proof completed
+
+S717 exercises one real generated registered Tee M schema-v5 package through
+the Export panel and production DXF return auditor. The UI summary matches the
+auditor report (3 pieces, 6 outlines, 26 mark entities, 0.000000 cm maximum
+difference). Missing centimeter declaration and a tampered source digest each
+produce an accessible fail-closed result without partial counts. Focused panel
+tests pass 11/11 with 100% statement/branch/function/line coverage of the
+panel module. This closes only the local panel-to-auditor evidence gap; it
+does not qualify a receiver/profile or clear the measured CLO failures and
+unproven breadth/repeatability/readability gates. See
+`docs/research/epic17/S717-real-package-ui-audit/S717-exit-packet.md`.
+
+Verified S717 boundary: 2026-10-11 03:35 UTC from S716
+`8c3175fd5778c84485dadb8c838476a445ef4b9f`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and remains an ancestor; start
+board revisions 4195–4197. S717 is closed; EPIC-17/G04-V03 remain In Progress
+and the goal stays active. The two pre-existing untracked S700 coverage
+diagnostics remain untouched. No receiver trial or production-code change was
+made. Continue from S709's fixed V03 matrix and stop repeating settled
+software/mode/encoding variants. Preserve all V03 gates, thresholds,
+all-seven/options/grades scope, protected export identities, and final
+full-coverage/build/output review, necessary-file cleanup, PR, safe merge,
+ancestry, required deployment, and production end-to-end verification.
+
+## Prior boundary — S716 closed; receiver route remains unqualified
+
+S714 measured the exact saved S711 CLO return against the S708 source: 13/18 contours pass at the unchanged 0.001 cm limit; every SEW path passes; five CUT paths fail. S715 confirms every returned CUT vertex maps to an input vertex within 0.000038 cm, while omitted shallow corners create the measured failure. The source writer's six-decimal output is not implicated. S503 already tested CLO's curve-point optimizer on/off without changing the five CUT contours; prior format, units, mode and density evidence also settle those variations. No pattern/writer change or repeated CLO test is justified. Packet: `docs/research/epic17/S715-source-cut-contour-cause/S715-exit-packet.md`.
+
+S716 adds a local CAD exchange panel around the existing source-package writer and fail-closed return auditor. It exports the opt-in schema-v5 DXF plus its integrity-bound source-package JSON and accepts that JSON with a returned DXF for an accessible, visible result. Focused UI tests cover valid and malformed inputs, and the built screen was reviewed in Chromium. This does not qualify a receiver or pass CLO's measured units, piece-identity, layer/mark, and five CUT contour failures. The fixed V03 gates and seven-recipe/options/grades scope remain unchanged. Packet: `docs/research/epic17/S716-local-dxf-return-audit-ui/S716-exit-packet.md`.
+
+Verified S716 boundary: 2026-10-11 03:31 UTC from S715 `fcad996e66aae07339d5b11a481a6d0881a1f073`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; board start revision 4191, exit revisions 4194–4195. S716 is uniquely reserved and closed. Goal remains active. Final full coverage/build/output review, necessary-file cleanup, PR, safe merge, ancestry, deployment and production E2E remain required.
+
+# Historical — S711 exit packet
+
+## Result
+
+S711 completed exactly one CLO 2026.1.310 import/export using the existing DXF-ASTM path and the recorded S703 controls. The exact S708 Polo M current-source file was imported and the return was saved under the approved C: evidence folder. The application produced a file without an error dialog. No app, format, profile, or setting variation was run.
+
+The test does **not** pass the targeted mark-retention check:
+
+- The source contains three buttonhole crosses encoded as six LINE entities on `MARK_BUTTONHOLE`.
+- The CLO return has nine named piece blocks and nine model-space INSERTs, with `_M` added to every piece name. It also adds nine model-space TEXT labels, which the strict named-piece reader rejects.
+- Returned piece entities use numeric layers; there is no returned `MARK_BUTTONHOLE`, `CUT`, or `SEW` layer name in the parsed piece entities. The buttonhole-placket block has no source-identifiable buttonhole mark layer/entities.
+- The three source cross centers are at (124.791237, 71.290826), (124.791237, 67.790826), and (124.791237, 64.290826) in the package drawing coordinates. The nearest POINT entity anywhere in the returned buttonhole-placket block is 0.249992 cm from each center; the nearest returned line/polyline segment is 1.499992 cm away. Neither distance meets the fixed 0.001 cm mark-anchor gate. These nearest entities are not claimed to be corresponding buttonhole marks.
+- Source `$INSUNITS=5` declares centimeters. The returned file has no `$INSUNITS` declaration. The current return auditor therefore fails first with “Returned DXF does not declare centimeters”; no check is relaxed to proceed past it.
+
+The S711 return is not a complete pass/fail evaluation of every V03 property. CUT/SEW contour deltas were not remeasured in this slice; S703's strongest existing evidence still proves five CLO CUT contours exceed 0.001 cm, and S711's mark-only source change does not clear that result. The returned DXF was not reopened/rendered after these measured identity, mark, layer, and unit failures; no readable-output pass is claimed. No all-seven/option/grade, repeatability, malformed-receiver, or profile eligibility gate was exercised.
+
+## Evidence and hashes
+
+- Exact source: `C:\G04-CAD-Interchange\S708-cut-layer-source-audit\polo-m-buttonhole-cross.dxf`; 285,209 bytes; SHA-256 `734e8902d798d0d6fd4f911af0902ff4c8ee1503b45be3aabb6f649438fae1df`.
+- Return: `C:\G04-CAD-Interchange\S711-clo-current-marks-check\polo-m-clo-astm-roundtrip.dxf`; 1,561,421 bytes; SHA-256 `dca07b4b676a09c2643d21e1040941a6e316f405a9d3b82f97b614fca723f36d`.
+- Machine-readable report: `C:\G04-CAD-Interchange\S711-clo-current-marks-check\S711-roundtrip-audit.json`.
+- The CLO project was saved before the check to `C:\G04-CAD-Interchange\S711-clo-current-marks-check\clo-session-before-S711.zprj`; no CAD evidence was added to the repository.
+
+## Gate disposition
+
+- Current-source CLO pilot: **failed** on units, exact piece names, semantic layers and source-identifiable buttonhole marks; known contour failures remain from S703 and were not remeasured here.
+- Industrial apparel receiver/profile and rights-reviewed exchange profile: **unproven**. “DXF-ASTM” is only the CLO menu choice; this evidence makes no ASTM, ANSI, or AAMA conformance claim.
+- All-seven recipes, supported options/grades, stitch relations after return, repeated round trip, complete malformed-input UI behavior and readable output cohort: **unproven**.
+- Source-side schema-v5 verifier on LibreCAD's saved S708 return: **passed for that one generic-CAD fixture in S710**; it does not make CLO pass.
+- V01/V02, fixed thresholds, seven-recipe/options/grade scope, protected legacy bytes, and every V03 acceptance criterion remain unchanged. G04-V03 and EPIC-17 remain In Progress.
+
+## Verification and time
+
+- Product implementation: 0m; no source, test, or export behavior changed.
+- UI import/export, setting confirmation, and returned-file diagnosis: approximately 9m.
+- Focused evidence verification and packet/record updates: approximately 4m.
+- Rendered return review: 0m because the returned file failed fixed identity/mark/unit gates before the predeclared output review stage.
+- External-agent waits: 0m; maintainer-decision time: 0m.
+- Start: 2026-10-11 02:35 UTC from S710 commit `93849c55554c565bb1052a271868dfd267f2632f`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S711 was uniquely reserved after S710. Canonical start replay advanced board revision 4171→4173; exit commands and closeout are recorded in the board.
+- No full repository gate was run; it remains reserved for the settled integrated Epic/PR candidate. No new test was added. Existing return-audit/package and output files remain in their intended locations; no full-gate cadence changed.
+
+## Next action
+
+Return to S709's prioritized plan. Do not repeat CLO, LibreCAD, DGS, or OpenCAD modes, change entity encodings, or run a broad receiver matrix. Continue only with a source/code change tied to a measured gate and a decisive verification; preserve all fixed criteria. The final candidate still requires the full 100% repository gate, build/browser/Electron and rendered-output review, a necessary-file cleanup inventory, PR, safe merge, refreshed `origin/main` ancestry, required deployment, and production end-to-end verification. No physical-fit or factory-acceptance claim.
+
+
+## Historical — S711 start
+
+S711 is one exact CLO 2026.1.310 DXF-ASTM import/export of the hash-pinned S708 Polo M package, using S703's documented controls. This is narrowly justified because the source changed from point-only buttonhole marks to centered visible crosses after CLO's earlier measured point-mark loss. It will test that source correction and record other return facts from the same file; it will not clear known contour failures, qualify a receiver/profile, or change any threshold or acceptance. No additional app, format, setting or retry is planned. Start packet and board record: `docs/research/epic17/S711-clo-current-marks-check/`.
+
+## Historical — S710 closed; returned DXF audit verified on saved fixture
+
+S710 adds a separate schema-v5 receiver-return audit without weakening the
+source package's exact-byte hash check. It binds returned piece and INSERT
+identities to the source manifest, requires centimeter units, checks planar
+placement, CUT/SEW vertex sequence and closure, and compares piece marks and
+layers at the fixed 0.001 cm limit. The audit accepts LibreCAD's zero Z scale
+for flat XY geometry but rejects planar movement, rotation, scaling and
+repeated instances.
+
+The exact saved S708 LibreCAD Polo M return passes: nine pieces, 18 outlines,
+111 mark entities, 0.000 cm maximum XY difference. Eight new audit tests pass
+with 100% changed-code statement/branch/function/line coverage. The existing
+package contract suite passes 10/10 with 100% coverage and includes its
+malformed/tampered inputs; the eight protected export identity regressions,
+TypeScript check and diff check pass. The package suite took 67.56 seconds;
+its 73-option and all-recipe/all-grade fixture generation accounts for most
+time. No worker memory pressure was observed, so runner defaults were not
+changed.
+
+This is source-verifier evidence for one generic-CAD return, not a receiver
+profile pass, UI-readable error proof, or broad exchange qualification. The
+industrial apparel profile and remaining breadth/repeatability/readability
+gates stay open. No gate, threshold, seven-recipe/options/grades requirement,
+hold or legacy export identity changed. No new receiver/app/format trial was
+run. Next action: reconcile S710 against the V03 matrix and pursue the next
+source-side issue only where the fixed plan gives a direct decisive check.
+
+GetonAgain/DGS was installed based on official free-edition/DXF claims before
+the exact installed workflow had been checked. That sequencing was my
+mistake. Its recorded tested modes lost required content, but those results
+do not prove the software alone was at fault; S708 independently found a real
+writer-structure defect in our code. Keep the goal active through final
+implementation, necessary-file cleanup, full gates, PR/merge, ancestry,
+deployment and production end-to-end verification.
+
+S710 started 2026-10-11 02:04 UTC from clean S709 `15274f91`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board start revisions 4167→4169; exit replay and timing are in the S710 packet.
+
+## Historical EPIC-17/G04 — S708 closed; named-block structure preserves semantic CUT
+
+S708 corrected the opt-in R2000 named-piece writer's missing block records,
+owner links, model/paper-space definitions, referenced continuous linetype,
+and HANDSEED. On the same Polo M candidate and LibreCAD 2.2.1.5 DXF 2000
+save/reopen used in S707, the return now keeps all 9/9 CUT outlines on `CUT`.
+All nine piece identities/INSERTs match, all 18 CUT/SEW paths have exactly
+matching ordered nonredundant vertices (0 cm difference), all 111 typed marks
+retain type/layer/coordinates, and `$INSUNITS=5` remains. The returned drawing
+was visibly reviewed after clean reopen. This result supports the combined
+source-structure correction on one fixture; it does not isolate the causal
+record, establish formal DXF conformance, qualify an industrial apparel
+profile, or clear V03. See `docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`;
+raw files and comparison reports remain under the named C: folder.
+
+The focused all-recipe/all-grade test exceeded its old 30-second test-only
+timeout under coverage by about one second without an assertion failure. Its
+test-specific timer is now 60 seconds; assertions and 100% changed-code
+coverage requirements are unchanged. The protected legacy DXF regression,
+TypeScript check, and remaining focused coverage results are in the S708
+packet. No global gate ran.
+
+S709 supersedes this next-action text. Its gate matrix and plan are the current
+handoff; see the S709 section above. No physical-fit, factory-acceptance,
+conformance, or production-readiness claim.
+
+Slice 708 started 2026-10-11 01:26 UTC from S707 `913a2b718c218e541a657c9ac4d684f30e88db05`; `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor. Board start revision 4158→4160; validated exit, commit and separate timing are in the packet.
+
+## EPIC-17/G04 — S705 closed; candidate buttonhole display verified
+
+S705 adds a source-centered two-line buttonhole display only to candidate DXF
+package schema v5. The point anchor, cut outline, seam graph, and default/legacy
+DXF output remain unchanged. The manifest binds each pair to the same piece,
+revision, source anchor, and packed drawing coordinates; it rejects shifted,
+missing, wrong-layer, malformed, and misidentified pairs. The all-seven/grade/
+73-option suite and schema-v4/v3/v2 verifier tests pass. Focused changed-code
+coverage is 100% for statements, branches, functions and lines; protected
+export regressions pass. A C:-only rendered placket detail shows three legible,
+separated crosses. See
+`docs/research/epic17/S705-candidate-buttonhole-cross/S705-exit-packet.md`.
+
+## EPIC-17 / G04 — S704 closed; current R2000 candidate and source plan recorded
+
+S704 restores full context/state history lost in S703 and corrects S703 unit
+reporting: the source has `$INSUNITS=5`; CLO's return does not. The per-gate
+matrix and prioritized plan are linked in
+`docs/research/epic17/S704-v03-source-and-gate-reconciliation/`. No new app,
+receiver search or repeated CLO/DGS/OpenCAD trial is planned. S705 will encode
+point buttonholes in the versioned candidate as centered cross lines matching
+the existing PDF renderer convention; S706 will test the exact package once
+through the already installed LibreCAD 2.2.1.5 DXF 2000 route. This route has a
+one-fixture pass but is generic CAD; its admitted industrial-profile gate
+remains unclaimed pending full evidence. V03 is held, EPIC-17 and the goal
+remain active. All seven/options/grades, fixed limits, output gates, cleanup,
+merge and deployment requirements remain unchanged.
+## EPIC-17 / G04 — S703 closed; CLO DXF-ASTM return fails fixed checks
+
+The single bounded CLO 2026.1.310 DXF-ASTM test used the exact S700 Polo M
+package. CLO retained all nine named piece blocks, but the actual return
+misses the fixed 0.001 cm contour limit on five CUT outlines (back, both
+stands, both collars) and all three checked buttonhole POINT anchors. The source declares centimeters (`$INSUNITS=5`) and has semantic CUT/SEW/MARK layers; CLO removes the units declaration and returns numeric layers.
+The saved-file contour report is one-sided: its lower bounds prove these five
+failures but do not prove the other four CUT paths pass. No returned-render
+acceptance was claimed after the predeclared stop condition. Exact hashes,
+measurements and limitations are in
+`docs/research/epic17/S703-clo-astm-apparel-pilot/S703-exit-packet.md`; CAD
+files remain in `C:\G04-CAD-Interchange\S703-clo-astm-pilot\`.
+
+No product code or acceptance changed. No further CLO variation or new CAD
+app is queued for these same failures. V01/V02 remain Done, V03 remains held,
+EPIC-17 remains In Progress, and the goal remains active. Next: reconcile the
+fixed V03 matrix against the exact returns and current DXF writer, then define
+only evidence-supported code changes and decisive verification. All-seven
+recipes/options/grades, identity/layers/marks, malformed-input, repeatability,
+readability, rights/profile, protected legacy output identities, cleanup,
+integrated full gates, final output review, PR/merge, ancestry and production
+verification remain required. No conformance, physical-fit, factory-acceptance
+or production-readiness claim.
+## EPIC-17 / G04 — S702 closed; correct CLO apparel profile identified
+
+S702 checked CLO's first-party documentation. CLO has a distinct DXF-ASTM
+apparel import/export mode alongside Standard DXF and AAMA. S700 used
+Standard, so its measured losses do not settle the documented ASTM route. One
+bounded pilot using the exact saved Polo M fixture through DXF-ASTM is
+justified; curve optimization stays off and all geometry/mark/identity
+thresholds stay fixed. This is an empirical CLO profile test, not an ASTM
+conformance claim. No app operation occurred in S702. See
+`docs/research/epic17/S702-installed-profile-documentation/`. V03 remains held
+until pilot and remaining all-seven, rights, malformed-input, repeatability,
+readability, and final exit gates pass. EPIC-17 and goal remain active.
+
+## EPIC-17 / G04 — S701 closed; exact return entity diagnosis
+
+S701 parsed the saved S700 source and CLO return directly. Five CUT contours
+are genuinely simplified on return beyond 0.001 cm; their source DXF matches
+the prior exact source bytes. Three source buttonhole points have no returned
+mark entity; the repeated 1.4999984 cm nearest-path distance ends at a
+continuous placket edge and is not a valid mark match. No source-geometry
+workaround or comparator exception is safe, and no code changed. No app or
+receiver trial was repeated. V03 remains held, EPIC-17 and the goal remain
+active. Next: reconcile existing receiver/profile records and first-party
+profile documentation against the remaining fixed gates, without new software
+or format trials. Full integration gates, necessary-file cleanup, PR, safe
+merge, ancestry and required production end-to-end check remain due.
+See `docs/research/epic17/S701-return-geometry-diagnosis/`.
+
+## EPIC-17 / G04 — S700 closed; named piece package measured in CLO
+
+S700 implements deterministic named DXF blocks bound to recipe role and
+source revision in the opt-in G04 package. Block expansion reproduces the
+prior flat drawing exactly; all recipe/grade rows and 73 supported options
+pass. Focused tests 13/13, changed-code statement/branch/function/line
+coverage 100%, typecheck, and the unchanged legacy-output hash pass. The
+actual one-time CLO 2026.1.310 test retained all nine piece names (with `_M`)
+but failed five of nine CUT contours at the fixed 0.001 cm threshold; three
+buttonhole points also remain absent with Draw Curve Points enabled. All nine
+SEW contours pass for this Polo M fixture only. The exact source/return hashes
+and rendered review are in `docs/research/epic17/S700-named-piece-package/`
+and `C:\G04-CAD-Interchange\S700-named-piece-package\` respectively. This
+fixes the source package identity gap but does not qualify CLO or clear V03.
+The predeclared CLO stop condition is met; do not repeat its setting/format or
+try another app for these same failures. See the S700 exit packet for exact
+residuals and gate status. V01/V02 remain Done; V03 remains held; EPIC-17 and
+the goal remain active. Next: reconcile the exact returned entities and
+admitted profile contract in one evidence-led plan, making no receiver/software
+variation unless a distinct unmet gate and existing evidence justify it.
+Cleanup, integrated full gate, output review, PR, safe merge, ancestry and
+required production end-to-end verification remain due.
+
+## EPIC-17 / G04 — S699 closed; loss causes isolated and source repair selected
+
+S699 compared the exact S698 Polo M DXF files with the writer and prior
+controlled evidence. Six CUT contour misses occur after CLO converts the
+high-resolution source; prior classic/LW-polyline, connected-line and exact
+path-density evidence does not support another geometry encoding sweep. The
+three omitted buttonhole points were present as typed POINTs in our source DXF;
+S698 had `Import Draw Curve Points` disabled, so the point-import gate remains
+to be checked with that option enabled. The direct source-structure gap is
+that the DXF is flat and has no piece-named blocks; piece/revision identity is
+in the side manifest. S628 previously round-tripped 12 named Woven blocks and
+all CUT/SEW contours within tolerance, providing a concrete implementation
+path. Read `docs/research/epic17/S699-dxf-loss-root-cause/`.
+
+Next S700: integrate deterministic recipe/role named blocks in the opt-in
+package without changing any geometry/entity payload, update manifest entity
+resolution and exact expansion validation, cover all seven recipes/grades/73
+options, then make one Polo M CLO round trip with Draw Curve Points enabled.
+If the curved CUT gate still fails at 0.001 cm, retire this CLO route; no
+further entity-form or point-density permutations. All acceptance gates,
+legacy identities, holds, cleanup, full gate, PR/merge/ancestry and production
+verification remain unchanged; the goal stays active.
+
+## EPIC-17 / G04 — S698 closed; corrected-precision CLO return measured
+
+S698 tested the exact S697 six-decimal Polo M candidate once through the
+already-open CLO 2026.1.310 Standard DXF route. Units and all nine SEW paths
+passed for this fixture. Three of nine CUT contours pass and six fail the
+unchanged 0.001 cm limit; 105/108 marks remain detectable, while all three
+buttonhole points are absent and source layer/entity identity is reduced to
+numeric layers. The reopened return and inner-stand detail were visually
+reviewed. The precision correction is useful but does not clear V03. Full
+measurements, file hashes, render evidence, and per-gate delta are in
+`docs/research/epic17/S698-clo-precision-recheck/`; CAD files stay under
+`C:\G04-CAD-Interchange\S698-clo-precision-recheck\`.
+
+S698 is a CLO/version/mode empirical result, not an industry-standard
+conformance claim. It does not accept another recipe, grade, option, malformed
+input, repeatability, identity, or readable-output gate. G04-V03 remains held;
+EPIC-17 and its goal remain active. The next slice is a static source/return
+root-cause audit for the repeated curved CUT loss and typed buttonhole mark
+loss. No further receiver variation is justified until that audit identifies
+a specific export-code correction and distinct gate it can clear. Acceptance,
+fixed thresholds, all-seven requirement, legacy output identities, cleanup,
+full integrated gate, PR, merge, ancestry, and production verification remain
+unchanged.
+
+S698 started 2026-10-10 23:16:37 UTC from clean S697
+`97a03014da88ccd29d220c95b8b23550a7f6c41a`; refreshed `origin/main` remained
+an ancestor. Implementation 0m; focused receiver, comparison and rendered
+verification approximately 8m; durable record and board closeout approximately
+3m; external wait 0m; maintainer-decision time 0m. The focused Control Center
+suite is rerun after validated board closeout; no full repository gate ran.
+
+## EPIC-17 / G04 — S697 closed; candidate DXF precision corrected
+
+S697 identifies a source-side serialization defect: the opt-in centimeter
+candidate rounded coordinates to 0.001 cm, the same size as the full receiver
+contour tolerance. Candidate geometry and marks now retain six decimal places;
+the protected legacy `exportDxf` remains at its established three-decimal
+output. On the exact Polo M fixture, maximum measured two-axis serialization
+displacement falls from 0.000701218851 cm to 0.000000702921 cm. Seven-recipe,
+grade and 73-option package tests pass; changed-module coverage is 100% for
+statements, branches, functions and lines, and actual generated output was
+rendered and inspected. Full evidence is in
+`docs/research/epic17/S697-candidate-precision/` and external artifacts remain
+under `C:\G04-CAD-Interchange\S697-candidate-precision\`.
+
+This improves our emitted file precision only. No receiver was retested:
+S696's CLO Standard return still fails six CUT contours and three button
+stations, and no already available qualifying apparel/industrial profile is
+evidenced. V01/V02 remain Done, V03 remains unaccepted/Blocked, EPIC-17 remains
+In Progress and the goal remains active. No acceptance, fixed threshold,
+all-seven requirement, legacy output or protected identity changed. The full
+integrated gate, final necessary-file cleanup review, PR, safe merge, ancestry
+and required production end-to-end verification remain due.
+
+S697 started 2026-10-10 23:07:54 UTC from clean S696 `7ae407cce73caa76fff3cb08bc47ab67a28d43d5`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Validated board start/exit replay, focused coverage and exact rendered hashes
+are recorded in the S697 packet. No full repository gate or receiver operation
+was run.
+
+## EPIC-17 / G04 — S696 closed; CLO Standard route retired after measured return failure
+
+S696 completed the planned CLO setting diagnostic on the exact S693 Polo M
+candidate. With `Import Draw Curve Points` off, six of nine CUT contours still
+fail the fixed `0.001 cm` threshold; the sleeve and both plackets pass. An
+independent comparison confirms all nine SEW paths pass. Three buttonhole
+anchors remain 1.4999966 cm from their source stations; the returned file has
+no typed LINE/POINT/CIRCLE marks and uses numeric layers. Exact source
+regeneration matches the submitted bytes. Actual whole-pattern and inner-stand
+renders were inspected. CLO Standard is retired; no additional setting or
+encoding trials or source-shape compensation are supported.
+
+A bounded Sol review rejected the proposed current-candidate LibreCAD pilot:
+even if geometry and marks pass, S690/C04 already classify LibreCAD as generic
+CAD, so it cannot satisfy G04's industrial/apparel profile gate. S696's full
+per-gate matrix, revised plan, review and exit evidence are in
+`docs/research/epic17/S696-clo-draw-curve-points-off/`. The existing
+installed/researched routes have been reconciled; no further app/format/setting
+trial is planned absent evidence that an already available, rights-cleared
+local apparel/industrial receiver profile can meet the admitted contract.
+
+V01/V02 remain Done; V03 remains unaccepted/Blocked; EPIC-17 remains In
+Progress and the goal remains active. Acceptance, all-seven/options/grades,
+fixed thresholds, legacy DXF behavior and protected identities are unchanged.
+The settled full gate, output review, necessary-file cleanup, PR review, safe
+merge, refreshed `origin/main` ancestry and required production end-to-end
+verification remain due. No physical-fit or factory-acceptance claim.
+
+S696 started 2026-10-10 22:48:54 UTC from S695 `54897bee2eeb552d9e35a1690036b6728d3bc540`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an
+ancestor. Board replay `4117→4118→4124` start and exit. Focused Control
+Center tests passed 42/42; `git diff --check` passed. No production code
+changed. Goal record remains active; no status mutation was made.
+## EPIC-17 / G04 — S694 closed; CLO candidate still fails CUT/mark gates
+
+S694 used the exact S693 adaptive-cut Polo M candidate in the existing CLO
+2026.1.310 Standard DXF route, with the verified S689 cm-to-mm transform and
+the fixed `0.001 cm` comparator. Units and all nine SEW contours pass. Seven
+of nine CUT contours fail; residuals range from `0.001035292` to
+`0.039767881 cm`. The placket CUT paths pass. Mark geometry matches 105/108;
+three buttonhole anchors are missing by `1.4999966 cm`. The return contains 132
+LWPOLYLINEs, no typed LINE/POINT/CIRCLE marks, and only numeric layers 1, 7, 8,
+14. Actual whole-pattern and inner-stand output was rendered and reviewed.
+Exact hashes, settings, residuals, gate reconciliation, rendered images and
+the prioritized plan are in `docs/research/epic17/S694-clo-candidate-cut-check/`;
+all import/export files remain under
+`C:\G04-CAD-Interchange\S694-clo-candidate-cuts\`.
+
+This is a concrete failure of the current CLO candidate, not a V03 pass. No
+other app, format, encoding, setting or fixture will be tried. Before another
+receiver operation, the next slice will compare the exact source/output point
+sequences at the measured maxima; the cause is not yet established. Only a
+causally supported candidate-encoding correction may be considered. Do not
+alter physical geometry, tolerance, legacy DXF, protected identities or
+acceptance. V01/V02 remain Done; G04-V03 remains
+unaccepted; EPIC-17 and its goal remain In Progress/active. S694 start: 2026-10-10
+22:25:29 UTC from clean S693 `1d75e65b969150d98184b9c6fdcbb92e4d5be71b`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor; board start revision 4109, S694 start replay 4110, and validated
+exit/matrix/plan evidence replays 4111–4113. Focused Control Center tests
+passed 42/42; `git diff --check` passed. No changed production-code coverage
+applies. One bounded Sol high-reasoning review corrected the plan's causal
+language; no V03 gate was declared passed by that review.
+
+## EPIC-17 / G04 — S693 closed; adaptive interchange cut candidate verified
+
+S693 implements a candidate-only `adaptive-normal-offset/1` in package schema
+version 3. The S692 analytic cusp is represented by the exact normal-offset
+locus with adaptive subdivision, loop trimming, bounded miter joins, and
+fail-closed guards. Algorithm identity and resulting drawing bytes are bound
+into the package revision. The legacy `exportDxf`, source pattern, stitch graph,
+recipe allowance values, and protected export identities are unchanged.
+Existing package schema version 2 still verifies.
+
+Focused verification: 46/46 tests pass across the adaptive geometry, package,
+DXF-centimeter, export and byte-identity suites. The normal package tests cover
+all seven recipes, every registered grade row and all 73 canonical supported
+option cases. Changed production files reached 100% statements/branches/
+functions/lines under focused coverage. `npx tsc --noEmit` passes. Actual Polo M
+candidate DXF output was rendered next to legacy output at whole-pattern and
+back-neckline cusp detail; the cut path is closed, the sewn outline is
+unchanged, and the visible candidate smooths the old cusp step. Hash-pinned DXF
+and PNG evidence remains outside Git under
+`C:\G04-CAD-Interchange\S693-adaptive-cut-review\`; exact hashes and visual
+inspection are in `docs/research/epic17/S693-adaptive-interchange-cut/`.
+
+S693 does **not** clear V03 receiver/profile, rights, identity/marks,
+malformed-input, repeatability, readability or receiver-wide breadth gates.
+The board remains honest: G04-V03 is Blocked; EPIC-17 is In Progress; V01/V02
+remain Done. No exact compatibility/conformance, physical-fit, factory-
+acceptance or production-readiness claim is made. The goal record remains
+active. Next is one evidence-led check of the exact already-installed CLO
+Standard route against the updated candidate's previously failing cut geometry
+gate, not a new application or profile variation. Stop at the first concrete
+gate miss and record the result; even a geometry pass cannot alone qualify
+CLO's profile or clear independent gates.
+
+S693 start: 2026-10-10 22:01:56 UTC from clean S692 commit
+`146b60a9d0961e8cfb76be58637cb53efcaf14e4`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board
+start revision 4106 and validated start replay 4107. Exit replay and focused
+Control Center result are in the S693 exit packet. Approximate elapsed time to
+this verified boundary: 20m20s; implementation: 11m; focused verification and
+rendered output review: 7m; durable packet/state/board closeout: 2m20s;
+external wait: 0; maintainer decision: 0. No full repository gate is due until
+the settled integrated Epic/PR candidate.
+
+## EPIC-17 / G04 — S690 prior evidence; LibreCAD DXF 2000 pilot is partial
+
+S690 measured one LibreCAD 2.2.1.5 DXF 2000 import/export on the hash-pinned
+Polo M fixture. It preserved 18 CUT/SEW paths, 38 typed marks, eight layers,
+centimeter units and clean reopen/render. This generic-CAD result did not prove
+identity, grades/options, malformed-input rejection, repeatability, complete
+readability, or an apparel/industrial profile. Its artifacts remain under the
+named C: evidence folder. S691 supersedes S690's planned next action; no more
+LibreCAD identity test is queued under the current C04 requirement.
+## EPIC-17 / G04 — S689 closed; CLO mm pilot fixes units only
+
+S689 completed the one controlled CLO Standard DXF millimeter-input test. The
+unit/scale mismatch is resolved for that diagnostic Polo M return, and all
+nine sew paths pass, but five cut outlines still miss the fixed 0.001 cm gate
+and eight visible marks are missing/misplaced. The returned file also loses
+named piece/layer and mark types; the saved overview is not readable evidence.
+No source-code defect, safe exporter change, or qualifying route was proven.
+The validated board revision 4078 records G04-V03 Blocked, EPIC-17 In Progress,
+V01/V02 Done; acceptance and export identities remain unchanged. Read
+`docs/research/epic17/S689-clo-millimeter-input-test/S689-exit-packet.md` and
+`S689-V03-route-decision.md`. CAD/import/export files are restricted to the
+named C: evidence folder. No manual user decision or UI action is pending.
+## EPIC-17 / G04 — S688 closed; source audit confirms no safe receiver fix
+
+S688 records Codex's reconciliation of the completed Sol read-only source
+audit with the exact S685/S687 CLO files and existing GetonAgain/DGS,
+LibreCAD, and OpenCAD evidence. No source serialization defect is causally
+connected to the measured CLO return failures, and no production code fix is
+supported. The exact return still has a unit mismatch, five CUT contour
+failures and eight visible mark failures; S687 confirms the comparator did not
+overlook typed mark entities. GetonAgain's authenticated workspace and DGS
+routes were already exercised: the observed GMS route is marker-file-only,
+DGS imports render/register 0/0, and DGS exports contain metadata but no
+pattern geometry. LibreCAD loses the unit declaration; OpenCAD is generic and
+fails other fixed gates. No new app, import/export, profile or encoding trial
+was run.
+
+There is no maintainer decision or manual UI action pending. The required V03
+prerequisite is a specifically named, rights-cleared receiver/profile that is
+available and can meet the fixed exchange gates. The validated board is now
+revision 4071: G04-V03 is Blocked; EPIC-17 remains In Progress; V01/V02 remain
+Done. All acceptance, thresholds and holds remain unchanged. S688 start/exit
+packets and the gate supplement are in
+`docs/research/epic17/S688-v03-source-audit/`. `npm run control-center:test`
+and `git diff --check` must pass after the final board/status assertion update;
+full repository gates, final output review, PR, merge, ancestry and deployment
+remain due on a settled eligible candidate.
+
+## EPIC-17 / G04 — S687 closed; S685 mark misses confirmed in saved CLO output
+
+S687 audited the exact hash-pinned source, CLO return and S685 report. The nine
+returned piece blocks contain 125 LWPOLYLINE entities and zero LINE, POINT, or
+CIRCLE entities. All eight previously reported marks remain outside `0.001
+cm`; no comparator omission or safe source-code repair is established. The
+reproducible audit and exact hashes are in
+`docs/research/epic17/S687-clo-return-entity-audit/`.
+
+Started 2026-10-10 19:09:53 UTC from clean S686 `a6543cf1`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Validated board start/exit revisions and focused checks are in the S687 exit
+packet. `npm run control-center:test` passed 42/42; helper syntax and its
+hash-pinned run passed; `git diff --check` passed. No product source, legacy
+export, or protected identity changed. G04-V03 and EPIC-17 remain In Progress;
+all acceptance and final gates remain unchanged.
+
+No maintainer decision is pending. The next action is not another encoding
+trial: continue only if a source-specific defect or a different already
+available qualifying receiver/profile is supported by evidence. Otherwise the
+current measured receiver failures cannot be repaired safely by changing our
+source blindly. Start/exit packets:
+`docs/research/epic17/S687-clo-return-entity-audit/S687-start-packet.md` and
+`docs/research/epic17/S687-clo-return-entity-audit/S687-exit-packet.md`.
+
+## EPIC-17 / G04 — S686 closed; no tested receiver meets V03
+
+S686 started 2026-10-10 18:55:01 UTC from clean S685 commit `ef9cf0c4`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. Board start/exit replay was 4057→4059→4061; `npm run
+control-center:test` passed 42/42 and `git diff --check` passed. The updated V03
+matrix uses S685's exact CLO return measurements, S674 LibreCAD R12 evidence,
+prior DGS/OpenCAD findings, and C04's version-matched sidecar allowance.
+The bounded read-only Sol review found no overlooked pass or supported code
+repair. C04 permits a bound sidecar for grades, piece identity and seam
+relations; S685 did not test a returned sidecar, so that CLO result remains
+unproven. Units, outlines and visible marks remain direct exchange gates.
+
+No tested route currently demonstrates the required industrial exchange
+profile and all fixed gates. No maintainer decision is pending. No source or
+acceptance change was made and no new software trial is queued. EPIC-17 and
+G04-V03 remain In Progress; V01/V02 remain Done. Older completion estimates
+that assumed an eligible receiver are stale; remaining time is unbounded until
+route eligibility is evidenced. Resume from the matrix and exit packet:
+`docs/research/epic17/S686-v03-gate-reconciliation/V03-GATE-MATRIX-S686.md`
+and `docs/research/epic17/S686-v03-gate-reconciliation/S686-exit-packet.md`.
+Next action: proceed only if evidence establishes an already available,
+rights-cleared qualifying receiver/profile, then run one exact representative
+pilot and stop at its first fixed-gate miss. Preserve the full matrix, global
+coverage, final output review, PR, safe merge, ancestry and required
+deployment gates.
+
+## EPIC-17 / G04 — S685 closed; CLO returned output differs beyond its unit label
+
+S685 compared the exact S684 source and CLO return. The source writer and
+manifest verifier correctly emit/require centimeters. CLO's returned drawing
+declares millimeters but keeps centimeter-sized numeric coordinates. More
+importantly, at the fixed 0.001 cm gate, 5/9 cut outlines and 8/108 source mark
+entities do not match returned geometry; all 9 sew outlines pass. CLO also
+replaces semantic layers and does not retain source identities. A header-only
+normalizer would conceal those measured differences, so no production code was
+changed. Exact source, output, comparison report, distances and limitations are
+in the S685 exit packet; all exchange files remain under `C:\G04-CAD-Interchange\`.
+No other app, profile, mode, format, setting, fixture or threshold was tried.
+The evidence applies to this observed CLO route and one Polo M fixture only.
+
+S685 start/exit board revisions: 4053→4055 and 4055→4057. Focused comparison
+utility syntax check passed; focused Control Center suite result is recorded in
+the slice packet. V03 remains In Progress; V01/V02 Done. No V03 acceptance gate
+passes from this one fixture. Next reconcile the existing gate matrix with
+S685's concrete unit/geometry/mark/identity failures and record the shortest
+credible path without another default software trial or acceptance change.
+Full repository coverage, final output review, PR, safe merge, ancestry, and
+required deployment remain open.
+
+Start: 2026-10-10 18:49:15 UTC; closeout 18:54:24 UTC (5m09s elapsed).
+Implementation: 1m20s; focused verification and closeout: 3m49s; external-agent
+wait: 0; maintainer decision: 0.
+
+Exit packet: `docs/research/epic17/S685-clo-unit-roundtrip-normalizer/S685-exit-packet.md`.
+
+## EPIC-17 / G04 — S684 closed; CLO output unit mismatch recorded
+
+S684 started 2026-10-10 18:36:33 UTC from clean S683 commit
+`47da60e14c1293b847117cececde1ef6b7a6cc38`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+The current S681 Polo M package was imported and exported once in the existing
+CLO 2026.1.310 Standard DXF route. The exported file retained centimeter-sized
+coordinate values but declared millimeters (source `$INSUNITS=5`; output
+`$INSUNITS=4`), so a receiver honoring the saved unit label would read the
+pattern ten times smaller. The output was not reopened after this first measured
+miss. One Polo M observation does not pass or reject the entire CLO candidate
+or any broad V03 gate. V03 remains In Progress; V01/V02 remain Done.
+
+Packet: `docs/research/epic17/S684-current-package-clo-import/S684-exit-packet.md`.
+Board start/exit revisions are 4049→4051 and 4051→4053. DXF, manifest, and
+parsed report remain only in `C:\G04-CAD-Interchange\S683-current-package-clo-roundtrip\`
+and `C:\G04-CAD-Interchange\S684-current-package-clo-import\`. Next inspect
+the repository's source unit declaration and package verifier, then make only
+an evidence-backed source correction or document the candidate's failed unit
+gate. Do not install or switch CAD applications. All seven recipes/options/
+grades, malformed-input, repeatability, marks, full geometry, readability,
+rights/profile and V03 acceptance remain incomplete. Final full coverage,
+integrated output review, PR, safe merge, ancestry and required deployment
+remain pending.
+
+## EPIC-17 / G04 — S683 closed; current-package CLO attempt could not reach workspace
+
+S683 reserved the next unique slice after refreshing Git and board state. The
+current S681 Polo M DXF and package manifest were copied under
+`C:\G04-CAD-Interchange\S683-current-package-clo-roundtrip\`; both hashes
+match their source. CLO 2026.1.310 launched and exposed one window, but the
+Windows computer-use bridge failed to activate that window twice, including
+after its one required refreshed retry. No import/export or receiver output
+occurred. This is a tooling-access failure, not a CLO or exporter diagnosis;
+no V03 gate passes or fails from S683. Board replay `4045→4047→4049` preserves
+V01/V02 Done and G04-V03/EPIC-17 In Progress. Exit packet:
+`docs/research/epic17/S683-current-package-clo-roundtrip/S683-exit-packet.md`.
+Next use a supported, targetable CLO workspace route for the exact same
+hash-pinned file; do not vary software, format, mode or criteria.
+
+## EPIC-17 / G04 — S682 closed; current V03 gate matrix
+
+### S682 closed — reconcile current V03 evidence without another trial
+
+Started 2026-10-10 18:23:30 UTC from clean S681 `1b1975a1`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 681; S682 is unique. Board start/exit revisions are
+4041→4043 and 4043→4045. Board state keeps
+EPIC-17/G04-V03 In Progress; V01/V02 Done. The complete goal remains active.
+S682 reconciles every fixed V03 gate against current S680/S681 source packages,
+already measured receivers, and the bounded Sol review. Source-side units,
+options, grades, piece/seam relations and named-mark records pass their package
+checks. No single tested receiver passes the unchanged geometry, units,
+malformed-input, all-seven/options/grades, repeatability, readable-output and
+profile gates. See `docs/research/epic17/S682-v03-current-gate-matrix/V03-GATE-MATRIX-S682.md`.
+No new CAD software, candidate, profile, encoding or receiver variation was
+run. EPIC-17 remains in progress; the full goal is not complete. Reopen receiver
+work only when a route qualifies or a source-side change is supported by a
+specific measured gate. Full integration/coverage/PR/merge/deployment gates
+remain pending.
+
+## EPIC-17 / G04 — S681 closed; source-bound mark identities
+
+### S681 closed — add source mark identity to candidate sidecar
+
+Started 2026-10-10 18:13:08 UTC from clean S680 `5042e110`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 680; S681 is unique. Board start/exit revisions are
+4037→4039 and 4039→4041. EPIC-17/G04-V03 remain In Progress; V01/V02 Done.
+The version-2 candidate sidecar now binds per-mark IDs/names/labels, kind,
+entity type/layer, source geometry and one-based entity ordinal to the exact
+DXF digest. The verifier checks every reference against its drawing entity.
+All seven recipes/grade rows and all 73 S330 options pass source-package
+verification. Focused 45/45, changed-code coverage 100%, build, Control Center
+42/42 and rendered/hash review pass. S681 DXF bytes match S680; legacy and
+protected exports remain unchanged. No receiver or V03 acceptance gate is
+promoted. Exit packet:
+`docs/research/epic17/S681-dxf-mark-identity/S681-exit-packet.md`.
+
+## EPIC-17 / G04 — S680 closed; option-bound DXF packages
+
+### S680 closed — complete option-bound package inputs
+
+Started 2026-10-10 18:03:37 UTC from clean S679 `dff78e78`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 679; S680 is unique. Canonical board revision 4033
+keeps V01/V02 Done and G04-V03/EPIC-17 In Progress. Packet:
+`docs/research/epic17/S680-dxf-option-package-coverage/S680-start-packet.md`.
+
+S680 resolves every option from validated inputs plus recipe defaults, rejects
+unknown, malformed, out-of-range and off-step values, and binds those complete
+values to the package revision. It also fixes canonical comparison of optional
+`undefined` object fields so the valid Woven zero-vent source block packages
+correctly. The exact 73-row S330 source matrix generated and verified one
+package per row. Focused 44/44, changed-module coverage 100%, build and Control
+Center 42/42 pass. Diagnostic SVG/PNG output was rendered from emitted DXF
+entities; 73-case contact sheet and representative high-detail outputs were
+reviewed. All output files are under `C:\G04-CAD-Interchange\S680-option-packages`.
+No receiver or V03 acceptance gate is promoted. Exit packet:
+`docs/research/epic17/S680-dxf-option-package-coverage/S680-exit-packet.md`.
+
+The next action is a bounded reconciliation of V03 evidence from the already
+tested receiver/profile routes, separating source defects repaired in S676–S680
+from concrete receiver/profile failures and unproven acceptance gates. Do not
+introduce another CAD application or claim interchange acceptance without the
+unchanged evidence gates.
+
+## EPIC-17 / G04 — S679 closed; explicit package units
+
+### S679 closed — explicit units in candidate package
+
+Started 2026-10-10 17:59:26 UTC from clean S678 `30a640c2`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest assigned slice was 678; S679 is unique. Board revision 4029 keeps V01/
+V02 Done and V03/EPIC-17 In Progress. Packet:
+`docs/research/epic17/S679-dxf-package-unit-contract/S679-start-packet.md`.
+
+S679 adds `units: { length: "cm", dxfInsunits: 5 }` to the versioned manifest
+and requires that record to agree with the paired DXF's `$INSUNITS=5` header.
+This repairs the source-side C04 unit record only; S674 still proves that
+LibreCAD's saved R12 output drops the marker. The change cannot pass receiver
+round-trip acceptance. Seven recipe manifests generated and reviewed; all
+seven DXF hashes remain identical to S678. Focused checks 42/42, changed-code
+coverage 100%, build, Control Center 42/42, and diff hygiene pass. Exit packet:
+`docs/research/epic17/S679-dxf-package-unit-contract/S679-exit-packet.md`.
+Keep all V03 acceptance, thresholds, option/grade gates and protected
+identities unchanged. Next assess only whether the existing exact profile
+permits a source-backed normalization step; do not select another app or infer
+units from coordinates.
+
+### S677 exit — recipe construction marks in additive DXF
+
+Started 2026-10-10 17:37:56 UTC from clean S676 `4e84263395a357978a97b46a1ca208921e65a5de`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S676 is the highest assigned slice; S677 is unique. Canonical board revision 4021 has V01/V02 Done and V03/EPIC-17 In Progress. Packet: `docs/research/epic17/S677-dxf-construction-marks/S677-start-packet.md`.
+
+Source trace found `src/export/dxf.ts` has no recipe input and omits the recipe-owned notch and grainline rules that `src/export/svg.ts` resolves from the live pattern. S677 adds those exact construction marks only to the opt-in centimeter-declared DXF candidate. Six focused exporter/legacy suites pass 37/37; changed-module coverage is 100% in every dimension; build and Control Center (42/42) pass. Seven M-size DXF candidates were generated outside the repo on C:, rendered from their actual entity records and visually inspected. Legacy writer/default UI/protected identities remain unchanged. This passes no receiver/profile or overall V03 gate. S677 start/exit: `docs/research/epic17/S677-dxf-construction-marks/`; board replay 4021→4023→4025. Elapsed 11m39s: implementation/source review ~5m, measured tests/build/control checks ~25s, output generation/review ~2m, docs/board/review ~4m; external waits 0, maintainer decision 0.
+
+Next action: begin S678 from a fresh Git/board/usage check. Implement/test a C04-bounded, version-matched manifest for recipe/piece identity, grade/size step and stitch relationships, bound to the exact candidate DXF digest. Reuse existing grade fixtures and preserve visible marks/geometry and all V03 acceptance; do not claim this sidecar survives a receiver until import/export evidence proves it.
+
+### S678 closed — C04-bounded candidate package manifest
+
+Started 2026-10-10 17:51:58 UTC from clean S677 `280580ad0a940cb7b7819f2ac1d21bc804c783ad`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice 677; S678 is unique. Canonical board 4025; V01/V02 Done and V03/EPIC-17 In Progress. Packet `docs/research/epic17/S678-dxf-interchange-manifest/S678-start-packet.md`.
+
+S678 added a versioned sidecar recording recipe/piece identity, selected size/grade, options and source stitch relationships, bound to the exact candidate DXF and canonical manifest revision digests. The package generator validates the size/grade and re-drafts from the same recipe/options to reject mismatched blocks. All seven registered recipes and their grade rows pass package generation and verification; tamper checks pass. Seven M-size drawing hashes match S677 exactly, so S678 does not alter geometry or marks. Focused checks 42/42, changed-module coverage 100%, build and Control Center 42/42 pass. Legacy exports and protected identities remain unchanged. Receiver preservation and all V03 acceptance remain unproven; the sidecar alone does not pass an exchange gate. Exit packet: `docs/research/epic17/S678-dxf-interchange-manifest/S678-exit-packet.md`. Next reconcile the exact package against the selected receiver's recorded output and identify product-side file defects, if any, before further edits.
+
+Started 2026-10-10 17:23:45 UTC from clean S675 commit `336d3a2a` on
+`codex/epic-17-g04`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor and slice 676 is unique. A bounded read-only Sol high review
+finished. It confirmed S674's input already had centimeter metadata before
+LibreCAD R12 omitted it, while the product exporter independently writes no
+unit declaration at all. The earlier S675 statement that no product-code
+defect was involved is therefore too broad; the measured R12 loss remains a
+receiver-side result, and the product writer has its own fixable gap.
+
+S676 added `src/export/dxf-centimeters.ts`, a non-default helper that adds an
+AC1015 centimeter header before the exact existing `exportDxf` byte stream.
+No default writer, UI, geometry, marks, identity, grades, acceptance or
+baseline changed. It is not a selected apparel-CAD profile or compatibility
+claim. `npm run test -- src/export/dxf-centimeters.test.ts
+src/export/regression.test.ts` passed 9/9; focused changed-code coverage passed
+100% statements/branches/functions/lines; `npm run build`,
+`npm run control-center:test` (42/42), and `git diff --check` passed. Build
+reported only the existing large-chunk advisory. Board revisions 4016→4019
+reopened V03 for the bounded source fix and 4019→4021 close S676; EPIC-17
+remains In Progress and all V03 gates remain unchanged.
+
+Slice elapsed about 8.5 minutes: approximately 7 minutes implementation and
+evidence review; focused unit/regression, coverage, Control Center and diff
+checks about 12 seconds plus the production build; Sol reviewer wait about 1
+minute; maintainer-decision time 0. No receiver rendered-output gate was claimed
+for a header-only candidate. Next: S677 source audit of the remaining
+code-owned identity/grade/mark omissions, without changing legacy output or
+claiming receiver acceptance. The full repository 100% gate, final rendered
+exchange evidence, PR, safe merge, ancestry and deployment remain pending.
+
+## EPIC-17 / G04 — S675 closed; V03 blocked at receiver/profile entry
+
+At 2026-10-10 17:10 UTC, S675 closes from clean S674 commit
+`7367bbdeebc263e9d6953f897b78b6cc1d61ecb5` on `codex/epic-17-g04`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Slice 675 is unique. The accepted C04 contract, S627 73-option matrix,
+S559/S562 grade fixtures, S672/S673 candidate results, S674's measured
+LibreCAD pilot, and one read-only Sol high-reasoning review establish no
+currently available receiver/profile that meets the fixed entry gate. S627's
+73/73 generic R14 source cohort and S559/S562's 35 source-grade mappings are
+reusable fixture evidence only; none clears receiver units/identity or apparel
+profile acceptance. C04 treats absent units as a blocking negative case; its
+sidecar allowance is limited to piece identity, grade, and seam relations.
+
+The validated board transition moved G04-V03 to Blocked at revision 4016 and
+left EPIC-17 In Progress. No V03 acceptance, threshold, export baseline or
+physical/standards claim changed. The exact remaining dependency is access to
+one specifically named, rights-cleared apparel CAD receiver/version usable
+locally with an explicit unit contract, or an explicit owner-approved V03
+criterion amendment. No paid acquisition or new format/app trial is authorized
+by this record. S675 details: `docs/research/epic17/S675-v03-route-reconciliation/`.
+
+Focused closeout: `npm run control-center:test` passed 42/42 after current-state
+board assertions were updated for G04-V03 Blocked; `git diff --check` passed.
+No production code changed; global coverage/build/output/legacy gates remain
+for a settled candidate. Slice time: about 7 min elapsed, including 6 min
+active work and 1 min external reviewer wait; focused verification about 2.3
+sec plus diff check; maintainer-decision time 0. No physical-fit or factory
+claim.
+
+The goal record is to be marked Blocked at this verified boundary because the
+same receiver/profile entry condition has recurred across the candidate
+reviews and cannot be resolved with current in-scope tools. Keep the admitted
+objective and full scope intact; resume after the receiver/access or explicit
+acceptance decision is recorded.
+
+## EPIC-17 / G04 — S674 closed; LibreCAD R12 profile stopped on unit evidence
+
+At 2026-10-10 16:58 UTC, S674 closes from S673 `3412c1574561744dbfed8e5a43f8bbe6fe172367` on `codex/epic-17-g04`; refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 674 remains unique. LibreCAD 2.2.1.5 imported the hash-pinned S671 Polo M fixture, saved one R12 DXF, and cleanly reopened it with no warning observed. Analysis passes all 18 CUT/SEW paths at 0.000 cm, all 38 typed marks, all eight semantic layers and clean reopen. R12 output omits source `$INSUNITS=5` centimeters, so this tested profile fails unit self-description and is not qualified. Piece/revision identity, grades, malformed inputs, repeatability and complete readability remain unproven. The native view visibly rendered outlines/layers on reopen, but a durable screenshot is absent; do not pass readable-output from outlines alone. The comparison report is in the named C: folder, and exit/matrix/plan are `docs/research/epic17/S674-librecad-local-dxf-pilot/`.
+
+V01/V02 remain Done; V03 and EPIC-17 remain In Progress with every gate unchanged. No production source or export baseline changed. Next: perform only an evidence-backed route eligibility review against S674's fixed gate matrix and stop if no already rights-cleared apparel-CAD receiver has an explicit unit/identity contract; no extra LibreCAD format/setting or new software trial. Older estimates that assumed a viable receiver are stale; remaining duration is unbounded until an eligible route is evidenced. Full repository 100% coverage, integrated output/build/legacy/protected-identity gates, PR, safe merge, ancestry and required deployment remain explicit completion gates. No physical-fit, factory-acceptance, or standards-conformance claim.
+
+S674 focused analyzer initially exposed a parser zero-advance bug, which was fixed before its final successful execution. It now keeps coordinate and bulge errors separate and labels untested identity/repeatability as unproven. Board exit is recorded through the validated command layer at revision 4010; `npm run control-center:test` passed 42/42, and `git diff --check` passed. Time ledger: receiver/implementation wall-clock window 5 h 22 min including waits; active time was not instrumented. Focused verification: final analyzer ~1 s, Control Center suite ~2.1 s, and diff check ~1.4 s; earlier parser debugging and app-interaction time were not separately instrumented. External-agent wait 0 min during closeout; maintainer-decision time 0 min. No production-code coverage applies.
+
+## EPIC-17 / G04 — Slice 673 closed; LibreCAD exact-fixture preflight recorded
+
+As of 2026-10-10 16:10 UTC, the S674 worktree remains on
+`codex/epic-17-g04` from S673 `3412c1574561744dbfed8e5a43f8bbe6fe172367`;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is still an
+ancestor. S674 remains the unique active slice; its validated start and
+progress comments are recorded through board revision 4005, and EPIC-17/G04-V03
+remain In Progress.
+
+The registered GetonAgain GMS V2024.1 is open and Ready, but its marker-open
+filter is `.mkr` and its pattern importer accepts only DGS/FGS/PTN/PDS/PDF,
+not DXF. No source fixture was imported or exported; GMS cannot clear V03.
+S674's exact-fixture preflight found that the hash-pinned S671 Polo M input is
+AC1015 with `$INSUNITS=5`, using only `POLYLINE`, `LINE`, `POINT`, and `CIRCLE`
+on `CUT`, `SEW`, and typed `MARK_*` layers. It has no INSERT, APPID/XDATA, or
+piece-identity payload. LibreCAD's first-party docs describe generic 2D CAD
+with DXF read/write and these primitives; its FAQ lists R12/R14/2000/2004/2007
+but explicitly says it does not support all DXF features. This supports one
+specific falsifiable import/save/re-open pilot, but proves neither entity
+preservation nor an industrial apparel profile. LibreCAD remains unqualified.
+The verified Windows installer is under
+`C:\G04-LibreCAD-Exchange\S674-librecad-r12-profile\`; Windows elevation is
+required. At 2026-10-10 16:48 UTC, the earlier consent PID 130656 was no
+longer running, the desktop window inventory showed no installer/elevation
+window, and checks found no LibreCAD process, install directory, or uninstall
+entry. The install did not complete; the reason the prompt disappeared is
+unknown. No exchange occurred. Do not relaunch the installer without
+action-time confirmation. The only remaining S674 action is the exact single
+pilot on the existing fixture; no additional candidate, format, unit, or
+setting variation is authorized. Preserve every V03 gate and all acceptance.
+No physical-fit, factory-acceptance, or standards-conformance claim. Details:
+`docs/research/epic17/S674-librecad-local-dxf-pilot/`.
+
+## EPIC-17 / G04 — Slice 672 closed; tested CLO Standard-DXF route disqualified
+
+S672 imported the exact S671 Polo M fixture into CLO 2026.1.310 and captured
+the native 2D snapshot. The exploratory DXF export occurred before completing
+the required native pass; this procedural deviation is explicit in the S672
+exit packet, and the output was not re-imported or called a round trip. Exact
+measurement: 9/9 SEW and 4/9 CUT pass `0.001 cm`; CLO output changes the
+header from `$INSUNITS=5` cm to `$INSUNITS=4` mm without changing numerical
+coordinate magnitude, replaces source piece/layer names with ordinal blocks
+and numeric layers, loses typed mark identities, and produces an unreadably
+faint whole-layout snapshot. The tested route is disqualified. DGS remains
+retired; generic OpenCAD R14 is not an industrial apparel profile. No gate or
+acceptance changed. Source-bound `/2` grainline and other design approvals
+remain settled.
+
+S673's next action is a bounded static feasibility proof of a lossless,
+source-bound adapter using existing exact DXF fixtures. It must bind pieces
+uniquely, restore exact geometry/marks/units/identities, and fail closed on
+ambiguity or unsupported edits before any new receiver operation or production
+change. Updated evidence and priority plan are in
+`docs/research/epic17/S672-clo-standard-source-path-density/`. V01/V02 remain
+Done; V03 remains In Progress. All seven recipes/73 options/grade coverage,
+malformed-input rejection, round-trip/repeatability, readable rendered output,
+legacy DXF, protected bytes, final 100% repository gate, PR, safe merge,
+ancestry and required deployment remain open. No fit/factory claim.
+
+At this safe boundary, `get_goal` reports **active** with wording matching the
+admitted objective through safe merge. The UI “stalled” label is stale; no
+manual resume or goal edit is required.
+
+## EPIC-17 / G04 — Slice 673 closed; adapter no-go, S674 candidate screen next
+
+S673's source audit found no safe loss-recovery adapter around the tested CLO
+route. S672's nine source SEW paths map to nine output blocks only with the
+frozen source already known, but five CUT outlines are lossy, units are
+mislabeled, typed marks/layers are missing, and CLO output does not distinguish
+receiver simplification from a user's CAD edit. The C04 sidecar may carry
+identity/grade/seam relationships only; it cannot replace geometry or visible
+marks. No production adapter was added. OpenMarker's first-party README says
+it is local/open-source but still lacks export and is not production-ready,
+so it is not an eligible receiver. No acceptance or threshold changed.
+
+S674's next action is a bounded first-party screen of free, offline apparel
+CAD candidates with explicit local DXF import and export. No download/install
+or fixture operation until a candidate passes that entry screen. If none
+qualifies, record the concrete receiver need; do not repeat CLO/DGS/OpenCAD or
+weaken V03. Exit, matrix and plan:
+`docs/research/epic17/S673-lossless-adapter-feasibility/`. V01/V02 Done; V03
+In Progress. All seven recipes/73 options/grades, `0.001 cm`, typed marks,
+negative-input, repeatability, rendered-output, legacy/byte-identity, final
+100% coverage, PR, merge, ancestry and deployment gates remain open.
+
+## EPIC-17 / G04 — Slice 670 closed; DGS receiver route retired
+
+S670's saved native DGS control produced a 1,223-byte ASTM-menu DXF containing
+10 metadata `TEXT` entities and zero pattern geometry or blocks. The export
+returned without a validator dialog, but the file fails the decisive geometry
+condition, so it was not self-imported and DGS is retired as a V03 candidate.
+The grainline-inside-border correction was not established. Evidence,
+including the C:-only output hash and render, is in
+`docs/research/epic17/S670-dgs-valid-control/`. The validated board closeout
+and focused Control Center test are recorded there. No V03 gate or threshold
+changed. S671 reconciles existing CLO output/source evidence, reuses rather
+than repeats its failed routes, and proposes only an exact-source remediation
+if one can pass the fixed gates. The user-approved `/2` grainline convention
+and all design decisions remain settled. No physical-fit, factory-acceptance,
+or production-readiness claim.
+
+S670 start: 2026-10-10 10:18:18 UTC from `fc21c528`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+Board start revision 3961. See start/exit packet and parse report under
+`docs/research/epic17/S670-dgs-valid-control/`.
+
+## EPIC-17 / G04 — Slice 671 preflight closed; one native CLO import pending
+
+S671 starts from committed S670 `43008d3d` at clean board revision 3970;
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor and slice 671 is unique. DGS is retired after S670's measured
+metadata-only output. S671 tests one source-exact CLO hypothesis on the
+hash-pinned Polo M fixture: subdivide only long straight segments adjacent to
+the five previously omitted shallow CUT points into collinear steps no longer
+than 0.05 cm, preserving the exact mathematical source path and all original
+records. Run the existing CLO Standard import once; compare all CUT/SEW and
+semantic gates to the original source at `0.001 cm` and inspect actual
+whole/detail output. Export only if all pass; otherwise stop this hypothesis.
+No alternates or acceptance relaxation. Start packet:
+`docs/research/epic17/S671-polo-cut-source-path-density/S671-start-packet.md`.
+
+Preflight is complete: the C:-only derivative retains all 2,724 original DXF
+group/value pairs and all source vertices, adds 776 collinear points, and has
+0.000 cm path residual. Source-only annotated render and independent parse are
+hash-pinned in the S671 packet. The one CLO import is still pending: Windows
+shows the existing CLO process, but this task's CUA surface lists no desktop
+apps and exposes only browser controls. This is an access limitation, not a
+receiver result. Do not close S671 as a gate pass; next is the one prepared
+import and native nine-piece query when a desktop-app control surface is
+available. All V03 gates/holds remain open as previously recorded. At this
+checkpoint `get_goal` reports `active`, and its objective still matches the
+admitted EPIC-17 path through safe merge. The visible “stalled” label is stale;
+no goal status/wording change or manual resume is needed.
+S671's updated all-gate matrix and shortest completion route are
+`docs/research/epic17/S671-polo-cut-source-path-density/V03-GATE-RECONCILIATION-S671.md`
+and `V03-COMPLETION-PLAN-S671.md`.
+
+S671 is at a durable boundary with the exact-path C:-only derivative and full
+source preflight recorded. The receiver action did not run because the
+computer-use connector has no native-app binding in this task; Windows
+confirms CLO is running. This is neither a receiver pass nor a receiver
+failure. The single next action is to expose native app controls and import the
+already-prepared fixture; no approval, format variation, or fixture recreation
+is needed. The active goal was checked: its objective still matches EPIC-17
+through safe merge, the UI “stalled” label is stale, and no manual goal resume
+is required.
+
+## EPIC-17 / G04 — Slice 669 closed; S670 is the next bounded action
+
+S669 started from S668 `7aacc2d9`, with refreshed `origin/main` an ancestor and board revision 3936. No local DGS sample DXF/RUL was found. One native 10×10 cm rectangle was created; DGS reported `Pattern name, Size:M, grainline is outside the border`: M is the default size, while the validator names the pattern name and outside-border grainline. The one ASTM export is 1,227 bytes and parses as ten metadata TEXT entities with no blocks, geometry, `$ACADVER` or `$INSUNITS`; the exact file's one fresh-document self-import rendered blank/0 patterns. This is not a valid positive control and establishes no passing DGS profile. DGS is retired except one source/manual-backed S670 correction of those exact native validity conditions, followed by one clean validator/export/self-import if supported; otherwise stop DGS and proceed with source-exact CLO evidence. No V03 acceptance gate or hold changes. S669 exit, gate matrix and completion plan: `docs/research/epic17/S669-dgs-native-profile-control/`. Board exit will be validated; DGS/CLO remain open.
+## EPIC-17 / G04 — Slice 659 closed; updated DGS exposes local DXF import
+
+MPVCI V2.7 and Microsoft VC++ 2010 x64/x86 10.0.40219 are registered. S659
+applied the hash-pinned official DGS 20250610 package; all 15 files match the
+package and S657 rollback remains intact. DGS launches and Help/About reports
+`VID:20250610` (the executable's file-version field remains `2023.1.0.0`). Its
+actual local import path is File→Import DXF with filter `DXF Files (*.dxf)`;
+the dialog exposes ASTM/AAMA, TIIP and AutoCAD modes and unit/text/seam/grade
+options. Export is disabled in an empty workspace. The manual/observed dialog
+still do not define accepted entity/layer/identity/sidecar semantics, so no
+fixture was imported and no V03 acceptance gate clears. V03 remains Blocked;
+V01/V02 Done. Next: find a specific primary profile contract or matched
+source-exact fixture before one pilot; do not select a mode by assumption.
+Board revision 3817; see
+`docs/research/epic17/S659-dgs-update-and-route-check/S659-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 658 closed; MPVCI wizard directly observed
+
+S658 reconciled the S657 desktop handoff: the MPVCI 2.7 Information wizard is
+visibly open over GMS, with Next/Cancel and a Visual C++ package removal
+warning. No security prompt is visible; no install action was taken. GMS remains
+on its blank authenticated nesting workspace and DGS is not running. The
+Computer Use policy requires action-time approval before advancing software
+installation; the maintainer's latest message authorized inspection only.
+G04-V03 remains Blocked, V01/V02 Done, with every V03 acceptance gate and
+protected identity unchanged. Next: obtain specific approval to click Next;
+stop at security/elevation UI. Board revision 3806; exit packet
+`docs/research/epic17/S658-mpvci-visible-state-reconciliation/S658-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 657 closed; MPVCI installer needs visible-state handoff
+
+Rollback verified for installed DGS.exe and 14 language resources at `C:\G04-GetonAgain-CAD-Exchange\S657-dgs-official-update\rollback\installed-dgs\`. The documented MPVCI prerequisite was launched once, but the computer-use runtime found no targetable window; two setup processes remain live with no main window, registry completion, event, or error. The DGS update was not applied and no fixture was opened. Do not relaunch, terminate, or update until the maintainer confirms what the desktop shows. G04-V03 remains Blocked; acceptance unchanged. Board revision 3796; exit packet `docs/research/epic17/S657-dgs-official-update/S657-exit-packet.md`.
+## EPIC-17 / G04 — Slice 656 closed; official DGS update sequence found
+
+The installed DGS V2023.1 is older than the official package's `Free_Version_DGS_20250610.zip` (SHA-256 `B8236F0B4BA00361D608C580B1738C551D771A3241E95A6492FE43013AF7B48F`). Its bundled install note says to install the CAD Free Version, install MPVCI 2.7, then upgrade DGS with that archive. This establishes a concrete, official repair path to try; it does not prove that age/runtime caused DGS's no-window failure. No installer was run or archive extracted. G04-V03 remains Blocked and all acceptance gates/holds remain unchanged. Next: follow the already-authorized sequence with recoverable C:-folder copies; stop if Windows security UI needs interaction. Board revision 3787; exit packet: `docs/research/epic17/S656-dgs-module-launch-diagnosis/S656-exit-packet.md`.
+## EPIC-17 / G04 — Slice 655 closed; authenticated route still does not expose DXF exchange
+
+The maintainer signed in manually. GMS V2024.1 opens to a blank nesting workspace; its local File → Open picker is `Marker File (*.mkr)`, not DXF. `Output Auto CAD dxf` is disabled with no marker; its Export submenu exposes no DXF command in this empty state. Bundled DGS V2023.1 Pattern Design & Grading failed to expose a targetable window/process on one launch; no matching Application event appeared in the ten-minute check. No pattern/DXF fixture was selected or exchanged. This is an access/route blocker, not a DXF fidelity failure. Keep G04-V03 Blocked and all V03 acceptance gates unchanged. Next: one targeted read-only diagnosis of DGS launch prerequisites/configuration/log evidence; do not retry formats or open S648 input until a direct local DXF route and exact contract are observed. Validated board exit revision 3778; focused Control Center test passes 42/42; `git diff --check` passes. Evidence: `docs/research/epic17/S655-getonagain-authenticated-route-check/S655-exit-packet.md`.
 # InfiniDrip — Project State
 
-_Last updated: Slice 260 execution-time efficiency rules, 2026-09-29._
+## EPIC-17 / G04 — Slice 654 closed; GetonAgain installed, workspace gated by sign-in
+
+The official GetonAgain Free desktop package is installed at
+`C:\Garment CAD(GetonAgain Free version)`. `GMS.exe` reports V2024.1 and
+launches to the actual Sign in/Register dialog, so no authenticated CAD
+workspace or direct local-DXF route is verified. `DGS.exe` reports V2023.1
+Pattern Design & Grading and did not expose a targetable window on one launch
+attempt. The package includes `mfc100.dll`, `msvcp100.dll`, and `msvcr100.dll`;
+no missing-runtime evidence supports adding MPVCI. No credentials or account
+action was attempted; no fixture was opened or exchanged. The V2024.1 manual
+still does not specify the entity/layer/version/identity/mark contract or prove
+standards conformance. G04-V03 remains Blocked; EPIC-17 In Progress; V01/V02
+Done; every acceptance gate and hold is unchanged. The maintainer must complete
+sign-in in GetonAgain; then verify its actual local DXF route and exact input
+contract before any fixture. S654 packet:
+`docs/research/epic17/S654-getonagain-installed-build-gate/`. Validated board
+replay `3761→3769`; the focused Control Center suite and `git diff --check`
+passed. No physical-fit, factory-acceptance, or production-readiness claim.
+
+## EPIC-17 / G04 — Slice 652 closed; exact installer prompt confirmed
+
+Read-only inspection found two live Windows consent processes, PIDs 66192 and
+111192, both titled `Garment CAD(GetonAgain Free version).exe is requesting
+your permission`. No installed app/process, uninstall entry, or Start Menu
+shortcut was found. This confirms the pending elevation prompt identifies the
+approved CAD setup; only the maintainer can interact with Windows security
+UI. S652 did not start another installer process, create an account, or open a
+pattern. Board revision 3755; G04-V03 remains Blocked, EPIC-17 In Progress,
+V01/V02 Done. All acceptance gates/holds unchanged. See
+`docs/research/epic17/S652-getonagain-uac-handoff/S652-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 651 closed; installation awaits manual elevation handoff
+
+S651 completed bounded acquisition/inspection of only the official GetonAgain
+Garment CAD Free Version desktop package under conditional maintainer
+authorization. Start: 2026-10-10 00:04 UTC from S650 `2c7e1f3d`, clean worktree,
+refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` ancestor;
+board start revision 3746, advanced to 3752. The official free ZIP (255,970,412 bytes;
+SHA-256 `859B42DB54D51A948A6524D83FEB7D7F89CE694425FAEFEE4BAD4582EFCCE7E6`)
+and official 487-page V2024.1 manual (SHA-256
+`1AC8D9B390C21E205B94F14C4D08566CDA853974A460995CE5EBDEA752D1514C`) are
+stored under `C:\G04-GetonAgain-CAD-Exchange\S651`. The manual documents
+separate ASTM/AAMA/AutoCAD vendor routes and an RUL limitation for size-varying
+drill/buttonhole counts; it does not define entity semantics or prove
+conformance. Official page requires phone registration/login. User approved
+the official CAD setup and DGS update; MPVCI remains held absent a concrete
+missing-runtime error. The CAD setup launch timed out and no targetable setup
+window or process appeared. Three `consent.exe` processes appeared at the
+three launch times, consistent with—but not proving attribution to—a Windows
+elevation handoff. The agent cannot act on security prompts. The maintainer
+must manually approve only a matching GetonAgain setup prompt or cancel it.
+No install, login, or pattern import is verified. Board revision 3752; V03
+work item is Blocked pending handoff while the Epic itself remains In
+Progress. See `docs/research/epic17/S651-getonagain-install-contract/`.
+
+## EPIC-17 / G04 — Slice 650 closed; GetonAgain desktop evaluation authorized conditionally
+
+S650 screened first-party GetonAgain product/free/online pages. The
+downloadable Free Version is a different route from the explicitly online
+edition; the latter remains excluded. The maintainer confirms written
+product-development-use and local DXF handling permission, and conditionally
+authorizes installing/running only if the desktop edition is genuinely free
+and necessary. The official Free Version page labels it free; the CLO route
+has concrete failures and generic R14 is not an eligible apparel profile, so
+this is the only remaining concrete local candidate. This reported permission
+is not an independent legal opinion. Exact installed version, dialect/sidecar
+contract, and actual local direct-DXF path remain to be verified before any
+fixture import. S650 packet:
+`docs/research/epic17/S650-getonagain-rights-locality-screen/`.
+
+Next: S651 may acquire/install only the official free desktop edition, stop
+if payment or online-only processing is required, and inspect the installed
+manual/input contract. Do not import a fixture until its exact dialect
+matches a source-exact input and the local route is verified. Keep all V03
+gates, holds, all-seven/options/grades, thresholds, legacy DXF and protected
+identities unchanged. The goal remains active through final output review,
+full integrated gate, PR, safe merge, ancestry and any required deployment.
+No physical-fit, factory-acceptance, or production-readiness claim.
+
+## Prior EPIC-17 / G04 — Slice 649 closed; V03 gate plan recorded
+
+S649 reconciles all V03 gates against source, actual receiver output, renders,
+and current packets. Its matrix and shortest stop-first plan are linked under
+`docs/research/epic17/S649-v03-completion-plan/`; one bounded read-only
+GPT-6.1 Sol high review was completed and Codex verified its corrections.
+C04 permits version-matched sidecars for grade, piece identity and seam
+relations; test their exact association and integrity instead of requiring all
+fields inside DXF. The review also restored S531's silent malformed-input
+failure, identified the exact GetonAgain input-dialect preflight, and
+separated cyclic point-list residuals from S634 source-to-path deviation.
+
+No V03 receiver/profile is selected or qualified. CLO 2026.1.310 AAMA/ASTM/
+Standard labels are vendor routes only, with no normative conformance claim;
+the tested Polo geometry, malformed-input and mark behavior have concrete
+failures. Do not repeat the tested Polo permutation family. Generic OpenCAD
+R14 is not an industrial apparel profile. GetonAgain remains a candidate only;
+first-party trial rights/local DXF handling, explicit install/run authorization,
+and the exact input/sidecar contract are unresolved. No new test is reserved.
+Old 9–14-slice and 3–6+3–5 estimates are stale; conditional remaining work is
+3–5 V03 plus 2–3 final integration/PR/deployment slices only after an eligible
+candidate pilot passes. V01/V02 Done; V03/Epic In Progress; all gates, holds,
+all-seven scope, thresholds, legacy DXF and protected identities unchanged.
+No physical-fit, factory-acceptance, or production-readiness claim.
+
+## EPIC-17 / G04 — Slice 648 closed; V03 decision plan next
+
+S648 completes the already-started fixture-custody preflight. The exact S646
+Polo M R14 first output is copied byte-identically (153,647 bytes; SHA-256
+`ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461`) into
+`C:\G04-CLO-DXF-Exchange\S648-getonagain-fixture-preflight\`; the supporting
+S646 9-piece/56-entity geometry report is copied and hash-recorded. This did
+not install/run GetonAgain, create an account, import/export any file, or
+repeat CLO. Candidate rights and file locality are still unverified. S640 was
+already closed: its connected-LINE test fails five Polo CUTs at `0.001 cm`
+before export. The user's S639/S640 handoff is therefore stale relative to
+the live branch; no test remained running or needed continuation.
+
+The next action is to reconcile each V03 gate from actual evidence and write a
+prioritized completion plan before reserving another experiment. The plan
+must explicitly decide whether any receiver/profile is eligible, distinguish
+vendor-specific empirical behavior from standards conformance, reuse the
+hash-pinned fixture and existing matrices, and state a decisive test and stop
+condition for each blocker group. All seven recipes/options/grades, rights,
+units, geometry, identity/relationships, marks, malformed-input rejection,
+repeatability, readable rendered output, protected identities and legacy DXF
+remain unchanged gates. V01/V02 remain Done; V03/Epic remain In Progress.
+GetonAgain is a candidate only pending rights/local handling and explicit
+installation/run authorization; do not open the fixture before those are
+verified. Evidence: `docs/research/epic17/S648-getonagain-fixture-preflight/`.
+No physical-fit, factory-acceptance or production-readiness claim is made.
+## EPIC-17 / G04 — Slice 647 closed; V03 remains blocked on receiver/profile access
+
+S647 found one new credible apparel-CAD candidate: GetonAgain Garment CAD
+V2024.1. Its first-party manual documents ASTM/AAMA DXF import and export
+with unit, base-size, seam-recognition and RUL options; vendor materials
+advertise a free 200-minute version and a 15-day trial. Public first-party
+evidence reviewed here does not establish trial rights for InfiniDrip
+product-development interoperability evaluation or local-only handling of
+DXF drawing data, and the catalog mentions a cloud converter for other CAD
+formats. No installer, account, vendor contact, or G04 fixture import
+occurred. Validated board replay advanced `3730→3734`, linking
+`E-G04-S647-START` and `E-G04-S647-EXIT` while preserving V01/V02 Done and
+V03/Epic In Progress. Candidate matrix and evidence:
+`docs/research/epic17/S647-getonagain-profile-candidate-screen/`.
+
+Before testing this candidate, confirm trial rights and local DXF handling;
+installation/run authorization is also required. Use only a named C: evidence
+folder if qualified. Do not repeat S646's already-failed CLO import.
+
+S646's actual CLO 2026.1.310 DXF-AAMA import of the OpenCAD R14 profile
+output preserves nine piece names but passes only 13/18 CUT/SEW contours at
+`0.001 cm`; five Polo CUT contours fail, so export stopped before a misleading
+round trip. OpenCAD preserves its generic R14 metadata/geometry over two
+byte-identical generations but is not an industrial apparel CAD profile.
+All V03 gates, holds, all-seven scope, protected export identities, and legacy
+DXF behavior remain unchanged. CLO remains open.
+No physical-fit, factory-acceptance, or production-readiness claim is made.
+
+## Prior EPIC-17 / G04 — Slice 646 closed
+
+S646's application-specific metadata-bearing generic R14 pilot preserves all
+nine named blocks, centimeter units, CUT/SEW/MARK layers and role/revision
+XDATA through two byte-identical OpenCAD Studio generations; all 56 source
+entities have 0.000 cm maximum residual. The exact output was then imported
+once into the running CLO 2026.1.310 DXF-AAMA route. CLO returned all nine
+piece names with no native query errors, but only 13/18 CUT/SEW contours pass
+the unchanged `0.001 cm`: the same five CUTs (back, both stands, both pointed
+collars) fail, so export was stopped. The actual 1:1 CLO PDF render confirms
+nine labeled pieces at overview scale, not detailed mark readability.
+
+S646 qualifies neither OpenCAD as industrial apparel CAD nor
+`idr-pattern-exchange/1` as an industry standard. No V03 criterion or hold
+clears. The full gate matrix, hashes, analyses and C:-only rendered evidence
+are in `docs/research/epic17/S646-open-cad-profile-metadata-pilot/` and
+`C:\G04-CLO-DXF-Exchange\S646-open-cad-profile-metadata-pilot\`.
+
+Validated board replay `3726→3728→3730` preserves V01/V02 Done and V03/Epic
+In Progress; focused Control Center suite passes 42/42. CLO remains open.
+At this safe boundary, inspect the active goal and choose a distinct next V03
+action from current evidence. Do not repeat this same CLO import or another
+same-geometry representation. Keep the rights-reviewed industrial
+receiver/profile, all-seven options/grades, exact geometry/marks, malformed
+input, round-trip and rendered-output gates unchanged. No physical-fit,
+factory-acceptance, or production-readiness claim is made.
+
+## EPIC-17 / G04 — Slice 644 closed; no eligible alternate receiver found
+
+S644 reconciled prior receiver screens and checked newer candidate sources.
+PatternSoft is local but documents PDF/SVG output, not apparel DXF exchange;
+MPattern's browser editor imports DXF but requires paid Cloud to export/save;
+OpenMarker imports DXF locally but is not production-ready and has export
+planned. None qualifies for the admitted local two-way industrial profile.
+Existing CLO use remains authorized, but S642's five Polo CUT failures and
+S643's no-source-repair conclusion remain. No acceptance, geometry, or hold
+changed. Full evidence and gate matrix: `docs/research/epic17/S644-local-receiver-route-screen/`.
+
+Board replay `3718→3720→3722` preserves V01/V02 Done and V03/Epic In Progress;
+focused Control Center checks pass 42/42. Next, reserve S645 and inspect the
+existing product-side profile/export work for any untested source-exact route;
+do not repeat completed CLO entity, spline, grouping, unit, or setting trials.
+If no falsifiable in-scope route exists, record the receiver-access dependency
+without changing the all-seven scope, `0.001 cm` gate, or any other hold. CLO
+remains open. No physical-fit, factory-acceptance, or production-readiness
+claim is made.
+
+## EPIC-17 / G04 — Slice 643 closed; V03 remains In Progress
+
+S643 reconciled the five Polo CUT failures with the current recipe and all 17
+S380 STANDARD_M option rows. Source code shows the back-neckline CUT region is
+unaffected by Polo options; the four collar back/base regions are unchanged
+except for a rigid vertical translation when `standHeight` changes. The
+current S634 trace measures up to `0.013974 cm` deviation if the missed
+vertices are removed, beyond the unchanged `0.001 cm` exchange gate. No source
+repair is recommended or authorized; no product source, tolerance, or
+acceptance criterion changed. S642's CLO result remains 9/9 identities, 9/9
+SEW contours and 4/9 CUT contours passing, with the same five CUT failures
+before export. The updated gate matrix and full analysis are in
+`docs/research/epic17/S643-polo-cut-loss-decision-study/`.
+
+Validated S643 start/exit board replay is `3714→3716→3718`; G04-V01/V02 remain
+Done and V03/Epic remain In Progress. Focused Control Center checks passed
+42/42; no production code changed and the full integrated repository gate
+remains due. Next, reserve S644 and inspect existing receiver research for one
+distinct, eligible local apparel-CAD route capable of retaining these source
+coordinates; do not repeat tested CLO modes/entities or delete source points.
+CLO remains open with the saved S642 project. No physical-fit, factory
+acceptance, or production-readiness claim is made.
+
+## EPIC-17 / G04 — Slice 642 closed; V03 remains In Progress
+
+S642 tested one source-exact new mechanism: putting each Polo M piece's
+unchanged CUT, SEW and marks into its own named identity-transform DXF
+`BLOCK` / `INSERT`, based on S628's positive Woven grouping control. The
+candidate preflight proved that block expansion reproduces all 56 original
+source entities in exact order and payload. CLO DXF-AAMA imported nine
+patterns whose names exactly preserve the nine source roles. The native
+read-only geometry query had no errors, but only 13/18 source contours passed
+the unchanged `0.001 cm` comparison: all nine SEW and four CUT. The same five
+CUTs still fail (back, both stands, both pointed collars). Back's closest
+cyclic match differs by 2.236065 cm; the stands return 58 native points versus
+54 source points; pointed collars differ by 9.310850 cm. S640's flat Standard
+DXF import had the same five-piece failure set. S642 therefore shows named
+grouping preserves identity but does not repair the CUT loss in CLO AAMA.
+The required pre-export gate failed, so no export/reimport was attempted.
+
+The actual nine-piece CLO import overview and exact artifacts are in
+`C:\G04-CLO-DXF-Exchange\S642-polo-block-wrapper-cut-retention\`; the
+procedure, analyzer, measured results, gate disposition and timing are in
+`docs/research/epic17/S642-polo-block-wrapper-cut-retention/S642-exit-packet.md`.
+The saved native project remains open in CLO. This result clears no V03 gate;
+all-seven scope, standards/profile and rights evidence, marks, grades/options,
+malformed input, repeat round trip and output-readability gates remain. V01 and
+V02 remain Done; V03 and EPIC-17 remain In Progress. No pattern source, DXF
+writer, threshold, protected export identity, or acceptance criterion changed.
+
+S642 began `2026-10-09 22:29:57 UTC` from clean S641
+`f0386ce665e1b2dabe8e27a1764500e529ecc370`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor. Validated start
+replay was `3710→3712`; validated exit replay and focused Control Center test
+results are recorded in the S642 packet. No production-code coverage applies.
+Next, reconcile S642 in the V03 matrix and select a distinct still-open gate
+from existing evidence; do not repeat prior CLO entity, setting, or mode
+permutations. If no eligible route remains, state the exact residual gate and
+needed decision without weakening acceptance. CLO remains open. No physical
+fit, factory acceptance, or production-readiness claim is made.
+
+## EPIC-17 / G04 — Slice 640 closed; V03 remains In Progress
+
+S640 isolated the five affected Polo CUT contours as connected, ordered
+`LINE` segments with exactly the source coordinates on `CUT`. Exit review
+found the LINE family was already tested in CLO DXF-AAMA (S620/S621) and
+Standard DXF (S622); S640 adds a narrower mixed-entity fixture, not a novel
+representation. The start packet's novelty claim was incorrect and was
+corrected in the exit packet, start-packet correction, and board comment.
+CLO 2026.1.310 returned nine native patterns, but its native coordinates
+failed the unchanged `0.001 cm` pre-export gate for the
+back, both collar stands, and both pointed collars. Front, sleeve, and both
+plackets pass. The five failed results are measured before export: back
+33/33 vertices but maximum best cyclic delta `2.236068 cm`; stands 58 native
+points versus 54 source vertices; pointed collars 44/44 vertices but maximum
+best all-pattern cyclic delta `9.310850 cm`. Analysis now searches every
+native pattern rather than assuming numeric piece order. No export or reimport
+was performed. The
+actual nine-piece CLO overview and hash-pinned source/native analyzer are in
+`C:\G04-CLO-DXF-Exchange\S640-polo-cut-segmented-line-import\`; the durable
+analysis and limits are in
+`docs/research/epic17/S640-polo-cut-segmented-line-import/S640-exit-packet.md`.
+
+The connected-LINE subset trial clears no V03 acceptance and changes no product
+code, source pattern, threshold, profile claim, protected export identity, or
+hold. It is not evidence for all recipes/options/grades, marks, malformed
+input, repeated exchange, or readable reimport. V01/V02 remain Done;
+V03/EPIC-17 remain In Progress. S639 was the highest prior slice; S640 is the
+single unique slice reserved. Start replay was `3701→3703`; validated exit
+replay and focused Control Center checks are recorded in S640's packet and
+command artifacts. S620/S621/S622 outcomes must be carried forward; no further
+LINE or CLO profile permutation is justified without a new bounded question.
+Inspect later receiver/profile/rights evidence before defining the next action.
+Do not export the failed imported project. CLO remains open. No physical-fit, factory
+acceptance, or production-readiness claim is supported.
+
+## EPIC-17 / G04 — Slice 639 closed; V03 remains In Progress
+
+S639 performed one CLO-native Button/Buttonhole DXF-AAMA export and clean
+reimport using an isolated copy of the S637 Woven project. The export emitted
+the native button as a 24-vertex polygon with approximately 1.0 cm radius,
+not the source technical mark circle of 0.15 cm radius; it emitted a slot-like
+buttonhole instead of the source point. Both centers shifted about 0.07616 cm
+(0.7616 mm), around 76× the unchanged 0.001 cm geometry limit. CLO cleanly
+imported 12 pieces with no DXF error. The live reimport 2D window remains
+zoom-cropped, so detailed reimport readability is unverified. This closes
+only the native-trim hypothesis; it clears no V03 gate or hold. CLO remains
+open. Complete evidence, limitations, hashes and timing are in
+`docs/research/epic17/S639-clo-native-button-dxf-probe/S639-exit-packet.md`.
+
+S639 began at clean S638 commit
+`5ce4942845899d8d8dac23c36925fb6bfda3fd14`; start replay was 3696→3698, then
+one stale UI-stop note advanced the board to revision 3699. Exit replay adds
+verified evidence and a correction comment through the validated command
+layer. G04-V01/V02 remain Done; G04-V03/EPIC-17 remain In Progress. No V03
+profile/rights, units, source geometry, mark semantics, grading, malformed
+input, repeated exchange, readability, all-seven scope, thresholds, legacy
+DXF, protected export identities, or final gates are weakened. The current
+next action is to select one evidence-led, non-repeating V03 hypothesis from
+the remaining gate matrix; do not repeat CLO native-trim, circle or quarter-
+arc mark trials. The goal was re-read at this boundary and is active with
+wording aligned to the admitted objective; it remains needed through merge.
+No physical-fit, factory-acceptance or production-readiness claim is
+supported.
+
+## EPIC-17 / G04 — Slice 638 closed; V03 profile decision pending
+
+S638 reconciled the current V03 gate matrix through S637 and checked current
+official profile evidence. ANSI/AAMA 292-1993 and its TR292 guideline were
+administratively withdrawn effective 2002-11-13; ASTM's current catalog lists
+D6673-10 withdrawn in 2019. CLO's 2026-09-28 help documents AAMA/ASTM/Standard
+DXF import and export menu modes but names no normative edition or conformance
+claim. Therefore `CLO 2026.1.310 DXF-AAMA` is supportable as a
+version-pinned empirical vendor target only, without ANSI/AAMA or ASTM
+conformance language. The matrix references the official sources and records
+what they cannot prove:
+`docs/research/epic17/S638-v03-profile-rights-reconciliation/V03-CURRENT-GATE-MATRIX-S638.md`.
+
+The empirical S636 five-point Polo CUT and S637 Woven button-mark
+pre-export gates still fail. No export was performed after either failure.
+No V03 acceptance, threshold, status or hold changed. S638 is documentation
+and primary-source review only; no CLO UI trial or production code changed.
+Exit packet:
+`docs/research/epic17/S638-v03-profile-rights-reconciliation/S638-exit-packet.md`.
+
+S638 started `2026-10-09 20:56:30 UTC` after S637 commit
+`f4097e2a5bdedf6df1d7589dff83e753097b4a1f`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+Board replay `3692→3694→3696`. Official-source review, independent
+Claude Opus 5.5 read-only review, current matrix reconciliation, validated
+Control Center tests (42/42), board replay, source preflight and
+`git diff --check` passed. Claude's ANSI PDF fetch returned 403; Codex directly
+opened and verified the ANSI primary PDF, and this limitation is retained in
+the exit packet. No production-code coverage applies. Full repo coverage/build/
+browser/output gates remain for the settled Epic/PR.
+
+Next ask the maintainer whether this vendor-specific empirical target may be
+used without claiming conformance to a withdrawn standard, or whether V03 must
+wait for an active normative profile. The recommendation preserves all gates
+and does not qualify the receiver. CLO remains open.
+
+## EPIC-17 / G04 — Slice 637 closed; V03 remains open
+
+S637 tested one bounded alternative for S629's Woven button-circle fidelity
+failure in the already open CLO 2026.1.310 session. Eight source
+`MARK_BUTTON` circles were represented as 32 exact same-center/radius
+quarter-arcs; all other parsed entities were unchanged. DXF-AAMA import
+returned 12 named pieces with zero native-query errors. However, the native
+query exposes no separate button-mark records, and the actual 1:1 CLO
+overview/detail omit the seven placket buttons and stand mark. The rendered
+mark gate therefore fails; no DXF export/round trip was attempted. This is an
+observed output failure and does not assert an internal CLO cause. All C:-only
+input/project/query/render hashes, live import settings and disposition are in
+`docs/research/epic17/S637-woven-circle-arc-trial/S637-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S637-woven-circle-arc-trial\`. No production or
+pattern geometry, threshold, acceptance, status, hold, or profile claim
+changed. V01/V02 remain Done; V03/EPIC-17 remain In Progress. Board replay was
+`3688→3690→3692`; CLO remains open.
+
+S637 started `2026-10-09 20:32:00 UTC` after S636 commit
+`04c37f4da6e4acde7add2638c63643361686c5d9`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+The slice was unique. Focused derivative/hash checks, native-query inspection,
+actual rendered review, validated Control Center tests/replay, and
+`git diff --check` pass; the mark-visibility acceptance of this trial fails.
+No production-code coverage applies. Approximate elapsed time was 20 minutes:
+fixture and setup 3m, CLO import/query/save/render 12m, focused verification
+and visual review 2m, durable closeout 3m, agent waits 0m, maintainer decision
+time 0m. The landed commit subject is `Slice 637: test CLO quarter-arc button
+marks`. Full repo tests/100% coverage and integrated build/browser/output
+gates remain for the settled Epic/PR candidate.
+
+**Next action:** reconcile this measured mark-render failure with the active
+V03 gate matrix and select one distinct receiver/profile gate that has a
+documented, rights-reviewable path. Do not repeat the CLO button entity
+encoding or import-setting permutations without new source evidence. Preserve
+all V03 holds, the all-seven scope, and the `0.001 cm` geometry threshold.
+
+S636 completed the final CLO LWPOLYLINE × DXF-ASTM CUT import cell using the
+existing CLO 2026.1.310 session and the same source revision and derivative
+as S635. At the unchanged `0.001 cm` geometry gate, both Standard and ASTM
+return four exact CUT passes and the same five omissions (back P13 and P14 on
+both stands and both collar leaves; maximum joined-chord deviation
+`0.013970 cm`). All nine identities are present and the query has no errors.
+The button-placket child-shape count differs (S635 9; S636 6), retained as an
+unexplained native diagnostic, not a mark interpretation. Five rendered
+detail comparisons and the actual CLO overview are visually reviewed and
+hash-pinned under `C:\G04-CLO-DXF-Exchange\S636-lwpolyline-astm-import\`.
+No DXF was exported because the native gate fails. No source geometry,
+threshold, acceptance, status, hold or product claim changed. Board start/exit
+replays were 3684→3686→3688. Exit packet:
+`docs/research/epic17/S636-clo-lwpolyline-astm-import/S636-exit-packet.md`.
+
+S636 started `2026-10-09 20:02:47 UTC` after S635 commit
+`3f3c6b9b4034ac615e03a7c448f127cbc4c9d260`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor and
+S636 was the unique next slice. Focused Control Center tests passed 42/42;
+source-bound analyzer, output reconciliation, five Chromium renders, hash
+preflight and `git diff --check` passed. Research only; no production-code
+coverage applies. Elapsed through pre-commit closeout was 20m15s:
+implementation/import/query 8m, analysis/render/reconciliation 6m, focused
+verification 3m, durable closeout 3m15s, agent wait 0m, maintainer decisions
+0m. The landed commit subject is `Slice 636: measure CLO lightweight-polyline
+ASTM import`. Full repo coverage/build/output gates remain for the settled
+Epic/PR candidate. CLO stays open because V03 work is active.
+
+**Next action:** after landing S636, refresh origin and history, reserve S637,
+and choose one distinct receiver/profile candidate from its documented
+industrial exchange path and rights evidence. Do not repeat the completed CLO
+CUT representation/import-mode matrix.
+
+## EPIC-17 / G04 — Slice 635 closed; V03 remains open
+
+S635 imported a disposable DXF whose nine closed CUT entities alone had been
+re-encoded from classic POLYLINE to coordinate-identical LWPOLYLINE. CLO
+2026.1.310 Standard import returned nine numeric piece identities with no
+query errors. Four controls match their complete source CUT contours within
+0.001 cm, but the back, outer/inner collar stands, and upper/under collars
+again omit the same five allowance-sample vertices. Each omitted-point chord
+deviation is 0.012736–0.013970 cm; retained vertices match within
+0.000014 cm. The five rendered neighborhoods, actual CLO overview, native
+JSON and saved project are hash-pinned under
+`C:\G04-CLO-DXF-Exchange\S635-cut-lwpolyline-import\`. The required
+stop-before-export condition was honored. No CAD export, source edit,
+acceptance/status/hold change, or physical/factory claim occurred. CLO remains
+open in the current session. Exit packet:
+`docs/research/epic17/S635-clo-lwpolyline-cut-import/S635-exit-packet.md`.
+
+S635 started `2026-10-09 19:29:40 UTC` after S634 commit
+`10ed333ecb8323e7a3b1cb2a381e3c0a414af4eb`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+Validated board replay was 3680→3682→3684, preserving V01/V02 Done and
+V03/EPIC-17 In Progress and every existing hold. Converter/preflight,
+source-bound native comparison, rendered output and board checks are recorded
+in the exit packet. No production code changed; changed-code coverage does
+not apply. Full repository tests/100% coverage and build remain for the
+settled Epic/PR candidate.
+
+S636 now tests the final source-bounded CLO matrix cell. S632 tested classic
+POLYLINE × ASTM; S617 and S635 cover classic POLYLINE × Standard and
+LWPOLYLINE × Standard. A complete native pass is required before the
+conditional round-trip branch. Do not alter geometry, acceptance, holds,
+rights or claims.
+
+## EPIC-17 / G04 — Slice 634 closed; V03 remains open
+
+S634 mapped the five recurring CLO Polo CUT losses through the current
+product's `POLO × STANDARD_M` DXF and allowance generator. The regenerated
+pre-header product DXF is byte-identical to the S617 baseline; the cm-header
+fixture adds only its 65-byte HEADER. The missing vertices are on
+`back.neckline` sample 13, both collar stands' `backCollar` sample 14, and both
+collar leaves' `backCollarBase` sample 14. The relevant one-centimeter offset
+produces a 0.0456–0.0470 cm cut step near a 1.0366 cm three-sample radius
+estimate. CLO omits the same points under Standard and ASTM import paths; the
+measured deviation is 0.01274–0.01397 cm, over the unchanged `0.001 cm` gate.
+This suggests a near-cusp short-step sensitivity but does not establish CLO's
+internal algorithm or prove the points physically redundant. No source,
+stitch, export, tolerance, acceptance, status, or hold changed. See
+`docs/research/epic17/S634-polo-cut-topology-forensics/S634-exit-packet.md`,
+the S634 gate matrix, and its C:-only evidence folder. Validated board replay:
+3676→3678→3680; V01/V02 Done, V03/EPIC-17 In Progress. Next: refresh the
+boundary, reserve S635, and test one coordinate-preserving DXF CUT entity
+encoding change (POLYLINE to LWPOLYLINE) in the already authorized CLO session.
+Inspect its imported/native contours before any export; if the omitted points
+remain missing, stop that representation path and retain all V03 holds. CLO
+remains open; the active goal continues through final gates, safe merge and
+deployment verification.
+
+## EPIC-17 / G04 — Slice 633 closed; V03 remains open
+
+S633 reconciled the S627-era V03 matrix against S628–S632 verified evidence.
+The refreshed 11-area matrix records bounded geometry/identity/round-trip
+successes separately from the still-open industrial profile, units, all-seven
+grades/options, identity/mark semantics, malformed-input, repeated profile
+exchange, and detailed readability gates. S632 confirms that CLO's ASTM
+import path repeats five Polo CUT failures and the same aggregate 38-mark
+losses; its generations differ by SHA-256. S633 changes no acceptance,
+threshold, hold, or status. Next: offline source-bound topology diagnosis of
+the five Polo CUT failures, before any proposed source edit. Matrix and
+verification: `docs/research/epic17/S633-v03-gate-reconciliation/`.
+Validated board replay: 3672→3674→3676; V01/V02 Done, V03/EPIC-17 In Progress.
+CLO remains open and the active goal continues through final gates, safe merge,
+and required deployment verification.
+
+S633 started `2026-10-09 18:49:39 UTC` from clean committed S632
+`b107d9568db2d3cfed4f3473c40778b9d060edf1`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor, S632 was highest,
+and board revision 3672 preserved V01/V02 Done and V03/EPIC-17 In Progress.
+Start packet: `docs/research/epic17/S633-v03-gate-reconciliation/S633-start-packet.md`.
+
+## EPIC-17 / G04 — Slice 632 closed; V03 remains open
+
+S632 completed a single controlled CLO 2026.1.310 DXF-ASTM import/export/
+reimport comparison against the unchanged, hash-pinned S617 Polo M cm-header
+fixture. Import mode was the sole variable. At the unchanged `0.001 cm` gate,
+both generations have 9/9 SEW passes, 4/9 CUT passes (5 failures: back,
+outer/inner collar stand, upper/under pointed collar), and identical aggregate
+38-mark failures. ASTM mode therefore did not resolve the S631 measured
+losses. The saved nine-piece overview is grossly intact but does not prove
+fine-mark readability. This is a tested CLO menu path only, not normative
+ASTM conformance. Raw input, outputs, native scene, settings/notices,
+render, and JSON reports remain under
+`C:\G04-CLO-DXF-Exchange\S632-astm-import-mode-polo\`; hashes and exact
+metrics are recorded in
+`docs/research/epic17/S632-astm-import-mode-polo/S632-exit-packet.md`.
+Validated board start/exit replay is 3668→3670→3672. V01/V02 stay Done;
+V03/EPIC-17 stay In Progress. No V03 acceptance or hold changed. CLO remains
+open. The active goal was checked at this boundary and matches the admitted
+EPIC-17 objective; keep it active through final gates, safe merge and required
+deployment verification.
+
+S632 started `2026-10-09 18:14:10 UTC` from committed S631
+`b2bb1258ed98ad23f2c7654b7a3bad0453906167`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor, the checkout was
+clean, and S631 was highest. Board start replay was 3668→3670 with V01/V02
+Done and V03/Epic In Progress. Start packet:
+`docs/research/epic17/S632-astm-import-mode-polo/S632-start-packet.md`.
+Exit packet:
+`docs/research/epic17/S632-astm-import-mode-polo/S632-exit-packet.md`.
+
+## Verified prior boundary — Slice 631 closed; V03 remains open
+
+S631 started `2026-10-09 17:59:27 UTC` from clean S630 commit
+`4b5be3619c3b3398197a03044b6feefa464e962e`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; board start
+replay was 3664→3666. It closed as an offline audit of S617's existing source,
+CLO DXF-ASTM-labeled export, and saved Standard-DXF reimport output/render;
+no CLO action or new exchange occurred. The 38 source marks include 21 POINT,
+14 LINE, and 3 CIRCLE entities. At `0.001 cm`, 12/21 source POINTs have one
+direct output POINT, six are ambiguous, and three buttonhole points are
+unmatched. Eleven of 14 LINEs match separately; three lie on CUT/SEW outlines
+and have only long shared-path candidates. All three button circles become
+12-vertex polylines with `0.005112–0.005113 cm` chord sagitta, exceeding the
+unchanged tolerance. Numeric output layers retain no source semantic name,
+and the four saved-render detail crops do not prove fine mark readability.
+The deterministic report SHA-256 is
+`8FFA8DCBDB72F25173EABFA5C6B63206AD8A014B7FD7CF93EA0A99EEF63E2767`; raw
+report/crops are under `C:\G04-CLO-DXF-Exchange\S631-s617-astm-mark-audit\`.
+See `docs/research/epic17/S631-s617-astm-mark-audit/S631-exit-packet.md`.
+S631 clears no V03 gate. Board closeout and focused verification are recorded
+in that packet. Preserve every V03 hold, all-seven acceptance, legacy
+behavior and protected export identities; keep CLO open. At this safe slice
+boundary inspect the durable goal record; it must stay active until G04
+completes and is safely merged.
+
+## Verified prior boundary — Slice 630 closed; V03 remains open
+
+S630 started `2026-10-09 17:46:54 UTC` from clean S629 commit
+`8a45420b96f8513f02348aabe19d5b247c57aba1`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Validated
+board start/exit replay was `3660→3662→3664`, preserving V02 Done and V03/Epic
+In Progress. The official-source audit found no rights-accessible, specific
+mark encoding to justify another CLO permutation. The NISTIR 5969 diagrams
+were visually checked; the model is typed point/location semantics, not a DXF
+layer map. The 1997 report describes AAMA-292 with R11-era DXF; D6673-10's
+public scope names R13, while the pinned S628 output header is AC1009/R11-R12.
+Claude Opus 5.5 xhigh independently returned `WORK FINISHED` and agreed there
+is no sourced circle/point conversion rule. No CLO operation, product-code or
+geometry change, criterion/tolerance change, or gate clearance occurred. The
+maintainer reconfirmed written authority for InfiniDrip DXF evaluation and
+local processing; CLO remains open. Full audit/reviewer return/exit packet:
+`docs/research/epic17/S630-official-profile-mark-semantics/`. Next: reserve S631
+from refreshed state and audit the already-existing S617 CLO DXF-ASTM export
+and saved reimport output offline against its pinned source, then choose any
+new CLO operation only from the resulting measured gap. All V03 gates and
+all-seven acceptance remain unchanged.
+
+## Verified prior boundary — Slice 629 closed; V03 remains open
+
+S629 started `2026-10-09 17:26:38 UTC` from clean S628 commit
+`f5e284fcdd1a11e63ac161c938a1218aab5997bf`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor and S628 was
+highest. The hash-pinned audit of the existing S628 Woven size-M CLO export
+confirms 13/13 separate open two-vertex line geometries within `0.001 cm`,
+eight circle-to-12-vertex-polyline conversions with zero whole-curve passes at
+the threshold, and zero distinct output POINT markers for eight source
+buttonhole points. Four line marks coincide with CUT and SEW contours; numeric
+output layers do not retain source semantics. Saved overviews do not prove
+detailed legibility. Claude Opus 5.5 xhigh read-only review independently
+agrees. No CLO operation, production code, source geometry, acceptance,
+threshold, or V03 gate changed. Packet, analyzer and reviewer return:
+`docs/research/epic17/S629-clo-mark-geometry-audit/`; raw C:-only evidence is
+under `C:\G04-CLO-DXF-Exchange\`. Validated board exit revision 3660 preserved
+V02 Done and V03/Epic In Progress.
+
+## Verified prior boundary — Slice 628 closed; V03 remains open
+
+S628 began from clean S627 commit `95d30bd9bedfa5b2d08940234756458238de89bb`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was its
+ancestor. Validated board start replay ended at revision 3654. A disposable,
+geometry-identical Woven zero-vent fixture completed one local CLO 2026.1.310
+DXF-AAMA import/export/reimport. Output has 12 unique BLOCKs and 12 bijective
+INSERTs; literal names gain `_M`, while the `PIECE NAME:` payloads and the
+reimport object tree preserve all 12 role names. CUT/SEW geometry passes
+12/12 pairs at `0.001 cm`, maximum residual `0.0007416873 mm`, and the
+reimported view shows all pieces. Output AC1009 is unitless and single-size.
+Thus piece-role mapping has one promising, bounded result, but literal block
+token invariance, industrial profile/rights qualification, revision/grade/mark
+semantics, representative all-seven coverage, and full V03 remain open. No
+production code, source geometry, export baseline, criterion or status changed.
+Start/exit packets, deterministic fixture and analysis helper:
+`docs/research/epic17/S628-named-block-piece-identity-pilot/`. Raw DXF/report/
+render evidence stays under
+`C:\\G04-CLO-DXF-Exchange\\S628-named-block-piece-identity-pilot\\`. CLO-use
+and local-processing authorization are confirmed; keep CLO open through the
+active Epic. Validated board exit replay ends at revision 3656 and preserves
+G04-V02 Done and G04-V03/EPIC-17 In Progress.
+
+## Prior verified boundary — S627 exit; V03 remains open
+
+S627 repairs Woven's supported `sideVentDepth=0` source defect. The side and
+curved hem now meet at the original landmark without a degenerate vent edge,
+vent-top marker, or unavailable POM anchor; zero-depth allowances, packed DXF,
+and stitch checks are finite, while the 0.5 cm control retains its explicit
+vent and marker. The final source snapshot is SHA-256
+`0448F4BF9E41DBD4D990A1BF6696C77CAF8DCEE98CC75A933704AB168915DF3E`; all 73
+canonical size-M option rows pass two Open CAD Studio v2026.40.1 R14
+generations at `0.001 cm`, including CUT/SEW/`MARK_*` inventory and geometry,
+and all second generations are byte-identical. One CLO 2026.1.310 DXF-AAMA
+Woven zero-vent import/export/reimport passed all 12 CUT and SEW point-list
+comparisons with maximum `0.000685514 mm` residual, and the reimport render
+shows the twelve pieces without gross damage. CLO's AC1009 output has no
+`$INSUNITS`; numeric pattern names and this single-fixture round trip do not
+establish apparel profile conformance, grade/mark/identity semantics, or the
+all-seven V03 gate. Validated board exit keeps V02 Done and V03/EPIC-17 In
+Progress. Exit packet, S627 gate matrix, timing and exact raw-evidence paths:
+`docs/research/epic17/S627-woven-zero-vent-source-repair/S627-exit-packet.md`,
+`docs/research/epic17/S627-woven-zero-vent-source-repair/V03-CURRENT-GATE-MATRIX-S627.md`,
+and `C:\G04-CLO-DXF-Exchange\S627-woven-zero-vent-source-repair\`.
+
+The next action is to reserve S629 after refreshing `origin/main`, branch
+history, board revision, unique slice number, and dirty state, then select one
+evidence-backed, rights-reviewable industrial apparel receiver/profile
+hypothesis before another multi-option campaign. Keep every V03 criterion,
+hold and threshold unchanged. CLO stays open while EPIC-17 is active.
+
+S627 starts 2026-10-09 15:40:30 UTC from S626 commit
+`d46927ca4647cf1f3915ceddd4938480aef3dc76`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Worktree was
+initially clean, highest slice was 626, and validated start replay was
+3647→3649. Full start scope and gates are in
+`docs/research/epic17/S627-woven-zero-vent-source-repair/S627-start-packet.md`.
+
+## Prior boundary — Slice 626 exit; V03 remains open
+
+S626 started 2026-10-09 15:24:36 UTC from committed S625 `1317d5dd4d721edf5139cacd7f4c8bdd935b6217`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. It ran all 73 S459-accepted S330 size-M option rows through two local Open CAD Studio v2026.40.1 R14 generations. All 73 reopens were byte-identical; 72 valid source rows passed exact CUT/SEW and named `MARK_*` geometry comparison (0 cm residual). The remaining canonical Woven zero-side-vent option generated NaN coordinates in source DXF because a degenerate vent edge receives a 1 cm allowance; the receiver accepts and normalizes this invalid fixture. No `$INSUNITS` contract or full option-wide receiver-render pass was established. Diagnosis, gate matrix, hashes and C:-only evidence are in `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/` and `C:\G04-CLO-DXF-Exchange\S626-opencad-all-options-r14-roundtrip\`. V02 remains Done; V03/EPIC-17 remain In Progress. S627's next action is a narrowly scoped source repair for the supported zero-depth Woven vent, with finite-geometry and nonzero-control checks followed by a full 73-case rerun; no gate changes. CLO remains open.
+
+## Prior boundary — Slice 626 start
+
+S626's start packet is `docs/research/epic17/S626-opencad-all-options-r14-roundtrip/S626-start-packet.md`; board start replay 3642→3644. It was an evidence-only 73-option local R14 investigation with no source changes.
+
+## Prior boundary — Slice 625 exit; V03 remains open
+
+S625 began 2026-10-09 14:57:20 UTC from committed S624 368aa9611fad15af99cacebdfe970d7521bdcd1c on codex/epic-17-g04; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remained an ancestor. Board start/exit replay was 3637→3639→3642. CLO 2026.1.310 Standard-DXF imported the one hash-pinned S624 Polo M AC1014 fixture as nine queryable pieces with no API errors. Only 4/9 CUT and 4/9 SEW contours pass the unchanged 0.001 cm gate; the render shows visibly spiked curved outlines. No export was made after the pre-export gate failed. Relative to S622, two ~93.1135 mm CUT deviations shrink to ~2.33 mm, but five CUT and five SEW contours still fail. The user has confirmed written product-development and local-processing authority. Exact profile, residuals, hashes and render are in `docs/research/epic17/S625-clo-standard-r14-import-test/S625-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S625.md`, with receiver evidence under `C:\G04-CLO-DXF-Exchange\S625-clo-standard-r14-import-test\`. V02 remains Done; V03 and EPIC-17 remain In Progress. All V03, all-seven, legacy behavior, protected identities and claim limits remain unchanged. Next work must address a distinct evidence-backed open V03 gate; do not repeat CLO Standard-DXF variants on this fixture. CLO remains open.
+
+## Prior boundary — Slice 624 exit; V03 remains open
+
+S624 screened the official Open CAD Studio v2026.40.1 Windows portable CLI. Its signed 113,595,808-byte release and versioned local export implementation were verified before product fixtures. A synthetic centimeter R12 drawing passed two explicit R14 writes/reopens. Then seven generated default-M recipe fixtures plus Tee XS/XL passed 90/90 CUT/SEW contour comparisons at 0.001 cm with zero residual; all nine second-generation R14 files are byte-identical to generation one. The malformed DXF failed closed with exit 1 and no output. Nine receiver-generated A3 plots were reviewed and show all tested contours within extents. The current-source product DXFs omit $INSUNITS, so physical scale metadata was not demonstrated; they also contain only CUT/SEW polylines. This is a positive bounded general-CAD R14 result, not an industrial apparel profile. No full V03 acceptance gate clears. Exit packet and matrix: docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/; all receiver artifacts/renders remain in C:\G04-CLO-DXF-Exchange\S624-opencadstudio-desktop-r14-receiver\. V02 remains Done; V03 and EPIC-17 remain In Progress; all criteria and holds are unchanged.
+
+S625 closed that R14-container hypothesis at the pre-export gate. The exact result, comparison to S622, and durable next-step constraint are in the S625 exit packet and current V03 matrix.
+
+## Slice 624 start (historical)
+
+S624 started 2026-10-09 14:37:06 UTC from S623 c4b1eac82cfcbe9ec49981d7f1d08cf2356b7caa with refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 as an ancestor. Board start replay was 3632→3634. Full start contract: docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/S624-start-packet.md.
+
+## Prior EPIC-17 / G04 — Slice 622 exit; V03 remains open
+
+S622 tested CLO Standard-DXF import of the exact S574 connected-LINE Polo M input. CLO returned nine patterns and rendered nine pieces without an import/API error, but source-bound native geometry passes only 4/9 CUT and 4/9 SEW contours at 0.001 cm. The five CUT misses are 1.86781, 2.33034, 2.34012, and two at 93.1135 mm; five SEW misses are 0.44230–0.45497 mm. The source-to-input line-chain check remains within threshold. No DXF export or round trip was attempted because the pre-export gate failed. Details, exact settings, hashes, and rendered review are in `docs/research/epic17/S622-standard-dxf-connected-line-import/S622-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S622.md`; application/render evidence remains under `C:\G04-CLO-DXF-Exchange\S622-standard-dxf-connected-line-import\`. Validated board replay 3624→3627. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress with all criteria/holds unchanged.
+
+## EPIC-17 / G04 — Slice 622 start; V03 remains open
+
+S622 started from clean S621 commit `53531db882c817be002421e8fb2795425c4ecee2`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 621; S622 was reserved. Board revision 3622 recorded G04-V03 In Progress and G04-V02 Done. The maintainer's written confirmations cover CLO product-development evaluation and local-only processing. Start packet and validated start replay 3622→3624: `docs/research/epic17/S622-standard-dxf-connected-line-import/S622-start-packet.md`.
+
+Bounded next action: compare CLO Standard-DXF import to AAMA on the same connected-LINE fixture with swap off; query native geometry and do not export unless the full pre-export gate passes. The gate failed, as recorded above; the next slice must use a distinct evidence-backed receiver candidate. All V03 gates/holds, protected identities, and claim limits remain unchanged. CLO remains open.
+
+## Prior EPIC-17 / G04 — Slice 621 exit; V03 remains open
+
+S621's same-input DXF-AAMA swap-on diagnostic rendered nine pieces and queried nine patterns without errors. All nine source SEW contours match their expected native pattern; none of the nine paired CUT contours passes 0.001 cm (best comparable deviations span 1.4142–9.3109 cm; two stands have no same-point-count candidate). Every ordered native point list is identical to S620's swap-off baseline. No DXF export occurred. Detailed settings, bounded interpretation, and evidence hashes are in `docs/research/epic17/S621-aama-swap-lines-import/S621-exit-packet.md`; board replay 3618→3620→3622. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress with all criteria unchanged.
+
+Next: compare CLO Standard-DXF import against AAMA on the same connected-LINE input, with swap off and all other settings at the S574 baseline; query native geometry before any export. If that fails the CUT gate, stop further CLO profile variants on this fixture and advance to the next rights-qualified receiver candidate. S621 ran 13:35:34–13:47:30 UTC (11m56s): import/query/snapshot UI work about 8m; geometry analysis and report creation about 2m; focused verification and packet/state/board closeout about 1m56s; external waits 0; maintainer-decision time 0. CLO remains open.
+
+## Prior EPIC-17 / G04 — Slice 621 start; V03 remains open
+
+S621 starts from clean S620 commit `66fc68fdf8f4c42bdfd7c6f232098305d385cb8a`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. The unique highest slice was 620; S621 is reserved. Board revision 3618 has EPIC-17/G04-V03 In Progress and G04-V02 Done. The maintainer confirmed CLO trial use for product-development evaluation and local file processing. Start packet: `docs/research/epic17/S621-aama-swap-lines-import/S621-start-packet.md`; C:-only input SHA-256 is recorded there.
+
+Bounded next action: import the hash-pinned S574 connected-LINE fixture once with only “Swap cut and sewing lines” enabled, then inspect native geometry, closures and rendered pieces before deciding whether export is safe. Keep every V03/V02 gate, threshold, hold, protected identity, and claim limit unchanged. CLO remains open.
+
+## EPIC-17 / G04 — Slice 620 exit; V03 remains open
+
+S620 reuses the saved S574 AAMA import-stage project. Its nine CLO native point lists match all 9 source SEW outlines within 0.000014 cm and none of the source CUT outlines within the unchanged 0.001 cm gate; the AAMA gen1 block contours carry forward the exposed native geometry. CLO calls the shapes “Base Line” and does not document DXF layer/stage semantics, so the internal mechanism and output numeric-layer roles remain unproven. Exit packet and hash-pinned C:-only report: `docs/research/epic17/S620-aama-preexport-contour-check/S620-exit-packet.md`; board replay 3614→3616→3618. EPIC-17/G04-V03 remains In Progress; V02 remains Done and all gates/holds are unchanged.
+
+Next: one evidence-driven AAMA import test with CLO's “swap cut and sewing lines” enabled; query native geometry before exporting. If CUT geometry still fails, stop this CLO AAMA route and use the next qualified receiver/profile candidate. S620 started 13:25:39 UTC and closed 13:34:42 UTC (9m03s): CLO/UI evidence collection and analysis about 5m; focused verification and durable records/board closeout about 4m03s; external waits 0; maintainer-decision time 0. CLO remains open.
+
+## EPIC-17 / G04 — Slice 620 start record
+
+S620's hash-pinned AAMA import-stage study is specified in `docs/research/epic17/S620-aama-preexport-contour-check/S620-start-packet.md`; validated board start replay 3614→3616.
+
+## EPIC-17 / G04 — Slice 619 exit; V03 remains open
+
+S619's hash-pinned read-only comparison shows all five reduced S617 CUT contours (back, both collar stands, both pointed collars) already present in CLO's pre-export native point lists and then matched in ASTM output within 0.000023 cm. This localizes the loss before or at the imported/native representation for this fixture; CLO's `Base Line` API labels do not document DXF source-layer identity or stage semantics, so no internal mechanism is claimed. Evidence/report hashes, comparison details, and limits are in `docs/research/epic17/S619-s617-import-stage-geometry/S619-exit-packet.md`; C:-only evidence remains under `C:\G04-CLO-DXF-Exchange\S619-s617-import-stage-geometry\Evidence\`. Board start/exit replay: 3610→3612→3614. EPIC-17/G04-V03 remains In Progress, G04-V02 Done; all V03 criteria and holds remain unchanged.
+
+Next: select a distinct evidence-based receiver/profile or import workflow to address pre-export contour loss; do not repeat unit/scale changes on this fixture. No exchange was repeated and no product code/geometry/threshold/acceptance or protected export identity changed. CLO remains open during active G04. S619 elapsed 17m03s (13:06:49–13:23:52 UTC): analysis implementation/evidence interpretation about 7m; focused verification and packet/state/board closeout about 10m03s; external waits 0; maintainer-decision time 0. Full repository gate remains for the settled integrated Epic/PR candidate.
+
+## EPIC-17 / G04 — Slice 619 start record
+
+S619 bounded question and read-only C:-only setup: `docs/research/epic17/S619-s617-import-stage-geometry/S619-start-packet.md`; validated board start replay 3610→3612.
+
+## EPIC-17 / G04 — Slice 618 exit; V03 remains open
+
+S618 corrected S617 closeout records only: its verified end is commit `bc0064c4` at 13:01:01 UTC, with 17m25s elapsed from 12:43:36 UTC; the extra EOF blank line in this state file is removed. S617's explicit-unit CLO result and all G04/V03 holds are unchanged. Start/exit board replay: 3606→3608→3610; focused Control Center tests pass 42/42, S617 C:-evidence preflight passes, and `git diff --check` passes. See `docs/research/epic17/S618-s617-closeout-correction/S618-exit-packet.md`. No product code changed; full repository gate remains for integrated Epic/PR.
+
+## EPIC-17 / G04 — Slice 618 start record
+
+S618 corrects S617 packet timing and repository-state trailing whitespace. Start packet: `docs/research/epic17/S618-s617-closeout-correction/S618-start-packet.md`; board start replay 3606→3608.
+## EPIC-17 / G04 — Slice 617 exit; V03 remains open
+
+S617 tested a hash-pinned Polo M Standard-DXF copy with a truthful `$INSUNITS=5` centimeter header; original entity bytes and all pattern coordinates stayed unchanged. CLO 2026.1.310 imported, ASTM-graded-exported and Standard-DXF-reimported nine gross pieces without a format error; its seam-allowance Custom-mode notice is informational. Source-bound geometry passes 9/9 SEW and only 4/9 CUT contours at `0.001 cm`. Explicit units resolve this fixture's scale issue, but five back/collar CUT outlines each lose one vertex and deviate 0.01299–0.01423 cm. No V03 gate clears. Full packet and gate matrix: `docs/research/epic17/S617-standard-dxf-units-header/S617-exit-packet.md` and `V03-CURRENT-GATE-MATRIX-S617.md`; rendered output and CLO project remain only in `C:\G04-CLO-DXF-Exchange\S617-standard-dxf-units-header\Evidence\`.
+
+Validated board closeout is 3603→3606; G04-V02 remains Done and G04-V03/EPIC-17 remain In Progress. Preserve all-seven acceptance, the `0.001 cm` gate, every V03 profile/rights/identity/semantics/options/negative-input/repeated-round-trip/render hold, legacy DXF behavior, and protected export identities. CLO remains open. Next isolate the known short-edge vertex loss through a distinct evidence source before another exchange; do not repeat unit/scale permutations on this fixture. S617 elapsed 17m25s (12:43:36–13:01:01 UTC, ending at commit `bc0064c4`): diagnostic/CLO exchange and rendered capture about 8m; focused analysis/verification/records/board/commit about 9m25s; external-agent waits 0; maintainer-decision time 0. No product code changed; full tests/100% coverage remain for the settled integrated Epic candidate.
+
+## EPIC-17 / G04 — Slice 617 start record
+
+S617's one-variable unit-header diagnostic is specified in `docs/research/epic17/S617-standard-dxf-units-header/S617-start-packet.md`; validated board start replay was 3601→3603.
+## EPIC-17 / G04 — Slice 616 exit; V03 remains open
+
+S616 changed only CLO Standard-DXF import Unit to Millimeter at 100% on the
+same unitless Polo M source used by S614/S615. CLO imported, exported and
+re-imported nine pieces without a format error, but the ASTM DXF geometry is
+identical to the centimeter runs apart from metadata. Front remains 0.1×
+source size; strict CUT/SEW contour match is 0/9. V03 does not pass. The source
+has no `$INSUNITS` or `$MEASUREMENT`, so intent remains unknown. Exit packet
+and current matrix: `docs/research/epic17/S616-standard-dxf-units-sensitivity/`.
+Board closeout replay is 3598→3601; G04-V02 Done, G04-V03/EPIC-17 In Progress.
+All-seven acceptance, `0.001 cm` threshold, rights/profile/identity/semantics/
+marks/grades/options/negative-input/repeated-roundtrip/render holds, legacy
+DXF behavior and protected identities remain unchanged. CLO remains open.
+
+Next action: compare the source writer/fixture contract with the existing
+AAMA route and Standard-DXF representation. Select one distinct, evidence-
+based receiver/profile test before returning to CLO; do not repeat unit/scale
+variants on this unchanged fixture. No V03 gate clears.
+
+## EPIC-17 / G04 — Slice 616 start record
+
+S616's unit-selector experiment and controlled settings are recorded in
+`docs/research/epic17/S616-standard-dxf-units-sensitivity/S616-start-packet.md`.
+It changed only Centimeter to Millimeter at 100% import scale. Board start
+replay was 3596→3598.
+
+## EPIC-17 / G04 — Slice 615 exit; V03 remains open
+
+S615 tested the same unitless Polo M fixture in CLO 2026.1.310 Standard DXF at
+1000% import scale instead of S614's 100%. CLO imported, ASTM-exported and
+re-imported nine pieces without a format error, but emitted geometry is
+unchanged except output style name and creation time. Front dimensions remain
+2.850001 × 7.3274 against source 28.5 × 73.274 (0.1×); 8/18 paths match only
+after diagnostic 0.1 scaling and 10 have vertex changes. No V03 gate clears.
+The source has no `$INSUNITS` or `$MEASUREMENT`; next isolate the unit selector
+while holding 100% scale and all other settings fixed. All-seven acceptance,
+`0.001 cm` gate and holds remain. CLO remains open. Exit packet and refreshed
+matrix: `docs/research/epic17/S615-standard-dxf-explicit-scale/`.
+Board closeout: 3593→3596; V02 Done, V03/EPIC-17 In Progress.
+
+## EPIC-17 / G04 — Slice 615 start record
+
+The controlled test objective and start evidence are recorded in
+`docs/research/epic17/S615-standard-dxf-explicit-scale/S615-start-packet.md`.
+It changed only Standard-DXF import scale to 1000%; no product geometry,
+export settings, gate, or default changed. Board start replay was 3591→3593.
+
+## EPIC-17 / G04 — Slice 614 exit; V03 remains open
+
+S614's fixed-setting CLO Standard-DXF input / ASTM-export trial imports,
+exports and reimports nine Polo M pieces without a format error, but fails
+geometry and unit-scale acceptance. The source front is 28.5 × 73.274 units;
+output block `0_M` is 2.850001 × 7.3274 (approximately 0.1×) under cm/100%
+settings. The CLO-native reimport PDF shows gross piece presence but labels and
+fine details are not acceptably legible. Eight of eighteen exact CUT/SEW path
+matches occur only after diagnostic 0.1 scaling; this is not a pass. No profile
+or V03 gate clears. Full evidence and limits:
+`docs/research/epic17/S614-standard-dxf-import-mode/S614-exit-packet.md` and
+`V03-CURRENT-GATE-MATRIX-S614.md`; rendered evidence remains local under
+`C:\G04-CLO-DXF-Exchange\S614-standard-dxf-import-mode\Evidence\`.
+
+Board exit replay is `3588→3591`; V02 remains Done and V03/EPIC-17 remain
+In Progress. Preserve the 0.001 cm gate, all-seven requirement, export
+identities and all holds. Do not repeat the exact 100% Standard-DXF setup.
+S615's new controlled test changes only the receiver import-scale parameter
+to diagnose the 10× unit interpretation; it does not alter emitted geometry
+after export. CLO remains open while G04 work is active.
+
+## EPIC-17 / G04 — Slice 613 exit; V03 remains open
+
+S613 maps the same source vertex omission in each of the five failed Polo M
+CUT contours in the prior AAMA and S609 ASTM output. Each omission occurs at a
+0.0456–0.0470 cm short edge; bridging the corner yields 0.012736–0.013970 cm
+deviation, over the unchanged 0.001 cm threshold. All other matched vertices
+remain within 0.000025 cm. This makes localized short-feature simplification
+plausible, but does not assign the loss to CLO import/normalization/export or
+make output acceptable. Full report, artifact hashes and limits:
+`docs/research/epic17/S613-polo-cut-vertex-adjacency/S613-exit-packet.md` and
+`V03-CURRENT-GATE-MATRIX-S613.md`.
+
+The S612 Standard-DXF input-mode trial remains unexecuted because native CLO
+controls are unavailable in the active CUA runtime; CLO itself was not tested
+or declared unsuitable by S612. Exit board replay is `3582→3584→3586`; V02 is
+Done and V03/EPIC-17 remain In Progress. Next compare the same pinned source
+using Standard DXF input and ASTM output with all other settings fixed, once a
+freshly verifiable control surface exists. Do not change geometry, writer,
+threshold, or V03 holds. CLO local-use authorization is settled.
+
+## EPIC-17 / G04 — Slice 612 exit; V03 remains open
+
+S612 did not execute the planned CLO Standard-DXF input-mode trial. In the
+active computer-use runtime the app inventory returned no native apps and the
+documented native `listWindows`/`getApp` methods are unavailable, so CLO could
+not be freshly bound. No app lifecycle action, screenshot, input, or file
+operation occurred. This is a computer-use access blocker, not evidence of a
+CLO format failure. No V03 criterion is cleared; preserve all-seven acceptance
+and all holds. CLO remains open. Exit packet:
+`docs/research/epic17/S612-clo-standard-dxf-import-mode/S612-exit-packet.md`.
+
+Board replay: `3578→3580` start and `3580→3582` exit. V02 remains Done;
+V03/EPIC-17 remain In Progress. Next restore supported native-window access
+without closing/restarting CLO and run the single controlled Standard-DXF
+trial, or use independent source-backed V03 work if UI access is still absent.
+Written CLO product-development and local-only file handling authorization is
+settled; do not request it again.
+
+## EPIC-17 / G04 — Slice 611 exit; V03 remains open
+
+S611 found no ready free/local apparel receiver among documented candidates.
+Seamly2D's current README does not document DXF apparel import/round-trip;
+OpenPatterns' three fixture failures/no writer and Super V8's no-DXF-export
+evidence remain controlling. garment.dev claims broad AAMA/ASTM validation but
+is invite-based and hosted, outside current scope; no files were uploaded.
+Evidence: `docs/research/epic17/S611-free-local-apparel-cad-alternatives/S611-exit-packet.md`.
+
+Validated board replay: `3574→3576` start and `3576→3578` exit. V02 remains
+Done; V03/EPIC-17 remain In Progress. Current matrix:
+`docs/research/epic17/S611-free-local-apparel-cad-alternatives/V03-CURRENT-GATE-MATRIX-S611.md`.
+Next use one source-backed CLO import-mode diagnostic: import the same S609
+R12/AAMA fixture as Standard DXF, hold all other settings fixed, export in
+ASTM with S609 settings, and compare to the same `0.001 cm` gate. This isolates
+whether the AAMA import mode is implicated. Preserve all V03 criteria, seven-
+recipe acceptance, legacy DXF behavior and protected export identities.
+Permission/local-only handling is confirmed for CLO; no other service may
+receive files. Keep CLO open while G04 is active.
+## EPIC-17 / G04 — Slice 607 exit; V03 remains open
+
+S607 closed at its fail-closed selection precondition. The open CLO
+2026.1.310 S565 project showed the outer waistband CUT corner selected with
+20 mm X steps per size; clicking the S606-mapped internal SEW endpoint twice
+did not change selection/table. No grade, project, source or DXF was changed,
+saved, imported or exported. This is one bounded UI-workflow failure, not a
+general CLO limitation. C:-only screenshot/accessibility evidence and hashes:
+`docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-exit-packet.md`.
+
+Board start/exit replay: `3558→3560→3562`; G04-V02 remains Done and
+G04-V03/EPIC-17 remain In Progress. Next refresh the matrix and identify a
+non-repeated, directly measurable V03 gate; all acceptance and holds remain
+unchanged. Keep CLO open while G04 testing continues.
+
+## S607 start scope (closed)
+
+S606 closed at `b00abc87` with exact-project path correspondence. Board
+revision is 3558; G04-V02 remains Done and G04-V03/EPIC-17 remain In Progress.
+S607 is uniquely reserved after refresh; `origin/main` is still an ancestor.
+Use the already open CLO 2026.1.310 S565 corrected-sizegroup1 disposable
+project to inspect the mapped waistband internal sewn path. Do not enter grade
+values unless UI selection is unambiguously the path matching source SEW.
+If confirmed, apply only the S567 five-size source deltas to this disposable
+project, export once as DXF-ASTM / Graded Nest / cm / 100% / Do Not Rotate to
+the S607 C:-only folder, then reimport and compare all five CUT and SEW
+contours at `0.001 cm` and inspect the rendered output. Any ambiguity/failure
+keeps the hold. Product authorization and local-only processing are confirmed;
+no production source change, compatibility claim, or acceptance change. See
+`docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-start-packet.md`.
+
+## EPIC-17 / G04 — Slice 606 exit; V03 remains open
+
+S606 closed at the current branch boundary with read-only geometric identity
+evidence. `GetPatternInputInformation` returned three patterns and no errors;
+root/child shape indexes 0 and 1 matched the two exact S565/S567 source CUT
+paths, and child shape 2 matched each corresponding SEW path. Maximum contour
+residual was 0.0000683 mm (five-point pieces) and 0.0000611 mm (waistband),
+below the unchanged 0.001 cm gate. The API does not specify units or establish
+path semantics. No grade point was selected or changed, and no export behavior
+was tested, so the S603 ambiguity remains held. CLO stays open. Full evidence,
+hashes and limits: `docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-exit-packet.md`.
+
+Board start replay advanced 3554→3556; validated exit replay is recorded in
+the S606 packet and advances 3556→3558. G04-V02 stays Done; G04-V03 and
+EPIC-17 stay In Progress. Next uniquely numbered slice: inspect the mapped
+waistband internal path in the same CLO session and only trial source-derived
+grades if the selected path is unambiguous; otherwise retain that hold and
+work a different pending V03 exchange gate. No V03 acceptance changes.
+
+## S606 start scope (closed)
+
+S604 closed at `505d3faccfa88ac4e7b3efc48614c266db795b10`. It found no
+reliable, version-specific CLO cue for distinguishing an internal sewn-line
+point from a CUT-outline point in Edit Grading; the official API docs expose
+read-only internal-shape and outline geometry getters, but document grading
+setters only for outline points. S604 packet and citations:
+`docs/research/epic17/S604-clo-internal-grade-selection-research/S604-exit-packet.md`.
+
+S605 queried only read-only geometry in the existing CLO 2026.1.310 session.
+The three indexed patterns returned numeric names and empty outline arrays;
+internal-shape enumeration failed because `utility_api` is undefined. Prior
+S582/S581 exact-build evidence already confirms the required internal-shape
+index/list methods are absent. The result cannot identify the S565 waistband
+or match its CUT/SEW paths to S567. Keep the S603 grading hold; do not repeat
+the API survey. No grading, project edit, save, or exchange occurred. CLO
+remains open. S605 evidence:
+`docs/research/epic17/S605-clo-readonly-internal-geometry/S605-exit-packet.md`.
+
+At S606, return to an actual exchange/profile gate in the V03 matrix. CLO is
+not yet a qualified industrial profile; S595 still passes 4/9 CUTs, fails 5/9,
+and passes 9/9 SEWs at the unchanged 0.001 cm threshold. All-seven exchange,
+stable identity/semantics, marks, scale, supported options, malformed-input
+rejection, and repeated-round-trip requirements remain pending. The user's
+written product-development and local-only file-processing confirmation is
+recorded; no further permission question is needed. All-seven acceptance,
+V02-before-V03, legacy DXF behavior, protected export identities, and all
+other gates remain unchanged. Board revision after S605 exit replay: 3554.
+S606 is uniquely reserved from that verified boundary. It makes one
+read-only `GetPatternInputInformation` capture for the three indexed patterns
+in the still-open S565 CLO project and compares the returned paths to S567's
+source CUT/SEW contours. This getter is documented and was observed working in
+the same build in S583; its schema and manufacturing semantics remain
+undocumented. No selection, grading, project, source, or exchange changes are
+allowed. If the mapping is not unique at 0.001 cm, retain the hold and stop
+this query route. Start packet and board evidence:
+`docs/research/epic17/S606-clo-inputinfo-grade-identity/S606-start-packet.md`.
+
+## Prior EPIC-17 / G04 — Slice 604 exit; V03 remains open
+
+## Prior EPIC-17 / G04 — Slice 603 exit; V03 remains open
+
+S603 opened only the byte-verified copy of the S565 disposable CLO project in
+the existing CLO 2026.1.310 process. The waistband's inset four-sided internal
+line was visible, but Edit Grading did not establish that the apparent
+endpoints were internal-line points: the selected-point table showed 20.0 mm X
+and 0.0 mm Y at each size step, rather than the source sewn-line deltas. The
+selection could still be a CUT point. No grading values were changed; no project
+was saved and no DXF exchange was performed. The trial is held, and no V03 gate
+clears. Evidence, screenshot hash and limits: `docs/research/epic17/S603-waistband-sew-grading-trial/S603-exit-packet.md`.
+
+Validated board exit is recorded at board revision 3546 in the S603 packet and
+command replay. V02 remains Done; V03 and EPIC-17 remain In Progress. Keep all-seven acceptance,
+the 0.001 cm contour gate, V02-before-V03 order, legacy DXF behavior, protected
+export identities, and every V03 hold unchanged. No production code changed;
+the Control Center suite and `git diff --check` are the focused closeout checks.
+CLO remains open in the same session. At S604, refresh the current V03 gate
+matrix and select a distinct remaining gate that new evidence can resolve. Do
+not repeat the S603 UI selection unless a trustworthy method establishes sewn-
+path segment identity before grading input.
+
+## Prior EPIC-17 / G04 — Slice 602 exit; V03 remains open
+
+S602 commissioned an independent, read-only Claude Opus 5.5 review of the
+five repeated Polo CUT short-corner losses. It found no evidence-backed new
+point-preservation method or qualified no-cost local apparel receiver. Its
+candidate search was limited, and its first capped run ended without a result;
+the second returned `WORK FINISHED` but could not read the uncommitted S602
+packet in its detached S601 worktree. Codex checked its suggested CLO flags
+against durable prior results: curve optimization on/off and `Import Draw
+Curve Points` were already tested, and `Remove Non-Grading Points` deletes
+ungraded points. Official CLO API documentation lists related option names but
+does not give them point-preservation semantics. No repeated UI test, product
+edit, or pattern edit occurred. Rights/local processing remain settled.
+
+No V03 gate, all-seven criterion, 0.001 cm threshold, legacy DXF behavior,
+protected export identity, or claim boundary changed. V02 remains Done; V03
+and EPIC-17 remain In Progress. S602 packet and source review:
+`docs/research/epic17/S602-short-edge-fix-independent-review/`. CLO remains
+open.
+
+S602 also re-observed the still-running CLO session without input. The
+screenshot showed the nine-piece 2D workspace; its accessibility tree showed
+the same CLO main window/version and no export modal or spinner. This removes
+the prior S568 visible/accessibility mismatch for this capture only. Next:
+S603 verifies S565's saved project hash, preserves the S601 project, opens a
+copy of S565 in the same process and tests only S567's source-derived five-
+size waistband SEW-line grade mapping. Save/import/export artifacts only in
+`C:\G04-CLO-DXF-Exchange\S603-waistband-sew-grading-trial\`. Compare CUT and
+SEW against all five sizes at 0.001 cm and review rendered reimport output.
+Stop without input if path or grade identity is ambiguous. This test can
+advance only the grading subgate; the five Polo CUT failures and other V03
+gates remain.
+
+## Prior EPIC-17 / G04 — Slice 601 exit; V03 remains open
+
+S601 imported the exact hash-pinned S595 CLO-emitted DXF-AAMA back into a clean
+scene in the same CLO 2026.1.310 session. Import completed without an
+application/format error; CLO noted seam allowances were imported in Custom
+mode to preserve their original shape. The saved output-side project renders
+all nine pieces, but strokes are faint, labels are numeric 0–8, and the collar
+label/outline area remains crowded. This proves reopen/render only;
+source-linked mark fidelity, piece identity and CUT/SEW meaning remain
+unproven. S595 remains 4/9 CUT pass, 5/9 fail, 9/9 SEW pass at 0.001 cm.
+No V03 gate clears. Packet and C:-only artifact hashes:
+`docs/research/epic17/S601-clo-roundtrip-output-render/` and
+`C:\G04-CLO-DXF-Exchange\S601-clo-roundtrip-output-render\`.
+
+Validated board closeout is revision 3538; EPIC-17/G04-V03 remain In Progress,
+V02 remains Done. Focused Control Center tests, S601 script checks, five
+artifact integrity checks, one-page PDF validation, and `git diff --check`
+are recorded in the S601 packet. No product code or tests changed; the full
+repository gate remains for the settled Epic candidate. CLO remains open.
+Next select a distinct V03 acceptance gate whose evidence can change its
+disposition; do not repeat this unchanged Polo render or S595 contour test.
+The goal stays active through reviewed PR merge and any required deployment.
+
+## EPIC-17 / G04 — Slice 599 exit; V03 remains open
+
+S599 joined S597's read-only pre-export source-contour matches to S595's
+source-bound CLO DXF-AAMA CUT round-trip outcomes. Three of the four passing
+CUT contours had a direct pre-export getter match. The passing button placket
+did not. None of the five failed CUT contours had a direct getter match.
+Because getter absence also occurs for a passing CUT, this API cannot classify
+pass/fail or attribute geometry loss to import, internal representation,
+getter exposure, or export. The concrete S595 result remains 4/9 CUT pass,
+5/9 fail and 9/9 SEW pass at the unchanged 0.001 cm threshold. No CLO call,
+new exchange, product source, or acceptance criterion changed. S599 exit
+packet and matrix: `docs/research/epic17/S599-clo-api-vs-export-evidence/`;
+the JSON join is in `C:\G04-CLO-DXF-Exchange\S599-clo-api-vs-export-evidence\`.
+
+Validated board exit and focused checks are recorded in the S599 packet.
+EPIC-17/G04-V03 remain In Progress; V02 remains Done. CLO remains open. Next
+stop API stage-attribution work and pursue a separate V03 gate from actual
+source/export evidence, preserving all five Polo CUT failures and all other
+holds. The goal remains active through reviewed PR merge and any required
+deployment.
+
+## Prior EPIC-17 / G04 — Slice 598 exit; V03 remains open
+
+S598 compared the existing S580 connected-LINE and S597 periodic-SPLINE
+`GetPatternLineInfo` captures. The fixtures trace to the same byte-pinned Polo
+M R12 source, and their source proofs preserve the CUT contour geometry. In
+the S580 capture, eight getter paths screen near literal source SEW contours
+and none near CUT contours. In S597, five screen near source contours: three
+literal CUT-layer and two SEW-layer matches. None of the five source-exact
+periodic-SPLINE CUT contours is within the 0.01 mm diagnostic screen of any
+getter path. Line counts also differ at slots 1, 7, and 8. These results show
+representation/context-sensitive getter output, not whether CLO discarded
+the curves; the API does not assign manufacturing roles or stage semantics.
+No new CLO action or exchange occurred, and no V03 gate changed. The S574
+and S595 measured round trips remain the receiver evidence; S595 still fails
+five Polo CUT contours. Details and C:-only report:
+`docs/research/epic17/S598-clo-api-representation-diff/` and
+`C:\G04-CLO-DXF-Exchange\S598-clo-api-representation-diff\`.
+
+Validated board exit and focused verification are in the S598 packet.
+EPIC-17/G04-V03 remain In Progress; V02 remains Done. CLO stays open. Next
+stop API-based stage attribution and inspect whether the S595 pre-export
+observations can be tied to its saved exported DXF; if not, continue directly
+to the next remaining V03 acceptance item without repeating this getter.
+
+## Prior EPIC-17 / G04 — Slice 597 exit; V03 remains open
+
+S597 recovered a coherent CLO 2026.1.310 window without restarting CLO and
+ran the planned allowlisted, read-only `GetPatternLineInfo` capture once on
+the existing S595 pre-export scene. The nine returned line sequences are
+closed and continuous, and their endpoint bounds equal the API-reported
+bounds. A direct-frame symmetric vertex-to-opposing-segment screen finds five
+source-contour proximities at the unchanged 0.001 cm threshold: three match
+contours whose literal DXF layer is `CUT`, and two match literal `SEW` layers.
+API indexes 1, 3, 7 and 8 have no direct source-contour match. This metric is
+diagnostic screening, not the V03 acceptance contour metric; the API does not
+document CUT/SEW roles or its importer/exporter stage, and no garment piece
+identity is assigned to the unmatched indexes. No DXF was imported/exported,
+and no pattern, project, settings, product source or protected export changed.
+The S595 five CUT round-trip failures and every V03 gate remain open.
+Evidence and limits: `docs/research/epic17/S597-clo-helper-recovery/` and
+`V03-CURRENT-GATE-MATRIX-S597.md`; raw CLO/API and analysis JSON remain under
+`C:\G04-CLO-DXF-Exchange\S597-clo-helper-recovery\`.
+
+Validated board exit, focused checks and time accounting are recorded in the
+S597 exit packet. EPIC-17/V03 remain In Progress; V02 remains Done. The CLO
+session remains open. Next choose one falsifiable exchange-stage question
+from the four unmatched returned outlines, with the existing fixed contour
+and seven-recipe gates unchanged. The goal remains active until a reviewed PR
+is safely merged and any required deployment is verified.
+
+## Prior EPIC-17 / G04 — Slice 596 exit; V03 remains open
+
+S596 scoped a new, read-only `GetPatternLineInfo` comparison against the saved
+S595 periodic-SPLINE post-import/pre-export CLO project. The operation was
+not performed: a fresh CLO capture reported an Export DXF modal and focused
+scale spinner in accessibility, while the simultaneous screenshot showed
+only the nine-piece 2D canvas; `list_windows()` exposed only the main window.
+Escape, cancel and raise recovery did not yield a consistent, targetable
+state. No getter ran; no S595 project or DXF was opened, changed or saved, and
+no new exchange artifact was created. This is a computer-use capture/input
+surface inconsistency, not a CLO format result or G04 acceptance failure.
+Evidence and limits:
+`docs/research/epic17/S596-clo-periodic-import-boundary/S596-exit-packet.md`.
+
+Validated board exit `3516→3518` links `E-G04-S596-EXIT`. EPIC-17/V03 remain
+In Progress; V02 remains Done. Control Center tests pass 42/42; start/exit
+clone preflights and replays, changed scripts' `node --check`, and
+`git diff --check` pass. No production source/tests changed; full repository
+gates remain due on the settled candidate. S596 elapsed `3m33s`
+(`08:49:06–08:52:39 UTC`): prior evidence review `1m`; live-app/accessibility
+and screenshot inspection `1m`; non-destructive recovery attempts `0m30s`;
+packet/board/focused closeout `1m03s`; external-agent waits `0m`;
+maintainer-decision time `0m`.
+
+Next S597: only after the computer-use helper returns a coherent, targetable
+CLO window, resume the single read-only S595 pre-export outline capture. If
+that state remains inconsistent, do not send UI input; continue evidence-only
+work and keep every V03 gate open. CLO remains open for the admitted Epic.
+
+## Prior EPIC-17 / G04 — Slice 595 exit; V03 remains open
+
+S595 independently proved a periodic degree-1 SPLINE representation of the
+five difficult Polo M CUT contours against the original source: 1,603 samples,
+all source edges once, exact closure, and 0 cm source residual. The authorized
+CLO 2026.1.310 DXF-AAMA import/export returned nine pieces; its measured
+round-trip passes 4/9 CUTs and all 9/9 SEWs, while back, both stands, and both
+pointed collar CUTs fail the unchanged `0.001 cm` gate. The exact periodic
+encoding is rejected for this tested receiver; no internal CLO cause is
+inferred and no V03 gate changes. The full nine-piece 2D snapshot is gross
+presence evidence only. Permission for product-development use and local
+processing is confirmed in writing; all trial artifacts remain under
+`C:\G04-CLO-DXF-Exchange\S595-polo-periodic-spline-roundtrip\` and CLO stays
+open. No production code, geometry, export baseline, or protected identity
+changed. Details and hashes:
+`docs/research/epic17/S595-polo-periodic-spline-roundtrip/S595-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S595.md`.
+
+Validated board exit `3508→3512` links `E-G04-S595-EXIT`; a stale summary
+wording assertion was corrected through validated replay `3512→3514`.
+EPIC-17 and V03 remain In Progress and V02 remains Done. The Control Center suite passes
+42/42; all changed S595 scripts pass `node --check`; board clone preflight,
+CLI replay, artifact hashes and `git diff --check` pass. No production code
+changed, so changed-code coverage is N/A and the full repository gate remains
+due on the settled integrated Epic/PR candidate. S595 elapsed `21m36s`
+(`08:24:23–08:45:59 UTC`): candidate/source proof `4m25s`; CLO import/export
+`6m01s`; output analysis `1m55s`; PDF/snapshot/rendered inspection `2m02s`;
+documentation, focused tests, board and closeout `7m13s`, including the
+diagnosed summary assertion correction; external-agent waits `0m`;
+maintainer-decision time `0m`. S595 is recorded by the landed commit
+subject `Slice 595: test periodic Polo SPLINE round trip`.
+
+Next S596: inspect existing source, CLO output and prior candidate analyses to
+identify one source- and receiver-measurable entity-translation or processing-
+stage question before another receiver trial. Do not repeat periodic/closed-
+bit variants, alter geometry/settings or weaken any V03 gate. The goal remains
+active through verified PR merge and any required deployment. CLO stays open.
+
+## Prior EPIC-17 / G04 — Slice 594 exit; V03 remains open
+
+S594 hash-pinned the original Polo M source, the five S591 degree-1 SPLINEs,
+the S592 closed-bit derivative and both source preflight reports. Its
+independent de Boor evaluator compared seven parameters per active span to the
+original source POLYLINE edges: 3,206 evaluations across both variants, all
+with 0 cm numeric residual. The mathematical curves are identical despite
+group 70 changing from 25 to 24. Autodesk's DXF/API references document flag,
+field, closed/periodic and knot-count semantics; they do not explain CLO's
+output. The five measured Polo CUT round-trip failures remain under the
+unchanged `0.001 cm` gate. Details and machine report hash:
+`docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md`.
+
+Validated board replay `3500→3502→3506`, focused Control Center results,
+refreshed ancestry and active/aligned goal audit are in the S594 packet. V02
+remains Done; V03/EPIC-17 remain In Progress. Next S595 may test a periodic
+degree-1 encoding only after independently proving exact source geometry; if
+not proven, no receiver trial occurs. Preserve all-seven scope and all V03
+gates, legacy DXF behavior and protected export identities. Trial permission
+and local handling remain settled; exchange files stay on C: and CLO remains
+open.
+
+## Prior EPIC-17 / G04 — Slice 587 exit; V03 remains open
+
+S587 maps the documented CLO DXF-AAMA options against generic DXF metadata.
+CLO's guide documents operator scale selection, pattern annotations,
+cut/sew swapping, one selected size group per file, and grade info in DXF or
+Rule File, but does not define a stable piece/mark ID, XDATA retention, or
+apparel layer schema. Autodesk's DXF XDATA is registered-app, application-
+defined data, not apparel semantics. S536 already rules out a units/entity
+encoding change as the Polo corner fix. All V03 gates remain. Details:
+`docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md`.
+
+Validated board exit replay is 3463→3465; G04-V02 remains Done and
+G04-V03/EPIC-17 remains In Progress. Next S588 is a one-fixture, geometry-
+identical CLO XDATA-retention pilot; it cannot clear the known Polo geometry
+failure. The goal remains active and aligned; CLO stays open.
+
+## Prior EPIC-17 / G04 — Slice 586 exit; V03 remains open
+
+S586 hash-checked the seven M/default source DXFs and seven retained CLO
+DXF-AAMA generation-two outputs. The product source separates CUT and SEW but
+does not serialize explicit units, stable piece/revision identity, mark
+IDs/labels, or native grade relationships. Five Polo CUT contours have no
+direct receiver match and remain independently measured geometry failures;
+78 unmatched mark geometries are not proof of loss. Nine CLO output layers
+mix observed CUT/SEW semantics. No criterion, gate, threshold, baseline,
+legacy DXF, source geometry, or protected byte identity changed. Details:
+`docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md`.
+
+Validated board exit replay is 3459→3461. G04-V02 remains Done;
+G04-V03/EPIC-17 remains In Progress. Next S587 defines the additive
+source/profile contract from retained evidence before any changed export.
+The goal remains active and aligned; CLO stays open.
+
+## Prior EPIC-17 / G04 — Slice 585 exit; V03 remains open
+
+S585 reconciled and hash-checked existing CLO evidence. The Standard DXF
+second-generation render collapses outlines; AAMA-import/ASTM-export variants
+and AAMA round trip fail the unchanged 0.001 cm Polo CUT gate on the same five
+corners; the connected-LINE AAMA route misses all nine CUT paths. The S584
+pre-export getter has no documented CUT/SEW or stage semantics. Thus CLO
+2026.1.310 is closed as a candidate for the tested G04 configurations only;
+no universal incompatibility or import/export-stage claim is made. Rights,
+local file handling, and the narrow named-profile identity remain settled.
+Full findings and hashes:
+`docs/research/epic17/S585-clo-tested-profile-disposition/S585-exit-packet.md`.
+
+Canonical board revision 3457 leaves G04-V02 Done and G04-V03/EPIC-17 In
+Progress. The goal remains active and aligned; CLO remains open. The focused
+Control Center suite passes 42/42; five S585 scripts, 14 artifact hashes,
+nine getter records, validated board replay/preflight, and `git diff --check`
+pass. No production source/tests changed; full repository gates remain due on
+the settled candidate.
+
+## Prior EPIC-17 / G04 — Slice 584 exit; V03 remains open
+
+S584 opened the hash-pinned S574 Polo M project saved after input import and
+before export in the running CLO 2026.1.310 session, then ran the documented
+`GetPatternInputInformation(index)` getter once across its nine patterns. All
+calls and JSON parses succeeded. At the unchanged 0.001 cm geometry gate,
+eight indexes match literal source SEW contours, zero match literal CUT, and
+index 3 remains unmatched. Indexes 4, 7 and 8 retain repeated-shape identity
+ambiguity. Against S583, counts and source-candidate sets match, while
+corresponding points differ by at most 0.000244140625 mm; raw/parsed getter
+records are not identical. The returned field has no documented CUT/SEW or
+pipeline-stage semantics. This shows the observed getter geometry exists in
+the selected pre-export project, but does not assign import/export causation.
+S574/S575 independently record the concrete generation-one DXF CUT-path
+failure. No V03 gate clears or changes. Full method, exact hashes, rendered
+screenshots and inference limits are in
+`docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md`.
+
+Canonical board revision 3453 after validated S584 exit replay leaves
+G04-V02 Done and G04-V03 In Progress. JSON/project hash, point/candidate
+comparison, screenshot hashes, focused Control Center tests 42/42,
+board preflight/replay/status, and `git diff --check` are focused gates. No
+production source/tests changed; the full repository gate remains reserved
+for the settled PR candidate. Goal remains active and aligned to EPIC-17/G04
+through safe merge. CLO remains open.
+
+**Next:** S586 audits the product-emitted seven-recipe DXF entities against
+the remaining V03 gate matrix. Identify whether a concrete source/profile
+mapping defect can be corrected in a separate professional profile while
+preserving the legacy writer and byte identities. No code change or new CLO
+test until the source audit yields a specific measurable mechanism. Preserve
+all technical gates and acceptance criteria.
+
+## Prior EPIC-17 / G04 — Slice 579 exit## Prior EPIC-17 / G04 — Slice 579 exit
+
+Official CLO API docs identify `GetPatternLineInfo(index)`, a read-only
+boundary query returning line identities/count, bounding box, endpoints,
+midpoints, and lengths. The API does not promise curve control points or
+CUT/SEW roles. Internal-shape point getters use a distinct pseudo-bounding-box
+frame; stitch getters expose group/property data but do not promise edge
+coordinates. S579 makes no app call. See
+`docs/research/epic17/S579-readonly-boundary-api-screen/S579-exit-packet.md`.
+
+## Prior EPIC-17 / G04 — Slice 578 exit
+
+The existing CLO 2026.1.310 session ran the documented read-only pattern API
+getters once from CLO's Python Editor. `GetPatternCount()` returned 9;
+`GetPatternPieceName(0..8)` returned `0` through `8`; and
+`GetPatternOutlinePoints(0..8)` returned an empty list for every visible
+pattern. There was no script exception. This cannot compare CUT/SEW geometry
+against source at 0.001 cm or isolate the import/export stage. The script and
+JSON/screenshot evidence are in the specifically named C: S578 folder; no CLO
+project was saved, no geometry or DXF changed, and no acceptance gate passed.
+See `docs/research/epic17/S578-clo-outline-api-smoke/S578-exit-packet.md`.
+
+The canonical board was revision 3429: EPIC-17 and G04-V03 remained In
+Progress; G04-V02 remained Done. Control Center tests passed 42/42. No
+production source/tests changed, so the full repository gate was not due.
+
+## Prior EPIC-17 / G04 — Slice 577 exit
+
+S577 official documentation review established that the available SDK was
+mapped to CLO 2026.1.224, while the installed version is 2026.1.310. It
+identified the read-only count/name/outline getters as candidates but did not
+verify their runtime behavior. See
+`docs/research/epic17/S577-clo-exact-build-curve-api/S577-exit-packet.md`.
+
+## Prior EPIC-17 / G04 — Slice 576 exit
+
+## Prior EPIC-17 / G04 — Slice 576 exit
+
+S576 read-only inspection confirmed the S574 post-import and post-gen1-reimport
+projects by their recorded hashes. Their custom `ZPRJ` containers embed a
+standard ZIP with 15 members. Plain XML contains only scene-environment
+controls; JSON contains UI and file-manifest state. The geometry-bearing CLO
+binary members are not transparent formats and were not decoded. Seven member
+hashes differ between the imported and re-imported projects, but opaque bytes
+cannot tell whether input-stage geometry kept source CUT paths. The exact
+container inventory and hashes are in
+docs/research/epic17/S576-clo-project-geometry-audit/S576-exit-packet.md and
+its C:-only JSON report.
+
+No new CLO UI action, import/export, project mutation, or proprietary reverse
+engineering. No production source/test, pattern geometry, acceptance,
+tolerance, compatibility claim, or V02/V03 hold changed. Board start/exit
+replay 3417→3419→3421 keeps G04-V03 In Progress; the CLO session remains open.
+
+**Next:** check the official CLO 2026.1.310 API only for a documented
+read-only exact 2D pattern-curve retrieval method. Do not decode custom project
+members or repeat a receiver test. Preserve the 0.001 cm gate, all-seven V02
+acceptance, protected export identities, and legacy DXF behavior.
+
+## Prior EPIC-17 / G04 — Slice 575 exit
+
+## Prior EPIC-17 / G04 — Slice 575 exit
+
+S575 starts from clean S574 commit 96787c16cfb557c19d902e21edac3b2801837037.
+Refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remains an
+ancestor. Slice 575 is unique; board start replay 3413→3415 keeps G04-V03
+In Progress.
+
+S575 exhaustively maps the S574 generation-one DXF's path-bearing entities
+against source Polo M CUT/SEW pairs. Each source SEW uniquely identifies one
+output block; none of the nine source CUT contours has a within-0.001 cm
+candidate in any of the nine blocks across closed/open polylines, direct LINEs,
+same-layer open fragments, cross-layer open fragments, or all-path-layer
+connected networks. Two trouser-leg blocks have three
+isolated POINT markers coincident with CUT vertices; those points do not form
+an ordered contour. The file has no curved path entities or nonzero polyline
+bulges; numeric layers remain unnamed. Exact report and analysis method:
+docs/research/epic17/S575-polo-output-entity-map/S575-exit-packet.md and the
+C:-only report it hashes. This establishes no acceptable CUT path survives in
+the saved gen1 file; it does not attribute the transformation to CLO import or
+export. No repeat CLO action, production source/test, garment geometry,
+tolerance, acceptance, or claim changed. All V03 and all-seven V02 holds stay.
+The rights/local handling confirmation remains settled; CLO stays open.
+
+**Next:** scope a distinct diagnosis of source-DXF versus receiver stages using
+the newly confirmed entity omission; no repeated connected-LINE trial and no
+tolerance change. Keep legacy DXF behavior, protected export identities,
+0.001 cm threshold and all-seven V02 acceptance unchanged.
+
+## Prior EPIC-17 / G04 — Slice 574 exit
+
+S574's connected-LINE candidate imported/exported/re-imported in CLO and
+rendered nine pieces. Its gen1 geometry audit found 0/9 source CUT paths within
+0.001 cm against closed contours in their associated blocks; nine SEW contours
+have exact candidates, but duplicated output geometry and numeric layer
+semantics remain unresolved. Generation two was withheld. No acceptance or
+V03 hold changed. Full evidence:
+docs/research/epic17/S574-polo-line-chain-representation/S574-exit-packet.md.
+Slice 574 landed as 96787c16cfb557c19d902e21edac3b2801837037.
+
+## Prior EPIC-17 / G04 — Slice 573 exit
+
+S573 reconciles current acceptance and evidence: the named profile identity
+`CLO 2026.1.310 / DXF-AAMA` and local/product-development authorization are
+supported by S558 and the maintainer's written confirmation. A second
+receiver and normative edition are not admitted prerequisites. No exact
+compatibility/conformance claim is supported yet. Remaining blockers are the
+five Polo CUT contour failures (0.01274–0.01399 cm against 0.001 cm), nine
+mixed CUT/SEW layer assignments in the seven-recipe cohort, 78/100 source
+marks without direct matches (not proven lost), incomplete source-backed
+grade/options exchange, the tested malformed-input failure, and insufficient
+fine-detail rendered proof. Seven M/default generation-two outputs exist but
+do not clear those criteria. All-seven V02 remains Done and unchanged; no
+technical V03 hold was released. Matrix and evidence:
+`docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-exit-packet.md`.
+
+S573 starts from S572 `1c22caf`; refreshed `origin/main` remained an ancestor.
+Board replay 3405→3407→3409; G04-V03 remains In Progress. Control Center
+tests 42/42 and `git diff --check` pass. Evidence/documentation only; no full
+repository test/coverage gate is due.
+
+**Next:** work the repeated Polo geometry failure only through a new
+technically supported representation or source-to-profile mapping. Existing
+settings, entity-encoding, and unit trials are exhausted. Keep the 0.001 cm
+gate and all compatibility claims fail-closed; preserve the legacy writer and
+protected export identities. CLO remains open.
+
+## EPIC-17 / G04 — Slice 572 exit; V03 remains open
+
+S572 imported the hash-pinned Polo M source fixture into the already-running
+CLO 2026.1.310 workspace using DXF-AAMA / Add / centimeter settings. The
+pieces rendered and the visual/accessibility views agreed. CLO reported only
+aggregate 2D/3D line totals, rounded to 0.1 mm, and exposed no individual
+vertex coordinates or point-to-chord measurement. That resolution is ten
+times coarser than the 0.001 cm (0.01 mm) tolerance. No vertex was edited and
+no export was repeated; importer-versus-exporter attribution remains
+unresolved. The seam-allowance Custom-mode notice is informational, not an
+error. Rights and local processing are settled. CLO stays open. Exact input,
+pre-test project-copy hashes, settings, remaining holds and next action:
+`docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md`.
+
+S572 began at S571 `9035d32`; refreshed `origin/main` `a5af5e1` remained an
+ancestor. Unique slice 572; start board replay 3401→3403. Exit replay,
+focused Control Center test, integrity review and elapsed-time breakdown are
+recorded in its packet. No production source/test changed; full repository
+gate is not due. G04-V03 remains In Progress with every acceptance criterion
+and the all-seven requirement unchanged.
+
+**Next:** continue with a distinct, evidence-led V03 task for a measured
+geometry, semantic, or grade dimension under the documented
+`CLO 2026.1.310 / DXF-AAMA` profile identity. Do not repeat this import/export
+for stage attribution; no technical V03 hold was cleared.
+
+## Prior EPIC-17 / G04 — Slice 573 start record
+
+S573 reconciles the admitted V03 acceptance with the current S558 roadmap
+gate picture and later test evidence. The named profile documentation subgate
+is supported (`CLO 2026.1.310 / DXF-AAMA`); compatibility, exact conformance,
+and technical gates remain unproven until the evidence matrix is verified. No
+second receiver or normative edition will be added as an acceptance
+requirement. All existing technical holds and the all-seven V02 criterion
+remain unchanged. Start packet:
+`docs/research/epic17/S573-v03-gate-evidence-reconciliation/S573-start-packet.md`.
+Start board replay is 3405→3407; G04-V03 remains In Progress. No CLO exchange,
+source edit, code change, or acceptance change is in scope.
+
+## Prior EPIC-17 / G04 — Slice 571 exit; V03 remains open
+
+S571 reconciled the hash-pinned product writer and CLO round-trip evidence.
+The Polo source input exactly matches S559's product-generated M fixture, and
+the five CUT contours remain above the unchanged 0.001 cm tolerance in both
+CLO generations. Existing evidence proves a repeated defect in the tested
+combined source→CLO→DXF route, but cannot locate the change in the product
+writer, CLO import, or CLO export. `src/export/dxf.ts` directly confirms the
+current writer has no grade-group/size-relation input. S558 supports the named
+CLO 2026.1.310 / DXF-AAMA profile identity; normative-edition conformance and
+full semantic mapping remain unproven. ASTM's current catalog lists D6673-10
+as withdrawn.
+Rights and local processing are settled. Every other V03 hold remains, with
+the S531 malformed-input case still failed for its tested control. No code,
+test, export baseline, or acceptance changed. Evidence and exact next action:
+`docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md`.
+
+S571 started from `6af2c4a` with refreshed `origin/main` `a5af5e1` an
+ancestor; unique slice 571 was reserved. Board replay 3397→3399→3401 keeps
+G04-V03 In Progress. Control Center tests pass 42/42 and `git diff --check`
+passes. No production source/tests changed, so the full repository gate is
+not due. Elapsed 7m01s: evidence/source verification 3m10s; external-agent
+wait 1m31s; durable records, board replay and focused checks 2m20s; production
+implementation 0m; maintainer decision time 0m.
+
+**Next at S571:** inspect the five corners before export if CLO exposed them at
+the required precision. S572 completed the bounded import and found only
+aggregate line totals at 0.1 mm; it did not isolate importer versus exporter.
+The native profile identity is documented by S558, while compatibility and
+technical gates remain held. Keep CLO open.
+
+## Prior EPIC-17 / G04 — Slice 570 exit; V03 remains open
+
+The current first-party CLO DXF help documents AAMA/ASTM menu modes, one size
+group per export, grading in DXF or a separate Rule File, and the 2026.1
+automatic conversion of imported seam allowance to locked Custom Seam
+Allowance. It does not name an exact standards edition, CUT/SEW layer mapping,
+mark semantics, or a receiver-specific acceptance profile. This confirms menu
+capability only; it clears no V03 gate. Current docs and retained round-trip
+evidence are reconciled in
+`docs/research/epic17/S570-clo-current-profile-capability-crosscheck/S570-exit-packet.md`.
+
+A fresh screenshot of the still-running CLO 2026.1.310 shows the workspace;
+the separate accessibility tree reports an Export DXF dialog and settings.
+The two observations conflict, and activation reported that user input was
+detected. No app input or exchange followed. The screenshot and accessibility
+JSON are preserved in the named C:-only S570 evidence folder. This is an
+automation-control issue, not a format failure. User-confirmed trial-use and
+local-processing authorization remains settled. All V03 gates remain held.
+
+S570 started from clean S569 `c6dda6f`; refreshed `origin/main` remained an
+ancestor. Board replay is 3393→3395→3397. Focused Control Center tests and
+`git diff --check` pass; no production code changed and full coverage is not
+due. Elapsed 1m46s (03:40:10–03:41:56 UTC): source/evidence review ~15s,
+live capture/evidence save ~20s, packet/board/focused verification and
+integrity review ~71s; implementation 0m, external-agent waits 0m,
+maintainer-decision time 0m.
+
+**Next:** analyze whether a narrowly scoped additive exchange profile can
+address retained geometry, semantics and grade failures without changing the
+legacy DXF stream or protected identities. Do not repeat broad profile
+searches, known exchanges or UI clicks against the contradictory surface.
+Keep CLO open; all V03 gates remain in force.
+
+## Prior EPIC-17 / G04 — Slice 569 exit; V03 remains open
+
+Official CLO materials document an in-app Python editor and DXF APIs, but the
+published grading setter is limited to pattern-outline points. The public API
+index exposes an internal-shape point reader, not a setter for grading those
+points. The listed SDK is for CLO 2026.1.224, not the installed 2026.1.310;
+no version-mismatched API was run. A fresh screenshot of the running CLO
+window again shows the workspace while accessibility reports an Export DXF
+child dialog. No input or file operation followed. The scripting route is not
+qualified to replace S568's practical grade test, and the capture mismatch is
+not evidence of a format failure. User-confirmed trial-use/local-processing
+authorization remains settled. All V03 acceptance gates remain held. Details
+and official links are in
+`docs/research/epic17/S569-clo-python-api-grade-capability/S569-exit-packet.md`.
+
+S569 started from clean S568 `f0e1254`; refreshed `origin/main` `a5af5e1`
+was an ancestor. Board replay is 3389→3391→3393. Focused Control Center tests
+and `git diff --check` pass. No product code or test changed; full repository
+gate was not due. Elapsed 2m02s (03:31:22–03:33:24 UTC): official API/build
+research ~50s; desktop observation ~10s; records, board and focused checks
+~62s; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next:** take a distinct offline V03 evidence action from the current
+candidate/profile matrix; do not repeat CLO exchange or API research. Resume
+the source-derived CLO grade test only after screenshot and accessibility
+observations agree or version-matched support is independently established.
+Keep CLO running; all V03 rights/profile, geometry/semantics, marks, options,
+grading, malformed-input, all-seven and round-trip gates remain in force.
+
+## Prior EPIC-17 / G04 — Slice 568 exit; V03 remains open
+
+S568 followed the documented modal/window inventory. It returned one CLO
+top-level window and no separately targetable modal. A fresh capture shows
+the base workspace while accessibility reports an Export DXF child dialog.
+No input, save, import or export followed. This prevents safely grading the
+four source-derived internal sew points or exporting through the current
+capture path; it is not a CLO format failure. The exact source-derived test
+is retained in the start packet. All V03 gates remain unchanged. Exit evidence
+is in `docs/research/epic17/S568-sew-line-grade-trial/S568-exit-packet.md`.
+
+S568 start/exit board replay is 3385→3387→3389. Start commit was S567
+`04a8e0a`; refreshed `origin/main` `a5af5e1` was an ancestor. CLO remains
+open. Next: check official version-matched CLO scripting support for a safe
+programmatic inspection/edit route and continue independent V03 evidence.
+No product code or tests changed; full repository gate was not due.
+
+## EPIC-17 / G04 — Slice 567 exit; V03 remains open
+
+Current CLO help and a CLO Designers staff reply support using Edit Grading
+on internal-line segment points. S562/S559 provides exact per-step sewn
+waistband point movements: (+2,+1.5), (+4,+1.5), (+4,+1.5), (+2,+1.5) cm.
+S566 found a base-XS-shaped candidate in larger-size output blocks. This is a
+specific next test, not evidence it will pass CLO 2026.1.310. The current app
+screenshot/accessibility mismatch still prevents safe interaction, so no
+repeat export occurred. No V03 gates or compatibility claims changed. Evidence
+and official source links are in
+`docs/research/epic17/S567-clo-dxf-grade-guidance/S567-exit-packet.md`.
+
+S567 start/exit board replay is 3381→3383→3385. Start commit was S566
+`f2dd0ec`; origin/main `a5af5e1` was an ancestor. CLO remains open. Next:
+perform the exact four-point internal-line grading test once capture and
+accessibility agree, while continuing independent V03 evidence. No product
+code or tests changed; full repository gate was not due.
+
+## EPIC-17 / G04 — Slice 566 exit; V03 remains open
+
+S566's source/output comparison finds a candidate within 0.000015 cm of the
+base XS source SEW contour in every S/M/L/XL waistband block, while no
+candidate matches those sizes' source SEW shape within 0.001 cm. This
+indicates that an ungraded base-sized internal shape persists in larger
+blocks, but numeric DXF layer identity does not establish that it is the
+semantic SEW line or whether import, edit or export lost grading. The saved
+CLO project has an Environment-only XML and opaque binary pattern payload.
+The current app screenshot and accessibility tree disagree on an Export DXF
+modal; S566 sent no UI input and made no repeat export. No V03 gate passes or
+changes. Durable report, script and limitations are in
+`docs/research/epic17/S566-clo-sew-line-attribution/S566-exit-packet.md`.
+
+S566 started from S565 `0a7b4ca`; refreshed `origin/main` `a5af5e1` was an
+ancestor. Board start/exit replay is 3377→3379→3381. CLO remains open for G04.
+Next: pursue source/profile evidence independent of the mismatched UI surface;
+resume a CLO grading-point inspection only when visual and accessibility
+observations agree. No production code or test changed; no full repository
+gate was due.
+
+## EPIC-17 / G04 — Slice 565 exit; V03 remains open
+
+S565 corrected a disposable CLO Size Group 1 waistband trial after confirming
+that the selected left-side CUT vertices had +20 mm grade increments even
+though the source map keeps those coordinates fixed. Keeping +20 mm on the
+right and zeroing the left yielded CUT outline matches for XS/S/M/L/XL within
+0.001 cm. The larger-size SEW contour still fails at 2.0/2.5/2.915463/2.915463
+cm; nearest L/XL output candidates are not semantically identified. The
+corrected same-app re-import displays one waistband outline, not five sizes.
+This is a partial receiver diagnosis, not a V03 pass. No production code,
+pattern source, protected identity, legacy behavior, or acceptance gate
+changed. Details, hashes, limitation, and C:-only evidence are in
+`docs/research/epic17/S565-clo-grade-state-diagnosis/S565-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S565-clo-grade-state-diagnosis`.
+
+S565 board start/exit replay is 3373→3375→3377 through the validated command
+layer. Start commit was S564 `a521b01`; `origin/main` `a5af5e1` was an
+ancestor. CLO remains open because V03 receiver work continues. The next
+action at S566 start is to refresh Git/history/board and identify the exact
+source-to-CLO SEW-line mapping in a bounded test, retaining the 0.001 cm gate
+and all V03 holds. No full repository gate was due because this slice changed
+no product code or tests.
+
+## Prior EPIC-17 / G04 — Slice 564 exit; V03 remains open
+
+S564 tested CLO 2026.1.310's native Size Group route with exact source-derived
+Skirt XS/S/M/L/XL values and the S562 point map. CLO emitted correctly named
+role/size blocks from separate front/back and waistband groups, but the
+geometry did not follow the source grades: 6/6 XS contours pass the unchanged
+0.001 cm gate, while only 1/6 contours pass for each S/M/L/XL. Maximum
+residuals are 2/4/6/8 cm. The waistband remains 44.5 cm in every emitted size,
+against source widths 44.5/46.5/48.5/50.5/52.5 cm despite visible 20 mm step
+offsets in the CLO point editor. Re-import renders one coincident outline and
+shows a notice that seam allowances are absent and the outlines use Custom
+mode. Exact results and C:-only evidence are in
+`docs/research/epic17/S564-clo-native-size-group-probe/S564-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S564-clo-native-size-group-probe`.
+
+This is a concrete mismatch in the tested group/assignment/export path; it is
+not proof that CLO cannot process a correctly authored graded DXF. No
+product source, pattern geometry, legacy export behavior, protected identity,
+V03 gate, or acceptance criterion changed. CLO remains open. S564 board start
+and exit replay 3369→3371→3373 use the validated command layer. Focused
+analyzer and syntax checks pass; the source geometry gate fails as recorded.
+No product tests or global coverage gate were due.
+
+**Next:** reserve S565 after refreshing origin/history and board. Inspect the
+saved CLO trial project, exact selected grading points and group membership
+against S562's source point map. Determine why visible 20 mm step offsets do
+not alter emitted size contours. Do not change production source or acceptance
+gates; run another receiver export only after point assignment and application
+state are directly established. V03 remains In Progress; every remaining
+profile, all-seven-recipe, semantic, marks, malformed-input, and round-trip
+gate remains held.
+
+## Prior EPIC-17 / G04 — Slice 563 exit; V03 remains open
+
+S563 tested the source-generated Skirt XS/S/M/L/XL files in the running CLO
+2026.1.310 session. The native DXF-ASTM import accepted the selected cohort;
+DXF-ASTM / Graded Nest export produced three piece-role blocks `0_M`, `1_M`,
+and `2_M`. Source comparison at the unchanged 0.001 cm contour gate matched
+all six XS contours (maximum residual 0.000017000000004727287 cm) and zero of
+six contours for each of S/M/L/XL. Re-import displayed the three piece roles,
+but not five size outlines. This tested UI route therefore failed size/grade
+identity; the exported geometry corresponds to XS but its block names label M.
+It does not establish that CLO cannot consume a correctly authored
+graded-DXF/Rule-File fixture. Exact settings, file hashes, source comparisons,
+and retained output evidence are in
+`docs/research/epic17/S563-clo-dxf-astm-size-probe/S563-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S563-clo-dxf-astm-size-probe`.
+
+The rendered re-import showed the Skirt roles. CLO accepted the DXF-ASTM file
+without a parse error and displayed an informational notice that the file had
+no seam allowances and was imported in Custom mode to preserve its outline.
+The file selector/label and successful reopen do not establish normative
+industrial conformance. The maintainer's product-development trial and local
+processing confirmations are recorded in `docs/PROJECT-DECISIONS.md`; no
+reconfirmation is needed. CLO remains open for further practical tests.
+
+S563 board replay completed at 3365→3367→3369; exit evidence and comment were
+preflighted and applied through the validated command layer. `node --check`,
+the source/output analyzer assertions, and `git diff --check` pass;
+`npm run control-center:test` passes 42/42. No product source, geometry,
+exporter behavior, protected identity, V03 acceptance, threshold, or remaining
+hold changed. No physical
+fit, factory acceptance, or production readiness is claimed. **Next:** use
+S562's source point map to establish the exact lawful, primary-source-backed
+graded-DXF/Rule-File representation accepted by CLO; do not invent grade
+syntax. Continue only with bounded practical gates that can be proven using
+the exact emitted and re-imported files.
+
+Started 2026-10-09 00:41:33 UTC from clean S562 `1011fed`; exit closeout at
+2026-10-09 00:55:45 UTC, elapsed 14m12s: implementation 0m; practical CLO
+import/export/re-import 5m; parsing and source comparison 3m; focused checks
+and rendered review 2m; durable packet/state/board and commit closeout 4m12s;
+external-agent waits 0m; maintainer-decision time 0m. Primary usage remained
+available; no full repository gate was due because production code and tests
+did not change. The G04 goal remains active and aligned; no UI resume is needed.
+
+## Prior EPIC-17 / G04 — Slice 562 exit; V03 remains open
+
+S562 mapped current source grade geometry to named source pattern points for
+all seven recipes and five default sizes. The role/piece/on-fold/edge-name/
+edge-kind signatures, named endpoint/control point keys, and per-piece sewn
+outline sample sequence remain stable across each XS/S/M/L/XL run. For every
+one of 35 files, regeneration exactly matches the S559 legacy DXF SHA-256; the
+source sewn vertices also map exactly to the corresponding DXF SEW polyline
+after existing layout translation, Y flip, and 0.001 cm rounding. Full report
+hash `1BBD78E07A17AB2F181E0DE7640565FBE5BF54654EADB333E7027EF8156BD69A` is
+stored under the C:-only S562 exchange folder; see
+`docs/research/epic17/S562-grade-point-topology-map/S562-exit-packet.md`.
+
+This resolves source-side point correspondence only. The current DXF encodes
+no named point identities, sizes, or grade relationships. CLO DXF-ASTM is the
+first-party documented graded-DXF candidate, but no legal exact serialization
+or verified grade fixture/import/export has been established. CLO's UI state
+mismatch from S561 was still present at S562; S563 captured a safe, matching
+visible CLO workspace and then completed a bounded file exchange. Every V03
+hold, criterion, legacy behavior, and protected identity remains unchanged.
+V01/V02 Done; V03 In Progress. CLO remains open. No physical fit, factory
+acceptance, or production-readiness claim.
+
+S562 start/exit board replay 3361→3363→3365; validated replay completed. Focused
+analyzer and hash checks are recorded in the packet; no production-code or
+global coverage gate was due. Elapsed time 7m05s (00:32:02–00:39:07 UTC):
+source/topology analysis about 4m50s, focused verification about 0m17s,
+durable closeout/board and final integrity check about 1m58s, external waits
+0m, maintainer decisions 0m.
+
+Next: use the proven source map with a lawful exact DXF-ASTM representation or
+verified current CLO API route; perform one source-backed round trip only when
+both representation and UI state are safe. Do not repeat S559 or alter V03
+gates.
+
+## Prior EPIC-17 / G04 — Slice 561 exit; V03 remains open
+
+S561 identifies CLO 2026.1.310 / DXF-ASTM as the strongest documented
+graded-DXF candidate: CLO Help lists DXF-ASTM and grading-in-DXF; a CLO
+designer says DXF-ASTM is the path when grading is included in the DXF, while
+standalone `.RUL` comes from another CAD system. CLO API v11 docs expose size
+groups, per-point grading, and `.RUL` import, but the listed SDK target is
+2026.1.224 rather than installed 2026.1.310. No source-traceable graded
+fixture, verified ASTM edition/conformance, or new round trip was produced.
+The source writer still exports one size; S559's Tee XS output is named M. A
+third-party parser lead lacked a clear license and is not a valid fixture.
+CLO's visible workspace and accessibility state disagreed about a hidden
+Export DXF modal; no file action was attempted. This is a control-state issue,
+not a product-format failure. See
+`docs/research/epic17/S561-grade-fixture-path-review/S561-exit-packet.md` and
+the updated S556 matrix. Grade/size and all other V03 holds remain. CLO stays
+open; files remain in the named C:-only folders.
+
+No V03 scope, acceptance, threshold, geometry, legacy output, or protected
+identity changed. V01/V02 remain Done; V03 remains In Progress. No physical
+fit, factory acceptance, or production-readiness claim is made. S561 board
+start/exit replay is 3357→3359→3361; elapsed categories are in the packet.
+
+Next: map product `gradeRun` deltas to exact pattern points and find a
+rights-clear receiver-supported DXF-ASTM fixture/API path. Resume CLO UI
+actions only after the visible and accessible states agree. Use one practical
+source-backed round trip; do not repeat S559's no-grade input or change V03
+gates.
+
+## Prior EPIC-17 / G04 — Slice 560 exit; V03 remains open
+
+S560 checked the grade/size interchange route against official CLO Help,
+ASTM's catalog and historical D6673 description, NISTIR 5969, the current
+source writer contract, and the S559 output. CLO documents grading included
+in DXF or as a separate Rule File, but does not publish its grade syntax in
+the checked public guide. Historical ASTM D6673 describes DXF plus a separate
+ASCII grade-rule table; ASTM currently lists D6673-10 as withdrawn in 2019.
+NISTIR 5969 says ANSI/AAMA-292 did not define transfer of grade growth values.
+The source writer accepts only one-size `Piece[]`; the actual Tee XS CLO test
+returned `0_M`/`1_M`/`2_M`. No paid standard, guessed syntax, fabricated rule,
+or redundant CLO trial was used. Grade and named-size gates remain failed/open.
+See `docs/research/epic17/S560-grade-format-source-review/S560-exit-packet.md`
+and refreshed matrix `docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`.
+CLO remains open, and all exchange files remain C:-only.
+
+No scope, acceptance, threshold, geometry, legacy export, or protected identity
+changed. CLO product-development evaluation and local processing are confirmed
+by the maintainer. V01/V02 remain Done; V03 is In Progress. No physical fit,
+factory acceptance, or production-readiness claim is made. S560 start/exit
+board replays 3353→3355→3357 and elapsed category details are in the packet.
+
+Next: locate a rights-clear exact grade-bearing fixture/specification and a
+receiver-supported representation before one practical CLO test. Do not
+repeat S559's one-size case, guess grade syntax, buy the withdrawn historical
+standard, change legacy output, or alter V03 gates. Continue with the remaining
+independently addressable V03 evidence only where a concrete, untested path
+exists.
+
+## Prior EPIC-17 / G04 — Slice 559 exit; V03 remains open
+
+S559 generated 35 source-derived per-size DXFs (XS/S/M/L/XL across all seven
+recipes) from the current `gradeRun` tables. Tee/Fitted/Tank/Polo share
+`TSHIRT_GRADE`; Woven, Skirt, and Trouser use their own grade tables. These
+are digital product defaults, not industry grading standards or physical-fit
+evidence. CLO 2026.1.310 (r58944) imported Tee XS with DXF-AAMA at centimeters,
+then exported DXF-AAMA with Graded Nest selected. Its visible output showed
+three tee pieces; the measured DXF round trip preserved all 6/6 CUT/SEW
+outlines within 0.001 cm (maximum coordinate delta 0.000017 cm). The output
+blocks were `0_M`, `1_M`, and `2_M`, however, so the XS identity was relabeled
+M. One selected-size input also contained no multi-size grade relationship.
+The run therefore passes only a narrow geometry round trip and fails/does not
+establish size identity, grade rules, or graded nesting. Full manifest, render,
+and analysis are under
+`C:\G04-CLO-DXF-Exchange\S559-source-backed-grade-fixture`; the pre-test CLO
+project copy is preserved there. CLO remains open.
+
+No acceptance, scope, tolerance, source geometry, legacy DXF behavior,
+protected identity, or product claim changed. The user's written confirmation
+authorizes product-development DXF evaluation and local processing; no further
+permission decision is needed. Existing V03 holds remain: five Polo contour
+failures, mixed CUT/SEW semantics, incomplete direct mark matches, malformed
+input accepted, and no grade/options/all-seven proof. A second receiver is not
+an admitted requirement. V01/V02 are Done; V03 is In Progress. Matrix:
+`docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`;
+slice packet and exit evidence:
+`docs/research/epic17/S559-source-backed-grade-fixture/S559-exit-packet.md`.
+
+S559 started from S558 `3965653`; refreshed `origin/main` remains an ancestor.
+Board revisions 3349→3351→3353; S559 evidence/comment are replayed through the
+validated command layer. The active goal remains the admitted G04 work through
+safe merge. No physical fit, factory acceptance, or production readiness is
+claimed.
+
+Next: investigate the exact named-size/grade-point representation required by
+the documented DXF-AAMA or Rule File path and how to preserve piece/size
+identity without changing legacy exports. Do not repeat the one-size Tee trial
+or M/default tests. Then address known contour, semantic, mark, and malformed-
+input failures with new evidence while preserving the unchanged all-seven
+criteria and protected export identities.
+
+## EPIC-17 / G04 — Slice 558 exit; V03 remains open
+
+S558 used CLO's current publisher documentation to identify the candidate
+profile as `CLO 2026.1.310 / DXF-AAMA`. The CLO Help Center documents DXF-AAMA,
+states it produces the same output as its legacy “Gerber (DXF-AAMA)” mode,
+and categorizes AAMA DXF as an industry pattern-CAD exchange format. It also
+documents grade information included in DXF or as a Rule File. This supports
+the named-profile documentation subgate, but the published pages do not name
+an exact AAMA edition or full conformance mapping. `$ACADVER=AC1009` remains a
+database-version fact only.
+
+The grade option is useful but not a grade fixture: CLO can emit grade data
+only when such source data is present. The current product exporter receives
+pieces for one selected size; all seven retained CLO fixtures are M/default.
+The next practical test therefore needs a genuine source-backed multi-size/
+grade input and a comparison against those same source rules. Do not synthesize
+grading for the purpose of claiming an interchange pass.
+
+S557 findings remain: five Polo CUT contours fail 0.001 cm; tested CUT/SEW
+layer semantics are mixed; 78/100 marks lack direct geometry matches (not
+proven lost); the malformed fixture was silently accepted; retained renders
+show only gross piece presence. The trial purpose and local processing are
+settled. No second receiver is required. G04-V03 remains In Progress and all
+acceptance gates remain unchanged. No new CLO UI operation or round trip was
+needed in S558; CLO stays open. The S557 audit-script whitespace-only cleanup
+preserved the output report hash. `node --check`, deterministic report replay,
+and `git diff --check` passed; no production code/tests changed. V01/V02 remain
+Done. No physical, fit, factory, or production-readiness claim is made.
+
+S558 started from S557 `3fb4e6e`; origin/main `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revisions 3345→3347→3349; V03 remains In Progress. The active goal remains active and matches this work. Packet: `docs/research/epic17/S558-clo-profile-authoritative-evidence/S558-exit-packet.md`.
+
+Next: derive a real, source-backed multi-size/grade interchange fixture using existing drafting/grade data, then test it once through the documented CLO grade-include path. Keep contour/semantic failures held pending a new evidence-backed mechanism; do not repeat known CLO scenarios.
+
+## EPIC-17 / G04 — Slice 557 exit; V03 remains open
+
+S557 completed a hash-pinned review of the retained seven-recipe CLO
+DXF-AAMA cohort, rendered captures, and the source-backed grade path. The
+report is C:-only at
+`C:\G04-CLO-DXF-Exchange\S557-mark-and-grade-evidence-audit\Evidence`;
+SHA-256 is `F5A0EB518E24EA5F061AB5F7C39CEFF4B68D701BD81B9A27A6E204A0D5203584`,
+and two deterministic audit runs produced identical reports. Seven current
+generation-two files all have `$ACADVER=AC1009` (a database-version fact, not
+AAMA conformance). The cohort retains 41/41 unique SEW-piece identities and
+nine mixed CUT/SEW semantic layers. Of 100 source mark entities, 22 directly
+match by geometry and 78 do not; the unmatched count does not prove loss.
+Gross renders show the large pieces but cannot verify small marks. All
+fixtures are M/default. The app's current DXF path exports one selected-size
+piece set, and there is no genuine multi-size/grade DXF fixture with source
+truth. Grades/options remain unestablished.
+
+S557 corrects an overconstraint in S556: the admitted V03 criterion does not
+require a second CAD application. A same-app CLO round trip may count if its
+exact industrial profile is documented, rights-reviewed, and all other
+technical gates pass. See `docs/research/epic17/S557-mark-and-grade-evidence-audit/S557-scope-correction.md`;
+S556's historical packet is preserved. This correction does not clear any
+technical gate. Five Polo CUT contours still fail the 0.001 cm gate; CUT/SEW
+layers are ambiguous; marks are incomplete; grade/options are unproven; the
+tested malformed input was silently accepted; and the exact industrial
+profile is unknown. The user's written authorization for CLO product-
+development evaluation and local DXF processing remains settled.
+
+No CLO UI operation or new import/export was performed; the current
+visible/accessibility mismatch was not used. CLO stays open. No source,
+pattern, production code, tests, acceptance, geometry tolerance, protected
+export identity, or legacy behavior changed. No physical-fit, factory, or
+production-readiness claim is made. Board revisions: 3341 start, 3343 after
+start replay, 3345 after exit replay; G04-V03 remains In Progress. Audit
+twice deterministic; `node --check` passed; Control Center tests 42/42;
+`git diff --check` and canonical board validation passed. No full repository
+gate is due because production code/tests are unchanged. Active goal remains
+needed and aligned with completing G04 through safe merge.
+
+Next: qualify CLO's exact DXF-AAMA profile/build from current authoritative
+publisher evidence, with no repeated geometry/unit/malformed tests. If profile
+qualification fails, preserve holds and evaluate only an evidence-backed
+alternate route. A second receiver is optional assurance, not a G04 exit
+dependency. Detailed packet: `docs/research/epic17/S557-mark-and-grade-evidence-audit/S557-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 556 current V03 reconciliation (historical)
+
+S556 started from clean S555 commit `3f723622e9dacc85ee8896dfd17a97c1a07b92f5`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The active G04 worktree is `C:\Users\kshit\.codex\worktrees\epic-17-g04\designApp`; `F:\designApp` is a stale coordinator checkout. Start board revision 3337; validated S556 start replay reaches 3339. G04-V03 remains In Progress.
+
+The maintainer explicitly confirmed product-development evaluation and local DXF processing with CLO. Both project-level questions are settled and must not be raised again. Current matrix: `docs/research/epic17/S556-v03-current-gate-reconciliation/V03-CURRENT-GATE-MATRIX-S556.md`. It preserves the full V03 contract: seven-recipe M/default, two-generation results are limited evidence; five Polo CUT contours fail the unchanged 0.001 cm tolerance; CUT/SEW layer 8 is ambiguous; source marks and grades/options are incomplete; the tested malformed input was silently accepted; exact industrial profile and independent receiver qualification remain open. CLO cannot independently qualify its own round trip. No source, pattern geometry, acceptance, legacy DXF behavior, protected export identity, or claim changed.
+
+S556 exit is recorded at board revision 3341. The active goal remains needed and aligned with EPIC-17 through safe merge. Next: reconcile retained source/output marks and renders, and check whether genuine multi-size/grade fixtures with source truth exist, without repeating known CLO scenarios. Keep CLO open while it is needed. If no qualified profile/receiver or permitted evidence path remains, present the exact unresolved scope/access boundary; do not weaken acceptance silently. See `docs/research/epic17/S556-v03-current-gate-reconciliation/S556-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 555 exit (V03 remains open)
+
+The source emitter and independent Claude Opus 5.5 review support no
+geometry-identical DXF encoding change or distinct CLO trial that is shown to
+preserve the five Polo CUT vertices. The emitted R12 coordinates round to
+0.001 cm; the lost incoming edges are about 46 increments long. S536's
+geometry-identical R2000 LWPOLYLINE still lost the same five. The CLO import
+versus export stage remains unknown because the saved proprietary project
+could not be measured. No source code, pattern/cut geometry, byte identity,
+tolerance or acceptance changed. All V03 profile/semantic/grade/malformed/
+independent receiver/all-seven holds remain. The user's written CLO
+product-development and local-processing confirmation is recorded; do not
+ask again. Packet and DXF-standard findings:
+`docs/research/epic17/S555-polo-contour-remediation-analysis/S555-exit-packet.md`.
+Board replay is 3335→3337; G04-V03 remains In Progress. Next: reconcile the
+open V03 criteria and continue only with a genuinely untested acceptance gate
+or a newly qualified local receiver. CLO remains open.
+
+## EPIC-17 / G04 — Slice 554 exit (V03 remains open)
+
+S554 screened new apparel-CAD receivers using publisher sources and the
+requested independent Claude Opus 5.5 research handoff. Optitex PDS is the
+strongest technical lead, but its current manual pages are login-gated and
+the exact DXF profile edition, evaluation rights, local desktop file handling,
+and complete marks/CUT/SEW semantics remain unverified. TUKAcad lists import/
+export only in paid CPE plans; Gerber AccuMark documentation establishes
+capabilities but not current exact semantics or no-cost evaluation access.
+No candidate was installed, contacted, or given pattern data. Maintainer
+written authorization for CLO product-development evaluation and local DXF
+processing is confirmed; this removes the prior CLO-use/locality question.
+All original V03 gates remain held. CLO stays open. See
+`docs/research/epic17/S554-new-receiver-candidate-screen/S554-exit-packet.md`.
+Board replay is 3331→3333; G04-V03 remains In Progress. Next: continue a
+previously untested practical CLO V03 gate using C:-only evidence and preserve
+all-seven/profile/semantic/grade/negative-input/round-trip criteria.
+
+## EPIC-17 / G04 — Slice 553 exit (V03 remains open)
+
+A single CLO 2026.1.310 Standard DXF export from the already imported S551
+Polo millimeter workspace exactly matches the AAMA millimeter output's
+symmetric residuals across all 18 closed contours (maximum absolute delta is
+0 cm at reported precision). Both outputs pass 13/18 and fail the same five
+CUT contours, with source vertices 13/14 missing in the same blocks. This
+rules out an AAMA-only exporter explanation, but does not isolate import or
+internal representation from behavior shared by both exporters. No app error
+occurred; all pieces remained rendered. This is a diagnostic, not industrial
+profile qualification or a compatibility claim. All-seven, semantic, mark,
+grade/options, malformed-input and round-trip gates remain held. No source,
+code, baseline, threshold or acceptance changed. C:-only output and report:
+`docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-exit-packet.md`.
+Board replay is 3325→3327→3329; G04-V03 remains In Progress. Next: qualify a
+rights-reviewed industrial apparel receiver/profile from primary capability
+and rights evidence before fixture transfer. CLO remains open while needed.
+## EPIC-17 / G04 — Slice 552 exit (V03 remains open)
+
+S552's hash-pinned mapping confirms the same five Polo CUT source vertices
+(index 13 on back; index 14 on four collar roles) are omitted in both S545
+centimeter generations and S551's geometry-equivalent millimeter CLO output.
+Incoming segments are 0.0456–0.0470 cm; symmetric contour residuals are
+0.0127–0.0140 cm against the unchanged 0.001 cm gate. The other 13/18 source
+contours pass. CLO's current official docs describe optimization/removal
+controls but no minimum-edge preservation rule; S503/S519 tested the relevant
+optimizer and Draw Curve Points settings, and S522 found no new safe switch.
+The repeated defect is real for this tested CLO build/profile/fixture, but its
+import/save/export stage and cause remain unknown. Do not repeat the same
+setting/unit trials. Rights and local DXF processing are confirmed in writing;
+all seven-recipe/profile/semantic/grade/negative-input/round-trip gates remain
+held. No source geometry, code, threshold, export identity or acceptance gate
+changed. S552 supersedes S551's immediate next-action note. C:-only detailed mapping and hashes are in
+`docs/research/epic17/S552-polo-short-edge-loss-diagnosis/S552-exit-packet.md`.
+Board replay is 3321→3323→3325; G04-V03 remains In Progress. Next: qualify a
+rights-reviewed industrial apparel receiver/profile with primary evidence
+before any fixture transfer. CLO stays open while G04 work still needs it.
+## EPIC-17 / G04 — Slice 551 exit (V03 remains open)
+
+S551 completed one authorized CLO 2026.1.310 (r58944) DXF-AAMA millimeter import/export cycle for the geometry-equivalent Polo M/default fixture. Screenshot-coordinate input successfully targeted CLO's visible native file pickers after they were absent from accessibility, and a copy of the open CLO project was saved before the test. The Custom seam-allowance notice was informational, not an error. The import/export render shows the expected major pieces without gross silhouette loss. After converting output coordinates back to cm, 13/18 source outlines pass the unchanged 0.001 cm gate; the same five Polo CUT outlines (ordinals 2, 10, 12, 14, 16) fail at 0.01274–0.01397 cm with one omitted vertex each, as in both prior centimeter generations. Residual changes are negligible (all-contour max difference 0.00003436 cm), ruling out numeric unit representation alone as the cause. This does not isolate import versus export or prove CUT/SEW semantics, a normative AAMA edition, grades/options, malformed-input rejection, or independent receiver acceptance. All V03 holds remain unchanged; user-confirmed trial-use rights/local processing are resolved. DXFs, project copy, renders and analyzer report stay in `C:\\G04-CLO-DXF-Exchange\\S551-polo-unit-invariance-ui-recovery`. CLO remains open. Next: diagnose the five short-edge losses without geometry or threshold changes, then resolve the remaining all-seven profile/semantic gates with evidence; S552 supersedes this immediate next-action note. Packet: `docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md`; board replay `3317→3319→3321`.
+
+## EPIC-17 / G04 — Slice 550 exit (V03 remains open)
+
+S550 did not run the planned Polo mm DXF exchange. After a coherent initial CLO canvas observation, File → Import → DXF exposed an unsaved-project prompt; choosing Save As to preserve that open session displayed a Windows Save File picker while CLO accessibility continued to expose the underlying prompt and no separate picker window existed in `list_windows()`. A fresh capture retained the mismatch. No filename/path was entered, nothing was saved, and no DXF was imported or exported. The user has confirmed in writing that CLO may be used for product-development evaluation and that DXF processing is local; those concerns are resolved. This is only a UI-targetability issue, not a format result. CLO remains open. The two unchanged, hash-verified inputs are under `C:\\G04-CLO-DXF-Exchange\\S550-polo-unit-invariance-control`. V03 gates and the `0.001 cm` threshold remain unchanged. Next: resume the one unit-invariance trial only when the file picker and actionable controls are consistently targetable; otherwise continue independent V03 evidence work and preserve holds. Exit packet: `docs/research/epic17/S550-polo-unit-invariance-control/S550-exit-packet.md`; board replay `3313→3315→3317`.
+
+## EPIC-17 / G04 — Slice 549 exit (V03 remains open)
+
+S549 created a geometry-equivalent cm-to-mm Polo DXF fixture and hash-pinned both current AAMA generations, confirming they omit the same source vertex (back index 13; four collar indices 14) after 0.0456–0.0470 cm incoming segments and a 16–17° turn. This is a testable simplification hypothesis, not a confirmed cause. The planned CLO import/export did not occur: the screenshot showed the open pattern canvas while accessibility reported a hidden Export DXF dialog; one cancel action had unknown outcome and re-observation remained mismatched. CLO remains open and no further UI input was attempted. All V03 gates remain unchanged. Next: run one unit-invariance trial only after the screenshot and accessibility state agree. S549 packet: `docs/research/epic17/S549-polo-unit-invariance-control/S549-exit-packet.md`; board start/exit `3307→3309→3311`, with exact point-mapping evidence `3311→3313`.
+
+## EPIC-17 / G04 — Slice 548 exit (V03 remains open)
+
+S548 screened Pro2CAD from publisher-hosted sources and did not download,
+install, contact the vendor, or transfer pattern data. AAMA/ASTM import/export
+are documented, but the public manual v2.1.101 does not match the demo v2.2.101;
+Windows 11 support, no-cost product-development rights, local-only processing,
+and an exact normative profile edition remain unproven. The maintainer's
+written confirmation resolves CLO trial-use and local-DXF processing only.
+Pro2CAD is not qualified for executable use in G04. V03 remains In Progress;
+all S547 seven-recipe outcomes and acceptance gates remain unchanged. Next:
+use one targeted investigation on the already authorized CLO evidence for the
+repeat Polo contour loss and CUT/SEW semantic ambiguity; do not repeat the same
+settings matrix. See `docs/research/epic17/S548-pro2cad-public-qualification-screen/S548-exit-packet.md`.
+Board start/exit is `3303→3305→3307`; focused verification results are in
+the exit packet. The thread goal remains active and needed through safe merge.
+
+## EPIC-17 / G04 — Slice 546 exit (V03 remains open)
+
+S546 reconciled S545's five Polo M/default AAMA CUT contour failures across
+both generations against S500/S517/S519. The same five piece roles remain
+over the unchanged 0.001 cm gate, at 0.01274–0.01399 cm. Existing S500/S517/
+S519 evidence identifies the omitted source points. A new S546 cross-file
+parser failed against trusted S500 results and is excluded; no new CLO action
+or setting change occurred. Do not repeat the already-tested CLO point
+controls. Next qualify one specific alternative apparel-CAD receiver/profile
+against primary build, rights, local-handling, geometry and round-trip
+evidence before transferring fixtures. Full V03 gates remain open. Exit:
+`docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-exit-packet.md`.
+S546 board start/exit is `3295→3297→3299`; focused Control Center tests and
+diff checks are recorded in the packet. The goal remains active and needed.
+
+## EPIC-17 / G04 — Slice 545 exit (V03 remains open)
+
+S545 recovered the targetable existing CLO session and completed two
+DXF-AAMA import/export cycles for the three C:-only M/default fixtures. The
+corrected point-to-polyline diagnostic finds Tee 6/6 and Woven 24/24 contours
+within 0.001 cm, while five Polo cut contours remain at 0.0127–0.0140 cm in
+both generations. The first-cycle discrepancy is reproducible, but the trial
+does not isolate import versus export as its cause. No production code, source
+pattern, profile setting, or acceptance gate changed. The UI rendered all
+major pieces without an obvious gross loss; semantic/grade/output acceptance
+is not established. Rights and local handling are confirmed in writing.
+Detailed evidence and exact limitations:
+`docs/research/epic17/S545-clo-target-recovery/S545-exit-packet.md` and its
+C:-only evidence folder `C:\\G04-CLO-DXF-Exchange\\S544-aama-three-recipe-roundtrip`.
+S545 began from `016b13c`; refreshed `origin/main` `a5af5e1` remains an
+ancestor. G04-V03 remains In Progress; V01/V02 remain Done.
+S545's validated exit evidence/comment advanced the board `3293→3295`; the
+complete start/exit sequence is `3291→3293→3295`. Focused Control Center
+tests pass 42/42; Node syntax/analysis and `git diff --check` pass. S545 is
+closed; no V03 hold was relaxed.
+The thread goal remains active and needed through admitted V03 completion and
+safe merge; its objective matches this state. No manual resume is needed.
+
+S547 supersedes this immediate next-action note. See its exit packet for the
+current next step and preserved V03 holds.
+
+## EPIC-17 / G04 — Slice 544 CLO target-state mismatch (closed; recovered in S545)
+
+S544 hash-verified and copied the missing Tee, Polo, and Woven DXF-AAMA
+fixtures from the exact S498 inputs into
+`C:\\G04-CLO-DXF-Exchange\\S544-aama-three-recipe-roundtrip`. No import or
+export occurred. The running CLO 2026.1.310 window capture showed only its
+synthetic canvas while accessibility repeatedly reported an Export DXF modal;
+refresh, Escape, and a supported Raise attempt did not reconcile the visible
+and accessible state. This is a concrete computer-use targetability blocker,
+not a format result. All V03 requirements and holds remain unchanged; CLO is
+left open. Exit evidence:
+`docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md`.
+
+S545's fresh observation matched the visible file picker/import controls to
+the accessible target state and completed the previously blocked fixture run.
+
+## EPIC-17 / G04 — Slice 543 current apparel profile screen (closed; V03 remains open)
+
+Official primary records show ASTM D6673-10 withdrawn in 2019; D6673-04 is
+historical, describes 2D sewn pattern and grade-rule exchange, and requires
+R13 DXF, but is not intended to represent piece relationships or 2D/3D sewn
+geometry. D6673-04 references ANSI/AAMA-292A; this bounded search did not
+locate an authoritative current status or full text for that profile, so it
+remains a candidate, not a proven active standard. The current ISO modules
+examined were generic geometry/symbol modules, not apparel exchange profiles.
+No V03 gate changed.
+
+**Next:** finish Tee, Polo, and Woven in the same CLO DXF-AAMA mode as the four
+S523 recipes to complete a seven-recipe cohort, keeping profile conformance
+unclaimed and all acceptance gates intact. See
+`docs/research/epic17/S543-current-apparel-dxf-profile-screen/S543-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 542 CLO version-selector audit (closed; V03 remains open)
+
+The official CLO export article documents DXF-AAMA, DXF-ASTM, and Standard DXF
+format labels, plus scale/units and other settings, but no DXF database version
+or normative edition selector. The saved CLO 2026.1.310 dialog also shows no
+version field (screenshot hash recorded in the S542 packet). Thus the tested
+menu flow is not an evidenced path to select ASTM D6673-04's required R13
+(`AC1012`), consistent with S541's finding that all seven pinned outputs are
+`AC1009`. This does not establish whether undocumented controls exist or what
+the CLO menu claims normatively. No exchange or gate changed; V03 remains In
+Progress and CLO stays open.
+
+**Next:** identify another published, rights-qualified CAD receiver/profile
+with a documented database version and apparel semantic contract. Evidence:
+`docs/research/epic17/S542-clo-version-selector-audit/S542-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 541 DXF header/profile audit (closed; V03 remains open)
+
+S541 rechecked all seven pinned second-generation S498/S523 recipe outputs.
+Each declares `$ACADVER=AC1009` (AutoCAD R11/R12) and omits `$INSUNITS`.
+Three DXF-ASTM-menu exports therefore conditionally conflict with ASTM
+D6673-04's stated AutoCAD Version 13 requirement (`AC1012`); the menu label
+does not establish that edition, so this is not a whole-standard
+nonconformance claim. The four DXF-AAMA files are also AC1009 and do not by
+themselves prove a current AAMA profile. All seven hashes passed; deterministic
+report SHA-256 is
+`e88d31688eb1d8933aaf76521f314cc0517919dbd1d3711a325ff5647456f551` in
+`C:\\G04-CLO-DXF-Exchange\\S541-dxf-header-profile-audit`. V03 remains In
+Progress; no profile or acceptance gate is cleared. CLO stays open.
+
+**Next:** verify whether CLO documentation/settings establish an exact
+normative DXF edition or selectable file version. See
+`docs/research/epic17/S541-dxf-header-profile-audit/S541-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 540 CLO CUT/SEW swap-option diagnostic (closed; V03 remains open)
+
+S540 used the confirmed local CLO trial for one controlled synthetic
+DXF-AAMA import/export with `Swap Cutting Line and Sewing Line` enabled.
+Against S532's hash-pinned no-swap baseline, the source CUT square still
+matches output layers 1, 14 and 8, and source SEW still matches layer 8; the
+layer counts are unchanged. The option did not clear semantic acceptance.
+The exported 3,721-byte file SHA-256 is
+`62BA3A3F4ABE5131170313A876720F2FD42BBF8D7FA6A2DF6649A7E790A9E447`;
+analysis and rendered captures are under
+`C:\\G04-CLO-DXF-Exchange\\S540-clo-swap-import-option`. No format error
+occurred, but this synthetic trial does not establish an industrial profile.
+All V03 profile, all-seven, semantic, grading, negative-input, and round-trip
+gates remain unchanged. CLO stays open.
+
+**Next:** see S541 for the completed header/version audit. Do not repeat the
+swap-option test or change V03 acceptance. Evidence:
+`docs/research/epic17/S540-clo-swap-import-option/S540-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 539 CLO semantic attribute audit (closed; V03 remains open)
+
+S539 reread the 14 hash-pinned source and generation-two receiver DXFs from
+S525 across all seven recipes. Among direct geometry matches on output layer
+8, CUT and SEW have the same closed-polyline flag; no examined non-layer DXF
+property distinguishes them in either observed AAMA or ASTM output cohort.
+The audit maps 41/41 SEW contours and 36/41 CUT contours on layer 8; the same
+five Polo CUT misses reproduce. Report SHA-256 is
+`f55276078387d65ee96bec8e40e0a2d44b4ba3b1d2be26a5fff961776d102488`, stored
+under `C:\\G04-CLO-DXF-Exchange\\S539-clo-semantic-attribute-audit`.
+This is an empirical result for those exact files, not a profile/conformance
+claim. No CLO operation or acceptance change occurred.
+
+**Next:** continue V03 with a documented apparel profile/semantic contract and
+representative round-trip evidence; do not infer CUT/SEW from shared layer 8 or
+repeat the same CLO fixtures. Preserve all current gates and keep V03 In
+Progress. Evidence: `docs/research/epic17/S539-clo-semantic-attribute-audit/S539-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 538 CLO authorization and control-state recheck (closed; V03 remains open)
+
+The maintainer confirms written authorization for CLO trial product-development
+evaluation and local DXF processing. Treat that authorization and handling
+concern as resolved for the bounded local evaluation; do not ask again. S538
+reconciled S493/S525/S536 evidence without repeating exchange cases. CLO's
+saved seven-recipe outputs map 41/41 pieces, while output layer 8 mixes CUT
+and SEW in all seven and 78 source marks lack a direct geometry match (not
+proof of loss). Polo's same five CUT outlines still fail the unchanged
+0.001 cm gate; the malformed-input test still silently accepts an input while
+omitting an inset SEW contour. Exact industrial profile/version, grading,
+semantics and independent receiver acceptance remain open.
+
+The existing CLO session is running. A fresh screenshot showed the pattern
+workspace without an Export DXF dialog while accessibility simultaneously
+reported a DXF-AAMA Graded Nest export dialog; no separately targetable dialog
+appeared in the live window list. No file operation followed. This is a
+desktop-control state mismatch, not an authorization or format result. CLO
+remains open, and no new files were imported or exported in S538.
+Evidence: `docs/research/epic17/S538-clo-authorization-control-recheck/S538-exit-packet.md`.
+
+**Next:** continue static, hash-pinned output/protocol analysis and preserve
+all V03 gates. Retry a practical exchange only after the current visible CLO
+target and dialog are unambiguous; do not repeat S493/S525/S536 scenarios.
+EPIC-17 remains In Progress; V01/V02 Done, V03 In Progress. No physical fit,
+factory acceptance, or production-readiness claim is made.
+
+## EPIC-17 / G04 — Slice 537 no-cost local CAD trial screen (closed; V03 remains open)
+
+The current official-source pass found one new potential desktop trial:
+PatternSmith lists AAMA import and generic DXF export, a 30-day all-feature
+trial without a credit card, and a `$1,500/year` post-trial license. Its
+trial form requires name/email/company and privacy consent; its 2018 privacy
+policy allows product usage data including product specifications but does
+not establish local-only pattern handling or AAMA/ASTM export. OROX CAD-X,
+CAD4Fashion, and Pro2CAD claim apparel AAMA/ASTM exchange but have no verified
+no-cost no-contact path in the official sources checked. OpenCAD2D is generic
+2D DXF CAD. No signup, contact, download, install, or file transfer occurred.
+Evidence: `docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-exit-packet.md`.
+Board exit replay is recorded in that packet.
+
+**Next:** PatternSmith trial access would cross the no-supplier-contact
+boundary and disclose personal/business data; no pattern fixture may be used
+without a local-handling basis and applicable rights. Obtain explicit
+maintainer authorization before any trial-form submission. Otherwise keep the
+scope and V03 gates unchanged and pursue another already-authorized route.
+EPIC-17 remains In Progress; V01/V02 Done, V03 In Progress.
+
+## EPIC-17 / G04 — Slice 536 Polo AAMA vertex-preservation probe (closed; V03 remains open)
+
+The maintainer attested written confirmation for CLO product-development
+testing and file handling, clearing authorization to use the existing trial
+for this bounded local test. CLO 2026.1.310 imported and rendered all nine
+Polo M pieces from a geometry-identical R2000 `LWPOLYLINE` derivative and
+exported DXF-AAMA with no format error. All nine source SEW contours bind to
+receiver pieces within 0.000005–0.000035 cm, but five CUT outlines still lose
+one vertex and exceed the unchanged 0.001 cm gate (0.012741–0.013974 cm).
+Four of nine CUT outlines pass. The encoding variant does not fix the same
+five roles already failing with legacy `POLYLINE` input; no source geometry,
+production exporter, threshold, protected bytes, or V03 gate changed. CLO
+remains open. Evidence: `docs/research/epic17/S536-polo-aama-vertex-preservation/S536-exit-packet.md`.
+Validated board exit replay is recorded in that packet.
+
+**Next:** pursue an evidence-backed V03 profile/receiver path capable of the
+admitted all-seven representative exchange and semantic gates. Do not repeat
+this encoding or the already failed Polo AAMA→ASTM path. The full goal remains
+active; V01/V02 Done, V03 In Progress. No physical-fit or factory-acceptance
+claim is made.
+
+## EPIC-17 / G04 — Slice 535 local receiver availability (closed; V03 remains open)
+
+A bounded local inventory checked HKLM/HKCU registered-app entries, relevant
+Program Files directories, Start-menu entries, and running processes. It found
+only CLO among relevant apparel CAD/DXF apps; the only matching process is the
+existing CLO 2026.1.310 session, which remains open. No portable application
+under every possible directory is ruled out, but no indexed/local receiver is
+available for another practical test. No install, CLO interaction, pattern
+file, vendor contact, purchase, or gate change. Evidence:
+`docs/research/epic17/S535-local-receiver-availability/S535-exit-packet.md`.
+Board exit replay is recorded there.
+
+**Next:** the V03 rights/receiver path question is pending maintainer input.
+Written CLO product-development permission and acceptable local-data terms,
+or explicit approval to amend the no-supplier-contact boundary for one narrow
+support inquiry, are needed before further CLO product-pattern tests. The
+goal remains active; V01/V02 Done, V03 In Progress.
+
+## EPIC-17 / G04 — Slice 534 Open Patterns receiver screen (closed; V03 remains open)
+
+The `ksons/astm-parser` Open Patterns lead parses ASTM/AAMA DXF into OPF and
+renders SVG/PNG, but has no DXF writer or CAD receiver workflow. Its package
+metadata declares ISC; rights are not fully approved for adoption. It cannot
+pass V03's receiver/profile round-trip gate, so it was not installed or run.
+It remains a possible one-way parser cross-check only. No G04 data, CLO UI,
+code, or acceptance changed. Evidence: `docs/research/epic17/S534-open-patterns-parser-screen/S534-exit-packet.md`.
+Board exit replay is in the packet; CLO remains open.
+
+**Next:** V03 is at a concrete external rights/data gate: obtain written CLO
+permission covering product-development use under the current trial plus an
+acceptable local-data basis, or find a different free desktop apparel-CAD
+receiver with documented profile support and rights. Do not use G04 files in
+CLO under the current S526 evidence. The full goal remains active.
+
+## EPIC-17 / G04 — Slice 533 apparel DXF profile evidence (closed; V03 remains open)
+
+Authoritative review found ASTM D6673-10 was withdrawn in 2019 without
+replacement; public CLO help offers DXF-AAMA/ASTM modes but no exact normative
+edition or conformance mapping. NIST's historical report treats ANSI/AAMA-292
+as an interim/near-term profile, not current proof of an edition. S532's AAMA
+output geometry was stable on a synthetic fixture but duplicated CUT across
+numeric layers and mixed CUT/SEW on layer 8; S525 saw layer-8 mixing in all
+seven recipe exports. S531's malformed-input case is a concrete tested
+failure. Rights and local-only handling remain held per S526, and no single
+rights-qualified receiver/profile has cleared all-seven semantics/grades and
+round-trip gates. No criterion changed. Evidence and primary links:
+`docs/research/epic17/S533-apparel-dxf-profile-evidence/S533-exit-packet.md`.
+The board records the evidence; CLO stays open and was untouched in S533.
+
+**Next:** inspect the distinct local open-source parser lead for exact license,
+profile coverage, and round-trip capability before any test. Do not repeat
+CLO synthetic runs, use G04 bytes under the trial-rights hold, or claim
+compatibility. The full G04 goal remains active.
+
+## EPIC-17 / G04 — Slice 532 CLO synthetic DXF-AAMA round trip (closed; V03 remains open)
+
+One synthetic non-garment CUT/SEW fixture was imported, exported twice, and
+re-imported in the same CLO 2026.1.310 session. Both exports retained contour
+geometry within 0.000004 cm, below the slice's 0.001 cm screening threshold;
+the re-import showed both outlines. The output nevertheless duplicates CUT
+geometry across numeric layers and mixes CUT/SEW on layer 8, and CLO reports
+seam allowances imported in Custom mode. This is a narrow geometry result, not
+profile/semantic qualification. S531's malformed-input silent-acceptance
+failure remains. Rights/use purpose, local handling, industrial profile,
+seven-recipe fixtures, grading, and semantic round-trip remain held; no G04
+data was used and no gate or acceptance changed. Evidence and output hashes:
+`docs/research/epic17/S532-synthetic-dxf-roundtrip/S532-exit-packet.md` and
+`C:\G04-CLO-DXF-Exchange\S532-synthetic-roundtrip\`. Board exit replay is
+recorded in that packet. The Epic goal remains active; CLO stays open.
+
+**Next:** reconcile the V03 evidence matrix and unchanged gates, then identify
+an exact receiver/profile whose permitted use, local handling, and apparel
+semantics can be verified. Do not repeat this fixture or use G04 bytes under
+the unresolved S526 trial-purpose/data gate.
+
+## EPIC-17 / G04 — Slice 531 CLO malformed DXF control (closed; V03 remains open)
+
+CLO 2026.1.310 (r58944) silently imported a 396-byte malformed synthetic
+DXF-AAMA file with no visible warning/error and omitted its inset `SEW`
+contour; the valid paired control shows both the outer piece and inset contour
+under the same settings. This is a concrete failure of the tested
+malformed-input rejection path, not a full profile or all-version claim. All
+fixtures, saved projects and rendered evidence remain in
+`C:\G04-CLO-DXF-Exchange\S531-clo-negative-input-control\`. No G04 pattern or
+production source was used. No V03 criterion changed or cleared; S526 rights
+and local-data handling, profile/round-trip, semantics, grading and other
+gates remain held. CLO stayed open. Board start/exit replay is recorded in the
+S531 packet (`3235→3237→3239`); the full goal remains active.
+
+**Next:** use the existing CLO session for one local synthetic positive-control
+DXF export/re-import round-trip, recording export mode and exact geometry
+comparison; do not repeat the malformed test or use G04 pattern bytes. Keep
+all V03 gates held and resolve S526's independent rights/data issue before any
+product fixture.
+
+## EPIC-17 / G04 — Slice 530 GetonAgain package inspection (closed; V03 remains open)
+
+The official `FUZHUANGCAD_MIANFEI_20260306.zip` endpoint returned HTTP 200,
+advertised a 260,318,538-byte archive, and supported ranges. A C:-only transfer
+ran at roughly 75 KB/s and was stopped rather than spending over 50 more
+minutes on this optional lead. The 7,728,860-byte file at
+`C:\G04-CLO-DXF-Exchange\S530-getonagain-free-package-static-inspection\` is
+an incomplete partial with SHA-256
+`381A7B3E9DADABB2E91841EED62A2694F12E09D48481EEE4AC8D16339D29734B`; it is
+not a ZIP/package-content finding. No install, execution, account/phone,
+vendor contact, pattern/CAD transfer, or CLO operation occurred. No V03 gate
+changed. S530 start/exit board replay is `3231→3233→3235`; the full goal is
+still required. Details are in
+`docs/research/epic17/S530-getonagain-free-package-static-inspection/S530-exit-packet.md`.
+
+**Next:** start one bounded practical CLO exchange-test slice without closing
+or reopening the running app. Reconcile S526's documented Trial License
+purpose and local-handling limits against the maintainer's explicit test
+instruction before using G04 product fixtures. Keep every V03 gate held.
+
+## EPIC-17 / G04 — Slice 529 GetonAgain free-build capability audit (complete; V03 remains open)
+
+Official GetonAgain Garment CAD V2024.1 documentation explicitly covers
+apparel DXF-AAMA/ASTM import and export. The manufacturer's free download is
+identified as `FUZHUANGCAD_MIANFEI_20260306.zip`, but its page requires phone
+registration/login and does not establish that this free package is V2024.1
+or has its documented exchange controls. Applicable use rights and local-only
+file behavior remain unknown. The official manual was saved for exact-page
+review only under `C:\G04-CLO-DXF-Exchange\S529-getonagain-free-build-capability-audit\`.
+No installer was downloaded, no account/phone/vendor contact or pattern file
+was used, and CLO was untouched. No V03 gate changed.
+
+Started `2026-10-08 20:21:21 UTC` from S528 `5dc6af0` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S529 is
+unique. Board start/exit replay is `3227→3229→3231`; EPIC-17/G04-V03 remain In
+Progress; V01/V02 Done. The goal remains active and accurate. See
+`docs/research/epic17/S529-getonagain-free-build-capability-audit/S529-exit-packet.md`.
+
+**Next:** static inspection of the official free package may establish its
+version and bundled terms without executing it. Do not register a phone,
+contact the vendor, run the app, or use pattern data while rights/local
+handling remain unresolved.
+
+## EPIC-17 / G04 — Slice 528 scope reconciliation (complete; V03 remains open)
+
+S528 corrected S527's proposed garment.dev invite request against the
+admission's explicit hosted-service non-goal. garment.dev remains recorded as
+source research only and is not a G04 route; no invite/contact should be
+made. GetonAgain is the only newly discovered desktop lead, but the free
+build's AAMA/ASTM import/export intersection, applicable use rights, and
+local/offline file handling remain unverified. No download, registration,
+phone submission, vendor inquiry, pattern transfer, or CLO operation occurred.
+V03 gates and acceptance remain unchanged.
+
+Started `2026-10-08 20:17:49 UTC` from S527 `c046db9` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S528 is
+unique. Board start/exit replay is recorded at the packet's final revision;
+EPIC-17/G04-V03 remain In Progress; V01/V02 Done. The full Epic goal is still
+active and accurate. See
+`docs/research/epic17/S528-candidate-scope-reconciliation/S528-exit-packet.md`.
+
+**Next:** one authorization is needed before any external vendor inquiry or
+phone registration for the GetonAgain free build. Ask only whether that
+specific free build has apparel AAMA/ASTM DXF import and export, whether
+product-development use is permitted, and whether the input/output path can
+remain local without sending patterns. Do not touch CLO or use a pattern until
+all three are verified.
+
+## EPIC-17 / G04 — Slice 527 free receiver screen (complete; V03 remains open)
+
+S527 performed one official-source-only screen of new no-cost apparel CAD
+leads, without installing software, creating accounts, sending access
+requests, transferring patterns, or touching CLO. garment.dev claims
+AAMA/ASTM DXF import/export and a free plan, but is invite-only; its export
+workflow requires a saved hosted pattern and its terms/data pages describe
+cloud storage. It does not satisfy the C:-only G04 handling requirement.
+GetonAgain has a free phone-registered apparel CAD build and V2024.1 import /
+DXF evidence, but sources do not establish that the free build includes those
+exchange features or establish applicable use rights and local data handling.
+MPattern's free editor imports but cannot export; export from the editor needs
+paid Cloud. Parmel's AAMA/DXF export page is legacy and lacks a current build
+and import evidence. No candidate qualified; no V03 criterion changed.
+
+Started `2026-10-08 20:12:29 UTC` from S526 `629ad32` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S527 is
+unique. Validated board start/exit replay is `3219→3221→3223`; EPIC-17 and
+G04-V03 remain In Progress; V01/V02 Done. Sources and candidate limits are in
+`docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-exit-packet.md`.
+The complete Epic goal remains active and accurate. CLO remains open and
+running; this slice made no app action.
+
+**Next:** see S528's scope correction. Do not pursue the hosted garment.dev
+service. Keep GetonAgain as an unverified desktop lead and preserve all V03
+criteria and holds.
+
+## EPIC-17 / G04 — Slice 526 CLO trial rights review (complete; V03 remains open)
+
+S526 reviewed current official CLO terms and privacy pages without operating
+the app. CLO Additional Terms §5.1.4 limit the standard trial to evaluation /
+demonstration and expressly exclude commercial and for-profit purposes. G04
+is an InfiniDrip product-development effort; the standard trial therefore
+does not affirmatively authorize further G04 fixture tests. This is a project
+interpretation of the clause, not a legal opinion. CLO's separate Individual
+license may allow qualifying one-person commercial use, but this does not
+override the narrower trial-purpose restriction. General Terms allow automatic
+Internet connections/remote authentication and license Content Analytics;
+privacy terms do not prove a local-only standalone DXF path or prove that
+specific pattern bytes were sent. Keep rights and local-handling gates open.
+
+Started `2026-10-08 20:05:50 UTC` from S525 `288e77c` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S526 is
+unique. Validated board start/exit replay is `3215→3217→3219`; EPIC-17 and
+G04-V03 remain In Progress; V01/V02 Done. Evidence and official source dates
+are in `docs/research/epic17/S526-clo-trial-rights-check/S526-exit-packet.md`.
+No CLO UI, account, file, or network action occurred; no code changed.
+`preflight-exit.mjs`, canonical board validation at 3219, and
+`git diff --check` pass; `npm run control-center:test` passes 42/42. Full
+production coverage/build gates do not apply to this read-only review.
+
+**Next:** do not run another CLO pattern test absent written authorization
+covering this product-development use and acceptable file handling. No
+independently qualified no-cost apparel receiver is currently documented; V03
+remains open pending a permitted receiver/profile and complete geometry,
+semantic, grade, negative-input, and round-trip evidence. CLO remains open
+while G04 still needs it.
+
+## EPIC-17 / G04 — Slice 525 CLO layer and piece semantics audit (complete; V03 remains open)
+
+S525 analyzed the already-saved S498 ASTM exports (Tee, Polo, Woven) and S523
+AAMA exports (Fitted, Tank, Trouser, Skirt) against the pinned current-source
+fixtures. It did not operate CLO. All 41 pieces resolve to one output block by
+SEW geometry with expected insert counts, but numeric layer 8 mixes CUT and
+SEW in all seven outputs; additional ASTM layers mix them. The direct matcher
+finds 41/41 SEW outlines and 36/41 CUT outlines; the five misses are Polo's
+existing failures. Of 100 internal mark entities, 22 match exact same-kind
+geometry; 78 have no direct geometry match. This is not itself proof of data
+loss, but does not satisfy source-mark semantics. Keep the semantic and Polo
+holds.
+
+Started `2026-10-08 19:52:36 UTC` from S524 `f5a81c2` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S525 is
+unique. Validated board start/exit replay is `3211→3213→3215`; EPIC-17 and
+G04-V03 remain In Progress; V01/V02 Done. The full audit and limits are in
+`docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md`;
+the deterministic JSON and all CAD files remain under the named C: audit
+folder. Syntax/hash/mapping checks pass, board replay and validation pass,
+and Control Center tests are recorded in the exit packet. No production code
+changed, so changed-code coverage and the full repository gate do not apply.
+
+**Next:** proceed from the existing S493 V03 matrix without another identical
+CLO run. The material blockers are the permitted-use and local-handling basis,
+unresolved import warning, five Polo CUT failures, non-unique CUT/SEW layer
+semantics and direct mark mismatches, native grade evidence, malformed-input
+rejection, and independent receiver/profile acceptance. First select a
+decision-bearing path that can address a listed gate; if it cannot clear
+rights/local handling, do not transfer more fixtures. CLO remains open and
+has not been reopened or polled in S525.
+
+## EPIC-17 / G04 — Slice 524 independent local receiver screen (complete; V03 remains open)
+
+S524 screened Pixie Space 0.2.0 after S523. Its unsigned browser app imported
+and rendered the seven generic base-M InfiniDrip DXFs without a displayed
+format error. Receipts show zero blocks/inserts for every recipe; piece
+identity is not established. No export or round trip was performed: the File
+menu's AAMA export action exposed no destination picker and the available
+browser control could not guarantee saving to the required
+`C:\G04-CLO-DXF-Exchange\S524-independent-local-aama-receiver\` folder.
+Export was not clicked. Public local-first/profile statements remain
+self-reported; no profile, rights, local-only processing, geometry, marks,
+grade, or negative-input gate is cleared. No output file or account/network
+workflow was used. CLO was not touched and remains open.
+
+Start `2026-10-08 19:34:18 UTC` from S523 `c3b3ee4`; refreshed
+`origin/main` remains an ancestor. Board start `3207→3209`; validated S524
+exit evidence/comment are linked at `3209→3211`. EPIC-17/G04-V03 remains In
+Progress; V01/V02 Done. Evidence: `docs/research/epic17/S524-independent-local-aama-receiver/S524-exit-packet.md`.
+
+No production code changed. Focused fixture/evidence review, board preflight,
+canonical validation, Control Center tests, and `git diff --check` are recorded
+in the exit packet. **Next:** pursue only a new, decision-bearing V03 path
+with a known C:-only save route. Do not replay S524 imports or the completed
+CLO base-M cases. Keep CLO open until the Epic no longer needs it.
+
+## EPIC-17 / G04 — Slice 523 remaining-recipe CLO round trips (complete; V03 remains open)
+
+Started `2026-10-08 19:10:56 UTC` from S522 commit `079ca9f` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. In one
+continuous, already-running CLO 2026.1.310 (r58944) session, S523 ran two
+DXF-AAMA import/export generations for current-source base-M/default Fitted,
+Tank, Skirt, and Trouser fixtures. The same 34/34 closed source CUT/SEW
+outlines and exact 17/17 piece inserts matched in each generation at the
+unchanged `0.001 cm` threshold; maximum delta was `0.000051 cm`. No CLO format
+error or gross rendered outline damage was observed. All inputs, outputs,
+settings and renders remain only in
+`C:\G04-CLO-DXF-Exchange\S523-clo-remaining-recipe-roundtrip\`. CLO stays
+open. Board start `3203→3205`, exit evidence/comment `3205→3207`; V01/V02
+remain Done and V03/G04 remain In Progress. This closes only the four
+bounded base-M CLO round-trip cases; it does not clear rights/local handling,
+industrial profile, the prior Polo point-loss, all-option/grade coverage,
+semantic/negative-input, or complete receiver gates. Acceptance, threshold,
+legacy DXF behavior and protected export identities are unchanged. No
+production code changed. See
+`docs/research/epic17/S523-clo-remaining-recipes-roundtrip/S523-exit-packet.md`.
+
+**Next:** refresh refs/history/board and reserve S524 for the next
+rights-reviewed V03 qualification action; do not repeat these four same
+fixtures without a materially different receiver/profile or source-backed
+mechanism. Keep CLO open while G04 requires it.
+
+## EPIC-17 / G04 — Slice 522 CLO import-control evidence screen (complete; V03 remains open)
+
+Started `2026-10-08 19:06:47 UTC` from S521 commit `30196f4` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S522 compared
+the current official CLO DXF guide with already tested S503/S516–S519
+settings. Curve optimization and Draw Curve Points are already tested;
+official documentation says Remove Non-Grading Points deletes points that
+lack grading data, so it is not a safe correction for these ungraded generic
+DXFs. No new source-backed CLO setting was found that warrants another import
+or export. No CLO UI, file, account, download, or external-message operation
+occurred. Board `3199→3201→3203`; V01/V02 remain Done and V03/G04 remain In
+Progress. The Polo AAMA path still has five measured CUT-point failures above
+the unchanged `0.001 cm` gate. All rights/profile, semantic/grade,
+negative-input and round-trip gates remain. No code, geometry, acceptance, or
+protected export identity changed. See
+`docs/research/epic17/S522-clo-import-control-evidence-screen/S522-exit-packet.md`.
+
+Next: continue only with a new, rights-reviewed apparel receiver/profile or a
+source-backed encoding/build mechanism that can change the measured result.
+Do not repeat same-fixture CLO settings. Keep the CLO session open as the user
+requested; V03 and the overall goal remain active.
+
+## EPIC-17 / G04 — Slice 521 LibreCAD receiver preflight (complete; V03 remains open)
+
+Started `2026-10-08 18:59:38 UTC` from S520 commit `b78ef47` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S521 screened
+LibreCAD 2.2.1.5 as a free, GPLv2 general-purpose DXF R12 candidate and
+recorded one fixed all-seven generic round-trip plan. LibreCAD is not apparel
+CAD and the reviewed sources do not establish an industrial garment profile,
+apparel grading semantics, or factory acceptance; a successful pilot cannot
+by itself satisfy V03. The program is not installed. No download, install,
+launch, or CLO interaction occurred. Exchange files/captures are confined to
+`C:\G04-CLO-DXF-Exchange\S521-librecad-r12-receiver\`. The only pending
+decision is whether to authorize one free official download/run, or for the
+owner to install the named build and confirm it is available. Board
+`3195→3197→3199`; V01/V02 remain Done and V03/G04 remain In Progress. All
+acceptance, `0.001 cm` thresholds, protected export identities, and claim
+limits are unchanged. Focused Control Center tests pass 42/42 and
+`git diff --check` passes; see
+`docs/research/epic17/S521-librecad-receiver-preflight/S521-exit-packet.md`.
+
+Next: obtain that one installation authorization/confirmation before running
+the packet's one bounded generic-R12 pilot. A pass would be recorded only as
+LibreCAD 2.2.1.5 generic DXF behavior; continue to require separate evidence
+for the admitted industrial apparel-profile, rights/local-handling,
+semantic/grade, negative-input, and round-trip gates. Do not repeat S519's
+measured CLO point-retention path; keep CLO open until G04 is complete.
+
+## EPIC-17 / G04 — Slice 520 V03 closure-path reconciliation (complete; V03 remains open)
+
+Started `2026-10-08 18:52:58 UTC` from S519 commit `1f56474` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S520 made
+one current-source pass over V03 candidates to prevent redundant CLO UI work.
+The result is that no currently reviewed receiver clears both the V03
+rights/local-handling gate and the exact apparel-DXF round-trip requirements.
+S519's actual CLO 2026.1.310 Draw Curve Points test still misses the Polo
+0.001 cm gate on the same five CUT contours by 0.012741–0.013974 cm. Current
+official terms reserve a CLO trial for evaluation/demonstration while
+excluding commercial/for-profit purposes; whether this exact pre-launch G04
+test is covered remains unresolved. The current terms also do not prove
+local-only content processing. Open Patterns has no DXF writer; OpenMarker's
+DXF export remains planned; Seamly2D cannot import DXF; Richpeace Super V8
+does not document local DXF export; and the new patternForge repo has an
+exporter but no DXF import or independent receiver role. No app, file,
+installation, account, or external-message action occurred. CLO remains open
+and idle. Board start/exit `3191→3193→3195`; V01/V02 remain Done and V03/G04
+remain In Progress. Focused Control Center tests and `git diff --check` pass;
+no production behavior or acceptance gate changed. See
+`docs/research/epic17/S520-v03-closure-path-reconciliation/S520-exit-packet.md`
+and `S520-candidate-gate-matrix.md`.
+
+Next: obtain written clarification of permitted trial purpose and file-data
+handling from CLO Support, or identify a newly evidenced rights-cleared
+receiver with apparel-DXF import and export. The exact support message is
+prepared in the S520 packet but has not been sent. A favorable CLO rights
+answer would still not fix its measured Polo geometry failure. Keep the strict
+all-seven and `0.001 cm` gates unchanged; keep CLO open without further UI
+interaction.
+
+## EPIC-17 / G04 — Slice 519 source-point retention control (complete; V03 remains open)
+
+Started `2026-10-08 18:40:10 UTC` from S518 commit `7b20f20` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S519 tested one
+vendor-suggested CLO import control, `Import Draw Curve Points`, on the pinned
+Polo M AAMA fixture. CLO 2026.1.310 imported and rendered all nine pieces
+without a format error; the single export still lost the same five CUT
+vertices by 0.012741–0.013974 cm, above the unchanged 0.001 cm gate. This
+isolates a failed build/profile/fixture/control combination; it does not
+establish general CLO incompatibility. The result is measured in the C:-only
+fixture and rendered evidence. Stop repeating this point-retention case unless
+a genuinely new source-backed mechanism appears. CLO stays open. Board
+start/exit `3187→3189→3191`; V01/V02 remain Done and V03/EPIC-17 remain In
+Progress. Focused Control Center tests pass 42/42; analyzer replay, board
+preflight/replay, and `git diff --check` pass. No production code, pattern
+geometry, acceptance gate, or export baseline changed.
+
+Next: pursue a different receiver/profile candidate with primary evidence for
+rights, supported DXF layers/marks, and exact geometry round-trip before any
+new live exchange. Do not repeat the tested CLO case or imply general CLO
+unsuitability. See
+`docs/research/epic17/S519-clo-point-retention-control/S519-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 518 native-stage isolation (complete; V03 remains open)
+
+Started `2026-10-08 18:23:45 UTC` from S517 commit
+`28f55942fc0315167e6ab5ea37441e74b3723776`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. In the
+already-running CLO 2026.1.310 (r58944) session, S518 imported the same pinned
+Polo M AAMA source once and saved the native project before any export. The
+import rendered all nine pieces without a format error. Native project hash is
+`2ca9169c472ec8201ddd43284b4ff5a900a740ecfeb21c5009b08a51ff896547`.
+A focused parser verified the CLO-prefixed container, embedded/nested ZIP
+indexes and entry CRCs. Exact contours reside in its proprietary `.pac`
+payload and were not measurable with the safe local parser; the known source
+coordinate text/float signatures were absent. S518 therefore did not attribute
+S516's five point losses to import or export, and per its stop rule did not
+repeat the failing DXF export. This is a concrete parser limit, not a CLO
+format error or a compatibility fix. No geometry, rights, profile, thresholds,
+export identities, or acceptance gates changed. CLO remains open and idle for
+ongoing G04 work. Board start/exit `3183→3185→3187`; V03/EPIC-17 remain In
+Progress; V01/V02 remain Done. Focused Control Center tests pass 42/42;
+native archive extraction/CRC checks, exit board preflight and diff check pass.
+
+Next: reserve a fresh slice after refreshing refs/history and board state.
+Qualify an evidence-backed geometry-preserving receiver/profile against rights
+and exchange requirements before any further CLO fixture work; do not repeat
+the S516/S518 Polo case without a specific new measurement or profile change.
+See `docs/research/epic17/S518-clo-native-stage-isolation/S518-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 517 contour-loss diagnosis (complete; V03 remains open)
+
+Started `2026-10-08 18:17:16 UTC` from S516 commit
+`890e09a8058db7b23181212ed145addf3f466283`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. A replayable
+analysis of the exact S516 C:-confined fixture/output identifies one omitted
+source CUT vertex per failing piece and the receiver shortcut between its
+neighbors. Deviations are 0.0127407 cm (back), 0.0129774 cm (outer stand),
+0.0139742 cm (inner stand), 0.0129902 cm (upper collar), and 0.0129989 cm
+(under collar). Every other source vertex on those paths remains within
+0.000024 cm. Source coordinates have three decimal places; receiver output
+has six; insert transforms are identity and CLO imported centimeters at 100%.
+This is localized point removal/smoothing, not a global scaling/rounding
+pattern. S503's tested AAMA/ASTM import and point-optimization choices plus
+S516 AAMA export leave the same five contours failing. No production behavior
+or gates changed. Board start/exit `3179→3181→3183`; V03/EPIC-17 remain In
+Progress; V01/V02 remain Done. See
+`docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 516 CLO AAMA round trip (complete; V03 remains open)
+
+Started `2026-10-08 18:05:49 UTC` from clean S515 commit
+`aef45f3b42f79b2c9a4fa4d94b9d9c3a2a311a98` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+S516 activated the already-running CLO 2026.1.310 window and completed one
+local AAMA import → AAMA export → AAMA re-import cycle for the hash-pinned
+Polo M fixture. The export is 148,000 bytes, SHA-256
+`bb5d4d572f51cb30eeb9ef983c3d600757117f8a9c0863a1146b33409ce55ed1`.
+All nine source sewing outlines associate with receiver blocks and all nine
+pieces render without a CLO format error. Five cut contours each lose one
+vertex; exact-segment witnesses of 0.01019–0.01118 cm exceed the unchanged
+0.001 cm limit. The round trip therefore fails strict geometry fidelity; no
+second-generation repetition was run. This is a measured CLO profile result,
+not a reason to relax the gate. Output, rendered evidence, and analyzer
+diagnostics are confined to `C:\\G04-CLO-DXF-Exchange\\S516-clo-aama-roundtrip`.
+No production code, export baseline, or acceptance criterion changed. CLO
+remains open per maintainer direction. Board start/exit `3175→3177→3179`;
+V01/V02 remain Done and V03/EPIC-17 remain In Progress. Focused Control Center
+tests pass 42/42; board preflight/replay and `git diff --check` pass. No full
+repository gate applies to this evidence-only slice.
+
+Next: reserve S517 from refreshed refs/history. Investigate the measured
+contour-loss cause and lawful industrial-profile evidence without repeating
+this same CLO case. Preserve all-seven, rights, grading, semantic fidelity,
+round-trip, legacy DXF, and protected export-identity gates. See
+`docs/research/epic17/S516-clo-foreground-activation/S516-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 515 CLO exact-build API/profile screen (complete; no exchange performed)
+
+Started `2026-10-08 18:01:24 UTC` from clean S514 `eb0696be4f2045cd88aa0d7351d64dd956a2feec`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest was 514; S515 is complete. Board start/exit is `3171→3173→3175`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+Current official CLO docs still map latest SDK 11.0.0 to build 2026.1.224, omit import profile selection, and leave `ExportDxfOption.m_ExportDXFFormatType` as an unmapped integer. They document that path-only `ExportDXF(path)` opens the options dialog; the authorized local AAMA export pilot can therefore select a visible documented profile without guessing enum constants, but safe visual control of the live CLO window remains unavailable. No SDK, app, or fixture operation occurred. No acceptance/profile/receiver gate changed. Next: one UI-selected AAMA export/reimport/second-generation trial on the existing Polo M fixture once the supported screenshot matches the running CLO window; no repeats of prior tests. See `docs/research/epic17/S515-clo-exact-build-api-profile-screen/S515-exit-packet.md`.
+
+Control Center tests pass 42/42; `git diff --check` passes. No production code changed, so no full repository gate is due. Keep CLO open through the Epic; close normally once at the end.
+
+## EPIC-17 / G04 — Slice 514 CLO helper target recovery (complete; no exchange performed)
+
+Started `2026-10-08 17:56:30 UTC` from S513 `5ca570087c10aa20ab983b5d4a10fbf1b1fa7e4f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest was 513; S514 is complete. Board start/exit is `3167→3169→3171`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+The supported app inventory found one running CLO 2026.1.310 window (ID `257823880`). On both the initial capture and the single prescribed recovery, target metadata/accessibility identified CLO but the screenshot showed Codex. S514 therefore performed no app input or file operation; this is a concrete helper target/capture failure, not a CLO DXF result. Read-only local inspection confirms the exact `.310` executable and `CLOAPIInterface.dll` with `ImportDXF`/`ExportDXF` symbols, but does not reveal Python bindings or profile enum values. CLO remains open. Do not repeat already measured Standard cases or S503's AAMA-import/ASTM-export matrix. Next: when visual targeting is reliable, run one instrumented C:-confined AAMA export/reimport pilot under S503's already authorized local trial evaluation, without guessed enums; keep the separate V03 receiver-rights/profile selection gate open. If visual targeting remains unreliable, continue independent documentation/reconciliation and preserve the access blocker. See `docs/research/epic17/S514-clo-helper-target-recovery/S514-exit-packet.md`.
+
+Control Center tests pass 42/42; `git diff --check` passes. No production code changed, so no full repository gate is due. The user has asked that CLO stay open while the overall Epic needs it and be closed once at the end; this supersedes earlier per-test closure wording.
+
+## EPIC-17 / G04 — Slice 513 CLO API exchange path (complete; practical test still pending)
+
+Started `2026-10-08 17:51:56 UTC` from clean S512 commit
+`91171dae23b45115fa2d5bfc139f85d784747163` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was 512; S513 is complete. Board start/exit is `3163→3165→3167`;
+V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+CLO's official API documents `ImportDXF(path, options)` and an explicit-path
+`ExportDXF(path, options)` overload that avoids the export-options dialog.
+However, the published options omit the import profile selector and do not map
+the export format integer to AAMA/ASTM/Standard. The SDK page lists CLO
+2026.1.224, not the installed 2026.1.310, and the in-app script editor still
+needs safe desktop control. No script or fixture was run; this is an API lead,
+not an exchange result. The next action is a C:-confined API smoke test when
+the supported UI can be controlled, without guessing profile constants. See
+`docs/research/epic17/S513-clo-api-exchange-path/S513-exit-packet.md`.
+Control Center tests pass 42/42; `git diff --check` passes. No production code
+changed; the full repository gate is not due.
+
+## EPIC-17 / G04 — Slice 512 Seamly2D receiver screen (complete; candidate rejected)
+
+Started `2026-10-08 17:47:40 UTC` from clean S511 commit
+`e49b57fc3fab13fe96845d10fb0c553657276aa5` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was 511; S512 is complete. Board start/exit is `3159→3161→3163`;
+V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+Official project materials confirm current Seamly2D releases and GPLv3+
+licensing, but its community forum confirms the product does not open DXF; it
+exports DXF from its own pattern drafts. An open 2026 project issue reports
+that SVG/DXF export merges edge/vertex boundaries. Seamly2D therefore cannot
+serve as the independent import/export receiver required by V03; no install or
+fixture was used. The user reports CLO is open, but S510's target-window and
+monitor errors remain the last supported input result; no AAMA trial conclusion
+is made. See
+`docs/research/epic17/S512-open-source-cad-format-screen/S512-exit-packet.md`.
+Control Center tests pass 42/42 and `git diff --check` passes. No production
+code changed; full repository gate is not due. **Next:** continue only with an
+exact import-capable receiver/build and measured profile-specific round trip;
+resume the authorized CLO test only with safely targetable desktop access.
+
+## EPIC-17 / G04 — Slice 511 public DXF profile evidence (complete; no profile selected)
+
+Started `2026-10-08 17:44:22 UTC` from S510 commit
+`ac4b8eaea8ffa668a914fa5665b08a371d7668e2` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was S510; S511 is complete. Board start/exit is
+`3155→3157→3159`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+Official sources establish ANSI/AAMA-292's 2002 withdrawal and ASTM D6673-10's
+2019 withdrawal without replacement. ASTM's public scope summary describes
+two-dimensional piece geometry and separately encoded grade rules but does
+not encode piece-to-piece/2D-3D relations. NISTIR 5969 describes AAMA-292 as an
+interim format whose grade identifiers referred to growth values elsewhere.
+CLO's current help names AAMA/ASTM/Standard modes and grading/Rule File options
+but provides no complete numeric layer map or receiver conformance proof. No
+receiver/profile selected and no acceptance changed. See
+`docs/research/epic17/S511-public-dxf-profile-evidence/S511-exit-packet.md`.
+The next action is exact receiver/build/profile qualification plus measured
+round-trip evidence; retry CLO AAMA when the helper can safely target its live
+window. No code changed; Control Center tests pass 42/42.
+
+## EPIC-17 / G04 — Slice 510 CLO workspace recovery (complete; no DXF opened)
+
+Started after S509's `2026-10-08 17:35:59 UTC` exit from clean
+`18c1318089c169166a31e875c9ca5519a8b4a2ef` on `codex/epic-17-g04`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Highest was S509; S510 is now recorded. Board start/exit is
+`3151→3153→3155`; V01/V02 remain Done and V03/EPIC-17 remain In Progress.
+
+After the user reported CLO running, one fresh CLO window exposed the normal
+2D Pattern Window and File menu. The next Import action was rejected as
+outside the target window; fresh-window activation then failed with
+`no monitor found for window`. No DXF opened, so this is a desktop-control
+failure, not an AAMA/CLO result. All gates and acceptance remain unchanged.
+The helper could not safely close CLO; no process kill was used. See
+`docs/research/epic17/S510-clo-aama-workspace-recovery/S510-exit-packet.md`.
+Focused Control Center tests pass 42/42; no production code/tests changed and
+no full gate is due. **Next:** continue independent V03 receiver/profile
+qualification and retry the approved AAMA fixture only with safely targetable
+CLO workspace access.
+
+## EPIC-17 / G04 — Slice 509 CLO AAMA trial access diagnosis (complete; AAMA test not run)
+
+Started `2026-10-08 17:31:11 UTC` from S508 commit
+`2ec3867859c169166a31e875c9ca5519a8b4a2ef` on `codex/epic-17-g04`.
+Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S508 is highest; S509 is reserved. Board start replay is
+`3147→3149`; V01/V02 are Done and V03/EPIC-17 remain In Progress.
+
+The planned AAMA exchange did not run. After launch, CLO exposed a graphics
+information notice above a startup splash; supported clicks/Return did not
+reach the workspace. Capture returned `foreground window did not report a
+process id`, then fresh recovery found a changed one-window inventory. No DXF
+was opened. The pinned source copy is hash-verified in the C:-only S509 folder.
+This is a desktop-control access failure, not an AAMA/CLO exchange result. The
+last inventory reports CLO still running; a normal close could not be performed
+after the helper failure. All V03 gates/status remain unchanged. See
+`docs/research/epic17/S509-clo-aama-roundtrip/S509-exit-packet.md`.
+Validated board exit is `3149→3151`; V01/V02 remain Done, V03/EPIC-17 remain In
+Progress. **Next:** continue independent V03 evidence/research, and resume the
+AAMA trial when a uniquely inspectable CLO workspace is available.
+
+## EPIC-17 / G04 — Slice 508 CLO Standard DXF export/reimport diagnosis (complete)
+
+Started `2026-10-08 16:59:03 UTC` from S507 commit
+`d4a113ac3c340afc412c6458973d460b22014d9c` on `codex/epic-17-g04`.
+Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S507 is highest; S508 is reserved. Board start is `3143→3145`;
+G04-V01/V02 Done and V03/EPIC-17 In Progress.
+
+S508 tested plain CLO Standard DXF with the same hash-pinned Polo M source.
+Correct centimeter/100% reimport and second export completed without a CLO
+error dialog, but the second-generation file reimports into a visibly stacked
+overlap. Its 36 pattern-block inserts and 141 LWPOLYLINE records differ from
+generation one's 9 inserts/59 polylines; the unchanged source matcher found
+0/18 exact source contour matches at `0.001 cm`. The initial 1000%-reimport
+exploration is unit-confounded and excluded. CLO was closed normally after
+evidence capture. This rejects only the tested Standard path for this fixture;
+it does not select a V03 profile or clear rights/local handling, grade,
+negative-control, all-seven fixture, or round-trip gates. See
+`docs/research/epic17/S508-polo-standard-export-roundtrip/S508-exit-packet.md`.
+Validated board exit is `3145→3147`; V01/V02 remain Done, V03/EPIC-17 remain In
+Progress. No production code, source geometry, acceptance, or export baseline
+changed. **Next:** reserve S509 from refreshed Git/board state and test another
+concrete CLO DXF mode only as a bounded diagnosis; preserve every V03 gate.
+
+## EPIC-17 / G04 — Slice 507 CLO Standard DXF scale diagnostic (complete)
+
+Started `2026-10-08 16:37:25 UTC` from S506 commit
+`968c72644bd6dde9e7ca8e13764dee0c5b155878` on `codex/epic-17-g04`.
+Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S507 is closed as the latest assigned slice. The validated board
+advanced `3139→3141→3143`; EPIC-17/G04-V03 remain In Progress and V01/V02 Done.
+The goal remains required through safe merge/deployment.
+
+S507 used the S503 maintainer authorization for C:-confined practical CLO
+DXF import/export evaluation. Standard DXF import at 1000% restored the nine
+hash-pinned Polo M piece bounds in this tested configuration, but five CUT
+contours remain above the unchanged `0.001 cm` threshold and ASTM round trip
+retains only 94 of 100 polylines. A later startup check encountered a
+desktop-helper process-ID error before any new pattern/file operation; this is
+not a CLO DXF result. No acceptance or baseline changed. Source copy, projects,
+outputs, screenshots and analysis are confined to
+`C:\\G04-CLO-DXF-Exchange\\S507-clo-standard-scale-diagnostic`. See the linked
+S507 start and exit packets. **Next:** reserve S508 from refreshed Git and
+board state; pursue only an exact receiver/profile whose rights and local
+handling can be established, retaining all V03 gates.
+
+## EPIC-17 / G04 — Slice 506 receiver rights/local-handling recheck (complete)
+
+S506 closed from S505 `54f2b15563e08d1c5df3643c8614a4f5fe2d41a5`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+The validated board moved from start revision `3135→3137` through the S506
+exit replay; G04-V03 and EPIC-17 remain In Progress, V01/V02 Done. The EPIC
+goal is still Active and required through safe merge/deployment.
+
+The bounded official-source review and separate exact-model OpenCode audit
+found no applicable Richpeace evaluation grant or local-only desktop file
+handling statement for V8 Free English or V10 Demo Free. V8's “full function
+evaluation copy” wording is unscoped marketing; the product page lists XP/7/8/10
+and only S468's previously reviewed manual documents AAMA/ASTM import and ASTM
+export. V10 Demo Free lists XP/7/8/10 and DXF/AAMA/ASTM/AutoCAD import but no
+apparel-format export; its exact demo label and linked portal binary identity
+are unresolved. Richpeace America website privacy and separate Richpeace cloud
+product pages do not establish data handling for these desktop builds. No
+download/install, terms acceptance, vendor contact, fixture access, or file
+transfer occurred. The user reported CLO running; Codex did not interact with
+or close it during S506. No V03 acceptance changed. See
+`docs/research/epic17/S506-v03-rights-candidate-recheck/S506-exit-packet.md`.
+
+**Next:** request explicit authorization for a standard, C:-confined Richpeace
+V8 Gate 0 installation/terms preflight on this Windows 11 host. Do not accept
+terms or open a fixture; stop unless displayed terms, actual build, local
+handling and modes establish a lawful next step. No vendor contact without a
+scope revision. If Gate 0 does not clear, retain V03 In Progress and its exact
+receiver-rights/access blocker.
+
+## EPIC-17 / G04 — Slice 505 Standard DXF CLO probe (complete; candidate rejected)
+
+Started `2026-10-08 15:46:12 UTC` from clean S504
+`1111b9e2504fac3e400d5a4c1da8252627b2f712` on `codex/epic-17-g04`;
+refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and
+remains an ancestor. Board start was `3132→3133`, exit replay was
+`3133→3135`; S505 is the latest assigned slice. G04-V03 is In Progress,
+V01/V02 Done. At the S504 boundary, `get_goal`
+confirmed the EPIC goal is Active and still needed through safe merge and
+required deployment. Its “Begin by admitting…” phrase is now historical; the
+suggested wording is “Continue from the verified admitted EPIC-17/G04 state…”
+The goal was not edited or resumed.
+
+After an initial ambiguous window enumeration, a later fresh inventory
+provided a unique targetable CLO 2026.1.310 (r58944) window. The live
+Standard DXF import rendered all nine Polo M pieces and ASTM export completed;
+reimport displayed the Custom seam-allowance information notice and rendered
+the pieces, then the second ASTM export completed. Direct original-scale
+comparison shows all nine output cut bounds are approximately 0.1× the
+hash-pinned source dimensions under the configured centimeter profile. The
+round trip also lost six polyline records: three distinct closed four-vertex
+shapes duplicated across numeric layers 8 and 85 in block `3_M`; numeric layer
+semantics remain unidentified. Of the 94 retained records, maximum matched
+vertex drift is `0.0000022361 cm`. The five known Polo CUT contour deviations
+remain under diagnostic shape comparison. CLO was closed normally, and the
+final window inventory returned no CLO window. All import/export artifacts,
+projects, screenshots, hashes, and analysis remain under
+`C:\\G04-CLO-DXF-Exchange\\S505-polo-standard-dxf`. This is a concrete
+failure for CLO Standard DXF under this tested configuration, not a claim of
+general CLO nonconformance; no industrial profile or rights basis is selected.
+No product source, fixture, output baseline, acceptance criterion, or V03 gate
+changed. See `docs/research/epic17/S505-polo-standard-dxf/S505-exit-packet.md`.
+
+S505 also corrects S504's elapsed category estimate using the exact S504
+commit time; S504 commit/history remain unchanged. **Next:** reserve S506 from
+refreshed Git and board state and reconcile the already-reviewed receiver
+rights/local-handling/profile prerequisite without further CLO pattern trials
+absent rights evidence. Preserve every V03 gate.
+
+## EPIC-17 / G04 — Slice 504 S503 closeout hygiene (complete)
+
+S504 closed at commit `1111b9e2504fac3e400d5a4c1da8252627b2f712`. At its
+exit boundary, `get_goal` reported Active. The admitted objective still matches
+the required V01/V02/V03, final review, safe merge, and deployment outcome.
+Its kickoff clause “Begin by admitting from verified Git and Control Center
+state” is historical. Suggested replacement: “Continue from the verified
+admitted EPIC-17/G04 state.” No change or UI resume was made.
+
+Started `2026-10-08 15:41:54 UTC` from clean S503
+`f048f84816cbed9acfd6044a8e445a25c01d1e4c` on `codex/epic-17-g04`;
+refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and
+remains an ancestor. S503 is highest; S504 is reserved. Board revision
+`3129→3132`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. CLO is
+reported available for the next bounded practical receiver probe. Goal-record
+review is due at this boundary.
+
+S504 removed two trailing blank lines reported by the S503 staged diff check,
+corrected S503's verification record, and preserved S503's commit. Staged and
+unstaged diff checks now pass; Control Center passes 42/42; board commands
+validated and replayed. No product source, DXF, gate, threshold, or acceptance
+rule changed. See
+`docs/research/epic17/S504-s503-diff-hygiene/S504-exit-packet.md`.
+
+The S504-boundary goal review is complete: `get_goal` reports Active; its
+objective remains needed through merge/deployment; the kickoff clause is stale
+wording, with no status change or UI resume required.
+
+## EPIC-17 / G04 — Slice 503 Polo import-option matrix (complete)
+
+Started `2026-10-08 15:11:57 UTC` from clean S502 `043dbb3` on
+`codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. S502 was
+highest; S503 was reserved. Board start `3125→3127`; validated exit
+`3127→3129`. EPIC-17/G04-V03 remain In Progress, V01/V02 Done; goal active.
+
+S503 completed the four Polo M CLO import cells (DXF-AAMA/ASTM × Optimize All
+Curve Points off/on), followed by the same DXF-ASTM export profile. Each cell
+renders, shows the Custom seam-allowance information notice, and exports. The
+same five known CUT contours miss one source vertex under every combination;
+sampled point-to-exact-segment witnesses are `0.0101935–0.0111803 cm`, so the
+unchanged `0.001 cm` gate remains failed. AAMA and ASTM have identical ordered
+geometry across all 94 parsed polylines for each optimizer setting. Optimizer
+on changes four button-mark loops in Polo block `3_M` from 12 to 8 vertices;
+numeric DXF layers remain unnamed semantically. All output, captures and
+analysis remain under `C:\\G04-CLO-DXF-Exchange\\S503-polo-import-options`.
+See `docs/research/epic17/S503-polo-import-options-live/S503-exit-packet.md`.
+
+The user-authorized live CLO run used only the named C: exchange folder. CLO
+was closed through File → Quit and verified absent (`running: false`, no
+windows). Input hash, four output hashes, import/export settings, renders,
+notice captures and the zoomed mark view are recorded by S503. No source,
+production code, acceptance gate, or protected identity changed. The seven
+recipe and V03 rights, profile, mark, grading, negative-control and round-trip
+gates remain in force.
+
+Focused checks: fixture verifier 6 positive + 1 negative; four S503 geometry
+analyses and pairwise comparison; CLO screenshot review; exit preflight/replay;
+Control Center tests; unstaged `git diff --check`. The staged check exposed
+two trailing blank lines; S504 records and corrects them in a separate slice.
+This evidence-only slice is not
+independently releaseable; global tests/coverage/build remain due on the settled
+Epic/PR candidate. Timing: implementation `0m`; focused live CLO work `~16m`;
+geometry analysis `~5m`; durable closeout and focused checks `~7m38s`;
+external-agent waits `0m`; maintainer-decision time `0m`.
+
+**Next:** reserve S504 and use CLO's separately observed `Standard DXF` import
+mode on the same hash-pinned Polo M fixture, holding units, scale, orientation,
+notches, and export profile constant. Numerically inspect the same cut and mark
+geometry against the unchanged gates. Do not alter source or acceptance to
+make a cell pass.
+## EPIC-17 / G04 — Slice 502 negative-DXF validity check
+
+Started `2026-10-08 15:06:03 UTC` from clean S501 `5e75eb9` on
+`codex/epic-17-g04`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. S501 was highest;
+S502 reserved. Board start advanced `3119→3121`; Epic and G04-V03 remain In
+Progress, V01/V02 Done. Goal active; primary usage 17%, weekly 40%.
+
+S463's negative fixture replaces the valid terminal `0/EOF` pair with an
+unmatched group code `0`. Autodesk's primary DXF documentation confirms that
+codes are followed by associated values and code `0` introduces a named item;
+the fixture therefore violates the documented group/value structure. S498
+silently rendered this exact file, failing S463's unchanged reject-or-report
+negative-control gate. This does not reveal CLO's recovery mechanism or prove
+broader profile conformance. S502 corrects the incomplete “missing EOF” phrase
+in its durable exit packet; no fixture, implementation, tolerance, or gate
+changed. See
+`docs/research/epic17/S502-negative-dxf-validity-check/S502-exit-packet.md`.
+Exit board `3119→3121→3125`; focused Control Center tests, preflight, and diff
+check pass. **Next:** with the maintainer-reported running CLO available,
+retry the bounded AAMA/ASTM × optimization matrix if the window can be
+controlled; otherwise record the exact UI limitation and continue offline.
+
+## EPIC-17 / G04 — Slice 501 Polo import-option retry stopped at UI capture
+
+Started `2026-10-08 15:03:15 UTC` from clean S500 `fe8623a` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor. S500 highest; S501 reserved. Board start `3113→3115`;
+EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal active; primary usage
+16%, weekly 40%.
+
+The fresh CLO launch exposed one startup window, but capture twice failed with
+`foreground window did not report a process id`, including after re-enumeration
+and fresh selection. The four-cell matrix did not run. A graceful close request
+was accepted; process `44612` remained present/responding after seven seconds,
+so closure is unverified and no force-kill was used. Hash-pinned input remains
+under `C:\G04-CLO-DXF-Exchange\S501-polo-import-options`; no output was made.
+V03 remains In Progress with every gate unchanged. See
+`docs/research/epic17/S501-polo-import-options-retry/S501-exit-packet.md`.
+Board `3113→3115→3119`; Control Center tests 42/42, preflight and diff check
+pass. **Next:** do not relaunch until the app window/shutdown path is usable;
+continue independent offline V03 evidence work.
+
+## EPIC-17 / G04 — Slice 500 Polo contour-loss diagnosis
+
+S500 started `2026-10-08 14:56:43 UTC` from clean S499 `b999d89` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor. S499 was highest; S500 is unique. Start board replay advanced
+`3107→3109`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal remains
+active and aligned with the admitted objective.
+
+Offline, hash-pinned parsing of the S498 Polo M source and both CLO generations
+shows the same one source CUT vertex missing on each of five pieces. The
+retained vertices match within `0.000013–0.000038 cm`; omitted-point chord
+residuals are `0.012736–0.013970 cm` and local direction changes `16.28–17.39°`.
+These are non-collinear shape points, not redundant straight-line subdivisions,
+and their output geometry misses the unchanged 0.001 cm gate. Cause is still
+unproven; S499's import-option matrix did not run because CLO's startup window
+became untargetable. After S499 closeout, a graceful Windows
+`CloseMainWindow` request was accepted and the CLO process exited. No source
+or receiver workaround was applied. Overlay and exact metrics:
+`docs/research/epic17/S500-polo-vertex-loss-analysis/S500-vertex-loss-overlays.png`
+and adjacent JSON/packet.
+
+S500 exit board revisions `3107→3109→3113`; Control Center tests pass 42/42,
+preflight and `git diff --check` pass; all V03 gates and holds remain. No full
+repository gate applies to this analysis-only slice. **Next:** only test an
+import option when the CLO UI is usable; meanwhile keep the exact failure and
+avoid changing source geometry/tolerance.
+
+## EPIC-17 / G04 — Slice 499 CLO window-handle interruption
+
+Started `2026-10-08 14:53:34 UTC` from S498 `01de6cc` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor. S498 was highest; S499 is unique. Board start replay advanced
+`3101→3103`; G04-V03/EPIC-17 remain In Progress, V01/V02 Done. The goal is
+active and matches the admitted objective; primary usage 14%, weekly 39%.
+
+S499's planned four-cell import-profile matrix did not run. CLO was launched,
+but its startup window became untargetable (`window is not a usable app
+window`); after refreshing app/window enumeration, screenshot capture returned
+`foreground window did not report a process id`. One CLO window remained in
+`list_windows` and CLO still reported as running, so normal File → Quit could
+not be reached and shutdown is unverified. The dedicated C: input remains
+hash-pinned; no exchange operation or settings change occurred. This is an
+automation/window-handle interruption, not evidence about CLO's DXF behavior.
+
+S499 exit packet:
+`docs/research/epic17/S499-clo-polo-import-options/S499-exit-packet.md`.
+Board start/exit `3101→3103→3107`; EPIC-17/G04-V03 remain In Progress, V01/V02
+Done. Control Center tests pass 42/42; exit preflight and `git diff --check`
+pass. No full repository/build/coverage run applies to this evidence-only
+slice.
+
+Elapsed estimate (`14:53:34–14:56:13 UTC`): implementation `0m`; focused
+launch/window recovery `1m`; durable evidence/board and focused verification
+`2m`; external-agent waits `0m`; maintainer-decision time `0m`.
+
+**Next:** work offline from S498's captured C: DXFs to characterize the exact
+five Polo point removals without assuming an import-mode cause. Resume the
+UI matrix only after CLO exposes a usable responsive window. CLO may still be
+running; do not claim it was closed.
+
+## EPIC-17 / G04 — Slice 498 CLO practical V03 retest
+
+S498 started `2026-10-08 14:20:55 UTC` from clean S497 `586fcf3` on
+`codex/epic-17-g04`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. S497 was highest;
+S498 is unique. Board start replay advanced `3095→3097`; G04-V03 stayed In
+Progress and V01/V02 Done. The goal record was inspected at this boundary:
+status is active and the objective still matches the admitted Epic; it is not
+stale and no UI resume is needed.
+
+The maintainer-authorized CLO 2026.1.310 (r58944) practical run completed in
+the existing responsive UI. Tee M and Woven M source outlines survive two
+DXF-ASTM export/reimport generations within 0.001 cm (Tee max
+`0.0000160001 cm`; Woven max `0.000074 cm`, with 114/114 Woven
+same-block/same-layer generation comparisons). Polo's five CUT contour
+failures reproduce in both generations, with exact-segment witness lower
+bounds `0.01019–0.01119 cm`, above the unchanged threshold. CLO accepted the
+deliberately missing terminal EOF control and rendered the three Tee pieces
+without an error/warning; this fails the negative-control gate. Separate Tee
+XS/M/XL imports succeeded but do not test native grade nesting. The UI showed
+a seam-allowance/Custom-mode information notice on valid imports. Screenshots,
+hashes, and reports remain under
+`C:\G04-CLO-DXF-Exchange\S498-practical-retest`. CLO was closed with File →
+Quit after testing.
+
+No V03 acceptance claim: industrial-profile conformance, declared units,
+layer/mark semantics, native grading, rights/local-only processing and an
+independent receiver remain unproven; Polo geometry and malformed-input
+behavior fail their gates. V03 remains In Progress with all gates intact.
+See `docs/research/epic17/S498-clo-practical-retest/S498-exit-packet.md`.
+Full repo coverage/build/browser/output gates remain due on the settled Epic
+candidate; this evidence-only slice has no production-code change.
+
+Elapsed estimate (`14:20:55–14:45 UTC`): implementation `0m`; focused CLO and
+geometry verification `20m`; durable records/board/closeout `4m`; external
+agent waits `0m`; maintainer-decision time `0m`.
+
+**Next:** retain all V03 holds and prioritize a bounded investigation of why
+CLO drops one vertex from five Polo cut contours and tolerates the missing EOF
+marker. Do not spend another slice repeating successful Tee/Woven M round
+trips.
+
+## EPIC-17 / G04 — Slice 497 CLO startup diagnosis
+
+S497 started `2026-10-08 14:11:53 UTC` from clean S496
+`6914335d17046d15caef968e2cf7189be90192ac` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S496 was highest; S497 is unique. Board start replay advanced
+`3089→3091`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done.
+
+Official CLO guidance names missing disk write permission as one possible
+cause of “Unable to launch CLO, it is not responding.” The current executable
+and install-folder ACLs grant `BUILTIN\Users` read/execute but not write, while
+the prior startup cache accepted writes. That makes permissions a hypothesis,
+not a verified cause. The Intel 530/630 immediate-crash article does not match
+the recorded delayed stall on this not-yet-identified `Intel(R) Graphics`
+adapter. No ACL, setting, driver, security, network, account, or app-file
+change occurred. OpenCode's official-source findings are reviewed in
+`docs/research/epic17/S497-clo-startup-official-diagnostics/`.
+
+The maintainer reported at closeout that CLO is running. This has not yet been
+observed through its window. S497 made no further app input under its read-only
+scope. Existing measured Tee/Woven/Polo round-trip results and every V03 gate
+remain unchanged; no compatibility claim is made. Validated exit replay links
+`E-G04-S497-EXIT` and retains G04-V03 In Progress. Full repository/coverage/
+build/output gates remain due on the settled Epic candidate.
+
+Approximate elapsed time: source and ACL review `2m`; external-agent wait and
+report review `3m`; implementation `0m`; durable packet/state/board and focused
+board verification `2m`; maintainer-decision time `0m`.
+
+**Next:** reserve S498 and inspect the already-running CLO window. If a
+responsive workspace is present, continue practical import/export scenarios
+with exchange files confined to `C:\\G04-CLO-DXF-Exchange`; otherwise capture
+the exact failure and seek a concrete recovery path. Do not relax rights,
+round-trip, all-recipe/profile, or V03 claim gates.
+
+## EPIC-17 / G04 — Slice 496 CLO startup diagnostics
+
+S496 started `2026-10-08 14:04:17 UTC` from clean S495
+`7927620c4f14a6eecbecf1df31d47c471d7284e0` on `codex/epic-17-g04`;
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+S495 was highest; S496 is unique. Start board replay advanced
+`3083→3085`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done.
+
+Read-only local logs show CLO authentication succeeded on two launches; the
+second advanced from “Creating Scene and Library” to “Loading CLO” but then
+Windows reported `Responding: False` before the pattern workspace appeared.
+The bounded Windows Application log contained no matching error/crash record;
+no crash dump was present. CLO's integrated graphics warning was observed but
+no settings were changed. No import/export occurred in S496; the idle app was
+closed. This reproduces a concrete startup/environment hold, not DXF
+incompatibility. Prior successful Tee/Woven subsets and the measured Polo
+failure remain unchanged. See
+`docs/research/epic17/S496-clo-startup-diagnostics/`.
+
+No source/test/product code, pattern geometry, DXF fixture/export, protected
+identity, V03 criterion, account, system setting, or local-handling condition
+changed. Process/log checks and durable exit replay are recorded in S496; the
+board keeps EPIC-17/G04-V03 In Progress. Full repository/coverage/build gates
+remain due only on the settled integrated Epic candidate.
+
+Elapsed estimates: implementation `0m`; local logs/event/process diagnostics
+`2m`; practical CLO launch checks and close `2m`; external-agent wait `0m`;
+maintainer-decision time `0m`; durable records and board closeout `1m`.
+
+**Next:** use a responsive rights-cleared exact receiver/build with documented
+local handling before further exchange. Keep the measured Polo failure and all
+unproven import-warning, semantic/marks, grade, negative-input and independent
+receiver gates open. No standards/factory/physical/production claim. Goal
+remains active.
+
+## EPIC-17 / G04 — Slice 495 existing CLO layer audit and startup check
+
+S495 started `2026-10-08 13:54:13 UTC` from clean S494
+`19272cafa73722124c5ee523f41b7663d80ad1e4` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S494 was highest; S495 is unique. Validated start replay advanced
+board revision `3077→3079`; EPIC-17/G04-V03 stay In Progress, V01/V02 Done.
+
+Hash-pinned read-only analyses of the existing C: Tee/Polo/Woven CLO exports
+confirm that numeric output layers contain multiple coincident representations
+of source contours. The same numeric IDs correlate with both CUT and SEW
+geometry, so geometry/counts do not establish a unique semantic layer map.
+Tee and Woven M contour results remain as previously recorded; Polo remains
+13/18 within the unchanged 0.001 cm gate. A fresh CLO launch at the user's
+request remained at “Creating Scene and Library”; Windows reported
+`Responding: False`. No project opened and no new import/export occurred. That
+launch failure does not negate earlier completed operations or prove format
+incompatibility. The idle process was closed. See
+`docs/research/epic17/S495-clo-layer-semantics-audit/`.
+
+The four existing S475/S476/S477/S478 analyzers passed their recorded hash,
+structure and geometry assertions. No production/test source, pattern geometry,
+DXF fixture/export, protected identity, V03 criterion, or claim changed. Global
+coverage/build gates remain reserved for the settled Epic candidate. The
+validated S495 exit replay links `E-G04-S495-EXIT` to G04-V03 and EPIC-17 and
+keeps their statuses unchanged.
+
+Elapsed-time estimates: implementation `0m`; focused verification `2m`; CLO
+practical startup check and close `3m`; external-agent wait `0m`; maintainer
+decision time `0m`; durable records and board closeout `2m`.
+
+**Next:** continue V03 only with rights-cleared access to the exact receiver
+and local-handling conditions. Keep the Polo tolerance failure and the S493
+rights/local-handling, warning, semantic/marks, grade, malformed-input, and
+independent-receiver gates open. No standards/factory/physical/production
+claim. EPIC-17 stays active.
+
+## EPIC-17 / G04 — Slice 494 S493 evidence packet hygiene
+
+S494 started `2026-10-08 13:50:04 UTC` from clean S493
+`96075a88b152313955eb11e0eae8616569f69a61` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S493 was highest; S494 is unique. Board start/exit revisions
+`3071→3073→3077`; EPIC-17 and G04-V03 are In Progress, V01/V02 Done; goal
+active.
+
+The staged review found extra EOF blank lines in the S493 start and exit
+packets; the earlier pre-stage diff check omitted those untracked files. S494
+removes only that whitespace and corrects S493's exit packet to state the
+actual check history. No result, fixture, product code, profile, claim,
+acceptance gate, or protected output changes. S493 remains a separate landed
+slice and its initial diff-check statement is explicitly superseded by this
+correction record.
+
+### Slice 493 — V03 evidence reconciliation
+
+`git diff --check` initially ran before the new S493 packet files were staged,
+so it did not inspect them; staged review then found the EOF whitespace that
+S494 fixes. The other S493 measurements and V03 status are unchanged. See
+`docs/research/epic17/S494-s493-evidence-hygiene/`.
+
+## EPIC-17 / G04 — Slice 493 V03 evidence reconciliation
+
+S493 started `2026-10-08 13:45:59 UTC` from clean S492
+`b402d571305e1d1256b091314271257447b5f1f4` on `codex/epic-17-g04`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S492 was highest and S493 is unique. The goal record is active.
+Start board revision 3064; EPIC-17/G04-V03 remain In Progress and V01/V02 Done.
+
+S493 maps every admitted V03/C04 gate to current source and measured evidence.
+Existing CLO practical tests are mixed: Tee M 6/6 contours within the 0.001 cm
+gate (max `0.0000160001 cm`); Woven M 24/24 (max `0.000074 cm`) and 114/114
+second-generation contour comparisons (max `0.000031 cm`); Polo M 13/18, with
+five CUT contours failing the threshold by witnessed lower bounds
+`0.01019–0.01118 cm`. The app operations completed without import/export error
+dialogs, but the imports displayed an unresolved seam-allowance notice. CLO
+rights are not affirmatively cleared for this product-development fixture
+use; numeric layers, grade semantics, negative-input handling, local-only
+processing and full receiver acceptance remain unproven. S493 performs no new
+CLO file/account operation and selects no profile. Full matrix and evidence
+limits: `docs/research/epic17/S493-v03-evidence-reconciliation/`.
+
+Validated board start replay advanced `3064→3066`; exit replay advanced
+`3066→3071`, linking the matrix and exit to G04-V03 and the exit to EPIC-17
+without changing statuses. `npm run control-center:test -- --run` passed
+`42/42`; S493 scripts pass `node --check`. The first pre-stage diff check did
+not inspect the untracked packet files; the staged check found extra EOF
+whitespace, fixed in S494. No production source/test, fixture, export bytes or protected identity changed,
+so no production coverage/build/export/full gate is due for this docs-only
+slice. No physical/factory/production-readiness claim is made.
+
+Elapsed estimates: evidence review/reconciliation `8m`; docs and board closeout
+`5m`; focused verification approximately `1m`; implementation `0m`;
+external-agent wait `0m`; maintainer-decision time `0m`.
+
+Next: continue V03 only after permitted use and local handling are established
+for an exact receiver/build; then close Polo geometry, warning, layer/mark,
+grade, negative-input and inspection gates with the frozen profile. Keep all
+criteria unchanged.
+
+### Slice 492 — Style3D Studio access/DXF screen
+
+S492 started `2026-10-08 09:22:45 UTC` from committed S491 `172c2fd` on
+`codex/epic-17-g04`. Refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S491 was
+highest and S492 is unique. Validated start commands advanced board
+`3058→3060`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal remains
+active and unchanged.
+
+S492 checks whether Style3D Studio's documented apparel-pattern DXF features
+have a no-cost, rights-cleared, Windows-local path suitable for G04. Work is
+source-only: no account, sign-in, terms, trial, contact, download/install,
+pattern, upload, or fixture. CLO is closed and not needed.
+
+S492's official-source matrix and exit packet are in
+`docs/research/epic17/S492-style3d-dxf-access/`. The Style3D desktop product
+supports pattern DXF import/export in some configurations and release notes
+mention Gerber/Lectra, but its public Free plan lists DXF import without DXF
+export. Its Free Version terms limit use to personal learning and prohibit
+commercial/profit and enterprise use. It is not selected for G04. Login is
+required; exact profile semantics and local-only handling are unproven. No
+account, trial, contact, install, file, or upload was used; CLO remains closed.
+
+Validated closeout advanced board `3060→3064`, linking the source matrix and
+exit to G04-V03 and exit to EPIC-17; statuses remain unchanged. Control Center
+passes `42/42`; S492 scripts pass `node --check`; `git diff --check` passes.
+No production source, fixture, or garment output changed. The full repository
+gate remains for the settled integrated Epic/PR candidate.
+
+Next: no candidate through S492 qualifies for V03 under the no-paid constraint.
+Continue only when an exact receiver/version has affirmative product-
+development rights, local-only file handling, and apparel-profile import and
+export. If that access remains unavailable, V03 and therefore EPIC-17 are
+blocked on an external access/authorization change; do not weaken acceptance.
+
+Elapsed `2m20s` (`09:22:45–09:25:05 UTC`; estimates): official-source review
+`1m00s`; implementation `0m`; focused verification `0m13s`; durable
+packet/board work `1m07s`; external-agent wait `0m`; maintainer-decision time
+`0m`.
+
+### Slice 491 TUKAcad trial/profile screen (prior boundary)
+
+### Slice 491 TUKAcad trial/profile screen (prior boundary)
+
+S491 started `2026-10-08 09:19:30 UTC` from committed S490 `c10a9c3` on
+`codex/epic-17-g04`. Refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S490 was
+highest and S491 is unique. Validated start commands advanced board
+`3052→3054`; EPIC-17/G04-V03 remain In Progress, V01/V02 Done. Goal remains
+active and unchanged.
+
+The candidate lead is the vendor's advertised no-cost 14-day TUKAcad Learning
+Edition. This slice will check only official trial/package scope, Windows
+local availability, and exchange-profile directionality. No account,
+checkout/payment, vendor contact, download/install, or fixture use is
+authorized. No source conclusion yet. CLO is closed and is not needed for this
+screen.
+
+S491's official-source matrix and exit packet are in
+`docs/research/epic17/S491-tukacad-trial-profile-screen/`. The vendor advertises
+a free 14-day Learning Edition, but the listed CLE tier does not include
+data import/export; the feature appears under paid CPE. The trial's feature
+unlock, exact apparel-pattern DXF exchange, rights and local file handling
+are not established. No account, checkout, payment, contact, download,
+installation, or fixture use occurred. Do not select it or infer current trial
+terms from a 2021 walkthrough.
+
+Validated board closeout advances `3054→3058`, links the matrix/exit to
+G04-V03 and the exit to EPIC-17, preserving all statuses. Control Center
+passes `42/42`; S491 scripts pass `node --check`; `git diff --check` passes.
+No production code or rendered pattern output changed. See the S491 packet
+for sources, limits and detailed exit evidence.
+
+Elapsed `2m37s` (`09:19:30–09:22:07 UTC`; estimates): official-source review
+`0m45s`; implementation `0m`; focused verification `0m10s`; durable
+packet/board work `1m42s`; external-agent wait `0m`; maintainer-decision time
+`0m`.
+
+Next: screen a single unreviewed apparel software candidate only if current
+official evidence suggests an accessible no-cost Windows path and explicit
+pattern DXF input/output; preserve Gate 0 and round-trip gates.
+
+### Slice 490 CLO account grant check (prior boundary)
+
+### Slice 490 CLO account grant check (prior boundary)
+
+S490 inspected only CLO's visible trial/account notice. It showed CLO
+Standalone OnlineAuth `2026.1.310`, 14 days left, subscription-renewal text,
+and the date `22.10.2026`; it did not show an account-specific grant or
+agreement scope covering local G04 product-development CAD exchange
+evaluation. Do not infer rights from trial duration or available features.
+No project, pattern, fixture, or DXF was opened; there was no import/export,
+account action, acceptance, upload, payment, or file save. The notice was
+dismissed without checking “Don't show again”; CLO was closed and a fresh
+inventory verified no running process/windows. Chrome remained untouched.
+
+Validated board closeout advances `3049→3052`, links the exit packet to
+G04-V03 and EPIC-17, and preserves EPIC-17/G04-V03 In Progress and V01/V02
+Done. `npm run control-center:test` passes `42/42`; S490 scripts pass
+`node --check`; `git diff --check` passes. No production code changed, so
+changed-code coverage and garment rendering do not apply. Full repository
+gates remain for the settled integrated Epic/PR candidate. See
+`docs/research/epic17/S490-clo-account-grant-check/S490-exit-packet.md`.
+
+Elapsed `5m57s` (`09:10:34–09:16:31 UTC`; estimates): account UI inspection
+`3m10s`; implementation `0m`; focused verification `0m09s`; app closure and
+inventory verification `0m40s`; durable record/board `1m58s`; external-agent
+wait `0m`; maintainer-decision time `0m`.
+
+Next: keep V03 Gate 0 held. Continue only if an exact local receiver/build
+has affirmative rights-cleared access and local file handling. If the
+no-paid-software preference continues, no candidate through S490 qualifies.
+Preserve all V03 exact-profile, same-receiver round-trip, grading, and
+negative-input gates, plus legacy DXF behavior and protected export
+identities.
+
+### Slice 489 StyleCAD and Optitex access screen (prior boundary)
+
+S489 checked the no-cost access path only for StyleCAD and Optitex, candidates
+already included in S464's installed-app inventory. StyleCAD's public PDS
+demo does not establish a local trial license; quote-based PDS pricing lists
+generic DXF import/export, while the reviewed sources do not establish free
+local rights or exact AAMA/ASTM export behavior. Optitex's explicit free trial
+applies to hosted OPTINEDCloud, while local PDS installation is license-key
+gated. Neither clears V03 Gate 0 on current public evidence. This is not proof
+that a private exception cannot exist. Codex independently reviewed the exact
+OpenCode report and primary sources. No installer, account, trial, vendor,
+fixture, or CAD file was accessed.
+
+The Windows app inventory showed CLO installed but not running (no windows);
+Chrome's CLO page remained open and untouched. CLO was unnecessary for this
+source-only check. Validated board closeout is revision `3047` from
+`3041→3047`; G04-V03 and EPIC-17 remain In Progress, V01/V02 Done. After one
+transient Windows `EPERM` during the third board rename, the partial board was
+validated and the state-aware replay verified already-persisted commands
+before completing the remaining ones. `npm run control-center:test` passes
+`42/42` on settled revision 3047; all four S489 scripts pass `node --check`;
+`git diff --check` passes. No production code changed; the full repository
+gate remains for the settled Epic/PR candidate. See the S489 exit, matrix,
+Codex review, and replay diagnostic in
+`docs/research/epic17/S489-local-cad-trial-access/`.
+
+Elapsed `8m58s` (`08:59:44–09:08:42 UTC`; category estimates): primary source
+research `1m45s`; independent OpenCode wait/review `3m15s`; Codex
+cross-review/app-state check `2m`; focused verification and replay diagnosis
+`1m`; durable record/board work `0m58s`; implementation `0m`; rendered/output
+review `0m`; maintainer-decision time `0m`.
+
+Next action: acquire or identify a rights-cleared local receiver and exact
+build. Before opening fixtures, document Gate 0 rights and local file
+handling; then qualify the exact apparel profile and test representative
+round trips. If the no-paid-software preference remains, no receiver found in
+S464–S489 currently qualifies; preserve V03's hold and every gate.
+
+### Slice 488 GRAFIS and AccuMark source screen (prior boundary)
+
+S488 screened GRAFIS and Gerber AccuMark against V03's unchanged rights,
+Windows-local handling, exact apparel-profile, round-trip, grade, and
+negative-input gates. GRAFIS's free training edition disables pattern
+import/export; its documented exchange-capable commercial system is paid.
+AccuMark's official help documents AAMA/ASTM exchange, but reviewed access
+materials require assigned licensed product access and do not document a
+no-cost route. Missing public proof is recorded as unqualified on current
+evidence, not proof that an exception cannot exist. Neither candidate is
+selected. No software, account, fixture, or CAD file was accessed. Codex
+checked OpenCode's exact-model source review and corrected its absence-of-
+evidence wording. Details and primary sources are in
+`docs/research/epic17/S488-grafis-accumark-source-screen/`.
+
+Validated board replay advances `3034→3039`; it links S488's exit packet,
+Codex candidate matrix, and OpenCode review to G04-V03 and the exit to
+EPIC-17. `npm run control-center:test` passes `42/42`; S488 scripts pass
+`node --check`; `git diff --check` passes. No production code changed, so no
+changed-code coverage applies and the full repository gate remains for the
+settled Epic/PR candidate. EPIC-17 and G04-V03 remain In Progress; V01/V02
+remain Done. Preserve all V03 and export-identity gates. The active goal
+record still matches this admitted objective. CLO was already not running;
+its browser tabs were left untouched.
+
+Elapsed `11m55s` (`08:45:17–08:57:12 UTC`; category estimates): source
+research/assessment `3m35s`, independent-agent wait and source cross-review
+`3m15s`, implementation `0m`, focused verification `1m30s`, rendered/output
+review `0m` (no candidate qualified for local fixture work), durable
+record/board work `3m35s`, maintainer-decision time `0m`.
+
+Next action: conduct one bounded primary-source screen of a previously
+unreviewed apparel-CAD candidate only if it has a plausible rights-cleared,
+no-cost Windows-local path and apparel-profile input/output. Do not download,
+install, create an account, or run fixtures before Gate 0 passes.
+
+### Slice 487 CLO trial-purpose boundary (prior boundary)
+
+S487 rechecked the current official CLO rights sources for the owner's
+reported 14-day trial against future G04 product-development exchange tests.
+The official trial help updated 2026-10-07 says the standard web trial is for
+users eligible for an Individual License; Enterprise and Academic users need
+a separate trial. Additional Terms §5.1.4 continues to limit a trial to
+software-capability evaluation/demonstration and to exclude competitive
+analysis and commercial/for-profit purposes. The Additional Terms page remains
+dated 2024-09-02; General Terms remain dated 2026-03-30.
+
+Public pages do not establish the exact account agreement/class or whether
+this G04 product-development use falls within the trial exclusion or another
+grant. Therefore the published evidence does not affirmatively clear CLO's
+V03 Gate 0; keep CLO excluded for future V03 fixtures. This is a conservative
+evidence hold, not legal advice or a conclusion about past use. Keep S475–S478
+as bounded technical observations only. The independent OpenCode review and
+Codex cross-check are linked in
+`docs/research/epic17/S487-clo-trial-purpose-boundary/`.
+
+No app/account/fixture/file was accessed and no upload or vendor contact
+occurred. CLO was not running in the current app inventory, so no close action
+was needed; browser tabs were left untouched. V01/V02 remain Done and V03 /
+EPIC-17 remain In Progress. All-seven V02 acceptance, every V03 gate, legacy
+DXF behavior, protected export identities, and no-physical/factory claims
+remain unchanged. The goal remains active and its admitted objective is
+unaltered.
+
+Start `2026-10-08 08:37:00 UTC` from clean S486 `b594e41`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Validated board start replay `3025→3027`; exit replay `3027→3032`. Control
+Center 42/42 passed at start and exit. S487 elapsed 6m54s: Codex source review
+and synthesis 1m20s; external-agent process/wait and review 1m25s; durable
+records/board 3m01s; focused verification 1m08s; product implementation 0m;
+maintainer-decision time 0m. **Next:** only proceed with V03 using a separately
+rights-cleared local apparel-CAD receiver/profile or affirmative rights
+evidence for a specific candidate, then pass exact-build/local-handling,
+profile input/output, representative round-trip, grading/options, and
+negative-input checks. Do not repeat broad receiver searches or reopen CLO
+without Gate 0.
+
+## EPIC-17 / G04 — Slice 486 free/local receiver search
+
+S486 reviewed three new apparel-CAD receiver candidates: iDigit Lite, Fashion
+Dot Tailoring CAD, and Wild Ginger Cameo v8. None satisfies V03/C04. iDigit
+advertises AAMA DXF output but does not establish DXF reception, rights,
+Windows 11 or local-only handling. Fashion Dot advertises Windows 10/11 and
+generic DXF output but is paid and does not document apparel-DXF import or an
+AAMA/ASTM profile. Cameo v8 documents generic AutoCAD DXF in/out but is paid;
+the reviewed pages do not establish Windows 11/local-only handling or an
+apparel profile. The independent OpenCode scan and Codex review are linked in
+the S486 packet; Valentina remains an older S460 lead, and its publisher FAQ
+explicitly says it cannot import DXF. No candidate or profile is selected.
+
+No software was downloaded, installed, launched, or used with a fixture; no
+account, vendor, or hosted CAD service was used. CLO remains closed. V01/V02
+Done and V03/EPIC-17 In Progress. All-seven V02, every V03 rights/local/profile/
+round-trip/grade/negative gate, legacy DXF behavior and protected export
+identities remain unchanged. Packets:
+`docs/research/epic17/S486-free-local-receiver-search/S486-start-packet.md`,
+`S486-codex-candidate-matrix.md`, `S486-opencode-findings.md`, and
+`S486-opencode-review.md`.
+
+Started `2026-10-08 08:21:05 UTC` from S485 `f3813a3`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board start replay `3015→3019`, validated exit replay `3019→3024`, and a
+validated next-step clarification `3024→3025`; focused
+Control Center 42/42. No V03 acceptance advances and the receiver-access wait
+remains unbounded. Conditional estimate remains 4–9 V03 proof/round-trip
+slices plus 3–5 final review/merge/deployment slices after qualifying access.
+**Next:** a source-only review of the unresolved exact-build rights boundary
+for the already installed CLO evaluation, without reopening CLO or using any
+fixture; its result must either establish an allowed Gate 0 or keep that path
+closed and preserve the V03 hold.
+
+## EPIC-17 / G04 — Slice 484 Super V8 cloud boundary
+
+S484 checked Richpeace's exact-version launch article. It states that Cloud
+Super Arrangement is SaaS: the app sends marker commands for remote processing
+and retrieves markers locally; the function is paid. Exclude that hosted
+marker path. This does not identify the data path for local DXF import/export
+or the separate limited-time cloud-conversion feature. Super V8 remains a
+conditional, unselected lead; all V03 rights/local/profile/round-trip/grade/
+negative gates stay open. No app, account, fixture, or cloud function was used.
+Packet: `docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md`.
+
+Start `2026-10-08 08:12:54 UTC` from clean S483 `0521929`; refreshed
+`origin/main` remains an ancestor. Board `2999→3003→3007`; Control Center
+42/42. A narrowly scoped installation-approval question is pending; this
+independent source review did not presume consent. **Next:** if approved,
+retrieve only the official package in the designated C: exchange folder and
+perform the bounded Gate 0 install inspection; otherwise preserve V03 hold and
+continue only independent evidence work.
+
+## EPIC-17 / G04 — Slice 483 Richpeace Super V8 candidate check
+
+S483 assessed the publisher's distinct Garment CAD Super V8 against V03.
+Richpeace calls this build “genuine free,” but official feature disclosures
+only show HPGL/CUT exchange and do not document apparel DXF/AAMA/ASTM; cloud
+computing and time-limited cloud conversion are disclosed, and Windows 11 is
+not listed. A third-party listing claims DXF and AAMA/ASTM formats and Windows
+11, but package/build provenance, rights, local processing, and exact
+round-trip are unverified; do not use that package. Older V8 evaluation-copy
+manual claims are adjacent-version evidence only. No download, install,
+account, fixture, or external transfer occurred. Super V8 is a conditional
+inspection lead, not a selected receiver. V01/V02 remain Done; V03 and the
+Epic remain In Progress with gates unchanged. Packet:
+`docs/research/epic17/S483-richpeace-super-v8-candidate/S483-exit-packet.md`.
+
+Start: `2026-10-08 08:09:46 UTC` from clean S482 `64da604`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board `2991→2995→2999`; Control Center 42/42; goal `active` and aligned.
+**Next:** only with explicit action-time approval, obtain the publisher's
+official package under `C:\G04-CLO-DXF-Exchange`, inspect it, and, if separately
+approved, attempt a standard install for Gate 0 without account/term acceptance
+or fixtures until rights, exact modes, local handling and host behavior pass.
+
+## EPIC-17 / G04 — Slice 482 Richpeace package preflight
+
+S482 followed the official Richpeace V8 Free English download link to its
+publisher-hosted RAR URL, but the exact binary host timed out on both the
+redirected fetch and a no-body HEAD request (15 seconds). The portal lists a
+64 MB package updated 2021-10-13. No package bytes, digest, signature, exact
+build resource, or embedded terms were available; no default Downloads path
+was used. This does not clear rights, local handling, integrity, or Windows 11
+behavior. No installation, fixture, external transfer, or product change
+occurred. V01/V02 remain Done; G04-V03 and EPIC-17 remain In Progress. All
+acceptance gates, legacy DXF behavior, and protected export byte identities
+remain unchanged. Packet:
+`docs/research/epic17/S482-richpeace-package-preflight/S482-exit-packet.md`.
+
+Start: `2026-10-08 08:03:10 UTC`, clean starting commit S481 `96608bf`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. Board start/exit `2983→2987→2991`; Control Center 42/42 and
+`git diff --check` pass. The goal remains active. **Next:** continue only with
+a safely obtained package plus explicit action-time install approval, then
+pass Gate 0 (rights, local handling, exact build/modes, host behavior) before
+any fixture; otherwise seek an already accessible rights-cleared local
+receiver without weakening V03.
+
+## EPIC-17 / G04 — Slice 481 receiver candidate/access reconciliation
+
+S481 rechecked the existing S465–S480 candidate evidence against C04's
+unchanged rights, local-processing, apparel import/export, actual round-trip,
+grade and negative-case gates. No candidate currently passes all gates.
+Richpeace Garment CAD V8.0 Free Version-English remains the strongest local
+lead, but evaluation rights/local processing are undocumented and its official
+page lists Windows XP/7/8/10, not this Windows 11 host. No app was installed.
+Before fixtures, a user-authorized standard installation attempt or another
+rights-cleared supported receiver is required, followed by displayed-terms,
+local handling and exact-mode checks. Stop on any failure and do not weaken
+V03. Packet/matrix:
+`docs/research/epic17/S481-v03-candidate-access-reconciliation/`.
+
+Start: `2026-10-08 07:56:44 UTC` from S480 `6dc1cab`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board start
+2975→2979; exit 2979→2983. Goal remains active; latest goal-record inspection
+found matching objective and active status.
+
+**Next:** await explicit authorization for the conditional Richpeace V8
+installation attempt or owner-provided supported, rights-cleared receiver
+access. Only then perform Gate 0 before any fixture; otherwise continue only
+independent V03 preparation and keep the Epic open.
+
+## EPIC-17 / G04 — Slice 480 independent parser assessment
+
+S480 pinned Open Patterns at `1afefdb8e9e01a7a7d7222adef8432d639fcb1b3`,
+checked package/source behavior, and attempted all three hash-verified S463
+generic M fixtures locally. Tee, Polo, and Woven all throw at
+`Object.keys(dxf.blocks)` because these fixtures have no block table. The
+parser requires ASTM/AAMA metadata-tagged blocks and numeric layers; its CLI
+emits JSON/SVG/raster but has no DXF writer. It is rejected as a reader for
+these fixtures and cannot prove V03 round-trip. Parser, runtime, and derived
+evidence are under `C:\G04-CLO-DXF-Exchange`; no fixture was uploaded. No
+V03 gate, all-seven V02 acceptance, legacy DXF behavior, or protected export
+identity changed. Packet:
+`docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md`.
+
+Start: `2026-10-08 07:45:46 UTC` from S479 commit `aa6cf64`; refreshed
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+Board revision 2967→2971 at start and 2971→2975 at exit. Goal remains active.
+
+**Next:** qualify only an already-reviewed free/local receiver with lawful
+access and an industrial profile; if none exists, record the exact access
+dependency without weakening round-trip acceptance.
+
+## EPIC-17 / G04 — Slice 479 CLO rights and profile review
+
+S479 reviewed CLO's current published trial/license/software terms and DXF
+documentation against S475–S478. The Trial License is limited to evaluation
+and demonstration, with express exclusions for commercial/for-profit use; the
+applicable grant and scope for the observed product-development sessions are
+not evidenced. CLO retains limited Work Product processing rights for
+operation and Content Analytics. Local import/export UI does not prove
+local-only processing. CLO is not selected as a rights-cleared V03
+receiver/profile; prior output remains bounded technical evidence only. No
+further CLO pattern trial until rights evidence or a rights-compatible
+alternative is available. No existing gate, all-seven V02 acceptance, export
+identity, or claim boundary changed. Packet:
+`docs/research/epic17/S479-clo-rights-profile-review/S479-exit-packet.md`;
+official-source review:
+`docs/research/epic17/S479-clo-rights-profile-review/S479-opencode-rights-review.md`.
+
+Start: `2026-10-08 07:34:16 UTC` from S478 commit `aae706d1d048b830c87871e42ef9162563c525e2`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Board
+revision 2959→2963 at start; exit replay is recorded at 2963→2967. Goal
+remains active and aligned.
+
+**Next:** reuse S465–S471 evidence to test whether any free, local,
+rights-compatible receiver/profile can satisfy V03. Do not run further CLO
+pattern trials, upload fixtures, weaken V03, or make compatibility claims.
+
+## EPIC-17 / G04 — Slice 478 Woven generation-two reimport
+
+S478 reimported S477's Woven M generation-two DXF in CLO `2026.1.310 (r58944)`
+using DXF-AAMA, centimeters, 100%, no rotation, original grain, and the prior
+notch settings. The live 2D result showed twelve distinct pieces. The native
+project, raw CLO 2D snapshot, and white-background inspection composite are
+saved only under `C:\G04-CLO-DXF-Exchange`. The hash-bound analyzer confirms
+12 piece blocks/inserts, 114/114 same-block/layer contours within 0.001 cm of
+the previous CLO export (maximum delta 0.000031 cm), and source matches for
+24/24 outlines within 0.001 cm (maximum delta 0.000074 cm). The output still
+uses AC1009 without `$INSUNITS` and contains repeated contours on numeric
+layers. This fixture does not prove layer meaning, standards conformance, or
+industrial compatibility. V03 remains In Progress; V02 acceptance, legacy DXF
+behavior, and protected identities are unchanged. Packet:
+`docs/research/epic17/S478-woven-generation-two-reimport/S478-exit-packet.md`.
+
+Start: `2026-10-08 07:15:28 UTC`; S477 `68cc8f35423463fbc6dc54165c97816776fde105`
+was clean on `codex/epic-17-g04`; refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S478 began from
+board revision 2951 and its validated exit replay advances it from 2955 to
+2959. The goal remains active and aligned.
+
+**Next:** continue the admitted V03 rights/profile and receiver evidence work
+from S476–S478. Preserve the 0.001 cm evidence threshold, numeric-layer
+ambiguity, no-compatibility-claim limit, and all other V03 gates.
+
+## EPIC-17 / G04 — Slice 476 tests representative CLO fixtures
+
+S476 completed local CLO `2026.1.310 (r58944)` import/export/reimport trials
+for the S463 Polo M and Woven M fixtures. All receiver CAD files, native
+projects, screenshots, and analysis remain under
+`C:\G04-CLO-DXF-Exchange`. The same observed DXF-AAMA import and DXF-ASTM
+graded-nest export/reimport settings as S475 were used, with centimeters, 100%,
+and no rotation. Woven source geometry passes the unchanged C04 0.001 cm
+coordinate threshold for 24/24 contours (maximum `0.000074 cm`). Polo only
+passes for 13/18; three CUT contours exceed the threshold (best matches
+`2.000004 cm` and `9.298007 cm` twice) and two have no same-vertex-count output
+candidate. Do not claim Polo round-trip preservation. Both outputs declare
+`AC1009`, omit `$INSUNITS`, and duplicate geometry across undocumented numeric
+layers. Reimport screenshots show the expected 9 Polo and 12 Woven pieces;
+individual mark semantics and option/grade fidelity remain unverified.
+
+OpenCode's required Muse Spark 1.3 xhigh normal-mode research completed and was
+reviewed against official CLO/ASTM/Autodesk sources. CLO's `DXF-ASTM` menu
+label does not establish conformance or factory readiness: D6673-04 cites
+AutoCAD Version 13; D6673-10 is withdrawn with no replacement; AC1009 is
+R11/R12; output has no embedded units declaration; no authoritative CLO layer
+map was found. Full standard text and numeric layer clauses remain unreviewed.
+No profile or receiver is qualified by S476. V01/V02 stay Done; G04 V03 and
+EPIC-17 stay In Progress, with all criteria, export identities and claim limits
+unchanged. No physical-fit, factory-acceptance or production-readiness claim.
+
+Start board revision 2935 advanced to 2939; S476 exit is preflighted from 2939.
+Start and exit packets: `docs/research/epic17/S476-clo-representative-roundtrips/S476-start-packet.md`
+and `S476-exit-packet.md`; external research:
+`docs/research/epic17/S476-clo-representative-roundtrips/S476-opencode-research-result.md`.
+
+**Next:** diagnose the five Polo CUT contour mismatches with a read-only
+source/output analysis. Do not change the source pattern, product code, or V03
+claims from the CLO observation alone.
+
+## EPIC-17 / G04 — Slice 475 verifies one local CLO Tee round trip
+
+S475 used CLO `2026.1.310 (r58944)` to import the S463 standard-M Tee, save and
+reopen a native project, export `DXF-ASTM`, and reimport it with matching
+`DXF-ASTM`. All DXF, native-project, screenshot, and analysis files remain in
+`C:\G04-CLO-DXF-Exchange`. The exact input hash still matches the S474 oracle.
+All six source CUT/SEW contours match closed output polylines with maximum
+per-coordinate delta `0.0000160001 cm`, within C04's 0.001 cm limit. Three
+pieces and inner/outer contours are visible after reimport; CLO reports seam
+allowances are retained in Custom mode.
+
+The export contains 24 closed polylines across three piece blocks: each source
+CUT contour has six coincident output representations across numeric layers,
+and each source SEW contour has two. The reimport shows no extra visible
+strokes, but this one sample does not resolve numeric-layer semantics or prove
+general semantic fidelity. V03 remains In Progress; rights/scope review,
+Polo/Woven, grading, and other representative round trips remain. No
+compatibility or ASTM conformance claim. V01/V02 remain Done; the admitted
+all-seven V02 acceptance, export identities, and V03 gates are unchanged.
+
+S475 began from clean commit `d34f6f32dd75b5043ca52faf6414273e54f36d86`;
+refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an
+ancestor. S474 was highest and S475 unique at start. Board revision 2927
+advanced to 2931 on start replay; the validated exit replay advances it to
+2935 while EPIC-17 and G04-V03 remain In Progress. Focused output analysis
+passes all six outline matches. No production code, source geometry, tests,
+protected export identity or baseline changed. See
+`docs/research/epic17/S475-clo-tee-roundtrip/S475-exit-packet.md` and the C:
+folder inventory there. The start packet transparently records that desktop
+actions began before it was written.
+
+**Next:** reserve S476 after refreshing branch/board state. Resolve the output
+layer-multiplicity interpretation and complete the exact CLO rights/scope
+review; then trial a separate representative fixture only within
+`C:\G04-CLO-DXF-Exchange`. Do not infer Polo/Woven or graded-size support from
+this Tee result.
+
+## EPIC-17 / G04 — Slice 471 screens free receiver alternatives
+
+A focused current-source review found no free alternative that both works on
+the Windows 11 host and meets V03 apparel import/export while staying within
+the admitted local/no-hosted boundary. Seamly2D supports Windows 11 but its
+project confirms it cannot import DXF. OpenMarker is local/free and imports
+limited DXF, but it is not production-ready and export is still planned.
+Garment.dev claims AAMA/ASTM exchange but is invite-only and account-backed in
+a browser, outside this Epic's hosted-service exclusion. No fixtures were
+uploaded. Richpeace V8 remains the strongest documented exchange candidate,
+but Windows 11 is not in its published OS range.
+
+S471 validated start/exit board replays 2899→2903→2907; Control Center passes
+42/42 and `git diff --check` passes. EPIC-17/V03 remain In Progress; V01/V02
+Done. Packet: `docs/research/epic17/S471-free-receiver-alternatives/`.
+**Next:** owner may try the normal Richpeace V8 Free English installer with
+the disclosed Windows 11 caveat; verify exact build, terms, local handling and
+menus before opening any fixture. Otherwise obtain a different lawful local
+receiver/version; no online service or partial viewer satisfies the gate.
+
+## EPIC-17 / G04 — Slice 470 qualifies receiver candidate for this host
+
+The current host reports Windows 11 Pro build 26200 (Microsoft maps this to
+Windows 11 25H2); `Get-ComputerInfo` returned a conflicting Windows 10 label,
+which is disclosed in the packet. Richpeace's official V8 free English and
+V10 free demo pages list Windows only through Windows 10. V8 remains the
+stronger documented exchange candidate because its linked manual lists AAMA/
+ASTM import and ASTM export; V10's free demo page documents import but no
+apparel-format export. Neither vendor page confirms Windows 11 compatibility.
+No install, settings change, or fixture use occurred. The S469 checklist now
+states this compatibility caveat and says to stop if a normal install fails or
+is unstable.
+
+V01/V02 remain Done; EPIC-17/G04-V03 remain In Progress. S470 started at board
+revision 2891; validated start/exit replay advanced 2891→2895→2899.
+`npm run control-center:test` passes 42/42 and `git diff --check` passes.
+Evidence is linked in
+`docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md`.
+**Next:** the owner may attempt the normal official V8 install, understanding
+Windows 11 support is unverified. If it runs, first check exact About/build,
+terms, exchange menus and local handling; do not open a fixture until these
+preconditions pass.
+
+## EPIC-17 / G04 — Slice 469 prepares the local receiver trial
+
+S469 adds an operator checklist for the S468 Richpeace Garment CAD V8.0 Free
+Version-English candidate and the synthetic S463 fixture pack. First check
+exact product/build, evaluation rights, import/export menu labels, and local
+file handling without opening a pattern. If those pass, the runbook describes
+the local Tee/Polo/Woven, separate-size and malformed-control trial plus the
+required output comparisons. No install, fixture transfer, or CAD exchange
+occurred; no receiver/profile or compatibility claim is selected. The checklist
+does not establish native multi-size grading and does not change any V03 gate.
+
+V01/V02 remain Done; EPIC-17/G04-V03 remain In Progress. Start board revision
+2883; validated start and exit replay 2883→2887→2891. `npm run
+control-center:test` passes 42/42; the S463 independent fixture verifier passes
+for six positive and one negative fixture; `git diff --check` passes. See
+`docs/research/epic17/S469-local-receiver-trial-runbook/S469-exit-packet.md`
+and `receiver-trial-checklist.md`. **Next:** after owner installation, verify
+the About version/build, evaluation terms, exchange menu modes, and local-only
+handling; do not open fixtures until those preconditions pass.
+
+## EPIC-17 / G04 — Slice 468 qualifies Richpeace V8 Free as next receiver trial
+
+The official Richpeace English V8 free-evaluation listing links a V8 manual that documents AAMA/ASTM import and ASTM export. This is the strongest downloadable candidate so far, but the installed free-build menus, evaluation rights, and local-only file handling remain unverified. Do not load a fixture until those are checked and cloud conversion is avoided. No software installed, account created, terms accepted, or files transferred. V03 remains In Progress; V01/V02 Done. Board revisions 2875→2879→2883. Packet: `docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md`. **Next:** owner may install Richpeace Garment CAD V8.0 Free Version-English from the official listing, then report About/version and import/export choices before any pattern is opened.
+
+## EPIC-17 / G04 — Slice 467 reconciles free-version DXF claims
+
+The official GetonAgain free-version pages state generic DXF import/export and AAMA/ASTM import, but do not establish AAMA/ASTM export, on-device handling, or rights. Phone registration and cloud SuperNest are disclosed. No install, registration, fixture transfer, or profile selection occurred. Do not use a fixture until exact build/modes, license, and local-only pattern handling are established. G04-V03 remains In Progress; V01/V02 Done. Board revisions 2867→2871→2875. Packet: `docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md`. **Next:** owner may inspect the installed free build/version and format menu, without loading a pattern; reject it if the required exchange path uses cloud processing or lacks an AAMA/ASTM export mode.
+
+## EPIC-17 / G04 — Slice 466 qualifies a free CAD import candidate
+
+GetonAgain Garment CAD Free Version is a candidate, not a selected V03 receiver. Its official free-version page explicitly lists AAMA/ASTM DXF import and says phone-number registration is required; it mentions cloud super-nesting. The free page does not establish export parity, local handling, or rights. Do not load S463 fixtures until the installed free build/version, exact export modes, privacy/terms, and local file handling are checked. No install, registration, file transfer, compatibility claim, product change, or acceptance change occurred. V03 remains In Progress behind every admitted rights/profile/fixture/round-trip gate; V01/V02 Done.
+
+S466 board revisions 2859→2863→2867; Control Center test and `git diff --check` are the focused documentation/board checks. Packet: `docs/research/epic17/S466-free-garment-cad-candidate/S466-exit-packet.md`. **Next:** owner may install the candidate and report exact version and available DXF modes. Inspect local handling before opening any fixture. Goal remains active through actual V03 proof, final review/gates, safe merge and any required deployment.
+
+## EPIC-17 / G04 — Slice 465 identifies a free browser receiver candidate
+
+Pixie Space 0.2.0 is a free, no-install/no-login local-first candidate for a
+witnessed V03 test. Its own site says drawing files stay in the browser and
+are not uploaded. The live menu offered generic DXF and `DXF — AAMA (ASTM
+D-6959)`. ASTM's official catalog identifies D6959 as a withdrawn sewn-product
+plotting-device format, not an apparel pattern interchange format; do not
+claim ASTM conformance from that menu label. Pixie's present grade behavior is
+not established. I attempted File → Open in the Codex browser, but no local
+file chooser appeared; no S463 fixture was loaded or transmitted and no actual
+round trip is proven. No profile is selected and V03 acceptance is unchanged.
+
+S465 board revisions 2851→2855→2859; EPIC-17/V03 remain In Progress; V01/V02
+remain Done. Packet: `docs/research/epic17/S465-free-browser-receiver-candidate/`.
+## EPIC-17 / G04 — Slice 464 confirms no standard local receiver is exposed
+
+Read-only checks of HKLM 64/32-bit and HKCU uninstall entries, conventional
+Program Files directories, Appx package names and common Start-menu shortcut
+names found no apparel-pattern CAD receiver candidate. Loose-string false
+matches (FL Cloud for CLO; Notepad for PAD) were eliminated by token-aware
+patterns. No application, license, activation, credentials, trial, user files,
+or network shares were inspected. This is bounded to standard discovery
+surfaces, not a claim that no app exists in any custom folder or machine.
+
+Validated board revisions 2842→2846→2851; Control Center passes 42/42. V01/V02
+remain Done; EPIC-17/V03 remain In Progress. No product or exporter changes.
+S464 packet: `docs/research/epic17/S464-local-receiver-availability/`.
+V03 still needs owner-provided lawful access to an exact receiver/build before
+profile selection and witnessed round trips. The active goal remains needed
+through the final gates and safe merge.
+
+## EPIC-17 / G04 — Slice 463 prepares V03 generic-DXF receiver fixtures
+
+S463 adds six valid generic DXFs (simple Tee, marked Polo, marked Woven shirt,
+and separate source-graded Tee XS/M/XL files) plus a malformed negative
+control. The source manifest records recipe inputs, size steps, source commit,
+source-file hashes, DXF structure, byte lengths, and fixture SHA-256 values.
+Regeneration and independent verification pass. The Tee size files are
+separate single-size DXFs; they do not test or prove native multi-size grading.
+No receiver/profile or compatibility claim is selected.
+
+Focused export and protected-identity tests pass 22/22; Control Center passes
+42/42. Validated board revisions 2831→2835→2842 preserve EPIC-17/V03 In
+Progress and V01/V02 Done. Packet and fixtures:
+`docs/research/epic17/S463-v03-receiver-fixture-pack/`. V03 still needs lawful
+access to an exact receiver/build and witnessed import/export/round-trip proof.
+Goal remains active and necessary through final review, required gates, PR,
+safe merge and any deployment. Next: use an owner-provided exact local CAD
+receiver/version to qualify a profile and test these fixtures.
+
+## EPIC-17 / G04 — Slice 462 closes final evidence diff hygiene
+
+S462 removes one extra EOF blank line from the S461 start packet and corrects
+S461's closeout note to disclose the staged-check finding. S460/S461 commits
+remain unchanged. Refreshed `origin/main` is an ancestor; board revisions
+2821→2825→2831; `npm run control-center:test` passes 42/42 and the unstaged
+diff check passes. The staged diff check is the immediate pre-commit gate.
+V01/V02 remain Done and V03/EPIC-17 remain In Progress. No product, DXF,
+protected-export identity, receiver choice or acceptance gate changed.
+
+S462 packet and validated board evidence:
+`docs/research/epic17/S462-final-evidence-diff-hygiene/`.
+V03 still needs lawful local access to an exact industrial apparel-CAD
+receiver/version before profile-specific fixtures and witnessed round trips.
+No receiver is selected and no compatibility claim is made. The goal remains
+active and needed through final review, gates, PR, safe merge and any required
+deployment; no UI resume is needed.
+
+## EPIC-17 / G04 — Slice 461 closes diagnostic-log diff check
+
+S461 follows S460 without rewriting its commit. It removed only trailing
+spaces/tabs from S460's two preserved Control Center failure logs and proved
+their remaining text matches committed S460 after line-ending normalization.
+This corrects S460's premature `git diff --check` statement: S460's staged
+check had reported the log whitespace; current `git diff --check` passes after
+S461. Both failures remain in the evidence packet.
+
+Start-board replay and exit evidence passed 2810→2815→2821. V01/V02 remain
+Done; V03 and EPIC-17 remain In Progress. Control Center tests pass 42/42,
+log-content comparison and S461 helper syntax pass. No production code, DXF,
+profile, protected hash, acceptance or gate changed. S460's current rights
+review still requires owner-provided lawful exact CAD receiver/version access
+before representative import/export/round-trip work. Goal is active and still
+needed through safe merge/deployment; no UI resume is needed.
+
+S460 exit packet and current rights facts:
+`docs/research/epic17/S460-v03-rights-and-receiver-review/S460-exit-packet.md`.
+S461 follow-up evidence:
+`docs/research/epic17/S461-control-center-log-whitespace-closeout/S461-exit-packet.md`.
+
+## EPIC-17 / G04 — Slice 460 V03 rights/profile evidence (complete)
+
+S459 passed the all-seven digital V02 gate: 73 supported configurations and
+146 live front/back outputs, with all 146 accepted. The canonical board was
+revision 2795 (EPIC-17 In Progress; V01/V02 Done; V03 Backlog). After verifying
+the clean S459 commit `8a437a1e4c738c7ff0f3803cb5a1ea8835bdde2f`, fetching
+`origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, confirming ancestry,
+and reserving unique S460, the dependent V03 work begins. S460 moved G04-V03
+to In Progress through the validated board command layer and closed its
+rights/source review at board revision 2810. Evidence:
+`docs/research/epic17/S460-v03-rights-and-receiver-review/`.
+
+S460 rechecks current official rights/capability sources (including Valentina
+1.1.1 published after S421) and inspects the actual generic DXF writer and
+profile contract. No receiver is selected before rights review and no exact
+format claim is permitted before witnessed representative import/export and
+round trips. No account/trial, payment, terms acceptance, supplier/vendor
+contact, project-file transfer, exporter change or baseline movement is
+authorized. Preserve legacy DXF byte identities and every V02 acceptance gate.
+No no-cost qualified industrial receiver was established. CLO is the strongest
+documented receiver candidate, but its current trial needs owner eligibility,
+account/billing/payment details, auto-starts the paid plan, or requires vendor
+contact for enterprise/academic access. Valentina 1.1.1 adds export evidence
+only; Seamly2D receiving remains unestablished; LibreCAD is generic DXF; and
+OpenMarker is not production-ready and has not implemented export. The actual
+InfiniDrip writer emits generic entities-only geometry without declared units,
+piece IDs/labels or grade data; C04's receiver-specific fixtures remain due.
+V03 stays In Progress and unproven while lawful exact receiver/version access
+is resolved. No receiver is selected and no compatibility claim is made. The
+first Control Center run exposed 8 stale V03=Backlog assertions; the failure
+is retained and current canonical expectations now pass 42/42.
+
+Goal remains active and necessary through V03, final rendered/output review,
+full integrated gates, PR, safe merge, ancestry and any required deployment.
+At least 4–9 V03 slices plus 3–5 final review/merge/deployment slices remain
+(7–14 total), excluding unbounded rights/access delay. This re-estimate counts
+S460 as one of the prior 5–10 V03 slices and reserves separate slices for a
+profile/fixture contract, additive profile output, receiver round trips, and
+V03/final integrated closeout as actual evidence dictates.
+
+## EPIC-17 / G04 — Slice 459 accepts integrated V02 (complete)
+
+S459 replayed the canonical 73 supported configurations through the current production UI and Chromium renderer and accepted 146/146 FRONT_FLAT/BACK_FLAT outputs across all seven recipes. The audit reports zero technical-flat issues, option mismatches, revision-pair or output-identity mismatches, colorway-revision mismatches, unresolved callout targets, browser errors, or text-box intersections across any SVG layer. It includes 1,048 current callout records and 277 full-text source-POM schedule rows. Representative whole and maximum-zoom outputs were visually reviewed; zoom/pan makes dense annotations readable. Pattern-source omissions and table-only POMs remain explicitly noticed; the canonical fixtures contain no selected artwork asset.
+
+G04-V02 is Done in the validated canonical board at revision 2795. EPIC-17 remains In Progress; V01 and V02 are Done; V03 is Backlog and cannot begin before V02, now met. S459 also reviewed MQF-004–007, MQF-011, MQF-012 and MQF-015 without closing findings or reopening post-G17 deferrals. Current packet, matrices, 146 raw SVG/PNG outputs, overlap audit, zoom review, manual finding review and validated board commands are in `docs/research/epic17/S459-integrated-v02-acceptance-review/`. Next: fresh Git/board verification, reserve S460, then start rights-reviewed V03 receiver/profile and round-trip work.
+
+No production source changed in S459. Preserve all seven recipes, the unchanged 0.25 cm residual gate and exact S351 exception, legacy DXF behavior, every protected export byte identity and the final settled-candidate repository gates. V03 requires rights evidence before receiver/profile selection and witnessed representative import/export/round-trip evidence before any exact compatibility claim. No physical-fit, factory-acceptance or production-readiness claim.
+## EPIC-17 / G04 — Slice 458 reconciles current Polo output (complete)
+
+S458 verified the current Polo renderer against all 17 supported options / 34 front-back faces at fresh paired revisions. Chromium replay and audits report zero compiler/renderer/browser issues, zero exact S351 Polo sleeve-ease residual diagnostics, zero source/colorway revision mismatches, zero source-path differences from S434, 13 keyed POM schedule rows per front, and zero full-label rectangle overlaps (660 labels / 153 key glyphs). Default and edge-option renders were reviewed. The S457/board statement that Polo is blocked by a 0.68 cm sleeve-cap residual against 0.25 cm is stale and incorrect: the maintainer-approved S351 exception applies only to that exact same-revision arclength-mapped Polo relation, and every other relation retains the 0.25 cm gate.
+
+This reconciliation does not release Polo face requests pending integrated all-seven V02 review. Current tally remains 112 accepted / 34 pending across 73 configurations / 146 face requests; Polo local checks pass, but final combined V02 acceptance remains open. V01 Done, V02 In Progress, V03 Backlog and gated. No production code, pattern/stitch geometry, POM definitions, export behavior, or protected bytes changed. S458 packet, matrices, Chromium PNGs and audit scripts: `docs/research/epic17/S458-polo-current-output-reconciliation/`. Next: S459 integrated all-seven supported-option V02 acceptance review; then start V03 only if V02 passes. S458 timing and focused closeout gates are recorded in its exit packet.
+
+## EPIC-17 / G04 — Slice 457 resolves Woven front/back view blockers (complete)
+
+S457 started 2026-10-08 02:56 UTC from clean S456 `61f69681d48e990cd8c3568e62705c435ca7f614` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 456; S457 is unique. Board start revision 2754. The S457 decisions, implementation, output evidence, gates, non-goals, timing and next action are recorded in `docs/research/epic17/S457-woven-front-back-resolution/S457-exit-packet.md` and its start packet.
+
+The maintainer approved the exact S454 source-bound collar-leaf silhouette mask for Woven fronts (superseding S425's continuous-visible-neckline decision) and authorized the S441 local-Y Woven back sleeve view with detached S370 source-scale bands relocated to maintain clearance (superseding S442's fixed-position hold). Production code changes only revision-bound view metadata and rendering. On `live-draft:woven-shirt:14:14`, current production Chromium output passes all 28 options / 56 faces: 28 front plus 28 back SVGs, zero compiler/renderer/browser errors, exact D marker and full POM schedule in 28/28. The two exact front neckline strokes receive 56/56 same-revision leaf-silhouette masks; open-V length remains 0.508812–1.286568 cm per side. Back analysis finds zero sleeve-pair crossings, zero body-fill penetrations, two bands per option, no body-outline/frame failures, and 1 cm minimum band clearance. Relocating bands costs 20.5737–22.4315 cm outward per side and enlarges the viewBox by 41.1474–44.863 cm. Codex inspected representative default, limit and combined rendered outputs.
+
+Woven's 56 faces now pass their applicable local V02 checks. With the prior 56 accepted views, the integrated tally is **112 accepted / 34 held** across 73 configurations / 146 face requests. The 34 Polo faces remain held at the 0.68 cm sleeve-cap residual against the unchanged 0.25 cm threshold. V02 remains In Progress because its all-seven-recipe criterion is not met; V03 remains Backlog and cannot begin before V02 passes. V03 receiver rights/profile/round-trip evidence is still required. Protected DXF/export behavior and byte identities remain unchanged. No physical-fit, factory-acceptance, or production-readiness claim.
+
+Focused renderer suites pass 148/148; renderer sub-suite passes 443/443. Changed projection module coverage is 100%; live-render module focused report is 99.77% statements/lines, 99.84% branches, 100% functions, with only existing Polo residual-diagnostic lines 843–844 outside S457's changed hunk uncovered. Protected export identity/regression passes 17/17; `npm run build`, production replay, and `git diff --check` pass. Board revisions 2754→2760; the final validated board replay and current Epic/V02 summary reconciliation are recorded in the packet. `npm run control-center:test` passes 42/42; the first two runs exposed stale summary assertions and those expectations were corrected to the verified current S457 status. Full repository coverage remains for the settled integrated Epic/PR candidate. V02 applicable output-exit review of MQF-004–007, MQF-011, MQF-012, and MQF-015 remains scoped to the review checklist; mark applicable findings “To be reviewed,” preserving post-G17 deferrals.
+
+Elapsed 02:56–03:15 UTC (~19m): implementation 3m; focused verification/build/export 5m; renderer/geometry audit 3m; rendered review 2m; records/board regression repair and replay 6m; external-agent waits 0m; maintainer-decision time 0m in-slice. **Next action:** reserve S458 after refreshing Git/board/goal state and diagnose Polo's 0.68 cm sleeve-cap residual against the unchanged 0.25 cm gate. Preserve all 34 Polo holds until same-revision source/topology, all-option output, POM/readability and rendered checks pass. Do not begin V03.
+
+## EPIC-17 / G04 — Slice 456 closes S455 supplied-book review (complete)
+
+S455 began 2026-10-08 02:26 UTC from S454 `16ea64244dc211d01232c23b9d2be87fec3a82e6`; its original unique commit remains `1873f666b72bbbd7ab24a54cf8b6f522b2770f8e` on `codex/epic-17-g04`. S456 is the unique documentation/board follow-up because the S455 start commit is shared by the delegated worktrees and is left unchanged. S456 began 02:46 UTC at board revision 2752, with S455's closeout changes staged; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board exit replay 2752→2754. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; 56 accepted / 90 held over 73 configurations / 146 faces. Goal remains active. S455 reviewed all five remaining supplied books locally using text extraction and inspected rendered cited pages. Codex's two reports are `docs/research/epic17/S455-supplied-sewing-book-review/CODEX-FASHION-UPCYCLE-REVIEW.md` and `CODEX-OTHER-SUPPLIED-BOOKS-REVIEW.md`. They add general construction, pattern terminology, and potential later education/refashioning value, but no source-specific Woven collar visibility or sleeve/band layout evidence; they do not change G04 scope, gates, or holds. The Claude/OpenCode attempts yielded no reviewable reports: Claude could not access the supplied directory and its retry hit the account session limit; OpenCode's external-directory access request was rejected by tool approval review. `npm run control-center:test` passed 42/42 for both S455 and S456; S456 exit scripts, board preflight/replay/read, and `git diff --check` passed. The exact S454 collar-mask decision remains pending and unimplemented; S442 fixed S370 bands and Woven back holds remain. No product changes, V02 acceptance changes, V03 work, or face releases occurred. S455 review packet: `docs/research/epic17/S455-supplied-sewing-book-review/G04-REMAINING-SUPPLIED-SEWING-BOOK-REVIEW-S455.md`. S456 packet: `docs/research/epic17/S456-supplied-book-review-closeout/G04-S455-BOOK-REVIEW-CLOSEOUT-S456.md`.
+
+## EPIC-17 / G04 — Slice 454 completes exact Woven collar-mask proposal
+
+S454 started 2026-10-08 02:07 UTC from clean S453 `383560ca737494025a07daacad4637ce3c1e7bff` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 453; S454 is unique. Board start replay 2731→2733 and exit/evidence/compatibility replays 2733→2748; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog; tally 56 accepted / 90 held over 73 configurations / 146 faces. Goal remains active and aligned. Usage at start: 10% primary / 24% weekly.
+
+S454 regenerated current production renderer output for all 28 Woven front configurations at `live-draft:woven-shirt:14:14` (checkout `383560ca737494025a07daacad4637ce3c1e7bff`): 28/28 emitted, zero compile/renderer/browser errors. Exact fill-geometry sampling found that both neckline paths are inside the projected `underCollar`/`upperCollar` leaf fills from one boundary to shoulder. The visible center/open-V segment is 0.5034–1.2838 cm per side; a candidate mask hides 13.2536–14.4041 cm per side. Across all 56 reflected paths, mask starts match the recurring two front contact points within 0.000196 cm. The candidate SVG applies masks only to the unchanged neckline paths using same-revision leaf fill geometry; full `d`, source IDs, piece geometry, stitches, colorway, options and other layers remain unchanged. All 28 candidate fronts rendered without browser errors; default, stand-height min/max, collar-leaf-depth min/max and combined-supported crops were inspected. The central open-V seam remains visible; the leaf-covered seam is hidden; no physical join is claimed.
+
+This is a product/view decision, not a pattern fact: adopting the exact mask would supersede S425's continuous-visible-neckline choice and leaves a short visible seam ending at the projected collar silhouette. The general book references support foreground-collar flat convention but do not specify this recipe. S442 remains in force: preserve S370 band positions and all 28 back holds. No production implementation or face acceptance occurred. All 56 Woven and 34 Polo faces remain held; all-seven V02, V02-before-V03, Polo's 0.25 cm gate, legacy DXF, protected export identities and V03 rights/round-trip gates remain unchanged.
+
+Packet, matrices, scripts and rendered output: `docs/research/epic17/S454-woven-foreground-mask-study/`. Board summaries/evidence/comments were updated through the validated command layer. The first full Control Center run exposed two missing historical summary phrases, and the first repair run exposed one additional legacy phrase; all were preserved additively without changing current S454 facts or holds. `npm run control-center:test` now passes 42/42; S454 modules parse; board preflight/replay and `git diff --check` pass. No production tests, coverage, build or export gate was due for the proposal-only slice. Elapsed 02:07–02:18 UTC (~12m), plus ~8m for board regression diagnosis/repair and final verification: current source replay/SVG inspection 2m; coverage/crossing analysis 2m; candidate generation/render review 3m; durable record/board 3m; focused verification 2m; implementation 0m; agent waits 0m; maintainer decision time 0m so far.
+
+**Next action:** get the maintainer's explicit choice on the two options in S454. If the foreground mask is approved, implement only that view-only mapping in a fresh slice and rerun the full 28-option evidence; keep every face held. If S425 is retained, leave code unchanged and retain the 28 front holds. The 28 Woven backs remain a separate hold under S442 either way.
+
+## EPIC-17 / G04 — Slice 453 completes supplied menswear-book review
+
+S453 started 2026-10-08 01:41:58 UTC from S452 `3b0832cc8e39f05c429535cd8e23e47e2b02c464` on `codex/epic-17-g04`; `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 452; S453 is unique. Board revision 2725 at start, 2727 after start evidence/comments; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog; tally 56 accepted / 90 held over 73 configurations / 146 faces. `get_goal` reports active and its completion objective matches the admitted Epic.
+
+S453 reviewed the user-supplied Kim & Kim _Patternmaking for Menswear_ first-edition (2014) PDF and Gareth Kershaw _Patternmaking for Menswear_ PDF. Separate Claude Code Opus 5.5 xhigh and OpenCode Muse Spark 1.3 xhigh/normal-mode reports were returned with explicit `WORK FINISHED`; Codex reviewed their exact changes, verified the Kim title page and collar pages, checked Kershaw's cited drawings, and inspected the actual S407 baseline/trial output. The books are useful for general collar/stand, sleeve-cap identity/notch, and cuff/band construction references. They do not identify this source revision or settle its Woven collar visible-line order or a paired-sleeve layout that preserves S370 band positions. The Kim file is the 2014 first edition, not the 2025 edition qualified in S449; provenance/rights of both user-supplied copies remain unassessed.
+
+Codex's rendered audit corrected the S407 trial description: in `live-draft:woven-shirt:14:14`, the visible body neckline crosses each projected collar leaf at about `x=±0.8424 cm`; the trial removes it from center front to that intersection (`0.8426–0.8433 cm` each side), which is the open V between the leaves, not a section covered by them. Do not treat that candidate as a truthful foreground-collar occlusion fix. Any new trial must clip only portions the actual projected leaf silhouette covers and be re-rendered across applicable options. The back trial still requires moving fixed S370 bands `20.5737–22.4315 cm` per side and expanding the viewBox `41.1474–44.863 cm`; keep all 28 back holds and fixed band positions.
+
+All 56 Woven views and 34 Polo views remain held; current tally 56 accepted / 90 held. All-seven V02, V02-before-V03, Polo's 0.25 cm residual gate, legacy DXF behavior, protected export identities, and V03 rights/round-trip gates are unchanged. No product code, source geometry, stitch graph, projection, acceptance, hold, or production claim changed.
+
+Packet and reports: `docs/research/epic17/S453-supplied-menswear-book-review/G04-SUPPLIED-MENSWEAR-BOOK-REVIEW-S453.md`, `CLAUDE-KIM-MENSWEAR.md`, and `OPENCODE-KERSHAW-MENSWEAR.md`. Board exit preflight/replay 2727→2731; 42/42 Control Center tests pass; `git diff --check` passes. No production gate was due for this evidence-only slice.
+
+Elapsed 01:41:58–02:03:53 UTC (~22m): implementation 0m; source/report review ~7m; focused verification ~2m; rendered/PDF review ~3m; external-agent waits ~15m (overlapped); maintainer-decision time 0m; durable closeout ~5m. Goal remains active and needed. **Next action:** from this safe S453 boundary, create a bounded proposal-only Woven front mask trial based on exact same-revision projected leaf silhouettes; show actual output and effects on S425 before any semantic implementation. Preserve all holds and defer V03 until V02 fully passes.
+
+## EPIC-17 / G04 — Slice 452 confirms current build gate passes
+
+S452 started 2026-10-08 00:19:48 UTC from clean S451 `65d101815a068b5bc084b11223c5b0f8738b29b7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 451; S452 is unique. Board revision 2719 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, tally 56 accepted / 90 held over 73 options / 146 faces. Goal record remains active and matches the admitted completion objective.
+
+The documented S441 build failure no longer reproduces at current HEAD. `npm run build` passes TypeScript and Vite; only the existing >500 kB chunk advisory remains. The exact prior diagnostics were fixed by Slice 444 (`9014995`): the renderer now narrows circle/mark primitives with type predicates, and affected tests use explicit path/presentation discriminants. No production or test code changed in S452, and no renderer/geometry/view/hold/acceptance behavior changed.
+
+Packet: `docs/research/epic17/S452-integrated-build-repair/G04-BUILD-GATE-REPAIR-S452.md`; full build output: `current-build.log`. Validated board start replay 2719→2721 and exit 2721→2725. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; tally remains 56/90. `npm run control-center:test` passes 42/42; board preflight/replay/status/evidence and `git diff --check` pass. No changed-code coverage or focused production test was due because no code changed; full integrated coverage/export/browser/Electron gates remain for the settled PR candidate. The current build gate is no longer a blocker.
+
+Elapsed 00:19:48–00:21:29 UTC (1m41s): build reproduction/history diagnosis ~45s; packet/state/board work ~35s; focused verification ~21s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. `get_goal` at this boundary is active and its wording matches the admitted objective. The S451 Woven view choices are still pending; all current holds and gates remain. **Next action:** continue only after the grouped S451 decision response; any approved trial must complete exact 28-option rendered and topology checks before advancing V02.
+
+## EPIC-17 / G04 — Slice 451 Woven decision proposals completed
+
+S451 started 2026-10-08 00:17:15 UTC from clean S450 `700fd68dabe328cf04788ed7b7448b909a4afd6a` on `codex/epic-17-g04`; freshly fetched `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 450; S451 is unique. Board revision 2713 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, 56 accepted / 90 held over 73 configurations / 146 faces. `get_goal` at exit reports active and its objective matches the admitted Epic through safe merge.
+
+S451 cross-checked the newly qualified S450 drawings against the exact source and existing rendered evidence. No source-specific reference resolves the Woven front continuous-neckline/collar contacts or the back sleeve crossings under fixed S370 detail positions. Reused S417/S440/S441/S442/S443/S447 evidence; no general search or repeated candidate scan. The two exact already-rendered candidate choices would each supersede a prior maintainer decision: front foreground-collar occlusion masks `0.8426–0.8433 cm` of visible neckline per side (contrary to S425's continuous-visible-seam decision); back local-Y reflection requires moving S370 detached detail bands `20.5737–22.4315 cm` outward and enlarges viewBox `41.1474–44.863 cm` (contrary to S442). These are view-only trial proposals, not verified fixes or face acceptance. Current decision is unchanged; retain all 56 Woven holds and all 34 Polo holds. All-seven V02 and V02-before-V03 remain intact.
+
+Packet: `docs/research/epic17/S451-woven-decision-proposals/G04-WOVEN-BLOCKER-DECISION-PROPOSALS-S451.md`. Validated board start replay 2713→2715 and exit replay 2715→2719; EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; tally stays 56/90. `npm run control-center:test` passes 42/42; start/exit preflight/replay, board status/evidence, command JSON/JS syntax and `git diff --check` pass. No production source or tests changed, so changed-code coverage, build, export, and full-Epic gates were not due. No independent low-risk delegation exists because both trial output paths are coupled to the view renderer. Goal remains active, not stale, and needed.
+
+Elapsed 00:17:15–00:18:44 UTC (1m29s): source/evidence reconciliation ~32s; packet/state/board updates ~42s; focused verification ~15s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. **Next action:** await one grouped maintainer decision on whether to supersede either prior Woven view choice for trial-only implementation and option-wide verification. Until then, keep all Woven faces held and do not start V03.
+
+## EPIC-17 / G04 — Slice 450 Woven technical-drawing source review completed
+
+S450 started 2026-10-08 00:12:39 UTC from clean S449 `4bfc6eea8ab8b04852acb31899b2424bc096ab47` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 449; S450 is unique. Board revision 2707 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, 56 accepted / 90 held over 73 configurations / 146 faces. The current goal is active and still matches the admitted objective.
+
+The maintainer authorized a proposal-only Woven source-design study and requested reliable technical drawings for the two remaining Woven V02 blocker classes. S450 verified the peer-reviewed SAGE Figure 2 shirt pattern-piece layout, M. Müller & Sohn collar-with-stand construction drawings, and Cornell University's shirt-sleeve draping sequence, with their exact evidentiary limits. The SAGE drawing is a useful piece inventory/orientation comparator; none establishes source-revision-specific collar visible-line semantics or a truthful paired sleeve/band layout under fixed S370 positions. No source-backed fix was found. No source, geometry, stitch, projection, test, hold, criterion, export, or CAD profile changed.
+
+Packet: `docs/research/epic17/S450-woven-drawing-source-review/G04-WOVEN-TECHNICAL-DRAWINGS-S450.md`. Validated board start replay 2707→2709 and exit replay 2709→2713; EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog and tally remains 56 accepted / 90 held. `npm run control-center:test` passes 42/42; start/exit preflight and replay, board status/evidence checks, script/JSON validation, and `git diff --check` pass. No production coverage, build, export, or browser gate was due for this source-review/documentation slice. Goal review at this boundary confirms status active and objective unchanged.
+
+Elapsed 00:12:39–00:13:28 UTC (49s): source and drawing qualification ~20s; packet/state/board work ~18s; focused verification ~11s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. **Next action:** continue the authorized exact-source in-memory study against all 28 Woven options; produce candidate overlays with seam/POM/footprint impacts. Do not implement an unapproved semantic mapping or release any Woven face.
+
+## EPIC-17 / G04 — Slice 449 Woven construction-reference review completed
+
+S449 started 2026-10-08 00:03:15 UTC from clean S448 `f2c9906c05faff13063ece74d4f9aa1913dab1fa` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 448; S449 is unique. Canonical board revision 2699 at start; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog, 56 accepted / 90 held over 73 options / 146 faces. `get_goal` reports the admitted objective active. Usage was 0% primary / 22% weekly.
+
+The maintainer authorized a proposal-only Woven source-design study. S449 searched only for drawings relevant to the two exact Woven blockers: the 28 front neckline/collar contacts and the 28 back sleeve crossings under fixed S370 detail positions. Qualified the publisher-described illustrated chapters of Kim & Kim (2025), accessible M. Müller & Sohn collar/shirt pattern drawings, Cornell University shirt-sleeve draping, and academic/government pattern drawing leads. None is tied to this source revision or proves the missing visible layer/sleeve pose. The packet distinguishes construction evidence from a candidate-design input and records access limits. No production source, geometry, stitch, mapping, test, hold, acceptance, status, or export changed.
+
+Packet: `docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md`. Board start replay 2699→2701; exit replay 2701→2706; an additive validated summary-link repair advanced 2706→2707 after the first Control Center run exposed a stale admission-link assertion (failure preserved in the packet). Focused final Control Center suite passes 42/42; canonical board read/schema, packet/command parse, all S449 script syntax, clone preflight, and `git diff --check` pass. No production/global coverage/build/export gate was due for this research/documentation-only slice. All 56 Woven and 34 Polo faces remain held; all-seven V02 and V02-before-V03 unchanged.
+
+Elapsed 00:03:15–00:08:51 UTC (5m36s): research/source review ~2m30s; packet/state/context/board work ~2m10s; focused verification, failure diagnosis and replay ~56s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. **Next action:** reserve S450 for an exact-source, in-memory Woven collar and sleeve/back-view candidate study informed by these qualified drawings. Return exact proposals and option/render evidence for approval; do not change production source or release faces.
+
+## EPIC-17 / G04 — Slice 448 reconciles current blocker summaries
+
+S448 started 2026-10-07 23:00:59 UTC from clean S447 commit `38c7deee6c636c823e4dfef7fcc76dd374663f71` on `codex/epic-17-g04`; refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Highest assigned slice was 447. Board revision 2679 at start; goal active and still matches V01→V02→V03 completion and safe merge. Usage was 48% primary / 22% weekly.
+
+S448 updates stale EPIC-17 and G04-V02 board descriptions to match the verified S443–S447 evidence. The remaining all-seven V02 blockers are 28 Woven front neckline/collar contacts under the maintainer-approved continuous body seam and 28 Woven back sleeve crossings with S370 band-detail positions fixed by maintainer decision. S443 found no source-backed view fix under those decisions; S447's 13-value taper matrix also found no viable source candidate. Polo has no current local output blocker in S436, but its 34 faces remain held under the all-seven gate. The integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. V01 Done, V02 In Progress, V03 Backlog; no face, acceptance criterion, or production behavior changed.
+
+Start/exit board commands were validated and replayed through the Control Center command layer, advancing revision 2679→2681→2686. Historical-description assertions initially failed after the summary refresh; S448 retained those tested phrases additively through validated board commands to revision 2699 and brought the EPIC summary card current as well. The affected `board.test.mjs` passes 18/18, the isolated server suite passes 4/4 after one parallel worker failure, and the final serial `npm run control-center:test` passes 42/42. Canonical board read/evidence validation, all S448 script syntax checks, and `git diff --check` pass. This documentation/board-only slice does not trigger production coverage/build/export gates. Packet: `docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md`.
+
+**Next action:** obtain maintainer authority for a bounded, proposal-only Woven source-design study. Do not edit production geometry, mapping, acceptance, or face status before presenting an exact proposal for approval. If no new authority is granted, preserve holds; V02 cannot pass and V03 cannot start under current constraints.
+
+## EPIC-17 / G04 — Slice 447 bounded Woven sleeve-source candidate closed no-go
+
+S447 started 2026-10-07 22:47:58 UTC from clean S446 commit `28b9859de91590419124df688e4479fdceea37db` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 446; S447 is unique. Board start validated 2675→2677. EPIC-17/G04-V02 remain In Progress, V03 Backlog; tally 56 accepted / 90 held across 73 configurations / 146 faces. Goal remains active and unchanged.
+
+The in-memory S447 study varied only source `wovenSleeve()` taper from 0 to 6 cm in 0.5 cm increments across all 28 current Woven options, using actual technical-flat compilation/rendering at revision `live-draft:woven-shirt:14:14`. All 728 SVG faces compile/render without issues; exact sleeve hem-to-band seams remain matched and cap geometry/receivers are unchanged. Every candidate still has the back sleeve-pair crossing and body/yoke fill penetration in all 28 backs. Fixed S370 details have zero collisions and the current frame remains valid. Actual Chromium review of 24 representative default/extreme/combined outputs confirms the central X persists at taper 0, 3 and 6. Opening circumference changes from 37 cm currently to 43/31 cm at endpoints, so a broader taper sweep would vary fit without addressing the blocker. No production source/output/test/hold/acceptance change.
+
+Evidence and scripts: `docs/research/epic17/S447-woven-source-candidate-study/`. Board revisions are 2675→2677→2679; Control Center tests pass 42/42. Next action: pursue only a distinct source-supported degree of freedom that could clear the fixed-band conflict; otherwise present the specific design authority required. All 56 Woven and 34 Polo faces remain held; all-seven V02 and V02-before-V03 are unchanged.
+
+## EPIC-17 / G04 — Slice 446 Woven V02 resolution boundary completed
+
+S446 started 2026-10-07 22:45:15 UTC from clean S445 commit `f8747c9ef9edddb481e409cd4ff253f17296c62f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 445; S446 is unique. Validated board start advanced 2671→2673. The active goal exactly matches this Epic through safe merge.
+
+S446 source-bound reconciliation confirms the only remaining V02 release blockers are the 28 Woven front neckline/collar contacts and 28 Woven back sleeve-hem crossings. The collar contacts are forced by the approved S359 offset endpoints (`-h` to `d-h`, where all supported `d-h >= 0.5 cm`) while the maintainer's complete body base seam remains visible. The back's only measured crossing-free candidate is S441 local-Y, but it collides with both S370 band details in all 28 options; the maintainer keeps those locations. S417/S437/S441 plus completed Claude Opus 5.5 xhigh research find no source-backed resolution inside these choices. Polo has no current local output blocker, but all 34 Polo faces remain held under the all-seven acceptance gate. No code, renderer, source, stitch, face, export or acceptance change.
+
+Packet: `docs/research/epic17/S446-woven-v02-resolution-boundary/G04-WOVEN-V02-RESOLUTION-BOUNDARY-S446.md`. It recommends a bounded, in-memory Woven source-design candidate study; no production change may land without exact proposal review and separate approval. All 56 Woven and 34 Polo holds, 56 accepted / 90 held tally, V02 status and V03 dependency remain unchanged. S446 board revisions are 2671→2673→2675; Control Center tests pass 42/42.
+
+Elapsed 22:45:15–22:46:45 UTC (1m30s): implementation 0m; source/decision reconciliation ~35s; durable docs/board ~35s; focused verification ~20s; external-agent waits 0m; maintainer-decision time 0m. **Next action:** obtain authorization for the bounded in-memory Woven source-design candidate study and return exact source/render evidence; no production change or acceptance change before separately approving a concrete proposal. No V03 start before V02 passes.
+
+## EPIC-17 / G04 — Slice 445 Woven collar-orientation audit completed
+
+S445 started 2026-10-07 22:40:43 UTC from clean S444 commit `901499580391eb6f7aee20cc71dc776d7662194b` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 444; S445 is unique. Validated board start moved revision 2667→2669. Goal remains active and needed through the admitted V01→V02→V03 objective and safe merge.
+
+S445 reviewed the actual retained same-revision Woven default and `collarLeafDepth-min` `FRONT_FLAT` output plus S417's post-clip Chromium crop against the exact source joins, S359 approved projection, S406 layer convention, and maintained Woven W3/W4 research. The render is explicitly a pattern-derived technical flat; its view-only projection does not claim sewn roll or physical face orientation. Research confirms that roll cannot be derived from equal flat layers and provides no relation for this exact drafted revision. This is not a new independent blocker and no new decision is needed. The separate 28/28 neckline/collar contacts remain held under the approved complete base-seam choice. User direction confirmed that S370 band positions stay fixed; therefore all 28 Woven back views remain held. No source/code/render/gate/acceptance change.
+
+The integrated board remains 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces remain held. G04-V02 is In Progress; V03 is Backlog and cannot start before all-seven V02 plus its rights-cleared receiver/profile and observed round-trip evidence. S445 exit board replay and focused Control Center tests/validation/diff check pass. Packet: `docs/research/epic17/S445-woven-collar-orientation-audit/G04-WOVEN-COLLAR-ORIENTATION-AUDIT-S445.md`.
+
+Elapsed 22:40:43–22:43:41 UTC (2m58s): implementation 0m; source/render/research review ~1m35s; durable docs/board ~45s; focused verification ~38s; external-agent waits 0m; maintainer-decision time 0m. **Next action:** reconcile S443/S445’s Woven no-go with the current goal and produce the smallest explicit source/design constraint proposal that could clear both Woven blocker classes while retaining all-seven V02. No implementation or acceptance change before required approval.
+
+## EPIC-17 / G04 — Slice 444 TypeScript build baseline repair completed
+
+S444 started 2026-10-07 22:34:49 UTC from clean S443 commit `1b49797f93ec09a913c9ff1aac7460e562002580` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 443; S444 is unique. Canonical board revision is 2667 after validated start/exit replay 2663→2665→2667. EPIC-17/G04-V02 remains In Progress, V01 Done, V03 Backlog; tally is unchanged at 56 accepted / 90 held across 73 configurations / 146 faces. The goal remains active and necessary.
+
+S444 repaired the pre-existing TypeScript build diagnostics reproduced on S440 source and preserved in `docs/research/epic17/S441-woven-hold-boundary/S441-build-baseline-failure.md`. Explicit union narrowing in the technical-flat SVG renderer and test fixture guards preserve the exact runtime filters/output. The S443 packet's stale final paragraph was corrected. Focused live/SVG tests pass 87/87; `technical-flat-svg.ts` has 100% statement/branch/function/line coverage; `npm run build` passes with only the existing large-chunk advisory; protected export identity and DXF regression tests pass 17/17. Control Center tests pass 42/42; board preflight/replay/read validation and `git diff --check` pass. No pattern, projection, rendered output, hold, acceptance, export identity or V02/V03 gate changed.
+
+Packet and evidence: `docs/research/epic17/S444-build-baseline-typecheck/`. **Next action:** inspect the S443-flagged Woven collar orientation against current emitted front views, exact signed-normal projection and already-checked construction research. Do not change the approved projection or add a trial mapping; if source/output cannot settle the admission's “no misleading depiction” requirement, present one evidence-based design decision before any implementation. Preserve all Woven/Polo holds and all-seven V02; V03 remains gated.
+
+## EPIC-17 / G04 latest completed work — Slice 442 records the S370 hold and exact V02/V03 blockers
+
+S442 started 2026-10-07 21:24:08 UTC from clean S441 commit `9f0adbb4ec2cd0567c2380104a7f8b56d91b5922` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 441; S442 is unique. Validated board start replay: 2652→2654. EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog; 56 accepted / 90 held across 73 configurations / 146 faces. The admitted goal remains active and needed.
+
+At S441 close, the maintainer directed that S370's detached-band positions remain fixed and all 28 Woven back faces remain held; the diagnostic local-Y candidate is not authorized. S442 records this in `docs/PROJECT-DECISIONS.md` and reconciles the current blocker evidence. **V02:** 28 Woven fronts remain held at the repeated neckline/collar contour contact while preserving the continuous base seam; 28 Woven backs remain held at the full joined sleeve-hem crossing with the S370 band positions retained. The latest Polo audit (17 options / 34 faces) identifies no local current compiler/render/overlay/POM/residual/readability blocker, but accepts no face ahead of integrated all-seven V02 review. Counts/statuses stay unchanged. **V03:** still cannot start until V02 passes; then a rights-cleared industrial apparel receiver/profile and observed representative round-trip fixtures are required. S421 found no qualified no-cost receiver in its checked evidence. The S441 baseline TypeScript build failure is a separate integrated PR gate. No production, geometry, acceptance or export change.
+
+S442 reuses S417/S437, S436/S435, S421 and S441 evidence without repeating those audits. Validated start/exit board revisions are 2652→2654→2657; `npm run control-center:test` passes 42/42, current board validation and `git diff --check` pass. No manual goal resume is required; the goal record is active and matches the admitted objective through safe merge. Elapsed 21:24:08–21:29:11 UTC (5m03s): implementation 0m; evidence reconciliation about 1m; durable docs/board about 2m45s; focused verification about 1m15s; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** retry the specifically authorized Claude Opus 5.5 xhigh read-only research after its session reset, using the S442 bounded question and exact S370/source constraints. If it yields no checkable, source-backed alternative, preserve all holds and report the scope decision needed; do not start V03 or claim G04 completion while Woven fails all-seven V02.
+
+## EPIC-17 / G04 latest completed work — Slice 441 renders the Woven local-Y sleeve candidate but retains the S370 band-layout hold
+
+S441 started 2026-10-07 20:52:06 UTC from clean S440 `d282e99ab7512de02e38be774b02aa6531d35f5a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 440; S441 is unique. Start board replay advanced revision 2643→2645. EPIC-17/G04-V02 remain In Progress; V01 Done, V03 Backlog. Integrated status remains 56 accepted / 90 held across 73 options / 146 faces. The goal remains active and is still needed through the admitted objective and safe merge.
+
+S441 tests one diagnostic-only proposed convention: reflect the exact whole Woven sleeve across its local Y axis and render two instances about `back.centerBack`, preserving the exact source cap receivers and full hem-to-band relation. Source does not encode a handed sleeve orientation, center hem crossing station, or sleeve-to-sleeve layer order. On all 28 options / 56 actual Chromium outputs, the candidate has zero sleeve-pair crossings, zero sleeve/body-outline crossings, zero body-fill penetration, no compile/renderer/browser errors and readable source-scale sleeve/band details. It does not preserve the explicitly approved S370 band-detail footprint: the existing boxes collide with sleeves in 28/28; clearing requires shifting them outward 20.5737–22.4315 cm per side and widening the viewBox 41.1474–44.863 cm (default +43.4849 cm). No source/pattern/stitch change or mapping is authorized. Keep all 56 Woven and 34 Polo faces held until the maintainer decides whether to preserve S370 layout or approve the exact proposed local-Y convention with its band-layout/viewBox consequence. Woven fronts independently remain held for S417 neckline/collar contact.
+
+Claude Opus 5.5 xhigh was attempted in the required separate exact-S440 read-only checkout but stopped before output with a session-limit response; there is no model result or `WORK FINISHED`, and no substitute was used. `npm run build` errors in the diagnostic checkout reproduced with source restored to exact S440; preserve as a pre-existing integrated-candidate build blocker. Details, actual SVG matrix, geometry analysis, rendered PNGs, and patch are in `docs/research/epic17/S441-woven-hold-boundary/`. Exit board replay advances revision 2645→2652 with six verified evidence links; EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog and 56 accepted / 90 held are unchanged. `npm run control-center:test` passes 42/42; canonical board validation, focused script syntax checks and `git diff --check` pass.
+
+No V02 gate or acceptance threshold changed. V03 remains gated. No fit, factory, industrial-CAD compatibility, or production-readiness claim is made.
+
+Elapsed 2026-10-07 20:52:06–21:22:27 UTC (30m21s): production implementation 0m; source/topology review about 4m; diagnostic setup/28-option Chromium replay and geometry about 11m; rendered review about 3m; build/Opus checks about 2m; durable records, board and focused Control Center verification about 10m; usable external-agent/model wait 0m; maintainer-decision time 0m. Times are approximate where review/replay overlapped.
+
+**Next action:** retain holds pending the bounded S370-band-layout/local-Y decision; meanwhile continue independent evidence work that does not assume this Woven back mapping. Do not start V03 before all-seven V02 passes.
+
+## EPIC-17 / G04 latest completed work — Slice 440 finds no viable source-compatible Woven back-sleeve reorientation; V02 remains open
+
+S440 started 2026-10-07 20:30:14 UTC from clean S439 `ecd24c14d1b7fc526e0825bc09085fae01a41c78` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 439; reserve 440. Validated board start/exit revisions: 2633→2635→2643. EPIC-17/G04-V02 remain In Progress; V01 Done, V03 Backlog. Integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. Goal remains active and needed through the admitted objective and safe merge.
+
+Bound to exact S406 Woven revision `live-draft:woven-shirt:14:14` and all 28 supported options. `wovenSleeve` is one uncut, non-on-fold piece with two cap curves, straight side edges and a full hem stitched to the complete `sleeveBand.top`; source has no sleeve-to-sleeve stitch or over/under order. The approved S344 cap registration fixes the complete rigid source-piece transform, and the S321 two-instance reflection produces the known center-back crossing. S370 side-gutter bands remain fixed by maintainer decision; S373's unsupported hem gap and S438's all-hidden body mask stay rejected; S439's source-length contact placement remains rejected for band intersections, unstitched body contacts and clipping.
+
+The corrected S440 geometry scanner checked 3,600 rigid side/hem rotations at 0.1° increments against the exact 28-option view frames, fixed S370 band boxes (+0.05 cm), reflected-pair crossings, and same-revision back/yoke fills. 546 angles clear frame/band/pair conditions; zero also clear the back/yoke fills in any of the 28 cases. An intentionally more permissive local chain rotation already changes the source cap-to-side tangent, so it is not an admissible mapping. The first scanner used 100 samples/segment despite an overstated 0.01 cm JSON note; this was corrected to exact segment/polygon interval testing before relying on the result. Its first boundary-only self-check exposed point-in-polygon edge classification and was corrected by explicitly excluding polygon-boundary points. All four self-checks now pass. The zero-feasible result holds; the torso-only count changed 1,549→1,548. No candidate survived to rendered review, so no candidate SVG was generated. Existing S373/S406 production output remains the evidence for the crossing.
+
+Claude Opus 5.5 CLI at xhigh returned a read-only no-go analysis and `WORK FINISHED`, corroborating the lack of rigid pose freedom. It made no web searches and operated on a stale Slice-260 worktree without confirming S439 or reading all requested controlling records; its result is recorded as secondary analysis only, not primary proof. No pattern-specific external source was identified that can settle this source-to-view mapping. No production source, renderer, piece geometry, stitch graph, export identity, acceptance gate, or face status changed. All Woven and Polo views remain held; all-seven V02 and V02-before-V03 remain unchanged.
+
+`npm run control-center:test` passes 42/42 after replay; exit preflight moves 2635→2643 with the four verified S440 evidence links and unchanged EPIC/V02/V01/V03 statuses; canonical board read validates; scanner plus four interval self-checks and scanner/preflight/replay syntax checks pass; `git diff --check` passes with only Windows line-ending notices. No production code/test changed, so changed-production coverage, build, protected export and full-Epic gates are not due for this diagnostic slice. Packet, corrected scanner, matrix and Opus result: `docs/research/epic17/S440-woven-sleeve-view-feasibility/`.
+
+Elapsed 2026-10-07 20:30:14–20:51:04 UTC (20m50s): production implementation 0m; source/code/geometry analysis ~4m; diagnostic harness correction, self-checks and matrix rerun ~2m; focused board/scanner verification ~2m; packet/state/context/board closeout ~4m; Claude Opus external-agent waits at least 8m41s for the completed invocation (two earlier exhausted attempts were not independently timed); rendered review 0m because no candidate survived; maintainer-decision time 0m.
+
+**Next action:** retain the existing Woven holds and all-seven V02 gate. Before any implementation, prepare one consolidated, evidence-linked scope decision stating which currently approved Woven constraint (cap-to-armhole mapping, fixed band-detail placement, source topology, or crossing acceptance) would have to change to pursue a different view; do not infer permission to change any of them. V03 remains gated.
+
+## EPIC-17 / G04 previous completed work — Slice 439 rejected Woven source-length back-sleeve projection; V02 remains open
+
+S439 started 2026-10-07 20:15:05 UTC from clean S438 `6fd18da82ff614d681db88cb9e75d6393e3e0070` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor, and 438 was the highest prior slice. Board start/exit revisions are 2622→2625→2633. The offline candidate reused exact S406 Woven `live-draft:woven-shirt:14:14` BACK_FLAT SVGs for all 28 options. Source formula yields `sleeve.sideRight=22.203603 cm` and `sleeve.hem[0,.5]=18.5 cm`; all emitted cases confirm those lengths within 0.0002 cm. A unique contact-based solution on `back.sideMiddle` was found for every row: right B=(23.6219,40.7093), cuff C=(42.1219,40.7093), mirrored about `back.centerBack`.
+
+Reject the candidate: the two sleeve halves have 12 intersections per option against the S370-approved detached band drawings; both inner cuff endpoints touch unstitched `back.sideMiddle` stations; and every full output clips the sleeve at the existing ±32.2 cm viewBox while the candidate extends to ±42.1219 cm. Chromium renders 28 whole outputs and 28 enlarged crops with zero browser errors; default, yokeDepth-min/max, sleeveBandDepth-max, and sideVentDepth-min were inspected. The crop shows the large triangular sleeve; the whole production frame clips it. All 56 Woven and 34 Polo faces remain held; tally is 56 accepted / 90 held across 73 configs / 146 faces. No production mapping, source geometry/stitch, accepted status, scope or gate changed. Packet/matrix/images: `docs/research/epic17/S439-woven-back-sleeve-length-projection/`.
+
+`npm run control-center:test` passes 42/42; validated board command preflight/replay, evidence links, unchanged statuses/tally, and `git diff --check` pass. No production code/test changed; no changed-code coverage or full-Epic gate is due. Goal remains active and still needed through safe merge. Elapsed 20:15:05–20:25:25 UTC (~10m20s): product implementation 0m; source/mapping diagnosis ~2m; candidate script/focused assertions ~3m; Chromium render/review ~2m; packet/board/Control Center ~3m20s; agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** S440 may test a diagnostic source-vector-preserving sleeve orientation with the approved detached-band footprint treated as a hard collision constraint. If no outward, complete, unclipped and readable solution exists without changing S370's layout or implying a new stitch, return the exact conflict and seek one bounded design choice before any production mapping. Preserve all holds and all-seven V02/V02-before-V03.
+
+
+## EPIC-17 / G04 previous completed work — Slice 438 rejected Woven body-mask trial; V02 remains open
+
+S438 started 2026-10-07 20:07:51 UTC from clean S437 `bc3e252cee1f1b9fa3b86ad7692445a3cc6fe449` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor, highest prior slice 437, and the active goal remains valid. The offline trial reused exact Woven `live-draft:woven-shirt:14:14` BACK_FLAT outputs for 28 options. It applied source-derived back/yoke fill as a mask to only the two sleeve-outline strokes; all 28 crossings fell inside the fill, but the measured visible fraction of both outlines was 0% in every case. Chromium rendered all options with zero errors; default, `yokeDepth-min`, and center-crossing detail show the sleeve outlines entirely hidden while body/yoke/collar and detached gutter bands remain. The hypothesis is rejected; no production source, geometry, stitch, output, option, hold, or gate changed.
+
+All 56 Woven and 34 Polo faces remain held; integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. V02 remains blocked by the approved fail-closed Woven neckline and back-sleeve decisions under all-seven acceptance; V03 cannot start before V02 exits. Validated board start/exit revisions: 2613→2616→2622; statuses preserved. Control Center 42/42 and `git diff --check` pass. No product code/tests changed and no full gate is due. Packet, 28-candidate SVG/PNG matrix, and assertions: `docs/research/epic17/S438-woven-back-body-occlusion-trial/`. Elapsed ~4m25s (product implementation 0m, proposal/output coding and review ~3m, durable closeout/board regression ~1m25s; agent waits 0m; maintainer decision time 0m).
+
+**Next action:** do not use the body mask or a local crossing gap. Prepare a rendered, source-length-preserving outward back-sleeve projection candidate anchored at the current exact underarm receiver station; identify its unencoded direction/pose assumption explicitly and request approval only after exact all-option output evidence exists. Preserve the neckline hold and all-seven V02/V02-before-V03.
+
+## EPIC-17 / G04 previous completed work — Slice 437 Woven topology/view-boundary audit; V02 remains open
+
+S437 started 2026-10-07 19:58:26 UTC from clean S436 `22f077e9b6195e7e57c63bf0b21f4f8fa4a8ded9` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 436; S437 is unique. Validated board start/exit revisions are 2604→2607→2613. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; tally remains 56 accepted / 90 held across 73 configurations / 146 faces. The goal is active and still matches the admitted EPIC-17 objective through safe merge.
+
+S437 revalidates current Woven output revision `live-draft:woven-shirt:14:14`: 28 configurations / 56 emitted faces, zero compile/renderer/browser errors. S417 exact front paths retain two mirrored body-neckline/collar contacts in each of 28 options (coordinate bounds `|x|=0.50330–1.28181 cm`, `y=7.97190–8.57385 cm`); S373 exact back paths retain one crossing per option between two mirrored sleeve hem runs, each continuing into its source-stitched band. Current source encodes the body-to-stand base stitch and collar piece seams but no body-seam/collar exterior display order; it encodes a complete hem-to-band stitch but no sleeve-to-sleeve seam, hem crossing station, or over/under order. The previously approved fail-closed decisions stand: preserve the full neckline, reject unsupported hem gap, and retain all 56 Woven holds. No geometry, source stitch, output, acceptance, threshold, or face status changed; all 34 Polo faces also remain held and V02 still fails all-seven acceptance. Actual S417 front and S373 back Chromium crops were inspected. Audit harness: `docs/research/epic17/S437-woven-topology-view-boundary-audit/audit-current-woven-holds.mjs`; trace and packet in that directory.
+
+The first exit verifier checked Epic evidence on the summary-card item rather than the canonical `board.epics` record. This was corrected after inspecting `addEpicEvidence` behavior. A clone preflight from committed revision 2604 through start and exit commands now passes at 2613; the actual validated command replay is confirmed in the canonical board. `npm run control-center:test` passes 42/42; `git diff --check` passes. No production change; no changed-code coverage or global Epic gate is due. Elapsed 19:58:26–20:05:49 UTC (~7m23s; implementation 0m; source/output audit ~2m; focused harness/diagnosis ~1m30s; rendered review ~1m; durable packet/state/board and focused regression ~2m53s; external-agent waits 0m; maintainer-decision time 0m).
+
+**Next action:** keep all 56 Woven/34 Polo faces held. If a non-production, no-gap alternate sleeve placement can be derived from the exact approved armhole joins while preserving source piece identity and full hems, render it with measured geometry for a concrete design review; do not implement or release a face without authorization and all-option verification. Do not reopen the approved continuous neckline decision. V03 stays gated behind all-seven V02.
+
+## EPIC-17 / G04 previous completed work — Slice 436 Polo face acceptance audit; V02 remains open
+
+S436 started 2026-10-07 19:45:35 UTC from clean S435 commit `72f36aced5335eca34e7839b4c05a373c834163d` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 435; reserve 436. Validated board revisions: start 2596→2599; exit includes a diagnosed partial replay 2599→2600 and corrected remainder 2600→2604. Statuses remain EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog; tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+The S436 audit joins the exact 17 Polo option values across S432–S435 while preserving each slice's distinct revision identifiers. All 34 current S434 front/back rows compile/render without issues, with same-revision colorway fills. The 17 back sleeve fills are closed; exact S351 residual remains clear and 0.25 cm stays active elsewhere. Front keyed schedules retain 13 full-text rows and source-defined POM counts (one declared omission at `sideVentDepth=min`); back-only measurements are not invented from front anchors. S435's complete-label analysis finds zero measured front source-label/marker/schedule overlaps. Three current back SVGs were rasterized and reviewed in Chromium with zero browser errors. No Polo-specific compiler, colorway, residual, POM identity or measured text-overlap failure remains in these 17 option rows.
+
+No face changed to accepted; all 34 Polo and 56 Woven views remain held. Overall V02 stays blocked by Woven's unresolved 28 front collar/neckline contacts and 28 back sleeve-hem crossings. All-seven acceptance, V02-before-V03, 100% coverage, protected export identities and legacy DXF behavior are unchanged. V03 remains downstream of all-seven V02 and still requires rights-cleared industrial receiver/profile plus representative round-trip evidence. Packet and matrices: `docs/research/epic17/S436-polo-face-acceptance-audit/`. The first exit command sequence used an unsupported board evidence kind and partially added the verified exit doc only; this was recorded and recovered without status/tally change. Corrected board replay ends at revision 2604; `npm run control-center:test` passes 42/42 and `git diff --check` passes. Goal record remains active and matches the admitted Epic.
+
+Elapsed 19:45:35–19:56:21 UTC (~10m46s): implementation 0m; cross-matrix diagnosis ~4m; focused checks/rendered review ~3m; board/docs closeout ~3m46s; external-agent waits 0m; maintainer-decision time 0m. Landed as `Slice 436: audit current Polo face acceptance`.
+
+**Next action:** resume exact-revision Woven front and back crossing review, preserve the continuous neckline, and do not fabricate a false sleeve-hem gap. Keep all holds until all-seven V02 gates pass.
+
+## EPIC-17 / G04 latest completed work — Slice 435 Polo keyed-marker clearance; V02 remains open
+
+S435 started 2026-10-07 19:30:37 UTC from clean S434 commit `1668e2e3d76bd08a8157e9fb0f1cbf5d05fb1a9a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 434; reserve 435. Validated board start replay advanced revision 2588→2591. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+S435 reapplies S426's corrected full-label Chromium audit directly to all 17 actual S434 Polo front SVGs/revisions. It preserves 660 source-label instances, 153 keyed marker glyphs and all 13 full-text schedule rows per front; there are zero source-label, marker-glyph or schedule box overlaps at the documented threshold and zero browser errors. The 3 default/min/max full output images were reviewed. S434's raw path/mark proximity count includes intended target-station contacts and is not a readability collision metric; the fixed-ring J offset scan is diagnostic only, was not approved or implemented, and is unnecessary under corrected evidence. Keep the approved J/FG stations unchanged.
+
+No production code, pattern geometry, source stitch graph, POM definition, options or gates changed. No face is accepted; all 34 Polo and 56 Woven faces remain held. The separate Polo eased-seam limit is 0.25 cm except the exact already-approved S351 representation. Woven crossings/topology holds persist. V02 all-seven acceptance, V02-before-V03, legacy DXF behavior and protected export byte identities remain unchanged. V03 remains gated by all-seven V02, rights review, a qualified industrial receiver/profile and representative import/round-trip evidence. Full repository coverage/build/browser/output/export gates remain reserved for the settled integrated Epic candidate.
+
+S435 packet and artifacts: `docs/research/epic17/S435-polo-keyed-marker-clearance/`. Validated board start/exit replay is 2588→2591→2596; `npm run control-center:test` passes 42/42 and `git diff --check` passes. Elapsed from 19:30:37 to 19:44:00 UTC (~13m23s): implementation 0m; diagnosis/reconciliation ~5m; focused matrix and rendered review ~3m; durable packet/state/board closeout ~5m23s; external-agent waits 0m; maintainer-decision time 0m. Goal status is active and matches the admitted Epic; retain it through merge/deployment verification.
+
+**Next action:** audit current per-face Polo V02 acceptance against topology, joins, overlays, POM identity, readability and option-matrix requirements. Keep all Polo/Woven faces held until every applicable check passes. Do not start V03 before all seven recipes pass V02.
+
+## EPIC-17 / G04 latest completed work — Slice 433 Polo output blocker diagnosis
+
+S433 started 2026-10-07 18:18:31 UTC from clean S432 `f5aa0d55fd2edfef6ab620caf8b2a13452c7341c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice at start was 432; S433 is the next unique slice. Board revision advanced 2558→2560 through the validated command layer. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+S433 diagnoses Polo's two recurring output blockers against current recipe source, exact option revisions, production compiler, renderer and Chromium output. Back sleeve colorway contour closure was missing the already visible exact body armhole seam because colorway contour collection excludes body-role paths. The correction creates only a same-revision fill-boundary duplicate bound to the exact source armhole edge and approved S351 decision; it adds no visible line, pattern geometry, stitch, or cut change. All 17 exact option colorway SVGs now pass with sleeve fills present and zero renderer/browser errors. No face is accepted. Board start was replayed 2558→2560; validated exit commands plus additive summary-phrase reconciliation finish at revision 2574, preserving all statuses and historical evidence links.
+
+Both front POM source edges, targets, anchors, values and tolerances are present and individually renderable. Full-layout failures affect `Finished collar stand height` and `Stand front rise` in 17/17 options due to the finite greedy label placement search. An in-memory 17-option rendered proposal uses key J at the exact frontEnd anchor and one shared FG ring at the exact frontNeckline anchor with separate full-text schedule rows. It moves the pre-existing FG display station by at most 0.103085 cm. This is a view-only design choice and is not implemented pending maintainer approval. All 34 Polo faces remain held. Woven's 28 front neckline/collar contacts and 28 back sleeve-hem crossings persist; all 56 Woven faces remain held. Total remains 90 held.
+
+S433 focused suites pass 147/147; Control Center regressions pass 42/42 after the board summary reconciliation. The targeted coverage report is 99.76% statements/lines and 100% branches/functions; its only uncovered lines are existing S432 wrapper lines 803–804, outside S433's changed code. No coverage threshold was altered. Actual option matrices, SVGs and inspected default/min/max crops are retained in `docs/research/epic17/S433-polo-output-blocker-diagnosis/`. No full repository gate is due before the settled integrated Epic candidate. V02 all-seven acceptance, the approved exact S351 residual rule, all other residual criteria, protected export identities, and V02-before-V03 remain unchanged.
+
+V03 remains downstream of all-seven V02 and still lacks a rights-cleared industrial apparel receiver/profile or representative round-trip evidence (S421). Do not claim exact CAD compatibility. S433 exit packet: `docs/research/epic17/S433-polo-output-blocker-diagnosis/G04-V02-POLO-OUTPUT-BLOCKER-DIAGNOSIS-S433.md`.
+
+**Next action:** obtain a decision on the exact J/FG presentation mapping while continuing independent held-face diagnosis. Implement it only if approved; keep all Polo and Woven faces held until every applicable V02 check passes. Do not begin V03 before all-seven V02 and rights/round-trip prerequisites are met.
+
+## EPIC-17 / G04 latest completed work — Slice 430 current Woven output manual-finding review
+
+S430 started 2026-10-07 16:51:34 UTC from clean S429 `86434ae78c4d7959724aea82f98ada8b6cf687bb` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 430 is complete; next unique number is 431. Board start/exit revision advances 2538→2544 through validated commands. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog; the admitted goal remains active.
+
+S430 reviews the exact S429 Woven revision 14:14 evidence against MQF-004–007/011/012/015 and the prior S397/S408 finding reviews. MQF-004–007 remain partial; MQF-011 is not covered by POM/colorway output; MQF-012 is not addressed by this Woven-only review; MQF-015 remains assigned to V03. All seven entries remain **To be reviewed** in the durable register. MQF-011/012 post-G17 deferrals and MQF-015's rights/profile/import/round-trip gate remain unchanged. No corrective scope was added.
+
+All holds/gates remain unchanged: 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces held; Woven neckline/collar and sleeve-hem holds persist; Polo's 0.68 cm residual remains above 0.25 cm; all-seven V02 and V02-before-V03 remain. Packet and register-check result: `docs/research/epic17/S430-current-woven-output-mqf-review/`.
+
+Focused checks: register consistency verified all seven findings as To be reviewed and bound the S429 evidence; validated start/exit preflight/replay preserved statuses; `npm run control-center:test` 42/42; `readBoardFile()` verifies board revision 2544; script syntax and `git diff --check` pass. No production source/output changed, so changed-code coverage and global gate remain due only at the settled integrated Epic candidate.
+
+Elapsed 2026-10-07 16:51:34–16:54:01 UTC: finding review/packet authoring ~1m; focused register and board/Control Center verification ~1m; durable context/board closeout ~0.5m; implementation 0m; external-agent waits 0m; blocking maintainer-decision wait 0m. No delegation was appropriate.
+
+**Next action:** select the next independently evidenced V02 blocker without reopening accepted view decisions; preserve all 90 holds and keep V03 gated.
+
+## EPIC-17 / G04 latest completed work — Slice 429 Woven POM output readability audit
+
+## EPIC-17 / G04 latest completed work — Slice 429 Woven POM output readability audit
+
+S429 started 2026-10-07 16:39:35 UTC from clean S428 commit `c481a1a38c61c3af0477dffbfa79ddddfa8c3a42` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Slice 429 is complete; next unique number is 430. Board start/exit revision advances 2529→2538 through validated commands. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. `get_goal` confirms the admitted EPIC-17 objective remains active.
+
+S429 binds all ten source POM definitions to exact Woven revision `live-draft:woven-shirt:14:14`, then audits all 28 options / 56 faces. The emitted output contains 223 POM callout instances; all 223 are bound to the exact expected same-revision target and source edge/mark. View-specific source omissions are explicitly recorded in 337 notices; body length and neckline circumference remain table-only where their source edges are not drawn, and no opposite-face anchor is inferred. Every front has the two approved full keyed W/D POM schedule rows. Chromium reports zero text/text overlap, zero unrelated ring/text overlap, zero compile/renderer/browser issues. Actual full default front/back and zoomed keyed markers/schedule were inspected. The first apparent 56 ring/text collision count was the marker letters occupying their own rings; the audit now exempts only this intended pairing and confirms zero unrelated collisions. No new design decision or source change is needed.
+
+All holds remain unchanged: 56 Woven and 34 Polo faces; 56 accepted / 90 held across 73 configurations / 146 faces. Woven front collar contacts, back sleeve-hem crossings and the Polo 0.68 cm residual above the fixed 0.25 cm gate remain unresolved. No acceptance, mapping, geometry, export identity, status or V03 gate changed. Packet and matrix: `docs/research/epic17/S429-woven-pom-output-readability/`.
+
+Focused checks: exact-revision 28-option audit passes; actual default front/back and marker/schedule zoom captures reviewed. `npm run control-center:test` 42/42; board schema/read validation at revision 2538, validated start/exit command preflight/replay, script syntax and `git diff --check` pass. No production source changed, so changed-code coverage and the one integrated full repository gate remain for the settled Epic candidate.
+
+Elapsed 2026-10-07 16:39:35–16:50:23 UTC: audit/packet authoring ~3m; focused matrix, Chromium and Control Center verification ~4m; visual review ~1m; durable state/context/board closeout ~3m; external-agent waits 0m; blocking maintainer-decision wait 0m. (The maintainer confirmed the existing S425/S428 recommendations; no dependent work waited on that confirmation.)
+
+S429's current POM output evidence also becomes the input for S430's required manual-finding review. Preserve all 90 holds and V02-before-V03.
+
+## EPIC-17 / G04 latest completed work — Slice 428 Woven current-hold reconciliation
+
+S428 started 2026-10-07 16:30:55 UTC from clean S427 `eb146b1ffcaa63af86d4d11caf31f51e55f1d803` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 428 is complete; next unique slice is 429. Board start/exit revision advanced 2514→2529 through validated commands. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog; statuses and goal status active. Current admitted scope and all-seven V02 acceptance are unchanged.
+
+The maintainer confirmed the recommendation set: preserve the Woven continuous neckline and all its holds, reject the unsupported Polo cap-span candidate and keep its 34 holds, and retain the already implemented segmented Polo H marker. S428 binds current Woven outputs to `live-draft:woven-shirt:14:14`: the exact S406 production replay covers 28 options / 56 faces, with two mirrored visible body-base-seam strokes per face and zero duplicate stand-base strokes. The later S425 change is Polo H-specific; no later Woven production change supersedes those outputs. S417 still records the repeated front neckline/collar contacts in 28/28 fronts; S381 still records the continuous sleeve-hem crossing in 28/28 backs. The pattern has no evidence supporting a gap or over/under order at that crossing. All 56 Woven and 34 Polo faces remain held; tally remains 56 accepted / 90 held across 73 configurations / 146 faces. Audit result and rendered references: `docs/research/epic17/S428-woven-current-hold-reconciliation/`.
+
+Focused audit passes: 28/28 options, 56/56 faces, all exact revision, no compile/renderer issues, zero duplicate stand-base strokes, and 28/28 S401 back SVG/path identity matches. Actual S417 front and S373 back Chromium crops reviewed. Validated Control Center start/exit preflight and replay preserve all statuses; final `npm run control-center:test` passes 42/42; `readBoardFile()`, script syntax and `git diff --check` pass. Two summary assertion failures were diagnosed and the exact historical phrases restored additively. No production code changed; full repository coverage/build/export/rendered gate remains for the settled integrated candidate. Commit, clean state and ancestry verification remain before the slice boundary.
+
+**Next action:** continue the remaining unresolved V02 blockers with every hold and gate preserved. No geometry or acceptance change is authorized by this reconciliation. S428 landed as `c481a1a38c61c3af0477dffbfa79ddddfa8c3a42`; the worktree was clean and refreshed `origin/main` remained its ancestor.
+
+## EPIC-17 / G04 latest completed work — Slice 427 Polo sleeve-cap source-repair diagnostic
+
+S427 started 2026-10-07 16:19:12 UTC from clean S426 `3eba932a9ad752d3e08014610350b51e568adf8c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 427 is complete; next unique number is 428. Board revision moved 2503→2514 through validated start and exit commands. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog; statuses unchanged. The goal remains active. Usage at entry: 9% primary / 10% weekly.
+
+Exact Polo source and all 17 options reproduce S423's 0.677835 cm endpoint RMS. The source couples 43 cm cap span to the Sleeve bicep width POM at the cap/side junctions (±0.6 cm). A cap-span-only diagnostic would have to shrink that span to 35.730905 cm to reach 0.25 cm, changing the POM by −7.269095 cm and increasing cap height from 1.786944 to 10.978524 cm while retaining 1.5 cm total cap ease. The change is outside POM tolerance and materially reshapes the piece; no source change is made or recommended. All 34 Polo and 56 Woven views remain held; 56 accepted / 90 held across 73 configurations / 146 faces. Preserve every G04 gate and claim boundary. Packet, matrix and overlay: `docs/research/epic17/S427-polo-sleeve-cap-repair-alternatives/`.
+
+Focused checks: 17-option diagnostic invariants pass; Chromium rendered the actual-source/in-memory overlay with zero browser errors; validated board preflight/replay and `readBoardFile()` pass at revision 2514; `npm run control-center:test` passes 42/42; `git diff --check` passes. Two stale summary wording assertions were corrected and documented in the packet.
+
+**Next action:** start S428 with an exact-current-source/output diagnosis of remaining Woven holds, reusing S381/S417 and later approved-mapping evidence; keep 56 Woven faces held unless all topology and rendered gates pass.
+
+## EPIC-17 / G04 current work — Slice 426 Polo full-label callout diagnosis; V02 remains open
+
+S426 started 2026-10-07 15:50:59 UTC from clean S425 `408ec16b91dc0736bcf748fd2785cd8059e1f523` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 426 is complete; the next unique slice is 427. Canonical board revision moved 2491→2503 through validated start, exit, and summary-reconciliation commands. EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog; no status changed. The goal remains active. The integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+The corrected S426 replay uses all 17 exact S399 Polo revisions with the current production SVG renderer/Chromium and restores full source mark labels and all applicable unkeyed POM callouts. It preserves 610 source-label instances, 50 unkeyed callout instances, all 11 keyed POM schedule rows, source component paths/revision identities and approved S425 H treatment. Collision checks report zero source-label-pair and marker-label overlaps, zero renderer issues and zero browser errors. Actual default, collarPointExtension-max and sideVentDepth-min outputs plus targeted crops are retained and reviewed. The first incomplete replay omitted source labels; its apparent raw bbox contacts are explicitly superseded by the corrected complete replay.
+
+S426 resolves no construction/assembly hold. Polo's separate `Sleeve-cap ease` residual remains 0.68 cm against the unchanged 0.25 cm gate; the 8.654851 cm bicep reduction was rejected. All 34 Polo and 56 Woven faces remain held; Woven's continuous neckline remains the maintainer-approved display. All-seven V02, V02-before-V03, legacy DXF, protected export identities, V03 rights/round-trip gates and claim limits are unchanged. Packet and evidence: `docs/research/epic17/S426-polo-post-h-callout-readability-diagnosis/`.
+
+Focused verification: exact 17-option source-label output matrix passes all invariants; `npm run control-center:test` 42/42; board schema/read validation at revision 2503; `git diff --check` passes. The initial board regression assertions exposed dropped S406 historical phrases; the current canonical summaries preserve them and the regression tests now assert the verified S426/Woven status.
+
+**Next action:** begin S427 as a bounded Polo sleeve-cap construction/source-repair diagnostic. S424's large bicep reduction was rejected; do not change production pattern geometry or the stitch graph without a new source-backed proposal and maintainer approval. Keep all views held pending full V02 verification.
+
+## EPIC-17 / G04 previous slice — Slice 425 approved Polo H segmentation; V02 remains open
+
+S425 implements the maintainer-approved view-only segmented H locator in the technical-flat renderer. Only Polo's H uses the segmented style; the exact `(7,0)` source anchor, 0.22 cm radius, POM target identities, H glyph and complete schedule remain unchanged. The renderer masks path/circle/button/buttonhole-stroke contacts with 0.045 cm clearance, discards arcs under 0.04 cm, and fails closed unless it can retain 2–3 arcs covering at least half the ring. The exact S399 revision fixtures were passed through the changed renderer for all 17 options: 2–3 arcs, 60.28–72.22% retained circumference, 11/11 POM rows, preserved 11/11 component paths, zero sampled post-paint marker-to-source stroke contacts and zero browser errors. Actual default and `standFrontRise-min` crops are retained and manually reviewed. The current live compiler continues to withhold Polo because the separate 0.68 cm sleeve endpoint residual exceeds 0.25 cm; this trial accepts no view.
+
+The maintainer also approved rejecting S424's proposed 8.654851 cm finished bicep reduction and keeping all Polo holds, and preserving the continuous Woven neckline with all 28 front holds. These exact decisions are now in `docs/PROJECT-DECISIONS.md`. All 34 Polo and 56 Woven faces remain held; integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. V01 Done, V02 In Progress, V03 Backlog. Keep all-seven acceptance, the 0.25 cm residual, V02-before-V03, generic legacy DXF, protected export identities, V03 rights/round-trip, and claim boundaries intact.
+
+Focused technical-flat suite 233/233 passes across 12 files; each changed production module meets 100% statement/branch/function/line coverage. The 17-option Chromium output harness passes and shows no browser errors. Validated S425 start/exit and additive history-preserving summary commands take the canonical board from revision 2474 to 2491; all statuses/evidence links remain valid and V01/V02/V03 remain Done/In Progress/Backlog. Final `npm run control-center:test` passes 42/42 after retaining required historic decision phrases in the descriptions. `git diff --check` passes. No repository-wide gate is due before the settled integrated Epic candidate. Packet and outputs: `docs/research/epic17/S425-polo-h-segmented-locator-implementation/`.
+
+Elapsed 2026-10-07 15:18:26–15:47:54 UTC (~29m28s): implementation ~7m; focused tests and changed-module coverage ~5m; all-option output generation/review ~5m; durable docs/board and final slice checks ~12m28s; external-agent waits 0m; maintainer-decision time 0m because the response was available during active independent work.
+
+**Next action:** begin S426, a bounded exact-revision 17-option diagnosis of remaining Polo keyed-callout/source-label collisions after H segmentation; retain all face holds, current gate and scope.
+
+## EPIC-17 / G04 previous slice — Slice 424 Polo source-repair proposal; V02 remains open
+
+S424 tested an in-memory change to the sleeve component's existing bicep input across all 17 Polo option rows/34 face requests. Reaching 0.20 cm endpoint RMS while retaining 1.5 cm authored cap ease requires reducing standard raw bicep from 38 to 29.345149 cm; the finished sleeve-bicep span falls 43 to 34.345149 cm (−8.654851 cm, 20.1%). Body armholes and the source stitch stay unchanged in the diagnostic. Actual-source sleeve overlay was rendered and reviewed; it is markedly narrower and is not a complete assembled flat. Production source, tests, geometry, acceptance, threshold and holds were unchanged. The maintainer has now approved rejection of this candidate. All 34 Polo and 56 Woven views remain held. Matrix and rendered output: `docs/research/epic17/S424-polo-residual-source-repair-proposal/`.
+
+## EPIC-17 / G04 previous slice — Slice 423 Polo residual lower-bound diagnostic; V02 remains open
+
+S423 started 2026-10-07 09:38:09 UTC from clean S422 `2d6b018469823f0204d5d3bf31340f799d215712` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice 422; S423 is unique. Board revision 2464 advances to 2466 at start. V01 Done, V02 In Progress, V03 Backlog; goal active and unchanged. Usage at entry 50% primary / 8% weekly.
+
+S423 derives the exact production metric from the current 17-row option matrix. `stitchRelations` supplies only the two source endpoint stations per curve, so the 0.68 cm production RMS is endpoint-only rather than interior curve/ease deviation. For every option and both faces, the unchanged cap/armhole endpoint chords differ by 0.958604 cm; hard-anchored endpoint RMS is 0.677835 cm (production rounds to 0.68), and even the best unconstrained rigid two-endpoint fit is 0.479302 cm, still above the maintainer-fixed 0.25 cm gate. Authored arc lengths remain 21.595729 cm versus 20.845729 cm per half (0.75 cm ease per half). No source-supported rigid correspondence can meet the gate without source geometry repair or changing acceptance; neither is authorized by this slice. The production source, stitch graph, cut geometry, renderer, view state, gate and acceptance remain unchanged. All 34 Polo and 56 Woven faces remain held. Matrix and diagnostic: `docs/research/epic17/S423-polo-residual-lower-bound/endpoint-chord-matrix.json` and `measure-chord-lower-bound.ts`.
+
+Focused evidence: 17 option rows each reproduce both live 0.68 cm assembly issues; `npm run control-center:test` passes 42/42; start/exit script syntax, validated board replay and `git diff --check` pass. No production code/test changed, so global coverage/build/export/browser gates remain due on the settled integrated Epic/PR candidate. Validated board exit advances 2466→2469 with V01 Done, V02 In Progress and V03 Backlog; all Epic/item statuses and all holds are unchanged.
+
+Elapsed 5m55s from 09:38:09 to 09:44:04 UTC: source/metric trace and exact option replay ~3m; lower-bound derivation and rendered evidence review ~1m; packet/state/board closeout and focused verification ~2m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** investigate a bounded source-pattern repair proposal for the Polo residual without editing pattern source; retain the 0.25 cm gate and all 34 Polo holds until a separate approval and all-option verification.
+
+## EPIC-17 / G04 previous slice — Slice 422 unresolved V02 display decisions; V02 remains open
+
+S422 started 2026-10-07 09:35:06 UTC from clean S421 `9873ffb8fcfeb3d6f16c12c628744f905a878093` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 421; 422 is unique. Board revision 2459 advanced to 2461 at start. V01 Done, V02 In Progress, V03 Backlog; goal record is active and matches the full admitted objective.
+
+S422 reconciles two still-unanswered view-only decisions to the exact source revision/options and previously inspected output. Woven: the source's continuous `front.neckline` crosses the projected upper/under-collar contours in 28/28; clipping 0.8426–0.8433 cm per side removes the contact but interrupts the visible source base-seam stroke. Recommend preserve the continuous stroke and keep the 28 Woven fronts held. Polo: S419's source-centered H ring crosses strokes in 17/17; a 0.045 cm-buffered, 0.04 cm minimum-span open-arc rendering retains 60.139–72.361% circumference as 2–3 arcs with zero sampled path/mark contacts and an identifiable H in reviewed Chromium output. Recommend approve implementation/reverification of that annotation-only treatment. No decision or implementation is presumed; packet: `docs/research/epic17/S422-v02-unresolved-display-decisions/G04-V02-DISPLAY-DECISIONS-S422.md`.
+
+All 56 Woven and 34 Polo faces remain held; tally remains 56 accepted / 90 held over 73 configurations / 146 faces. The separate S381 back-hem no-gap decision and S406 collar-over-plackets implementation remain untouched. All-seven acceptance, the 0.25 cm Polo gate, V02-before-V03, DXF behavior and export identities remain unchanged. Validated start/exit replay and clone preflight preserve all statuses and advance board 2459→2464. `npm run control-center:test` passes 42/42; scripts and `git diff --check` pass. No production code changed.
+
+Elapsed ~1m25s: source/evidence and render review 35s; durable packet/state/board work 35s; focused verification 15s; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** present both concrete choices with the documented tradeoffs; do not implement either until approved. Continue only independent V02 work while decisions are pending.
+
+## EPIC-17 / G04 previous slice — Slice 421 CAD rights prerequisite review; V02 remains open
+
+S421 started 2026-10-07 09:29:56 UTC from clean S420 `ccb21a0447490fe33be835169ff3b2293aca738a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 420; S421 is unique. Board revision 2453 advanced to 2456 at start. V01 Done, V02 In Progress, V03 Backlog; active goal remains the admitted EPIC-17 objective.
+
+S421 completed prerequisite public-source rights/capability research only. CLO's official current support docs claim Standard DXF/AAMA/ASTM import/export and apparel-CAD use, but its trial requires account/billing/payment information and auto-starts a paid subscription after 14 days; business/academic access requires vendor contact. Valentina's official release notes establish DXF-AAMA/ASTM export to CLO3D, not receiver behavior. Seamly2D is GPLv3+ patternmaking software whose checked docs/source do not establish a DXF apparel receiver. LibreCAD is GPLv2 generic DXF import/export only. No no-cost industrial apparel receiver is qualified; no version/profile selected, software installed, terms accepted, paid/contact gate crossed, fixture imported or compatibility claim made. Research and evidence: `docs/research/epic17/S421-cad-rights-prerequisite-review/`.
+
+V02 remains In Progress and V03 Backlog. Current verified integrated tally remains 56 accepted / 90 held over 73 configurations / 146 faces; every Woven/Polo face remains held. S410 neckline and S419 H-marker decisions remain unresolved; Polo's 0.68 cm residual still exceeds the fixed 0.25 cm gate. Preserve all-seven V02, V02-before-V03, generic legacy DXF and all protected export identities. S421 is documentation/board-only; the integrated full coverage/build/export/browser gate remains for the settled Epic candidate. Validated clone preflight/replay advanced board 2453→2459 with all Epic/work-item statuses unchanged. `npm run control-center:test` passes 42/42; clone preflight invariants, both script syntax checks and `git diff --check` pass. S421 evidence is linked on G04-V03 and EPIC-17.
+
+Elapsed time ~6m: public/local source review 2m; packet and durable state/board closeout 2m; focused verification 2m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** continue independent V02 blocker work; do not select a V03 receiver/profile until all-seven V02 passes and rights are cleared.
+
+## EPIC-17 / G04 previous slice — Slice 420 current board summary reconciliation; V02 remains open
+
+S420 started 2026-10-07 09:23:40 UTC from clean S419 `c90e89f0a677111762a47de6b8fa8692b720341c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 419; S420 is unique. Board revision 2443 advanced to 2446 at start and 2453 at validated exit. V01 Done, V02 In Progress, V03 Backlog; the active goal remains unchanged.
+
+S420 brought the canonical EPIC-17 Epic record, summary card and G04-V02 work item from S413/S407-era descriptions forward to verified S419 status, without changing scope, status, acceptance, or face holds. The maintainer's latest collar-over-plackets reply reaffirms S406 and is recorded as already implemented; it does not answer S410's separate Woven body-neckline clip choice. S419's diagnostic segmented Polo H-ring remains an unapproved proposal. The latest verified integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces remain held. Preserve the 0.68 cm versus 0.25 cm Polo residual gate, all-seven V02, V02-before-V03, legacy DXF, protected export identities, CAD rights/round-trip gates, and claim boundaries.
+
+Validated start replay preflighted on a clone at 2443→2446. Exit replay preflighted on a clone from committed S419 through the start and exit command sets, 2443→2453, with all Epic/item statuses unchanged. The canonical exit ran 2446→2452, then linked the verified exit evidence to the Epic summary card at 2453 through the validated command layer. `node --test ops/control-center/app/board.test.mjs` passes 18/18; `npm run control-center:test` passes 42/42; board schema validation and `git diff --check` pass. The first Control Center run exposed only stale prose assertions for the superseded board descriptions; those assertions now verify current S419 summaries and preserved S361 evidence links. No production code changed; the integrated global coverage/build/export/browser gate remains for the settled Epic candidate. Evidence: `docs/research/epic17/S420-current-board-summary-reconciliation/`.
+
+Elapsed 3m50s (board/current-state review and docs 1m30s; focused verification and failure diagnosis 2m20s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m).
+
+**Next action:** continue the remaining option-wide V02 diagnostics without implementing the unapproved Polo segmented H locator or Woven neckline clip; keep every hold and all G04 gates intact.
+
+## EPIC-17 / G04 previous slice — Slice 419 Polo H segmented locator trial; V02 remains open
+
+S419 started 2026-10-07 09:09:39 UTC from clean S418 `02d9bb8e763f37cc2e79d4f11a8f7854e69d1320` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 418; S419 is uniquely reserved. Board revision 2435 advanced to 2438 at slice start and 2443 at validated exit. G04-V01 Done, V02 In Progress and V03 Backlog. Goal remains active and matches the full admitted objective.
+
+S419 tested a diagnostic-only segmentation of the approved 0.22 cm Polo H ring at its unchanged source point `(7,0)` across the exact 17 S399 front outputs. It removed only arc spans that contact current source paths/marks, with a 0.045 cm clearance buffer and 0.04 cm minimum retained arc. Every derivative retains 60.1–72.4% of the ring as two or three arcs; sampled post-paint source contacts are zero in all 17. Component paths, marks, H identity/anchor/targets/glyph and POM schedule are unchanged. Chromium default and least-coverage views were reviewed. This treatment is a proposal only; no production change or approval was assumed.
+
+All 34 Polo faces remain held: the 0.68 cm residual remains above the 0.25 cm gate and other callout readability checks remain. All 56 Woven faces remain held, including the S410 neckline/base-seam decision and S381 back hem. The latest S417 output classification and S418 UI reconciliation remain current. Preserve all-seven V02, V02-before-V03, legacy DXF/protected exports, V03 rights/round-trip and claim boundaries. Focused S419 identity/geometry checks and script syntax pass; `npm run control-center:test` passes 42/42; `git diff --check` passes. No production code changed, so integrated full coverage/build/export/browser gates remain for the settled Epic/PR candidate. Evidence: `docs/research/epic17/S419-polo-h-segmented-locator-trial/`; board revision 2443 links exit, matrix and rendered evidence.
+
+**Next action:** obtain the specific H marker design approval before implementation; keep all faces held. The separate S410 neckline/base-seam question also remains unanswered. Continue independent G04 work without treating either decision as view acceptance.
+## EPIC-17 / G04 current work — Slice 418 latest-board UI reconciliation check; G04 remains open
+
+S418 started 2026-10-07 09:03:48 UTC from clean S417 `06e0ca492d12613b6069d029879f401c711e81bf` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 417; S418 is uniquely reserved. Canonical board was revision 2428; validated start and exit replays advanced it to 2431 and 2435. EPIC-17/G04-V01 Done, V02 In Progress, V03 Backlog. Goal remains active and matches admitted V01→V02→V03 through required gates and safe merge.
+
+S418 read the approved UI sequence/note against current admission, state, board and S354/S385 records. Those records already reconcile construction-aware source geometry, same-piece/revision identity, exact source-bound POM values/anchors/targets, applicable overlays and rendered readability as existing G04 V02 scope. App-wide native styling, guidance, toolbar, catalog polish and UI integration remain independent UIQ cards; thumbnails, packs and assembled/oblique/inside views remain under G06/G05/G09. On the latest board, identity-aware clone preflight matched all 29 additive command entries; 29 skipped, 0 replayed, no identity conflict, no board mutation during that replay. All 14 UIQ cards remain Backlog and G04 has no UIQ dependency. No local-status commands were applied.
+
+G04 acceptance and every hold are unchanged. S417 is the latest Woven crossing audit; 56 Woven and 34 Polo faces remain held, Polo's 0.68 cm residual remains above 0.25 cm, and V03 stays gated behind all-seven V02. S418 changes no production code or tests. Evidence: `docs/research/epic17/S418-ui-reconciliation-latest-board/`; validated exit evidence/replay are linked on the canonical G04 board at revision 2435. `npm run control-center:test` passes 42/42; replay script syntax and `git diff --check` pass. No global Epic gate is due for this board/documentation-only slice.
+
+**Next action:** continue G04's next independent V02 blocker, retaining all holds and the original G04/V03 gates. UIQ registrations do not authorize implementation.
+## EPIC-17 / G04 current work — Slice 417 Woven front post-clip crossing audit; V02 remains open
+
+S417 started 2026-10-07 08:48:43 UTC from clean S416 `2952b33e1b471b935470e94eaf5cce8c24f762b6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 416; S417 is uniquely reserved. Board revision 2420 advanced to 2423 through validated start replay and to 2428 through validated exit replay. G04-V01 is Done, V02 In Progress and V03 Backlog. Goal remains active and matches the admitted G04 objective. The attached `epic-17-g04` worktree is authoritative; the separate `F:\designApp` UIQ checkout is untouched.
+
+The exact 28 S406 Woven FRONT_FLAT SVGs at `live-draft:woven-shirt:14:14` were traced after approved clips/order, including entity/source IDs, clipped path fragments, painter order and intersection coordinates. The remaining board wording now classifies: (1) shoulder/outer-stand endpoints at the approved clip boundary are source-joined through `outerStand.neckline` ↔ `front.neckline`; (2) two actual mirrored `front.neckline` / projected collar contacts recur in all 28 options and remain the distinct S410 base-seam display hold; (3) placket/collar contacts are at S406's approved clipped foreground boundaries and are already covered by the maintainer-approved collar-over-plackets order. Actual Chromium default and `neckEase-max` overlays confirm the classification. Latest user response reaffirms the existing closure order only; it does not decide S410.
+
+All 56 Woven and 34 Polo views remain held. S417 changes no production behavior, geometry, stitches, POMs, schedules, option values, thresholds or acceptance. The S381 back-hem gap remains unsupported and held. Polo's 0.68 cm residual still exceeds 0.25 cm. Preserve all-seven V02, V02-before-V03, legacy DXF/protected exports, V03 rights/round-trip gates, physical/factory claim boundaries and G05/G09 exclusions. Packet, exact 28-option matrix and Chromium overlays are in `docs/research/epic17/S417-woven-front-post-clip-intersection-audit/`; board revision 2428 links E-G04-S417-EXIT, MATRIX and RENDER. Focused Control Center tests pass 42/42; audit and render scripts pass; actual Chromium review has zero browser errors; `git diff --check` passes. No production code changed, so global coverage/build/export/browser gates remain for the settled Epic candidate.
+
+**Next action:** continue the next independent V02 blocker with all current holds intact. Do not implement S410's seam occlusion without the maintainer's specific decision.
+## EPIC-17 / G04 current work — Slice 416 Polo H ring-radius trial; V02 remains open
+
+S416 started 2026-10-07 08:41:04 UTC from clean S415 `46c1b91d462159dc1aeab8e537c7dc9b3d3526fb` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 415; S416 is unique. Board revision 2414 advanced to 2417 via validated start replay. EPIC-17/G04-V02 remains In Progress, V01 Done, V03 Backlog. Goal remains active and matches admitted V01→V02→V03 through safe merge; usage at start 41% primary / 6% weekly.
+
+S416 screened source-centered H ring radii 0.10–0.18 cm against the exact 17 S399 Polo front options, preserving the approved `(7,0)` anchor, H glyph, schedule, marks, paths and revision. No tested radius clears component paths in all 17 options. Radius 0.18 cm clears marks in 16/17 but still crosses source paths; smaller radii remain in contact with the crowded source marks. Default and placketLength-min Chromium crops were inspected. No production mapping or output changed; all 34 Polo faces remain held, including the independent 0.68 cm residual against 0.25 cm.
+
+Packet/matrix/renders: `docs/research/epic17/S416-polo-h-ring-radius-trial/`. Focused matrix consistency check and diagnostic syntax pass; validated Control Center tests pass 42/42 and `git diff --check` passes. No production code changed; settled-Epic coverage/build/export gates remain due at candidate boundary. All-seven V02 and all current holds remain unchanged.
+
+**Next action:** continue the next repeated source/output-resolvable V02 blocker; do not implement a smaller H ring or release Polo views.
+
+## EPIC-17 / G04 current work — Slice 415 Polo ease-residual wording correction; V02 remains open
+
+S415 started 2026-10-07 08:35:12 UTC from S414 commit `aebce952f8682576ef15037bfd8828deb818272f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 414; S415 is unique. Board revision 2408 advanced to 2411 through validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The goal remained active and matched current Epic records; usage at start was 39% primary / 6% weekly. S415 landed as `46c1b91d462159dc1aeab8e537c7dc9b3d3526fb`.
+
+S415 reconciled the fixed Polo assembly hold against current source and the S382 17-option matrix. `CAP_EASE = 1.5 cm` makes the summed cap length 43.191458 cm versus 41.691458 cm receiving armholes. Production mapped assembly reports a distinct 0.68 cm RMS separation across matched seam landmarks after rigid placement, greater than the unchanged 0.25 cm gate on all 34 face/configuration requests. A helper-only raw call without validated S353 projection metadata produces a different non-production-comparable number; the revised regression uses the live compiler and checks all 17 option rows and both faces. The diagnostic sentence was corrected from endpoint-gap wording to RMS landmark separation; calculation, gate, geometry and stitches are unchanged.
+
+Focused test/changed-module coverage passes 61/61 at 100% statements/branches/functions/lines for `technical-flat-assembly.ts`; build passes with its existing large-chunk advisory; protected export tests pass 24/24. Every Polo face remains held. The `.25 cm` gate and all-seven V02/V02-before-V03/DXF/export/V03 gates are unchanged. Packet/evidence: `docs/research/epic17/S415-polo-ease-residual-source-reconciliation/`.
+
+**Next action:** continue the next repeated V02 output issue while preserving the 34 Polo and 56 Woven holds. The source ease and the assembly RMS must not be conflated; no geometry/stitch change is authorized by this slice.
+
+## EPIC-17 / G04 current work — Slice 414 Woven approved-layer reconciliation; V02 remains open
+
+S414 started 2026-10-07 08:31:04 UTC from clean S413 `ec08d3617a721a72225fddd06ca0082d959702a4` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 413; S414 is unique. Board revision 2402 advanced to 2405 by validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. Goal is active and still matches the admitted objective; usage at start was 39% primary / 6% weekly. S414 landed as `aebce952f8682576ef15037bfd8828deb818272f`.
+
+The maintainer reaffirmed the Woven collar-over-plackets decision already implemented in S406: button placket over buttonhole placket, collar over both, with only closure outline portions inside the collar silhouette clipped. S406's exact production replay emits all 28 front/back pairs, six approved front clips per option, zero compile/renderer/browser issues, and 28/28 backs byte-identical to S401. S407's exact S406-revision audit and S410 paint-order trace confirm a distinct unresolved issue: two mirrored body-neckline/projected-collar contacts remain in all 28 options, and the complete neckline already paints above the collar. The diagnostic clip removes 0.8426–0.8433 cm per side and visibly interrupts the continuous base seam, so it remains unimplemented pending its own decision. This approval does not answer S410.
+
+S414 packet and compact matrix: `docs/research/epic17/S414-woven-approved-layer-reconciliation/`. No source/output or production code changed. All 56 Woven and 34 Polo faces remain held; Polo's 0.68 cm residual still exceeds the fixed 0.25 cm gate. All-seven V02, V02-before-V03, legacy DXF, protected export identities and V03 rights/round-trip gates are unchanged. Focused reconciliation checks, Control Center tests and `git diff --check` pass; full integrated gates remain for the settled Epic candidate.
+
+**Next action:** continue the next repeated V02 blocker resolvable from current source/output evidence, preserving all holds. Do not implement or imply approval of the distinct S410 neckline clip.
+
+## EPIC-17 / G04 current work — Slice 413 Polo H callout routing trial; V02 remains open
+
+S413 started 2026-10-07 08:21:12 UTC from clean S412 `d422f033b2ee5a19e2d63420fbf32d508481593c` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 412; S413 is uniquely reserved. Canonical board revision 2388 advanced to 2391 through validated start replay. EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. The goal remains active and matches admitted V01→V02→V03 through safe merge; usage at start 37% primary / 6% weekly.
+
+S413 screened eight shared H ring/glyph translations (four diagonals at 0.8 and 1.2 cm) with a direct leader from exact source `(7,0)` across all 17 S399 Polo options. At the anchor the front silhouette is 0.0012 cm away and the independent outer-stand outline is 0.0476 cm away; the stitch graph does not encode a join. All down-right/down-left leaders cross source collar/stand paths; for `west-down-0.8`, 49 contacts span `outerStand:outline`, `underCollar:outline` and `upperCollar:outline`. Upper routes avoid further paths, but the approved relative H glyph overlaps shoulder source labels in 15/17 (west-up) and 2/17 (east-up). No candidate passes all options, so none is proposed for implementation. All 34 Polo faces remain held.
+
+Actual Chromium default, `standFrontRise=max`, and `standFrontRise=min` crops show the rejected `west-down-0.8` trial; the moved marker separates from the source cluster but its leader enters the collar/stand stack. Corrected source-path, mark, and label matrix is `docs/research/epic17/S413-polo-h-callout-routing-trial/h-route-candidate-matrix.json`. No production code or acceptance changed. The separate 0.68 cm sleeve residual still exceeds 0.25 cm in 34/34 faces. Keep the all-seven criterion and all G04 gates. S412 found the prior ring-layer order trial visually ineffective and remains documented immediately below.
+
+Validated board exit replay advances 2391→2402; Control Center tests and diff check pass in packet. No global gate due without production code. All 56 Woven views remain held, including the separate S410 neckline question; the approved collar-over-plackets order is already in S406. Elapsed approximately 7m (08:21:12–08:28:12 UTC): source/topology and candidate design 1m; eight-route × 17-option screen 3m; rendered review 1m; durable packet/state/validated-board closeout and focused Control Center verification 2m; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. Packet: `docs/research/epic17/S413-polo-h-callout-routing-trial/`.
+
+**Next action:** continue from refreshed G04 state on the next repeated, independently actionable V02 blocker. Do not implement a failed H candidate or release Polo faces.
+
+## Prior boundary — Slice 412 Polo H station ring layer trial; V02 remains open
+
+S412 started 2026-10-07 08:16:12 UTC from clean S411 `5d9a9d27dd38688a81288c044765cbab1d8c32a7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 411; S412 is uniquely reserved. Canonical board revision 2375 advanced to 2378 through validated start replay. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The active goal remains needed and matches admitted V01→V02→V03 through final gates and safe merge; usage at start was 36% primary / 6% weekly.
+
+S412 uses the exact 17 saved S399 Polo production SVGs to trial moving only the H source-centered ring (center `(7,0)`, radius `0.22 cm`) behind colorway fill and all source silhouettes. It preserves the two POM identities/targets, approved glyph offset, eleven schedule rows, marks, paths and revisions; after removing the moved ring the remaining source/trial SVGs are byte-identical. Actual matched Chromium crops for default and standFrontRise min/max show no useful readability improvement: both distinct source shoulder marks remain clustered within the ring and shoulder/stand contours converge at the same station. This view treatment is rejected; no production code or mapping changed. All 34 Polo faces remain held.
+
+The Woven collar-over-plackets decision is already implemented in S406. S410's distinct Woven neckline clip question remains pending, and all 56 Woven views remain held. Preserve all-seven V02, the 0.25 cm Polo residual gate, V02-before-V03, legacy DXF, protected exports and V03 rights/profile/round-trip.
+
+S412 focused audit/browser assertions pass 17/17 with zero browser errors; actual default and limiting current/trial crops were inspected. Validated start/exit board revisions: 2375→2378 / 2378→2388. The post-update Control Center suite passes 42/42 and `git diff --check` passes. No global gate is due without production code. Elapsed approximately 5m (08:16:12–08:20:45 UTC): source/path inspection 1m; trial and assertions 1m; rendered review 1m; durable packet/state/validated-board closeout and focused Control Center verification 2m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m. Packet: `docs/research/epic17/S412-polo-h-station-ring-trial/`.
+
+**Next action:** S413 screens a source-anchored H marker/routed-label layout across the exact 17 current options. Only present a specific design choice if the rendered candidate clears the crowding without obscuring source marks or misleading the POM target.
+
+## Prior boundary — Slice 411 Polo post-S399 blocker audit; V02 remains open
+
+S411 started 2026-10-07 08:11:45 UTC from clean S410 `cccbbbb48a9fc34e3e11b7af0f901375d802dd39` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 410; S411 is uniquely reserved. Canonical board revision 2365 advanced to 2369 through validated start replay. G04-V01 Done, V02 In Progress, V03 Backlog. At start the goal was active and still matched the admitted G04 objective through safe merge; usage 35% primary / 5% weekly.
+
+S411 reconciles S399's current actual Polo renderer output against the same 17 option rows and S391/S392 source and residual evidence. Keyed output has zero renderer issues in 17/17, while exactly three `TEXT_COLLISION` errors remain in the unkeyed C fallback (`collarLeafDepth=max`, `standFrontRise=max`, `collarPointExtension=min`). The approved keyed C marker resolves that text error; these are not keyed failures. A/B/C contacts are source-backed armhole/collar interfaces. FG and H retain crowded source stations after their approved text offsets; H's ring still overlays distinct shoulder marks and nearby contours. D/E/I statuses and exact IDs are recorded in the S411 matrix. The independent `stitch:Sleeve-cap ease` residual remains 0.68 cm in 34/34 faces against the unchanged 0.25 cm gate. No production behavior or acceptance changed; all 34 Polo faces remain held.
+
+Actual S399 Chromium details inspected: default collar/neck/placket, `collarPointExtension=min`, and default H station. The full schedule, ten POMs, eight stations, colorway, and paired backs remain revision-bound; all 17 browser outputs are error-free. Focused script and JSON assertions pass; Control Center passes 42/42; `git diff --check` passes. No production code changed, so the global gate remains for the settled Epic/PR candidate. S411 evidence is at `docs/research/epic17/S411-polo-post-S399-blocker-audit/`.
+
+The maintainer's collar-over-plackets decision is already implemented in S406. The distinct S410 neckline clipping decision remains pending; all 56 Woven faces remain held. Preserve all-seven V02, Polo's 0.25 cm gate, V02-before-V03, legacy DXF, protected export identities and V03 rights/profile/round-trip gates.
+
+Elapsed approximately 4m (08:11:45–08:15:34 UTC): source/matrix reconciliation 1m; actual rendered review 1m; audit script, durable packet/state/validated-board closeout and focused Control Center verification 2m; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. Board start/exit revisions: 2365→2369 / 2369→2375.
+
+**Next action:** refresh board/branch at this boundary and investigate the repeated H source-mark crowding with an exact rendered view-layer trial; do not move its source-centered marker, hide distinct source marks or release views without the required approval and option-wide verification.
+
+## Prior boundary — Slice 410 Woven neckline layer-order trial; V02 remains open
+
+S410 started 2026-10-07 08:07 UTC from clean S409 `0ef673d807173fc7121e4e2f7964109fe970c752` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 409; S410 is uniquely reserved. Canonical board revision 2358 advanced to 2361 through validated start replay. G04-V01 Done, V02 In Progress, V03 Backlog. Usage at start: primary 33%, weekly 5%, ordinary work allowed. The active goal remains required through admitted V01→V02→V03, final output/gates, safe merge, ancestry and any required deployment.
+
+S410's exact 28-option S406 SVG entity trace shows that the body already paints both complete `front.neckline` strokes after the four projected under/upper collar outlines (indices 21–22 vs. 17–20). Thus “keep the full neckline over the collar” is current output and a reorder would be a no-op. Existing default and neckEase limit Chromium crops confirm two visible contact/crossing stations. The S407 trial changes no painter order; it clips the source base seam from center front to those contacts, hiding 0.8426–0.8433 cm per side and visibly interrupting S342's continuous-seam convention. This is not settled by the approved collar-over-plackets order. No new production mapping is implemented; all views remain held.
+
+All 56 Woven and 34 Polo views remain held. Preserve all-seven V02, Polo's 0.25 cm residual gate, V02-before-V03, legacy DXF, protected export identities and V03 rights/profile/round-trip gates. S410 start board replay advanced 2358→2361; exit commands were isolated-preflighted and applied through the validated layer to 2365. The all-28 path-order script and JSON checks pass; `npm run control-center:test` passes 42/42 and `git diff --check` passes. No production code changed, so global coverage/build/export gates remain for the settled Epic candidate.
+
+Packet: `docs/research/epic17/S410-woven-neckline-layer-order-trial/G04-V02-WOVEN-NECKLINE-LAYER-ORDER-TRIAL-S410.md`. Elapsed about 2m (08:07–08:09 UTC): output/source audit 1m; rendered comparison, durable record/board and focused verification 1m; implementation 0m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** request the specific S407 choice between clipping the source neckline interval and retaining the current continuous line/crossing with Woven fronts held. Do not conflate the decision with the approved collar-over-plackets order.
+
+## Prior boundary — Slice 405 Woven collar/closure crossing audit complete; V02 remains open
+
+S405 started 2026-10-07 06:34 UTC from clean S404 `204f788ddca4753e6563de33d9b9de163b95291f` on `codex/epic-17-g04`. Fetched `origin/main` remains `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor; S404 was highest and S405 uniquely reserved. Canonical board revision advanced through validated start replay 2291→2294 and exit replay 2294→2301; validated EPIC summary refreshes advanced it to 2305. G04-V01 is Done, V02 In Progress, V03 Backlog. `get_goal` at this verified boundary reports `active`; its objective matches the admitted EPIC-17 V01→V02→V03 objective through safe merge, so the goal is still needed and unchanged.
+
+S405 traced the repeated center-front collar/placket intersections in all 28 same-revision S403 Woven `FRONT_FLAT` outputs (`live-draft:woven-shirt:14:14`). Source directly encodes placket `attachmentRaw` joins to `front.centerFront` and separate outer-stand/neckline/collar stitches, but no collar-to-placket join or relative display order. S321 establishes button-placket above buttonhole-placket only; it does not settle collar-over-placket. The actual Chromium default and collarLeafDepth-max crops show the line intersections. Reproducible coordinate grouping is in `docs/research/epic17/S405-woven-collar-closure-crossing/`; no production code or face status changed. All 56 Woven and 34 Polo faces remain held; every all-seven, 0.25 cm Polo, V02-before-V03, CAD/right, export/DXF and physical/factory gate remains unchanged.
+
+During S405 the maintainer approved three exact view-only trials for implementation/re-verification: S402's D midpoint ring and glyph offset; S403 pocket foreground with only the hidden placket stroke suppressed; and S404 shoulder clipping to the first projected collar intersection on both sides. Decisions are recorded in `docs/PROJECT-DECISIONS.md`. These decisions release no views. A separate concrete collar-over-placket order remains unresolved; a proposal and its exact geometry/tradeoff are in the S405 packet. No such mapping is implemented. The G04 board remains In Progress.
+
+Focused syntax/audit checks pass, final Control Center run passes 42/42, and `git diff --check` passes. Three interim Control Center reruns exposed required historical summary assertions one at a time; the board description was corrected via validated commands and the final run passed without changing tests. No changed production code means no changed-code coverage or global gate was due. Elapsed approximately 3m (06:34–06:37 UTC): implementation 0m; source/matrix diagnosis 1m; rendered review 1m; durable record/board/focused checks 1m; external-agent wait 0m; maintainer-decision time ~1m. S405 exit evidence: `docs/research/epic17/S405-woven-collar-closure-crossing/G04-V02-WOVEN-COLLAR-CLOSURE-CROSSING-S405.md`.
+
+**Next action:** S406 implements the three approved view-only Woven treatments with focused changed-code 100% coverage and exact 28-option output/raster inspection. Preserve all holds. The collar/placket crossing remains a separate unresolved hold pending specific maintainer approval or supporting pattern-specific construction evidence.
+
+## Prior boundary — Slice 404 Woven collar station diagnosis complete; V02 remains open
+
+S404 began 2026-10-07 06:25 UTC from clean S403 `c2eca277105d6a1bf9b47cffe64251f2122380d7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S403 was highest; S404 was uniquely reserved. Board revision 2281 was the verified S403 exit and S404 start replay advanced it to 2284. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. The active goal remains needed and active, with objective matching the admitted G04 scope; it is unchanged.
+
+S404 reconciled the exact S403 28-option Woven `FRONT_FLAT` output crossing to its source paths and approved view map. `outerStand.collar` is the S359-projected, signed-normal-offset front run; it crosses independent `front.shoulder` in all 28 cases at revision `live-draft:woven-shirt:14:14`. The source stitch attaches `outerStand.neckline` to the body `front.neckline`/`yoke.neckline`; it does not connect the collar run to the shoulder. Crossings range x=11.7294–13.7019 cm, y=0.3019–0.7045 cm and 1.5099–3.5230 cm along the shoulder from HPS (default 2.5165 cm). CollarLeafDepth does not affect it; neckEase/standHeight and their supported combination do. Exact option/source/path records are in `docs/research/epic17/S404-woven-collar-station-diagnosis/woven-collar-crossing-stations.json`.
+
+A diagnostic-only actual-Chromium trial clips the front shoulder from HPS to the first outerStand collar intersection on both physical sides. It removes the crossing, but hides the first 1.51–3.52 cm of a source shoulder seam and makes its visible start appear to meet the collar at an unstitched point. No source, cut geometry, stitch graph, renderer, production map or acceptance changed. This view-layer decision needs maintainer approval; the diagnostic remains outside production and every view remains held. The pending S402 derived-midpoint D marker and S403 pocket/placket layer-order decision are unchanged.
+
+S404 closed diagnostic-only. All 56 Woven and 34 Polo views remain held. All-seven V02, Polo's 0.25 cm gate, V02-before-V03, DXF behavior, protected export identities, V03 rights/round-trip and physical/factory boundaries are unchanged. Focused `node` diagnostics and actual output review passed; `npm run control-center:test` passes 42/42 and `git diff --check` passes. No global gate was due. Board start/exit revisions: 2281→2284 / 2284→2291.
+
+Elapsed time is approximately 7m (06:25–06:32 UTC): production implementation 0m; source/matrix diagnosis 3m; diagnostic render and visual review 2m; packet/context/state/validated-board closeout and Control Center verification 2m; external-agent waits 0m; maintainer-decision time 0m.
+
+**Next action:** present one grouped set with the exact S402 D marker, S403 pocket-over-placket display order, and this S404 shoulder-occlusion convention. Continue independent blocker diagnosis while answers are pending; do not implement any pending semantic choice before approval, and preserve all holds.
+
+## Prior boundary — Slice 403 Woven front path-crossing audit complete; V02 remains open
+
+S403 began at 2026-10-07 06:14:05 UTC from clean S402 `ff7d2cb33a9270b2e814de4d1dcfa6af9cc2061f` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor. S402 was highest; S403 was uniquely reserved. Board revision 2269 followed S402 exit; validated S403 start replay advanced to 2272. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog.
+
+S403 audited 28 exact-revision (`live-draft:woven-shirt:14:14`) Woven `FRONT_FLAT` production-renderer SVGs. No component path self-crossing was detected in 28/28; 550 pairwise proper path-intersection records and the collinear overlap matrix are retained with source IDs and per-option geometry. These include sewn/projected overlaps and are not 550 independent defects. A recurring projected collar/stand contour crosses the front shoulder outline in 28/28; the crossing is not a declared source stitch junction. Separate source geometry places the pocket-left edge and button-placket outer edge exactly together in 25/28, leaves a 1 cm gap at `placketWidth-min`, and lets the placket extend 1 cm into the pocket bounds in `placketWidth-max` and `combined-supported`. The pocket is joined by source stitch only along `pocket.top` to the front placement mark; its placket relation/order is not encoded. Actual Chromium collar and pocket/placket crops and machine matrices are in `docs/research/epic17/S403-woven-front-source-crossing-audit/`.
+
+S403 is diagnostic-only and releases zero faces. A pocket-over-placket foreground convention is proposed for maintainer decision, with an explicit alternative to fail the two overlap configurations closed using an actionable width correction. Neither is implemented. The S402 D interval-key decision remains pending; no source, cut/stitch geometry, projection, POM, option range, acceptance threshold, all-seven criterion, export identity, or V03 gate changed. All 56 Woven and 34 Polo views remain held, including the source-continuous Woven back crossing and Polo 0.68 cm residual vs 0.25 cm. `npm run control-center:test` passes 42/42; three S403 `node --check` checks and `git diff --check` pass. No full gate is due for this evidence-only slice.
+
+S403 elapsed approximately 9m (06:14:05–06:23:05 UTC): implementation 0m; source and exact option-matrix audit 3m; rendered crops/generation and visual review 4m; durable/context/state/validated-board closeout and Control Center verification 2m; external-agent waits 0m; maintainer-decision time 0m. Validated board start/exit revisions: 2269→2272 / 2272→2281. The goal record checked after the S402 boundary remains active and still matches the admitted EPIC-17 objective; no goal change was needed.
+
+**Next action:** continue an independent diagnostic of the Woven collar shoulder station/crossing and its exact current view map while preserving all holds. Do not implement the pending D key or pocket/placket ordering decision without approval. Keep all-seven V02 and the unchanged CAD, export, physical and merge gates.
+
+## Prior boundary — Slice 402 Woven front button-spacing diagnostic complete; V02 remains open
+
+S402 began 2026-10-07 05:57:34 UTC from clean S401 `5186a75285b7d08cdab6dc7c4e72d622e87c8b9a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S401 was highest and S402 was uniquely reserved. Board revision 2257 recorded S401 exit; validated S402 start replay advanced the board to 2259. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Ordinary usage remained available.
+
+S402 audited the actual 28 S401 Woven `FRONT_FLAT` outputs at `live-draft:woven-shirt:14:14`. The source computes Front button spacing from the source `button-1` and `button-2` marks, currently anchoring the leader at button 1. That rendered leader contacts a collar or neckline source path within the 0.035 cm stroked-contact threshold in 23/28 option configurations; five configurations do not have this particular contact. A two-point bracket alternative touches unrelated source paths in 28/28 and is rejected. A diagnostic keyed interval marker at the arithmetic midpoint of the exact two source marks preserves the source measurements, source anchors, full schedule and continuous closure line; six glyph offsets clear sampled source paths and text boxes across all 28 rows. The recommended D glyph offset is `(+0.2121,+0.2121 cm)`. Because the derived midpoint is not an authored physical mark, this view convention awaits maintainer approval and is not implemented or accepted. Evidence and Chromium crops are in `docs/research/epic17/S402-woven-front-face-review/`.
+
+S402 releases zero faces. All 28 Woven fronts stay held pending approval, production implementation/replay if approved, and remaining topology/join/crossing/overlay gates. All 28 Woven backs remain held at the source-continuous sleeve/hem crossing. All 34 Polo faces remain held at 0.68 cm against the unchanged 0.25 cm gate. No source/cut/stitch geometry, acceptance threshold, all-seven criterion, export behavior or V03 gate changed. Focused 28-option diagnostics, actual Chromium trial/schedule inspection, `npm run control-center:test`, and `git diff --check` pass. The full repository gate remains reserved for the settled integrated Epic candidate.
+
+S402 elapsed approximately 15m (05:57:34–06:12 UTC): implementation 0m; focused audit and trial verification 8m; rendered generation/inspection 3m; durable packet/context/state/validated-board closeout and Control Center verification 4m; external-agent waits 0m; maintainer-decision time 0m. Validated board start/exit revisions: 2257→2259 / 2259→2269. `npm run control-center:test` passes 42/42; `git diff --check` and four script syntax checks pass. The current goal remains active, matches admitted EPIC-17/G04, is still needed, and was not changed.
+
+**Next action:** request a decision on the exact derived-midpoint D interval marker. Keep all Woven and Polo faces held. If approved, uniquely reserve the next slice to implement the view-only marker and verify production output for all 28 options; then continue blockers, all-seven V02, qualified V03 evidence, final output review, the integrated gate, PR, safe merge, ancestry, and required deployment.
+
+## Prior boundary — Slice 401 paired Woven live-output review complete; V02 remains open
+
+S401 began at 2026-10-07 05:44:41 UTC from clean S400 `1952860e16d68af07b04814d294df035aa4aa4b8` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S400 was highest; S401 was uniquely reserved. Board revision 2245 recorded the prior exit; validated S401 start replay advanced it to 2247. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Usage at start: primary 6%, weekly 1%, ordinary work allowed.
+
+S401 reconciled the production live renderer's paired Woven outputs across the exact 28 S363 option rows at `live-draft:woven-shirt:14:14`. It emits 28/28 front and 28/28 back requests with zero compile, renderer, or browser errors. Compared with S372's UI replay (3 fronts emitted, 25 held, 28 backs emitted), S400's exact approved W treatment removes the 25 recurring front `TEXT_COLLISION` rows. This is renderer-emission evidence only, not V02 face acceptance. The current front keeps the exact W source POM and full schedule in 28/28. Back path/colorway identity matches S372 in 28/28, including detached sleeve/band outlines and band-fold marks. Actual Chromium whole/detail images were inspected for default and limiting cases. The central continuous sleeve-hem X remains visible in default, yokeDepth-min, and yokeDepth-max backs. S381's pattern-specific evidence does not support a gap or over-under convention; all 28 back views remain held.
+
+S401 produces zero face releases: all 56 Woven faces remain held pending integrated all-seven V02 geometry, joins, crossings, overlap, readability and option gates; all 34 Polo faces remain held at the 0.68 cm residual against the unchanged 0.25 cm gate. No acceptance, hold, source geometry, criteria, or V03 gate changed. Evidence is in `docs/research/epic17/S401-woven-paired-live-output-review/`. Focused paired replay, matrix consistency, Chromium output review, Control Center tests and `git diff --check` pass. This evidence-only slice does not require a full coverage/build/export rerun; reserve the unchanged global gates for the settled integrated Epic candidate.
+
+S401 elapsed approximately 10m (05:44:41–05:54 UTC): implementation 0m; focused replay and matrix reconciliation 4m; rendered generation/review 3m; durable records, validated board replay and Control Center closeout 3m; external-agent waits 0m; maintainer-decision time 0m. Validated board start/exit revisions: 2245→2247 / 2247→2257. The current goal record remains active and its objective matches the admitted EPIC-17/G04 objective; it remains needed and was not changed.
+
+**Next action:** refresh branch/state/board/usage and prioritize the highest-frequency remaining G04 blocker without relaxing any face hold. Preserve the Woven back-crossing and Polo residual holds; continue the all-seven V02, rights-qualified V03, final-output, integrated-gate, PR, merge, ancestry and deployment sequence.
+
+## Prior boundary — Slice 400 Woven W marker implemented and verified; V02 remains open
+
+S400 began at 2026-10-07 05:30:14 UTC from clean S399 `220291fd90f44b922f54d29cdcfb90daa311e6e6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S399 was the highest landed slice; S400 was uniquely reserved. Board revision 2232 recorded S399 exit; validated S400 start replay advanced it to 2234. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Usage at start: primary 3%, weekly 0%, ordinary work allowed.
+
+The maintainer approved S396's exact Woven W presentation: keep the open 0.22 cm ring at the same-revision `buttonPlacket.top` midpoint; paint it after colorway fill but beneath source strokes; move only W `(+0.2121,+0.2121 cm)`; preserve the unchanged full POM schedule. S400 implemented exact compiler mapping plus that renderer presentation. The source POM, target/source edge, revision, anchor, value, path/colorway identity, pattern/cut/stitch geometry, legacy DXF and protected export bytes remain unchanged.
+
+The live compiler now maps the keyed presentation only after exact same-revision source/target/edge checks; required missing or mismatched inputs fail closed and back views remain unchanged. Actual production compiler, renderer and Chromium replay across the same 28 Woven option values passes: exact source POM/target/revision and mapped key 28/28; colorway-before-ring and ring-before-all source strokes 28/28; ring/glyph positions 28/28; unchanged full schedule and path/colorway identity 28/28; zero browser errors. The minimum W glyph clearances are 0.07939 cm to source paths and 0.02914 cm to other labels. Default whole/detail, placketWidth-min detail, neckEase-max and combined-supported outputs were captured; default and limiting detail and schedule were visually inspected. Evidence: `docs/research/epic17/S400-woven-placket-marker-implementation/`.
+
+Focused renderer/live-compiler coverage passes 82/82 with 100% statements/branches/functions/lines in both `technical-flat-svg.ts` and `technical-flat-live.ts`. Build passes with the existing Vite large-chunk advisory; protected export identity and legacy DXF regressions pass 17/17. One concurrent Control Center run showed a transient `server.test.mjs` failure; isolated server tests pass 4/4 and the full Control Center suite passes 42/42 on serial rerun. `git diff --check` passes. All 56 Woven and 34 Polo faces remain held, including the independent Woven back hem crossing and Polo's 0.68 cm residual against the 0.25 cm gate. No view acceptance, G04 criterion/gate change, or CAD compatibility claim. All-seven V02, V02-before-V03, protected identities and V03 rights/round-trip remain unchanged.
+
+S400 time breakdown (05:30:14 UTC start; approximately 05:41 UTC close): live mapping/renderer/test implementation 3m; focused coverage, build and export verification 3m; actual 28-option replay and browser output review 3m; durable packet/state/board closeout 2m; external-agent waits 0m; maintainer-decision time 0m (approval preceded the slice start). No global coverage run was due for this focused slice; reserve it for the settled integrated Epic candidate. Validated board start/exit revisions: 2232→2234 / 2235→2245.
+
+**Next action:** refresh branch/board and continue with the highest-frequency remaining G04 V02 blocker. Preserve all face holds and the all-seven requirement.
+
+## Prior boundary — Slice 399 Polo FG glyph offset verified; V02 remains open
+
+S395 closed at `dbaf54d5b07a9ef0fce4cb9415b74fd834aa59f8` (`Slice 395: diagnose Woven placket marker feasibility`). S396 began from that clean commit on `codex/epic-17-g04`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revision 2188 recorded S395 exit; validated S396 start and exit replays advanced it through 2192 to 2202. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal check at the S395 boundary returned `active`, with an objective matching admitted EPIC-17; it remains needed and unchanged.
+
+S395 rejected its source-centered 0.22 cm W ring when painted above paths because it overlapped or nearly touched the independent neckline. S396 reused the exact 28 S395 renderer outputs and tested nine shared glyph positions. Its best candidate keeps the 0.22 cm open ring fixed on the `buttonPlacket.top` midpoint, paints it after colorway fill and beneath all source strokes, and moves only the W glyph `(+0.2121,+0.2121 cm)`. Across 28 options the diagnostic derivative retains exact anchors, source identities, paths, colorway and full schedule; no path/glyph/label overlaps at the diagnostic 0.01 cm margin; minimum path and label clearances are 0.07939 cm and 0.02914 cm. Manual default and limiting renders show source strokes continuous over the ring and W readable. This is a proposal for maintainer approval, not a production implementation, view acceptance, or V02 pass.
+
+All 56 Woven and 34 Polo views remain held, including the continuous Woven back-hem crossing and Polo's 0.68 cm residual against 0.25 cm. Preserve all-seven V02, V02-before-V03, DXF and protected export identity gates. S395 packet/evidence: `docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/`. S396 packet and rendered evidence: `docs/research/epic17/S396-woven-marker-line-preservation/`.
+
+S397 started from clean S396 `bcd9764041f4ccb4b96cffa211f81eac3466e3f2`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S397 uniquely followed S396 and landed as `f015fd90239cd69d9c202b32be25dcd0fc588a76` (`Slice 397: review G04 manual finding output`). Its validated board start/exit replay advanced revision 2202 to 2204 and 2209. S397 reviewed MQF-004–007, MQF-011/012 and MQF-015 against S394 production Polo H output and S396 diagnostic Woven output. Exact POM anchoring/readability is partially evidenced; accepted construction views, broad key/annotation, artwork, collar and CAD coverage are not established. Every finding remains **To be reviewed** at the applicable exit. MQF-011/012 post-G17 deferrals and MQF-015's V03 review gate are preserved. Full evidence-by-finding: `docs/research/epic17/S397-mqf-output-review/G04-V02-MANUAL-FINDINGS-OUTPUT-REVIEW-S397.md`.
+
+S398 reconciles the same 17 supported Polo option rows after S394's approved H glyph change. It confirms three unkeyed C fallback text errors (not keyed-render failures); all 17 keyed front outputs are clean, with 17 colorway views and unchanged paired backs. S391's A/B/C interface contacts, D/E/I display status, and FG/H topology are reconciled against S394's current actual renderer output. A shared FG-only glyph offset candidate `(-0.424264,-0.424264 cm)` passes the diagnostic screen and was manually reviewed in default and collarPointExtension-min crops; it remains a proposal for maintainer approval, not implementation or face acceptance. Evidence: `docs/research/epic17/S398-polo-current-blocker-reconciliation/G04-V02-POLO-POST-H-OFFSET-CURRENT-BLOCKERS-S398.md`, `fg-offset-trial-matrix.json`, and rendered crops.
+
+At the S398 boundary the FG proposal awaited approval; the maintainer approved it on 2026-10-07 and S399 has implemented and verified it. The S396 W presentation remains a separate diagnostic proposal awaiting its decision. S394's approved Polo H offset `(+0.45,+0.45 cm)` remains implemented and verified across 17 options. All 56 Woven and 34 Polo views remain held, including the continuous Woven back-hem crossing and Polo's 0.68 cm residual against 0.25 cm. Preserve all-seven V02, V02-before-V03, DXF and protected export identity gates. `npm run control-center:test` passes 42/42; `git diff --check` passes. Global coverage and integrated output gates remain due at the settled candidate.
+
+The maintainer approved the exact S398 FG text-only offset `(-0.424264,-0.424264 cm)` on 2026-10-07. This authorizes implementation and verification only. S399 began from clean S398 commit `d5daee6f9f684dbc7f19edf934c18ef61b439700`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice is 398; S399 is reserved. Board revision 2220 advanced to 2222 through validated start replay. Usage at start: primary 1%, weekly 0%, ordinary usage allowed. Packet: `docs/research/epic17/S399-polo-fg-glyph-offset/G04-V02-POLO-FG-GLYPH-OFFSET-S399.md`.
+
+S399 changes only the Polo FG glyph position; its radius-0.22 cm marker ring remains fixed at `(0,8)` and both POM source/target/revision identities, source paths/marks, full schedule, pattern/cut geometry, colorway, paired backs, 0.25 cm residual gate and all-seven acceptance remain protected. Required exit evidence is focused 100% changed-code coverage, build, protected export/DXF checks, exact actual-renderer comparison over S394's same 17 options, rendered review, validated board closeout and `git diff --check`. Every Polo and Woven hold remains. V02 stays In Progress and V03 stays gated.
+
+S399 verified exit: exact `(-0.424264,-0.424264 cm)` Polo FG text-only offset is implemented. Focused renderer tests pass 38/38 with 100% statements/branches/functions/lines in `technical-flat-svg.ts`; actual renderer + Chromium replay and S394 byte-diff checks pass 17/17, with 17/17 colorways, unchanged paired backs and zero browser errors. Default/limiting rendered crops and whole view were inspected. Production build passes with its existing Vite large-chunk advisory; protected export identity and legacy DXF tests pass 17/17; Control Center tests pass 42/42. No source/cut/stitch geometry, POM identity, ring, schedule, export behavior or baseline changed. All 56 Woven and 34 Polo faces remain held; Polo's 0.68 cm residual still exceeds 0.25 cm; all-seven V02 and V02-before-V03 remain. S399 packet/evidence: `docs/research/epic17/S399-polo-fg-glyph-offset/`. Validated board start/exit revisions: 2220/2232. Elapsed approximately 6m (05:19:49–05:25:32 UTC): implementation 1m; focused coverage/build/export/board verification 1m; exact option replay and diff 2m; rendered review 1m; durable packet/state/board closeout 1m; external-agent waits 0m; maintainer-decision time 0m. The active goal remains the full admitted EPIC-17 objective and is still needed.
+
+**Next action:** refresh branch/board/usage and start a uniquely numbered slice for the next bounded unresolved G04 blocker. Preserve every hold; the unapproved W marker display candidate remains separate.
+
+## Prior boundary — Slice 394 exit; Polo H offset verified; V02 remains open
+
+S394 started 2026-10-03 04:26:06 UTC from clean S393 commit `3ec8bbf` on
+`codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+remains an ancestor. S393 was the highest assigned slice; S394 is uniquely
+reserved. Board revision 2161 recorded S393; validated S394 start replay
+advanced it to 2165. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+Primary usage was 32%; weekly 98% informational. The current active goal is
+needed and its objective/status match these EPIC records.
+
+The maintainer approved S393's exact Polo H glyph-only offset `(+0.45,+0.45 cm)`.
+S394 implemented and verified only this renderer presentation change across
+all 17 supported Polo options. H text is `(7.45,0.52)` cm while both
+source-centered radius-0.22 cm rings remain at `(7,0)`, distinct authored
+shoulder marks, source paths, exact POM identities, revision bindings and
+eleven full schedule rows stay unchanged. A baseline-normalized actual-renderer
+comparison is byte-identical to S390 in every other SVG byte; all 17 paired
+backs are unchanged. Chromium confirmed H readability in default,
+`standFrontRise=max`, and `collarPointExtension=min` detail views. No
+source/cut/stitch/POM mapping change or new join occurred. The separate 0.68 cm
+sleeve-cap residual against the fixed 0.25 cm gate remains; all 34 Polo views
+remain held and no V02 acceptance or V03 start is implied.
+
+S394 verification: focused renderer tests 38/38 with 100% statement, branch,
+function and line coverage for `technical-flat-svg.ts`; production build passes
+(existing large-chunk advisory); protected export identity checks 9/9; legacy
+export regression including DXF hashes 8/8. Actual production-renderer and
+Chromium review passes all 17 keyed fronts with zero keyed render issues and
+zero browser errors; 170 POM entries, 8 keyed stations, 7 open rings, 11 full
+schedule rows and 17 colorway outputs are retained, with 17/17 paired backs
+unchanged. Existing three unkeyed C baseline `TEXT_COLLISION` rows are preserved
+and do not count as S394 keyed errors. All other Polo issues remain held.
+Validated board closes at revision 2175; Control Center tests pass 42/42 and
+`git diff --check` passes. S394 took about 9m47s (04:26:06–04:35:53 UTC):
+implementation/source review 1m, focused verification 3m, browser/render review
+3m, durable/board/control-center closeout 2m47s, agent waits 0m, maintainer
+decision time 0m. The landed commit ID is recorded at the next verified
+boundary.
+
+S394 packet and validated board start evidence:
+`docs/research/epic17/S394-polo-h-glyph-offset/G04-V02-POLO-H-GLYPH-OFFSET-S394.md`.
+S394 landed commit is `2cb0094c5ccdb3b4954311157291c9a6b8822fab`; S395 is active
+at the new verified boundary above.
+
+## Prior boundary — Slice 393 exit; H decision subsequently approved
+
+S393 started 2026-10-03 04:04:09 UTC from clean S392 `d05c70a` on `codex/epic-17-g04`; refreshed `origin/main` remains an ancestor. S392 exit board revision was 2147; validated S393 start replay advanced it to 2151 and exit replay to 2161. Highest assigned slice is 392; S393 is unique. Primary usage at start was 30%; weekly 98% informational. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+
+S393 confirms the two H POM rows target the same `front.edge.shoulder` at `(7,0)` cm, with a fixed 0.22 cm ring; separate authored `front:shoulder` and `outerStand:shoulder` marks share that point and S384 records no stitch join. The current letter halo contacts both marks and the outerStand outline. A diagnostic-only H glyph offset `(+0.45,+0.45 cm)` leaves ring/source identities/geometry fixed and produces positive path, mark and source-label clearances in all 17 options; the candidate crops are in `docs/research/epic17/S393-polo-h-shoulder-readability/rendered/`. This puts the H letter 0.186 cm beyond its ring stroke without a leader, reducing direct letter-to-ring association. No production change or view acceptance occurred. **Maintainer decision is pending for this exact view-only glyph trial.** All 34 Polo views remain held, including the separate 0.68 cm sleeve assembly residual against 0.25 cm; all-seven acceptance and V02-before-V03 are unchanged.
+
+S393 verification: final 17-option Chromium replay has zero browser errors; node syntax checks pass; `npm run control-center:test` passes 42/42; validated board exit closes at revision 2161; `git diff --check` passes. No production module changed; full integrated gates remain for the settled candidate. Elapsed 04:04:09–04:20:03 UTC (15m54s): diagnostic script/evidence work about 5m; focused 17-option geometry/rendered review about 7m; board/state/packet closeout about 3m54s; external-agent waits 0m; maintainer-decision time 0m. Initial failed diagnostic runs and corrections are documented in the S393 packet.
+
+**Next action:** obtain a decision on the exact H glyph-only offset in the S393 packet. Do not implement it before approval or release any Polo view. After approval, reserve a new unique slice for implementation and full option/rendered verification; otherwise retain the H hold and develop another evidence-backed display proposal.
+
+## EPIC-17 / G04 previous handoff — Slice 392 exit; V02 remains open
+
+S392 started 2026-10-03 03:48:31 UTC from clean S391 `5cc84f1` on `codex/epic-17-g04`; freshly refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board revision 2134 recorded the S391 exit; validated S392 start replay advanced it to 2138. Highest assigned slice is 391; S392 is unique. Ordinary usage is allowed (primary 28%, weekly 98%). The EPIC-17 goal is active, aligned and still required through merge/deployment verification.
+
+S392 reconciled S390/S391's exact 17-option current keyed output, S385's older inline-leader matrix, C-only unkeyed baseline failures, and the Polo sleeve assembly residual. It confirms the three C text collisions occur only in unkeyed baseline comparison output; the approved keyed C output has zero failures in all 17 options. The S385 inline-leader crossings are historical and are not emitted by the current keyed schedule. Fresh current-source drafting and rigid assembly checks confirm `stitch:Sleeve-cap ease` reports 0.68 cm residual on all 34 faces, above the unchanged 0.25 cm gate; H's crowded distinct shoulder marks and integrated readability remain held. No source, construction, view mapping, POM, threshold, acceptance, export or face status changed. All 34 Polo views remain held; all-seven V02 and V02-before-V03 are preserved. Diagnostic, matrix, packet and validated exit replay are in `docs/research/epic17/S392-polo-current-blocker-reconciliation/`.
+
+S392 focused verification: diagnostic syntax and fresh 17-option/34-face replay pass; `npm run control-center:test` passes 42/42; validated board exit replay closes at revision 2147; `git diff --check` passes. No production code changed, so the global coverage/build/export gate remains for the settled integrated Epic candidate. Elapsed 03:48:31–04:01:21 UTC (12m50s): diagnostic script/evidence updates about 3m; focused current-source replay and metric/rendered-evidence review about 6m; durable packet/state/board closeout about 3m50s; external-agent waits 0m; maintainer-decision time 0m. All produced diagnostics are current and successful; two corrected script-only attempts are recorded in the packet.
+
+**Next action:** refresh Git and board, reserve the unique next slice, then address the highest repeated unresolved G04 V02 output hold. Keep H's crowded source-backed marks and all 34 residual failures held; do not reopen settled mappings, infer a stitch join, change the 0.25 cm gate, release a Polo face, or start V03.
+
+## EPIC-17 / G04 previous handoff — Slice 390 exit; V02 remains open
+
+Started S390 at 2026-10-03 02:44:16 UTC from clean S389 `3220ee2f894ad104f6c81e7648125dcd9f4acc26` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board revision 2102 records the S389 verified exit. Highest committed slice is 389; S390 is unique. Primary usage at start was 22%, weekly 97%; ordinary work allowed. The admitted goal is active and still required through final merge/deployment.
+
+The maintainer approved both exact S389 Polo glyph-only offsets at approximately 02:47 UTC: E `(-0.38,-0.34 cm)` and I `(+0.34,-0.32 cm)`. Implement only those positions and verify them across all 17 current S388 Polo option values. Keep both 0.22 cm rings at their exact same-revision source POM anchors; preserve all source geometry/marks, POM identities, eleven schedule rows, other key positions, and paired-back output. Approval permits implementation and 17-option verification only; it does not release views or faces. All 34 Polo faces remain held, including the 0.68 cm residual against the unchanged 0.25 cm gate; all-seven V02 and V02-before-V03 remain fixed. Packet: `docs/research/epic17/S390-polo-centerback-glyph-candidates/G04-V02-POLO-CENTERBACK-GLYPH-CANDIDATES-S390.md`.
+
+S390 implemented only the approved Polo E/I text offsets in the technical-flat SVG renderer, scoped so other recipes retain their prior keyed-letter positions. Focused coverage passes 38/38 tests with 100% statement/branch/function/line coverage for the changed renderer module; build passes with the existing Vite chunk advisory; protected export-identity tests pass 9/9. The actual renderer replayed all 17 exact Polo options: 17 keyed outputs, eight stations/seven open rings, eleven full schedule rows each, 17/17 paired-back no-op and colorway outputs, zero keyed renderer/browser errors. Three non-keyed C baseline `TEXT_COLLISION` holds persist at `collarLeafDepth=max`, `standFrontRise=max`, and `collarPointExtension=min`; preserve the discrepancy against S378's two-row metric because complete current Chromium metrics identify the third. Exact SVG comparison confirms only E/I text coordinates and revision tags differ from S388. The close mark at I/`standFrontRise=min` remains visible with a 0.027219 cm glyph-to-mark gap. All 34 Polo faces remain held, including the 0.68 cm residual against the fixed 0.25 cm gate. Numeric evidence and actual PNGs are in the S390 packet directory. Full repository/global coverage and integrated Epic gates remain for the settled candidate. No safe disjoint delegation exists for the shared renderer/output.
+
+S390 exit commands are preflighted from board revision 2107 and replayed through the validated command layer to revision 2119; `npm run control-center:test`, canonical board validation, script syntax checks and `git diff --check` pass after replay. Packet: `docs/research/epic17/S390-polo-centerback-glyph-candidates/G04-V02-POLO-CENTERBACK-GLYPH-CANDIDATES-S390.md`. S390 elapsed about 28m31s (02:44:16–03:12:47 UTC): implementation/test updates 6m; focused verification and option replay 14m; rendered review, validated board replay and durable closeout 5m31s; external-agent waits 0m; maintainer-decision time 3m.
+
+**Next action:** reserve S391 from refreshed Git/board state and continue repeated all-option Polo callout/path blockers. Keep all seven recipes, V02/V03 acceptance, every current hold, legacy DXF behavior and protected export identities unchanged.
+
+## EPIC-17 / G04 current handoff — Slice 389 diagnostic exit; V02 remains open
+
+S389 starts from clean S388 `59d70068ab041be26f340be68246c2b23ceda67b` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice is 388; S389 is unique. Canonical board revision 2073 recorded S389 start; validated exit evidence and comments close at revision 2102. Packet and evidence: `docs/research/epic17/S389-polo-glyph-offset-option-review/G04-V02-POLO-GLYPH-OFFSET-OPTION-REVIEW-S389.md` and `docs/research/epic17/S389-polo-glyph-offset-option-review/`.
+
+S389 remeasured S387's E `(-0.38,-0.34 cm)` and I `(+0.34,-0.32 cm)` display-only glyph offsets against all 17 exact current S388 Polo SVG revisions in live Chromium. The previous detached-DOM diagnostic failure was fixed by measuring inside the actual browser document; the first invalid matrix is superseded. The verified matrix retains 11 full schedule rows, exact source POM/target/revision identity, unchanged ring centers/radii, source labels/paths/marks and paired-back behavior; reversing the glyph coordinate substitutions reproduces each source SVG byte-for-byte. Browser errors: 0. E has 17/17 no-contact results, minimum own-ring gap 0.077774 cm, nearest path clearance 0.225516 cm. I has 17/17 no computed intersection and minimum own-ring gap 0.087358 cm, but at `standFrontRise=min` is only 0.009080 cm from the directly encoded `outerStand:centerBack` mark. The actual crop confirms the letter remains distinguishable but crowded; no minimum text-to-mark clearance has been approved, so do not implement I as-is. The source-centered ring trial approval already recorded at S386 is distinct from E/I glyph-offset approval. No production file, cut geometry, stitch graph, POM, schedule, acceptance or export changed.
+
+All 34 Polo faces remain held for remaining source POM/path conflicts and the independent 0.68 cm cap-ease residual against the fixed 0.25 cm gate. Integrated V02 remains 56 accepted / 90 held across 73 configurations / 146 requests; all-seven V02 and V02-before-V03 remain unchanged. V03 is Backlog. Legacy DXF and protected export byte identities remain required. No physical fit or factory-acceptance claim.
+
+S389 focused results: all diagnostic/replay/preflight `node --check` commands pass; `npm run control-center:test` passes 42/42 after canonical replay; canonical board validation passes at revision 2102; `git diff --check` passes. No production code changed, so no production coverage/build/export gate is triggered; full integrated gates remain for the settled Epic candidate. Elapsed at verified exit was 26m18s (2026-10-03 02:12:49–02:39:07 UTC): implementation 0m; focused verification 16m (diagnostic harness correction, all-option replay, metric analysis, syntax and post-replay checks); rendered inspection 4m; durable packet/state/context/board closeout 6m18s; external-agent waits 0m; maintainer-decision time 0m. No safe disjoint delegation was identified. The admitted goal remains active and needed through V02/V03, safe PR merge, ancestry and required deployment.
+
+**Next action:** continue remaining source/path/output blockers without implementing E/I typography. If a specific I glyph clearance target is necessary, present the measured proposal for maintainer choice; do not change the threshold or release any Polo face. Preserve all seven recipes and all current holds.
+
+## EPIC-17 / G04 previous handoff — Slice 386 exit; V02 remains open
+
+S385 landed as `24790383e9ed5169e40b312da2cf0728416f3181` (`Slice 385: consolidate Polo V02 blockers`) from clean S384 `c5b9fec39e3c1114cf0499c60228ebee1814495d`. S386 landed as `c67041b1e12e067b27475f450b42d1130173069b` (`Slice 386: implement Polo keyed callout trial`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S385 exact-option reconciliation remains: 10 POMs fail 0.25 cm path clearance in every one of 17 Polo front options (170: 139 crossings/31 positive sub-threshold), the two C text-collision rows clear under approved S380, and an independent 0.68 cm residual holds all 34 Polo views.
+
+The maintainer approved the S385 proposed view-only presentation for trial: open 0.22 cm rings/haloed letters for A/B/D/E/FG/H/I, each POM identity retained in an individual complete schedule row, existing C unchanged. This authorizes implementation and option-wide review only; all 34 Polo faces remain held until every applicable V02 gate and the independent residual pass. S386 completed the trial: all 17 options rendered with eight marker stations, eleven full POM rows, same-revision identities, unchanged source paths and paired-back no-op. The measured schedule is readable. Default and minimum collar-extension views still show marker contacts with source labels at D/FG/H and dense distinct fold marks at I, so Polo readability fails and no face passes. Board start evidence was revision 2009; S386 exit evidence/comments are replayed through the validated command layer and held at revisions 2009–2023. Packet, matrix and rendered evidence are in `docs/research/epic17/S386-polo-keyed-callout-trial/`.
+
+S385 consolidates Polo callout behavior from exact S378/S380 actual-renderer option values and current S380 SVG revisions, plus S382 leader/path geometry and S384 marker station incidence. The separate artifact run IDs differ; 17 option-value rows match, non-C leader/path identity and geometry match, and every current emitted source path is bound to its S380 revision. Ten non-C POM path blockers persist in every one of 17 fronts (170 total: 139 crossings, 31 positive clearances under 0.25 cm), with 51 leader pairs and 3 leader-to-glyph intersections. The two S378 C `TEXT_COLLISION` rows clear under the already-approved S380 marker only. The authored 1.5 cm cap ease still produces a separate 0.68 cm residual in both faces across all options, exceeding the unchanged 0.25 cm gate. Keep all 34 Polo faces held. The S385 packet and consolidated matrix are in `docs/research/epic17/S385-polo-blocker-decision-consolidation/`.
+
+At the ordinary S384 boundary, read the current approved UI sequence/note, latest admission/state/board, and S354 reconciliation. No G04 gap was found: source geometry, piece/revision provenance, exact POM identity/targeting, applicable artwork overlays, option validity, and rendered readability already belong to V01/V02. Current Polo readability remains blocked; no duplicate renderer or gate change is needed. Preflighted the complete 29-command UI board plan by current identity/content; all 29 exact entries were already present and skipped, 0 replayed, board remained at 1997 during this check. The 14 UIQ cards remain Backlog; their cross-cutting/native appearance, catalog presentation, thumbnails, pack UI and assembled/oblique/inside views stay outside G04 or belong to later G05/G06/G09 admissions. The existing Control Center assertions for backlog/dependency boundaries were retained. No local-status commands were applied and no UI implementation was started.
+
+S386 changes presentation metadata and SVG rendering only. The focused technical-flat suites pass 88/88 with 100% statement, branch, function and line coverage for each of the three changed production modules. `npm run build` passes with the existing Vite chunk advisory; protected export identity tests pass 21/21. The 17-option Chromium renderer replay has zero browser errors and confirms the S380 baseline's two C text collisions still clear; all 34 Polo views remain held for source-label/fold overlap and the separate 0.68 cm sleeve residual against the fixed 0.25 cm gate. No protected export baseline, legacy DXF, acceptance rule or recipe source changed. Control Center passes 42/42 after the validated board replay; scripts pass syntax checks and `git diff --check` passes. Elapsed 2h26m39s wall: estimated implementation/test updates 33m, focused verification/build/export 20m, browser replay/rendered review 22m, durable docs/board 18m, external-agent waits 0m, maintainer-decision time 0m; remaining wall time is inactive/resumed-turn/tool interval, not active implementation. Next: reserve S387 after refreshing Git, origin/main and board; continue one bounded source-preserving Polo annotation conflict investigation using the exact S384–S386 matrices. Do not approve any view, alter source geometry or advance to V03 without the required evidence.
+
+S386 landed as `c67041b1e12e067b27475f450b42d1130173069b` (`Slice 386: implement Polo keyed callout trial`) from S385 `24790383e9ed5169e40b312da2cf0728416f3181`; the worktree was clean after commit. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board revision 2023 closes S386; EPIC-17 and G04-V02 remain In Progress, with every gate/hold unchanged.
+
+## EPIC-17 / G04 previous handoff — Slice 387 verified exit; V02 remains open
+
+S387 starts at clean S386 `c67041b1e12e067b27475f450b42d1130173069b`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice before start is 386; S387 is uniquely reserved. Board revision 2023 records S386; S387 packet/start evidence/comment advance the canonical board through revision 2027. Primary usage 10%; ordinary work allowed. Packet: `docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/G04-V02-POLO-KEYED-MARKER-OVERLAP-DIAGNOSIS-S387.md`.
+
+Scope is a read-only source/output diagnosis of Polo D/E/FG/H/I keyed marker contacts in the exact 17 S386 configurations. Trace source mark/text IDs, coordinates, transforms, label bounds and view layers; distinguish identical-label coincidence from different source marks/notes and construction path incidence. Reproduce the relevant current actual-renderer output and classify any feasible view-only solution by its evidence and effect. Do not change production code, hide source meaning, relocate approved marker centers, modify geometry/POMs or acceptance, or reopen the fixed 0.25 cm gate. No general construction research or review of settled mappings is needed.
+
+S387 refreshed origin/main to `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, verified it is an ancestor, and reserved the unique next slice after 386. Board revision 2023 recorded S386; validated start evidence/comment advanced to 2027 and validated S387 exit evidence/comments close at 2044. The current 17-row Chromium matrix binds each committed S386 production SVG to its exact revision; browser errors 0. D key-glyph/source `BUTTON` text intersects in 17/17; H's closest ring/source `SHOULDER` text clearance is 0.018 cm (text-box contact in 1/17); FG's ring is 0.028 cm from `outerStand.centerFront` text at collar-point-extension maximum. E's station exactly coincides with the separately sourced front placket reinforcement reflection; I intersects distinct fold-placement marks (upper/under collar in 13/17, outer stand in 1/17). S378's two baseline C text failures remain cleared under unchanged C. The source label/renderer-order correction is proposed for a follow-up; only E and I glyph-offset presentation alternatives require maintainer design approval. Candidate images are diagnostic browser overlays, not accepted production output. All 34 Polo faces remain held; the independent 0.68 cm cap residual remains above the unchanged 0.25 cm gate; all-seven V02, V02-before-V03, protected identities and legacy DXF are unchanged. No acceptance advanced. Control Center passes 42/42, diagnostic script syntax check and `git diff --check` pass. Packet, matrix and rendered evidence are linked in `docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/`. Next: request the grouped E/I glyph-offset decision; continue with marker-aware source-label layout and full option/output verification while retaining every hold. The admitted EPIC-17 goal remains active and needed through settled V02, V03, PR merge, ancestry, and required deployment.
+
+## EPIC-17 / G04 previous handoff — Slice 388 verified exit; V02 remains open
+
+S387 landed as `50a4875f8f9f427c3e65714cbe9061c27f46adcf` (`Slice 387: diagnose Polo keyed marker overlaps`). Refreshed `origin/main` is an ancestor. S388 uniquely reserved the next slice from board revision 2044; its start evidence/comment advanced to 2048. S388 packet: `docs/research/epic17/S388-polo-keyed-label-obstacles/G04-V02-POLO-KEYED-LABEL-OBSTACLES-S388.md`.
+
+S388 adds keyed marker footprints to measured source-label placement and includes half the rendered 0.035 cm path stroke in path avoidance. The replay harness now measures source mark/path labels with actual Chromium metrics: its previous fallback under-measured `BUTTON` (0.672 cm versus 1.309 cm) and let the label touch the dashed placket-fold stroke. All 17 exact Polo options now retain eight keys, eleven complete POM rows, same-revision identities, source geometry and paired-back behavior; zero keyed output errors/browser errors; three button labels clear the fold stroke and D marker with 0.0975 cm box expansion. Focused production coverage is 100% across statements/branches/functions/lines; Control Center 42/42.
+
+Three baseline-only C `TEXT_COLLISION` errors are recorded at `collarLeafDepth-max`, `standFrontRise-max`, and `collarPointExtension-min`; the corrected full-source-text metrics/path-stroke gate exposes `collarLeafDepth-max` in addition to the two earlier cases. The keyed outputs have zero renderer errors. E/I glyph-offset choices remain pending approval and were not implemented. H/other source-path proximity, the distinct E/I marks, and the independent 0.68 cm residual over the 0.25 cm gate continue to hold all 34 Polo faces. All-seven V02, V02-before-V03, protected exports, and legacy DXF remain unchanged. No UI work or acceptance change was made. UI sequence reconciliation from S354/S368/S385 remains satisfied.
+
+S388 landed as `59d70068ab041be26f340be68246c2b23ceda67b` (`Slice 388: prevent keyed marker label overlaps`) from clean S387 `50a4875f8f9f427c3e65714cbe9061c27f46adcf`. Fresh `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Board revision 2068 records six verified evidence links and comments through the validated command layer. At this ordinary verified boundary, `get_goal` reports the admitted EPIC-17/G04 objective still `active` and matching the canonical admission/board; there is no current `stalled` status, and the goal remains necessary through V03, merge and deployment.
+
+## EPIC-17 / G04 current handoff — Slice 389 start; V02 remains open
+
+S388 is clean at `59d70068ab041be26f340be68246c2b23ceda67b`; refreshed `origin/main` is its ancestor. Highest assigned slice 388; S389 is unique. Board revision 2068 records the S388 verified exit; validated S389 start evidence/comment advance to 2073. Primary usage was 19%. Goal `01a0ed88-eb33-7b13-b65c-519f1f6c38f2` remains active and needed; its objective matches EPIC-17/G04. Packet: `docs/research/epic17/S389-polo-glyph-offset-option-review/G04-V02-POLO-GLYPH-OFFSET-OPTION-REVIEW-S389.md`.
+
+S389 is diagnostic only. Apply S387's exact E `(-0.38,-0.34) cm` and I `(+0.34,-0.32) cm` letter offsets in isolated output overlays for each of the 17 current S388 Polo revisions; measure source-label, distinct-mark and path contacts and inspect representative output. The implementation/design decision is still pending. No production glyph offset, marker center/radius/style, path, mark, POM or schedule may change. All 34 Polo faces remain held, the 0.68 cm residual remains over the fixed 0.25 cm gate, and all-seven V02/V02-before-V03/protected export/legacy DXF gates remain unchanged. No safe disjoint delegation exists. UI reconciliation from S354/S368/S385 remains satisfied; no UI work is started.
+
+**Next action:** produce and inspect the exact 17-option E/I diagnostic overlay matrix, then report whether the already-pending design choice remains viable. Close S389 through its packet and validated board evidence; retain all holds.
+
+### Previous verified handoff — Slice 385
+
+S384 completed a diagnostic-only topology and symbol review against the exact 17 S380 Polo SVG revisions. The incidence matrix distinguishes a source-declared button-placket attachmentLine/front slit relation from E's mere `attachmentRaw`/reinforcement-reflection coordinate coincidence, and identifies I's separate on-fold marks. A/B/FG stations and their emitted seam/path incidence are listed with exact entities in the S384 packet; H's outer-stand path sits within 0.04756 cm at the approved front station (exactly incident in one option), and I has coincident upper/under center-match marks in 13 options plus outer-stand center-match in one. Four same-renderer open-ring comparisons preserve source paths; reviewed output leaves construction strokes visible but retains center-back/placket label crowding and other overlap. No display layout or production mapping is approved by this diagnostic. Keep all 34 Polo faces held, keep the 0.25 cm gate and 0.68 cm residual, and do not change the all-seven criterion. Packet, per-option incidence JSON and renders: `docs/research/epic17/S384-polo-anchor-topology-review/`.
+
+S384 started at board revision 1983 (after validated S383 exit); start commands advanced to 1985, and its exit evidence/comment were linked through the validated command layer through revision 1995. Control Center tests pass 42/42; both diagnostic scripts pass `node --check`; `git diff --check` passes. No production source or tests changed, so no production coverage/build/export gate is triggered. Elapsed 15m: source/code and matrix interpretation 8m; rendered comparison/review 3m; durable packet/state/board updates 3m; focused checks 1m; external-agent waits 0m; maintainer-decision time 0m. `get_goal` confirms the admitted EPIC-17/G04 objective is still active and still needed; no stale “stalled” status requires reconciliation. Next: continue the consolidated 17-option Polo POM/path diagnosis and preserve every hold; ask only about display choices source evidence cannot settle.
+
+### Prior boundary summary — Slice 383
+
+S383 closed as a diagnostic-only all-option Polo presentation study. Current S380 SVG coordinates correct S382's provisional grouping: A at `front.shoulder` `(22.5,4)`; B shares `(27.5,24)` for `front.side` and `sleeve.sideLeft`; FG shares `(0,8)` for `buttonPlacket.attachmentLine` and `front.neckline`; H shares `(7,0)` for neck-width/shoulder-seam; E at `attachmentRaw` `(-1,22)`; D at button-1 `(1.5,11.5)`; I at `upperCollar.centerBack` `(3.6901,-6.8381)`; existing C remains at `upperCollar.frontTip:end`. The generated candidate carries 8 rings including C and 11 exact full-text POM rows. No production source or geometry changed. Across 17 exact options with colorway on/off: zero browser errors, ring-to-ring overlaps, schedule row overlaps/overflows or marker-key label-box collisions. New A/B/E/FG/H/I rings overlap named non-target seam/mark paths at their exact co-located stations; nearest edge clearance ranges -0.22 to -0.117 cm. This remains an unresolved visible-overlay decision, not a pass or changed 0.25 cm gate. The 0.68 cm sleeve-cap residual independently keeps all 34 Polo faces held. Packet/rendered output: `docs/research/epic17/S383-polo-keyed-callout-layout/`. Next gated action: maintainer decision on these exact source-centered marker groups and identified overlay effects; preserve all holds pending decision and later implementation checks.
+
+S381 landed as `02b559e1187e80e21c5b1c0389b389b186f34ae6`, `Slice 381: review Woven crossing evidence`. S382 began from that clean commit; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Validated board was revision 1960, advanced to 1962 by S382 start and 1971 at exit. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. Integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and all 34 Polo faces remain held. The goal is active and still needed through G04 completion and merge; its admission-start phrase is stale, with no status or wording change.
+
+Slice 380 implements only the approved Polo front `Collar point extension` C marker and measured full-text schedule. Focused tests pass 85/85, with 100% statement, branch, function and line coverage for all three changed production modules. Build passes. Chromium diagnostic rendering passes 17/17 keyed front options; it reproduces the two prior base C collisions and clears both. Paired back mapping/render results are unchanged in 17/17; colorway-on and colorway-off keyed front diagnostics pass in 17/17 for the currently closed body/placket/stand/collar roles. Browser errors: zero. Manual detail/schedule/whole-output review confirms the C marker/schedule are legible, while other crowded callouts remain visibly crossed and unreadable. The sleeve role remains out of the colorway diagnostic due its independent unclosed contour hold. The normal compiler still withholds Polo views at the 0.68 cm residual versus the unchanged 0.25 cm threshold. No faces accepted; all G04 gates remain.
+
+S381 rechecks the Woven back hem crossing against current `src/drafting/shirt.ts` and the retained S373/S372 source/revision-bound trace. The source has one continuous sleeve hem, stitch-joined to the full band top; the 28 exact `live-draft:woven-shirt:14:14` back outputs show the two reflected instances continuously crossing once each. No pattern-specific evidence supports the proposed 0.60 cm gap or a physical over/under relation, so the gap is rejected and all 28 back views remain held. No production or export code changed. Packet and evidence: `docs/research/epic17/S381-woven-crossing-evidence-review/` plus `docs/research/epic17/S373-woven-sleeve-crossing/`.
+
+S382 replays the actual 17-option S380 keyed Polo front SVGs with corrected cubic geometry sampling. The approved C marker clears its two local base `TEXT_COLLISION` rows; ten other source POM leaders remain below 0.25 cm in every option. Corrected counts: 170 leader/path findings, 139 crossings, 31 positive sub-threshold clearances, 51 leader pairs and three leader-to-glyph crossings. It corrects S379's `t=n/40` cubic-sampler bug (which extrapolated through t=5) and removes one false `front-body-length-hps-hem`/`standFrontRise-min` blocker. The independent +1.5 cm source ease and 0.68 cm residual still exceed the fixed 0.25 cm gate across 34 faces. Current S382 matrix, per-POM source/path table, diagnostic overlays, comparison and packet are in `docs/research/epic17/S382-polo-blocker-consolidation/`. No source behavior or acceptance changed.
+
+S380's focused tests pass 85/85 with 100% statement, branch, function and line coverage for all three changed renderer modules; build passes; protected export checks pass 21/21; Chromium keyed front matrix passes 17/17 and paired backs remain unchanged 17/17. Exact metrics and rendered C-marker/schedule evidence are in `docs/research/epic17/S380-polo-collar-callout-key-implementation/`.
+
+S383's validated start/exit board revisions are 1971/1983; Control Center passes 42/42; the browser matrix rendered 34 candidate outputs with zero browser errors, syntax checks and `git diff --check` pass. No production source/test changed, so no production coverage or build gate applies in this diagnostic slice. Existing UIQ-01–13 and UIQ-GATE cards remain registered as future/backlog items; their G04 reconciliation is already durable in S354/S368 and `CONTEXT-INDEX.md`. Next: decide whether to approve the exact source-centered marker groups and their named overlay effects, then keep all faces on hold until an approved production implementation passes all checks. Do not alter production mapping, release faces, relax the residual/all-seven gate, or start V03.
+
+S377 landed as `0df6dfd667ffa242aabde3af29eafb8686230236`, `Slice 377: diagnose Polo keyed POM schedule`. It tested exact-source A/B markers and a full-text schedule for two blocked Polo front POMs over all 17 options. Fifteen configurations rendered; two fail closed on a separate `Collar point extension` collision. Minimum marker edge clearance is 0.56 cm; default is 1.56 cm. Default whole/detail/schedule and stand-height min/max details were manually reviewed. Other collar/placket callout crossings remain, so this is feasibility evidence only. No production code, geometry, POM metadata, export or face status changed; colorway fill is omitted. All 34 Polo holds, fixed 0.25 cm gate and all-seven criterion remain. Validated board exit was revision 1891; Control Center passed 42/42 and `git diff --check` passed. Packet: `docs/research/epic17/G04-V02-POLO-KEYED-CALLOUT-FEASIBILITY-S377.md`; evidence: `docs/research/epic17/S377-polo-keyed-callout-study/`.
+
+S376 landed as `901a7a108fabfb46bc1215e5b23e9955dbaadaf0`, `Slice 376: search Polo default POM placements`. All 5,146 legal boxes across six variants and 36,022 leaders were tested for required `polo-default`; no route met clearance. Its validated board exit ended at revision 1868; Control Center passed 42/42 and `git diff --check` passed. S375 landed as `bbb8bc65f6c581cd17751cbfe7a04f8d568727a4`, `Slice 375: diagnose Polo wrapped POM labels`; its validated exit ended at revision 1851, with Control Center 42/42 and diff check passing.
+
+S376 exhaustively routes the two exact Polo front POMs from every legal text box on the bounded 1 cm lattice in the mandatory `polo-default` configuration. All 5,146 legal boxes across six layout variants and 36,022 routes were evaluated; no route passed 0.25 cm clearance. The scope is only the tested 1 cm lattice within ±18 cm X/Y and does not rule out other placement models or sub-centimeter locations. Exact text, methods, values, tolerances, anchors, geometry, issue behavior, the 0.25 cm gate and all 34 face holds remain fixed. Whole/detail source-anchor views were inspected; colorway fill was omitted. Validated exit board revision 1868; Control Center passes 42/42 and `git diff --check` passes. Packet: `docs/research/epic17/G04-V02-POLO-FULL-DEFAULT-ROUTE-SEARCH-S376.md`.
+
+S375's validated exit evidence is in the packet and board at revision 1851. Across 15 renderable Polo configurations, the bounded nearest-box wrap search found no acceptable route; two rows fail closed on a separate callout collision. Diagnostic anchor output was inspected, with colorway fill omitted. No production changes, POM mapping changes, or face releases occurred. `npm run control-center:test` passes 42/42; `git diff --check` passes.
+
+S374 was committed as `988385813a3dddb31013477646a7540617b8bd1e`; its validated board exit ended at revision 1834 and Control Center passed 42/42. S381 later reviewed the retained S373 geometry and found no source evidence for a truthful sleeve-overlap separation; the 0.60 cm gap was rejected and all 28 Woven backs remain held. Preserve all-seven V02, V02-before-V03, all holds, legacy DXF, protected byte identities and G05/G09 boundaries.
+
+S377's validated exit evidence and rendered outputs are linked on G04-V02 and EPIC-17 at board revision 1891. `npm run control-center:test` passes 42/42; `git diff --check` passes. There are no production changes, so the settled Epic/PR full coverage/build/export gates remain outstanding for the integrated candidate.
+
+S378's entry packet and evidence are `docs/research/epic17/S378-polo-collar-point-callout-diagnosis/G04-V02-POLO-COLLAR-POINT-CALLOUT-DIAGNOSIS-S378.md` and `docs/research/epic17/S378-polo-collar-point-callout-diagnosis/`.
+
+S378's exact source/options replay reproduces two base-render `TEXT_COLLISION` rows and renders 17/17 outputs after replacing only `Collar point extension` with the diagnostic keyed C marker and full-text schedule. Exact `upperCollar.frontTip:end` source identity and revision-bound target are preserved across all options; 0 browser errors. Whole/detail/schedule outputs for default and both failure rows were manually reviewed. Other collar/placket annotation crossings remain; the C treatment was approved during S379 for separate implementation only. No production changes, acceptance changes or hold releases in S378. Validated board exit revision 1910; Control Center 42/42 and diff check pass. All 34 Polo faces remain held; integrated tally 56 accepted / 90 held. Packet: `docs/research/epic17/S378-polo-collar-point-callout-diagnosis/G04-V02-POLO-COLLAR-POINT-CALLOUT-DIAGNOSIS-S378.md`.
+
+**Next action:** implement the approved C marker/full-text schedule through the existing live technical-flat renderer and verify it across all 17 options, same-revision POM identity, colorway layering and output readability. Preserve all current holds and gates.
+
+## EPIC-17 / G04 previous handoff — Slice 373 complete; V02 remains open
+
+S373 completed as commit `13b756dba1bc62e158835968d54685cfca549d32`. Started from clean S372 commit `9fbd38fa440e7a9ed2257d9c5907258ff8399d35`; refreshed `origin/main` remained an ancestor. Board entry revision was 1800; validated exit commands ended at 1817. The goal was verified `active` and aligned with EPIC-17/G04 through merge.
+
+At `live-draft:woven-shirt:14:14`, one proper crossing between the two mirrored `sleeve.hem` half-runs persists in all 28 Woven BACK_FLAT outputs; independent exact segment calculation and full sleeve path data match S365 in 28/28. Five annotated whole views/close-ups were visually inspected with zero browser errors. Source encodes no sleeve-to-sleeve overlap order. The packet presents preserving the crossing/holds or approving a 0.60 cm reflected-hem visual gap under the base instance; no mapping or hold change occurred. The user has not resolved that choice yet.
+
+All 56 Woven and 34 Polo holds remain, integrated tally 56 accepted / 90 held. S368 already reconciles the approved UI sequence; no new G04 closure dependency was introduced. Control Center passes 42/42, `git diff --check` passes, and no production code changed. See `docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md` and its evidence folder. S373 elapsed about 14m29s: production implementation 0m; source/path diagnosis 6m; focused verification 1m; rendered review 2m; durable closeout 5m29s; agent waits 0m; maintainer decision wait 0m.
+
+## EPIC-17 / G04 previous handoff — Slice 372 complete; V02 remains open
+
+S372 started from clean S371 `0609d54face057a82a8ae76d3e5d34e17c6686bf` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest prior slice was 371; board entry revision was 1771. The maintainer had approved the S370 detached Woven band-detail mapping; Polo's 0.25 cm gate stayed fixed.
+
+S371 completed as commit `0609d54face057a82a8ae76d3e5d34e17c6686bf`; board exit revision 1771. It tested alternate measured label boxes for the held Woven front finished-placket-width POM. At exact revision `live-draft:woven-shirt:14:14`, 28 option configurations / 28 paired back views preserve the exact top-edge source anchor and POM value. The 5.7225 cm label was measured in Chromium; 280,637 direct/one-bend route checks found no acceptable candidate. The closest default route crossed the collar and front outline at 25.595 cm. Current renderer output was 3/28 front SVGs and 25 `TEXT_COLLISION` holds, with all 28 back SVGs emitted. No production behavior or board acceptance changed. See `docs/research/epic17/G04-V02-WOVEN-POM-RELOCATED-LEADER-FEASIBILITY-S371.md` and `docs/research/epic17/S371-woven-pom-relocated-leader/`.
+
+S372 implements only the user-approved S370 BACK_FLAT composition. Projection metadata and validation bind the exact four `sleeveBand` outline edges, authored `bandFold`, full source stitch, back receiver interval `[0,0.5]`, and `back.centerBack` axis. The live view suppresses only the assembled-position band on BACK_FLAT and emits two source-scale detached details with instance identity and explicit disclaimer. No cut geometry or stitch graph changed.
+
+Final S372 replay covers all 28 configurations / 56 identities at `live-draft:woven-shirt:14:14`: 28 back SVGs, 3 front SVGs, 25 existing front `TEXT_COLLISION` holds, zero browser errors. Every emitted back has two detached band outlines/marks and the source-stitch disclaimer; emitted fronts are byte-identical to S363. Focused changed-code coverage is 100% across statement/branch/function/line; 83 focused tests pass, build passes, 20 focused export byte-identity/DXF tests pass, and Control Center passes 42/42 after validated board exit and supplemental evidence replay at revision 1800. Manual review confirms the band details no longer cross the body or each other. The independently documented mirrored sleeve hem/cap X remains visible, so all 28 Woven backs remain held; all 56 Woven and 34 Polo holds are unchanged and no face is newly accepted. See `docs/research/epic17/G04-V02-WOVEN-BAND-DETACHED-DETAIL-IMPLEMENTATION-S372.md` and `docs/research/epic17/S372-woven-band-detached-detail/`.
+
+At the S372 durable boundary (board revision 1800), `get_goal` reported `active`; its objective still matched admitted EPIC-17/G04 through safe merge. No stalled status was present; the goal remains needed until objective completion, and no UI resume was needed.
+
+## EPIC-17 / G04 previous handoff — Slice 370 complete; V02 remains open
+
+S370 started from clean S369 commit `56015e7a3d3fb427c3ebb8432aa810b7a3d9599b` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 369; S370 is complete. Canonical board revision was 1727 at entry, S370 start evidence/comments end at 1731, and exit plus supplemental test evidence/comments end at 1749. The maintainer's approval for S370's detached band detail is recorded in S371; S372 will implement the approved mapping. Goal remains active and matches the admitted EPIC-17/G04 V01→V02→V03 objective through safe merge/deployment. Polo's 0.25 cm residual gate remains fixed.
+
+S370 found a feasible band-only detail composition: two full uncut pieces at 1:1 scale, reflected about `back.centerBack`, rotated in separate left/right side gutters, labeled as details rather than assembly locations, with exact full-band/top and receiver-half identity. Across all 28 options / 56 face identities, bounds fit the frame, source geometry stays closed, no band/pair/body overlaps appear, and minimum body clearance is 1 cm. Rendered main garments still have the independent sleeve-outline crossing. The proposal changes the previously approved assembled-band display convention; the maintainer approved its implementation in S372 during the S371 boundary interaction. Keep all 56 Woven / 34 Polo holds; integrated acceptance remains 56 accepted / 90 held.
+
+**Next action:** obtain maintainer decision on the exact S370 band-detail proposal. If approved, implement only that view composition and rerun the complete Woven option/output checks; keep the independent sleeve crossing and all other holds. If rejected, keep current production mapping and holds. Continue independent V02 work; do not begin V03 or UIQ implementation.
+
+**Elapsed:** 2026-10-02 13:01:54–13:26:18 UTC (24m24s): production implementation 0m; source geometry/layout diagnostic and rendered candidate 11m; focused diagnostic test/syntax review 2m; five Chromium inspections 3m; durable packet/context/state/board closeout and verification 8m24s; external-agent waits 0m; maintainer-decision wait 0m.
+
+_Last updated: S370 records an unscaled detached Woven band proposal; it remains unimplemented pending approval; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 369 complete; V02 remains open
+
+S369 started from clean S368 commit `9ea4e8a7e528ca818b8627c299db75bfde90a2d6` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 368; S369 is complete. Canonical board revision was 1709 at entry; validated S369 start evidence/comments end at revision 1713 and exit evidence/comments end at 1727. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Polo's 0.25 cm residual gate is reaffirmed and fixed.
+
+S369 tested the complete, uncut `sleeveBand.top[0,1]` mapped to exact BACK `sleeve.hem[0,0.5]` across all 28 same-revision configurations / 56 face identities. The full 37 cm band maps onto an 18.5 cm hem half, a 0.5 display-length ratio. All 28 views show four outline self-crossings per band and one crossing between mirrored instances. The five selected Chromium views (including sleeve-band-depth max) show a central X; browser errors are zero. Source full-join residual is ≤2.56e-14 cm and mapped residual is zero, but this does not clear the projection distortion/crossing/readability failure. Focused diagnostic regression passes 2/2. No production code or acceptance changed. Keep all 56 Woven / 34 Polo faces held; integrated baseline stays 56 accepted / 90 held.
+
+**Next action:** reserve S370 after refreshing branch history and board. Continue V02 diagnosis from the exact remaining Woven and Polo blockers; keep the 0.25 cm Polo threshold and all-seven criterion fixed. Do not begin V03 or UIQ implementation.
+
+**Elapsed:** 2026-10-02 12:29:44–12:55:15 UTC (25m31s): production implementation 0m; source/topology analysis and diagnostic script/run 11m; focused diagnostic regression, syntax and diff checks 2m; Chromium render inspection 3m; packet, context/state, validated board and closeout review 9m31s; external-agent waits 0m; maintainer-decision wait 0m (Polo's 0.25 cm reaffirmation arrived before this continuation and required no dependent pause).
+
+_Last updated: S369 rejects the tested uncut-band mapping on all Woven options; all holds remain; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 368 complete; V02 remains open
+
+S368 starts from clean S367 commit `684efc25f1d1a6fec9dfc7f3e083fe3c54ccf281` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice is 367; S368 is the fresh UI-sequence revalidation slice. Canonical board revision was 1694 at entry and 1698 after validated S368 start evidence/comments. The goal record was inspected at this normal boundary: active, objective aligned to admitted G04, and still needed through safe merge/deployment. Ordinary usage was allowed. The maintainer reaffirmed Polo's fixed 0.25 cm residual gate; all 34 Polo faces remain held.
+
+S368 revalidated the approved UI sequence, Epic17 note, recommendation research, S354 disposition, latest G04 packet/state and board. The recommendation dispositions are unchanged: source-bound construction and same-piece/revision identity, exact anchored POMs, applicable artwork/colorway overlays, topology checks, actual rendered readability and honest holds already belong to V01/V02; outstanding output defects remain held. Native visual/accessibility and catalog presentation remain separate UIQ work; thumbnails, packs, assembled views and optional shader work remain under their later/conditional owners. The one technical-flat renderer remains authoritative. No cosmetic scope, duplicate renderer, new Epic17 dependency, hold release, or V02/V03 gate change was introduced.
+
+The 29 additive UIQ commands were preflighted through `applyBoardCommand` on a disposable clone (29 applied; revision 1698→1727). Against canonical revision 1698, all 29 command identities were already exact and skipped; zero commands were missing and zero canonical replay mutations occurred. All 14 UIQ cards remain Backlog with their approved dependencies; EPIC-17 retains only EPIC-14/15/16 dependencies. The current board remains EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. `ops/control-center/app/board.test.mjs` retains S354 UIQ backlog/dependency and G04 reconciliation regressions. `npm run control-center:test` passes 42/42. This is planning/documentation/board work only; no production renderer, geometry, export, accepted output or G04 gate changed.
+
+Packet/evidence: `docs/research/epic17/G04-UI-SEQUENCE-REVALIDATION-S368.md` and `docs/research/epic17/S368-ui-sequence-revalidation/`. S368 start records are linked at board revisions 1695–1698; validated exit evidence/comments end at revision 1709 and bind the packet, 29-command audit and Control Center log to G04-V02 and EPIC-17. All existing G04 holds remain, integrated status 56 accepted / 90 held across 73 configurations / 146 requests; preserve all-seven V02, Polo's 0.25 cm gate, legacy DXF behavior, protected byte identities, MQF checkpoints and post-G17 deferrals. V03 remains gated.
+
+**Next action:** reserve S369 from refreshed Git/history/board and continue a source-faithful V02 correction or bounded diagnostic against the held recipe faces. Do not start V03 or UIQ implementation; do not treat S368's planning audit as output acceptance.
+
+**Elapsed:** 2026-10-02 12:15:48–12:27:25 UTC (11m37s): production implementation 0m; context/output reconciliation 1m50s; clone command preflight and Control Center verification 2m00s; rendered output not applicable; packet/context/state/roadmap/validated-board closeout and review 7m47s; external-agent waits 0m; maintainer-decision time 0m.
+
+_Last updated: S368 confirms the UI queue and G04 boundary without changing gates or holds; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 367 complete; V02 remains open
+
+S367 starts from landed S366 commit `3b0d3489084fef937306e4295b94a08478743fe1` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice is 366; S367 is reserved. Canonical board revision is 1659 before S367 start commands. The goal is active, still matches the admitted EPIC-17/G04 objective, and remains needed through the required merge/deployment exit. The maintainer reaffirmed the Polo assembly residual limit at 0.25 cm; it remains a hard gate.
+
+**Correction to S366 interval description:** an audit of `diagnose-outward-normal.mjs` found the S366 script called `mapSleeveEdge("hem")`, which samples the full 37 cm hem. It did not isolate the BACK sleeve hem start-to-0.5 run. Therefore S366's 20–25 self-crossing result rejects its full-hem/full-band outward-normal candidate only. The S321 source-mapping research also specifies one uncut band instance, so the band-half crop explored in S367 is not the approved convention. S366 remains a valid record of the candidate executed; its interval characterization was too broad.
+
+S367 tested the source-derived crop hypothesis on all 28 same-revision Woven options / 56 request identities. `sleeveBand.top[0,0.5]` aligns to BACK `sleeve.hem[0,0.5]` within 1.8546e-14 cm maximum, but S321 requires an uncut band view. The cropped diagnostic has one mirrored seam crossing per option, one band outer-pair crossing in 27 options, and two band-to-opposite-sleeve crossings in 27 (zero at max band depth); manually inspected overlays show the central X and fold-mark overlap. It fails and is not an approved or production candidate. No production source map, cut geometry, stitch graph, thresholds or acceptance status changed. Keep all 56 Woven and 34 Polo faces held; integrated acceptance remains 56 accepted / 90 held across 73 configurations / 146 requests. Keep all-seven V02, legacy DXF and protected export byte identities; V03 remains gated until V02 passes for all recipes.
+
+Packet/evidence: `docs/research/epic17/G04-V02-WOVEN-HEM-HALF-BAND-TOPOLOGY-STUDY-S367.md` and `docs/research/epic17/S367-woven-hem-half-band-proposal/`. Start board revision 1659; S367 start evidence and correction comments were validated through revision 1665; validated S367 exit evidence/comments and summary reconciliation end at revision 1694. Preserve all S366 evidence and failure logs. The focused S367 test passes 2/2; five Chromium views have zero browser errors and confirm the failure. No production coverage/build/export gate applies.
+
+**Next action:** reserve S368 only after refreshing Git, usage, history and board. Continue V02 with a candidate that preserves S321’s uncut-band rule; keep all holds unless all-option joins, crossings, overlap, marks, output bounds, POM/colorway, and rendered readability pass. Preserve all-seven V02 and do not begin V03.
+
+**Elapsed:** 2026-10-02 11:31:58–12:07:49 UTC (35m51s): production implementation 0m; source/topology analysis, diagnostic scripts and all-option replay 14m; focused verification and correction 4m; rendered review 4m; packet/context/state/roadmap/board closeout 13m51s; external-agent waits 0m; maintainer-decision wait 0m (Polo’s 0.25 cm gate was reaffirmed during the slice and required no dependent pause).
+
+_Last updated: S367 rejects the diagnostic cropped half-band candidate; all holds remain; 2026-10-02._
+
+## EPIC-17 / G04 previous handoff — Slice 366 complete; V02 remains open
+
+S365 landed as `f559c9c2b63234fd47b242cbe80ed8f04bfb46a4` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S366 began from a clean checkout at 10:55:09 UTC. Highest assigned slice at entry was 365. The canonical board was revision 1624 at entry; S366 start evidence and comments replayed through the validated command layer to revision 1630. The goal is active and still matches the admitted EPIC-17/G04 objective. The user reaffirmed retaining the Polo 0.25 cm residual gate; it is unchanged.
+
+S366 was a diagnostic-only receiver-side exterior-normal proposal study. The exact 28 Woven options and 56 requests were reconciled at `live-draft:woven-shirt:14:14`. The candidate used the approved `sleeve.capRight` to `yoke.armholeUpper` + `back.armholeLower` arclength correspondence, `sleeve.sideRight`, the back-view `sleeve.hem` start-to-midpoint run, and the exact same-revision `sleeveBand.top` ↔ `sleeve.hem` source join. It selected outward normals away from `back.centerBack` as a proposed display choice. All 28 band outlines self-crossed (20–25 clustered segment intersections per configuration at 0.15 cm clustering); the sampled `bandFold` crossed the distorted band outline in manually reviewed Chromium overlays. Pairwise opposite-instance and tested body/yoke crossings were zero, but they do not clear the same-instance band conflicts. The candidate is rejected and no production change or face acceptance occurred. A candidate zero join is imposed by path alias and is not independent seam validation; the source join itself remains within 2.56e-14 cm in the default trace.
+
+The baseline remains 28 Woven back outputs and 3 Woven front outputs; 25 front requests remain held by `TEXT_COLLISION`. Keep all 56 Woven and all 34 Polo faces held. Integrated acceptance remains 56 accepted / 90 held across 73 configurations / 146 requests. All-seven V02, V02-before-V03, legacy DXF and protected byte identities are unchanged. V03 cannot start. The S366 focused test had two corrected diagnostic setup/reporting failures: an incorrect generated-matrix relative path and an omitted paired-instance projection record. Both failure logs are retained; the script/test were corrected, and the final focused test passes 1/1. The all-option diagnostic reproduces 28/28 same-revision configs, 56 requests and five zero-browser-error Chromium views. No production files changed; production coverage/build/export gates are not applicable to this diagnostic-only slice.
+
+Packet and evidence: `docs/research/epic17/G04-V02-WOVEN-BACK-SLEEVE-BAND-EXTERIOR-NORMAL-PROPOSAL-S366.md` and `docs/research/epic17/S366-woven-back-exterior-normal-proposal/`. Board start revision 1630; validated S366 exit evidence/comments and summary reconciliation end at revision 1656. `npm run control-center:test` passes 42/42, the S366 focused candidate test passes 1/1, and `git diff --check` passes.
+
+**Next action:** reserve S367 only after refreshing Git, usage, slice history and board. Study a source-topology-derived Woven sleeve/band view that preserves the approved hem-half and full-band relation; keep the study diagnostic until a candidate passes all options, joins, crossings, overlap, marks, output bounds and rendered readability. Seek maintainer approval before implementing a new semantic view mapping. Preserve every hold in the meantime.
+
+**Elapsed accounting:** 10:55:09–11:24:09 UTC (29m): geometry/source analysis and diagnostic implementation 12m; focused verification/path correction 3m; rendered review 4m; packet/context/state/roadmap/board/tests 8m; context refresh 2m; external-agent waits 0m; maintainer-decision wait 0m.
+## EPIC-17 / G04 previous handoff — Slice 363 complete; V02 remains open
+
+S363 started 2026-10-02 09:30:41 UTC from clean S362 commit `24a0c00fa8cb5d11b9e0b4b0c132c5c7efe5684c` on `codex/epic-17-g04`. Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and remains an ancestor. Highest assigned slice was 362; S363 was reserved. The canonical board was revision 1536 at start; validated start evidence/comments are at 1537–1539. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal record is active and its objective matches the admitted G04 objective. The user retained Polo's 0.25 cm residual gate; no Polo threshold or acceptance change is authorized.
+
+S363 added a view-only measured-placement guard for the Woven finished-placket-width callout: candidate straight leaders crossing the projected `outerStand`, `innerStand`, `upperCollar` or `underCollar` outlines are rejected. Exact source anchor, target, revision, POM value/tolerance and cut/stitch geometry remain unchanged. The production Chromium matrix covers 28 Woven configurations / 56 faces with zero browser errors: 31 faces emit and 25 front faces fail closed with `TEXT_COLLISION` because no clear straight leader and readable label position is available. The default and max-`standHeight` crossing outputs are now visibly withheld; this is not a callout-readability pass. Three front configurations and all 28 backs compile, but no Woven face is accepted because the back sleeve/band X and other topology/readability checks remain. Preserve all 56 Woven holds and all 34 Polo holds; the integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+Packet: `docs/research/epic17/G04-V02-WOVEN-POM-LEADER-READABILITY-S363.md`; replay and rendered output: `docs/research/epic17/S363-woven-pom-leader-readability/`. The production anchor comparison confirms `buttonPlacket.top` remains at `(3, 8.2)` cm on the same revision. Board revision 1559 links S363 start/exit, replay, max-height hold and anchor-comparison evidence. Focused SVG tests pass 31/31 at 100% statement/branch/function/line coverage for the changed renderer. Production build passes with the existing chunk-size advisory; protected export regression passes 8/8. Control Center passes 42/42 and `git diff --check` passes. The Polo 0.25 cm gate and all-seven acceptance remain unchanged. S362's S354 UI sequence check remains planning-only; UIQ work stays Backlog/outside G04. S363 adds no accepted faces and cannot clear the separate Woven sleeve/band crossing.
+
+**Next action:** reserve the next unique slice and investigate a view-only bent leader route around the projected collar endpoints while preserving the exact POM anchor, target and same-revision identity. If no readable source-faithful route is proven, retain the fail-closed output. Continue the independent sleeve/band crossing investigation; keep all-seven V02 and V02-before-V03.
+
+## EPIC-17 / G04 previous handoff — Slice 362 complete; V02 remains open
+
+S362 started 2026-10-02 07:04:15 UTC from S361 commit `4f7b584bcddbad222db3ecea23a159a94871bc62` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The only starting dirt was the S361 post-commit `importFacts` board update and its command record, which are verified and preserved in this slice. Highest assigned slice was 361; S362 is reserved. Board was revision 1524 at start; validated S362 start evidence/comments are at 1525–1527. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The goal remains active and matches the admitted objective.
+
+S362 implements the maintainer-approved revision-bound Woven full-collar projection for `outerStand`, `innerStand`, `upperCollar`, and `underCollar`, using the source front neckline and reversed back yoke neckline with a split at the source-length shoulder station. This is view-only; source cut/stitch geometry, POMs, option behavior, solver thresholds, legacy DXF and protected byte identities are unchanged. The 28-configuration / 56-face replay emits with zero renderer issues and the collar segment diagnostic finds no unintended collar-outline intersections. Manual review still fails the max-stand-height finished-placket-width leader, which crosses unrelated collar contours; the back sleeve/band X from rejected S361 also remains. Woven collar artwork fails closed until the full artwork area can follow this non-rigid projection; the current matrix has no collar artwork placements. Retain all 56 Woven holds and accept zero additional faces. Polo remains 34/34 held on the user-reaffirmed 0.25 cm residual gate. Integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+Current packet: `docs/research/epic17/G04-V02-WOVEN-FULL-COLLAR-PROJECTION-S362.md`; rendered evidence and replay: `docs/research/epic17/S362-woven-full-collar/`. S361's sleeve/band normal-offset candidate failed its crossing gate in every Woven back option and remains rejected/held; it is independent of this collar mapping. The approved UI sequence remains reconciled by S354 and 29-command identity replay at S362; UIQ work stays Backlog and outside G04's critical path. Board revision 1536 links the S362 exit packet to G04-V02 and EPIC-17. Focused changed-module coverage is 100%; TypeScript, production build, protected export identities, Control Center 42/42, and diff check pass. Keep all-seven V02 acceptance and V02-before-V03.
+
+**Next action:** reserve the next unique slice from refreshed `origin/main`, branch history and board; address the source-bound Woven sleeve/band crossing and callout-leader readability without changing cut/stitch geometry or the confirmed Polo 0.25 cm gate. Re-run applicable option-wide output checks and keep every failed face held. Keep V03 Backlog until all seven recipes pass V02. Maintain the MQF review checkpoints and post-G17 deferrals.
+
+## EPIC-17 / G04 previous handoff — Slice 361 complete; V02 remains open
+
+S361 started 2026-10-02 06:42:33 UTC from S360 commit `6203ba23d0c10dc7f8dada35510945725d0ff3d4` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 360; S361 was reserved. Board was revision 1499 at start and 1524 after post-commit S361 evidence import. EPIC-17/G04-V02 remained In Progress, V01 Done, V03 Backlog. The goal record was active and matched the admitted objective.
+
+S361 completed a diagnostic-only source-bound normal-offset view study for the Woven sleeve/band pair. No production mapping, pattern geometry, stitch graph, option, solver threshold, exporter, or accepted status changed. Preserve all 56 Woven and 34 Polo holds and the integrated tally of 56 accepted / 90 held across 73 configurations / 146 faces. The full-collar projection approval is recorded in `docs/PROJECT-DECISIONS.md`; it permits a separately bounded implementation slice, subject to full rendered checks. Polo's authored 1.5 cm ease and confirmed 0.25 cm residual gate remain unchanged.
+
+Current slice packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md`. The candidate preserves the mapped band-to-sleeve seam but leaves four back band-pair crossings in 26 configurations and eight in two; all four Chromium overlays confirm central crossings. The candidate is rejected for production; it does not settle an instance pose. Keep all Woven holds.
+
+**Next action:** at the next verified boundary, reserve S362 for a separately packeted implementation of the approved full-collar projection. Verify all 28 Woven configurations / 56 faces for source identity, joins, crossings, overlap/layers, colorway closure, POM anchoring and readable rendered output. Keep all Woven/Polo holds until each face passes. Do not begin V03 before all seven recipes pass V02. Maintain the 0.25 cm gate, legacy DXF behavior, protected export identities, MQF review checkpoints and post-G17 deferrals.
+
+S361 elapsed 06:42:33–07:00:53 UTC (18m20s): diagnostic script/output work 7m; focused matrix verification and Chromium render review 5m; packet/context/admission/roadmap and validated board closeout 6m; external-agent waits 0m; maintainer-decision time 0m within the active slice (Polo gate and Woven collar approval were already received). The initial Control Center run found two test failures: S361 evidence had not yet been linked to the summary card, and board-description assertions still described the S359 approval as pending. The next run found one remaining stale description phrase. Links and assertions were corrected through validated commands/current board expectations; final `npm run control-center:test` passes 42/42. The focused S361 evidence test passes 1/1; `git diff --check` passes. No production coverage/build/export gate applies.
+
+## EPIC-17 / G04 current handoff — Slice 360 complete; V02 remains open
+
+S360 started 2026-10-02 06:22:04 UTC from S359 commit `d519a8ac7b440ea310f660e80799bef9c0479ee1` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 359; S360 is the current slice. Board revision 1488 at start and 1499 at exit. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Goal status is active and its objective matches the admitted Epic. The Polo 0.25 cm residual gate remains explicitly confirmed and recorded in `docs/PROJECT-DECISIONS.md`.
+
+S360 completed a durable-evidence closeout only. The Control Center `importFacts` command filled the verified S359 commit hash on its four canonical evidence records and removed extra final blank lines from the S359 diagnostic script after the staged diff check reported them. No production behavior, acceptance or view mapping changed. S359 is `d519a8ac7b440ea310f660e80799bef9c0479ee1`; board revision 1499 links S360 start/exit evidence. `npm run control-center:test` passes 41/41 and `git diff --check` passes. At the S360 boundary the full-collar projection decision was pending; the maintainer approved it before S361, and S361 recorded the decision. Keep all 56 Woven / 34 Polo holds, all-seven V02 and the V02-before-V03 gate.
+
+S359 tested whether the straight Woven stand base can rigidly match the exact curved receiving necklines. The source stand length equals the cumulative neckline arc, but its front segment is 14.5371 cm against a 13.1260 cm CF-to-shoulder chord by default; the back segment is 11.2401 cm against a 10.7010 cm CB-to-shoulder chord. Across all 28 source configurations, the minimum symmetric endpoint gap is 0.68814–0.73975 cm front and 0.26283–0.28254 cm back, above the unchanged 0.25 cm gate for all 56 face joins. `docs/research/epic17/S359-woven-collar-rigid-assembly/` holds the reproducible matrix, diagnostic overlay and manual review. These are source-geometry facts, not physical-fit or sewing-gap evidence.
+
+S358's same-revision overlays show the remaining collar assembly still detaches/crosses over the chest/placket and back yoke despite suppression of the duplicate base-seam stroke approved in S343. S359 offers a concrete, not-yet-approved option: a revision-bound piecewise normalized-arclength/normal-offset display map for all four collar roles onto the exact body/yoke receiver curves, preserving source IDs, approved exterior stations, fold-reflected instances, current layers and one body-neckline seam. It bends visible assembled-view geometry and may change silhouette, overlaps and POM placements. No production mapping or source change was made. Keep all 56 Woven faces held pending explicit approval and full 28-option/56-face joins, crossings, overlap, layer, fill, POM and readability checks.
+
+Polo remains 34/34 held: preserve the authored 1.5 cm ease and the maintainer-approved 0.25 cm residual gate. Integrated matrix remains 73 configurations / 146 face requests, 56 accepted / 90 held. G04's all-seven-recipe V02 criterion and V02-before-V03 gate remain unchanged. Re-estimate from this verified boundary: at least 13 additional slices under the minimum path (V02 correction/replay and integrated exit, V03 minimum five, final review/merge/deployment minimum three); there is no defensible upper bound while view decisions and CAD rights/receiver evidence remain unresolved. Dates are conditional. UIQ packages remain Backlog/outside the G04 critical path; S354's reconciliation and additive command replay remain complete.
+
+MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** at their applicable complete-output exits; diagnostic held candidates do not pass them. Post-G17 deferrals remain unchanged. No physical fit, factory acceptance, CAD compatibility or production-readiness claim is made.
+
+**Next action:** continue an independent, source-grounded Woven or Polo held-area diagnosis while the S359 full-collar projection decision is pending; do not implement it before approval. Keep all Woven/Polo holds, protected exports, legacy DXF and all seven V02 acceptance requirements.
+
+Slice 360 elapsed approximately 4 minutes (06:22–06:26 UTC): production implementation 0m; durable docs/board work 2m; focused verification 2m; external-agent waits 0m; maintainer-decision time 0m. Slice 359 elapsed approximately 23 minutes (05:49:45–06:13 UTC): production implementation 0m; source/topology diagnosis 7m; script/Chromium diagnostic output and manual review 5m; focused verification 3m; durable records and validated board closeout 8m; external-agent waits 0m; maintainer-decision time 0m (projection approval remains pending). No production coverage/build/export gate was due because production source did not change.
+## EPIC-17 / G04 prior handoff — Slice 354 complete; V02 remains open
+
+S354 started 2026-10-02 03:39:28 UTC from clean S353 `6ea5967b1c2e76402323a730a35bc25972993e3a` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 353; S354 is reserved for this reconciliation. Board started at revision 1402 with EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog and no UIQ identities.
+
+Read the approved `UI-ENHANCEMENT-SEQUENCE.md`, the Epic17-specific note, all 29 additive commands, and the relevant G04 UI repository recommendations and manual-quality finding dispositions. S354 records the reconciliation in `docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md`, selectively retains the approved planning/research and visual atlas, updates this context index and the G04 roadmap note, and adds the UIQ board regression assertion without replacing current tests.
+
+Source-bound construction geometry, piece/revision identity, exact source-method POM anchors, applicable artwork/colorway overlays and rendered readability were already required by G04 V01/V02. The existing technical-flat path remains the only renderer. Keep exact topology, option matrices, same-revision traceability and legibility holds. UIQ-02..08 and UIQ-GATE are independent future UI candidates; UIQ-09..13 belong to later goals or conditional UI admission. UIQ-01 records a G04 review checkpoint. All 14 cards are Backlog only. UIQ-GATE depends on EPIC-17; EPIC-17 gained no UIQ dependency. No G04 acceptance criterion, hold or V02→V03 gate changed.
+
+The 29 commands passed preflight against a clone via `executeBoardCommand` (29 applied, 0 skipped; cloned revision 1402→1431), then were replayed on the canonical board through the same validated command layer with a fresh expected revision per mutation (29 applied, 0 skipped; revision 1402→1431). A second identity check skips all 29. Validated revisions 1432–1438 link S354 start/exit evidence and comments to G04-V02 and EPIC-17; board is now revision 1438. Board assertions confirm all UIQ items Backlog, G04-V02 still In Progress, and EPIC-17 dependencies unchanged. `npm run control-center:test` passes 35/35; `git diff --check` passes. No production code, exports, pattern/stitch geometry or rendered output changed; no full Epic gate is due. MQF-004–007, MQF-011, MQF-012 and MQF-015 keep their existing G04 exit dispositions; post-G17 deferrals remain unchanged.
+
+S354 elapsed approximately 14 minutes: reconciliation/context/board work 9m; focused Control Center verification and diff review 4m; external-agent waits 0m; maintainer-decision time 0m. One initial scratch-preflight helper attempt did not recognize link-only `addEvidence` commands; it failed before touching either board, was corrected to distinguish evidence creation from evidence linking, and the full clone preflight and canonical replay then passed. The packet-link regression initially assumed the exit comment was last; after a validated verification note was appended, it was changed to check comment history. Final focused checks pass. No safe disjoint delegation was appropriate.
+
+**Next action:** reserve S355 after refreshing usage, Git history, `origin/main`, branch cleanliness and canonical board. Continue G04-V02 on the remaining held views/options; retain every face hold unless source mapping, topology, rendered joins/overlap and callout readability pass. Keep all-seven V02 acceptance and V03 gated. Do not start UIQ candidate implementation.
+
+## EPIC-17 / G04 current handoff — Slice 353 complete; V02 remains open
+
+S353 started 2026-10-02 03:03:24 UTC from S352 commit `4f0e2d50a80de1ecad3b0c6ad0b1507ed083fc69` (`Slice 352: retain Polo POM label holds`) on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The board at S353 start was revision 1392; start packet/evidence was recorded at revisions 1393–1397. Packet: `docs/research/epic17/G04-V02-POLO-CAP-ARMHOLE-VIEW-PROJECTION-S353.md`.
+
+S353 implemented the maintainer-approved `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH` view-only normalized-arclength projection for Polo's sleeve cap: front `sleeve.capLeft` to `front.armhole`, back `sleeve.capRight` to `back.armhole`, underarm to shoulder. Cut geometry, source stitch/ease graph, source edge lengths, rigid assembly solver and 0.25 cm residual gate remain unchanged. All 17 exact configurations / 34 diagnostic face renders have two receiving-armhole seam paths, zero visible sleeve-cap edge references, two same-revision receiving-armhole source references, and zero mapping, fill-closure, transform or SVG-render errors. Direct diagnostic outputs are visibly labelled held and are not production acceptance evidence.
+
+The rebuilt production UI replay emitted 0/34 SVGs and visibly held all 34 faces on the recurring 0.68 cm `Sleeve-cap ease` endpoint residual above the 0.25 cm gate. Front faces retain 34 POM label blockers across the 17 options (17 each for `Finished collar stand height` and `Stand front rise`). The prior 17 back `Sleeve bicep width` label issues no longer appear in the current replay; this clears that label issue only and does not release any face. Browser/page/request errors: 0. Manual review covered default front/back, maximum stand-height front/back, and collar-leaf-depth minimum front / maximum back. The mapped armhole contour is represented once per mirrored body side; no wrong join, seam crossing, or fill-closure gap was visible at that boundary. Neck/shoulder annotations remain crowded, and front POM labels remain held. Integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces.
+
+Focused suites pass 92/92 with 100% statement, branch, function and line coverage for all three changed production modules; `npx tsc --noEmit` and `npm run build` pass (existing Vite chunk advisory). Validated board revisions 1398–1402 link the packet and rendered matrices to G04-V02 and EPIC-17. No export/DXF code, protected identity, baseline, solver threshold, pattern geometry, or stitch graph changed. MQF-004–007, MQF-011 and MQF-012 remain **To be reviewed** at the G04 rendered-output exit; MQF-015 remains applicable to V03. Post-G17 deferrals are unchanged. S353 elapsed wall time was about 30 minutes: implementation 11m, focused tests/type/build 7m, browser replay/visual review 11m, docs/board 1m, external-agent waits 0m, maintainer-decision wait 0m. No safe independent delegation was used.
+
+**Historical next action at S353:** S354 was to reconcile the approved UI recommendations at the next normal boundary. That work is complete in the S354 handoff above.
+
+## EPIC-17 / G04 previous handoff — Slice 351 complete; V02 remains open
+
+S351 started 2026-10-02 02:05 UTC from S350 `aaa12c32f901cbcf1b2255cd6069f31ca3a9aa23` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 350; S351 is reserved. Board revision 1365 linked S350 exit; validated S351 start evidence/comment are at revisions 1366–1367. Usage at start: primary 12%, weekly 22% informational. Packet: `docs/research/epic17/G04-V02-POLO-RESIDUAL-AND-LABEL-HOLD-DIAGNOSIS-S351.md`.
+
+S351 freshly re-drafted the exact 17 supported Polo configurations through current source and current source-to-view assembly. In 34/34 faces the selected sleeve cap half is 21.595729 cm against its armhole at 20.845729 cm: +0.75 cm source ease per half, 0 cm underarm residual and 0.958604 cm shoulder-station distance. The distinct assembly solver warning remains 0.68 cm against the 0.25 cm gate. All 34 Polo faces stay held. It also confirms 51 recurring POM holds: front `Finished collar stand height` on `outerStand.frontEnd.start`, front `Stand front rise` on `outerStand.frontNeckline.start`, and back `Sleeve bicep width` on `sleeve.sideRight.start`. Current label placement tries eight straight directions through 6.75 cm; replay-only extension to 60.75 cm still finds no free ray under existing box/leader constraints. Current source matrices, diagnostic Chromium SVGs and exact-anchor overlays are in `docs/research/epic17/S351-polo-residual-labels/`. No production source, geometry, stitch graph, threshold, export or accepted-face count changed. Integrated tally remains 56 accepted / 90 held; V02 all-seven, V03 gated.
+
+S351's view-only normalized-arclength seam correspondence is a concrete proposal for representing the authored eased sleeve cap while leaving both cut edges and the stitch graph unchanged; it needs an explicit design decision because source does not specify ease distribution. POM anchors and values are source-defined; the renderer needs a routed-leader/outer-rail solution rather than more straight search rings. No POM values, label anchors or source geometry need changing. S350's user-approved Woven occlusion projection failed rendered checks and Woven remains held. All other recipe holds remain. No safe independent delegation is identified. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable output exits; post-G17 deferrals remain unchanged.
+
+S351 verification: current-source and render diagnostic scripts completed for all 17 configurations / 34 faces. Chromium-rendered default anchor crops were manually inspected; the front labels crowd the neckline/placket; the back bicep anchor is exactly coincident with `Body chest (finished)` and `Sleeve length (cap–hem)`. Straight-ray expansion did not yield a placement. No production coverage/build/export gate applies because production files did not change. After S351 evidence links are validated, `npm run control-center:test` and `git diff --check` close this evidence-only slice.
+
+**Next action:** start S352 to design and test a bounded routed POM leader layout on all 17 Polo options, with the current exact anchors/values and no pattern changes. Keep all 34 Polo views held. The separate cap-ease projection decision remains blocking for those faces. Do not begin V03 until all seven recipes pass V02.
+
+## EPIC-17 / G04 prior boundary — Slice 350 complete; V02 remains open
+
+S350 started 2026-10-02 01:56 UTC from clean S349 `4919ec3b95610a469a111accb32b8dcb753aff8f` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 349; S350 was reserved. Board revision 1357 linked the S349 exit; validated S350 start evidence/comment are at revisions 1358–1359. Packet: `docs/research/epic17/G04-V02-WOVEN-BACK-BODY-OCCLUSION-PROJECTION-S350.md`.
+
+S350 tested a replay-only mask from exact back/yoke filled contours over the sleeve and band silhouettes on all 28 same-revision Woven back SVGs. Chromium loaded all 28 with zero errors. It removes band contours only by hiding both complete cuffs, while separate sleeve-cap seams continue to cross the body in an X; representative default, combined and yoke-depth extreme renders confirm the output is misleading. The conditional output gate fails, so the candidate is rejected and no production source or projection changes. Woven remains 0/56 accepted; integrated tally stays 56 accepted / 90 held. V02 retains all-seven acceptance; V03 remains gated.
+
+The canonical board links S350 start evidence/comment at revisions 1358–1359; exit, matrix, and rendered evidence at 1360–1363; EPIC summary evidence at 1364; and exit comment at 1365. Candidate generation, Chromium verification and manual review are complete. `npm run control-center:test` and `git diff --check` are required before commit. Elapsed at 02:04 UTC: candidate/source analysis 4m, Chromium verification 2m, visual review 1m, docs/board 1m, production implementation 0m, external-agent waits 0m, maintainer-decision wait 0m (approval was received before this slice). No safe independent delegation was identified. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable accepted-output exits; post-G17 deferrals are unchanged.
+
+**Next action:** after S350's Control Center verification and commit, refresh usage/Git/board and reserve S351 to diagnose the remaining 34 held Polo faces, beginning with the 0.68 cm sleeve-cap residual and POM collisions. Do not start V03 before all-seven acceptance.
+
+## EPIC-17 / G04 previous boundary — Slice 349 complete; V02 remains open
+
+S349 started 2026-10-02 01:28 UTC from clean S348 `02c467ae578b891558f8d8988d1cdf2b0a9e6ae7` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice was 348; S349 was reserved. Board revision 1352 linked the start packet. Packet: `docs/research/epic17/G04-V02-WOVEN-BACK-BAND-PAIR-CROSSING-S349.md`.
+
+S349 traced the exact source edges, source stitch topology, option-specific transforms, and current approved projection across all 28 Woven options / 56 faces. Source seam residual is at most `2.864289338439558e-14 cm`. The band pair has zero contour intersections on all 28 front faces and four proper intersections on all 28 backs; visual evidence is in `docs/research/epic17/S349-woven-back-band-pair/annotated-views/`. Source topology does not specify an alternate back cuff pose or spacing that preserves both full source-joined bands. Keep all 56 Woven faces held; the approved projection's rendered checks are not waived. Integrated tally remains 56 accepted / 90 held. G04-V02 retains all-seven acceptance; V03 remains gated.
+
+S349 changed no production mapping, pattern geometry, stitch graph, option, export, or accepted-face count. Focused source-crosswalk test passes 1/1. The validated board links its exit/crosswalk/overlay evidence at the S349 exit. `npm run control-center:test` passes 33/33 and `git diff --check` passes. Elapsed 19m at 01:47 UTC: implementation 0m, source analysis/test 9m, visual review 5m, records/board 5m, external-agent waits 0m, maintainer-decision time 0m. No safe independent delegation was identified. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable output exits; their post-G17 deferrals remain unchanged.
+
+**Next action:** after the S349 commit, refresh usage/Git/board and reserve S350 for one independently bounded source/output diagnosis of the next held V02 recipe. Keep Woven held until an explicitly approved concrete mapping passes all 28 options, both views, exact joins, crossings, overlap, and readability. Do not begin V03 until all seven recipes pass V02.
+
+## EPIC-17 / G04 prior boundary — Slice 348 complete; V02 remains open
+
+S348 started 2026-10-02 01:02 UTC from clean S347 `5daf9b3af61ae5d3f00baae7126396b3788f1560` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 347; reserve 348. Board revision at start 1342, linking the start comment. Usage: primary 7% used and weekly 22% informational. Packet: `docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md`.
+
+S348 implements exact colon-token identity in `technicalFlatPrimitiveRole`, preserving role, mark, dart, artwork and anchored-callout behavior. The `sleeveBand` outline now uses its own approved transform. Every one of 56 same-revision Woven output faces was compared with its option-specific source assembly: 112 mirrored band top edges meet `sleeve.hem` with maximum output rounding residual 0.000063 cm. The separate visible gate fails: the two band contours have four proper boundary intersections in every BACK_FLAT (28/28); the front band pair has none. This X-shaped overlap preserves the current hold under the user's conditional projection approval. The collar remains detached/crossing on the front; no Woven face is newly accepted. Evidence, per-option join audit and colored overlays are in `docs/research/epic17/G04-V02-WOVEN-ROLE-TOKEN-IDENTITY-S348.md` and `docs/research/epic17/S348-woven-role-token/`. V02 remains all-seven and V03 gated. Next S349 diagnoses the source-supported cause/available mapping options for the back overlap, while preserving holds and without changing cut geometry or stitch graph absent authorization.
+
+## EPIC-17 / G04 prior boundary — Slice 347 complete; V02 remains open
+
+S347 started 2026-10-02 00:42 UTC at S346 `dacb77422a485244921a5b79e92caaf449e8df53` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned slice at entry was 346; reserve 347. Board revision at entry 1326 and exit 1341. Usage: primary 5% used; weekly 21% informational. Packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-BACK-CROSSING-DIAGNOSIS-S347.md`.
+
+S347's production entity audit found that the `sleeveBand` source ID is incorrectly selected as role `sleeve` because `technicalFlatPrimitiveRole` uses a prefix substring and mappings list `sleeve` first. The resulting back band path follows the sleeve transform instead of the band transform, while the true band transform places `sleeveBand.top` exactly on `sleeve.hem`. S348 implements only an exact source-role token match; this is a source-derived identity correction within the approved sleeve/band view pair. The separate sleeve crossing and detached collar placement remain under hold. No cut geometry, stitch graph, or new semantic map is authorized.
+
+All 56 Woven output candidates remain unaccepted and held; integrated baseline stays 56 accepted / 90 held across 73 configurations/146 faces. V02 remains all-seven and V03 gated. Next S348: make source role parsing exact and prove the rendered band maps onto its own source assembly transform; run 100% focused coverage, build/export checks and the 28-option/56-face Chromium replay. Reinspect all affected band and sleeve joins plus collars. Do not release a face until every output criterion passes.
+
+S347 confirmed from emitted source IDs and code that `role:sleeveBand` matches the earlier `role:sleeve` substring, so its emitted band outline is transformed with the sleeve transform. In standard default source assembly the correct band transform aligns `sleeveBand.top` exactly with `sleeve.hem`, while the emitted candidate diverges. A second, separate crossing remains in the sleeve component itself. The exact output overlays and source transforms are retained under `docs/research/epic17/S347-woven-crossings/`. S347 changes no production code, geometry or mapping and accepts no face. The collar remains held because the straight stand base is assembled against two curved source neckline edges; approved stroke suppression does not repair its rigid placement. V02 remains all-seven; V03 remains gated.
+
+Elapsed 00:42–00:59 UTC (~17m): source/entity diagnosis ~5m; overlays and visual inspection ~5m; assembly transform probe ~2m; docs/validated board closeout ~5m; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. Next is the exact role-token fix in S348 with focused coverage and the full Woven option replay.
+
+## EPIC-17 / G04 prior boundary — Slice 346 complete; V02 remains open
+
+S346 started 2026-10-01 23:45 UTC from S345 `e080bfcda7a7095c31e88d8df442e1eb04628b60` (`Slice 345: implement approved Woven eased-seam projection`) on `codex/epic-17-g04`; it landed as `dacb77422a485244921a5b79e92caaf449e8df53` (`Slice 346: anchor Woven collar flats and POMs`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice at start was 345. Board revision 1326 links S346 exit and review evidence. Packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-POM-REMAINING-HOLDS-S346.md`.
+
+S346 implemented the already-approved both-face Woven collar fill-only closure and source-exact POM anchor resolution. The front anchors body chest, finished placket width, button spacing, pocket width/height, band depth and positive-length vent; the back anchors yoke depth. Body length and neck circumference remain table-only because their source edges are not drawn on either exterior face; front-only/back-only measures remain face-limited. A zero-depth vent stays table-only at 0 cm. No measurement value/formula/tolerance, option, source cut geometry or stitch graph changed.
+
+Production Chromium exercised 28 configurations / 56 faces. All 56 now emit same-revision SVG candidates with zero compiler/browser errors; rendered review rejects all 56. Front `outerStand`, `upperCollar` and `underCollar` remain detached/crossing. Back strokes cross the torso; the output alone does not identify an approved semantic mapping that may be changed. No Woven face is accepted; integrated tally remains 56 accepted / 90 held over 73 configurations / 146 faces. Evidence and review: `docs/research/epic17/S346-woven-collar/`. Focused tests passed 113/113 with 100% statement/branch/function/line coverage in each changed production file; build and protected export regression passed. `npm run control-center:test` passes 33/33; board revision 1326 links exit, review, matrix, coverage and build evidence to G04-V02 and EPIC-17. V02 remains all-seven and V03 is gated.
+
+At the applicable output exit, MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed**; preserve post-G17 deferrals. No fit, factory-acceptance or production-readiness claim is made.
+
+S346 elapsed approximately 46m (2026-10-01 23:45–2026-10-02 00:31 UTC): implementation ~18m; focused verification/coverage/build/export ~10m; replay/render inspection ~11m; durable packet/context/board closeout ~7m; external-agent waits 0m; maintainer-decision time 0m. No safe disjoint delegation was identified.
+
+**Next:** refresh usage/Git/board state and reserve the next unique slice for a source-and-entity diagnosis of the detached front collar and crossing back strokes. Do not invent another semantic map: derive a correction uniquely from existing source/approved mapping, or preserve holds and present a concrete decision. Re-run all 28 Woven configurations and rendered review after any view change. Do not begin V03 while any recipe/configuration is held.
+
+## EPIC-17 / G04 current handoff — Slice 345 complete; V02 remains open
+
+S345 started 2026-10-01 22:25:48 UTC from clean S344 `e2e7a70bc2f171688a14f33b984bc29d537ad2d4` (`Slice 344: diagnose Woven sleeve-cap projection`) on `codex/epic-17-g04`; freshly fetched `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 344; S345 was reserved. Board revision 1289 verifies EPIC-14/15/16 Closed, EPIC-17/G04-V02 In Progress, V01 Done and V03 Backlog; S344 exit, matrix and rendered review are linked. S345 start and decision records were linked through validated commands. Packet: `docs/research/epic17/G04-V02-WOVEN-EASED-SEAM-PROJECTION-S345.md`. Usage at start: primary 27%, weekly 14% (informational), ordinary use allowed.
+
+The maintainer approved the exact S344 proposal: map `sleeve.capLeft` (underarm→crown) by normalized arclength to `front.armhole` (underarm→shoulder), and map `sleeve.capRight` (crown→underarm) to `yoke.armholeUpper` then `back.armholeLower`, splitting at the live yoke-edge length fraction. Emit each body-derived interface once on `SEAM`, suppress duplicate cap strokes, retain reflected sleeve/band pairs, and put the yoke armhole on the approved back-facing seam layer. Pattern coordinates, stitch graph, +1.5 cm authored ease and the generic 0.25 cm threshold remain unchanged. This alters only the displayed cap contour and does not assert that source/cut edges have equal lengths.
+
+S345 implemented the revision-bound Woven projection in `src/render/technical-flat-projection.ts`, `technical-flat-geometry.ts`, `technical-flat-assembly.ts` and `technical-flat-live.ts`. It validates the exact ordered body-side stitch, transfers the displayed cap by normalized arclength, emits the shared interface seam once, suppresses the duplicate cap stroke and corrects the approved back seam layer. Pattern coordinates, stitch graph, authored +1.5 cm ease and generic 0.25 cm threshold are unchanged. Focused tests pass 130/130; all four changed production modules have 100% statement, branch, function and line coverage. `npx tsc --noEmit`, production build and protected legacy export regression pass (8/8). Production Chromium replay covers 28 configurations/56 face requests with zero browser errors. It emits 28 front candidates with no compiler issues, but rendered review found crossing/overlaid collar strokes and detached collar forms; none is accepted. All 28 back views remain withheld by `COLORWAY_CONTOUR_UNCLOSED` on `outerStand`, `underCollar` and `upperCollar`. Ten front POMs are table-only without geometry anchors. Detailed evidence is in `docs/research/epic17/S345-woven-sleeve/manual-review.md` and `production-replay/`.
+
+Keep all-seven recipe acceptance, V02-before-V03 gating and the integrated baseline (56 accepted / 90 held across 73 configurations) unchanged; S345 accepts no face. Validated exit, focused gates, replay, rendered review and export evidence are linked at board revision 1305 to G04-V02; exit evidence is also linked to the EPIC-17 summary and Epic record. `npm run control-center:test` passes 33/33, canonical board schema validation passes and `git diff --check` passes. At applicable accepted-output exits review MQF-004–007, MQF-011, MQF-012 and MQF-015; maintain each as **To be reviewed** until its relevant criterion passes, preserving post-G17 deferrals.
+
+**Next:** refresh usage/Git/board state, record the unique S345 commit, then reserve a fresh slice to trace only the current Woven collar contour/placement and same-revision POM anchor/readability failures, preserving all other holds. S345 elapsed approximately 78m (2026-10-01 22:25:48–23:44 UTC): projection implementation ~24m; focused tests/coverage/build/export ~20m; full-option replay and rendered review ~16m; durable records and validated board closeout ~18m; external-agent waits 0m; maintainer-decision time 0m. No safe disjoint delegation was identified.
+## EPIC-17 / G04 previous boundary — Slice 344 diagnosis complete
+
+S344's full source/topology matrix, four inspected overlays and diagnosis decision record are in `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-JOIN-DIAGNOSIS-S344.md` and `docs/research/epic17/S344-woven-sleeve/`. It confirmed 1.5 cm authored ease in all 28 Woven options, diagnosed front/back rigid-placement residuals and found `yoke.armholeUpper` currently emitted in `GARMENT_SILHOUETTE`. No production change was made. The maintainer approved the exact S344 view-only proposal at the S345 start; all 56 Woven faces remain held until S345's full output checks pass.
+
+## EPIC-17 / G04 current handoff — Slice 343 completed; V02 remains open
+
+S343 started 2026-10-01 21:14:56 UTC from clean S342 `515fe9d2550feeca8dbb4a17bc016e9214850570` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 342; S343 was reserved. The canonical board was revision 1260 at entry. The durable packet is `docs/research/epic17/G04-V02-WOVEN-COLLAR-SEAM-REPRESENTATION-S343.md`.
+
+The maintainer approved showing source `front.neckline` on `FRONT_FLAT` and `yoke.neckline` on `BACK_FLAT` as each face's single visible base-seam stroke while suppressing only the duplicate `outerStand.neckline` line. S343 implements revision-bound source/stitch/face validation, preserves rigid placement and the 0.25 cm threshold on other joins, and changes neither cut geometry nor the source stitch graph. Focused suites pass 95/95 with 100% statement/branch/function/line coverage on all three changed production modules; TypeScript and build pass. Production Chromium replay covers 28 Woven configurations / 56 faces: 0 SVGs, 56 held, no browser errors, and no remaining collar-base residual warning. All fronts have a 0.47 cm sleeve-cap residual. All backs have a sleeve-cap solver conflict; 26 also report 0.39 cm, `woven-shirt-yokeDepth-min` has no numeric residual, and `woven-shirt-yokeDepth-max` reports 0.73 cm. No Woven face passes. Full per-face captures and review are in `docs/research/epic17/S343-woven-seam/`. Validated board evidence and exit comment are linked to G04-V02 and EPIC-17 at canonical revision 1276. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog; integrated tally stays 56 accepted / 90 held across 73 configurations / 146 faces / 32 option fields. S343 reviewed MQF-004–007/011/012 and noted MQF-015's later V03 gate; each retains **To be reviewed** status for its applicable accepted-output exit, as recorded in the manual review. Elapsed 21:14:56–21:42:14 UTC (27m18s): implementation 9m, focused verification/typecheck/build 6m, production replay 2m, render review 3m, durable docs/board/Control Center validation 7m, external-agent waits 0m, maintainer-decision time 0m (approval was explicit at resumed entry). No physical/factory/CAD-compatibility claim. **Next action:** refresh usage, Git and board state and reserve S344 for the next bounded Woven sleeve-cap source/join diagnosis; preserve all holds and seek approval before any source/stitch repair.
+
+## EPIC-17 / G04 current handoff — Slice 341 completed; V02 remains open
+
+### Slice 340 — Polo dimension-only POM references
+
+Started 2026-10-01 19:58:12 UTC from clean S339 `3fe2652` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned number was 339; S340 reserved. Board revision was 1227 before its validated start evidence and 1231 at implementation entry. Packet: `docs/research/epic17/G04-V02-POLO-DIMENSION-REFERENCES-S340.md`.
+
+S340 implements two approved annotation-only dimensions. Polo's finished collar-leaf POM now points to exact `upperCollar.centerBack` fold-edge endpoints without rendering that hidden fold as a garment edge. Back hem drop references the exact same-revision `front.hem.start` and `back.hem.start` levels; the front level is projected to an external dashed dimension on the back view and does not imply a front/back stitch. No cut geometry, stitch graph, assembly rule/tolerance, POM formula/value/tolerance or DXF writer changed. Source diagnostics cover all 17 Polo configurations/34 faces with zero dimension mapping issues. Production Chromium replay covers the same 17/34, with zero browser errors and zero SVGs: all 34 complete Polo faces remain held on existing sleeve-cap residual and POM-label conflicts. Diagnostic and production evidence are in `docs/research/epic17/S340-polo-dimensions/`.
+
+Focused Polo/technical-flat tests pass 118/118; all seven changed executable production modules report 100% statement, branch, function and line coverage. `npx tsc --noEmit` and production build pass (existing Vite large-chunk advisory). Relevant protected export/DXF/identity tests pass 27/27, including eight protected legacy DXF hashes and nine empty-placement identities; the Trouser output fixture now includes the already-approved S326 `flyUnderlap`. No export baseline moved. The S340 visual review confirmed the new reference marks are present in diagnostic-only renderings but did not pass the full Polo readability or assembly gate; no face is accepted from this work.
+
+Validated Control Center exit evidence will be added at slice close; expected current status remains EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. The last verified integrated all-recipe baseline remains 56 accepted / 90 held over 73 configurations / 146 faces / 32 option fields; S340 changes only the Polo dimension metadata and no acceptance tally. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain review checks at applicable output exits, and post-G17 deferrals stay intact. There is no physical-fit, factory-acceptance, CAD-compatibility, or production-readiness claim.
+
+Elapsed through S340 closeout: 48m04s (2026-10-01 19:58:12–20:46:16 UTC): implementation/focused corrections about 19m; focused gates about 12m; rendered replay/review about 8m; durable docs and board closeout about 9m04s; external-agent waits 0m; maintainer-decision time 0m. Validated board revision 1238 links S340 exit, production replay and focused-gate evidence.
+
+### Slice 341 start — integrated hold refresh
+
+Started 2026-10-01 20:48:49 UTC from clean S340 `2362792`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest slice was 340; S341 reserved. Board revision 1238; the validated S341 start record is being linked to G04-V02 and EPIC-17. Packet: `docs/research/epic17/G04-V02-INTEGRATED-HOLD-REFRESH-S341.md`.
+
+Scope is evidence-only: replay the current production build across all 73 canonical configurations / 146 faces / 32 recipe-option fields; reconcile every result with the last 56 accepted / 90 held matrix; inspect current Polo dimension output and any status changes; update the exact blocker inventory and choose the next bounded V02 slice. No source changes, new construction decisions, face acceptance by assumption, or V03 work. Required exit gates: all-case current-production Chromium replay, zero browser errors, full held-face matrix, visual review of changed/representative output, Control Center tests/schema validation and clean diff. Existing holds and all-seven criterion remain.
+
+### Slice 341 exit — integrated all-recipe hold refresh
+
+S341 replayed the current S340 production build at `http://127.0.0.1:4178/` through Playwright Chromium: 73 configurations / 146 front/back faces / 32 option fields, 56 emitted and 90 wholly withheld, zero console/page/request errors. Case-by-case emitted/held status exactly matches S330; there are no status changes, regressions or newly accepted faces. S330 blocker text is stale after S331–S340, so the new machine-readable issue inventory supersedes those old issue descriptions. Current holds are exactly 34 Polo (17 each face; POM label collisions plus 0.68 cm sleeve-cap residual) and 56 Woven (28 each face; approved outer-stand/neckline join residual 0.26–0.74 cm and Woven sleeve-cap residual/solver conflicts). Tee, Fitted, Tank, Skirt and Trouser all remain accepted at 2, 2, 2, 2 and 48 faces respectively. Full UI screenshots, SVGs, per-face JSON, comparison and hold map are in `docs/research/epic17/S341-integrated-browser/`.
+
+Validated board revision 1248 links S341 start/exit/browser/inventory evidence to G04-V02 and EPIC-17; Control Center tests pass 33/33 and canonical schema validation passes. S341 was evidence-only; no full source suite/build was rerun. Elapsed time was 11m14s (20:48:49–21:00:03 UTC): replay 2m10s, reconciliation/issue aggregation 1m40s, representative visual review 1m, durable docs/board/test closeout 6m24s, agent wait 0m, maintainer-decision time 0m. **Next action:** begin S342 as a bounded source/topology/overlay investigation of the Woven outer-stand-to-neckline interface across its 28 current configurations. Preserve the approved construction and all 56 Woven holds; identify a valid within-0.25 cm view placement or report the exact remaining constraint before implementation. S325 Trouser source repair remains approved; no physical/factory claim; V03 remains gated.
+
+### Slice 342 — Woven collar interface diagnosis (complete)
+
+Started 2026-10-01 21:01:36 UTC from clean S341 `20b54686b11f9885cf55b1baeeb69054582cc68b`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 341; S342 reserved. Board revision 1248; validated start evidence/comment will be linked. Packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-JOIN-DIAGNOSIS-S342.md`.
+
+The S321-approved Woven outer-stand-to-neckline normalized-station convention is the only approved collar exterior station. S342 traced exact source edges, stitch order, role transforms and endpoint residuals across all 28 configurations with the S336 source-edge overlays. The straight `outerStand.neckline` line has equal total length to the `front.neckline` plus `yoke.neckline` curves, but they cannot be represented as coincident under the current rigid transform: front gaps are 0.688–0.740 cm and back gaps 0.263–0.283 cm. All 56 Woven production requests remain held. S342 makes no code change. A concrete display proposal is pending maintainer approval: use the body front/yoke curves as the single visible base-seam strokes and suppress the duplicate stand-base stroke in the assembled view; no cut geometry or stitch graph changes. The 0.25 cm threshold remains for all other represented joins; this display choice alone will not clear independent sleeve-cap, closure/colorway, POM, overlap or readability gates. The durable packet and overlays are linked from `CONTEXT-INDEX.md`; `E-G04-S342-EXIT`, crosswalk and front/back overlays are validated on the board at revision 1260, with Control Center 33/33 and valid schema. S342 elapsed 8m23s (21:01:36–21:09:59 UTC): source/topology diagnosis 3m, 28-case crosswalk/overlay review 2m, docs/board/test closeout 3m23s, implementation 0m, agent wait 0m, maintainer-decision time 0m. **Next action:** request the one Woven view convention approval while starting an independent S343 Polo callout-layout slice; preserve all Woven holds until approval and full option/output gates. No physical/factory claim; V03 remains gated.
+
+### Slice 333 — Polo sleeve view mapping (start)
+
+### Slice 333 — Polo sleeve view mapping (start)
+
+Started 2026-10-01 13:48:21 UTC from clean S332 `02bcc2f1c4ac6dfe32039ee448c99fc3b2a38e46` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice 332; 333 reserved. Canonical board revision 1015; EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog; current baseline 56 accepted / 90 held across 73 configurations / 146 faces. Primary usage was 0%, weekly 5%. Durable packet: `docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md`.
+
+The maintainer approved the S332 view-only map: front `capLeft` + `sideLeft` + left hem half with reversed front-armhole traversal; back `capRight` + `sideRight` + right hem half with local-Y view reflection; two mirrored instances on exact front/back center axes and no partition stroke. No cut/stitch/ease/solver change is authorized. S333 implemented the exact revision-bound map and hard-withholds Polo whenever the sleeve-cap residual exceeds 0.25 cm. Projection validation passes all 17 option configurations; rebuilt Chromium emitted 0/34 SVGs with actionable 0.68 cm residual guidance and zero browser errors. The failed default diagnostic shows the approved two-instance mapping still leaves a 0.96 cm shoulder gap. No Polo face accepted; integrated baseline remains 56 accepted / 90 held. Some Polo POMs are still table-only, with no anchor claim. Packet and rendered evidence: `docs/research/epic17/G04-V02-POLO-SLEEVE-IMPLEMENTATION-S333.md` and `docs/research/epic17/S333-polo-browser/`. Current estimate is at least six more slices after S333 under the prior lower bound; unresolved V02 output and V03 receiver/rights proof may add work. Next: S334 investigates an independent already-approved Woven V02 mapping/output gate; keep Polo held and V03 gated.
+
+### Slice 333 — Polo sleeve view mapping (complete)
+
+S333 implemented the approved Polo sleeve view mapping, but production Chromium withholds all 34 Polo faces on the 0.68 cm `Sleeve-cap ease` residual versus the 0.25 cm limit. S334 reverses only the Woven front armhole and back yoke-seam view traversals where exact authored endpoint order requires it; production Chromium still withholds all 56 Woven faces across 28 configurations for front colorway contour and back sleeve-cap placement conflicts. No source stitch/cut geometry changed. Integrated status remains 56 accepted / 90 held across 73 configurations. See the current S334 handoff below and packet. Preserve the all-seven acceptance criterion; G04-V02 stays In Progress, V03 Backlog.
+
+### Slice 334 — Woven sleeve placement diagnosis (start)
+
+Started 2026-10-01 14:24 UTC from S333 commit `5d35b3e3e83189f5c60e910b5f3ac684ab7d3a54` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 333; S334 reserved. S333's commit evidence is present; the board was revision 1049 before S334 and is now revision 1053 after validated start evidence/comment. `npm run control-center:test` passed 33/33 before the S334 board entries. EPIC-17/G04-V02 are In Progress, V01 Done, V03 Backlog. The integrated baseline remains 56 accepted / 90 held across 73 configurations / 146 faces; every Woven face remains held. S334 packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-PLACEMENT-S334.md`.
+
+Scope: inspect exact Woven source/topology, generated option configurations, sleeve-cap seam relation and existing S324 mapping; recreate annotated view evidence and diagnose the solved-placement conflict. Implement only a narrow assembly/view-mapping correction justified by the existing maintainer-approved normalized-arclength convention. Preserve source cut/stitch geometry, transforms' residual gate, all complete-face holds, colorway contours, collar/closure and seven-recipe acceptance criteria. Validate all 28 Woven configurations if production behavior changes. A solved sleeve alone cannot release a face; crossing, overlap, layer order, band/fold, POM anchoring and callout readability still gate acceptance. No V03 work until V02 passes.
+
+- **Verified S327 boundary:** Slice 327 landed as `2202b0c6f0f2aaeb24438e7cfbc190656445e121` (`Slice 327: fix Trouser front flat output`) from clean S326 `681aedd8fabad0fa45983053a1c88052a3c8d5f5`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. It accepts the 24 Trouser fronts based on exact stitched waistband boundaries and collision-free same-anchor POM labels; all prior faces remain unchanged. Packet and rendered evidence are in the S327 exit report and linked folders.
+- **S327 start and packet:** started 2026-10-01 05:41:32 UTC at S326 from clean tree, highest slice 326; unique S327 reserved. Packet: `docs/research/epic17/G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327.md`. Scope preserves pattern/stitch graph and addresses only the exact front waistband color contour and measured collision between POM labels sharing one source anchor.
+- **S327 implementation:** front side-boundary strokes now derive from the ordered waistband-to-front-waist stitch interface and close the contour using exact front waist subpaths. The shared center-front boundary remains validated without a duplicate stroke. SVG label placement allows two callout leaders to meet at their common exact source vertex while retaining label-box, geometry, distinct-anchor leader and same-ray overlap checks. No cut/stitch geometry, POM formula/anchor/value/tolerance, DXF behavior or protected baseline changed.
+- **S327 focused gates:** changed renderer modules pass 35 tests with 100% statement/branch/function/line coverage (10 fragment-compiler tests; 25 SVG tests). Live/POM/assembly suites pass 43/43. Production build passes with the existing Vite chunk advisory. Protected export/DXF/identity suites pass 34/34. After exit commands, Control Center passes 33/33 at canonical board revision 901; `git diff --check` passes. The initial post-command run exposed stale board assertions, which were corrected to reflect S327's verified estimate/status and then passed.
+- **S327 output evidence:** rebuilt-production Trouser Chromium replay passes 24 configurations / 48 faces / 11 options with 48 SVGs, zero holds, zero overlaps, same-revision anchors, all measured labels within viewBox, and no parser/browser/page/request errors. Integrated replay covers 73 configurations / 146 faces / 32 option fields: 52 accepted and 94 held. Exactly 24 Trouser fronts moved to accepted; no prior acceptance regressed. The 94 remaining Tee/Fitted/Polo/Woven holds persist. Evidence and manual review are in `docs/research/epic17/S327-trouser-browser/` and `docs/research/epic17/S327-integrated-browser/`.
+- **S327 exit status (historical):** EPIC-17 and G04-V02 were In Progress; V01 Done; V03 Backlog. Seven-recipe V02 acceptance was unmet at 52/146 accepted / 94 held. Board revision 901 linked S327 exit and its browser matrices to G04-V02 and EPIC-17.
+- **S328 start:** started 2026-10-01 06:43:38 UTC at S327 commit `2202b0c6f0f2aaeb24438e7cfbc190656445e121` from a clean tree; `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; unique slice 328 reserved; board revision 901. Packet: `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-COLORWAY-S328.md`. Scope is only the four existing Tee/Fitted default faces held on sleeve colorway contour closure. S322 changed-measurement `Sleeve-cap ease` failures require scope/source inspection and remain held if unresolved.
+- **S328 verified exit:** Slice 328 landed as `017b192cf23910a5f1b8955a93cb9a836143c972` (`Slice 328: hold overlapping Tee and Fitted sleeves`) from clean S327 `2202b0c6f0f2aaeb24438e7cfbc190656445e121`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. It adds approved hem-midpoint-to-crown fill-only colorway closure metadata, then fails closed after production review found mapped `sideLeft`/`sideRight` paths inside the bodice and mirrored sleeve overlap through the center. Four Tee/Fitted defaults are explicitly withheld; the 52 previously accepted faces and 90 other holds retain their prior states. S322 changed-measurement variants with a 0.48 cm `Sleeve-cap ease` residual remain separate unresolved holds and were not included in the 73-case option replay.
+- **S328 verification:** 102 focused render/projection tests pass; the four changed production modules have 100% statement, branch, function and line coverage. Build passes with the existing chunk-size advisory; protected export/DXF/identity tests pass 34/34. Rebuilt production Chromium verifies the four defaults are withheld without errors; integrated replay remains 73 configurations / 146 faces / 32 option fields, 52 accepted and 94 held, no regressions or browser/page/request errors. Detailed source trace, screenshots and manual review are in `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-COLORWAY-S328.md`, `docs/research/epic17/S328-tee-fitted-browser/` and `docs/research/epic17/S328-integrated-browser/`.
+- **Current Epic status:** EPIC-17 and G04-V02 remain In Progress; V01 Done; V03 Backlog. All-seven V02 acceptance remains unmet at 52/146 accepted / 94 held. The S328 output review found that the S321-approved sleeve convention still needs a valid body-relative transform; do not release these faces from the earlier matrix acceptance. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable output exits; no unrelated remediation was added. Post-G17 deferrals remain unchanged. Canonical board revision 919 links the S328 exit and production output evidence to the Epic and G04-V02.
+- **S329 start:** started 2026-10-01 07:39:03 UTC at S328 commit `017b192cf23910a5f1b8955a93cb9a836143c972` from clean tree; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; highest assigned slice was 328 and S329 was reserved. Canonical start comments and packet evidence were added through validated commands at board revisions 920–924.
+- **S329 verified exit:** Slice 329 landed as `3594160a3101c51c648cd10bdc7ffc26ac488302` (`Slice 329: hold invalid Tee and Fitted sleeve transforms`) from S328 `017b192cf23910a5f1b8955a93cb9a836143c972`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The source trace confirms cap/underarm edge order and the paired stitch-interface order, but the body-relative rendered transform candidate still draws the selected front side edge inward across the bodice. The paired-reflection experiment also produced a detached back sleeve when its local compensation was removed. The candidate is rejected and no production source change is landed; all four Tee/Fitted defaults stay held. Rebuilt Chromium replay matches S328 per face and blocker exactly: 73 configurations / 146 faces / 32 option fields, 52 accepted / 94 held, zero browser/page/request errors. Build passes with the existing chunk advisory. Production candidate screenshots and source traces, plus the held-state matrix/screenshots and manual review, are in `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-TRANSFORM-S329.md`, `docs/research/epic17/S329-orientation-candidate/`, `docs/research/epic17/S329-tee-fitted-browser/`, and `docs/research/epic17/S329-integrated-browser/`. Board exit evidence is linked through validated commands at revision 936. The Control Center suite passes 33/33 and `git diff --check` passes. S322's changed-measurement sleeve-cap ease cases remain held (6.402469 cm exceeds the encoded 4 cm maximum); no clamping was introduced.
+- **Current Epic status:** EPIC-17/G04-V02 In Progress; V01 Done; V03 Backlog. All-seven V02 remains unmet at 52/146 accepted and 94 held. All holds and post-G17 deferrals remain unchanged. MQF-005–007 remain `To be reviewed` at applicable G04 output exit; MQF-004 is Woven-specific, MQF-011 keeps its post-G17 deferral, MQF-012 remains Polo-specific, and MQF-015 stays gated on V03.
+- **S329 elapsed time:** 67m07s from 07:39:03 to 08:46:10 UTC. Approximate buckets: source/transform investigation and diagnostic overlays 24m; production build, focused four-face candidate replay and failure diagnosis 10m; settled 73-configuration Chromium replay and per-face comparison 17m; durable packet, project/board record, Control Center verification and closeout 16m07s; external-agent waits 0m; maintainer-decision time 0m.
+- **S330 start:** started 2026-10-01 08:46:39 UTC at S329 `3594160a3101c51c648cd10bdc7ffc26ac488302` from clean tree; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; highest slice was 329 and S330 is reserved. Canonical board was revision 936. Packet: `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-ENDPOINT-MAPPING-S330.md`. Scope is only the exact source-to-view endpoint mismatch for Tee/Fitted; all four defaults and the separate measurement variants remain held until strict output passes.
+- **S330 verified exit:** landed as `558564bab25ab0e717ee825f4c4ab54f9eba4ea2` (`Slice 330: map Tee/Fitted sleeve endpoints`) from S329 `3594160a3101c51c648cd10bdc7ffc26ac488302`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. The approved source edge choices now meet their body underarm landmarks through front face-local traversal reversal and a back local-Y reflection tagged as an approved view convention. No pattern piece, stitch graph, ease rule or instance count changed. The four Tee/Fitted defaults pass manual production review with a visible 0.68 cm eased-cap endpoint notice. Changed-module focused suites pass 92/92 at 100% statement/branch/function/line coverage; build and 23 protected export/identity checks pass. The production 73-configuration / 146-face / 32-option-field matrix ends at 56 accepted / 90 held; exactly four defaults changed from S329, while all 52 prior acceptances and all 90 other hold reasons remain. The separate S322 changed-measurement replay retains four complete holds and emits no partial SVG. Evidence: the S330 packet, `docs/research/epic17/S330-tee-fitted-browser/`, `docs/research/epic17/S330-integrated-browser/`, and their manual reviews. No fit, factory, CAD-compatibility or production-readiness claim is made. MQF-005–007 have partial digital-view coverage; MQF-004, MQF-011 and MQF-012 remain open in their applicable areas; MQF-015 remains V03-gated. All remain `To be reviewed`; post-G17 deferrals are unchanged. Control Center tests pass 33/33 and `git diff --check` passes after board evidence mutations.
+- **Current Epic status and estimate:** EPIC-17/G04-V02 remain In Progress; V01 Done; V03 Backlog. Seven-recipe V02 acceptance remains unmet at 56/146 accepted and 90 held. At least 9 additional slices / at least 339 total remain under the current minimum after S330; unresolved V02 holds and V03 rights/receiver work may add unbounded work. Validated board revision 961 links the S330 exit packet, manual review, strict replay, measurement hold, and integrated matrix to G04-V02, the EPIC-17 work card, and the Epic record.
+- **S331 start:** started 2026-10-01 09:38:54 UTC from clean S330 `558564bab25ab0e717ee825f4c4ab54f9eba4ea2`, with refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` as ancestor and unique slice 331 reserved. Board revision 961; ordinary usage allowed (22% primary-window use). Packet `docs/research/epic17/G04-V02-POLO-COLLAR-COLORWAY-CLOSURE-S331.md` bounds the fill-closure work to Polo and the already-approved shoulder stations; no new construction decision or reference search is needed.
+- **S331 verified exit:** the source-encoded `outerStand.backCollar/frontCollar` junction and S321-approved collar exterior stations now produce revision-bound colorway-only closure boundaries for all three Polo collar roles. Diagnostic SVG/PNG output exposed an existing sleeve contour crossing the bodice interior. The projection map now withholds the complete Polo face on all five sleeve edges until source-topology and rendered review pass. Rebuilt production Chromium replay covers 17 configurations / 34 front/back requests: 0 accepted, 34 withheld, no SVGs, and zero browser/page/request errors. S331 accepts no face. Evidence and exact geometry analysis are in `docs/research/epic17/G04-V02-POLO-COLLAR-COLORWAY-CLOSURE-S331.md`, `docs/research/epic17/S331-polo-browser/manual-review.md`, `S331-polo-browser/` (diagnostic only), and `S331-polo-browser-final/` (current holds). Focused suites pass 74/74; `technical-flat-projection.ts` coverage is 100% across statements, branches, functions and lines. Build and protected export/identity checks pass. Preserve all existing 56 accepted / 90 held integrated outcomes; the full matrix is gated on passing this slice's strict output review and was not rerun.
+- **S331 elapsed time:** 37m32s from 09:38:54–10:16:26 UTC. Approximate buckets: implementation and source/output diagnosis 10m; focused tests, coverage, build and protected export verification 8m; rendered review and 17-configuration production replay 12m; durable docs, validated board revisions 972–986, Control Center verification and closeout 7m32s; external-agent waits 0m; maintainer-decision time 0m.
+- **Current Epic status and estimate:** EPIC-17/G04-V02 remain In Progress; V01 Done; V03 Backlog. Seven-recipe V02 acceptance remains unmet at 56/146 accepted / 90 held. At least 8 additional slices remain after S331 / at least 339 total under the existing conditional minimum; the Polo sleeve blocker and unresolved V02/V03 evidence may add unbounded work. Canonical board revision 986 links the S331 exit, manual review and Polo held-state browser replay. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable output exits; MQF-015 remains V03-gated and post-G17 deferrals are unchanged. No physical fit, factory acceptance, exact CAD compatibility or production-readiness claim is made.
+- **S332 start:** started 2026-10-01 10:18:07 UTC at S331 `db5647e1729f4b0a5605cd5b632f05fbe470cbf1`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; unique S332 reserved. Validated board revision 986 admitted source-only Polo sleeve investigation. Packet: `docs/research/epic17/G04-V02-POLO-SLEEVE-MAPPING-PROPOSAL-S332.md`.
+- **S332 research exit:** current `live-draft:polo:1:1` source and all 17 S331 option configurations confirm the same sleeve edges, armhole curves and on-fold axes. Candidate source-topology map uses reversed front `capLeft`, direct locally reflected back `capRight`, two mirrored instances and no visible partition; no production semantic mapping is implemented. Diagnostic rendered overlays show no body crossing in the selected half-runs, but both front/back retain a 0.96 cm shoulder endpoint gap and the assembly solver reports 0.68 cm residual, above its 0.25 cm acceptance limit. The map needs maintainer approval and cannot release any face; current production remains 0/34 Polo accepted, all 34 held with no SVG. Evidence: `docs/research/epic17/S332-polo-sleeve/` and linked S332 packet.
+- **S332 board and findings:** validated board revision 1015 links the source trace, 17-option topology matrix and rendered diagnostic overlays to G04-V02, the EPIC-17 work card and Epic record. S332 accepts no face. Control Center suite passes 33/33 after assertions were updated for S332's exact held state. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain `To be reviewed` at applicable output exits; post-G17 deferrals are unchanged. V02 remains In Progress, V03 Backlog; preserve seven-recipe acceptance and all other holds.
+- **S332 elapsed time:** 38m28s (10:18:07–10:56:35 UTC): product implementation 0m; source/revision trace, proposal and artifacts 20m; focused option/assembly checks 7m; rendered review and residual diagnosis 3m; durable docs, validated board, Control Center regression, commit and final checks 8m28s; external-agent waits 0m; maintainer-decision time pending.
+- **One next action:** obtain approval or rejection of the exact Polo sleeve mapping proposal in the S332 packet. If approved, begin a newly numbered slice to implement only approved view metadata, validate all 17 configurations in rebuilt production Chromium and keep every view held while the shoulder gap / assembly residual fails. If rejected, leave the map and full-face hold unchanged. Do not run the integrated matrix or start V03 until Polo and all other recipes pass the strict output gate and all-seven V02 acceptance is met.
+
+### S327 start boundary
+
+- **Started:** 2026-10-01 05:41:32 UTC from clean S326 `681aedd8fabad0fa45983053a1c88052a3c8d5f5`; refreshed `origin/main` is an ancestor. Highest assigned slice 326; reserve S327.
+- **Packet:** `docs/research/epic17/G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327.md`. It records the exact current source/render findings, bounded output-only scope, 24-configuration gates, unbounded risks and estimated remaining minimum.
+- **Blocking decisions:** none. S325's source repair and S321's view decisions are approved. No pattern or stitch change is admitted. Short-edge finishing remains unspecified.
+- **One next action:** implement only source-derived front waistband fill boundaries and measured collision-free hip-depth label placement; release no front without full 24-case rendered evidence.
+
+## Previous slice handoffs — S324 and S325
+
+- **S324 verified boundary:** Slice 324 landed as `4beeafe3f8805b0b0685ae8d03175ed406432fb9` (`Slice 324: map Woven sleeve and closure views`) from clean S323 `5ba7f78fbd331269686fb78fe7d3f6c6fe3a5f83`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board exit/browser evidence is linked at revision 851. Packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CLOSURE-VIEW-MAPPING-S324.md`.
+- **S324 implementation and gates:** approved Woven sleeve-cap normalized-arclength view split, paired sleeve/band instances, yoke back seam layer, and right-button-over-left-buttonhole view convention are implemented. No source pattern/cut geometry, stitch graph, or DXF behavior changed. Focused suites pass 76/76 with 100% statements/branches/functions/lines across all three changed production modules; build passes; protected export identity/regression tests pass 17/17.
+- **S324 output:** current-production Chromium replay covers all 28 Woven configurations / 13 option fields / 56 face requests with zero browser/page/request errors and zero accepted faces. All 28 front requests are held by exact colorway contour closure errors; all 28 back requests are held because `Woven sleeve-cap ease` conflicts with solved sewn placement. The geometry-only candidate has no solved placements and cannot establish joins, crossings, overlap or callout readability. No Woven face passes. Evidence and screenshots are in `docs/research/epic17/S324-woven-browser-current/`.
+- **S323 verified:** commit `5ba7f78fbd331269686fb78fe7d3f6c6fe3a5f83` (`Slice 323: map Polo and Woven collar views`). Approved collar transfer stations resolve across 45 Polo/Woven configurations / 90 faces, but all 90 remain held; Polo collar colorway closure and Woven front topology/back sleeve placement remain unresolved. No additional faces accepted. Full evidence and elapsed breakdown are in the S323 packet.
+- **Current all-recipe tally:** 28 accepted / 118 held of 146 faces across 73 configurations / 32 option fields. All seven-recipe acceptance is unmet. Keep the 24 Trouser fronts held until source-repair proposal approval; do not start V03.
+- **S325 proposal:** started 2026-10-01 04:36:21 UTC from clean S324 `4beeafe3f8805b0b0685ae8d03175ed406432fb9`; board exit/overlay/feasibility links at revision **867**. The proposal-only 24-case fixture passed upright-panel and exact waistband-fragment checks. The maintainer approved its precise 3.5 cm × `flyLength` underlap and right-side stitch chain before S326 began. Proposal, source overlay and feasibility matrix remain in `docs/research/epic17/G04-V02-TROUSER-FLY-SOURCE-REPAIR-PROPOSAL-S325.md` and `S325-trouser-source-proposal/`. S325 elapsed 21m59s (04:36:21–04:58:20 UTC).
+- **S324 elapsed time:** 2026-10-01 03:53:20–04:32:44 UTC (39m24s): implementation/source mapping 12m; focused tests, 100% coverage, build and export checks 8m; option-matrix replay and rendered review 9m; durable evidence and validated board closeout 10m24s; external-agent waits 0m; maintainer-decision time 0m.
+
+- **S323 boundary:** started 2026-10-01 02:29:32 UTC from clean S322 `1a77ced9e55f94f56e01a59cc029c29fe922c52e`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revision 828 linked `E-G04-S323-START`; validated exit/browser evidence and comments close at revision **838**. Unique S323 evidence is recorded in `docs/research/epic17/G04-V02-COLLAR-EXTERIOR-VIEW-MAPPING-S323.md`.
+- **S323 implementation and verification:** approved Polo/Woven view-only normalized collar stations are revision/topology validated, with exact cubic subcurves and under-before-upper layer order. No cut geometry, source stitch graph, or DXF behavior changed. Six focused suites pass 104/104; all three changed production modules pass 100% statement/branch/function/line coverage (51 focused tests); `npm run build` passes; protected export identity/regression gates pass 17/17.
+- **S323 output:** current-production Chromium matrix covers 45 configurations / 90 front/back faces / 21 option fields, with zero browser/page/request errors; all 90 faces remain fully held and no partial SVG was emitted. All 34 Polo faces fail exact colorway closure on the split outerStand/underCollar/upperCollar. All 28 Woven front faces retain unresolved source-role boundaries and all 28 backs fail `Woven sleeve-cap ease` placement. The station metadata resolves without collar-transfer errors; Woven joins/crossings/overlap/POM readability remain unverified because complete faces are held. Stale-bundle screenshots are explicitly disqualified in their folder README.
+- **Board/status:** EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog. Canonical all-recipe tally stays 73 configurations / 146 faces / 32 option fields: 28 accepted / 118 held. S323 accepts no faces. See the validated S323 browser/exit evidence and current board revision in the slice packet.
+- **Decisions and next action:** S321 decisions remain as recorded in `docs/PROJECT-DECISIONS.md`: Tee/Fitted view-only sleeve halves, conditional Woven sleeve/band transfer, Polo/Woven collar transfer, Woven right-button-over-left-buttonhole A, and Trouser source-repair proposal only. Next: begin the approved conditional Woven sleeve/band view-mapping slice and retain holds until its generated options pass. All 24 Trouser front faces remain held pending a concrete source-repair proposal and separate approval. Do not begin V03 until all seven recipes/options pass the complete V02 output gate.
+- **Manual findings and boundaries:** MQF-004–007, MQF-011, MQF-012 and MQF-015 were reviewed against S323's actual held output and remain `To be reviewed` at their applicable exits; post-G17 deferrals are unchanged. No physical-fit, factory-acceptance, CAD-compatibility or production-readiness claim.
+- **S323 elapsed time:** 2026-10-01 02:29:32–03:49:27 UTC (1h19m55s). Implementation/source-mapping tests about 21m; focused verification/coverage diagnosis and reruns about 17m; builds/current-production matrix and rendered review about 31m; docs and validated board closeout about 10m55s; external-agent waits 0m; maintainer-decision time 0m.
+
+- **S322 boundary:** start 2026-10-01 01:53:34 UTC, closeout 02:25:33 UTC; unique slice 322 from clean S321 `5731dd123bf600a61d655c17956e0762dc64859f`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Board revision 799 at start; start/exit/reconciliation evidence and output status are validated at board revision 823. The Control Center suite passes 33/33 after repairing summary references and a stale latest-comment assertion. The correction note records that two intermediate command timestamps were supplied ahead of UTC clock time; the final audit entry uses actual command time. Landed commit is recorded in branch history.
+- **Board/status:** EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. The last integrated matrix remains 73 configurations / 146 faces / 32 recipe option fields, 28 accepted / 118 held. S322's separate Tee/Fitted measurement replay adds four measurement configurations and eight face requests; it accepts no additional face.
+- **Approvals recorded:** the maintainer approved the exact Tee/Fitted sleeve-half mapping and hidden view partition; Woven sleeve/band normalized-arclength convention subject to generated checks; Polo/Woven collar exterior transfer convention; Woven right-button-over-left-buttonhole overlap A while preserving all-seven acceptance; and Trouser source-repair proposal investigation only. Exact decision boundaries and classification are in `docs/PROJECT-DECISIONS.md` and the S322 packet.
+- **S322 packet:** `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-VIEW-MAPPING-S322.md`. Approved mappings are implemented in projection metadata and live reflection. No cut geometry, stitch graph, DXF or protected export changed.
+- **S322 gates/result:** projection/live focused suite passes 42 tests with 100% coverage in both changed production modules; build passes. Browser replay: 2 default configurations/4 faces plus 4 Tee/Fitted measurement configurations/8 faces; zero browser errors and zero emitted partial SVGs. Defaults are held because the half-sleeve colorway contour is not closed. Changed measurements are held because `Sleeve-cap ease` has no length-compatible rigid placement; the sleeve placement is unresolved. Screenshot review confirms visible complete holds, not accepted contour output. Keep all four unique faces held. `npm run control-center:test` passes 33/33; board validation reports revision 823.
+- **Decision boundaries:** record the five S321 decisions in `docs/PROJECT-DECISIONS.md`. Trouser source editing still awaits a separate proposal approval; all 24 fronts held. Woven joins/collar and conditional sleeve views remain held unless their own output checks pass. All-seven V02 acceptance is unchanged; V03 remains gated. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain review checkpoints; post-G17 deferrals are preserved.
+- **Elapsed breakdown:** 31m59s total: admission/context and start record 4m; implementation 5m; focused coverage/build 4m; Chromium and measurement replay 6m; rendered review 1m; board regression diagnosis and repair 6m; durable packet/state/architecture/board closeout 5m; external-agent waits 0m; maintainer-decision time 0m.
+- **S323 next action:** begin the separately numbered conditional Woven sleeve/band view-mapping slice after verifying its fresh Git/board boundary. Do not start V03 until all supported recipe/configuration front and back views pass the all-seven V02 acceptance and output gates.
+
+## EPIC-17 / G04 current handoff — Slice 321 proposal boundary; V02 remains open
+
+### Slice 326 start — approved Trouser source repair
+
+- **Started:** 2026-10-01 05:02:28 UTC from clean S325 `fbc296ea15bd45e061a46e39804d24b440b3a1f9`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 325; S326 is reserved.
+- **Authority:** the maintainer approved the exact S325 `flyUnderlap` proposal: 3.5 cm × current `flyLength`; route `frontRight.flyEdge` through the underlap to `flyShield.right`; retain the left-front/shield-left stitch; underlap behind front-left. Preserve upright fronts and exact waistband center joins. Short-edge finishing remains unresolved. See `docs/PROJECT-DECISIONS.md` and `docs/research/epic17/G04-V02-TROUSER-FLY-UNDERLAP-IMPLEMENTATION-S326.md`.
+- **Scope:** implement only this source repair plus necessary source-to-view metadata; verify all 24 Trouser configurations, output rendering, crossings, overlap, callouts, and holds. Do not edit the DXF writer or move export baselines. The protected hash audit found eight fixed Tee/Fitted export hashes and no fixed Trouser DXF hash; new Trouser DXF includes the approved additional physical role.
+- **Current acceptance:** EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Latest integrated evidence remains 28/146 accepted and 118/146 held; all 24 Trouser fronts remain held. Approval is not output acceptance. Full seven-recipe V02 exit remains gated on every required face/configuration passing.
+- **Required gates:** focused changed-area checks and 100% changed-code statement/branch/function/line coverage, build for TS changes, protected eight-hash/all-seven tech-pack identity checks, all-24 production Chromium Trouser replay and manual SVG/PNG review, applicable Control Center validation, durable exit evidence. Preserve and diagnose failures; full repository coverage/build/browser boundary remains at the settled Epic/PR candidate.
+- **Blockers/non-goals:** short-edge finishing is unspecified; no physical construction, fit, factory acceptance, CAD compatibility, or production-readiness claim. Other recipe holds remain. No safe disjoint delegation exists; Codex owns integration/review.
+- **Next action:** implement the approved `flyUnderlap` role/stitches and minimal corresponding view metadata; gate face release on exact option and rendered evidence.
+
+- **S321 start and scope:** 2026-10-01 01:16:34 UTC, resumed from verified S320. Rechecked exact recipe/pattern topology and S319's full output matrix for every held family. No production code, cut geometry or accepted/held face state changed.
+- **Verified Git:** branch `codex/epic-17-g04`, S320 `5e03d371dc0986a95e4472bd642d63b07d201468`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S321 is the unique next slice.
+- **Board:** canonical revision 791 at start; S321 start/exit evidence and comments now linked through validated commands at revision 799. G04-V02 and EPIC-17 remain In Progress, V01 Done, V03 Backlog. S319 remains 73 configurations / 146 faces / 32 option fields: 28 accepted and 118 held (Tee 2, Fitted 2, Polo 34, Woven 56, Trouser front 24; Tank and Skirt accepted).
+- **Newly classified source facts:** Polo `outerStand` directly encodes its exterior shoulder station at the shared `backCollar`/`frontCollar` endpoint. Woven directly names right-front/button and left-front/buttonhole stitch targets, and S297 declares a quantity-two mirrored front pair; closure overlap order is still absent. Tee/Fitted and Woven sleeve source edge order supports cap interval comparisons, but not the chosen view partition. Woven stand/yoke seam station remains supported by S286; its separate outer-edge stations are not.
+- **S321 proposal packet:** `docs/research/epic17/G04-V02-SOURCE-MAPPING-PROPOSALS-S321.md`. Exact draft JSON/SVG/PNG overlays are in `docs/research/epic17/S321-pattern-overlays/`. The proposal separates encoded facts, pattern-specific references and product/view assumptions. It presents sleeve-half views, proportional collar exterior stations, Woven placket order A or explicit acceptance revision B, and the exact unsatisfied Trouser source graph. It implements none of the proposed semantic mappings.
+- **Current decision gate:** await four grouped maintainer answers in S321. Recommendation is to approve the invisible view-only sleeve partition, approve normalized exterior collar station transfer, choose Woven option A (button placket on wearer-right above buttonhole placket on wearer-left) to preserve seven-recipe scope, and authorize a separate Trouser source-contract repair proposal only. Keep all 118 held faces, including Woven closure and Trouser fronts. The original all-seven V02 acceptance remains unchanged.
+- **V02/V03 disposition:** V02 remains In Progress because 118 faces are held; V03 remains Backlog. Do not claim the all-seven criterion passed. No source or generic reference from S320 remains to be located; do not repeat general research. Full integrated global coverage, browser/output review, protected-export/DXF checks and all other required Epic gates remain pending on the settled PR candidate.
+- **S321 verified exit:** `npm run control-center:test` passes 33/33; the canonical board validates at revision 799; `git diff --check` passes. An initial focused-suite failure was a stale test assertion for the latest summary-card comment; the fixture was updated to S321 and the suite passed. Five source-topology PNGs were rendered and inspected. No production code changed. Elapsed 12m36s: exact source/topology/research 6m; overlay generation and visual inspection 4m; production implementation 0m; focused verification/diagnosis and board check 1m30s; docs/context/board closeout 1m06s; agent waits 0m; maintainer decision time 0m before the grouped request.
+
+## EPIC-17 / G04 prior handoff — Slice 320 verified exit; V02 remains open
+
+- **S320 goal/start:** 2026-10-01 00:04:19 UTC. The maintainer supplied a source-research objective and exact leads. S320 recounted every S319 hold, inspected the matching source/pattern and prior evidence, evaluated accessible official/patternmaking references, and wrote a fact-by-fact evidence/ambiguity ledger before any mapping.
+- **Verified boundary:** S319 `92a270753ee526d90c9daba0b3ffbfd45da68ff9`, branch `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice 319; S320 uniquely reserved and landed as `Slice 320: audit construction evidence blockers`. Canonical board start revision 775; S320 admission revision 783 and exit revision 791. EPIC-17/V02 In Progress, V01 Done, V03 Backlog. The S319 production matrix remains 73 configurations / 146 faces / 32 option fields, 28 accepted / 118 held.
+- **Research result:** zero blockers cleared; no public reference identifies the exact local sleeve/collar stations, Woven placket front ownership/order, or Trouser panel/fly placement and center join. Keep the 118 complete-face holds. Sources, access limits, exact requested artifacts and per-recipe counts are in `docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md`. No production code, source-to-view map, pattern/cut geometry, DXF, or protected export changed.
+- **Estimate:** at least 82 total / 13 remaining, conditional on one source-backed map/fix boundary per independent held family (Tee/Fitted, Polo, Woven, Trouser), one integrated V02 acceptance boundary, at least five V03 slices after V02, and at least three final integration/merge/deployment slices. This is a lower bound; new evidence access, maintainer decisions and CAD rights/profile work may add unpriced slices.
+- **Blocking facts:** the maintainer already directed that Woven closure stay held without a Woven-specific marked assembly reference. The source audit finds remaining inputs needed for Tee/Fitted sleeve contours/instances, separate Polo stand/collar exterior stations, Woven sleeve/collar face landmarks and the held closure, and Trouser front/fly/waistband assembly relations. Exact artifact requests are recorded in S320. No mapping begins for an uncleared fact. V03 remains gated on complete V02 acceptance.
+- **S320 packet:** `docs/research/epic17/G04-V02-CONSTRUCTION-EVIDENCE-AMBIGUITY-RESOLUTION-S320.md`.
+- **S320 focused gates:** Control Center 33/33; canonical schema valid at board revision 791; `git diff --check` passes. Research/code and matrix audit 5m; primary/official source review 7m; focused verification/diagnosis 3m; durable record/board/test closeout 4m; implementation 0m; agent waits 0m; maintainer-decision time 0m during this slice.
+
+- **S319 verified exit:** the fresh production Chromium replay covers 73 configurations, 146 face requests and 32 option fields across all seven recipes. It matches S315 exactly: 28 assembled views accepted, 118 fully held, with no gained/lost/status-changed face and zero console/page/request errors. Raster review covers all 28 emitted colorway SVGs and 78 fill regions; the same-revision source tint is visible at shared 0.16 opacity, max summed RGB sample error 4, with no double composite. Manual review of accepted defaults, option extremes and representative holds confirms visible fills/linework/guidance and no partial held output. Full artifacts and screenshot review: `docs/research/epic17/S319-browser-final/`; packet: `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md`.
+- **S319 acceptance and blockers:** regression/raster gates pass; V02 acceptance does not. The remaining 118 held faces mean supported recipe/option output is incomplete. Preserve the exact existing Tee/Fitted sleeve contour/instance, Polo outer-stand/collar, Woven front/placket/sleeve-cap and Trouser front-waistband holds. The maintainer explicitly confirmed no Woven placket construction reference is available and said to keep that closure held. Source-backed mapping for the other held instances remains unresolved. V02 stays In Progress; V03 stays Backlog. Next action: resolve the source-reference gate or retain holds; no inferred mapping and no V03 until the complete V02 acceptance criteria pass.
+- **Estimate:** S318's conditional 67 total / 9 remaining forecast is superseded because S319's full replay did not close V02. Current lower bound is at least 68 total / 9 remaining (one or more V02 source/mapping and acceptance boundaries, V03 minimum five, and final integration/merge/deployment minimum three); the upper bound remains unpriced until source and CAD rights/receiver inputs resolve.
+- **Findings:** MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` at applicable output checkpoints; MQF-015 remains `To be reviewed` for V03. Preserve post-G17 deferrals. These are review gates, not expanded scope.
+- **S319 elapsed:** start 2026-09-30 22:48:22 UTC; finish time, per-category timing, board revision and landed commit are recorded in the final S319 exit below after validated board closeout. Matrix replay/evidence generation approximately 20m; focused verification/diagnosis 2m; rendered/raster review 4m; durable packet/state/board/tests/commit closeout is timed at final boundary; external-agent waits 0m; maintainer-decision time 0m.
+
+- S315 started 2026-09-30 19:56:14 UTC from clean S314 `136758134087cc95d56bc73e2d4520f8a6e8974d`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 314; S315 is uniquely reserved. Canonical board revision 710 links S314's verified exit; V01 Done, V02 In Progress, V03 Backlog. Current expected tally is 28/146 accepted, 118 held, to be refreshed by replay.
+- S315 packet: `docs/research/epic17/G04-V02-INTEGRATED-MATRIX-S315.md`. Scope is a production-Chromium replay of the full 73-configuration/146-face, seven-recipe option matrix and source-backed output reconciliation; no production code or holds may change in this evidence-only slice. V03 remains gated on complete V02 acceptance.
+- **Known source holds:** maintainer confirmed no Woven placket construction sheet is available; preserve the Woven closure hold. A separate source-reference question covering Tee/Fitted sleeve contour and instances, Polo collar split, and Trouser fly-front composition is pending; until evidence arrives, preserve each affected hold. No unsupported seam, instance, overlap or placement is inferred.
+- **Required gates:** all 32 recipe-scoped option fields and both existing combined fixtures; emitted SVG parse/revision/POM/label/notice checks; visible, actionable full holds without partial SVG; zero browser/page/request errors; manual production output review; compare with S298/S314; review MQF-004–007, MQF-011, MQF-012 and MQF-015 while retaining **To be reviewed** and post-G17 deferrals; update board via validated CLI; Control Center tests and diff check. No source changed, so changed-production coverage/build is not applicable; full global coverage remains at the integrated PR boundary.
+- No safe disjoint delegation is identified; OpenCode is not invoked. Required exit timing separates replay/implementation, focused verification and diagnosis, rendered review, records/board/commit, agent waits, and maintainer decisions.
+- **S315 verified exit:** the corrected full production Chromium matrix passes all 73 configurations / 146 face requests and 32 option fields with zero console/page/request errors. Output is 28 accepted / 118 held; relative to S314 there is no new accepted face. Tank and Skirt defaults render both faces; 24 Trouser backs render source-bound back-rise and waistband-depth POMs; all 24 fronts remain held at the center-front join. All Tee/Fitted, Polo and Woven faces remain held with full guidance and no partial SVG. The initial verifier failure was a stale one-callout assertion after S311 added waistband depth; the runner now checks both exact targets. Focused Trouser replay passes 48/48; `node --check`, Control Center 33/33, board validation at revision 723 and `git diff --check` pass. Manual accepted/held output review and MQF checkpoint classifications are in `docs/research/epic17/S315-browser-final/manual-review.md`; complete artifacts are in `docs/research/epic17/S315-browser-final/`. No production source or protected export behavior changed.
+- The older S314 forecast of 57–71 total / 8–17 remaining is superseded. The V02 remainder is not bounded until construction-source inputs are resolved. Conditional minimum after S315 is 9 slices (at least one V02 closeout, then five V03 and three integration/merge/deployment); the unavailable source/rights upper bound is unpriced. The maintainer confirms no Woven placket construction reference; keep its closure held. The separate question about Tee/Fitted sleeves, Polo collar split and Trouser fly-front source evidence remains pending.
+- **S315 elapsed:** about 48m (19:56:14–20:44:04 UTC): verifier correction 3m; focused verification/diagnosis 5m; initial and final full Chromium replay 31m; manual rendered review 4m; durable records, board, Control Center regression repair and closeout 5m; external-agent waits 0m; maintainer-decision time 0m.
+- **S316 verified exit:** production Chromium validates one artwork placement and same-revision Charcoal colorway metadata on accepted Trouser `backLeft`, with both exact same-revision POM anchors, parseable single-revision SVG, layer order, no callout-label overlap, and no browser/request errors. At S316, the `fill` attributes were read as colorway output. S317's raster review now clarifies that the area remains white because independently authored open edge paths have no filled region; S316 did not prove visible color. Artwork remains a placement boundary, with no embedded image-content or clipping claim. The front remains a complete center-front join hold and emits no partial SVG. No production code, pattern, recipe, export or face acceptance behavior changed; assembly tally remains 28/146 accepted, 118 held. Woven closure remains held per maintainer direction. Other source gaps remain unresolved. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** and post-G17 deferrals remain. V02 stays In Progress; V03 stays Backlog/gated.
+- S316 retained evidence: `docs/research/epic17/G04-V02-TROUSER-BACK-OVERLAY-S316.md` and `docs/research/epic17/S316-trouser-back-overlay/`.
+- S317 retained evidence and colorway raster failure: `docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md` and `docs/research/epic17/S317-trouser-option-overlay/`. Its structural and placement checks pass at five option states, but the Charcoal area overlay is not visibly painted (raster RGB delta 0) at any of them.
+- S316 replay `node --check`, production Chromium assertions, board validation at revision 735 and Control Center tests 33/33 pass; `git diff --check` passes. Product build/export/changed-production coverage did not apply because no product source changed; full global coverage remains for the settled Epic/PR candidate. Two stale board-test expectations were updated after failures identified them.
+- **S316 elapsed:** approximately 12m (20:48:55–21:00:46 UTC): implementation/replay 5m; focused verification/diagnosis 3m; rendered review 2m; durable packet, board, tests and commit closeout 2m; external-agent waits 0m; maintainer-decision time 0m.
+- **S317 verified exit:** the five-case live production replay accepted all five Trouser backs and retained all five complete front holds at default, `waistbandDepth` 2/8 cm and `legOpening` 25/65 cm. All 605 placement-region samples are inside the exact eleven-edge closed `backLeft` boundary after checking authored endpoint joins; both same-revision POM anchors, SVG parse/entity consistency, non-overlapping labels/layer order and zero browser/page/request errors pass. The local artwork boundary stays within the source outline; image content remains unembedded. Colorway metadata is `#3A4150`, but the production raster's overlay-center pixels equal the white paper reference in all cases. The colorway fill acceptance therefore fails; V02 stays In Progress and V03 remains Backlog/gated. Full output review is in the S317 packet and manual-review folder. MQFs remain To be reviewed; Woven closure and other unsupported source holds remain unchanged. Validated board revision 749 links `E-G04-S317-EXIT` to V02, summary and Epic. `npm run control-center:test` passes 33/33, both replay/diagnostic `node --check` commands pass, board validation and `git diff --check` pass. No production source changed; integrated global gates remain pending.
+- **Reforecast:** S316 and S317 were evidence-only and V02 remains open. At least two V02 slices remain (exact-boundary colorway renderer fix and integrated all-recipe/option output closeout), followed by V03 minimum 5 and final integration minimum 3: at least 67 total / 10 remaining; unresolved construction evidence and receiver-rights waits leave the upper bound unpriced.
+- **S317 elapsed:** approximately 26m (21:03:39–21:29:39 UTC): replay/harness and option workflow 5m; focused verification and diagnosis 8m; rendered/raster review 6m; durable records, validated board, Control Center repair/tests and commit closeout 7m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** admit S319 from a refreshed usage, Git, board and history boundary, then reconcile the 73-configuration/146-face output matrix against exact source/contour evidence. Preserve every unsupported hold. Do not start V03 before full V02 acceptance.
+- S316 started 2026-09-30 20:48:55 UTC from clean S315 `34bc052e580847f567bc0db012150ba153bf3e8d`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 315; S316 was uniquely reserved. Board revision 723 linked the S315 exit; V02 remained In Progress and V03 Backlog. Packet: `docs/research/epic17/G04-V02-TROUSER-BACK-OVERLAY-S316.md`.
+- S316 scope is production Chromium evidence for one local artwork overlay on the currently accepted Trouser `backLeft` component, plus same-revision colorway and exact back-callout checks. The 24 front requests remain held; do not target the waistband or expose partial output. No product behavior or acceptance changes are permitted by this evidence slice.
+- S316 landed as `Slice 316: verify overlays on accepted Trouser back`, commit `1a8e8dbbd2ee8adf3864b0a35a593fce20f6bd7b`, after exit evidence and board validation at revision 735. The S316 packet was committed before the hash was available; this handoff records the full landed commit. V03 remains gated.
+- S317 landed as `Slice 317: verify Trouser option overlays`, commit `928e0af6e4d0761e31bbb8c912873a61f8da6680`; its packet records the five-case option, placement and raster evidence. The rendered colorway stays white at the overlay center, so the V02 colorway criterion remains blocked. Board revision 749 links verified S317 exit evidence.
+- **S318 verified exit:** landed once as `Slice 318: render source-closed colorway areas`, commit `4951c7d87dd41cc564a10b10e6c8bcd6aa3e2a77`. Colorway areas now render only from exact closed source/mapped contours, beneath unchanged individual source strokes, with same-color fills composited at one 16% opacity. Focused renderer coverage passes 23/23 at 100% statement/branch/function/line; production build and Electron typecheck pass; generic DXF/export/regression/identity tests pass 34/34; Control Center passes 33/33. Fresh production Chromium output covers 13 SVGs and 27 fills across Tank/Skirt front/back defaults and measurement variants, plus five accepted Trouser backs; all fronts remain fully held. Raster pixels match the expected tint within max summed RGB error 4, revisions are consistent, and all browser/page/console/request errors are zero. A first raster check exposed double compositing over the Skirt waistband; grouping each colorway's areas at the parent opacity fixed it, and fresh builds/captures pass. Evidence and manual review: `docs/research/epic17/S318-colorway-browser/`.
+- **S318 scope and hold status:** no cut geometry, recipe, DXF, protected export identity, face assembly acceptance or POM changed. Current tally remains 28/146 accepted and 118 held. Woven closure remains held because the maintainer confirms no construction sheet; Tee/Fitted sleeve, Polo collar and Trouser fly-front source question is still pending. V02 remains In Progress; V03 remains Backlog. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** for applicable exits; post-G17 deferrals remain. No physical-fit, factory-acceptance or production-readiness claim.
+- **S318 board and gates:** exit evidence `E-G04-S318-EXIT` is linked to G04-V02, EPIC-17 summary card and Epic record through validated command-layer operations at board revision 759. Focused coverage, build, protected exports, production replay/raster/manual review, Electron typecheck and Control Center pass. Full repository coverage remains at the settled integrated Epic/PR candidate.
+- **S318 elapsed:** about 73m (21:30:11–22:43 UTC): implementation and failure diagnosis 28m; focused coverage/build/protected verification 12m; production browser replay and rendered review 17m; durable records, validated board exit, Control Center regression checks and commit closeout 16m; external-agent waits 0m; maintainer-decision time 0m (the Woven no-reference hold was confirmed before this slice).
+- **S319 start:** 2026-09-30 22:48:22 UTC from clean S318 `4951c7d87dd41cc564a10b10e6c8bcd6aa3e2a77`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 318; S319 is uniquely reserved. Board revision 759 contains verified S318 exit; S319 packet/start evidence is linked and summary descriptions/comments are updated through validated commands at revision 767. Packet: `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-RECONCILIATION-S319.md`.
+- **S319 scope and gates:** evidence-only production Chromium replay of 73 configurations, 146 face requests and all 32 option fields/combined fixtures against the S318 build. Retain parsed, same-revision SVGs or complete actionable holds; validate labels/notices/POM anchors; raster-inspect every emitted colorway fill; preserve old 28/146 acceptance absent new source evidence, compare with S315, manually review default/representative accepted and held output, and report all browser errors. No production/source/export change expected, so do not rerun code coverage/build/protected exports unless a relevant defect appears; global coverage remains at final integrated candidate.
+- **S319 blockers and estimate:** Woven closure remains held because no construction reference exists; Tee/Fitted sleeve contour/instances, Polo collar split and Trouser fly-front evidence remain pending. These do not block the regression replay but block acceptance of unsupported views. V03 rights/receiver remains gated by V02. Conditional minimum remains 67 total / 9 remaining (one integrated V02 closeout, V03 minimum 5, final integration minimum 3); upper bound unpriced. No independent low-risk handoff; no external agent/OpenCode run.
+- **Next action:** run the admitted 73-configuration/146-face matrix into `docs/research/epic17/S319-browser-final/`, raster-review all emitted colorway fills, then determine V02 readiness only from the complete evidence.
+- **S317 start:** 2026-09-30 21:03:39 UTC from clean S316 `1a8e8dbbd2ee8adf3864b0a35a593fce20f6bd7b`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 316; S317 is reserved. Board revision 735 linked S316 exit; validated start evidence/comment and forecast now link at revision 742. Packet: `docs/research/epic17/G04-V02-TROUSER-OPTION-OVERLAY-S317.md`. Scope is a five-case production output check (default plus documented waistband-depth and leg-opening minimum/maximum values) with one local backLeft artwork placement and colorway. Preserve the full 24-case front hold and all other face holds; no product/source/acceptance change.
+- **S317 required gates:** exact option values from the Trouser contract and S315 matrix; one accepted exact-revision back and one full front hold per case; full-placement-boundary samples inside the exact authored backLeft silhouette; same-revision asset/source/colorway, both POM targets, parsed SVG, no label overlap, correct layer order and zero browser/page/request errors; manual output review; MQF checkpoints remain To be reviewed; validated board update, Control Center 33/33, replay syntax and diff check. Full global gate remains for the integrated PR candidate. No safe delegation is identified.
+- **S317 blockers:** maintainer confirms no Woven placket source; keep its closure held. Tee/Fitted sleeve, Polo collar and Trouser fly-front source question remains unresolved. V03 rights/receiver gate remains later and dependent on V02. Current conditional estimate at S317 is at least 66 landed slices / 7 remaining if one V02 closeout slice suffices, then V03 minimum 5 and final integration minimum 3; no upper bound while source/rights waits remain unresolved.
+
+- S312 started 2026-09-30 18:13:10 UTC from clean S311 `51cfa24fba5a44d46f646e4641e9576764e99c66`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. It landed once as `Slice 312: anchor Skirt back waist and hip POMs`, commit `c7e7a6fcf5719de7df6b6eea70d46ae9f6d1aa9a`. Board start/exit evidence and comments use validated commands through revision 680.
+- S312 packet/output: `docs/research/epic17/G04-V02-SKIRT-BACK-POM-ANCHORS-S312.md` and `docs/research/epic17/S312-skirt-back-pom-browser/`. Exact back waist and hip POM anchors derive from the same generated on-fold panel source as the existing front anchors; formulas, values, tolerances and table-only length remain unchanged. Focused suites pass 49/49 and both changed production modules are 100% covered; build, 27 protected export checks, 33 Control Center checks and two-config/four-face production Chromium replay pass. Output remains 28/146 accepted and 118 held.
+- S312 elapsed: 15m28s (18:13:10–18:28:38 UTC): implementation 2m; focused verification/diagnosis 4m; build/protected exports 2m; production Chromium/manual review 3m; records/board/commit closeout 4m28s; agent waits 0m; maintainer-decision time 0m.
+- S313 started 2026-09-30 18:33:26 UTC from clean S312 `c7e7a6fcf5719de7df6b6eea70d46ae9f6d1aa9a`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. It landed once as `Slice 313: add source-backed Tank back POM anchors`, commit `ecdd0d13373f4c6cb2cafba8a4032b84843c3a18`. Board start evidence/comment is at revision 684; verified exit evidence and corrected forecast/comments are linked through revision 697. G04-V02 remains In Progress, V01 Done, V03 Backlog.
+- S313 packet/output: `docs/research/epic17/G04-V02-TANK-BACK-POM-ANCHORS-S313.md` and `docs/research/epic17/S313-tank-back-pom-browser/`. Four existing Tank POMs use exact corresponding back source vertices; front neck drop remains front-only. There are no Tank pattern options; browser evidence covers default and changed measurements.
+- **Verification:** four focused suites pass 62/62; changed `tank.ts` and `technical-flat-mapping.ts` are each 100% covered in statements/branches/functions/lines. Build passes with existing Vite advisory; protected export/DXF/regression/tech-pack checks pass 27/27; Control Center passes 33/33; diff check passes. Production Chromium verifies 2 measurement configurations/4 face requests, exact same-revision outline vertices, all 9 labels per pair in paper bounds without overlap, no renderer/browser/page/request issues; default front/back screenshots were manually reviewed.
+- **S313 elapsed:** about 27m (18:33:26–19:00:09 UTC): implementation 3m; focused verification/repair 4m; build/protected outputs 2m; browser/manual review 5m; docs/board, command repair, board-test diagnosis and commit closeout 13m; agent waits 0m; maintainer decision time 0m.
+- Output remains 28/146 accepted and 118 held. MQF-004–007/011/012/015 remain **To be reviewed** at applicable exits, with the exact held findings preserved; post-G17 deferrals are unchanged. Woven closure remains held per maintainer instruction. No physical/factory/CAD/production-readiness claim.
+- S314 started 2026-09-30 19:02:54 UTC from clean S313 `ecdd0d13373f4c6cb2cafba8a4032b84843c3a18`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S313 was highest assigned; S314 is uniquely reserved. Board revision 697 has G04-V02 In Progress, V01 Done, V03 Backlog; output remains 28/146 accepted and 118 held. Primary usage at start was 26%; weekly 90%.
+- S314 packet: `docs/research/epic17/G04-V02-TEE-BACK-POM-ANCHORS-S314.md`. Scope adds only exact same-block back endpoints for four existing Tee POM methods, keeps Polo on front-only `TSHIRT_POMS`, reuses the proven endpoints for Tank, and keeps unsupported Tee views wholly held due the unresolved sleeve mapping. No pattern/cut geometry, POM values/tolerances, exports, or other face acceptance may change.
+- **Required gates:** focused changed-module tests and 100% statement/branch/function/line coverage; build; protected export/DXF/regression/tech-pack identities; production Chromium default and changed-measurement UI replay proving Tee front/back remain visibly and completely held with no partial SVG and zero browser/page/request errors; validated Control Center 33/33 and diff check after board exit. Full global coverage remains at the settled integrated Epic/PR boundary.
+- **Estimate/next gate:** 57–71 total landed slices; 8–17 conditional slices remain from S314 (0–2 more V02 implementation/review slices; 5–10 V03 only after V02 passes; 3–5 integrated review/merge/deployment). Source and rights waits are unpriced. MQF-004–007/011/012/015 remain **To be reviewed** at applicable exits; post-G17 deferrals stay intact. No safe disjoint delegation was identified; OpenCode was not invoked. No new blocking decision is known.
+- **S314 verified exit:** `Slice 314: add source-backed Tee back POM anchors` landed once; the canonical board links verified evidence `E-G04-S314-EXIT` to G04-V02, the EPIC-17 summary card and Epic record at final revision 710. Four existing Tee POMs now expose matching exact back vertices; Tank reuses them, and Polo remains on the front-only table. The focused acceptance passes: 75 direct tests pass, and the final targeted seven-suite/102-test coverage run gives all four changed modules 100% statement/branch/function/line coverage. Build, 32 protected export checks, Control Center 33/33, board validation and `git diff --check` pass. Production Chromium covered default/variant measurements over all four faces; every Tee face remains fully held, no partial SVG emits, and there are no browser/page/request errors. Screenshots/matrix are at `docs/research/epic17/S314-tee-back-pom-browser/`. Output remains 28/146 accepted, 118 held. No geometry/export change or physical/factory/CAD/readiness claim.
+- **S314 elapsed:** about 39m (19:02:54–19:42:23 UTC): implementation 4m; focused verification/diagnosis 8m; build/protected outputs 4m; Chromium/manual review 4m; durable records, validated board repair/tests and commit closeout 19m; agent waits 0m; maintainer-decision time 0m.
+- **Next action:** after refreshed usage, Git, board and history checks, reserve Slice 315 for one bounded source-backed V02 map-or-hold output task. Keep V03 gated until every V02 recipe/option/view meets the admitted acceptance criteria.
+
+## Slice 311 verified boundary — V02 remains open
+
+- S311 started 2026-09-30 16:56:55 UTC from clean S310 `abc14ef15f1cc7c9806a7ad166b93034c88873e2`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. It landed as `Slice 311: add Trouser waistband-depth mark callout`, commit `51cfa24fba5a44d46f646e4641e9576764e99c66`. Board start was revision 656; validated S311 start/exit evidence, forecast and comments are linked through revision 668.
+- S311 packet/output: `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S311.md` and `docs/research/epic17/S311-trouser-back-waistband-browser/`. The typed source-backed target maps the existing waistband-depth POM to the authored `centerBack` mark on the same-revision compiled back, sharing output-space readable label layout with S309 back-rise.
+- **Verification:** 53 focused tests pass and all six changed production modules have 100% statement/branch/function/line coverage. Build passes with the existing Vite chunk advisory; protected legacy-DXF/export identity/regression/tech-pack gates pass 27/27; Control Center passes 33/33; `git diff --check` passes. Production Chromium ran 24 configurations/48 requests: 24 backs accepted with both exact same-revision callouts; 24 fronts wholly held at `view:trouser:waistband:center-front`; exact marker-to-authored-mark equality, non-overlapping in-page labels for all cases, and zero browser/page/request errors. Manually reviewed default, waistbandDepth min/max, legOpening max and front-hold screenshots.
+- **Status and holds:** the accepted global tally remains 28/146 with 118 held. V01 Done; V02 In Progress; V03 Backlog and gated on complete V02. Maintainer confirms no Woven placket construction reference; retain its closure hold and do not infer overlap. Trouser fronts and other unsupported faces remain held. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** at applicable exits; post-G17 deferrals remain. No pattern, cut, stitch, option or export behavior changed. No physical/factory/CAD/production-readiness claim.
+- **Estimate/next boundary:** 57–71 total landed slices; 6–20 conditional slices remain from S311 (0–5 V02, 5–10 V03 only after V02 passes, 3–5 integrated review/merge/deployment). Unavailable source and rights waits are unpriced. Start S312 after fresh context/Git/board/history checks and select one bounded supported V02 map-or-hold task; no safe delegation was available and OpenCode was not used.
+- **Elapsed:** about 65m25s (16:56:55–18:02:20 UTC): implementation 27m; focused verification/repair 14m; build/protected exports 5m; Chromium/manual review 11m; docs/board/commit closeout 8m; external-agent waits 0m; maintainer-decision handling 0m. Rounded from run chronology.
+
+## S310 verified boundary — V02 remains open
+
+- S310 started 2026-09-30 16:41:59 UTC from clean S309 b89eec1db5ec93986d7f60d90199d6ee0be08a74; refreshed origin/main a5af5e13c2e967946b3f6035fcea66ff03a5e0e0 remained an ancestor. Highest assigned was 309; S310 lands once as Slice 310: prove Trouser waistband-depth anchor source map (S311 will record exact ID). Board began at rev 644; validated start evidence/comment through rev 649 and exit evidence/forecast/comment through final revision 656. V01 Done; V02 In Progress; V03 Backlog.
+- Packet and probe: docs/research/epic17/G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S310.md and docs/research/epic17/S310-waistband-depth-anchor-probe.json. The source POM measures waistband.endRight; authored waistband.centerBack at (0, depth/2) becomes the exact midpoint of the emitted same-revision center-back closure edge in all 24 accepted back SVGs. Closure depth matches every selected waistbandDepth 2–8 cm. Output entity/source IDs and face revisions match.
+- No production change: the existing callout compiler accepts only a source vertex on one role outline and runs before fragment merging. The proven anchor is already in transformed fragment coordinates; pushing it through the existing role-local callout path would lose target provenance or double-transform it and could bypass shared collision placement. S311's bounded contract is a typed same-revision mark-entity anchor composed with S309 backRise in shared readable label placement.
+- Focused source/output probe passed all 24 accepted back cases; retained production matrix confirms all 24 fronts remain held and zero browser/page/request errors. Control Center passes 33/33 after its S310 start/exit and forecast assertions; git diff --check passes. No production behavior changed, so no build/export/production coverage/full browser gate was applicable to S310. Global output remains 28/146 accepted, 118 held.
+- Reviewed MQF-004–007/011/012/015 as relevant output checks; canonical status remains To be reviewed, and post-G17 deferrals remain. Woven closure stays held because the maintainer has no marked source for physical placket identity/order. Trouser fronts remain held at S308. V02 remains In Progress, V03 Backlog/gated. No physical/factory/CAD/production-readiness claim.
+- Reforecast from S310: 57–71 total slices; 7–21 conditional remaining (0–6 further V02 implementation/evidence, 5–10 V03 only after V02 passes, 3–5 integrated review/merge/deployment). Unavailable source waits stay unpriced. No safe disjoint delegation; OpenCode was not used.
+- Elapsed 11m04s (16:41:59–16:53:03 UTC): source/source-output inspection and probe 4m; implementation 0m; focused Control Center/diff 1m; documentation/current context and final verification 2m; validated board closeout 4m04s; production build/export/browser 0m; external-agent waits 0m; maintainer-decision handling 0m.
+- Next action: start S311 from the clean S310 commit after refreshing required context, Git/origin/main, board and active slice history. Implement only the typed mark-entity POM target and coordinated output-space callout layout; preserve all held fronts and exports, require 100% changed-module coverage plus build/protected exports and fresh 24-configuration/48-face Chromium/manual output before landing.
+
+## S309 verified boundary — V02 remains open
+
+- S309 started 2026-09-30 16:04:30 UTC from clean S308 `03dcb4f7327680eac81cbb4c582d1c65bac2d5f3`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. Highest assigned was 308; S309 is uniquely committed as `Slice 309: map Trouser back-rise flat callout` (S310 fresh-start record captures its commit ID). Board began at revision 632 and S309 exit evidence/comment and forecast are linked/updated through the validated command layer at final revision 644. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog.
+- S309 packet: `docs/research/epic17/G04-V02-TROUSER-BACK-RISE-POM-S309.md`. Optional face-specific back-anchor metadata maps only the existing finished back-rise POM to the authored `backLeft.centerBack` crotch vertex in same-revision `BACK_FLAT` geometry. The front row remains table-only; no POM formula/value/tolerance, pattern/cut geometry, stitch topology, options, role count or export behavior changed.
+- Changed `pom.ts`, `technical-flat-mapping.ts`, and `technical-flat-poms.ts` each pass 100% statement/branch/function/line coverage (26 focused coverage tests). Affected renderer/live/geometry/overlay suites pass 108/108. Build passes with existing chunk advisory. Protected export/regression/tech-pack/DXF identity tests pass 24/24. The first coverage run uncovered invalid-anchor/fallback branch gaps; that output was preserved, direct tests were added, and the affected coverage gate then passed.
+- Fresh production Chromium output covers all 24 Trouser configurations/48 faces: 24 accepted back views have exactly one back-rise callout targeting the exact same-revision backLeft outline vertex; 24 front views remain fully held at `view:trouser:waistband:center-front`. SVG parsing, revision/anchor/leader checks, label collision/clipping, and zero browser/page/request errors pass. Manually reviewed default and backRiseEase min/max captures for silhouette coherence, leader placement/readability and overlaps. Captures/SVG/PNG/matrix: `docs/research/epic17/S309-trouser-back-rise-browser/`.
+- All-recipe tally remains 28/146 accepted and 118 held. Woven closure/complete flats remain held because the maintainer confirmed no placket construction/overlap reference is available. MQF-004–007/011/012/015 were reviewed as applicable output checks; canonical status stays **To be reviewed** pending relevant capability exits, and the findings document's post-G17 deferrals remain intact. V02 stays In Progress; V03 stays Backlog and gated.
+- Reforecast: 57–71 landed slices total; 8–22 conditional slices remain from S309 (0–7 additional V02, 5–10 V03 only after all V02 exits, and 3–5 integrated review/merge/deployment). Source waits remain unpriced; current tally unchanged. Full repository/global coverage remains for the settled integrated Epic/PR candidate.
+- Elapsed 28m52s (16:04:30–16:33:22 UTC): implementation 5m; focused verification/coverage repair 7m; build/protected exports 3m; production Chromium/manual review 5m; records/board/final verification 8m52s; external-agent waits 0m; maintainer-decision handling 0m.
+- **Next action:** start S310 from clean S309 after refreshing the required context, board, `origin/main` ancestry and highest slice history; choose one independent, source-backed V02 mapping/hold boundary. Keep V03 gated until every supported face/options passes V02. No physical fit, factory acceptance, CAD interoperability or production-readiness claim.
+
+## S308 verified boundary — V02 remains open
+
+- S308 started 2026-09-30 15:44:39 UTC from clean S307 `54dc71bcd86b172769d71860c595de0fd98f0e6d`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned was 307; S308 is the next unique slice. Start evidence/comment were recorded at board revisions 621–625; S307 evidence and estimates were verified at 620. S308 exit evidence/comment and refreshed forecast are recorded at board revision 632. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog.
+- S308 packet: `docs/research/epic17/G04-V02-TROUSER-FRONT-CENTER-JOIN-S308.md`. Determine whether the exact front waistband fragments, two authored fly marks and two shield attachment edges support one coherent rigid view. Implement source-bound view metadata only if source topology also supports the depicted closure; otherwise preserve the complete hold and name the exact missing source relation. Do not infer overlap or change cut/stitch geometry.
+- Current all-recipe tally: 28/146 faces accepted and 118 held. S307 compiles and accepts all 24 Trouser back requests; all 24 front requests remain fully withheld at `view:trouser:waistband:center-front`. S308's exact default/min/max topology probe finds `frontRight` must rotate 180° to satisfy its fly-shield edge while `frontLeft` stays at 0°; this is incoherent for the front view, and the waistband fragments still fail their exact center-front join. No source-supported view orientation or fly overlap/layer rule resolves the conflict, so keep the complete front held. Woven closure instances/order remain held because no construction reference is available. MQF-004–007/011/012/015 remain **To be reviewed** at applicable G04 exits. V02 remains In Progress; V03 remains Backlog and gated.
+- S307 landed as `54dc71bcd86b172769d71860c595de0fd98f0e6d` (`Slice 307: compile Trouser waistband view fragments`). Changed-module coverage is 100% (compiler 10/10, live renderer 16/16); renderer/export focused suites 127/127; build and protected export/DXF checks 24/24 pass. Production Chromium covered all 24 Trouser configurations / 48 faces, with 24 back faces accepted and 24 fronts held; no parse, revision, collision, browser, page or request failures. Control Center passes 33/33 at board revision 620. Stale-dist diagnosis is retained. Full global coverage remains for the settled integrated Epic/PR candidate.
+- S307 elapsed 1h14m32s (14:20:25–15:34:57 UTC): implementation 26m; focused verification/repairs 23m; build/protected exports 3m; browser/manual review 9m; records/board/final review 13m32s; external-agent waits 0m; maintainer-decision handling 0m. No safe disjoint delegation was available.
+- S308 exit summary: temporary focused topology probe passed 1/1 over default and all 22 option minima/maxima; the production matrix already verifies the combined-supported case and all 24 front faces remain held. No production code changed. Control Center passes 33/33 after the final evidence/forecast update; `git diff --check` passes. V02 remains open; no V03 work begins.
+- Reforecast from S308: 57–71 total slices remains conditional; 9–23 slices remain (about 1–8 V02 evidence/implementation, 5–10 V03 after V02 and 3–5 integrated review/merge/deployment). Current output remains 28/146 accepted. Source waits are unpriced; no new dates are implied.
+- **Next action:** start S309 on one independent, source-tractable held V02 recipe/output and reach a source-backed map or precise hold; do not start V03 until V02 passes all supported faces/options.
+
+## S307 verified boundary — historical detail
+
+- S307 started 2026-09-30 14:20:25 UTC from clean S306 `c5930532809b5830d7fe131eebc290f3ce6360f3`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 307 was reserved uniquely after S306. Its verified exit is in `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENT-COMPILER-S307.md`; the S308 start record will capture the landed commit hash from Git.
+- S307 compiles exact authored waistband top/short-end path intervals to view-only geometry, composes their panel-relative transforms with same-revision back panels, preserves the single physical role/source IDs, and reports exact fail-closed issues. The Trouser back passes in all 24 supported matrix configurations. All 24 front requests remain completely held because the source fragments do not share one exact assembled center-front join; no partial geometry is emitted. Woven closure instances/overlap remain held because no construction reference is available. Pattern coordinates, role count, stitch topology, legacy DXF and protected export bytes remain unchanged.
+- Verification: changed compiler/live modules pass focused 100% statement/branch/function/line coverage (10/10 and 16/16); focused renderer/export regressions 127/127; production build and protected exports 24/24 pass. The retained production Chromium matrix reports 24 accepted back SVGs and 24 held fronts with zero parse, revision, collision, browser, page or request errors; default/endpoint output was visually reviewed. Stale-build failure and diagnosis are preserved. MQF-004–007/011/012/015 remain **To be reviewed** for the integrated G04 output exits; V02 is not closed.
+- Current all-recipe status is 28/146 faces accepted and 118 held. Re-estimate from S307: 57–71 total slices remains conditional, with 10–24 future slices from this boundary (about 2–9 V02 work/evidence, 5–10 V03 after V02, and 3–5 integrated review/merge/deployment); unavailable source waits are unpriced. No safe delegation existed. Full global coverage remains for the settled Epic/PR candidate.
+- **Next action:** start S308 with a source-backed Trouser front center-front/fly/shield topology audit and map-or-hold decision; do not begin V03 until every supported face/option passes V02.
+
+## S306 verified boundary — historical detail
+
+- S305 `b14101eec56a76268bfe9f5f93db8ad6e95c7e74` (`Slice 305: map Trouser waistband face segments`) is the clean start. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S305 is highest and S306 is uniquely reserved. Board revision 597 at start; S305 exit linked.
+- S306 landed as `Slice 306: map Trouser waistband fragment attachments`. It adds exact per-face Trouser waistband intervals and panel-relative rigid attachment metadata for the one source role. The live geometry compiler does not consume this contract yet; no Trouser face is accepted. It preserves source piece coordinates, role count, stitch graph, options, generic DXF and protected exports. Packet and browser output: `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306.md` and `docs/research/epic17/S306-trouser-browser/`.
+- S306's production Chromium matrix covers 24 configurations (default, min/max for all 11 declared options, and the existing combined fixture) / 48 face requests. All 48 remain withheld with visible guidance; browser, page and remote-request errors are zero. Manual default front/back screenshots confirm no partial geometry is shown. Current generic “no sewn placement” guidance does not yet distinguish the mapped fragment contract from the renderer's incomplete consumption; correct this in S307 before any face is considered for release.
+- The maintainer confirmed no reference establishes the Woven placket physical instances/overlap order; `docs/PROJECT-DECISIONS.md` now records the explicit hold. Woven faces remain blocked at that closure and all other source gaps.
+- S306 verification: assembly module focused suite passes 10/10 with 100% statement/branch/function/line coverage; live/projection/geometry suites pass 43/43; build passes with the existing Vite chunk advisory; protected export/DXF regressions pass 17/17; Control Center passes 33/33; `git diff --check` passes. Initial Control Center run exposed a stale latest-comment assertion for S305; updated the test to retain historical exit verification and assert the S306 start, then the full Control Center suite passed.
+- S306 elapsed 41m54s (13:32:50–14:14:44 UTC): source/solver implementation 10m; focused tests and repairs 8m; build and protected exports 2m; 24-case/48-face production Chromium run and manual hold review 7m; docs/board/final verification 14m54s; external-agent waits 0m; maintainer-decision time 0m. Exit evidence/comment linked to G04-V02 and EPIC-17 through the validated command layer at board revisions 603–605; final board revision 605.
+- **Next gate:** S307 consumes these same-role intervals into provenance-bearing clipped waistband paths, validates corresponding top and center-back closure edges, composes fragment transforms with sewn panel transforms, and renders/inspects all Trouser options. Keep Trouser front held by the independent fly/shield conflict; release no back face unless body and both band fragments are coherent. V02 remains open and V03 stays Backlog.
+
+- S305 started 2026-09-30 13:19:48 UTC from clean S304 `bfef6c05ef736421bb52227d0c0bb546ebdf85a6`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor and S304 was the highest assigned slice. Board revision 589 at start; start evidence/comment linked at 590–593.
+- S305 confirmed `TROUSER-RESEARCH.md` specifies one closed waistband, separate front/back joins and a center-back short-end closure. The exact combined interface and source lengths derive face breakpoints, but current whole-edge accounting and one-transform-per-role behavior cannot map the rear's discontiguous source intervals. S289 and S303 packets are addended to correct the source-intent statement while retaining the assembly-cycle result and all holds. No production behavior/output or cut geometry changed. Packet: `docs/research/epic17/G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305.md`.
+- S305 elapsed 11m43s (13:19:48–13:31:31 UTC): contract audit/interface trace 5m; implementation 0m; docs/board closeout 3m43s; Control Center stale-comment diagnosis/repair and diff check 3m; new rendered review 0m; external-agent waits 0m; maintainer-decision time 0m. The first Control Center run failed 32/33 on a stale duplicate S304-comment assertion; corrected it, then the suite passed 33/33. Board exit evidence/comment linked at revisions 594–597; final board revision 597. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog.
+- **S306 exit:** `b14101e` is the verified clean start. S306 maps exact per-face band intervals and panel-relative placements, but the live renderer still blocks all 48 Trouser face requests; no output geometry is accepted. See the exit evidence in `G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306.md`.
+- **Next gate:** reserve S307 after refreshed origin/history checks; consume the fragment contract into complete revision-bound live waistband geometry, replace the misleading generic placement hold with precise compiler guidance, then render and manually review the 24-configuration Trouser matrix. Preserve the independent front fly/shield hold and all source gaps; do not start V03.
+
+- S304 started at 2026-09-30 13:02:44 UTC from clean S303 `86af28b396059a64b145dd118ed4a1863586084c` (`Slice 303: map remaining V02 source dependencies`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S304 is uniquely assigned. Start evidence/comment linked at board revisions 582–585.
+- S304 verifies the existing local artwork/colorway path on the four accepted Tank/Skirt faces only. Production Chromium confirms one draft revision per recipe across front/back, front-only local artwork, both-face Charcoal silhouette overlays, parseable SVG and five Tank/two Skirt front POM leaders targeting emitted geometry. Back faces intentionally have no POM callouts under the current front-only POM mapping. Manual review finds no overlay boundary obscuring contour or leader. Packet/output: `docs/research/epic17/G04-V02-ACCEPTED-FACE-OVERLAYS-S304.md` and `docs/research/epic17/S304-browser/`.
+- S304 elapsed 10m31s (13:02:44–13:13:15 UTC): contract/harness review 2m; verifier creation/diagnosis 3m; production build 14s; Chromium replay 1m; screenshot review 1m; focused Control Center/diff verification and stale latest-comment assertion repair 2m; documentation/board closeout 1m30s; production implementation 0m; external-agent waits 0m; maintainer-decision time 0m. `npm run build` passes with existing chunk advisory and Control Center passes 33/33. The first verifier assertion incorrectly required back-face POM leaders; source mapping confirmed front-only POMs and 4/4 faces then passed. No product code or export behavior changed.
+- Exit evidence/comment linked to G04-V02 and EPIC-17 at board revisions 586–589; final board revision 589. EPIC-17/G04-V02 remain In Progress, V01 Done and V03 Backlog. This scoped overlay evidence does not close MQF-011 or unblock any of 142 held faces.
+- **Next gate:** process any pattern-specific artifacts supplied by the maintainer into a bounded V02 source-map packet. Keep the Woven placket and other unsupported faces held; do not start V03 until every supported face/option passes.
+
+- S303 started at 2026-09-30 12:53:36 UTC from clean S302 `140a1091918c964b6011c24cc238bc5b525155b3`, subject `Slice 302: reconcile G04 estimate and sequence`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S303 is uniquely assigned. Its evidence and start comment were linked at board revisions 574–577.
+- S303 `map remaining V02 source dependencies` inventories 142 held faces by Tee/Fitted sleeve, Polo collar/stand, Woven assembly roles and Trouser placement. No new construction artifact was present, no missing geometry was inferred and no production code/output changed. Packet: `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md`.
+- S303 elapsed 4m18s (12:53:36–12:57:54 UTC): source review 2m; implementation 0m; docs/board closeout 1m; Control Center/diff verification 1m; rendered review 0m; external-agent waits 0m; maintainer-decision time 0m. Exit evidence and comment link at revisions 578–581. The final landed commit is recorded at S304 start.
+- Board final revision 581. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. S303 requires Control Center tests and `git diff --check`; no production output or geometry changed, so no production/browser/global gate applied.
+- Latest all-recipe output evidence is the production Chromium 73-configuration / 146-face matrix: 4 accepted (Tank/Skirt defaults), 142 held. Complete V02 is not accepted. Woven placket closure/order remains held because the maintainer confirmed no marked reference exists; Polo outer-collar face mapping also remains unsupported.
+- S303 scope is a source-dependency inventory for the 142 held faces. Its packet maps each remaining role family to exact source facts/artifacts; user-confirmed Woven closure hold remains. Packet: `docs/research/epic17/G04-V02-SOURCE-DEPENDENCY-INVENTORY-S303.md`.
+- Reconciled working estimate is 57–71 landed slices total (16–30 from the S301 boundary including S302), conditional on source evidence; unavailable-source waits remain unpriced and may block V02. S302 `140a1091918c964b6011c24cc238bc5b525155b3` made no production implementation changes; admission/roadmap/board estimates now agree.
+- **Next gate:** continue with one resolvable V02 task only if required source evidence exists. Keep the Woven closure and other unsupported faces held; do not start V03 until every supported face/option passes.
+## EPIC-17 / G04 current handoff — S298 complete; V02 remains open
+
+- S297 landed as `2dbfd753fc164829cd93d086b2a0d1455f5b0f4a` (`Slice 297: map Woven front physical pair`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; the worktree was clean at S298 start.
+- S297 adds source-backed, view-only Woven front-pair reflection metadata. Its final production Chromium replay covered 28 configurations / 56 faces: 0 SVGs emitted, 56 visible holds, no browser/page/request errors. See `docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md` and `docs/research/epic17/S297-browser-final/`.
+- V01 is Done; V02 remains In Progress; V03 remains Backlog. Current V02 source holds include the Woven sleeve-cap boundary, collar outer landmark, closure instance/order, Polo collar landmark, Tee/Fitted sleeve view, and Trouser assembly placement. The requested same-model marked construction evidence is still pending; do not infer missing mappings.
+- S298 started at 2026-09-30 10:54:49 UTC from clean S297 commit `2dbfd753fc164829cd93d086b2a0d1455f5b0f4a`, with board revision 531 and refreshed `origin/main` ancestor. The validated board linked start evidence/comment and synchronized the conditional estimate to 41–46 at revisions 532–536.
+- S298 groups repeated same-role edge hold messages in the technical-flat panel while retaining every full source edge ID and each distinct blocker. Focused changed-module coverage is 100% in all four measures (9/9); UI/view tests pass 99/99; Control Center 33/33; build passes. Final production Chromium covers 73 configurations and 146 faces: 4 accepted, 142 held, zero browser/page/request errors. All four emitted Tank/Skirt default SVGs replay and parse. Final rendered evidence and manual review: `docs/research/epic17/S298-browser-final/`; packet: `docs/research/epic17/G04-V02-HELD-GUIDANCE-READABILITY-S298.md`.
+- S298 elapsed 51m43s: implementation 6m; focused tests/repairs and build 8m; Control Center/diff and durable board/docs closeout 4m; pre-final matrix 15m; final matrix 15m; accepted-SVG replay/manual review 3m; external-agent waits 0m; maintainer-decision time 0m. The single slice commit is recorded in the S299 handoff after landing.
+- Verified exit evidence `E-G04-S298-EXIT` is linked to G04-V02, the EPIC-17 summary card and the Epic record through validated commands at revisions 537–540; the exit comment is revision 539. Board final revision is 540. V01 remains Done, V02 In Progress and V03 Backlog.
+- **Next gate:** continue source-backed V02 blocker work only; same-model collar/sleeve construction reference is still pending. Keep Polo/Woven/Tee/Fitted/Trouser holds intact, preserve MQF findings as review checks, and do not start V03. Full repository coverage/build and other integrated gates remain for the settled Epic/PR candidate.
+
+## EPIC-17 / G04 — Slice 296 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 09:49:02–09:57 UTC (about 8m). Packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-SOURCE-REVIEW-S296.md`.
+- **Git:** started clean at S295 `15b36f962f484d44bcb1b7f7046afea906c50b58`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S296 is uniquely reserved; research-only. No production code changed.
+- **Board:** revision 520 at start; packet/start evidence linked at 521–523; exit evidence linked to G04-V02 and EPIC-17 at 524–525; exit comment at 526, all through validated commands. EPIC-17 and G04-V02 remain In Progress; G04-V03 remains Backlog.
+- **Source result:** Thread Theory's Fairfield sew-along describes attaching the sleeve to the armhole and managing cap ease in short segments, but does not identify a cap front/back break, exact cap-edge station, or view-instance transform applicable to the current authored Woven Block. The local sleeve remains quantity two with a generic midpoint notch; its two cap edges join three ordered armhole edges with aggregate ease. No unique source-to-view map results.
+- **Acceptance and remaining blockers:** retain the Woven sleeve hold and complete-face fail-closed behavior. Front-pair/placket instance/layer order and collar landmark remain unresolved; Polo collar, Tee/Fitted sleeve and Trouser placement blockers remain. V02 stays open, so V03 cannot start. The same-model source drawing/spec needed for the exact split was requested; no reply/source file is recorded yet.
+- **Verification:** research-only; Control Center passes 33/33 and `git diff --check` passes. No DXF or protected export identities changed. No production behavior or rendered output was changed.
+- **Elapsed time:** source and local topology review 2m; S295 mapped-finding review 1m; durable research/state/board closeout 3m; Control Center/diff verification 2m; implementation 0m; browser review 0m; external-agent waits 0m; maintainer-decision time 0m (source metadata decision was already recorded; source-drawing request remains pending).
+- **Next action:** continue with one independent V02 source-backed mapping gate; retain all unsupported holds and do not start V03.
+
+## EPIC-17 / G04 — Slice 295 complete; V02 remains open
+- **Non-goals:** no pattern/cut edits, guessed cap split, generic view convention, new recipe, exports, broad UI, G09/D04, G05, physical sample, supplier, spending, hosted service, V03 work, or physical/factory/readiness claim. No safe delegated task; Codex owns the source-to-current-pattern comparison.
+- **MQFs:** MQF-004–007/011/012 remain `To be reviewed` for relevant output exits; MQF-015 remains gated for V03. Findings are checks, not added scope. Preserve post-G17 deferrals.
+- **Next gate:** compare the primary Fairfield sleeve tutorial/pattern evidence directly against current Woven cap edges, notch marks, role multiplicity and sewn-interface order; either support one exact map or retain the full-face hold.
+
+## EPIC-17 / G04 — Slice 295 complete; V02 remains open
+
+- **Goal and scope:** 2026-09-30 09:23:12 UTC start. Map only source-declared Woven back/yoke center-back folds into view metadata. Do not change cut geometry or release either complete Woven live face; retain unsupported front pair/placket, sleeve-cap, collar and assembly holds.
+- **Git:** began clean at S294 `3fb4177f47d18a0b86b2d5a29e7c1bb8bd851e14` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S295 landed in `15b36f962f484d44bcb1b7f7046afea906c50b58` (`Slice 295: map Woven back and yoke fold axes`); it remains a local candidate and an ancestor of refreshed `origin/main`.
+- **Board:** revision 517 at S295 start; packet/start evidence linked. Revision 518 links verified S295 exit evidence to G04-V02, 519 to EPIC-17, and 520 records the exit comment through the validated Control Center command layer. G04-V02 remains In Progress; V03 remains Backlog.
+- **Implementation:** only the Woven `back`/`yoke` projection holds were removed. Exact `Piece.onFold` `centerBack` x=0 edges drive view-only fold reflection and are excluded from exterior runs; source contours remain one-sided. No pattern/cut coordinates or DXF/export code changed.
+- **Acceptance:** all 28 Woven configurations across 13 options retain exact projection accounting. The production Chromium matrix completed 56 faces: 0 emitted, 56 visibly held. Front faces report unresolved crossing/front roles; back faces report the Woven sleeve-cap assembly conflict. No partial live face is rendered.
+- **Manual review and retained evidence:** manually inspected default front/back and `buttonCount=min` front plus `sideVentDepth=min` back; all show visible guidance, no partial outline, and no misleading assembled depiction. Matrix, exact input values, error lists and screenshots are in `docs/research/epic17/S295-browser/`. Console/page/request errors: 0.
+- **Verification:** changed `technical-flat-projection.ts` has 100% statement, branch, function and line coverage (18 tests). Projection/geometry/live/flat focused suites pass 51/51. `npm run build` passes with only the existing Vite chunk advisory. Protected export identity, tech-pack surface and legacy-DXF tests pass 24/24. Control Center passes 33/33 after its latest-board-comment assertion was updated; `git diff --check` passes.
+- **Findings/holds:** the S295 Woven output checkpoint records MQF-004 uncovered by the held front; MQF-005/007 not evaluable without an emitted pattern-key/annotation view; MQF-006 uncovered on these held faces; MQF-011 not newly tested by this Woven hold (S291 Tank overlay remains the relevant output evidence); MQF-012 remains under S294's unresolved collar-landmark review; MQF-015 remains for V03. The register keeps each mapped finding `To be reviewed`; no added remediation scope or change to post-G17 deferrals. No physical fit, factory acceptance, CAD interoperability, or production-readiness claim.
+- **Remaining source gates:** typed front-pair instance mapping and source-defined placket overlap/layer order; Woven sleeve-cap face split and placement; Polo/Woven exact collar landmark; Tee/Fitted sleeve contour/instances; Trouser placements; later V03 receiver/profile rights. Do not start V03 before V02 acceptance.
+- **Elapsed time:** 2026-09-30 09:23:12–09:45 UTC (about 22 minutes). Implementation 3m; focused test/coverage work and repairs 4m; build 1m; protected identity and Control Center checks 2m; production Chromium and manual screenshot review 9m; durable docs/board and final diff/commit closeout 3m; external-agent waits 0m; maintainer-decision time 0m (the view-metadata authority was already recorded).
+- **Next action:** Slice 296 audits the Fairfield sleeve-construction reference for exact current-pattern view mapping. Retain holds where the reference does not bind to authored Woven topology; do not start V03.
+
+## EPIC-17 / G04 — Slice 294 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 09:16:12–09:20:20 UTC (4m08s). Packet: `docs/research/epic17/G04-V02-COLLAR-REFERENCE-REVIEW-S294.md`.
+- **Git:** began clean at S293 `baa7aa914ae3ce2e105efb118bedea8feade2fba`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S294 uniquely reserved. Research only; no production code changed.
+- **Source result:** reviewed Morris Campbell's 2005 Massey composite-collar thesis and the Müller & Sohn separate-stand collar construction article against current Polo/Woven edges. They describe construction and contour drafting/length checks but do not state where the present authored outer contours meet the local shoulder stations. Existing Polo/Woven role holds remain.
+- **Acceptance:** source comparison completed; exact current-pattern outer-edge landmark remains unproven. V02 remains In Progress, V03 Backlog. MQF-004–007/011/012 stay `To be reviewed`; MQF-015 remains gated for V03; deferrals unchanged.
+- **Verification:** research-only; no production tests/build/coverage/export/Chromium replay apply. Control Center 33/33 and `git diff --check` are closeout gates.
+- **Elapsed-time breakdown:** source comparison 2m; implementation 0m; docs/board closeout 1m; focused Control Center verification/diff check 1m; browser review 0m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** continue only independent V02 work that does not assume these collar boundaries; request the exact same-model source drawing/pattern specification or authored landmark needed for Polo/Woven. Do not start V03.
+
+## EPIC-17 / G04 — Slice 293 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 09:01:47–09:11:45 UTC (9m58s). Packet: `docs/research/epic17/G04-V02-WOVEN-BODY-VIEW-METADATA-S293.md`.
+- **Git:** started clean at S292 `215cf3ddfbee41f33b3fcec49f7f4538ad96f5a7`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor. S293 uniquely reserved. Research-only hold; no production code changed.
+- **Source result:** Woven code names separate right- and left-front placket stitches, but both typed interfaces target the one `front.centerFront` role. The block has no front-instance reference, and the placket source does not define which placket overlays the other at the front overlap. Reflecting a whole front role could also duplicate its overlays/callouts without a declared instance rule. Exact authored front-pair and back/yoke axes remain valid candidates, but no active mapping was added.
+- **Acceptance:** source audit found a bounded reason to retain full-face holds; no unique complete closure mapping was established. S291's production result remains current at 56/56 Woven faces held. V02 remains In Progress and V03 Backlog. MQF findings remain `To be reviewed`; post-G17 deferrals unchanged.
+- **Verification:** research-only. No production test/build/coverage/export/browser replay applies. Control Center 33/33 and `git diff --check` are the required closeout gates; no DXF or protected export change.
+- **Elapsed-time breakdown:** source/topology review 4m; implementation 0m; docs/board closeout 4m; focused Control Center verification/diff check 1m; rendered review 0m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** Slice 294's collar reference result is recorded above; retain the Woven hold until typed instance mapping/layer order is source-backed. Continue only independent V02 work; do not start V03.
+
+## EPIC-17 / G04 — Slice 292 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 08:50:03 UTC–approximately 08:59 UTC. Packet: `docs/research/epic17/G04-V02-WOVEN-SOURCE-MAPPING-S292.md`.
+- **Git:** started clean at S291 `190652d110999fcea82808eb6aee3e7394c3b9b1`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor; S292 uniquely reserved. Research and board/state closeout only; no production code changed.
+- **Source result:** `shirtPanel()` explicitly describes two mirrored front pieces and authors `centerFront` on x=0; the physical role contract records front quantity 2. Back lower and yoke are source-declared on-fold roles with explicit x=0 center-back edges across supported yoke depths. These are source-backed body metadata candidates. Sleeve quantity and one generic midpoint notch still do not define a sleeve-cap face split or instance placement. Collar face landmarks remain unresolved. Placket attachment to the common front center edge still requires an explicit, validated overlap/layer boundary. No partial body-only flat was emitted.
+- **Acceptance:** exact source role/edge/fold/multiplicity/stitch/notch audit passed; complete coherent Woven face output did not. S291's retained production matrix remains current, with 56/56 Woven front/back requests held. V02 remains In Progress; V03 remains Backlog. MQF-004–007, MQF-011 and MQF-012 stay `To be reviewed`; MQF-015 remains gated for V03. No G09/G05/physical-readiness scope was added.
+- **Verification:** research-only. No production tests/build/coverage/export/browser replay apply because production code/output did not change. Closeout uses Control Center tests and `git diff --check`; no DXF or protected identity changed.
+- **Elapsed-time breakdown:** source and retained evidence audit ~5m; packet/state/board/test closeout ~4m; implementation 0m; focused production verification 0m; browser review 0m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S293 creates only a bounded candidate for Woven body center axes, mirrored front-pair mapping and center-front/placket overlap validation. Sleeve-cap and collar roles remain held; do not accept partial view output or start V03.
+
+## EPIC-17 / G04 — Slice 291 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 08:13:34 UTC–08:49 UTC (35m26s). Packet: `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S291.md`.
+- **Git:** began clean at S290 `4c3388218d1a7fa72b861018c3940b749fd9773d`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S291 uniquely reserved.
+- **Board:** revision 490 at start; S291 start packet/Epic links and start comment at 491–493; exit evidence and comment recorded through validated commands at 494–496.
+- **Output:** production build passed; fresh Chromium matrix covered all seven recipes, 73 configurations, 32 option fields and 146 faces. Tank and Skirt front/back emitted and passed geometry/layout/POM/revision checks; Tee 2, Fitted 2, Polo 34, Woven 56 and Trouser 48 faces remain visibly held. No console, page or remote-request errors. Current default PNGs, SVGs, exact options/revisions, screenshots, matrix and logs are retained in `docs/research/epic17/S291-browser/`. Fresh Tank overlay preserves local artwork and Charcoal on exact revision `live-draft:tank:1:4`; no image content or fabric response is claimed.
+- **MQF review:** MQF-004 remains uncovered until Woven buttons can be viewed; MQF-005–007 and MQF-011 are partial as scoped in the packet; MQF-012 remains unreviewable without a specific collar construction reference; MQF-015 remains for V03. Findings stay `To be reviewed`; post-G17 deferrals remain.
+- **Acceptance:** the matrix/replay, visible-hold behavior, manual output review and mapped findings were verified, but V02 fails its all-recipe/all-option output gate with 142/146 faces held. V02 remains In Progress; V03 remains Backlog. No production code, pattern/cut geometry, DXF behavior or protected export identities changed.
+- **Verification:** `npm run build` passed with only the existing Vite chunk advisory. The production browser matrix, exact-SVG default replay, Tank overlay, helper `node --check`, Control Center 33/33 and `git diff --check` passed. The first board assertion run failed 32/33 because its expected phrase omitted “faces”; the failure is preserved in `S291-browser/control-center-initial-failure.log`, the assertion was corrected, and the full suite rerun passed. No production source code changed; global repository coverage is reserved for the settled PR candidate.
+- **Elapsed time:** implementation 0m; production build 1m; 73-case/146-face Chromium run and retained rendering ~23m; SVG replay/overlay/manual review ~2m; board/docs/focused verification and commit closeout about 9m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** Slice 292's Woven source audit is recorded above. Continue with the bounded S293 body-metadata candidate from exact front/back source axes, keeping Woven faces held until the sleeve-cap and collar gaps also support complete views. Do not start V03.
+## EPIC-17 / G04 — Slice 290 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 08:04:46–08:09:04 UTC (4m18s). Packet: `docs/research/epic17/G04-V02-TEE-FITTED-SLEEVE-SOURCE-S290.md`.
+- **Git:** began clean at S289 `2aa82a55144eaad91948bc224435293b36fe1b99`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor; S290 uniquely reserved. Land with subject `Slice 290: audit Tee sleeve view correspondence`.
+- **Board:** revision 484 at start; packet and Epic evidence revisions 485–486, start comment 487. Exit evidence/comment at revisions 488–490.
+- **Source result:** exact ordered source topology supports capLeft→front armhole and capRight→back armhole as sewn intervals, but aggregate ease and cap-ease notch marks do not define face contour or instance count/orientation. Maelo BL-020, Nuffield's T-shirt resource and ASG's sleeve-setting article establish their examples' seam/notch/ease construction only. No pattern-specific projection rule was found.
+- **Rendered evidence:** retained S280 production Chromium Tee front was manually inspected and visibly crosses the bodice; S281 and S284 withhold both Tee/Fitted faces. No production change means no new browser output.
+- **Verification:** Control Center initially failed 32/33 due the stale newest-comment assertion. The fixture now preserves S289 in history and asserts S290's current result. `npm run control-center:test` passed 33/33; `git diff --check` passed. No production coverage/build/export gate applies. V02 remains In Progress; V03 Backlog. MQF and post-G17 disposition unchanged.
+- **Elapsed breakdown:** local/source/research review ~2m; primary-source/render review ~1m; focused board-test diagnosis and durable closeout ~1m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S291 reviews integrated V02 output and MQF checkpoints against the full seven-recipe/option criteria; V03 remains gated.
+
+## EPIC-17 / G04 — Slice 289 complete; V02 remains open
+
+- **Start/exit:** 2026-09-30 07:54:52–08:02:52 UTC (8m00s). Packet: `docs/research/epic17/G04-V02-TROUSER-FACE-PLACEMENT-S289.md`.
+- **Git:** started clean at S288 `1e6f2e2c8c5735f5ef720e6b2bbaace882702846`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. S289 is uniquely reserved; commit subject is `Slice 289: record Trouser flat placement hold`.
+- **Board:** start revision 478; packet evidence at 479, Epic evidence at 480, start comment at 481. Exit links/comment recorded by validated commands at revisions 482–484.
+- **Source result:** ordered front waist joins place the two front legs, but the right fly-to-shield interface conflicts with the solved placement. On the back, the center-back seam conflicts with the single full-length waistband interface, whose ordered path includes both front-waist segments. No source-backed fly overlap landmark or per-face waistband segment transform resolves these conflicts. Do not skip joins or alter cut geometry.
+- **Rendered evidence:** manually inspected retained S284 production Chromium default screenshots and matrix. All 24 Trouser face requests are held by the named front fly/back waistband conflict; the UI shows no partial face. The focused topology probe was temporary and removed after passing 1/1. No production code changed.
+- **Verification:** Control Center initially passed 32/33 because the board test still required S288 to be the newest comment. After diagnosis, its fixture now requires S288 exit history and the current S289 result. The rerun passed 33/33; `git diff --check` passed. Production coverage/build/export gates do not apply to this research-only boundary. V02 remains In Progress, V03 Backlog; MQF-004–007 and MQF-011/012 remain `To be reviewed`, MQF-015 remains for V03, and post-G17 deferrals are intact.
+- **Elapsed breakdown:** source topology and retained browser review ~4m; focused Control Center diagnosis/repair ~2m; packet/state/board closeout ~2m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S290 audits pattern-specific Tee/Fitted sleeve contour and front/back instance evidence; keep unsupported faces held and do not begin V03.
+
+### Slice 287 — G04 V02 Woven sleeve-cap assembly review (complete; V02 remains open)
+
+- **Start:** 2026-09-30 07:28:29 UTC. Packet: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md`.
+- **Git:** clean at S286 `17bc908a40c4b3e9809c9d8c4ca3b25643f2bb68` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S286 highest; S287 uniquely reserved.
+- **Board:** canonical revision 462 before start; S286 exit is linked to G04-V02 and EPIC-17. S287 packet/start evidence/comment are linked at revisions 463–466 and exit evidence/comment at revisions 467–470 using the validated command layer.
+- **Goal/gates:** review Woven roles/stitches/fold and sleeve-cap ease from exact draft topology; implement only a uniquely sourced same-revision view transform. Otherwise retain actionable holds. If production code changes, require focused tests and 100% changed-module coverage, TypeScript/build, affected Chromium/manual review, protected export/DXF identities and `git diff --check`. V02 stays open; no V03 work.
+- **Blockers/non-goals:** do not infer a missing sleeve face-instance or orthographic surface rule from appearance. No cut/source geometry edits, Polo/Tee/Fitted/Trouser corrections, G09/D04, G05, physical/factory claims or scope from MQF review findings.
+- **Next action:** S288 audits the Polo outer-collar cubic for an exact pattern-specific construction reference and front/back shoulder landmark. Keep its faces held if source evidence remains insufficient.
+
+#### Exit evidence — Woven view placement remains held
+
+- **Result:** exact `Woven sleeve-cap ease` topology joins two cap edges to three ordered armhole edges with an aggregate ease band, and the pattern's sleeve entry contains only a generic center-cap notch. Neither the stitch nor marks define front/back cap boundaries or view instances. Existing generic sewing reference does not supply pattern-specific landmarks. No unique source-backed front/back transform can be derived. Updated live hold guidance names the missing source semantics; Woven faces remain held.
+- **Verification:** focused projection/live/geometry 41/41; 100% statement/branch/function/line coverage for changed `technical-flat-projection.ts`; TypeScript/build passed; Control Center 33/33; protected export/DXF/tech-pack identities 24/24. Production Chromium reviewed all 13 Woven option fields across 28 configurations/56 faces; all remained visibly held, no browser/page/request errors, and default front/back holds were manually inspected. Packet/artifacts: `docs/research/epic17/G04-V02-WOVEN-SLEEVE-CAP-ASSEMBLY-S287.md`, `docs/research/epic17/S287-browser/`.
+- **Board:** start revisions 463–466; `E-G04-S287-EXIT` linked to G04-V02 at 467, EPIC-17 at 468 and summary card at 469; exit comment at 470. Final revision 470; V02 remains In Progress and V03 Backlog.
+- **Elapsed time:** 07:28:29–07:44:41 UTC (16m12s): source/topology audit 5m; guidance implementation 1m; focused tests/coverage/build/export/board checks 4m; browser/rendered review 5m; durable closeout 1m; agent waits 0m; maintainer decision 0m.
+
+### Slice 288 — G04 V02 Polo collar landmark audit (in progress)
+
+- **Start:** 2026-09-30 07:47:22 UTC. Packet: `docs/research/epic17/G04-V02-POLO-COLLAR-LANDMARK-S288.md`.
+- **Git:** clean at S287 `31c8e2755754e1fc920a4887c1517971db13b522` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S287 highest; S288 uniquely reserved.
+- **Board:** canonical revision 470; S287 exit evidence is linked. Link S288 packet and start comment through the validated command layer.
+- **Goal:** find a specific source that uniquely ties the Polo outer-collar cubic to its shoulder landmark; otherwise preserve a hold. No production/cut-geometry change in this research packet.
+- **Decision/gates:** generic collar type or base-seam shoulder notch is not proof of a point on the cubic outer contour. Record exact source claim, pattern edge IDs and the evidence gap. V02 remains open; no V03 work until V02 passes.
+- **Next action:** reserve S289 for source-backed Trouser front/back assembly placement; preserve its current face holds unless the distinct leg roles and sewn interfaces prove a coherent unique view.
+
+#### Slice 288 exit — Polo outer contour stays held
+
+- **Source result:** local Polo collar geometry has exact CB/shoulder/CF marks on base/neck seams, while the upper/under outer contour is one authored cubic with no shoulder mark or cross-contour rule. Jalie 3137, Maelo BL-018 and Threads' two-piece collar drafting guide specify layered construction and seam landmarks but no point on InfiniDrip's cubic. Other reviewed references concern different shapes. Do not infer a split or edit cut geometry. See `docs/research/epic17/G04-V02-POLO-COLLAR-LANDMARK-S288.md`.
+- **Acceptance:** source audit passed; Polo collar faces remain held. G04 V02 remains In Progress and V03 Backlog. MQF-004–007, MQF-011/012 remain `To be reviewed`; MQF-015 remains for V03; post-G17 deferrals are unchanged.
+- **Board:** start revisions 471–474; verified S288 exit evidence/comment linked at revisions 475–478. Final board revision 478; V02 In Progress, V03 Backlog.
+- **Verification:** `npm run control-center:test` passed 33/33; `git diff --check` passed. This research-only source audit changed no product code, rendered output, cut geometry or export, so those gates did not apply.
+- **Elapsed time:** 07:47:22–07:52:18 UTC (4m56s): primary source/local geometry review 3m; Control Center/diff checks 1m; docs/board closeout 1m; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 286 — G04 V02 Woven collar/closed vent metadata (complete; V02 remains open)
+
+- **Start / Git:** started 2026-09-30 06:35:08 UTC from clean S285 `9f059d3cf869ec7310e8f72af6829059063a97e8` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S285 was highest; S286 reserved and landed under subject `Slice 286: map Woven collar and closed vent views`; see active branch history for its identifier. Slice packet: `docs/research/epic17/G04-V02-WOVEN-COLLAR-VENT-S286.md`.
+- **Scope/result:** added source-derived Woven collar/stand shoulder stations bound to the current ordered neckline stitch, exact role topology, same revision and source fold frame; conditionally omits only the exactly closed zero-depth vent. No source coordinates, cut geometry, marks or exports changed. The candidate's front components crossed/separated and the back had conflicting sleeve-cap ease placement, so both Woven faces are now held with explicit source guidance.
+- **Board:** started at revision 452; validated packet links at 453–455 and start comment at 456. `E-G04-S286-EXIT` is linked to G04-V02, EPIC-17 and its summary at revisions 457–459; exit comment at 460; estimate synchronized with validated `editEpic`/`editItem` at 461–462. Final board revision 462. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog; estimate is 39–44 slices.
+- **Focused verification:** live/projection/geometry tests 41/41; `technical-flat-projection.ts` coverage 100% for statements, branches, functions and lines across 17 tests. `npx tsc --noEmit`, `npm run build`, and protected export/DXF/tech-pack identities 24/24 passed. Production Chromium reviewed 28 Woven configurations/56 faces across all 13 option fields; all stayed visibly held. Corrected harness's stale 14-vs-13 expected count and successful rerun are documented. No browser, page or remote errors. Final held screenshots manually inspected; the rejected first candidate is preserved separately.
+- **Acceptance/findings:** exact Woven metadata eligibility passes, but coherent Woven output does not; V02 is not accepted and V03 cannot begin. MQF-004–007, MQF-011 and MQF-012 were reviewed and remain `To be reviewed`; MQF-015 remains assigned to V03. Post-G17 deferrals are unchanged.
+- **Delegation / elapsed time:** no safe disjoint low-risk work; agent waits 0m. Start 06:35:08, exit 07:25:39 UTC (50m31s): implementation/source review 22m; focused verification/build/protected identity/browser review 19m; durable/board closeout 9m; maintainer-decision time 0m. The first closeout Control Center run exposed a stale expected comment phrase; the expectation was corrected to match the validated S286 board comment, and the final suite passed 33/33.
+- **Next action:** S287 reviews Woven sleeve-cap placement/crossing against exact source topology and makes only source-supported view-transform corrections, otherwise retaining a hold. Polo, Tee/Fitted and Trouser remain blocked. Full seven-recipe/options V02 acceptance precedes any V03 CAD profile work.
+
+### Slice 285 — G04 V02 source-reference audit (complete; V02 remains open)
+
+- **Start:** 2026-09-30 06:05:18 UTC. Packet: `docs/research/epic17/G04-V02-SOURCE-REFERENCE-AUDIT-S285.md`.
+- **Git:** clean at S284 `506d0280cbea5d6157f070b0981096dc55f27954` on `codex/epic-17-g04`; fetched `origin` with prune. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S284 is highest assigned; S285 is uniquely reserved.
+- **Board:** canonical revision 444 at start; packet/start evidence and comment were linked through the validated command layer at revisions 445–447. Verified S285 exit evidence was linked to G04-V02 and EPIC-17 at revisions 448–449, with exit comment at 450. The S285 source-based estimate was updated and synced through the validated command layer at revisions 451–452. Final board revision 452; EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog.
+- **Scope:** trace local pattern/research evidence and exact construction references for held Tee/Fitted sleeves, Polo/Woven collar splits, Woven vents, and Trouser fly/waist joins. Maintainer has authorized source-backed view metadata only; no cut geometry changes. Polo/Woven collar splits specifically require a construction reference or remain held.
+- **Gates/blockers:** document source identity and exact supported/unsupported role/face rules; no rule from appearance or generic convention; source-less faces stay visible holds. Do not begin V03 unless V02 passes. Review MQF-004–007, MQF-011/012 only as applicable and retain `To be reviewed`; MQF-015 remains for V03. No scope from findings and all post-G17 deferrals remain.
+- **Delegation:** no safe disjoint source-provenance audit; external-agent waits 0m; OpenCode not used.
+- **Result:** exact local and primary construction sources support a view-only Woven collar/stand shoulder boundary at the joined neckline segment, plus omission of the closed 0 cm Woven vent. Polo local geometry names back/front stand and collar-base segments and shoulder landmarks, but its outer collar is an authored cubic with no source-backed shoulder correspondence; keep that contour held pending an exact pattern/landmark reference. Tee/Fitted cap joins do not establish a flat surface/instance map; Trouser role and stitch identities support a bounded face-specific placement attempt but the current fly/waist cycles remain held until rendered proof. No product code or pattern/cut geometry changed.
+- **Primary references:** official Jalie 3137 instructions and Maelo BL-018 corroborate layered Polo collar/stand construction; Threads' two-piece-collar guide names CB/shoulder/CF notches; Thread Theory's Fairfield collar article specifically aligns stand notches with CB and shoulder seams; Maelo BL-020 documents set-in sleeve cap and front/back notches. Their exact claims and limits are in the packet.
+- **Acceptance/blockers:** source audit passed for mapping eligibility, not V02 output acceptance. Polo outer-collar correspondence, Tee/Fitted sleeve instances/contours, Trouser cycle placement and visual acceptance remain open. MQF-004–007, MQF-011/012 stay `To be reviewed`; MQF-015 remains for V03; post-G17 deferrals are unchanged. No V03 work begins.
+- **Focused verification:** `npm run control-center:test` passed 33/33. Two consecutive runs first exposed stale S284-only board assertions (estimate/comment, then latest V02 exit comment); the failures were preserved and diagnosed as test expectations lagging the validated S285 board updates. Updated the assertions to require the current 37–42 estimate, S285 V02 exit evidence and S285 exit comment; final run passed 33/33. `git diff --check` passed. No production source or cut geometry changed. Global coverage is not applicable to this research-only slice.
+- **Elapsed time:** start 06:05:18 UTC; exit 06:30:56 UTC; total 25m38s. Source/research review ~13m; focused Control Center verification and diagnosis ~4m; durable and validated-board closeout ~8m; external-agent waits 0m; maintainer-decision time 0m.
+- **Next action:** S286 implements only the Woven shirt's source-supported collar/stand shoulder split and zero-depth vent omission as same-revision view metadata, then exercises the complete production matrix and manually reviews new output. Polo remains visibly held pending an exact outer-contour landmark reference.
+
+### Slice 284 — G04 V02 integrated rendered-output review (complete; V02 remains open)
+
+- **Start:** 2026-09-30 05:24:03 UTC. Packet: `docs/research/epic17/G04-V02-INTEGRATED-OUTPUT-REVIEW-S284.md`.
+- **Git:** clean at S283 `337ed72640500ef490a4bb3346cb34b09ed8d80d` (`Slice 283: implement source-backed skirt face segments`) on `codex/epic-17-g04`; fetched `origin` with prune. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S283 is highest assigned; S284 is unique.
+- **Board:** revision 437 before start; `E-G04-S284-START` packet evidence linked and start comment validated at revision 439. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog. `E-G04-S283-EXIT` remains linked to V02 and EPIC-17.
+- **Scope:** rerun 73 configurations/146 front/back face requests in production Chromium with all 32 single-option min/max endpoints and the existing combined fixtures. Retain output, issues, revision, labels/POM/topology/browser data, inspect every emitted default and representative option/overlay views, compare S281/S283 outcomes, and review MQF-004–007/011/012 against the applicable output. No scope expansion from a finding.
+- **Gates/blockers:** full matrix and manual output review. Keep unsupported Tee/Fitted sleeves, Polo/Woven collars (specific construction reference still absent), Trouser cycles and Woven vent visibly held. Preserve all export byte identities and no physical/factory claim. If source correction is required, assign its own unique next slice and full focused 100% coverage.
+- **Delegation:** matrix and output review are coupled; no safe disjoint low-risk work. External-agent waits expected 0m.
+- **Result:** production Chromium completed 73 configurations/146 face requests and 32 option endpoint pairs with zero browser/page/remote errors. Four faces emitted (Tank and Skirt front/back); 142 are held across Tee/Fitted sleeves, Polo/Woven collar splits, Woven vents and Trouser fly/waistband joins. Emitted views passed automated parsing/revision/layout/POM checks and manual review. Same-revision local artwork/colorway overlay passed on supported Tank; the Tee overlay fixture is held as documented. MQF-004/005/006/007/011/012 reviewed as partial or uncovered and remain `To be reviewed`; MQF-015 remains for V03.
+- **Acceptance:** the review gates passed, but V02 output acceptance failed because 142/146 faces remain held and important construction details are unverified. No source or production code changed. Preserve existing byte-identity gate evidence.
+- **Board:** S284 packet/start evidence and start comment at revisions 438–439; verified `E-G04-S284-EXIT` linked to V02 and EPIC-17 at revisions 440–441; exit comment at 442; revised estimate through validated `editEpic` at 443 and synced the summary card through validated `editItem` at 444. Estimate is 28–33 total landed slices.
+- **Elapsed time:** matrix/rendered review and manual artifact inspection ~24m; focused Control Center/script checks ~3m; durable closeout and validated board update ~10m (workstreams overlap); external-agent waits 0m; maintainer decisions 0m. Start 05:24:03 UTC; exit time 06:02:00 UTC; total 37m57s.
+- **Next action:** S285 performs a bounded source audit for exact construction references/landmarks that might resolve the remaining V02 mappings. If no specific Polo/Woven collar reference exists, keep those faces held and ask for the source needed to proceed; do not start V03 before V02 passes.
+
+### Slice 283 — G04 V02 source-interface face segments (complete; V02 remains open)
+
+- **Start:** 2026-09-30 04:10:07 UTC. Packet: `docs/research/epic17/G04-V02-SOURCE-INTERFACE-SEGMENTS-S283.md`.
+- **Git:** started clean at S282 `fc54deb13cb87d57bcfcd49aa30b13192e6fc561` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S283 landed as `337ed72640500ef490a4bb3346cb34b09ed8d80d` (`Slice 283: implement source-backed skirt face segments`).
+- **Board:** revision 433 before start, validated S283 start comment at 434, `E-G04-S283-EXIT` created/linked to V02 at 435 and linked to EPIC-17 at 436, exit comment at 437. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Scope:** implement the source-backed Skirt waistband boundary, segment each face from the ordered stitch plus exact strip topology, and reflect only the segment sewn to its panel center-fold axis. Preserve pattern/notch coordinates and every export byte identity. All unrelated source holds remain.
+- **Gates:** focused changed-module 100% coverage; drafting/assembly/projection/geometry/live/POM tests; build; Control Center; protected DXF/export identities; production Chromium Skirt front/back rendering and manual inspection; `git diff --check`. Full option matrix belongs to S284.
+- **Delegation:** no safe disjoint task due coupled stitch, projection, transform and rendered-output changes; expected waits 0m.
+- **Result:** reverse only the back waist stitch traversal. Added typed source interface boundary, paired strip-edge and face exclusion metadata; strict same-block/revision topology/fold-axis validation; provenance-preserving geometry compilation; and view-only reflection of only the face-attached waistband segment. Pattern/cut/notch coordinates and export paths are unchanged. Unsupported source details/roles remain held.
+- **Verification:** changed production modules have 100% statement/branch/function/line coverage; focused tests 191/191; `npm run build` passed with the existing chunk-size advisory; Control Center 33/33; protected export identity, legacy DXF and tech-pack surface 24/24; `git diff --check` passed. Chromium production preview passed six face outputs (default, 70/2 and 112/12 waist/ease) on three revisions with zero console/page errors. Manually reviewed front/back PNGs; source notices remain visible. Durable evidence: `docs/research/epic17/S283-skirt-browser/`.
+- **Acceptance/blockers:** bounded S283 passed. G04 V02 is not accepted; the all-recipe 73-configuration/146-face review is still required. MQF-004–007, MQF-011/012 remain `To be reviewed` for the applicable successful V02 output exit; MQF-015 remains for V03. Polo/Woven collar reference and other unsupported mapping blockers remain.
+- **Delegation:** no safe disjoint low-risk task; external-agent waits 0m; OpenCode not invoked.
+- **Elapsed time:** from 04:10:07 to 05:21:50 UTC, 1h11m43s total. Implementation ~32m; focused tests/build/protected checks ~24m; rendered run/review ~8m; docs and validated board closeout ~8m (workstreams overlap); external-agent waits 0m; maintainer-decision wait ~67m to the source-backed metadata authorization.
+- **Next action:** S284 must run and inspect the full 73-configuration/146-face production matrix, retain visible holds and reconcile the mapped findings at the applicable output exit. Keep V02 In Progress.
+
+### Slice 282 — G04 V02 source-backed face-segment contract (complete; V02 remains open)
+
+- **Start:** 2026-09-30 03:53:37 UTC. Packet: `docs/research/epic17/G04-V02-FACE-SEGMENT-CONTRACT-S282.md`.
+- **Git:** started clean at S281 `a082495286808044ccadcdb3e8802b8ea96b6091` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S281 was highest at its start. S282 landed as `fc54deb13cb87d57bcfcd49aa30b13192e6fc561` (`Slice 282: define source-backed face-segment contract`).
+- **Board:** revision 431 before start; validated start comment at revision 432; verified `E-G04-S282-EXIT` linked at revision 433. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Scope/result:** defined a fail-closed source-interface-boundary mapping rule. The Skirt source confirms front/back waist edges run center-to-side, while the ordered stitch lists both forward; reversing back maps the boundary to both side-seam endpoints and the waistband seam/top midpoint. The view split may reflect only the segment attached to that face's on-fold panel, never the whole waistband across its own short fold edge. Tee/Fitted sleeves, Polo/Woven collars, Trouser cycles and Woven vent remain held. No production or cut geometry changed.
+- **Verification:** temporary three-case draft probe confirmed exact side endpoints and midpoint formulas at waist/ease 70/2, 84/10 and 112/12; temporary files were removed. Existing stitch and technical-flat assembly tests passed 44/44. `npm run control-center:test` passed 33/33 after updating the regression to retain S281 history and assert the S282 start/evidence; its initial stale-latest-comment assertion failure was diagnosed. `git diff --check` passed. No production code changed.
+- **Elapsed time:** 12m49s from 03:53:37 through board revision 433 at 04:06:26 UTC; source audit/contract research 8m, focused source probes and adjacent tests 3m, Control Center correction/final gate and docs/board closeout 2m (workstreams overlap), external-agent waits 0m, maintainer-decision time 0m.
+- **Delegation:** no safe disjoint low-risk task; the audit crosses stitch semantics, view projection, assembly and output. External-agent waits 0m expected.
+- **Next action:** S283 is in progress; implement the source-boundary/paired-strip-edge view mapping and preserve coordinates/export identities. S284 renders/reviews the full 73-configuration/146-face matrix. V02 remains open.
+
+### Slice 281 — G04 V02 sewn-component assembly review (complete; V02 remains open)
+
+- **Start:** 2026-09-30 03:02:00 UTC. Packet: `docs/research/epic17/G04-V02-ASSEMBLY-REVIEW-S281.md`.
+- **Git:** started clean at S280 `8cb935c5c189a50c882284914e00f14c6bafdb92` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S281 landed as `a082495286808044ccadcdb3e8802b8ea96b6091` (`Slice 281: hold unsupported flat projections`).
+- **Board:** revision 427 before start, S281 start comment at 428, verified `E-G04-S281-EXIT` at 429, and estimate sync at revisions 430–431. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog. Current estimate is 27–31 total landed slices.
+- **Scope/gates:** review Tee/Fitted sleeve and Skirt waistband assembly against exact source seam order/edge landmarks; use source-backed face metadata only where supported and otherwise hold with actionable guidance. The maintainer's 2026-09-30 authorization is recorded in `docs/PROJECT-DECISIONS.md`. Keep cut geometry immutable. Focused changed-module 100% coverage, full option/face browser output, protected identities, build and `git diff --check`.
+- **Implementation:** source map holds Tee/Fitted sleeve and Skirt waistband roles on both faces until exact exterior contour and instance mapping exists. No draft/cut geometry changed.
+- **Verification:** focused projection/live/assembly suites pass 30/30; `technical-flat-projection.ts` has 100% statement/branch/function/line coverage. Build passes. Control Center passes 33/33. Protected export identity, legacy DXF regression and tech-pack surface pass 24/24. `git diff --check` and browser-harness syntax pass.
+- **Rendered result:** production Chromium exercised 73 configurations/146 faces across 32 option fields and both combined fixtures; 2 Tank SVGs emitted and 144 faces visibly held. Browser, page and remote-request errors are zero. Tank front/back output was manually inspected at revision `live-draft:tank:3:3`; its silhouette, labels, five front POM anchors/leaders and notices pass the digital view checks. Tee/Fitted and Skirt holds show exact visible source guidance. V02 is not accepted.
+- **Blockers:** Tee/Fitted sleeve contour/instance rules; Skirt face-specific waistband segment; Polo/Woven collar split references; Trouser fly/shield and waist-cycle placement; Woven zero-length vent edges. Keep V02 open and MQF-004–007, MQF-011/012 as `To be reviewed`; MQF-015 remains for V03.
+- **Delegation:** no safe disjoint low-risk ownership; Codex owns assembly and integrated output review. External-agent waits 0m.
+- **Elapsed time:** approximately 40m19s from 03:02:00 through the validated board evidence/estimate update at revision 431, 03:42:19 UTC. Source audit/fail-closed implementation ~10m; focused coverage/build ~4m; Control Center/protected checks ~3m; full Chromium matrix and output review ~23m; docs/board closeout ~5m (workstreams overlap); external-agent waits 0m; maintainer-decision wait 0m.
+- **Next action:** Slice 282 completed the source audit documented above. Continue with the single gated S283 source-boundary mapping implementation; unsupported roles stay held and V02 open.
+
+### Slice 280 — G04 V02 source-backed view metadata (complete; V02 remains open)
+
+- **Start:** 2026-09-30 02:17:36 UTC. Packet: `docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md`.
+- **Git:** clean at S279 `85195cd4d6c89d9abeb9c3be26087ab687d77180` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Reachable/active history confirms S279 is the highest assigned; S280 is reserved.
+- **Board:** revision 425 before start; S280 start comment at 426 and verified slice exit evidence `E-G04-S280-EXIT` at 427 through validated commands. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Implementation:** view reflection is enabled only for source-declared `onFold` roles with an exact center edge on local x=0 and all source points on one side. The mirror removes the duplicate center edge, preserves source identity, and does not alter the draft. Skirt waistband is explicitly excluded because its fold is a folded-strip edge, not garment symmetry. Physical quantities are unchanged; no new multiplicity rule was supported.
+- **Verification:** focused changed-module coverage 21/21 at 100% statements/branches/functions/lines; adjacent assembly/geometry/options/POM suite 31/31; build passed with existing chunk-size advisory; protected export/DXF identity tests 17/17; Control Center 33/33; corrected two-face production Chromium Skirt run passed; full pre-correction 146-face/73-config matrix is retained only as diagnostic; `git diff --check` passed.
+- **Rendered acceptance:** manual review confirms Tee/Fitted sleeve outlines still cross their bodies, Skirt front waistband remains offset, and Polo/Woven/Trouser faces remain withheld. Tank is symmetric after reflection. This does not meet V02's all-recipe acceptance; no output findings are closed.
+- **Decision and findings:** exact authorization and source limitations are in `docs/PROJECT-DECISIONS.md`; MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` until an applicable successful output exit; MQF-015 remains for V03. Post-G17 deferrals remain unchanged.
+- **Elapsed time:** 42m15s from 02:17:36 through board revision 427 at 02:59:51 UTC (implementation 15m; focused verification/build/adjacent/protected tests 8m; browser run/correction/rendered review 12m; board/docs closeout 7m; agent waits 0m; maintainer-decision time 0m).
+- **Next action:** Slice 281 is active from its linked packet; keep V02 open unless rendered acceptance passes for every required face.
+
+### Slice 279 — G04 V02 live source projection (complete; visual exit not met)
+
+- **Goal / slice start:** 2026-09-30 01:29:34 UTC. Packet: `docs/research/epic17/G04-V02-LIVE-PROJECTION-S279.md`.
+- **Git:** started at S278 `e77a1c5acd7f66eed860b9af243a1096daf3e0af`; landed as one numbered commit `85195cd4d6c89d9abeb9c3be26087ab687d77180` (`Slice 279: integrate live source projection`). Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor.
+- **Board:** revision 423 at start, S279 start comment at 424, verified exit evidence `E-G04-S279-EXIT` linked at 425 through the validated command layer. EPIC-17 remains In Progress, V01 Done, V02 In Progress, V03 Backlog.
+- **Implementation:** exact current-block/revision map validation is connected to live vector generation across all seven recipes and declared numeric endpoints. Unsupported source edges and Polo/Woven collar contours remain held. No pattern geometry changed.
+- **Verification:** focused projection/live coverage 16/16 at 100% statement/branch/function/line per changed production module; adjacent technical-flat tests 39/39; build passed with existing chunk-size advisory; Control Center 33/33; protected export/DXF identity tests 17/17; Chromium matrix 73 configurations/146 faces and overlay check completed; `git diff --check` passed. See packet for retained paths and details.
+- **Rendered acceptance:** eight defaults emitted and all eight were rejected on manual inspection as incomplete half-pattern assemblies with crossing lines; 138 other faces were withheld. The result fails V02 visual acceptance and V02 remains open. Polo/Woven collar splits need specific construction evidence with front/back landmarks.
+- **Decision:** maintainer authorized view-only fold-axis reflection for source-declared `onFold` roles only with explicit source axis, and supported face-specific landmarks/multiplicity only where construction evidence proves them. No cut geometry edits or inference. Recorded in `docs/PROJECT-DECISIONS.md`.
+- **Manual findings:** MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` until their applicable G04 rendered exit; MQF-015 remains for V03. Post-G17 deferrals remain unchanged.
+- **Elapsed time:** 46m45s through validated board exit evidence at 02:16:19 UTC; implementation 13m, focused verification/build/Control Center/protected exports 9m, browser/output inspection 12m, board/docs closeout 12m, external-agent waits 0m; maintainer-decision time about 30m overlapped with independent work.
+- **Next action:** Slice 280 source audit and bounded implementation from `docs/research/epic17/G04-V02-ON-FOLD-VIEW-METADATA-S280.md`; only source-proven view metadata may be added, while unsupported faces stay withheld.
+
+### Slice 278 — G04 V02 projected source geometry (complete)
+
+- **Goal / slice start:** 2026-09-30 01:10:48 UTC. Packet: `docs/research/epic17/G04-V02-PROJECTION-GEOMETRY-S278.md`.
+- **Git:** clean at S277 `23a11a4b38d65fb343cbee253e7cf539b3e44b66` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; S278 is uniquely reserved after history through 277.
+- **Board:** revision 421 at start; S278 start packet linked by validated command at revision 422; verified exit evidence `E-G04-S278-EXIT` linked at revision 423. EPIC-17 In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Blockers/non-goals:** no maintainer decision blocks this adapter. No static recipe mapping/live default switch, guessed interior split, pattern change, export change or V02 exit claim. The seven actual maps and their rendered review remain later boundaries.
+- **Delegation:** no safe disjoint ownership; this adapter touches shared geometry and POM identities. Codex owns it; external-agent waits expected 0m.
+- **Implementation:** `compileTechnicalFlatSourceGeometry` accepts an optional validated projection map. It emits only its exact face edge runs, keeps line endpoints and cubic controls exact (including reversed control order), stores ordered per-edge IDs in `FlatPathPrimitive.sourceEdgeIds`, and retains the role-outline ID used by anchored POMs. A visible held edge produces a source-specific issue and no projected primitives; intentionally hidden interior roles remain hidden with their existing notice. `validateTechnicalFlat` validates projected edge-source IDs. `technical-flat-options` propagates projection-map issue types. Calls without a projection map preserve the existing geometry path.
+- **Acceptance:** passed for the adapter boundary. All seven recipes at defaults and each declared numeric option min/max endpoint were drafted and run through explicit contract fixtures; complete mapped faces compile, visible holds withhold the face, and invalid coordinates/stale metadata fail closed. Live UI behavior did not switch to projection maps, and this is not V02 visual acceptance. No pattern, export or baseline changed.
+- **Verification:** `npm run coverage -- src/render/technical-flat-geometry.test.ts src/render/technical-flat.test.ts src/render/technical-flat-options.test.ts --coverage.include=src/render/technical-flat-geometry.ts --coverage.include=src/render/technical-flat.ts --coverage.include=src/render/technical-flat-options.ts` passed 24/24 with 100% statement, branch, function and line coverage for all three modules. The adjacent live/POM/option/geometry suite passed 37/37. `npm run build` passed TypeScript and Vite (existing chunk-size advisory). `npm run control-center:test` passed 33/33; protected export identity suites passed 17/17; `git diff --check` passed. A first build caught strict tuple casts and the option result's missing projection-issue union; both were corrected before the final passing build. An initial Control Center run caught a stale assertion for the previous slice's start comment; the board fixture now asserts the S278 packet link and the suite passes. No browser matrix was run because no production renderer call supplies a projection map yet.
+- **Manual findings:** MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` for the V02 rendered exit; MQF-015 remains assigned to V03. S278 adds no new findings scope; post-G17 deferrals remain intact.
+- **Blockers/risks:** no new maintainer decision blocks this adapter. S279 still must author source-backed maps for all seven recipes, connect them to the live renderer, and inspect actual browser output. Any unsupported visible run must continue to block that face.
+- **Next action:** refresh refs/history and prepare S279's packet for source-backed per-recipe face maps, live renderer integration and the full 146-face visual review; do not infer unsupported splits or seams.
+- **Elapsed time:** implementation 6m; focused verification and corrections 4m; build and adjacent-consumer/protected-output review 2m; board/docs closeout 2m; external-agent waits 0m; maintainer-decision time 0m (about 14m total from 01:10:48 to 01:24:24 UTC).
+
+### Slice 277 — G04 V02 projection-mapping contract (complete)
+
+- **Goal / slice start:** 2026-09-30 00:48:58 UTC. Packet: `docs/research/epic17/G04-V02-PROJECTION-MAPPING-S277.md`.
+- **Git:** clean start at S276 commit `85783a4422dc728a75b1783513781adb9f52989d` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; S277 is uniquely reserved after history through 276.
+- **Board:** revision 417 at start. The validated command layer linked the S277 packet and moved V02 from Blocked to In Progress at revision 420; verified exit evidence `E-G04-S277-EXIT` is linked at revision 421. EPIC-17 remains In Progress; V01 Done; V02 In Progress; V03 Backlog.
+- **Scope:** define strict G04-owned projection mapping metadata for exact face-visible source edge runs, source-bound split landmarks and role instances; validate same-draft/revision references and fail closed for unsupported mappings. This implements the source-to-view mapping already admitted in V01. No pattern coordinates or cut geometry change.
+- **Blockers:** no new maintainer decision is needed for this bounded metadata representation. Unsupported topology remains visibly held. If a valid mapping requires out-of-scope canonical pattern-source changes, stop and request direction. V03 receiver/profile rights are a later gate.
+- **Gates:** focused changed-area tests with 100% statement/branch/function/line coverage; TypeScript/Vite build; actual draft/topology validation; applicable protected export identity check; Control Center tests and diff check. Full repository/global coverage and integrated browser/Electron/output replay remain reserved for the settled Epic/PR candidate.
+- **Delegation:** no safe independent disjoint piece; Codex owns the shared mapping contract and fixtures. External-agent wait target 0m.
+- **Implementation:** `src/render/technical-flat-projection.ts` defines a versioned per-face projection map with logical role-instance IDs, explicit visible edge runs, and explicit held-edge reasons. Endpoint landmarks resolve by exact edge identity or an existing mark that matches an edge endpoint exactly. Every drafted edge must be accounted for once as a run or hold; treatment, face membership, roles, instances, revision and topology are validated. Stale, missing, duplicate, malformed, hidden-role output and unsupported interior splits return issues rather than guessed geometry. Pattern source geometry is unchanged.
+- **Acceptance:** the schema and validator are exercised for all seven admitted recipe mappings. Contract fixtures validate defaults and every declared numeric option min/max endpoint using actual drafted Blocks. All source edges are emitted as runs or recorded holds; shared roles keep one instance ID across faces; no arbitrary interior split is accepted. This is contract evidence only: recipe projection records are not yet authored and no rendered V02 view was changed or accepted.
+- **Verification:** focused `npm run coverage -- src/render/technical-flat-projection.test.ts --coverage.include=src/render/technical-flat-projection.ts` passed 8/8 with 100% statements, branches, functions and lines. `npm run build` passed TypeScript and Vite (existing large-chunk advisory). `npm run control-center:test` passed 33/33 after updating the state fixture. Protected output identity suites passed 17/17 (`src/export/regression.test.ts`, `src/quality/export-identity.test.ts`); their source, fixtures and baselines are unchanged. `git diff --check` passed. All-recipe default/endpoint source-topology checks were part of the focused projection tests. No browser matrix was rerun because the schema does not alter rendered output; S276's rejected Polo/Woven face output remains the visual blocker.
+- **Manual findings:** MQF-004–007, MQF-011 and MQF-012 remain `To be reviewed` for the later G04 V02 rendered exit; MQF-015 is assigned to V03. The projection metadata boundary creates no extra MQF scope and preserves the findings document's post-G17 deferrals.
+- **Blockers / risks:** no maintainer decision was needed to implement the admitted mapping scope. Existing source lacks some interior split landmarks; those source runs remain held until exact source support exists. If resolving the Polo/Woven gaps needs canonical pattern geometry outside G04, return with the precise gap before changing it. V03 receiver/profile rights remain gated.
+- **Next action:** refresh refs/history and open the S278 packet to author source-supported per-recipe face mappings and implement only partitions resolvable against exact pattern topology; retain visible holds wherever source support is missing.
+- **Elapsed time:** implementation/contract design 7m; focused verification and correction 5m; build/output/protected identity review 2m; board/docs closeout 2m; external-agent waits 0m; maintainer-decision time 0m (about 16m total from 00:48:58 to 01:04:45 UTC).
+
+### Slice 276 — G04 V02 face-specific component projection (complete; source decision pending)
+
+- **Goal / slice start:** 2026-09-29 23:56:03 UTC; define and implement only source-supported face-specific component contours and exact placements from current pattern marks/stitches. Packet: `docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md`.
+- **Git:** clean at S275 `29c6e40b964ca80811475a9cee4bf772eb8a580e` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; highest slice is 275 and S276 is reserved.
+- **Board:** canonical revision 413 before the validated start comment. EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog; S275 exit evidence is linked and the current estimate is 22–26 slices.
+- **Source finding:** `Piece.onFold` identifies a cut method, not finished face visibility, component instance count or per-face contour. The temporary mirror experiment passed its focused six-test 100%-coverage gate and production build, but manual Polo/Woven output review rejected it. `S276-browser/matrix.json` contains all 146 production Chromium requests; its 70 SVGs passed automated parser/layout/anchor checks, but the retained three representative screenshots remain visibly incoherent. The experiment was reverted; no production code lands.
+- **Result / acceptance:** S276 closes as a documentation-and-evidence boundary with V02 still In Progress. Automated option exercise passed (73 configurations, 32 option fields, 146 faces, zero console/page/request errors); visual acceptance failed. The existing 28 Woven-shirt back, 24 Trouser front and 24 Trouser back holds are unchanged. No cycle or garment geometry changed.
+- **Maintainer decision needed:** authorize explicit G04 mapping metadata for per-face visible edge runs, source-bound split landmarks and role-instance/symmetry rules without changing cut coordinates or protected exports; or require the canonical pattern sources to carry those landmarks/instance facts before projection. The exact evidence and rejected screenshots are in `docs/research/epic17/G04-V02-FACE-PROJECTION-S276.md` and `docs/research/epic17/S276-browser/`.
+- **Board / Git boundary:** canonical board revision 417 links `E-G04-S276-EXIT` to G04-V02 and moves that work item to `Blocked`; EPIC-17 remains In Progress. Slice 276 is the unique next commit after S275 `29c6e40b...`; refreshed `origin/main` `a5af5e13...` is an ancestor. S276 lands documentation/evidence only; the rejected source/test experiment is restored.
+- **Required gates:** the temporary geometry module reached 100% statement/branch/function/line coverage across six focused tests and `npm run build` passed, but that source was restored after visual rejection. S275's protected DXF/export identities therefore remain the latest applicable passing evidence. Control Center and diff checks are recorded after this documentation closeout; full global gates remain for the settled Epic/PR candidate.
+- **Delegation:** no safe disjoint low-risk work identified; external-agent waits 0m.
+- **Delegation:** no safe disjoint low-risk work identified; no external contributor planned.
+- **Next action:** record the maintainer's source-model choice in `docs/PROJECT-DECISIONS.md`, then admit the next unique slice with a packet for the selected face-projection contract. Keep G04-V02 blocked until actual rendered silhouettes pass manual review and all remaining cycles have exact supported placements.
+- **Time:** source inspection/mapping and temporary implementation ~14m; focused verification, build, restored-baseline regressions, full Chromium matrix and manual review ~20m; documentation/validated-board closeout ~10m; agent waits 0m; maintainer-decision time 0m; total approximately 44m.
+
+### Slice 275 — G04 V02 assembly correction (complete; V02 remains open)
+
+- **Goal / slice start:** 2026-09-29 23:05:31 UTC; bounded source-supported rigid assembly correction and rendered review. The packet is `docs/research/epic17/G04-V02-ASSEMBLY-CORRECTION-S275.md`.
+- **Git:** started clean at S274 `884a437768633d91f7b77c94c7158cc42dbead83` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor; S275 is unique.
+- **Implementation:** assembly mapping now uses exact cumulative interface boundaries and the correct adjoining role at shared boundaries. `EdgeRef.reversed` records traversal direction; the Trouser waist path follows a single authored perimeter across its four leg pieces. Draft coordinates, curves and lengths are unchanged.
+- **Rendered evidence:** production Chromium completed 73 configurations / 146 faces across all seven recipes, all 32 option fields at min/max and two existing combined fixtures. 70 SVGs passed parser, revision, measured text/notice and POM anchor/leader checks; 76 remain visibly held (28 Woven-shirt back, 24 Trouser front, 24 Trouser back). Browser/page/remote-request errors are zero. Retained Polo front/back and Woven-shirt front screenshots remain visibly crossed, so those accepted SVGs are not professionally coherent and V02 remains open.
+- **Verification:** changed `technical-flat-assembly.ts`, `trouser.ts`, and `stitch.ts` passed 72 focused tests at 100% statement, branch, function and line coverage; `npm run build` passed with the existing Vite large-chunk advisory. Protected export identity and legacy DXF/tech-pack regression group passed 69/69. Control Center and `git diff --check` are completed after final board closeout below. Full repository coverage remains reserved for the settled Epic/PR candidate.
+- **Acceptance/blockers:** exact interface subdivision/direction behavior and fail-closed handling passed. The source cycles remain unresolved because current construction data cannot justify a rigid place for eased multi-role joins, both Trouser front fly edges to one shield, or the full waistband on both front/back views. Manual output review also found full component outlines are repeated per face and cross on Polo/Woven-shirt. These are V02 blockers; no geometry, validator threshold or export baseline was changed to bypass them.
+- **Board:** started at revision 407 and S275 start comment advanced to 408. Final rendered-output evidence is linked to G04-V02 and EPIC-17 through validated commands; the Epic estimate is revised to 22–26 slices.
+- **Delegation:** no safe disjoint low-risk work; external-agent wait 0m.
+- **Next gated action:** Slice 276 must implement and verify face-specific source-to-view component visibility from existing marks/stitches and reconcile only joins supported by current topology. If required source semantics are absent, preserve visible holds and bring the specific decision to the V02 exit boundary. V02 review moves to S277.
+- **Time:** implementation/source investigation ~22m; focused tests, build, full Chromium matrix and manual output review ~23m; external-agent waits 0m; maintainer-decision time 0m. Total approximately 45m from the 23:05:31 UTC start.
+
+### Slice 274 — G04 V02 rendered option matrix (complete)
+
+- **Goal start / boundary:** 2026-09-29 21:38:02 UTC. Render all seven recipe defaults and each of 32 declared option fields at min/max (64 endpoints) through production Chromium, plus the existing Woven-shirt and Trouser valid combined fixtures; review mapped MQF findings.
+- **Git:** started clean at S273 `fe173d7bbe89b00de646e35cd4fc8cc2d730fcad` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. S274 was unique after branch history review.
+- **Landing:** one commit, `Slice 274: verify rendered technical-flat options`, contains the packet, 146-face matrix, overlay proof, context/state/architecture/admission updates, and validated board revision 407. No other S274 commit or fixup was created.
+- **Rendered output:** `docs/research/epic17/S274-browser/matrix.json` retains 73 configurations and 146 face requests. 70 SVGs passed parsing, same-entity revision, measured labels/notices, and POM target/leader checks; 76 views remain withheld with visible existing stitch-placement guidance (28 Woven-shirt backs, 24 Trouser fronts, 24 Trouser backs). All defaults and every single-option endpoint were exercised. A separate local Style UI trace confirms same-revision Tee front artwork and front/back colorway overlay; its local source asset is shown as a placement boundary, not embedded image content.
+- **Acceptance/blockers:** endpoint exercise, topology/anchor checks, and representative local overlay proof passed. V02 output acceptance remains pending: Woven-shirt backs and both Trouser faces fail closed; accepted Polo/Woven component outlines visibly cross and are not coherent professional flats. No geometry, validator, or DXF was changed to hide those results. No physical, qualified-designer, factory, or production claim is made.
+- **Manual findings:** MQF-004/005/006/007/011/012 are partial; MQF-015 is not applicable until V03. The findings register remains **To be reviewed** for the G04 exit and post-G17 deferrals remain intact. Detailed mapping is in `docs/research/epic17/G04-V02-OPTION-MATRIX-S274.md`.
+- **Verification:** final full Chromium matrix passed 146 face requests and 32 recipe-scoped fields with no browser/page/request errors; overlay Chromium proof passed. Focused protected DXF/export and Control Center results are recorded in the packet. No product source changed, so production coverage/build are unaffected. `git diff --check` passed.
+- **Board:** validated start comment at revision 404. The S274 evidence record links this report to EPIC-17 and G04-V02; the Epic description reflects the revised 21–25-slice estimate. Board remains EPIC-17 In Progress, V01 Done, V02 In Progress, V03 Backlog.
+- **Next gated action:** reserve S275 after refreshing `origin/main` and history. Its packet must bound source-topology fixes for the named Woven-shirt/Trouser stitch conflicts and require the corrected full rendered matrix before V02 can close. No cycle bypass or misleading output is allowed.
+- **Time:** from the 21:38:02 UTC start, estimated implementation/harness and durable closeout 35m; focused Chromium verification/output review, overlay proof and focused regression gates 45m; external-agent waits 0m; maintainer-decision time 0m. Total elapsed approximately 1h 21m.
 Current directive: EPIC-14/G01, EPIC-15/G02, and EPIC-16/G03 are closed with
 accepted digital exit evidence. EPIC-16/G03 completed the admitted local-first
 scope under `docs/planning/EPIC-16-ADMISSION.md`; M01, M02, M03, final review,
 merge, board closure, and automatic deployment are complete. GitHub Actions run
 `36535708194` succeeded for main commit
 `2525993ceac31d426fbd5286c14d5011169b79a5`; the configured Cloudflare Pages
-site `https://infinidrip-preview.pages.dev/` returned HTTP 200. EPIC-17 remains
-in Backlog on canonical board revision 370 and must not begin until the
-maintainer explicitly asks to begin it. EPIC-18 through EPIC-30 remain
-Backlog as well.
+site `https://infinidrip-preview.pages.dev/` returned HTTP 200.
+EPIC-17/G04 was explicitly admitted by the maintainer on 2026-09-29 from
+verified `origin/main` commit `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`.
+Slice 261 records admission as commit
+`89d7cf780d155bfb4331371000f2b166b34bad35`, links `docs/planning/EPIC-17-ADMISSION.md`, and
+transitions the canonical board through its validated command layer. Slice 262
+records the current source inventory and front/back mapping candidates for all
+seven recipes in `docs/research/epic17/G04-V01-SOURCE-INVENTORY.md`. Slice 263
+adds the versioned primitive contract and Slice 264 completes explicit
+role-to-face/source mapping in `src/render/technical-flat-mapping.ts`. V01 is
+complete; Slice 264 landed as `ef000b292c19a69462d4037a42b28740a9513532` and
+V02 is In Progress. Slice 265 landed as
+`01a1c4b637615eb7ce9f3133626e9b84abf8e431`; Slice 266 added exact
+revision-bound source geometry, and Slice 270 added its source-driven rigid
+sewn-role assembly solver with
+face-specific multi-edge and split-interval stitch sampling. All seven default
+recipe pairs return mapped visible-role transforms; a contradictory trouser
+back waistband cycle remains an explicit construction issue. Geometry is not
+scaled. Slice 271 adds the centimeter-sized SVG renderer, active-browser font
+metrics and visible source notices. Slice 272 integrates live front/back views
+with same-draft overlays/POMs, a readable width-fit canvas and visible blocker
+guidance. Real Chromium captures confirm the selected faces bind the same live
+draft token. Slice 273 adds actual-browser-measured deterministic label
+reflow and metric-derived notice-panel padding. Production Chromium now renders
+and parses eleven of fourteen default faces without text collisions; Woven-shirt
+back and both Trouser faces remain fail-closed with existing source
+assembly-cycle guidance. The verified `E-G04-S273-EXIT` evidence is linked to
+EPIC-17 and G04-V02 by validated commands at board revision 403. V02 remains In
+Progress pending supported-option readability and mapped manual-output review.
+Slice 272 landed as `39f943495857c008d78b3f0d4bbb3194c6160009`; Slice 273's exact
+commit SHA is recorded at the next slice start. It changes no pattern geometry,
+POM anchors or construction-source mapping.
+The current 20–24-slice estimate and revised boundary slots are in
+the admission packet. The verified upstream G01/G02/G03 exits are recorded
+there as well.
+EPIC-18 through EPIC-30 remain Backlog.
+
+### Slice 271 — layered SVG rendering (start record)
+
+- **Goal start:** 2026-09-29 17:41:11 UTC. Primary usage was at 35%; weekly usage at 62%. The worktree is clean on `codex/epic-17-g04`; `origin/main` was refreshed at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and is an ancestor. S270 is `2dc315730a1257a42eac8deee34436f72c84124e`; highest assigned active slice is 270, so 271 is reserved.
+- **Scope:** render the validated same-revision technical-flat model as deterministic layered SVG, including source geometry, marks, construction labels, artwork, callouts and visible notices. Use actual browser font metrics to report text bounds and block geometry/text collisions. Keep all output geometry in source centimetres; no scaling or inferred geometry. No live app entry in this slice.
+- **Exit gates:** focused changed-code tests at 100% statement/branch/function/line; parse and inspect emitted SVG structure, layer order, source/revision identity, geometry and labels; browser-render representative seven-recipe front/back output and capture metrics/notices; build; Control Center command-layer evidence; protected export identity and generic DXF checks; `git diff --check`; update architecture, context, admission packet, Project State and board at the slice exit.
+- **Blocking decisions:** none for rendering. The known trouser back assembly cycle remains an actionable rendered notice. The exact live UI refresh binding is S272. V03 receiver/profile rights remain an independent later blocker.
+- **Delegation:** no safe disjoint renderer work; no external agent used.
+- **Next action:** implement the source/revision-checked SVG renderer, integrating browser-measured typography without mutating pattern geometry.
+
+### Slice 271 — G04 V02 layered SVG rendering (complete)
+
+- **Result:** `src/render/technical-flat-svg.ts` now emits fixed-order semantic SVG layers with stable source/revision metadata, physical centimeter dimensions, same-scale active-browser SVG font metrics, measured label bounds and a visible notice panel. Artwork is clearly shown as a placement boundary only when image bytes are absent. Invalid revisions, stale colorways, unmeasurable metrics and measured label collisions withhold the SVG.
+- **Acceptance:** parsed/browser fixture verifies geometry, layers, source/revision identity, colorway, POM target, marks, notice visibility and browser text bounds. The renderer blocks actual label collisions, labels crossing POM leaders and labels over artwork boundaries. The all-recipe default browser matrix renders eight of 14 faces; six are blocked by genuine text collisions in Polo, Woven-shirt and Trouser. This is a safe refusal and a concrete S273 reflow gate; V02 remains incomplete.
+- **Git:** started at S270 `2dc315730a1257a42eac8deee34436f72c84124e`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Slice 271 landed as `1ded7df0e650c0df20bf2ca2c5a7878e96c4c7d0`.
+- **Verification:** `npm run coverage -- src/render/technical-flat-svg.test.ts --coverage.include=src/render/technical-flat-svg.ts` passes 10/10 at 100% statement, branch, function and line coverage; `npx tsc --noEmit` and `npm run build` pass. Browser sample label bounds match SVG `getBBox()` within 0.008 cm. The seven-recipe matrix covers all 14 default faces, with eight parsed views and six `TEXT_COLLISION` blocks. `npm run control-center:test` passes 33/33; protected export/DXF checks pass 24/24. No export, generic DXF, or protected identity source changed.
+- **Evidence:** detailed scope, verification, blockers, next action and time breakdown are in `docs/research/epic17/G04-V02-SVG-S271.md`. The screenshot/SVG and measured record are `S271-browser-sample.png`, `.svg`, `.json`; the full default matrix is `S271-browser-recipe-matrix.json`.
+- **Board:** validated Control Center linked `E-G04-S271-EXIT` to EPIC-17 and G04-V02 at revision 399; V02 stays In Progress. The estimate is 20–24 slices after the browser review exposed a six-face default label-reflow boundary. V01 remains Done and V03 remains Backlog.
+- **Manual findings:** MQF-004–007, MQF-011, MQF-012 and MQF-015 remain scheduled for the applicable rendered-output review at S274/S275. No finding was used to expand scope.
+- **Next action:** integrate live front/back rendering against active pattern/options/revision state in Slice 272; surface all assembly and renderer issues. Reflow all default-label collisions in Slice 273.
+- **Elapsed-time breakdown:** implementation/repair 13m; focused tests/coverage/type verification 8m; production build 3m; browser matrix/output review 7m; documentation/board 9m; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 272 — live front/back technical-flat integration (start record)
+
+- **Goal start:** 2026-09-29 18:27:23 UTC. S271 landed as `1ded7df0e650c0df20bf2ca2c5a7878e96c4c7d0`. Refreshed `origin/main` is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor. Board revision 399 retains G04-V02 In Progress; highest active slice is 271, so 272 is reserved.
+- **Scope:** add a compact advanced canvas view that composes front/back technical flats from the exact current drafted block, options, revision token, saved overlays and POMs. Transform source geometry by the existing sewn-role placements; provide explicit front/back selection. Surface mapping, option, assembly and measured-renderer issues in the view, and withhold drawings that cannot be assembled or are unreadable. Keep the existing pattern view and all exports unchanged.
+- **Acceptance:** all generated geometry, overlays and POM anchors on both faces share one block and revision token; supported options are validated without fallback or clamping; visible components use source-supported rigid role transforms; an assembly issue or renderer collision produces clear actionable status rather than a partial/misleading drawing; the current live flat updates after option, pattern, recipe and appearance changes. Actual browser review covers both faces and verifies source revision and issue visibility.
+- **Required gates:** focused tests at 100% statement/branch/function/line for changed production code; TypeScript and Vite build; mounted UI tests for live selection, refresh, stale/missing revision, validation/assembly/render failures and face switching; production-browser evidence; protected export identity and generic DXF checks; canonical board evidence through the validated command layer; `git diff --check`; update Architecture, Context Index, admission, Project State and V02 evidence.
+- **Blocking decisions:** none for a local live-draft view. Use a stable live draft token to bind the exact synchronous pattern snapshot; do not label it as a saved or externally accepted style revision. S273 separately owns font-metric label reflow for dense default recipe faces. Receiver/profile rights remain gated for V03.
+- **Delegation:** geometry, validation, POM and UI state share one source snapshot; no safe disjoint task identified and no external agent used.
+- **Next action:** add the live front/back view to the existing advanced canvas menu and compose its output from the selected exact pattern block.
+
+### Slice 272 — G04 V02 live technical-flat integration (complete)
+
+The existing advanced canvas now renders the selected front or back from one
+active recipe, exact pattern block, validated raw options, saved surface
+placements, selected fabric appearance, POM source and live-draft revision
+token. It states clearly that this token identifies a synchronous current
+draft view and is not saved style history. Pattern edits refresh the output;
+switching faces preserves the token. Invalid options, unavailable sizes,
+assembly problems and unreadable SVG output show status guidance and withhold
+the incomplete flat.
+
+Actual browser inspection exposed two presentation defects before acceptance:
+dark technical strokes/text disappeared on the dark app canvas, and a height-fit
+scaled a tall flat's labels to only a few pixels. SVG output now includes a
+white technical sheet and uses the current colorway as a translucent fabric
+tint. The flat canvas fits to the available width and scrolls tall output
+vertically. Chromium at 1440×2600 rendered a 1006 px wide Tee front and back
+with the same `live-draft:tee:0:0` identity and zero console/page errors; front
+label bounding boxes measured about 10 px at 100% canvas fit. The retained app
+captures and browser DOM SVGs are in
+`docs/research/epic17/G04-V02-LIVE-S272.md` and adjacent artifacts.
+
+The live pipeline has 5 focused tests and 100% changed-module coverage; the
+panel has 6 tests and 100% coverage; SVG renderer has 10 tests and 100% coverage.
+The mounted live integration test passes for face switching, revision binding,
+refresh after pattern edits, and visible Polo blocking. `npx tsc --noEmit` and
+`npm run build` pass with the repository's existing Vite large-chunk advisory.
+The protected DXF/export regression and identity group passes 24/24. No generic
+DXF, export source, or protected baseline changed. `git diff --check` passes.
+Full repository/global coverage and integrated browser/Electron/output replay
+remain required at the settled Epic/PR boundary.
+
+The sources report known limits instead of asserting completeness. Role
+assembly remains a rigid placement aid and does not turn source pieces into a
+qualified finished silhouette. Unmapped construction and POM sources remain
+visible notices, the default Polo/Woven-shirt/Trouser matrices are still
+withheld for measured text collisions, and the back Tee has table-only POMs
+without source anchors. No physical fit, sewability, factory acceptance or CAD
+compatibility claim is made. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain
+scheduled for their mapped rendered-output review in S274/S275; they do not
+authorize additional scope.
+
+Canonical board revision 400 links verified rendered-output evidence
+`E-G04-S272-EXIT` to EPIC-17/G04-V02. G04 V02 stays In Progress and V03
+remains Backlog. S272 began at 2026-09-29 18:27:23 UTC and ended at 20:55 UTC
+(about 2h 28m): implementation and visual correction 93m; focused
+tests/coverage and debugging 28m; type/build, protected-output and board-test
+verification 4m; browser review and captures 15m; documentation and board exit
+8m; external-agent waits 0m; maintainer-decision time 0m. The S272 landed
+commit is recorded from the verified history at the next slice start.
+
+**Next action:** refresh refs, active slice history and the board for Slice 273;
+solve the six measured default-label collisions in Polo, Woven-shirt and
+Trouser while retaining the renderer's no-overlap/no-partial-output rule.
+
+### Slice 273 — G04 V02 measured label reflow (start record)
+
+Started at 2026-09-29 20:57:56 UTC. Slice 272 landed as
+`39f943495857c008d78b3f0d4bbb3194c6160009`. Refreshed `origin/main` remains
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor; the branch is clean
+on `codex/epic-17-g04`. S273 is the unique next slice after checking branch
+history through 272. The canonical board began at revision 400, with V02
+In Progress and verified `E-G04-S272-EXIT`. The primary usage window was 18%
+used (82% remaining), ordinary usage allowed; weekly was 69% used and
+informational.
+
+This slice will place construction/POM labels on actual text bounds for all
+seven recipes' default front/back views. It will preserve exact pattern paths,
+anchor points, leader targets, semantic layers, source/revision IDs, and
+visible notices. Full viewport-level label reflow for every supported option
+remains S274. No unresolved decision blocks the default-face renderer work; no
+safe separate delegation exists because placement, collision detection and
+browser proof are coupled. Required focused coverage, TypeScript/build,
+14-face browser evidence, mounted integration, protected outputs, validated
+board evidence and documentation gates are in
+`docs/research/epic17/G04-V02-LABEL-REFLOW-S273.md`.
+
+**Next action:** inspect the current actual-metric collision boxes and renderer
+placement algorithm, then add measured candidate placement for the six blocked
+default faces without suppressing unresolved construction notices.
+
+### Slice 273 — G04 V02 measured label reflow (complete)
+
+Slice 273 uses the same-browser SVG text metrics to place label boxes through a
+deterministic 48-ring search. It keeps a 0.08 cm gap from other labels, sampled
+path strokes, artwork bounds and POM leaders. A callout keeps its exact source
+anchor and geometry target; only its text and leader endpoint move. If no
+measured position fits, the complete SVG stays withheld with a specific
+collision issue.
+
+The production Chromium verifier exercised all seven recipes and both faces at
+1440 × 3000. Eleven faces rendered and parsed with one live-draft revision per
+recipe pair where both faces were available. Browser glyph bounds do not
+overlap each other and remain inside the SVG frame; notice text remains inside
+the notice panel and SVG frame; POM leader endpoints equal their represented
+label positions. Three faces remain correctly withheld: Woven-shirt back has
+an inconsistent `Woven sleeve-cap ease` cycle, Trouser front conflicts at
+`Right front fly ↔ shield`, and Trouser back conflicts at the four-leg
+waistband cycle. Their browser captures preserve the actionable guidance.
+Rendered screenshots/SVGs and the all-face matrix are retained in
+`docs/research/epic17/S273-browser/`.
+
+The renderer-focused suite passed 13/13 with 100% statement, branch, function
+and line coverage. Mounted live flat smoke plus renderer/live compiler checks
+passed 19 tests (268 unrelated app tests skipped). `npm run build` passed with
+the existing Vite bundle-size advisory. The protected export/DXF/tech-pack
+group passed 24/24. No export/DXF implementation or byte identity changed.
+Visual review confirms readable separated annotations and visible source
+notices. The current rigid component assembly still does not create qualified
+finished garment silhouettes; no physical-fit or factory-acceptance evidence
+is implied. Full source geometry/review correction for the named assembly
+cycles is separate from this label-layout slice.
+
+Board revision 403 links `E-G04-S273-EXIT` to EPIC-17 and G04-V02. EPIC-17
+remains In Progress, G04-V02 remains In Progress, and V03 remains Backlog.
+Supported-option checks and full mapped MQF reviews remain S274/S275. S273
+began at 20:57:56 UTC and reached its verified output boundary at about 21:32
+UTC (about 34m): implementation and changed tests 8m; focused verification 8m;
+production browser matrix and visual review 7m; durable documentation and
+board evidence 11m; external-agent waits 0m; maintainer-decision time 0m. Phase
+times are rounded estimates from the retained run chronology.
+
+**Next action:** refresh refs/history and board state, then begin Slice 274's
+supported-option topology/readability sweep and applicable mapped manual
+findings review.
+
+### Slice 265 — G04 V02 geometry basis (complete)
+
+Started at 2026-09-29 15:23:16 UTC from S264 commit
+`ef000b292c19a69462d4037a42b28740a9513532`; highest assigned slice was 264.
+The admitted V02 sub-slice plan is recorded in
+`docs/planning/EPIC-17-ADMISSION.md`. The canonical board is revision 387 with
+G04-V02 In Progress. Slice 265 adds rigid translation, rotation and local-axis
+reflection for path, circle, text, artwork and callout primitives in
+`src/render/technical-flat-transform.ts`. It preserves cubic controls, source
+and revision identity, authored artwork dimensions and layer order, and rejects
+scaling, malformed inputs and coordinate overflow. Focused coverage passes 7/7
+with 100% statement, branch, function and line coverage; `npm run build` passes
+with the existing Vite chunk advisory; Control Center tests pass 33/33. Fixtures
+preserve drafted edge lengths for every mapped role across all seven default
+recipes. These are geometric fixtures, not live rendered flats. Board revision
+388 links verified evidence `E-G04-S265-EXIT` to G04-V02. Next: convert mapped
+block outlines and construction marks in Slice 266. Elapsed time: implementation
+8m; focused verification and repairs 7m; build 0m 40s; board/documentation exit
+3m 30s; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 266 — G04 V02 source geometry (start record)
+
+Started at 2026-09-29 15:37:14 UTC from S265 commit
+`01a1c4b637615eb7ce9f3133626e9b84abf8e431`; highest assigned slice was 265.
+`origin/main` at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor and
+the canonical board is revision 388 with G04-V02 In Progress. This slice will
+extract mapped role outlines, declared dart legs and construction marks with
+their exact source geometry and revision. The output stays component-local;
+later assembly and rendering determine presentation. Required focused 100%
+coverage, build, all-seven-recipe drafted fixtures, board evidence and export
+identity gates are recorded in the admission packet. No blocking decision; no
+safe delegated ownership.
+
+### Slice 266 — G04 V02 source geometry (complete)
+
+`src/render/technical-flat-geometry.ts` compiles mapped role outlines into
+exact line/cubic source subpaths, emits declared dart legs and construction
+marks, and binds each primitive to its source role/mark and current revision.
+Point marks preserve kind and coordinate without an assumed radius; line marks
+retain kind, label and annotation role. Internal pieces stay hidden with an
+explicit notice, and stitch relations are not drawn as visible seams. Focused
+coverage passes 20/20 with 100% statement, branch, function and line coverage
+across the compiler, primitive validator and rigid transform. The TypeScript/
+Vite build passes with the existing large-chunk advisory. Fixtures draft all
+seven recipes at defaults and each declared numeric option's min/max endpoint,
+checking both mapped faces. This is source geometry evidence, not an assembled
+or rendered flat. Board revision 389 links verified evidence
+`E-G04-S266-EXIT` to G04-V02. Next: resolve supported option topology and
+construction-detail display rules in Slice 267. Elapsed time: implementation
+7m; focused verification and repairs 5m; build 0m 18s; documentation/board
+exit 3m; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 267 — G04 V02 option/topology validation (start record)
+
+Started at 2026-09-29 15:57:52 UTC from S266 commit
+`3a6d7ec3431bef252486eda8a903fbc3b2d8ae3f`; highest assigned slice was 266.
+`origin/main` at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+the canonical board is revision 389 with G04-V02 In Progress. This slice
+validates supplied option keys, numeric ranges and declared increments before
+drafting, then checks actual role, stitch and geometry topology for both faces.
+Invalid supplied values must remain actionable errors instead of falling
+through recipe resolver defaults. Required focused 100% coverage, build,
+all-recipe option-boundary drafts and board evidence are in the admission
+packet. No blocking decision or safe delegated work.
+
+### Slice 267 — G04 V02 option/topology validation (complete)
+
+`src/render/technical-flat-options.ts` validates raw keys, finite numeric
+values, declared ranges and increments before recipe draft functions run, so
+their fallback behavior cannot hide an invalid supplied option. Omitted
+controls use declared defaults. Valid values draft both front and back and must
+pass actual role, stitch, POM-anchor and source-geometry checks before either
+face is returned. Invalid topology or geometry returns actionable issues and
+no partial face result. Focused coverage passes 6/6 with 100% statement,
+branch, function and line coverage. `npm run build` passes with the existing
+Vite chunk advisory; `npm run control-center:test` passes 33/33. Draft fixtures
+exercise all seven recipes at defaults and each declared option min/max one at
+a time, plus a combined valid woven-shirt configuration and malformed/range/
+step/topology/geometry failures. Board revision 390 links verified evidence
+`E-G04-S267-EXIT`. No live rendering exists yet; MQF reviews remain at the later
+V02 output gate. Next: bind applicable artwork and color presentation overlays
+to visible source geometry in Slice 268. Elapsed time: implementation 4m;
+focused verification and repair 2m; TypeScript/Vite build 0m 30s; board and
+documentation exit 2m 30s; external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 268 — G04 V02 artwork/colorway overlays (complete)
+
+Started at 2026-09-29 16:08:04 UTC from S267 commit
+`1577102a02f189c26bb504e3cb32d06787c576bd`; highest assigned slice was 267.
+`origin/main` at `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+the canonical board is revision 391 with G04-V02 In Progress. This slice maps
+existing saved artwork onto the exact visible role faces using base-size cut
+frames from the same draft and carries selected fabric color, texture and shine
+as revision-bound presentation metadata. Each face retains placement source,
+asset ID, dimensions, transform, target role and z-order. Hidden interior
+targets, missing asset IDs, out-of-frame artwork and overlapping placements
+remain explicit notices; invalid identity, colorway, role, frame, placement or
+pattern geometry returns issues without a partial overlay pair. The compiler
+does not resolve asset bytes or render appearance. Focused coverage passes 7/7
+with 100% statement, branch, function and line coverage; the TypeScript/Vite
+build passes with the existing large-chunk advisory, and the Control Center
+suite passes 33/33. Seven-recipe placements and a validator-to-overlay
+revision smoke passed. No generic DXF or export baseline changed. Canonical
+board revision 391 links `E-G04-S268-EXIT` to G04-V02; V02 remains In Progress.
+Actual output readability/color rendering and all mapped MQF checks remain for
+the integrated renderer. Next: anchor and lay out POM callouts in Slice 269.
+Elapsed time: implementation 6m; focused verification and repairs 5m; build
+2m; board/documentation exit 2m; export-identity verification 1m;
+external-agent waits 0m; maintainer-decision time 0m.
+
+### Slice 269 — G04 V02 POM callout placement (complete)
+
+Started at 2026-09-29 16:20:01 UTC from S268's verified tree; highest assigned
+slice was 268; S268 landed as `566d4a8302dee21b7cac808bac6229e509b556cf`.
+The refreshed `origin/main` at
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor, and the
+canonical board began at revision 391 with G04-V02 In Progress. The new
+`src/render/technical-flat-poms.ts` evaluates existing POM measures and
+front-only anchor methods against the same drafted Block. Every emitted
+callout targets the exact front outline primitive in that revision, stores the
+anchor at a real source vertex, includes the existing POM label/value, and uses
+source-coordinate leader placement. Unsupported and front-only back POMs,
+table-only measurements and failures are explicit. Label boxes and leader
+crossings are checked; a crowded set returns no partial callout array and a
+correction message. Focused coverage passes 8/8 with 100% statement, branch,
+function and line coverage. The TypeScript/Vite build passes with the existing
+large-chunk advisory. Fixtures validate each recipe's declared anchor count and
+geometry/revision relationship, same-anchor fanout, collision/reflow, table-
+only and back-view notices, malformed methods, and invalid/missing anchors.
+Actual font metrics remain a rendered-output gate because this model uses a
+provisional character-width estimate. Canonical board revision 392 links
+`E-G04-S269-EXIT` to G04-V02. No generic DXF code or protected export identity
+changed. Next: integrate source geometry, overlays and POM callouts into the
+existing product view with actual SVG layout in Slice 271.
+
+Elapsed time: implementation 8m; focused verification and repairs 5m; build
+2m; board/documentation exit 2m; external-agent waits 0m; maintainer-decision
+time 0m. The board regression was first run before S269 evidence existed and
+correctly failed that new assertion; after the validated evidence command,
+the complete Control Center suite passed 33/33.
+
+### Slice 270 — G04 V02 sewn-role assembly map (start record)
+
+Started at 2026-09-29 16:37:02 UTC from S269's verified working tree; highest
+assigned slice was 269. `origin/main` remains
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`, an ancestor of the branch, and the
+canonical board is revision 392 with G04-V02 In Progress. After reviewing the
+seven-recipe stitch topologies, this slice is narrowed to the construction
+placement core needed before rendering: sample ordered multi-edge interfaces,
+align source endpoints with rigid transforms, handle face-specific halves and
+one-to-many waistband joins, allow declared ease, and report malformed,
+unplaceable, residual or contradictory construction rather than scaling or
+guessing. Hidden pieces may support placement but cannot enter the visible
+transform result. The live renderer/UI and actual font/readability checks move
+to S271–272. Required focused 100% coverage, build, default all-recipe drafted
+view-pair fixtures, board evidence and protected export checks apply. No
+blocking product decision; no safe disjoint work identified because interface
+mapping and placement semantics are one contract.
+
+### Slice 270 — G04 V02 sewn-role assembly map (complete)
+
+`src/render/technical-flat-assembly.ts` now samples ordered `Block.stitches`
+interfaces by face and solves rigid role translations/rotations from source
+endpoint pairs. It handles curve edges, face-specific regions of multi-edge
+sleeve joins, declared ease and one-to-many waistband joins without scaling
+source geometry. Hidden mapped pattern roles can support the solve but are
+omitted from returned exterior transforms. Missing/incompatible joins,
+unplaced visible roles, endpoint residuals over 0.25 cm and contradictory
+cycles produce explicit issues. Default front/back drafts for all seven
+recipes return finite transforms for mapped visible roles; the trouser back
+waistband cycle remains flagged and must be reviewed in the rendered view.
+Source-geometry assertions confirm the skirt's front and back waist edges meet
+the waistband's shared midpoint. Residual seam endpoints remain construction
+review notices; the solver does not turn component outlines into a finished
+outer silhouette. This is drafted transformation evidence, not a live rendered
+flat, so the actual font and MQF review remains pending. An initial role-
+presence fixture failed to catch an interface offset defect; point-level tests
+exposed and corrected it before this boundary's final gates.
+
+Focused coverage passes 8/8 with 100% statement, branch, function and line
+coverage. `npm run build` passes with the existing Vite bundle advisory;
+`npm run control-center:test` passes 33/33; protected export/DXF checks pass
+24/24, including byte-identity cases; `git diff --check` passes. Canonical
+board revision 395 links `E-G04-S270-EXIT` to G04-V02 and records the revised
+19–23-slice estimate. The detailed boundary and limitations are in
+`docs/research/epic17/G04-V02-ASSEMBLY-S270.md`; V01 remains Done, V02 remains
+In Progress and V03 remains Backlog. The next action is layered SVG rendering
+with actual font metrics in Slice 271, followed by narrow UI integration in
+Slice 272. Elapsed time: implementation 33m; focused verification/repair 11m;
+build 2m; Control Center/export gates 3m; documentation/board 12m; external-
+agent waits 0m; maintainer-decision time 0m.
+
+### Slice 262 — G04 V01 source inventory (complete)
+
+Started at 2026-09-29 14:45:09 UTC from admission commit
+`89d7cf780d155bfb4331371000f2b166b34bad35`; highest assigned slice at start was
+261. Inventory records existing pattern outlines, stitch relationships,
+construction marks, recipe options, artwork placements and POM anchors, then
+maps front/back candidates for Tee, Darted tee, Tank, Polo, Woven shirt, Skirt
+and Trouser. It distinguishes current source data from missing visibility,
+topstitch, pleat, finish and trim semantics. No product code changed. Canonical
+board revision 382 has G04-V01 In Progress. `npm run control-center:test`
+passed 33/33 after its status regression was updated. The next action is the
+versioned primitive/source-reference model under V01. Elapsed time: inventory
+implementation and source review 5m 02s; focused verification 1m 20s; external
+agent waits 0m; maintainer-decision time 0m.
+
+### Slice 264 — G04 V01 recipe source mapping (complete)
+
+Started at 2026-09-29 15:05:07 UTC from S263 commit
+`d005a81898c6ccecadbf16db2793585e3097c3ca`; highest assigned slice at start was
+263. `src/render/technical-flat-mapping.ts` explicitly maps shell, visible
+overlay and hidden interior roles for each face of Tee, Darted tee, Tank, Polo,
+Woven shirt, Skirt and Trouser. It traces stitches, pattern marks, darts,
+anchored/table-only POMs and artwork placements, checking exact block topology,
+stitch references, POM target roles and artwork roles. All declared numeric
+option minima and maxima were drafted individually from defaults and retained
+the mapped topology. Missing topstitch/pleat data and unresolved stitch-line
+visibility remain explicit notices/status, not guessed artwork. The mapping
+record is `docs/research/epic17/G04-V01-MAPPING-S264.md`. Focused mapping tests
+pass 10/10 with 100% statement, branch, function and line coverage; final
+TypeScript/Vite build passes. Canonical board revision 386 links
+`E-G04-S264-EXIT`, marks V01 Done, and V02 Ready. Manual MQF review is deferred
+to V02 because this slice produced no rendered output. Next: implement V02
+source geometry transforms and actual vector flats. Elapsed time: mapping
+implementation 9m 00s; focused verification and repairs 5m 00s; board transition
+and regression correction 3m 00s; external-agent waits 0m; maintainer-decision
+time 0m.
+
+### Slice 263 — G04 V01 technical-flat primitive contract (complete)
+
+Started at 2026-09-29 14:51:41 UTC on S262 and landed as
+`d005a81898c6ccecadbf16db2793585e3097c3ca`. Added a versioned `FRONT_FLAT` /
+`BACK_FLAT` view model, typed path/circle/text/artwork/callout primitives,
+centimetre coordinates, stable semantic IDs, explicit source classes and
+revision references, a shared bottom-to-top layer order, artwork transforms,
+and unresolved construction notices. Validation rejects duplicate IDs,
+malformed geometry, missing source data, mixed revisions and POM targets that
+do not resolve to geometry. `ARCHITECTURE.md` and the context index describe
+the implemented contract and the still-pending recipe mapping/rendering.
+Focused coverage passed 8/8 with 100% statements, branches, functions and
+lines for `technical-flat.ts`. The exact final source passed `npm run build`
+(TypeScript plus Vite production bundle); Vite emitted its existing large-chunk
+advisory. Canonical board revision 383 links verified evidence
+`E-G04-S263-EXIT` to G04-V01. The next action is S264's explicit seven-recipe
+role/edge/mark mapping and topology validation. Elapsed time: implementation 9m 10s; focused
+checks and repairs 3m 20s; build 0m 20s; external-agent waits 0m; maintainer
+decisions 0m.
+
+### Slice 261 — admit EPIC-17 / G04 (complete)
+
+The maintainer explicitly admitted G04 on 2026-09-29. The verified start is
+`origin/main` merge `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`; Slices 228,
+241 and 259 and the G01/G02/G03 board exits are complete. The prior checkout
+had only pre-existing untracked coverage/log/tmp artifacts; work uses a clean
+managed worktree. Highest assigned slice was 260; S261 is reserved for
+admission. The admission packet records V01 → V02 → V03, the V03 receiver and
+rights gate, a 16–20 landed-slice estimate, and final exit requirements.
+No production code has changed. The immediate next action is V01's
+seven-recipe source-to-view inventory and primitive contract now that the
+admission commit and board validation are complete. Board revision 381 is validated; `npm run control-center:test` passes 33/33
+and `git diff --check` passes. Elapsed time: context/admission 15m 00s,
+focused verification/correction 4m 03s, agent waits 0m, maintainer decisions 0m.
 No physical-fit or factory-readiness claim is authorized. S252's safety
 remediation remains attached to the canonical
 board. S253 completed the independent S252 audit reconciliation and passed its
@@ -4619,3 +11869,401 @@ Targeted tests and narrow/wide Chromium render checks have passed. The complete
 coverage/build/Control Center/export-identity gate and fresh independent S254
 audits are pending. See the S254 report and S253 machine-readable record for
 evidence. No merge or G03 exit is claimed yet.
+
+## EPIC-17 / G04 current handoff — refreshed 2026-10-02
+
+The earlier status log below ended at Slice 270 and is a historical snapshot.
+Slices 271–351 are recorded in Git, the canonical board and their linked
+packets. V01 is Done; V02 is In Progress; V03 remains Backlog until V02 passes.
+The current integrated tally remains 56 accepted / 90 held across 73
+configurations / 146 requested faces.
+
+S351 freshly redrafted all 17 Polo option configurations and 34 faces against
+current source. Every Polo face remains held: each configuration has a 0.68 cm
+cap assembly residual (above the unchanged 0.25 cm gate) and three recurring
+POM label failures. The maintainer approved the view-only normalized-arclength
+cap-to-armhole seam projection on 2026-10-02; it is recorded in
+`docs/PROJECT-DECISIONS.md` and does not waive those gates.
+
+Slice 352 closed from
+`docs/research/epic17/G04-V02-POLO-ROUTED-POM-LAYOUT-EXPERIMENT-S352.md`.
+It landed as `4f0e2d50a80de1ecad3b0c6ad0b1507ed083fc69` (`Slice 352: retain
+Polo POM label holds`).
+Its bounded external rail test tried 20 paths for each of the 51 recurring
+Polo label blockers against exact browser-rendered source strokes and existing
+label boxes. No route passed; the back bicep label also intersects an existing
+label in all 17 configurations. Diagnostic SVG/PNG output is in
+`docs/research/epic17/S352-polo-pom-routing/`. All 34 Polo faces remain held.
+Board revision 1392 links S352's exit, route matrix and 34-view render manifest
+to G04-V02 and EPIC-17. Control Center tests pass 33/33; `git diff --check`
+passes.
+
+Slice 353 is active from
+`docs/research/epic17/G04-V02-POLO-CAP-ARMHOLE-VIEW-PROJECTION-S353.md` to
+implement only the already approved view-only mapping. The exact decision ID
+is `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH`. Recheck all 17 Polo configurations
+and 34 faces; preserve all holds because the 0.68 cm residual and label
+blockers remain. Keep V03 gated until every all-seven V02 acceptance gate
+passes.
+
+S295 maps only source-declared Woven back/yoke center folds. S296 confirms the
+Fairfield attachment/ease tutorial does not identify the exact current-pattern
+sleeve-cap front/back boundary. S293 still blocks closure mapping because its
+two placket stitch interfaces target a single front role without explicit
+instances or overlap order; S294 has no exact local Polo/Woven collar
+shoulder-to-outer-edge landmark. All 56 Woven front/back requests remained
+visibly held in S295's focused production browser replay. Do not emit partial
+front/back views or infer missing construction.
+
+Slice 297 started at 2026-09-30 10:04:25 UTC from clean commit
+`ca5b4d4ba7ad4fa9f8a05321bce838e1069aa520`, with refreshed `origin/main`
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` an ancestor. The maintainer
+authorized source-backed view metadata. The bounded scope is a view-only,
+revision-validated reflection for the authored Woven front physical pair
+(quantity two, separate pieces, exact `centerFront` on x=0), preserving all
+whole-face holds and all cut geometry. The start packet is
+`docs/research/epic17/G04-V02-WOVEN-FRONT-PAIR-METADATA-S297.md`, linked from
+`CONTEXT-INDEX.md`, the G04 admission packet and G04-V02 at board revision 527;
+the start note is at revision 528. V02 remains In Progress and V03 Backlog.
+
+Slice 297 adds a distinct `physicalPairReflection` contract sourced from
+`WOVEN_SHIRT_PHYSICAL_ROLES`, without treating the separate-piece front as
+`Piece.onFold`. The validator requires the Woven front role, quantity two,
+`onFold: false`, and the unique straight local-x=0 `centerFront` edge with all
+draft points/control points on one side. The live view helper reflects only
+pattern-derived geometry, keeps source/revision metadata, and does not reflect
+styled artwork, labels or callouts. It changes no drafted geometry. The whole
+front/back remains fail-closed for the sleeve-cap, collar and placket-instance /
+overlap-order gaps.
+
+Verification: `technical-flat-projection.ts` and `technical-flat-live.ts` each
+pass focused tests with 100% statement, branch, function and line coverage (19
+projection tests; 13 live tests). Projection, geometry, live, flat model, SVG
+and assembly focused suites pass 73/73; production build passes; protected
+export/DXF checks pass 24/24. Production Chromium exercised 28 Woven option
+configurations/13 fields and 56 front/back faces: 0 SVG outputs, 56 visible
+holds, no console/page/request errors. Default front/back and representative
+button-count/vent cases were manually inspected. Evidence is retained in
+`docs/research/epic17/S297-browser-final/` (the earlier pre-review run is retained separately). `npm run control-center:test` passes 33/33
+after updating its latest-comment regression. The first Control Center run
+expected S296's exit as the latest comment; it was updated for S297's start and
+rerun successfully. An initial test fixture lacked the new physical-pair
+metadata; it now consumes the authored map. One parallel coverage invocation
+collided on Vitest's shared `coverage/.tmp`; sequential changed-module runs pass.
+An exploratory test that removed the live front hold surfaced a view candidate,
+so the mutation was removed: the current source hold remains intact, and the
+production matrix confirms no partial view.
+
+Board revisions 527/528 record S297 start evidence/comment; verified exit
+evidence is linked to G04-V02/EPIC-17 and the exit comment is recorded through
+the validated command layer at revisions 529–531. MQF-004–007/011/012 stay `To be reviewed` as output review
+checks; MQF-015 remains gated for V03. The same-model collar/sleeve construction
+drawing request remains pending. No physical fit, factory acceptance, CAD
+interoperability or production-readiness claim is supported.
+
+**Next action:** continue one source-backed V02 blocker at a time. Keep both
+Polo and Woven collar views held absent their required local construction
+references; keep Woven held for sleeve cap and closure order. V03 remains gated.
+
+## EPIC-17 / G04 current handoff — refreshed 2026-10-01 after Slice 334
+
+Earlier slice logs preserve their verified boundaries; use this section, the
+latest S334 packet and canonical Control Center board for the active state. EPIC-17 is
+admitted and In Progress. G04-V01 is Done, G04-V02 is In Progress, and G04-V03
+remains Backlog until V02 passes. The integrated evidence baseline remains 73
+configurations / 146 faces / 32 option fields, with 56 accepted and 90 held.
+The 90 held faces are the 56 Woven and 34 Polo faces; do not infer acceptance
+from source overlays or diagnostic placements.
+
+Slice 334 adds source-topology-validated, view-only traversal corrections for
+Woven sleeve placement: reverse `front.armhole` against `sleeve.capLeft`, and
+reverse the back `yokeSeam` against the geometrically reversed yoke seam. The
+stitch graph, ease, pattern coordinates and cut geometry remain unchanged. Its
+production replay covered all 28 Woven configurations / 56 front/back requests;
+0 SVGs emitted, 56 remain held, 0 browser errors. Front output reports
+unclosed colorway contours; back output reports Woven sleeve-cap placement
+conflict. The 28-case source assembly matrix retains 55 endpoint residuals
+(0.28–0.52 cm) and 28 inconsistent-transform diagnostics. Default front/back
+holds and the actual source topology overlay were visually inspected. The
+views cannot pass joins, crossings, overlap, POM or complete-output readability
+until the conflicts are resolved. Full findings and evidence are in
+`docs/research/epic17/G04-V02-WOVEN-SLEEVE-PLACEMENT-S334.md` and
+`docs/research/epic17/S334-woven-sleeve/`.
+
+Verification: focused projection/assembly/live tests pass 71/71, with 100%
+statement, branch, function and line coverage for
+`src/render/technical-flat-projection.ts`; production build passes with the
+existing chunk-size advisory; protected export byte identities pass 9/9;
+Control Center tests pass 33/33; and `git diff --check` passes. Board revision
+1075 links S334 exit, diagnostics, browser, rendered, coverage and build
+evidence to G04-V02, the EPIC-17 summary card and Epic record through validated
+commands; the exit comment is on G04-V02. The full
+repository suite/global coverage and final integrated output/build gates remain
+reserved for the settled Epic/PR candidate.
+
+MQF-004–007, MQF-011, MQF-012 and MQF-015 were considered against the held
+rendered output. They remain **To be reviewed** at the applicable G04/G05/V03
+output exits because this slice produced no releasable garment face. Preserve
+the findings document's post-G17 deferrals and do not expand scope.
+
+**Re-estimate from S334:** V02 needs at least three more boundaries: resolve
+Woven visible-contour and assembly blockers, resolve the Polo sleeve blocker,
+then rerun and review the settled 73-configuration/146-face integrated gate.
+Unresolved topology/output conflicts leave V02's upper bound unpriced. After
+all-seven V02 acceptance, V03 still requires at least 5–10 slices for rights
+review, a qualified receiver/profile, fixtures, round-trip evidence and output
+review. Final integration, PR/merge, ancestry/deployment closeout adds 3–5
+slices. Conditional minimum from this boundary is therefore at least 11
+additional slices; this is not a guaranteed completion ceiling.
+
+**Next action:** start S335 from refreshed Git and board state; investigate
+Woven front visible-contour closure against the exact current role topology and
+already-approved S321 decisions. Keep the all-56 Woven holds until complete
+front/back production render, joins, crossing/overlap, POM and readability gates
+pass. Do not start V03 or claim physical/factory validation.
+
+### Slice 335 start — Woven front colorway contour closure
+
+Started 2026-10-01 15:24:44 UTC from clean S334 `b27a444a020ff69330479554776977ab5aeb5be4` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice is 334; reserve 335. Board was revision 1075 with EPIC-17/G04-V02 In Progress, V01 Done and V03 Backlog; S334 commit and S335 start evidence/comment are linked through the validated command layer at revision 1085. Usage at start: primary 10%, weekly 6% informational, ordinary usage allowed. Packet: `docs/research/epic17/G04-V02-WOVEN-FRONT-COLORWAY-CLOSURE-S335.md`.
+
+Scope is exact current Woven front colorway closure only. Trace current role topology, approved view boundaries, source edge identity and SVG closure semantics. Implement no physical/seam/cut boundary or tolerance. Only use uniquely source-derived or already approved view boundaries; preserve complete-face fail-closed output if any closure is ambiguous. The all-28 configuration / 56-face production replay, no-crossing/overlap and readability inspections, focused 100% coverage, build, protected export/DXF checks, Control Center tests and `git diff --check` gate any production change. Woven back sleeve placement and Polo holds remain open. All-seven V02 acceptance and the V02-before-V03 dependency are unchanged.
+
+## EPIC-17 / G04 current handoff — refreshed after Slice 336
+
+Use this section, the S335 packet/evidence and the canonical board for the current boundary. EPIC-17 and G04-V02 remain In Progress; G04-V01 is Done and G04-V03 remains Backlog until every V02 criterion passes. The integrated baseline remains 73 configurations / 146 faces / 32 option fields, 56 accepted and 90 held. All 56 Woven and 34 Polo faces remain held; the all-seven requirement is unchanged.
+
+S335 adds revision-bound, view-only fill closures for the five open Woven front colorway contours using the exact current source edges and already approved sleeve/collar conventions, plus closure A for the source attachment boundary. The 28-option topology trace now has degree-2 closed paths at the SVG serializer's four-decimal precision. This does not change pattern/stitch geometry or layer order. S336 corrects Woven back neckline traversal using source endpoint order and exact anchors the Woven cap/body underarms. The corrected default source-station gaps are 0.661 cm at the front sleeve shoulder, 0.830–2.064 cm at the back sleeve/yoke shoulder, 0.688–0.740 cm at the front stand/neckline, and 0.263–0.283 cm at the reversed back stand/yoke neckline. Production assembly still reports above-threshold residuals and an inconsistent back sleeve transform. Final Chromium replay emits 0/56 Woven SVGs and reports zero browser errors. No Woven face is accepted; crossing/overlap/POM/readability acceptance of a complete assembled output remains unproven. Candidate contours and diagnostic overlays are not acceptance evidence.
+
+S336 focused renderer suites pass 117/117; both changed production modules have 100% statement, branch, function and line coverage. Production build passes with the existing Vite chunk advisory. Protected legacy-DXF/export tests pass 24/24. Default Woven front/back and sleeve-band-depth extreme held screenshots were inspected; issue text is readable. Source overlays identify exact edge endpoints and gaps. The S336 packet contains the 28-case source transform matrix and replay. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** at the applicable output exits; post-G17 deferrals stay intact. No fit, factory, readiness or CAD compatibility claim is supported.
+
+Full-repository tests/global coverage and integrated 73-configuration/146-face output/build gates remain reserved for the settled Epic/PR candidate. No source geometry, solver tolerance, DXF behavior or protected export identity changed. See `docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md` and `docs/research/epic17/S336-woven-placement/`.
+
+**Next action:** resolve the two explicit S336 decisions on (1) whether to retain the Woven sleeve cap holds or approve a view-only eased registration, and (2) whether to retain the Woven collar-base holds or approve a one-stroke assembled neckline seam convention. Until then, do not implement either nonrigid mapping. Continue independently with exact-source diagnosis of remaining non-Woven V02 holds. Keep all unpassed faces held, preserve all-seven acceptance, and keep V03 gated. Conditional slice estimate remains subject to re-estimation after verified decisions and output gates.
+
+### Slice 335 exit and Slice 336 start — Woven placement diagnosis
+
+Slice 335 landed as `32bff6d165ae23ae87d6d89d2110f55aad69375b` (`Slice 335: close Woven front colorway contours`). The post-commit tree was clean; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revision 1116 links S335 exit/diagnostic/render/build/export/coverage evidence to EPIC-17 and G04-V02; S335 commit evidence is the first validated board closeout action in S336.
+
+S335's production Woven replay held all 56 faces: colorway loops close at serialized precision, but source assembly reports residuals above the existing 0.25 cm limit and inconsistent back transforms. No accepted face or geometry/stitch change. Focused tests pass 85/85 with 100% four-metric coverage for both changed render modules; build and protected legacy-DXF/export checks pass, and the corrected Control Center suite passes 33/33. Full integrated/global coverage remains reserved for the final candidate. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain “To be reviewed” at the applicable output exits; post-G17 deferrals remain.
+
+S336 started 2026-10-01 16:20:05 UTC at clean HEAD `32bff6d165ae23ae87d6d89d2110f55aad69375b`, board revision 1116, after refreshing `origin/main`; highest slice is 335 and 336 is reserved. Usage: primary 16%, weekly 7%, ordinary usage allowed. Packet: `docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md`. Scope: trace exact Woven joins/transforms and correct only unique source-backed view/compiler defects; preserve all holds where decisions remain. Required gates and non-goals are in the packet. No safe disjoint delegated task was identified. Continue V02 only; V03 remains gated.
+
+### Slice 336 verified exit — Woven endpoint order and residual diagnosis
+
+S336 corrects the source-backed back neckline traversal for `Outer stand ↔ woven neckline` and adds exact Woven sleeve underarm anchors. Exact validation protects the source stitch roles, stand front-end/fold junction, body CF/CB and shoulder endpoints, and the permitted reverse yoke/back edge. No pattern/cut geometry, stitch graph, measurement, option, tolerance, closure order, export writer or protected output identity changed. Focused renderer suites pass 117/117 with both modified production modules at 100% statements, branches, functions and lines; build passes; protected export/DXF regressions pass 24/24.
+
+The production Chromium replay covered all 28 Woven configurations and 56 face requests, emitting 0 SVGs and retaining all 56 complete holds with zero browser errors. Default front gaps are 0.71 cm at the collar join and 0.47 cm at the sleeve-cap join. Default back retains an inconsistent cap transform plus 0.39 cm sleeve and 0.27 cm collar residuals. Exact transformed source stations show 0.661 cm front sleeve-shoulder separation, 0.830–2.064 cm back sleeve/yoke-shoulder separation, 0.688–0.740 cm front stand/neckline endpoint mismatch and 0.263–0.283 cm reversed back stand/yoke mismatch across options. All remain over the 0.25 cm acceptance gate. Four source-endpoint overlays and the default front/back and sleeve-band extreme production holds were visually inspected; no face passed join, crossing, overlap, POM or complete readability acceptance. The matrix, screenshots, annotations and findings are in `docs/research/epic17/G04-V02-WOVEN-PLACEMENT-DIAGNOSIS-S336.md` and `docs/research/epic17/S336-woven-placement/`.
+
+S321 collar exterior and sleeve/band transfers, two-instance mappings and closure A remain approved view decisions, each conditional on output checks. No nonrigid correction was implemented. Two new view-deformation choices remain for the maintainer: eased registration of `sleeve.capLeft/capRight` to the corresponding front/yoke/back armhole stitch chain, and a one-stroke assembled collar-base seam using `front.neckline` / reversed `yoke.neckline` in place of the straight `outerStand.neckline` stroke. The pattern and reviewed sources do not encode those display deformations; both are proposed decisions, not source evidence. Keep all Woven faces held pending the maintainer's grouped decision. All 34 Polo faces and other unresolved recipe faces remain held; V02 remains In Progress; V03 remains Backlog. All-seven acceptance and the 0.25 cm gate are unchanged. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** at applicable exits; post-G17 deferrals stay intact.
+
+Elapsed 51m (2026-10-01 16:20:05–17:11 UTC): implementation/source-order correction 9m; focused coverage/build/protected checks 5m; 28-case source diagnosis and overlay refinement 8m; production Chromium replay and wait 14m; rendered review 3m; durable records and validated board closeout 12m; external-agent waits 0m; maintainer-decision time pending. Canonical board revision 1159 links 11 S336 evidence records and the verified exit comment to G04-V02, the EPIC-17 summary card and Epic record; Control Center passes 33/33 and board validation passes. Exact landed commit ID is recorded at S337 start through the validated command layer.
+
+**Next action:** proceed with an independent, exact-source diagnosis of the remaining non-Woven V02 holds while awaiting the two S336 design choices; do not implement either nonrigid mapping before approval. Do not start V03 until every G04 V02 acceptance criterion passes.
+
+### Slice 337 start — independent Polo hold diagnosis
+
+S336 landed as `9bce95df80e0598d24c42b49d211df81f9892325` (`Slice 336: correct Woven stitched endpoint traversal`) from clean S335 `32bff6d165ae23ae87d6d89d2110f55aad69375b`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest active slice was 336; S337 is reserved. Canonical board was revision 1159; EPIC-17/G04-V02 In Progress, V01 Done and V03 Backlog. Usage: primary 22%, weekly 8%, ordinary usage allowed. Packet: `docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md`.
+
+Scope: independently inspect exact Polo recipe/pattern topology and current 17-option / 34-face rendered holds, distinguish source facts from approved S321/S333 conventions, and provide exact mapping-or-hold proposals for remaining issues. Re-run current production output and inspect readable source-edge overlays and relevant options. Do not introduce any new semantic deformation, relax the 0.25 cm gate, change geometry/stitches/options, or accept a face without the full gate. The two S336 Woven view-deformation decisions remain pending and do not block this independent Polo evidence work. No safe delegation identified.
+
+### Slice 337 — Polo source/POM hold diagnosis (exit)
+
+S337 completed from S336 `9bce95df80e0598d24c42b49d211df81f9892325` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest prior slice was 336; S337 was uniquely reserved. Board revision 1170 carried the validated start record. The durable packet and diagnostics are in `docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md` and `docs/research/epic17/S337-polo-holds/`.
+
+S337 made no production code, pattern geometry, stitch, tolerance, option, export identity or legacy DXF change. It traced current Polo `draftPolo` source, exact same-revision assembly/projection, all 17 configurations, collar/sleeve role runs and the S321/S333 approved view decisions. Fresh TypeScript source replay reproduced the full 17-configuration / 34-face matrix: front and back underarms are exactly joined, each mapped shoulder endpoint is 0.958604 cm apart, while live Chromium still reports the solver's 0.68 cm `Sleeve-cap ease` residual against the 0.25 cm gate. Production replay had zero browser errors, emitted 0/34 SVGs, showed one actionable full-face hold on every request, and remained invariant across the option extremes. Annotated source overlays were inspected; no face was accepted.
+
+Polo's four current front callouts target same-revision `front` outline vertices. Seventeen other front POMs are table-only; the four existing front anchors are not projected to the back. S337 traces source-exact edge/mark/span candidates for all Polo POMs and records the callout system's current single-role/single-point limitation. The `upperCollar.centerBack` leaf-length reference is a `Piece.onFold` edge excluded from exterior strokes; back hem drop compares `front.hem.start` with `back.hem.start` while the faces render separately. A grouped maintainer question now requests approval for dimension-only references for those two exact cases. Do not implement either projected reference until the maintainer responds. Other same-face POM sources remain directly derivable and may proceed independently. MQF-004–007, MQF-011, MQF-012 and MQF-015 remain **To be reviewed** for their applicable G04 exits; S337 produced no completed output surface that would change these statuses. Post-G17 deferrals remain in force.
+
+The maintainer replied “approved, proceed” to the S336 grouped Woven choice request. Record the conservative recommended choice for both questions: keep the Woven sleeve-cap and collar-base displays held, without nonrigid view deformation. This leaves the all-seven V02 acceptance unchanged and does not satisfy or weaken any criterion. During S338 the maintainer also approved the two separate Polo dimension-only references in S337: annotate the hidden `upperCollar.centerBack` fold-axis edge without drawing it as a garment edge, and show back hem drop on the back flat using `front.hem.start` Y and `back.hem.start` as levels. Decision details are in `docs/PROJECT-DECISIONS.md`; the implementation is the next numbered slice and does not accept a Polo view.
+
+Elapsed (2026-10-01 17:12:52–17:34:57 UTC, approximately 22m): production implementation 0m; source/POM trace and focused verification 9m; Chromium replay and rendered review 5m; durable records/validated-board work 8m; external-agent waits 0m; maintainer-decision time not separately timed (conservative Woven hold approval received; the Polo dimension-only approval arrived during S338). Board revision 1193 links six S337 exit evidence records and comments to G04-V02 and the EPIC-17 summary/Epic. Canonical board validation passes, `npm run control-center:test` passes 33/33, and `git diff --check` passes. V02 remains In Progress with the integrated baseline 56 accepted / 90 held across 73 configurations / 146 faces. V03 remains Backlog and gated.
+
+**Next action:** finish S338's source-visible same-face Polo POM anchors and rendered collision/readability gate. Implement the approved fold-axis leaf and back-hem dimension-only references in the next numbered slice. Keep Polo and Woven complete-face holds and do not start V03.
+
+### Slice 338 — Polo source-exact POM anchors (start)
+
+Started 2026-10-01 17:37:45 UTC from clean S337 `b113f25da4b28d075326c5ec30f73030a79c2f35` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 337; S338 is reserved. Canonical board revision was 1193 at start and 1203 after validated S337 commit/S338 start linking. EPIC-17 and G04-V02 remain In Progress, V01 Done, V03 Backlog. Integrated baseline remains 56 accepted / 90 held across 73 configurations / 146 face requests / 32 option fields. Primary usage 25%, weekly 9%. Packet: `docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md`.
+
+Scope: implement per-POM exact source-role resolution and anchor only Polo geometry represented on the requested face; preserve source measurement formulas and current renderer callout/leader semantics. Include exact role/edge/vertex or emitted authored mark references for body, shoulder/armhole, sleeve, placket, outer stand/front rise, collar tip, vents and HPS-to-hem anchors as supported by S337. Do not project hidden references or draw dimensions, stitches, cut edges or deformed geometry in this slice. During S338 the maintainer approved dimension-only display for `upperCollar.centerBack` and the `front.hem.start` / `back.hem.start` hem-drop reference; implement them in a numbered follow-up. The approved conservative Woven recommendation keeps sleeve/collar output held. No face is accepted; all Polo faces remain held until the assembly residual and every other V02 gate pass.
+
+Focused tests and 100% statement/branch/function/line coverage are required for changed production code; also run build, protected export/legacy DXF checks, 17-option / 34-face production replay, manually inspected candidate diagnostic callouts on both faces, Control Center tests, board validation and diff check. Do not run the full repository gate until the settled integrated Epic candidate. No safe independent delegation is available. Single next action: finish exact same-face source-role/entity POM support with fail-closed behavior for any unrepresented source target, and preserve all current face holds.
+
+### Slice 338 exit — Polo source-exact POM mappings implemented; quality gates remain open
+
+S338 adds exact per-POM front/back role and edge identities, authored mark references, option-presence guards, same-revision validation and fail-closed table-only behavior where the represented source entity is absent. The Polo body POM list is now local to Polo, leaving the Tee mapping unchanged. No pattern/cut geometry, stitch graph, measurement formulas, assembly transforms/tolerance, DXF behavior, or protected export byte identities changed. The accepted S337 dimensions were intentionally left for a separate implementation slice.
+
+Verification: the seven focused suites pass 120/120; `npx tsc --noEmit` and `npm run build` pass (existing large-chunk advisory); protected export/DXF tests pass 63/63; Control Center tests pass 33/33; production Chromium replay covers 17 configurations / 34 face requests with zero SVG, 34 holds and zero browser errors. Every Polo face remains held on the known 0.68 cm sleeve-cap residual (0.25 cm limit) and repeated POM label collisions. The readable production hold screen and diagnostic candidates were manually inspected; candidate shoulder/placket labels visibly crowd and overlap, so no candidate is accepted. The 65-file drafting/render selection passes 748/748 when excluding two stale assertions; including them fails because the S326-approved `flyUnderlap` role and two extra stitches were not reflected in older Trouser test expectations. Targeted coverage is 100% statements/functions/lines but 98.13% branches, below the required 100%; the coverage gate is not waived. Exact failing commands and retained outputs are in the S338 packet.
+
+Validated board evidence and comments are recorded at revision 1217 for G04-V02 and the EPIC-17 summary; `npm run control-center:test` passes 33/33 and `git diff --check` passes after those updates. The S338 commit is recorded at the next verified slice boundary. S338 elapsed 82m05s (17:37:45–18:59:50 UTC), approximately: implementation/source edits 20m, focused verification/build/export 37m, replay/rendered review 15m, docs/board 10m, agent waits 0m; maintainer-decision time not separately timed. No safe delegation was identified. V02 remains In Progress, V03 remains Backlog; the integrated 56 accepted / 90 held baseline and all-seven criterion remain unchanged.
+
+**Next action:** S339 is reserved for focused branch-coverage completion and correction of the two stale Trouser regression expectations as a source-repair-specific verification follow-up. Then implement the already-approved Polo fold-axis leaf and back-hem-drop dimension-only references in a separate slice. Do not begin V03 until every supported V02 option and face passes.
+
+### Slice 339 start — focused POM coverage and Trouser assertion repair
+
+Started 2026-10-01 19:04:18 UTC from clean S338 `88f906ed28af49a5d9301e20ab288a8e2ea59bd3` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 338; S339 is reserved. Canonical board revision 1217 links the S338 exit, browser, rendered, build, export and coverage evidence to G04-V02 and EPIC-17. Both remain In Progress; V01 Done, V03 Backlog. Primary usage was 2%; weekly 10%. Packet: `docs/research/epic17/G04-V02-POM-VERIFICATION-CLOSEOUT-S339.md`.
+
+Scope: add focused test coverage for S338's new source-identity branches and correct the stale assertions for S326's approved `flyUnderlap` piece and stitch graph. By maintainer decision, add a midpoint mark on `flyUnderlap.shieldEdge` at `t=0.5`, explicitly as a chosen location convention rather than a matched seam notch: the source stitch graph joins that edge to `flyShield.right`, while the existing notch is on `flyShield.left`. No cut geometry, stitch, DXF writer, or export baseline changes. Keep Polo output held; record but do not resolve S338's diagnostic label crowding here. The two approved Polo dimension-only references remain reserved for a later bounded slice. No safe delegation; no V03 until all-seven V02 acceptance passes.
+
+**Maintainer decision:** on 2026-10-01 the maintainer approved a midpoint mark on `flyUnderlap.shieldEdge` at `t=0.5`, using the existing `flyShield.left` notch midpoint as the selected location convention. Source review found that the underlap shield edge joins `flyShield.right` instead; preserve that distinction in documentation and make no claim that the marks are seam-matched. Leave free top/bottom edges unmarked. The mark clears the digital every-piece notch completeness check only; it establishes no physical sewability or factory acceptance.
+
+### Slice 339 exit — POM branch coverage and Trouser assertions
+
+S339 adds focused same-revision mark-point, role/edge, no-placement, blank-label, and source-edge validation cases for the S338 POM behavior. Small resolver changes make exact authored mark-point selection and source-edge presence checks explicit; missing transform keys remain fail-closed. The S326 test expectations now cover nine recipe roles and the actual 11-stitch pocket-composition graph. Per the approved S339 design convention, `TROUSER_NOTCHES` adds only `flyUnderlap.shieldEdge` midpoint `t=0.5`; the two free short edges, cut geometry, and stitch graph are unchanged. Blueprint and true-scale SVG tests confirm the notch is emitted at its exact resolved and placed coordinates.
+
+Verification: drafting/render selection passes 777/777 across 67 test files with 100% statement, branch, function and line coverage for the five changed production modules (`trouser.ts`, technical-flat mapping, POM compiler, live resolver, and flat validator). `npx tsc --noEmit`, production build, protected export identity/regression/tech-pack tests (24/24), `npm run control-center:test` (33/33), and `git diff --check` pass. The build retains the existing large-chunk advisory. No new browser replay was necessary because the approved change is confined to pattern marking and S339's other changes exercise resolver validation; Polo production output remains 0/34 and its label collisions plus 0.68 cm sleeve-cap residual remain held. Integrated tally stays 56/146 accepted and 90 held; no V02 face is newly accepted.
+
+Elapsed: approximately 51m (19:04:18–19:55 UTC): implementation and test changes ~14m; focused drafting/render/coverage verification ~18m; build/export/Control Center checks ~7m; durable records and board closeout ~12m; external-agent waits 0m; maintainer-decision time not separately measurable. No delegation was used. Validated board revision 1227 links S339 exit evidence to G04-V02 and EPIC-17; the PR candidate remains unmerged until the settled integrated Epic gate.
+
+**Next action:** implement the two previously approved Polo dimension-only references with exact same-revision identities, then review callout layout and rendered readability across all Polo configurations. Keep Polo held until its sleeve residual and all POM label collisions are resolved; retain all-seven acceptance and do not begin V03 early.
+
+### Slice 339 landed boundary
+
+Slice 339 landed as `3fe2652` (`Slice 339: close POM coverage and Trouser assertions`) from clean S338 `88f906e`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Board revision 1227 links the verified S339 exit to G04-V02 and EPIC-17. The reviewed underlap midpoint location is recorded as an explicit design convention, not a stitch-matched balance notch: `flyUnderlap.shieldEdge` joins `flyShield.right`, while the existing notch is on `flyShield.left`.
+
+### Slice 340 start — Polo dimension-only POM references
+
+Started 2026-10-01 19:58:12 UTC from clean S339 `3fe2652` on `codex/epic-17-g04`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor. Highest assigned slice was 339; S340 is reserved. Canonical board revision 1227 verifies S339 exit evidence; validated S340 start evidence/comments are recorded at revision 1231. EPIC-17/G04-V02 remain In Progress; V01 Done; V03 Backlog. Integrated status is 56 accepted / 90 held across 73 configurations / 146 face requests / 32 option fields; all 34 Polo requests remain held. Primary usage 9%, weekly 11%. Packet: `docs/research/epic17/G04-V02-POLO-DIMENSION-REFERENCES-S340.md`.
+
+Scope: implement only the approved exact-source `upperCollar.centerBack` finished-leaf dimension reference and the back-flat Back hem drop reference using `front.hem.start` Y and `back.hem.start`. These display as annotations only and may not draw the hidden fold edge as a garment boundary or imply a front/back seam. Preserve POM methods/values, source revision identity, cut/stitch geometry, solver threshold and full-face holds. Recheck all 17 Polo option configurations and rendered diagnostics; no face can pass while the 0.68 cm sleeve residual exceeds 0.25 cm or any callout is unreadable. V03 remains gated; no unrelated output/UI scope is admitted.
+
+### Slice 299 start — Woven placket instance and overlap source review
+
+Started 2026-09-30 11:55:28 UTC from clean S298 commit
+`da4c4d5c6163e2c9eebd85858a8096576f7e61e2` on `codex/epic-17-g04` after
+refreshing `origin/main` to `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+(ancestor). Highest assigned slice was 298; S299 is reserved. Board revision
+540 has EPIC-17/G04-V02 In Progress, V01 Done, V03 Backlog and verified S298
+exit linked. The durable start packet is
+`docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md`.
+
+Scope: reconcile the source-authored Woven front/placket roles and S297's
+physical-pair view metadata with Woven construction research and its linked
+standard-placket source. Add view metadata only if it uniquely establishes
+the physical-instance bindings and finished overlap order; otherwise retain
+the Woven full-face holds and record the missing fact. No cut geometry, DXF,
+protected export identity, partial output, or unrelated product scope changes.
+V02 acceptance remains open and V03 remains gated. A focused board test and
+diff check are required for a research-only exit; a production change also
+requires focused 100% coverage, build, protected identities, 28-configuration /
+56-face Chromium review and manual output evidence. Full global coverage stays
+at the settled integrated Epic/PR boundary. No safe independent delegation is
+identified; Codex owns the source decision and integration review.
+### Slice 299 exit — Woven placket instance and overlap source review
+
+Slice 299 completed as a research-only source hold. The Woven source names the
+button and buttonhole placket joins to right/left center-fronts, but both typed
+stitches still target one `front.centerFront` role; the physical-role record
+has no side-instance or layer-order fields. The linked Closet Core Kalle
+reference describes overlap for its standard one-attached-placket option. Its
+two-attached-placket alternative leaves button/buttonhole layer order
+unspecified, so it cannot support a safe mapping for this Woven block. No
+production metadata, pattern/cut geometry, DXF, or export bytes changed. Keep
+all 56 Woven configuration/face requests held; V02 remains In Progress and
+V03 remains gated. Exact source findings and the remaining required artifact
+are in `docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md`.
+
+The S299 exit packet `docs/research/epic17/G04-V02-WOVEN-PLACKET-SOURCE-REVIEW-S299.md`
+records the current-pattern trace, linked-source comparison, required missing
+construction fact, and exact board revisions 544–547. The canonical board is
+revision 547. `npm run control-center:test` passes 33/33 and `git diff --check`
+passes. No production behavior changed, so no build, rendered replay, coverage,
+DXF or export-identity gate was applicable to this source-only slice. Commit ID
+will be recorded at the next verified handoff.
+
+### Slice 300 start — Polo collar on-fold projection review
+
+At the S299 boundary, S299 landed as `82b358eb8e153ab7992facb2aff94a47e74509c9`.
+The maintainer answered the outstanding Woven closure question on
+2026-09-30: no marked reference is available; keep the closure held. This is
+recorded in the S300 packet and does not change S299's verified disposition.
+
+Started 2026-09-30 12:07:47 UTC from clean S299 on
+`codex/epic-17-g04`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` (ancestor). The highest assigned
+slice was 299; S300 is reserved. Board revision 547 has EPIC-17/G04-V02 In
+Progress, V01 Done, V03 Backlog; the verified S299 exit is linked. The S300
+packet is `docs/research/epic17/G04-V02-POLO-COLLAR-FOLD-MAPPING-S300.md`.
+
+Scope: determine whether source-declared Polo on-fold axes and exact base
+interfaces support complete front/back collar roles without an unsupported
+outer-cubic shoulder split. Implement only a unique, topology-validated,
+view-only map; otherwise retain complete face holds and document the precise
+missing evidence. No cut geometry or export behavior changes. V02 stays open;
+V03 remains gated. Full global coverage is reserved for the settled integrated
+Epic/PR candidate. No safe independent delegation is identified.
+### Slice 300 exit — Polo collar fold projection candidate rejected
+
+S300 tested a view-only reflection of the complete authored Polo outer-stand
+and upper-collar roles across their exact source-declared center-back fold
+axes. The candidate emitted default front/back SVGs, but production Chromium
+output showed crossing collar and stand contours drawn diagonally through the
+body. The visual gate failed; its production change was reverted and both
+roles remain held. Candidate matrix, SVGs and screenshots are in
+`docs/research/epic17/S300-browser-candidate/`; findings are in
+`docs/research/epic17/G04-V02-POLO-COLLAR-FOLD-MAPPING-S300.md`.
+
+After restoring the current source, projection/live suites pass 32/32 with
+100% focused statement, branch, function and line coverage for both modules.
+The source-restored `npm run build` passes with the existing Vite large-chunk
+advisory. No pattern/cut geometry, DXF or protected export bytes changed. The
+maintainer confirmed no marked Woven placket source is available and that the
+closure must remain held. S300 closes at board revision 555. `E-G04-S300-EXIT` is linked to G04-V02 and the EPIC-17 summary at revision 552 and to the Epic record at revision 554; the exit comment is revision 555. Control Center tests pass 33/33 and `git diff --check` passes. S300 landed as `caae318bc9a25f91a6b6c7f77da994fcf22e481c` (`Slice 300: retain Polo collar projection hold`), based on refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`.
+
+### Slice 301 start — Polo collar sewn-interface placement
+
+Started 2026-09-30 12:24:40 UTC after clean S300 `caae318bc9a25f91a6b6c7f77da994fcf22e481c` on `codex/epic-17-g04`. Refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 300; S301 is reserved. Board revision 555 linked S300 verified exit evidence; S301 packet and start evidence/comment now link through validated commands at revisions 556–559. EPIC-17/G04-V02 remain In Progress, V01 Done, V03 Backlog. Primary usage at start was 11%; weekly 84%.
+
+Scope: test whether exact Polo collar/stand stitch topology and construction evidence uniquely transform complete on-fold role geometry into coherent front/back view coordinates. Do not repeat S300's direct reflection candidate. Add only narrowly scoped, topology/revision-validated view metadata if all face placements are unique; otherwise preserve all affected holds and document the missing source fact. Preserve pattern/cut geometry, DXF behavior and protected export identities. Woven placket closure remains held by maintainer instruction. No safe independent delegation is identified; no V03 work begins until V02 passes. Packet: `docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md`.
+
+### Slice 301 exit — Polo collar sewn-interface placement remains held
+
+The Polo stitch graph places whole `outerStand` and `upperCollar` roles through their authored base interfaces in both faces, but it supplies no front/back-visible split on the authored exterior cubic. Default transforms are front `(4.1897, -6.8582) cm / 87.6993°` and back `(7.0000, ~0) cm / 180°` for both roles. The only assembly warning is an unrelated 0.48 cm Polo sleeve-cap residual. S288's exact-source review found no relation from the base shoulder notch to the outer cubic; S300's actual production-Chromium candidate visibly crossed collar/stand lines through the body. No metadata/source/test behavior changed. Keep complete Polo faces held and Woven closure held. The S301 packet is `docs/research/epic17/G04-V02-POLO-COLLAR-SEWN-PLACEMENT-S301.md`.
+
+Board revision 563 links `E-G04-S301-EXIT` to G04-V02 and the EPIC-17 summary at 560 and the Epic record at 562, with the exit comment at 563. Control Center tests pass 33/33 after correcting a stale board regression expectation; `git diff --check` passes. V02 remains In Progress; V03 remains Backlog. Elapsed: 8m48s (12:24:40–12:33:28 UTC)—implementation 0m, source/topology research 3m45s, focused verification 1m30s including one diagnosed stale assertion and successful rerun, rendered review 1m, records/board 2m33s, external-agent waits 0m, maintainer-decision time 0m. Exact S301 commit ID is recorded in the S302 starting boundary. Next action: refresh usage/Git/board state and begin one bounded V02 source-backed map-or-hold slice; do not begin V03.
+### Slice 302 start — estimate and future sequence reconciliation
+
+Started 2026-09-30 12:38:17 UTC from clean S301 `44f7e8424eee14c8f8186d65a9e0b3f6df929c55`; refreshed `origin/main` `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` is an ancestor. Highest assigned slice was 301; S302 was reserved. Board revision 563 had EPIC-17/G04-V02 In Progress, V01 Done and V03 Backlog. Packet/start evidence/comment link at revisions 564–567. Primary usage was 13%; weekly 84%. Packet: `docs/research/epic17/G04-V02-ESTIMATE-RECONCILIATION-S302.md`.
+
+### Slice 302 exit — conditional estimate and future sequence synchronized
+
+Verified production matrix is 73 configurations / 146 faces, 4 accepted and 142 held. The 41–46 Epic and 22–26 roadmap estimates and future slice-number assignments were stale: S297–S301 had already landed as V02. Admission, roadmap, active project-state handoff and board now agree on a 57–71 landed-slice total including admission, S302 and final merge; 16–30 remain from the S301 boundary, conditional on source evidence. Breakdown: V02 7–14, V03 5–10 after V02 passes, final review/merge/deployment 3–5. Missing source/rights waits are unpriced and can block completion. No scope, acceptance criterion or status changed; V02 remains In Progress, V03 Backlog. Future V03/final review rows are dependency-labeled and receive slice numbers only from refreshed starts.
+
+Validated board updates: Epic/summary descriptions at revisions 568–569; `E-G04-S302-EXIT` linked to V02 and summary at 570, Epic at 572, exit comment at 573. `npm run control-center:test` passes 33/33; the first run's single failure was a stale assertion on the previous edit reason, diagnosed and corrected. `git diff --check` passes. Elapsed 10m05s (12:38:17–12:48:22 UTC): implementation 0m, evidence re-evaluation 2m, focused verification 1m30s including repair, new rendered review 0m, docs/board 6m35s, external waits 0m, maintainer-decision time 0m. Exact S302 commit ID is captured at the next boundary. Next action: continue source-backed V02 work; do not start V03 until all accepted options/faces pass.
+## EPIC-17 / G04 — Slice 672 active; run the exact CLO Standard import
+
+S672 started at 2026-10-10 10:59:07 UTC from clean commit `c8ed2a7d` on
+`codex/epic-17-g04`. Refreshed `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`
+is an ancestor; S671 is the highest previous slice and S672 is unique.
+Canonical board start replay is revision 3984→3987. G04-V03 and EPIC-17 are
+In Progress; V01/V02 are Done, and no V03 gate is newly passed.
+
+The already-prepared S671 derivative is C:-only and SHA-256
+`487FAD7533BDA83306D3F4FA2DFEF523E469E62F3D808EFF0A9C98A7E38B77F8`.
+Native CLO controls are available. The first in-memory selection used
+Import(Add)/DXF-AAMA by mistake and displayed an informational seam-allowance
+notice; it is explicitly unscored and no DXF was exported or file saved. S672
+now runs exactly one clean File→Import→DXF/Open operation using the prior
+S617 Standard-DXF settings (cm, 100%, Do Not Rotate, Maintain Original, same
+notch/curve-point options). Compare nine source-bound CUT/SEW contours and
+source semantics at `0.001 cm` and inspect real receiver whole/detail output.
+Export only after a complete representative native pass. No alternate mode,
+density, format, encoding, or gate relaxation is allowed. No approval is
+pending, including for the approved `/2` grainline mapping. S672 packet and
+the next-action boundary are in
+`docs/research/epic17/S672-clo-standard-source-path-density/S672-start-packet.md`.
+
+V03 remains unqualified until the profile, seven recipes/73 options/grades,
+identity/relations, semantics, negative-input, repeatability, round-trip and
+readable-output gates all pass. DGS stays retired; CLO mode names do not prove
+ANSI/AAMA or ASTM conformance. Preserve V02 acceptance, legacy DXF, protected
+output identities, final output review, full 100% repository gate, PR, safe
+merge, `origin/main` ancestry and required deployment. No fit, factory or
+production-readiness claim.
+
+## EPIC-17 / G04 — Slice 670 closed; DGS receiver route retired
+
+
+\n
+\n
+
+\n

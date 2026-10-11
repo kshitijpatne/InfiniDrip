@@ -97,7 +97,10 @@ const SKIRT_STITCHES: readonly Stitch[] = [
   },
   {
     label: "Waistband (front + back ↔ waistband)",
-    a: iface(edgeRef("front", "waist"), edgeRef("back", "waist")),
+    // Walk the half-garment waistline center-front → side seam → center-back.
+    // Both panel edges are authored center → side, so the back reference must
+    // reverse to make this ordered junction agree with the side-seam stitch.
+    a: iface(edgeRef("front", "waist"), edgeRef("back", "waist", true)),
     b: iface(edgeRef("waistband", "seam")),
   },
 ];
@@ -195,12 +198,16 @@ export const SKIRT_POMS: readonly Pom[] = [
     tolerance: 1.0,
     measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "waist", at: "end" }, FOLD),
     anchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "front"), "waist")),
+    // Both quarter panels come from the same panel(m, position) source with
+    // the same Measurements, so this is the exact counterpart edge point.
+    backAnchor: (b) => edgeEnd(pieceEdge(rolePiece(b, "back"), "waist")),
   },
   {
     label: "Hip (finished)",
     tolerance: 1.3,
     measure: (b) => 4 * spanX(rolePiece(b, "front"), { edge: "sideLower", at: "start" }, FOLD),
     anchor: (b) => edgeStart(pieceEdge(rolePiece(b, "front"), "sideLower")),
+    backAnchor: (b) => edgeStart(pieceEdge(rolePiece(b, "back"), "sideLower")),
   },
   {
     label: "Length (waist–hem)",

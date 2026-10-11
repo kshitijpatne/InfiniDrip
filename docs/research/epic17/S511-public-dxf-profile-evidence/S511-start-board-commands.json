@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3155,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S511-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S511-public-dxf-profile-evidence/S511-start-packet.md",
+      "verified": true,
+      "note": "S511 searches only official standards-body/vendor sources for public technical detail needed to verify an industrial apparel DXF profile. Rights, licensed content, V03 gates and acceptance stay unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3156,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S511 starts a bounded official-source check for publicly verifiable AAMA/ASTM apparel DXF profile semantics and CLO's exact published scope. It will distinguish inspectable technical evidence from catalog labels or licensed-only details and will not change any V03 gate."
+  }
+]

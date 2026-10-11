@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3257,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S536-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S536-polo-aama-vertex-preservation/S536-exit-packet.md",
+    "verified": true,
+    "note": "CLO 2026.1.310 AAMA import/export of an exact-geometry R2000 LWPOLYLINE Polo M derivative rendered all nine pieces and preserved all nine SEW outlines, but the same five CUT contours lose one vertex and measure 0.012741–0.013974 cm against the unchanged 0.001 cm gate. Four of nine CUT contours pass. No V03 gate or compatibility claim changed; CLO remains open."
+  }
+}

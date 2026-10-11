@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3676,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S634-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S634-polo-cut-topology-forensics/S634-start-packet.md",
+    "verified": true,
+    "note": "Starts offline forensics comparing the identical S617/S632 Polo cm-header source to its existing Standard-import/ASTM-output file and both ASTM-import generations. Identify exact source CUT vertices/edges lost across five failures; no CLO operation or source edit. Hold all V03 gates and 0.001 cm threshold."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3265,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S538-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S538-clo-authorization-control-recheck/S538-exit-packet.md",
+    "verified": true,
+    "note": "Maintainer-confirmed written trial-use/local-processing basis resolves that concern. The live CLO screenshot and accessibility snapshot disagree about an Export DXF dialog, so no file operation occurred. Existing S493/S525/S536 technical failures and all V03 gates remain."
+  }
+}

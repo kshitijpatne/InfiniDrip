@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3409,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S574-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S574-polo-line-chain-representation/S574-start-packet.md",
+    "verified": true,
+    "note": "One diagnostic representation test converts only Polo M CUT closed R12 POLYLINEs into exact connected LINE chains, preserving all source coordinates and other entities. It tests one distinct CLO AAMA import/export mechanism after POLYLINE, LWPOLYLINE, unit and documented option paths failed. No product code, baseline or criterion change; no conformance claim without measured passes."
+  }
+}

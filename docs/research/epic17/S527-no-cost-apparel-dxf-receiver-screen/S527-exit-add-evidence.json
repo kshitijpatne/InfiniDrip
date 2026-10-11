@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3221,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S527-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-exit-packet.md",
+    "verified": true,
+    "note": "One-pass official-source screen found garment.dev as a strong but invite-only/cloud-handling lead and GetonAgain as a mixed-build/unresolved-rights lead; MPattern free editor lacks export, Parmel evidence is obsolete/incomplete. No candidate clears permission, local handling, and round-trip gates; no tests or app operations."
+  }
+}

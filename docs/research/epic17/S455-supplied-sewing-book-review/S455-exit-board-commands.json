@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2750,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S455-BOOK-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S455-supplied-sewing-book-review/G04-REMAINING-SUPPLIED-SEWING-BOOK-REVIEW-S455.md",
+      "verified": true,
+      "note": "S455 reviewed all five remaining user-supplied books. Page-specific generic construction/pattern evidence may inform later education but does not resolve the source-specific Woven front seam or fixed-S370 back crossing. No scope, gates, status, or holds changed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2751,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S455 closeout: Codex inspected rendered, page-cited evidence from all five remaining supplied books. They add general collar/sleeve construction, pattern-layout, sewing, and possible later education context, but do not establish a source-bound Woven view that resolves S454 under S425 or clears S442 while preserving S370 positions. Claude/OpenCode attempts yielded no reviewable reports due the documented directory-access/session limitations; Codex completed the local review. Preserve 56 accepted / 90 held, all 56 Woven and 34 Polo face holds, all-seven V02, V02-before-V03, and all other gates. S454's exact mask remains pending and unimplemented; no status or acceptance changed."
+  }
+]

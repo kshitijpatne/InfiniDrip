@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3605,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S617 tested a distinct source-backed hypothesis: the production writer and pinned source contain true-centimeter coordinates but omit unit metadata. Adding only $INSUNITS=5 to a disposable unchanged-geometry copy fixed the 0.1x scale for this Standard-DXF CLO import. Nine pieces imported/exported/reimported without a format error (with CLO's informational seam-allowance Custom-mode notice), but high-resolution comparison passes CUT only 4/9 and SEW 9/9 at 0.001 cm; five CUT paths each lose a vertex by ~0.013–0.014 cm. This remains one Polo M fixture, not a qualified industrial profile or exact compatibility claim. Keep all seven-recipe acceptance and every V03 hold. Next diagnose the short-edge vertex simplification with one distinct evidence source before repeating any CLO exchange. See E-G04-S617-EXIT and the S617 matrix."
+}

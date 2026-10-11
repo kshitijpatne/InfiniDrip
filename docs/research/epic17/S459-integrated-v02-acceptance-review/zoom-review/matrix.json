@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-10-08T03:52:37.821Z",
+  "mode": "Actual UI inspection canvas at maximum user zoom (250%)",
+  "records": [
+    {
+      "caseId": "polo-default",
+      "face": "front",
+      "zoom": "250%",
+      "svgWidth": 2515,
+      "viewportWidth": 1022,
+      "svgText": 73,
+      "svgTitle": "Canvas inspection graphic",
+      "errors": []
+    },
+    {
+      "caseId": "polo-default",
+      "face": "back",
+      "zoom": "250%",
+      "svgWidth": 2515,
+      "viewportWidth": 1022,
+      "svgText": 49,
+      "svgTitle": "Canvas inspection graphic",
+      "errors": []
+    }
+  ]
+}

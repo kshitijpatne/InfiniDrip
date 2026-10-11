@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3464,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S587 confirms the named CLO DXF-AAMA profile and its operator controls, but public docs do not specify a layer, stable piece/mark identity, or XDATA retention contract. Autodesk's generic XDATA is application-defined, not apparel meaning. S588 will test only whether source entity IDs survive one geometry-identical Polo round trip; all V03 gates remain. See E-G04-S587-EXIT."
+}

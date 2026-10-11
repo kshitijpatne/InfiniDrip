@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3352,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S559 generated XS/S/M/L/XL DXFs for all seven recipes from current gradeRun rules. CLO DXF-AAMA round-tripped Tee XS with all 6 CUT/SEW outlines within 0.001 cm (max 0.000017 cm), but output block names are 0_M/1_M/2_M; size identity and grade-rule interchange remain unproved. CLO returned no error. Five Polo contour failures, layer/mark ambiguities, malformed-input acceptance and every all-seven requirement remain held; no criterion or legacy behavior changed."
+}

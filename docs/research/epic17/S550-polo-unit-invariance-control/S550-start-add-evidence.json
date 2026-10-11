@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3313,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S550-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S550-polo-unit-invariance-control/S550-start-packet.md",
+    "verified": true,
+    "note": "Run one prepared geometry-equivalent Polo DXF-AAMA exchange in mm in the authorized, local CLO session. Compare inverse-scaled geometry with the unchanged 0.001 cm gate; preserve all V03 holds and store exchange data only under the named C: folder."
+  }
+}

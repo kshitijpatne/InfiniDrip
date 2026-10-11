@@ -4,7 +4,7 @@ import { gradeRun } from "./grading";
 import { TSHIRT_GRADE, TSHIRT_SIZES } from "./tshirt-grade";
 import { draftTshirt } from "./tshirt";
 import { seam, spanX, spanY, specSheet, Pom } from "./pom";
-import { TSHIRT_POMS } from "./tshirt-pom";
+import { TEE_POMS, TSHIRT_POMS } from "./tshirt-pom";
 import { rolePiece } from "./block";
 
 const block = draftTshirt(STANDARD_M);
@@ -47,6 +47,28 @@ describe("TSHIRT_POMS", () => {
     for (const pom of TSHIRT_POMS) {
       expect(pom.measure(block)).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("TEE_POMS source-backed back anchors", () => {
+  it("uses exact matching back vertices while retaining front methods and keeping Polo's shared table front-only", () => {
+    const measurements = [STANDARD_M, { ...STANDARD_M, chest: STANDARD_M.chest + 8, shoulderWidth: STANDARD_M.shoulderWidth + 2, length: STANDARD_M.length + 5 }];
+    const anchoredLabels = ["Body chest (finished)", "Body length (HPS–hem)", "Across shoulder", "Neck width"];
+    for (const current of measurements) {
+      const currentBlock = draftTshirt(current);
+      for (const label of anchoredLabels) {
+        const tee = TEE_POMS.find((pom) => pom.label === label)!;
+        const shared = TSHIRT_POMS.find((pom) => pom.label === label)!;
+        const point = tee.backAnchor!(currentBlock);
+        expect(point).toEqual(shared.anchor!(currentBlock));
+        expect(tee.measure(currentBlock)).toBe(shared.measure(currentBlock));
+        expect(tee.tolerance).toBe(shared.tolerance);
+      }
+      expect(TEE_POMS.find((pom) => pom.label === "Front neck drop")?.backAnchor).toBeUndefined();
+      expect(TEE_POMS.find((pom) => pom.label === "Shoulder seam")?.backAnchor).toBeUndefined();
+      expect(TEE_POMS.find((pom) => pom.label === "Armhole (front + back)")?.backAnchor).toBeUndefined();
+    }
+    expect(TSHIRT_POMS.every((pom) => pom.backAnchor === undefined)).toBe(true);
   });
 });
 

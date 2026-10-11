@@ -1,0 +1,148 @@
+{
+  "title": "S549 exact current-AAMA Polo vertex mapping",
+  "sourceSha256": "796e537ec77e86b16d6b82c3aadd4a9982933314097b707ae689936c65944fca",
+  "generationHashes": {
+    "gen1": "cac8d2d90a7b72bfebcf9bedbef7c1c91e3558c3386423f833e080c283bb0470",
+    "gen2": "ae3731633a396cc94911dfe7ee53cd0dc85e847a04420a0c6e985b8cf57c1241"
+  },
+  "thresholdCm": 0.001,
+  "method": "Hash-pinned source and both current AAMA outputs; match each expected CUT block against all one-source-vertex-deleted cyclic/reversed sequences. Require every retained coordinate within 0.001 cm and same removed source index in both generations.",
+  "findings": [
+    {
+      "sourceOrdinal": 2,
+      "block": "1_M",
+      "sourceVertexIndex": 13,
+      "pointCm": {
+        "x": 37.489,
+        "y": 74.514
+      },
+      "incomingSegmentCm": 0.04561797891182357,
+      "outgoingSegmentCm": 1.2440196943778759,
+      "turnDegrees": 16.798462964349568,
+      "omittedPointDeviationCm": 0.012736083492453013,
+      "generations": {
+        "gen1": {
+          "delta": 0.000012999999995599865,
+          "index": 13,
+          "layer": "8",
+          "vertexCount": 32
+        },
+        "gen2": {
+          "delta": 0.000025000000000829914,
+          "index": 13,
+          "layer": "1",
+          "vertexCount": 32
+        }
+      }
+    },
+    {
+      "sourceOrdinal": 10,
+      "block": "5_M",
+      "sourceVertexIndex": 14,
+      "pointCm": {
+        "x": 139.277,
+        "y": 66.459
+      },
+      "incomingSegmentCm": 0.04651881339844565,
+      "outgoingSegmentCm": 9.403408371436392,
+      "turnDegrees": 16.28450432681734,
+      "omittedPointDeviationCm": 0.012982545767004694,
+      "generations": {
+        "gen1": {
+          "delta": 0.000022999999998774,
+          "index": 14,
+          "layer": "8",
+          "vertexCount": 53
+        },
+        "gen2": {
+          "delta": 0.00003799999998932435,
+          "index": 14,
+          "layer": "8",
+          "vertexCount": 53
+        }
+      }
+    },
+    {
+      "sourceOrdinal": 12,
+      "block": "6_M",
+      "sourceVertexIndex": 14,
+      "pointCm": {
+        "x": 156.921,
+        "y": 66.459
+      },
+      "incomingSegmentCm": 0.046957427527491005,
+      "outgoingSegmentCm": 9.403248906627965,
+      "turnDegrees": 17.39222560993241,
+      "omittedPointDeviationCm": 0.013969519835794598,
+      "generations": {
+        "gen1": {
+          "delta": 0.000022999999998774,
+          "index": 14,
+          "layer": "8",
+          "vertexCount": 53
+        },
+        "gen2": {
+          "delta": 0.00003799999998932435,
+          "index": 14,
+          "layer": "8",
+          "vertexCount": 53
+        }
+      }
+    },
+    {
+      "sourceOrdinal": 14,
+      "block": "7_M",
+      "sourceVertexIndex": 14,
+      "pointCm": {
+        "x": 174.564,
+        "y": 66.459
+      },
+      "incomingSegmentCm": 0.04651881339844565,
+      "outgoingSegmentCm": 9.403408371436392,
+      "turnDegrees": 16.28450432681734,
+      "omittedPointDeviationCm": 0.012982545767004694,
+      "generations": {
+        "gen1": {
+          "delta": 0.000022999999998774,
+          "index": 14,
+          "layer": "1",
+          "vertexCount": 43
+        },
+        "gen2": {
+          "delta": 0.00003799999998932435,
+          "index": 14,
+          "layer": "1",
+          "vertexCount": 43
+        }
+      }
+    },
+    {
+      "sourceOrdinal": 16,
+      "block": "8_M",
+      "sourceVertexIndex": 14,
+      "pointCm": {
+        "x": 194.164,
+        "y": 66.459
+      },
+      "incomingSegmentCm": 0.04651881339844565,
+      "outgoingSegmentCm": 9.403408371436392,
+      "turnDegrees": 16.28450432681734,
+      "omittedPointDeviationCm": 0.012982545767004694,
+      "generations": {
+        "gen1": {
+          "delta": 0.00002199999997287705,
+          "index": 14,
+          "layer": "8",
+          "vertexCount": 43
+        },
+        "gen2": {
+          "delta": 0.000036000000022795575,
+          "index": 14,
+          "layer": "8",
+          "vertexCount": 43
+        }
+      }
+    }
+  ],
+  "conclusion": "Both current AAMA generations omit the same source index in each of the five failing CUT contours. Every lost index follows a 0.0456–0.0470 cm incoming segment and a 16.28–17.39 degree turn. This supports a short-edge correlation; cause remains unproved."
+}

@@ -1,0 +1,875 @@
+{
+  "basis": "Current S351 HEAD re-drafts all exact S331 Polo option cases; exact production label-box dimensions, direction order, overlap and leader-crossing tests; only callouts preceding each target in recipe POM order are retained as placement obstacles.",
+  "configurations": 17,
+  "anchors": 51,
+  "maximumRingRadiusTestedCm": 60.75,
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-default",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-default",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 3.75
+      },
+      "anchor": {
+        "x": 1.0305357222564875,
+        "y": 7.924036843800506
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 1.75
+      },
+      "anchor": {
+        "x": 3.0289235366340947,
+        "y": 7.843748965841943
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14,
+        "y": 3.5
+      },
+      "anchor": {
+        "x": 1.98230088495575,
+        "y": 7.734513274336283
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14,
+        "y": 5.5
+      },
+      "anchor": {
+        "x": -1.7763568394002505e-15,
+        "y": 8
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 15.524044989139838,
+        "y": 1.5
+      },
+      "anchor": {
+        "x": 2.056762504196283,
+        "y": 8.13302495330663
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 15.524044989139838,
+        "y": 3.5
+      },
+      "anchor": {
+        "x": 0.0678819615711923,
+        "y": 7.922420615347208
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:finished-collar-stand-height",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 2.75
+      },
+      "anchor": {
+        "x": 2.029729629445291,
+        "y": 7.883892904821225
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "face": "FRONT_FLAT",
+      "pomId": "pom:polo:stand-front-rise",
+      "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+      "sourcePoint": {
+        "x": 14.643479365265193,
+        "y": 4.75
+      },
+      "anchor": {
+        "x": 0.031341815067683854,
+        "y": 7.964180782779788
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "face": "BACK_FLAT",
+      "pomId": "pom:polo:sleeve-bicep-width",
+      "sourceEntityId": "pattern:polo:role:sleeve:edge:sideRight",
+      "sourcePoint": {
+        "x": 43,
+        "y": 1.7869438924826682
+      },
+      "anchor": {
+        "x": 27.5,
+        "y": 24
+      },
+      "currentSearchMaximumRadiusCm": 6.75,
+      "currentSearchFails": true,
+      "conservativeFirstFree": null
+    }
+  ]
+}

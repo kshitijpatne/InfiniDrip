@@ -1,0 +1,49 @@
+{
+  "startRevision": 2895,
+  "exitRevision": 2899,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "v01Status": "Done",
+  "v02Status": "Done",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2895,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S470-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md",
+        "verified": true,
+        "note": "S470 records that Richpeace V8/V10 list Windows support only through Windows 10; V8 has stronger documented export evidence, but Windows 11 support remains unverified."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2896,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S470-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S470-richpeace-host-compatibility/S470-exit-packet.md",
+        "verified": true,
+        "note": "S470 qualifies candidate OS support and discloses the local host label discrepancy without changing the receiver/profile, V03 gates, or acceptance."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2897,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S470-EXIT"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2898,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S470 confirms the local host is Windows 11 build 26200 while Richpeace V8/V10 free pages list through Windows 10 only. V8 remains the strongest exchange lead but compatibility is unverified; do not alter settings or use fixtures before rights/build/local-processing checks. See E-G04-S470-EXIT."
+    }
+  ]
+}

@@ -32,6 +32,179 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 
+test("approved UI packages remain planning backlog without adding G04 closure dependencies", () => {
+  const ids = [...Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`), "UIQ-GATE"];
+  const cards = ids.map((id) => board.workItems.find((item) => item.id === id));
+  const approval = board.evidence.find((entry) => entry.id === "E-UIQ-APPROVAL");
+  assert.equal(approval?.kind, "decision");
+  assert.equal(approval?.verified, true);
+  assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
+  for (const card of cards) {
+    assert.ok(card);
+    assert.equal(card.status, "Backlog");
+    assert.equal(card.owner, "Codex");
+    assert.equal(card.reviewer, "Codex");
+    assert.equal(card.targetAt, null);
+    assert.equal(card.deliveredAt, null);
+    assert.equal(card.releaseId, null);
+    assert.notEqual(card.epicId, "EPIC-17");
+    assert.ok(card.evidenceRefs.includes(approval.id));
+    assert.ok(card.acceptanceCriteria.length >= 4);
+  }
+  assert.deepEqual(cards.at(-1).dependencies, ["EPIC-17"]);
+  assert.deepEqual(cards[2].dependencies, ["UIQ-02"]);
+  assert.deepEqual(cards[3].dependencies, ["UIQ-02"]);
+  assert.deepEqual(cards[4].dependencies, []);
+  assert.deepEqual(cards[12].dependencies, ["UIQ-07", "UIQ-GATE"]);
+  assert.equal(board.workItems.find((item) => item.id === "EPIC-17").dependencies.some((id) => ids.includes(id)), false);
+});
+
+test("S354 reconciliation evidence is linked without changing G04 acceptance status", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S354-START", "E-G04-S354-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-UI-RECOMMENDATION-RECONCILIATION-S354.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.ok(g04.comments.some((comment) => /Slice 354 reconciles/.test(comment.text)));
+  assert.equal(epic.dependencies.includes("UIQ-GATE"), false);
+});
+
+test("S355 Woven diagnosis is linked while every G04 acceptance hold remains", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S355-START", "E-G04-S355-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-WOVEN-BACK-SEAM-OCCLUSION-DIAGNOSIS-S355.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(epic.dependencies.includes("UIQ-GATE"), false);
+  assert.ok(g04.comments.some((comment) => /Slice 355 rejected Woven back seam-layer occlusion/.test(comment.text)));
+});
+
+test("S356 rejects the Woven chord-reflection candidate and retains every hold", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S356-START", "E-G04-S356-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-CHORD-REFLECTION-CANDIDATE-S356.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.ok(g04.comments.some((comment) => /Slice 356 rejected the Woven sleeve\/band chord-reflection candidate/.test(comment.text)));
+});
+
+test("S357 Polo residual study retains the source ease, threshold, and all holds", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S357-START", "E-G04-S357-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-POLO-EASE-RESIDUAL-SOURCE-REPAIR-STUDY-S357.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.ok(g04.comments.some((comment) => /Slice 357 found no viable Polo source repair/.test(comment.text)));
+});
+
+test("S358 retains the Woven collar hold and records the maintainer's Polo residual decision", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S358-START", "E-G04-S358-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.ok(g04.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
+  assert.ok(epic.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
+});
+
+test("S359 records the Woven rigid-fit decision boundary without releasing holds", () => {
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const [id, uri] of [
+    ["E-G04-S359-START", "docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md"],
+    ["E-G04-S359-EXIT", "docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md"],
+    ["E-G04-S359-MATRIX", "docs/research/epic17/S359-woven-collar-rigid-assembly/rigid-endpoint-feasibility-matrix.json"],
+    ["E-G04-S359-OVERLAY", "docs/research/epic17/S359-woven-collar-rigid-assembly/rigid-endpoint-feasibility-overlay.png"],
+  ]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === uri));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.match(g04.description, /all 73 canonical supported configurations and 146 front\/back faces/);
+  assert.ok(g04.comments.some((comment) => /Slice 359 exit: source arc\/chord incompatibility/.test(comment.text)));
+  assert.ok(epic.comments.some((comment) => /Slice 359 retains the current 56 accepted \/ 90 held integrated tally/.test(comment.text)));
+});
+
+test("S360 binds the landed S359 commit without changing Polo or Woven holds", () => {
+  const expectedCommit = "d519a8ac7b440ea310f660e80799bef9c0479ee1";
+  const s359Ids = ["E-G04-S359-START", "E-G04-S359-EXIT", "E-G04-S359-MATRIX", "E-G04-S359-OVERLAY"];
+  for (const id of s359Ids) {
+    const evidence = board.evidence.find((entry) => entry.id === id);
+    assert.ok(evidence, `${id} exists`);
+    assert.equal(evidence.commit, expectedCommit);
+    assert.equal(evidence.verified, true);
+  }
+  const epic = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  for (const id of ["E-G04-S360-START", "E-G04-S360-EXIT"]) {
+    assert.ok(board.evidence.some((entry) => entry.id === id && entry.uri === "docs/research/epic17/G04-V02-S359-EVIDENCE-CLOSEOUT-S360.md"));
+    assert.ok(epic.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.match(board.workItems.find((item) => item.id === "G04-V02").description, /0\.25 cm/);
+});
+
+test("S361 evidence remains linked after the current summary reconciliation", () => {
+  const epicCard = board.workItems.find((item) => item.id === "EPIC-17");
+  const epicRecord = board.epics.find((item) => item.id === "EPIC-17");
+  const g04 = board.workItems.find((item) => item.id === "G04-V02");
+  const heldEvidence = ["E-G04-S361-EXIT", "E-G04-S361-MATRIX", "E-G04-S361-OVERLAY", "E-G04-S361-TEST"];
+  for (const id of ["E-G04-S361-START", ...heldEvidence]) {
+    assert.ok(epicCard.evidenceRefs.includes(id));
+    assert.ok(epicRecord.evidenceRefs.includes(id));
+    assert.ok(g04.evidenceRefs.includes(id));
+  }
+  assert.equal(g04.status, "Done");
+  assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
+  assert.equal(board.workItems.find((item) => item.id === "G04-V01").status, "Done");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.match(g04.description, /Integrated all-seven V02 accepted at S459/);
+  assert.match(g04.description, /exact approved S351 exception/);
+  assert.match(g04.description, /all-seven V02/);
+  assert.ok(g04.evidenceRefs.includes("E-G04-S458-EXIT"));
+  assert.match(g04.description, /all-seven V02/);
+  assert.match(epicCard.description, /S459 accepts all seven recipes, 73 supported configurations and 146 front\/back faces/);
+  assert.match(epicCard.description, /S406's approved view-only collar-over-plackets order remains implemented/);
+  assert.ok(g04.evidenceRefs.includes("E-G04-S457-EXIT"));
+  assert.ok(g04.evidenceRefs.includes("E-G04-S458-EXIT"));
+});
+
 test("malformed board data is rejected instead of repaired", () => {
   const malformed = structuredClone(board);
   malformed.workItems[0].evidenceRefs = ["MISSING-EVIDENCE"];
@@ -67,7 +240,7 @@ test("contributors can submit review but cannot complete work", () => {
   assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });
 
-test("closed Epics 14–16 and gated future backlog match their evidence", () => {
+test("closed Epics 14–16 and admitted G04 status match their evidence", () => {
   for (let index = 1; index <= 17; index += 1) {
     const id = `EPIC-${index + 13}`;
     const goal = `G${String(index).padStart(2, "0")}`;
@@ -75,10 +248,10 @@ test("closed Epics 14–16 and gated future backlog match their evidence", () =>
     const card = board.workItems.find((entry) => entry.id === id);
     const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15" || id === "EPIC-16"
       ? "Closed"
-      : "Backlog";
-    const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15"
+      : id === "EPIC-17" ? "In Progress" : "Backlog";
+    const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15" || id === "EPIC-16"
       ? "Done"
-      : id === "EPIC-16" ? "Done" : "Backlog";
+      : id === "EPIC-17" ? "In Progress" : "Backlog";
     assert.equal(epic?.status, expectedEpicStatus);
     assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
@@ -88,6 +261,363 @@ test("closed Epics 14–16 and gated future backlog match their evidence", () =>
     if (id === "EPIC-15") {
       assert.ok(card.evidenceRefs.includes("E-EPIC15-S240-EXIT"));
       assert.ok(epic.evidenceRefs.includes("E-EPIC15-G02-MERGE-S241"));
+    }
+    if (id === "EPIC-17") {
+      const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
+      assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
+      assert.match(epic.description, /S459 accepts all seven recipes, 73 supported configurations and 146 front\/back faces/);
+      assert.match(epic.description, /Woven's 56 local faces pass the approved S457 front mask and local-Y back\/band placement/);
+      assert.match(epic.description, /S406's approved view-only collar-over-plackets order remains implemented/);
+      assert.match(card.description, /S459 accepts all seven recipes, 73 supported configurations and 146 front\/back faces/);
+      assert.match(card.description, /V01 and V02 are Done/);
+      assert.match(card.description, /Preserve V02-before-V03, legacy DXF behavior and protected export identities/);
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S420-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S420-EXIT"));
+      assert.ok(g04V02.evidenceRefs.includes("E-G04-S458-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-EPIC17-S458-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S420-EXIT"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S362-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S362-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S362-EXIT"));
+      for (const evidenceId of ["E-G04-S363-START", "E-G04-S363-EXIT", "E-G04-S363-MATRIX",
+        "E-G04-S363-MAX-HEIGHT-HOLD", "E-G04-S363-ANCHOR"]) {
+        assert.ok(g04V02?.evidenceRefs.includes(evidenceId));
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      assert.ok(g04V02?.comments.some((comment) => /Slice 362 exit: the approved Woven full-collar view projection emits all 56 option\/face requests/.test(comment.text)));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-EXIT"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S335-BROWSER"));
+      assert.ok(g04V02?.comments.some((comment) => /S335 verified exit: all five Woven front colorway contours now close/.test(comment.text)));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S336-EXIT"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S336-BROWSER"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S336-DECISION"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S336-COMMIT"));
+      assert.ok(g04V02?.evidenceRefs.includes("E-G04-S337-START"));
+      for (const evidenceId of ["E-G04-S337-EXIT", "E-G04-S337-SOURCE", "E-G04-S337-BROWSER",
+        "E-G04-S337-FRONT-OVERLAY", "E-G04-S337-BACK-OVERLAY", "E-G04-S337-DECISION"]) {
+        assert.ok(g04V02?.evidenceRefs.includes(evidenceId));
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      for (const evidenceId of ["E-G04-S337-COMMIT", "E-G04-S338-START"]) {
+        assert.ok(g04V02?.evidenceRefs.includes(evidenceId));
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      assert.ok(g04V02?.comments.some((comment) => /S336 verified exit: source-order endpoint correction passes focused gates; 0\/56 Woven faces emitted and two view-deformation decisions remain pending/.test(comment.text)));
+      assert.ok(g04V02?.comments.some((comment) => /S337 started 2026-10-01 17:12:52 UTC from clean S336 9bce95df/.test(comment.text)));
+      assert.ok(g04V02?.comments.some((comment) => /S337 exit: Polo source\/POM audit and 17-configuration\/34-face Chromium replay complete/.test(comment.text)));
+      assert.ok(g04V02?.comments.some((comment) => /S338 started 2026-10-01 17:37:45 UTC from clean S337 b113f25/.test(comment.text)));
+      for (const evidenceId of ["E-G04-S332-START", "E-G04-S332-EXIT", "E-G04-S332-OPTIONS", "E-G04-S332-RENDERED",
+        "E-G04-S333-START", "E-G04-S333-EXIT", "E-G04-S333-BROWSER", "E-G04-S333-RENDERED", "E-G04-S333-COVERAGE",
+        "E-G04-S333-COMMIT"]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      for (const evidenceId of ["E-G04-S334-START", "E-G04-S334-COMMIT", "E-G04-S334-EXIT", "E-G04-S334-DIAGNOSTIC", "E-G04-S334-BROWSER",
+        "E-G04-S334-RENDERED", "E-G04-S334-COVERAGE", "E-G04-S334-BUILD", "E-G04-S335-START"]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      for (const evidenceId of ["E-G04-S335-EXIT", "E-G04-S335-CONTOURS", "E-G04-S335-OVERLAY",
+        "E-G04-S335-CANDIDATE-BROWSER", "E-G04-S335-BROWSER", "E-G04-S335-RENDERED", "E-G04-S335-COVERAGE",
+        "E-G04-S335-BUILD", "E-G04-S335-EXPORT", "E-G04-S335-CONTROL-CENTER"]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      for (const evidenceId of ["E-G04-S336-START", "E-G04-S336-EXIT", "E-G04-S336-DIAGNOSTIC", "E-G04-S336-OVERLAY",
+        "E-G04-S336-BROWSER", "E-G04-S336-RENDERED", "E-G04-S336-COVERAGE", "E-G04-S336-BUILD",
+        "E-G04-S336-EXPORT", "E-G04-S336-CONTROL-CENTER", "E-G04-S336-DECISION"]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      for (const evidenceId of ["E-G04-S336-COMMIT", "E-G04-S337-START"]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S335-BROWSER")?.uri,
+        "docs/research/epic17/S335-woven-contours/replay-after-hold/matrix.json");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S336-BROWSER")?.uri,
+        "docs/research/epic17/S336-woven-placement/production-replay/matrix.json");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S336-COMMIT")?.commit,
+        "9bce95df80e0598d24c42b49d211df81f9892325");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S337-EXIT")?.uri,
+        "docs/research/epic17/G04-V02-POLO-REMAINING-HOLDS-S337.md");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S337-COMMIT")?.commit,
+        "b113f25da4b28d075326c5ec30f73030a79c2f35");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S338-START")?.uri,
+        "docs/research/epic17/G04-V02-POLO-POM-ANCHORS-S338.md");
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S337-BROWSER")?.uri,
+        "docs/research/epic17/S337-polo-holds/production-replay/matrix.json");
+      assert.match(board.evidence.find((entry) => entry.id === "E-G04-S337-DECISION")?.note ?? "",
+        /keep Woven sleeve\/collar views held/);
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S334-COMMIT")?.commit,
+        "b27a444a020ff69330479554776977ab5aeb5be4");
+      assert.ok(card.evidenceRefs.includes("E-G04-S315-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S315-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S316-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S316-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S317-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S317-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S328-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S328-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S329-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S329-INTEGRATED-BROWSER"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S329-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S329-INTEGRATED-BROWSER"));
+      for (const evidenceId of [
+        "E-G04-S330-EXIT",
+        "E-G04-S330-TEE-FITTED-REVIEW",
+        "E-G04-S330-TEE-FITTED-BROWSER",
+        "E-G04-S330-MEASUREMENT-HOLD",
+        "E-G04-S330-INTEGRATED-BROWSER",
+        "E-G04-S330-COMMIT",
+        "E-G04-S331-START",
+        "E-G04-S331-EXIT",
+        "E-G04-S331-REVIEW",
+        "E-G04-S331-BROWSER",
+      ]) {
+        assert.ok(card.evidenceRefs.includes(evidenceId));
+        assert.ok(epic.evidenceRefs.includes(evidenceId));
+      }
+      assert.equal(board.evidence.find((entry) => entry.id === "E-G04-S330-COMMIT")?.commit,
+        "558564bab25ab0e717ee825f4c4ab54f9eba4ea2");
+      assert.ok(card.evidenceRefs.includes("E-G04-S327-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S327-TROUSER-BROWSER"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S327-INTEGRATED-BROWSER"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S318-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S318-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S319-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S319-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S320-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S320-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S316-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S317-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S318-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S318-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S319-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S319-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S320-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S320-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S286-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S300-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S301-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S302-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S302-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S303-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S303-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S304-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S304-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S305-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S305-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S307-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S307-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S308-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S308-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S309-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S309-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S310-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S310-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S311-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S312-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S312-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S313-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S313-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S315-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S314-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S315-EXIT"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S301-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S300-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S301-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S302-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S302-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S303-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S303-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S304-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S304-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S305-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S305-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S307-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S308-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S308-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S309-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S309-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S310-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S310-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S311-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S312-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S312-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S313-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S313-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S314-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S315-START"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S315-EXIT"));
+      assert.ok(epic.evidenceRefs.includes("E-G04-S301-EXIT"));
+      assert.ok(card.comments.some((comment) => /Re-estimate from verified S301 boundary: 4\/146 faces are accepted, 142 remain held/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Re-estimate from verified S307 boundary: 28\/146 faces are accepted, 118 remain held/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Slice 308 started 2026-09-30 15:44:39 UTC from clean S307 54dc71b.*G04-V02-TROUSER-FRONT-CENTER-JOIN-S308\.md/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Re-estimate from verified S308 boundary: output remains 28\/146 accepted and 118 held; 9–23 conditional slices remain/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Re-estimate from verified S309 boundary: output remains 28\/146 accepted and 118 held; 8–22 conditional slices remain/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Slice 310 started 2026-09-30 16:41:59 UTC from clean S309 b89eec1.*G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S310\.md/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Re-estimate from verified S310 boundary: output remains 28\/146 accepted and 118 held; 7–21 conditional slices remain/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Slice 319 verified exit: all-recipe production replay and visible colorway raster review passed with unchanged 28\/146 accepted and 118 held; V02 remains In Progress and V03 remains Backlog/.test(comment.text)));
+      assert.ok(card.evidenceRefs.includes("E-G04-S326-START"));
+      assert.ok(card.evidenceRefs.includes("E-G04-S326-OUTPUT-REPLAY"));
+      assert.ok(card.comments.some((comment) => /S325 verified exit: proposal-only Trouser fly-underlap fixture passes assembly feasibility in all 24 configurations/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held; all 24 front views retain the waistband color-contour and hip-depth label holds/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /S327 started 2026-10-01 05:41:32 UTC from clean S326 681aedd8.*G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327\.md/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /S327 start: re-estimated from 66 numbered slices landed through S326.*at least 10 more \/ 76 total/.test(comment.text)));
+      assert.ok(card.comments.some((comment) => /S327 exit recorded\. Current minimum is at least 9 further slices after S327/ .test(comment.text)));
+      assert.ok(card.comments.some((comment) => /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.deepEqual(card.dependencies, ["EPIC-14", "EPIC-15", "EPIC-16"]);
+      const admittedWork = board.workItems.filter((entry) => entry.epicId === id && entry.id !== id);
+      assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S334 verified exit: exact Woven source-edge traversal corrections pass focused 100% coverage and build/.test(comment.text)));
+      assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S335 started 2026-10-01 15:24:44 UTC from clean S334 b27a444a/.test(comment.text)));
+      assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
+      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "Done", "In Progress"]);
+      assert.match(admittedWork[1].description, /S406's approved view-only collar-over-plackets order remains implemented/);
+      assert.match(admittedWork[1].description, /Integrated all-seven V02 accepted at S459/);
+      assert.match(admittedWork[1].description, /exact approved S351 exception/);
+      assert.match(admittedWork[1].description, /V01\/V02 Done/);
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S326-OUTPUT-REPLAY"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S327-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S327-TROUSER-BROWSER"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S327-INTEGRATED-BROWSER"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S328-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S328-TEE-FITTED-BROWSER"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S328-INTEGRATED-BROWSER"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S329-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S329-INTEGRATED-BROWSER"));
+      for (const evidenceId of [
+        "E-G04-S330-EXIT",
+        "E-G04-S330-TEE-FITTED-REVIEW",
+        "E-G04-S330-TEE-FITTED-BROWSER",
+        "E-G04-S330-MEASUREMENT-HOLD",
+        "E-G04-S330-INTEGRATED-BROWSER",
+        "E-G04-S330-COMMIT",
+        "E-G04-S331-START",
+        "E-G04-S331-EXIT",
+        "E-G04-S331-REVIEW",
+        "E-G04-S331-BROWSER",
+      ]) assert.ok(admittedWork[1].evidenceRefs.includes(evidenceId));
+      assert.ok(admittedWork[1].comments.some((comment) => /S325 verified exit: proposal-only Trouser fly-underlap fixture passes assembly feasibility in all 24 configurations/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /S326 verified exit: the approved Trouser underlap graph solves all 24 configurations; 24 back faces emit and 24 fronts remain held; all 24 front views retain the waistband color-contour and hip-depth label holds/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /S327 started 2026-10-01 05:41:32 UTC from clean S326 681aedd8.*G04-V02-TROUSER-FRONT-COLORWAY-CALLOUT-S327\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S321-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S321-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S322-RECONCILIATION"));
+      assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 320 at 2026-10-01 00:04:19 UTC from clean S319 92a270753ee526d90c9daba0b3ffbfd45da68ff9/.test(comment.text)));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S320-START"));
+      assert.match(admittedWork[1].description, /Integrated all-seven V02 accepted at S459/);
+      assert.ok(admittedWork[0].evidenceRefs.includes("E-G04-S264-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S265-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S266-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S267-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S268-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S269-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S276-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S277-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S278-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S279-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S280-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S281-EXIT"));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 281 started.*G04-V02-ASSEMBLY-REVIEW-S281\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S282-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S283-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S284-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S284-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S291-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S291-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S292-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S292-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S293-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S293-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S294-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S294-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S295-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S296-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S296-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S297-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S297-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S298-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S298-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S299-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S299-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S300-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S300-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S302-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S302-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S303-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S303-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S304-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S304-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S305-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S305-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S306-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S306-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S307-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S307-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S308-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S308-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S309-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S309-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S310-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S310-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S311-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S312-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S312-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S313-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S313-EXIT"));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 305 started 2026-09-30 13:19:48 UTC.*G04-V02-TROUSER-WAISTBAND-VIEW-SEGMENTS-S305\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 305 exit: TROUSER-RESEARCH specifies one closed waistband, separate front\/back joins.*S306.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 306 started 2026-09-30 13:32:50 UTC.*G04-V02-TROUSER-WAISTBAND-FRAGMENTS-S306\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 306 exit: exact same-role Trouser waistband intervals.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 307 from clean S306 c5930532.*S307 packet/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 307 exit: exact waistband fragments compile.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 308 from clean S307 54dc71b.*S308 packet/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 308 exit: the exact source graph places frontLeft at 0 degrees and frontRight at 180 degrees.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 309 at 2026-09-30 16:04:30 UTC.*G04-V02-TROUSER-BACK-RISE-POM-S309\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 309 exit: the finished back-rise POM is anchored to the exact same-revision backLeft center-back crotch vertex.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Start Slice 310 at 2026-09-30 16:41:59 UTC from clean S309 b89eec1.*G04-V02-TROUSER-WAISTBAND-DEPTH-POM-S310\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 310 exit: source and retained production SVGs prove the authored `centerBack` mark is the exact same-revision midpoint of the compiled back closure edge in all 24 accepted configurations.*S311 will add the typed mark-entity anchor/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 312 exit: Skirt waist and hip POMs resolve to matching exact front\/back outline vertices.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 313 started 2026-09-30 18:33:26 UTC from clean S312 c7e7a6fc.*G04-V02-TANK-BACK-POM-ANCHORS-S313\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 319 exit: production replay covered 73 configurations, 146 faces and 32 option fields; 28 accepted and 118 complete source-backed holds exactly match S315/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 318 exit: source-backed colorway areas are visibly rasterized at one 16% tint.*13 SVGs and 27 fills.*V02 remains In Progress; V03 remains Backlog/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 304 started 2026-09-30 13:02:44 UTC.*G04-V02-ACCEPTED-FACE-OVERLAYS-S304\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S301-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S316-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S316-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S317-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S317-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S318-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S318-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S319-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S319-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S285-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S286-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S287-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S287-EXIT"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S288-START"));
+      assert.ok(admittedWork[1].evidenceRefs.includes("E-G04-S288-EXIT"));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 282 started.*G04-V02-FACE-SEGMENT-CONTRACT-S282\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 283 started.*G04-V02-SOURCE-INTERFACE-SEGMENTS-S283\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 283 exit: source-backed Skirt waistband face segments passed/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 284 started 2026-09-30 05:24:03 UTC.*G04-V02-INTEGRATED-OUTPUT-REVIEW-S284\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 288 exit: Jalie 3137, Maelo BL-018 and Threads two-piece collar drafting sources/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /S289 source-topology audit found no supported rigid Trouser face placement/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /S290 source audit: exact Tee.*cap edges pair to front.*armhole/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 292 started 2026-09-30 08:50:03 UTC.*G04-V02-WOVEN-SOURCE-MAPPING-S292\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 293 started 2026-09-30 09:01:47 UTC.*G04-V02-WOVEN-BODY-VIEW-METADATA-S293\.md/.test(comment.text)));
+      assert.ok(admittedWork[1].comments.some((comment) => /Slice 294 started 2026-09-30 09:16:12 UTC.*G04-V02-COLLAR-REFERENCE-REVIEW-S294\.md/.test(comment.text)));
+      assert.deepEqual(admittedWork.map((entry) => entry.dependencies), [[], ["G04-V01"], ["G04-V02"]]);
     }
     if (id === "EPIC-16") {
       assert.match(epic.description, /docs\/planning\/EPIC-16-ADMISSION\.md/);
@@ -202,8 +732,9 @@ test("closed Epics 14–16 and gated future backlog match their evidence", () =>
   const laterEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
   assert.equal(laterEpics.length, 15);
   assert.equal(laterEpics.find((entry) => entry.id === "EPIC-16")?.status, "Closed");
-  assert.ok(laterEpics.filter((entry) => entry.id !== "EPIC-16").every((entry) => entry.status === "Backlog"),
-    "only completed EPIC-16 leaves the future goals in Backlog");
+  assert.equal(laterEpics.find((entry) => entry.id === "EPIC-17")?.status, "In Progress");
+  assert.ok(laterEpics.filter((entry) => entry.id !== "EPIC-16" && entry.id !== "EPIC-17").every((entry) => entry.status === "Backlog"),
+    "goals after the admitted EPIC-17 remain in Backlog");
   const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
   const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
   const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");

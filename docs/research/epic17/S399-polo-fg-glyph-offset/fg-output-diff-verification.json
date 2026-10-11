@@ -1,0 +1,218 @@
+{
+  "baseline": "S394 actual production-renderer SVGs for the same 17 Polo option values",
+  "current": "S399 actual production-renderer SVGs",
+  "result": "All 17 SVGs are byte-identical to S394 after restoring only the FG glyph x/y and normalizing the S399 revision/title token. The FG ring attributes, two POM source IDs, exact targets/source entities, revision binding, full schedule, paths, marks, colorway and pattern geometry are preserved.",
+  "keyedFronts": 17,
+  "colorwayFronts": 17,
+  "unchangedPairedBacks": 17,
+  "browserErrors": 0,
+  "productionHoldsReleased": 0,
+  "sleeveResidualCm": 0.68,
+  "residualGateCm": 0.25,
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "ringUnchanged": true,
+      "sourceIds": "pom:polo:front-neck-drop|pom:polo:finished-placket-width",
+      "targets": "flat:polo:FRONT_FLAT:component:front:outline|flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+      "glyph": {
+        "x": "-0.4243",
+        "y": "7.6457"
+      },
+      "scheduleRows": 11,
+      "otherwiseByteIdenticalToS394": true
+    }
+  ]
+}

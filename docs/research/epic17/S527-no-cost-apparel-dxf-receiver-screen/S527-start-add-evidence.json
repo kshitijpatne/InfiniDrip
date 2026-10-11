@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3219,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S527-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S527-no-cost-apparel-dxf-receiver-screen/S527-start-packet.md",
+    "verified": true,
+    "note": "One bounded desk search of new no-cost apparel-DXF receiver candidates using official current sources. Excludes previously screened candidates and all CLO/UI/file activity; does not change V03 gates."
+  }
+}

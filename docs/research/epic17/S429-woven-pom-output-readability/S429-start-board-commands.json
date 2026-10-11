@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2529,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S429-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S429-woven-pom-output-readability/G04-V02-WOVEN-POM-OUTPUT-READABILITY-S429.md",
+      "verified": true,
+      "note": "Starts a 28-option current-revision audit of Woven POM/callout and label readability using actual emitted SVG output; preserves all holds and gates."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2530,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S429 from clean S428 c481a1a. Audit exact Woven revision 14:14 across 28 options / 56 faces for POM target identity, keyed D/W presentation, label and marker overlap, and actual Chromium readability. No mapping, geometry, acceptance or hold changes."
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3350,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S559 traces actual source grade rules and DXF output. If a genuine source-backed multi-size/grade fixture exists, test it once using the documented CLO grade-inclusion route; otherwise record the precise missing relationship. Keep all other V03 holds and legacy identities."
+}

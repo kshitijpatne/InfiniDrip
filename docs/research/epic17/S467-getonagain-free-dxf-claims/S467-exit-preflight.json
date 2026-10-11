@@ -1,0 +1,47 @@
+{
+  "startRevision": 2871,
+  "exitRevision": 2875,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "evidence": {
+        "note": "Official free-version sources support generic DXF import/export and AAMA/ASTM import claims, but not AAMA/ASTM export, local processing, license or rights; candidate remains unselected.",
+        "id": "E-G04-S467-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md",
+        "verified": true
+      },
+      "itemId": "G04-V03",
+      "expectedRevision": 2871,
+      "type": "addEvidence"
+    },
+    {
+      "evidence": {
+        "note": "S467 resolves official free-build claims: candidate can be considered for local trial only after exact build, rights and on-device handling are checked; no fixture transferred.",
+        "id": "E-EPIC17-S467-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S467-getonagain-free-dxf-claims/S467-exit-packet.md",
+        "verified": true
+      },
+      "itemId": "EPIC-17",
+      "expectedRevision": 2872,
+      "type": "addEvidence"
+    },
+    {
+      "actor": "Codex",
+      "role": "maintainer",
+      "expectedRevision": 2873,
+      "evidenceId": "E-EPIC17-S467-EXIT",
+      "type": "addEpicEvidence",
+      "epicId": "EPIC-17"
+    },
+    {
+      "itemId": "G04-V03",
+      "expectedRevision": 2874,
+      "type": "addComment",
+      "actor": "Codex",
+      "text": "S467 reconciles GetonAgain official-language claims: free version lists generic DXF import/export and AAMA/ASTM import, but AAMA/ASTM export and local handling are not established; phone login/cloud SuperNest are disclosed. No install or fixture transfer. Candidate unselected pending exact build, rights and local-processing check; V03 gates unchanged. See E-G04-S467-EXIT."
+    }
+  ]
+}

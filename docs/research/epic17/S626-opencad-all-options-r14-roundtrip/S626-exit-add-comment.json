@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3646,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S626 exercised all 73 canonical size-M supported-option fixtures in two local Open CAD Studio R14 generations. Every second-generation file is byte-identical; 72 valid source rows preserve CUT/SEW and named marks exactly. The supported Woven sideVentDepth=0 source row contains NaNs because a zero-length vent edge receives a 1 cm seam allowance; Open CAD accepts it and rewrites it as degenerate geometry, so it is not a pass and exposes an additional malformed-input hold. Source/options/round-trip evidence is bounded general-CAD only; unit semantics and option-wide receiver plots remain open. No V03 gate or all-seven criterion clears or changes. Next S627 repairs and verifies the source degeneracy, then reruns all 73 rows. V02 remains Done; V03 and EPIC-17 remain In Progress. See E-G04-S626-EXIT and E-G04-S626-MATRIX."
+}

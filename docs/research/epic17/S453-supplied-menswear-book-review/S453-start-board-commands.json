@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2725,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S453-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S453-supplied-menswear-book-review/G04-SUPPLIED-MENSWEAR-BOOK-REVIEW-S453.md",
+      "verified": true,
+      "note": "Begins an evidence-only review of two maintainer-supplied menswear patternmaking books; no Woven decision, mapping, source, hold, or acceptance change."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2726,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S453 reviews the supplied Kim & Kim and Kershaw menswear books for specific figures that may support the exact Woven front-collar or fixed-band back-view decisions. Work is split across disjoint read-only Claude/OpenCode assignments; no semantics or holds change without verified evidence and approval."
+  }
+]

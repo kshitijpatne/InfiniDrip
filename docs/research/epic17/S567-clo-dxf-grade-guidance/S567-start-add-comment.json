@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3382,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S567 reviews current official CLO documentation on how native size grading applies to sewn/internal paths and what the tested graded DXF export promises. Compare claims to S565/S566; preserve URLs and limits. This is a research slice only: the current CLO capture/accessibility states disagree, so no UI input or repeat export is planned. No profile selection or V03 gate changes; all holds remain."
+}

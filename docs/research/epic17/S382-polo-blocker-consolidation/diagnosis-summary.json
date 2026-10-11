@@ -1,0 +1,133 @@
+{
+  "configurations": 17,
+  "sourceRevisionPrefix": "live-draft:polo:S380:",
+  "optionValuesEqualS379": true,
+  "allSourceRevisionsMatch": true,
+  "leaderCountPerView": [
+    13,
+    12
+  ],
+  "totalCalloutLeaderInstances": 220,
+  "optionRowsWithNonTargetPathClearanceBelow025": [
+    {
+      "caseId": "polo-default",
+      "count": 10
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "count": 10
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "count": 10
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "count": 10
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "count": 10
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "count": 10
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "count": 10
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "count": 10
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "count": 10
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "count": 10
+    }
+  ],
+  "uniquePomsFailingPathClearance": 10,
+  "allRowsFailPathClearance": true,
+  "pathClearanceInstances": 170,
+  "properPathIntersections": 139,
+  "positiveClearancesBelow025": 31,
+  "leaderPairsWithin025": 51,
+  "leaderToTextIntersections": 3,
+  "s379PriorFindingCount": 220,
+  "s379PriorPathClearanceInstances": 171,
+  "s379SamplerBug": "The S379 audit loop sampled cubic t=n/40 for n=1..200, extending curves from t=1 to t=5 instead of sampling 0..1. S382 reruns the actual S380 rendered SVGs with t=n/200.",
+  "correctedS379Disposition": "One S379-only finding, pom:polo:front-body-length-hps-hem at polo-standFrontRise-min, clears the 0.25 cm test on current geometry; current nearest distance is 27.5 cm from the front fold-reflection path. S379 counts of 171 (<0.25 cm), 141 crossings and 30 positive clearances are superseded by the current 170, 139 and 31.",
+  "CKey": {
+    "sourceId": "pom:polo:collar-point-extension",
+    "sourceEntity": "pattern:polo:role:upperCollar:edge:frontTip",
+    "targetEdge": "upperCollar.frontTip:end",
+    "markerRadiusCm": 0.22,
+    "sourceCentered": true,
+    "fullTextSchedulePreserved": true,
+    "keyedRenderedRows": 17,
+    "unkeyedBaseFailureRows": [
+      {
+        "caseId": "polo-standFrontRise-max",
+        "issues": [
+          "TEXT_COLLISION"
+        ]
+      },
+      {
+        "caseId": "polo-collarPointExtension-min",
+        "issues": [
+          "TEXT_COLLISION"
+        ]
+      }
+    ],
+    "productionHoldsReleased": 0
+  },
+  "residual": {
+    "sourceStitch": "Sleeve-cap ease",
+    "sourceEaseCm": 1.5,
+    "sourceCapHalf": "sleeve.capLeft / sleeve.capRight",
+    "receivingEdges": "front.armhole / back.armhole",
+    "totalCapLengthCm": 43.19145806476,
+    "totalReceivingArmholeCm": 41.69145806677,
+    "endpointResidualCm": 0.68,
+    "gateCm": 0.25,
+    "heldFaces": 34,
+    "approvedViewProjection": "G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH; view-only and does not alter rigid assembly residual"
+  },
+  "textBoxMethod": "Chromium getBBox() for each emitted SVG text[data-label-for]; straight leader segment compared against actual glyph bounding boxes excluding its own label",
+  "pathGeometry": "SVG M/L/Z exact and C cubic paths linearly sampled at 200 equal parameter steps (t in [0,1]); path clearance measured in viewBox cm. A leader is a two-endpoint M/L segment.",
+  "thresholdCm": 0.25,
+  "browserErrors": 0,
+  "colorwayFillRendered": false
+}

@@ -1,0 +1,20 @@
+{
+  "status": "diagnostic-only; not implemented",
+  "options": [
+    "polo-default",
+    "polo-standFrontRise-min",
+    "polo-standFrontRise-max"
+  ],
+  "glyphTranslationCm": {
+    "x": 0,
+    "y": 0.7
+  },
+  "fixedMarker": "J ring remains exactly at outerStand.frontEnd; only J text moves",
+  "clearanceBasis": "S434-j-glyph-offset-scan.json",
+  "rendererBrowserErrors": [],
+  "renders": [
+    "rendered-j-offset-trial/polo-default-neck-detail.png",
+    "rendered-j-offset-trial/polo-standFrontRise-min-neck-detail.png",
+    "rendered-j-offset-trial/polo-standFrontRise-max-neck-detail.png"
+  ]
+}

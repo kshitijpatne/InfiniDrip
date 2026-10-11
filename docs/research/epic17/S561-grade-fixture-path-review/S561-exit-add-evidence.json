@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3359,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S561-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S561-grade-fixture-path-review/S561-exit-packet.md",
+    "verified": true,
+    "note": "First-party CLO guidance identifies DXF-ASTM for grading included in DXF; API docs expose grade groups/points but build compatibility is unverified. No source-backed grade fixture or new round trip. CLO UI visible/accessibility states conflict; no export action attempted. All grade/size and V03 holds remain."
+  }
+}

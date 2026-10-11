@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3609,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S618 is a documentation-only correction, recorded in E-G04-S618-EXIT. S617 timing now ends at commit bc0064c4 (13:01:01 UTC, total 17m25s), PROJECT-STATE.md EOF whitespace is clean, and its evidence preflight remains reusable after board advancement. The S617 CLO finding and every V03 hold remain unchanged."
+}

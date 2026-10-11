@@ -1,0 +1,41 @@
+[
+  {
+    "evidence": {
+      "verified": true,
+      "note": "Official Richpeace free English V8 listing links the V8 manual documenting local-path AAMA/ASTM import and ASTM export; exact build, license/local handling and round-trip remain unverified.",
+      "id": "E-G04-S468-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md"
+    },
+    "itemId": "G04-V03",
+    "type": "addEvidence",
+    "expectedRevision": 2879
+  },
+  {
+    "evidence": {
+      "verified": true,
+      "note": "S468 recommends Richpeace V8 Free English as next local receiver trial candidate, without selection or compatibility claim; V03 acceptance unchanged.",
+      "id": "E-EPIC17-S468-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S468-richpeace-free-v8-candidate/S468-exit-packet.md"
+    },
+    "itemId": "EPIC-17",
+    "type": "addEvidence",
+    "expectedRevision": 2880
+  },
+  {
+    "epicId": "EPIC-17",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S468-EXIT",
+    "type": "addEpicEvidence",
+    "actor": "Codex",
+    "expectedRevision": 2881
+  },
+  {
+    "text": "S468 identifies Richpeace Garment CAD V8.0 Free Version-English as the best install candidate: official product listing links a V8 manual with AAMA/ASTM import and ASTM export. This is still unproven for the exact installed build and local/rights conditions; no install or fixture transfer. Check About, menus, terms and local paths first; V03 remains In Progress. See E-G04-S468-EXIT.",
+    "itemId": "G04-V03",
+    "type": "addComment",
+    "expectedRevision": 2882,
+    "actor": "Codex"
+  }
+]

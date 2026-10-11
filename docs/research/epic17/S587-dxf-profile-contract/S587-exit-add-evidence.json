@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3463,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S587-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S587-dxf-profile-contract/S587-exit-packet.md",
+    "verified": true,
+    "note": "S587 maps CLO DXF-AAMA documented controls separately from generic DXF metadata. CLO documents units, annotation, cut/sew swap, and grade/Rule File choices but no piece/mark-ID or XDATA retention contract. DXF XDATA is app-defined. Next is one geometry-identical Polo XDATA-retention pilot; it cannot clear the five known contour failures or establish AAMA semantics."
+  }
+}

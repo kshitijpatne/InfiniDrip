@@ -1,0 +1,1746 @@
+{
+  "method": "independent exact 2D finite-line segment intersection over emitted M/L commands; cubic commands excluded",
+  "configurationCount": 28,
+  "checkedRolePairs": 224,
+  "matchedRolePairs": 224,
+  "reportedCrossingPoints": 474,
+  "matchedCrossingPoints": 474,
+  "records": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "pairs": [
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:back:outline:fold-reflection",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "sampledOrReportedPoints": 1,
+          "exactLinePoints": 1,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeve:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "sampledOrReportedPoints": 4,
+          "exactLinePoints": 4,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline:fold-reflection",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        },
+        {
+          "firstEntityId": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:approved-view-pair",
+          "secondEntityId": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "sampledOrReportedPoints": 2,
+          "exactLinePoints": 2,
+          "matched": true
+        }
+      ]
+    }
+  ]
+}

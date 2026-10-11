@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2119,"itemId":"G04-V02","evidence":{"id":"E-G04-S391-START","kind":"document","uri":"docs/research/epic17/S391-polo-keyed-marker-current-state/G04-V02-POLO-KEYED-MARKER-CURRENT-STATE-S391.md","verified":true,"note":"Read-only current-output diagnosis of all eight Polo keyed stations on the exact 17 S390 production-renderer revisions. Reuse existing matrices; retain all 34 holds and the fixed residual gate."}},
+  {"type":"addEvidence","expectedRevision":2120,"itemId":"EPIC-17","evidenceId":"E-G04-S391-START"},
+  {"type":"addEpicEvidence","expectedRevision":2121,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S391-START"},
+  {"type":"addComment","expectedRevision":2122,"itemId":"G04-V02","actor":"Codex","text":"S391 diagnoses the complete current keyed-marker set against the exact S390 17-option production output. It is read-only: no marker, POM, geometry, threshold or acceptance changes. All 34 Polo faces remain held."}
+]

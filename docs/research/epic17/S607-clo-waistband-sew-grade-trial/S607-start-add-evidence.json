@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3558,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S607-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S607-clo-waistband-sew-grade-trial/S607-start-packet.md",
+    "verified": true,
+    "note": "S607 checks whether the exact S606 source-matched waistband SEW path can be unambiguously graded in the existing CLO disposable project; then, only if confirmed, one source-derived five-size DXF-ASTM export/reimport is compared at 0.001 cm. No product source or acceptance changes."
+  }
+}

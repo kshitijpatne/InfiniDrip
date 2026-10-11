@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3647,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S627-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S627-woven-zero-vent-source-repair/S627-start-packet.md",
+    "verified": true,
+    "note": "S626 isolated a supported Woven sideVentDepth=0 source NaN defect: a zero-length vent edge with 1 cm allowance poisons the DXF. S627 narrowly removes that degenerate edge/marker at zero only, protects nonzero construction, proves finite source geometry, reruns all 73 canonical options through two local R14 generations, and conditionally performs one bounded CLO Woven AAMA pre-export gate. All V03 criteria and threshold remain unchanged."
+  }
+}

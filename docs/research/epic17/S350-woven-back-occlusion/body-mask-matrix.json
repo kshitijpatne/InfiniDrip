@@ -1,0 +1,291 @@
+{
+  "candidate": "same-revision back and yoke closed fills mask only the sleeve and sleeveBand silhouette paths inside the body region",
+  "configurations": 28,
+  "outputFaces": 28,
+  "browserErrors": [],
+  "allExactRevisions": true,
+  "allSourceSvgBytesRetainedAsInputs": true,
+  "totalTargetPaths": 168,
+  "results": [
+    {
+      "caseId": "woven-shirt-default",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-default-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-default-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-neckEase-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-neckEase-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-neckEase-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-neckEase-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-standHeight-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-standHeight-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-standHeight-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-standHeight-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-collarLeafDepth-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-collarLeafDepth-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-collarLeafDepth-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-collarLeafDepth-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-buttonCount-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-buttonCount-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-buttonCount-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-buttonCount-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-buttonSpacing-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-buttonSpacing-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-buttonSpacing-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-buttonSpacing-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-frontOverlap-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-frontOverlap-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-frontOverlap-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-frontOverlap-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-placketWidth-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-placketWidth-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-placketWidth-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-placketWidth-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-yokeDepth-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-yokeDepth-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-yokeDepth-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-yokeDepth-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-pocketWidth-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-pocketWidth-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-pocketWidth-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-pocketWidth-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-pocketHeight-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-pocketHeight-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-pocketHeight-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-pocketHeight-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-sleeveBandDepth-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-sleeveBandDepth-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-sleeveBandDepth-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-sleeveBandDepth-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-sideVentDepth-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-sideVentDepth-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-sideVentDepth-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-sideVentDepth-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-hemTurn-min-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-hemTurn-min-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-hemTurn-max-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-hemTurn-max-back_flat.svg"
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSvg": "woven-shirt-combined-supported-back_flat.svg",
+      "masks": 2,
+      "maskedRolePaths": 6,
+      "unchangedSource": true,
+      "faceIssueCount": 0,
+      "candidateSvg": "candidate-svg/woven-shirt-combined-supported-back_flat.svg"
+    }
+  ]
+}

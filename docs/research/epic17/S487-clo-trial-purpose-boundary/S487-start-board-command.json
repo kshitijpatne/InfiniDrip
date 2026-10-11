@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3025,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S487-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S487-clo-trial-purpose-boundary/S487-start-packet.md",
+    "verified": true,
+    "note": "S487 reviews only current official CLO trial-purpose/license-class sources against the exact G04 product-development use; no app, account, or fixture."
+  }
+}

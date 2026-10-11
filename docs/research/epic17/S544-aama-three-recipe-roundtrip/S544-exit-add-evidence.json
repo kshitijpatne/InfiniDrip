@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3289,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S544-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S544-aama-three-recipe-roundtrip/S544-exit-packet.md",
+    "verified": true,
+    "note": "S544 hash-verified and copied the three source DXFs to the named C: folder but stopped before import/export because the visible CLO screenshot showed only the synthetic canvas while accessibility reported an invisible Export DXF modal; no exchange or gate change."
+  }
+}

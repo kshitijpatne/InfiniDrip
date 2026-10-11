@@ -1,0 +1,7 @@
+[
+  {"type":"addEvidence","expectedRevision":2204,"itemId":"G04-V02","evidence":{"id":"E-G04-S397-EXIT","kind":"document","uri":"docs/research/epic17/S397-mqf-output-review/G04-V02-MANUAL-FINDINGS-OUTPUT-REVIEW-S397.md","verified":true,"note":"Finding-by-finding evidence review of MQF-004–007, MQF-011/012 and MQF-015 against S394/S396 actual output. Findings remain To be reviewed at applicable exits; MQF-011/012 post-G17 deferrals, MQF-015 V03 gate, all face holds and G04 gates are unchanged."}},
+  {"type":"addEvidence","expectedRevision":2205,"itemId":"EPIC-17","evidenceId":"E-G04-S397-EXIT"},
+  {"type":"addEpicEvidence","expectedRevision":2206,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S397-EXIT"},
+  {"type":"addComment","expectedRevision":2207,"itemId":"G04-V02","actor":"Codex","text":"S397 reviewed MQF-004–007, MQF-011/012 and MQF-015 against S394 production H output and S396 diagnostic W output. The evidence is partial for keyed POM anchoring/readability and does not establish accepted construction/artwork/CAD coverage; all findings remain To be reviewed at their applicable exits. MQF-011/012 post-G17 deferrals, MQF-015 V03 rights/round-trip gate, all 56 Woven/34 Polo holds, all-seven V02 and V02-before-V03 remain unchanged."},
+  {"type":"addComment","expectedRevision":2208,"itemId":"EPIC-17","actor":"Codex","text":"G04 manual findings were reviewed at S397 against actual retained output. No finding was closed and no acceptance/hold changed; MQF-015 remains gated for V03."}
+]

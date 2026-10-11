@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3576,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S611-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S611-free-local-apparel-cad-alternatives/S611-exit-packet.md",
+    "verified": true,
+    "note": "Primary-source screen finds no ready free/local apparel receiver: Seamly2D's current README does not document a DXF receiver, OpenPatterns and Richpeace Super V8 have prior documented blockers, while garment.dev is invite-based/hosted and out of scope. No app install, file upload, account or V03 status/criterion change."
+  }
+}

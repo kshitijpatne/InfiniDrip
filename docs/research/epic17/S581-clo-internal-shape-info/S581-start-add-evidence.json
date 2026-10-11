@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3437,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S581-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S581-clo-internal-shape-info/S581-start-packet.md",
+    "verified": true,
+    "note": "One exact-build read-only GetInternalShapeInformation runtime probe of the nine existing CLO patterns, targeting internal-line path visibility for the pinned S574 CUT discrepancy; no geometry/export/project changes or gate changes."
+  }
+}

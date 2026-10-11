@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3143,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S508-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S508-polo-standard-export-roundtrip/S508-start-packet.md",
+      "verified": true,
+      "note": "S508 tests only whether Standard DXF export/reimport avoids S507's observed six-of-100 ASTM round-trip record loss, using the same pinned Polo M source and otherwise controlled settings. No V03 gate or criterion changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3144,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S508 is a C:-confined, user-authorized practical CLO test of Standard DXF export mode against the exact S507 ASTM record-loss finding. Keep the Polo M source hash, Standard 1000% import, units, orientation, grain, notch, optimization, and comparison threshold fixed; change only export/reimport mode. This tests record retention and geometry only, not rights, local-only handling, an industrial profile, grades, negative-control behavior, or all-seven acceptance."
+  }
+]

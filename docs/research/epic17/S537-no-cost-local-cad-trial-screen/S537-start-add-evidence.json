@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3259,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S537-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-start-packet.md",
+    "verified": true,
+    "note": "Begin a bounded official-source screen for newly surfaced no-cost local CAD trial candidates; no signup, vendor contact, install, or pattern use. Prior CLO and receiver evidence is reused; V03 gates stay unchanged."
+  }
+}

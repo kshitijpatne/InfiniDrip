@@ -1,0 +1,215 @@
+{
+  "commands": 29,
+  "startingRevision": 1997,
+  "skipped": 29,
+  "replayed": 0,
+  "endingRevision": 1997,
+  "skippedEntries": [
+    {
+      "index": 0,
+      "type": "createItem",
+      "id": "UIQ-01"
+    },
+    {
+      "index": 1,
+      "type": "createItem",
+      "id": "UIQ-02"
+    },
+    {
+      "index": 2,
+      "type": "createItem",
+      "id": "UIQ-03"
+    },
+    {
+      "index": 3,
+      "type": "createItem",
+      "id": "UIQ-04"
+    },
+    {
+      "index": 4,
+      "type": "createItem",
+      "id": "UIQ-05"
+    },
+    {
+      "index": 5,
+      "type": "createItem",
+      "id": "UIQ-GATE"
+    },
+    {
+      "index": 6,
+      "type": "createItem",
+      "id": "UIQ-06"
+    },
+    {
+      "index": 7,
+      "type": "createItem",
+      "id": "UIQ-07"
+    },
+    {
+      "index": 8,
+      "type": "createItem",
+      "id": "UIQ-08"
+    },
+    {
+      "index": 9,
+      "type": "createItem",
+      "id": "UIQ-09"
+    },
+    {
+      "index": 10,
+      "type": "createItem",
+      "id": "UIQ-10"
+    },
+    {
+      "index": 11,
+      "type": "createItem",
+      "id": "UIQ-11"
+    },
+    {
+      "index": 12,
+      "type": "createItem",
+      "id": "UIQ-12"
+    },
+    {
+      "index": 13,
+      "type": "createItem",
+      "id": "UIQ-13"
+    },
+    {
+      "index": 14,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 15,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 16,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 17,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 18,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 19,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 20,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 21,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 22,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 23,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 24,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 25,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 26,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 27,
+      "type": "addEvidence",
+      "id": "E-UIQ-APPROVAL"
+    },
+    {
+      "index": 28,
+      "type": "addComment",
+      "id": "EPIC-17"
+    }
+  ],
+  "replayedEntries": [],
+  "epic17": "In Progress",
+  "g04v02": "In Progress",
+  "uiqStatuses": [
+    [
+      "UIQ-01",
+      "Backlog"
+    ],
+    [
+      "UIQ-02",
+      "Backlog"
+    ],
+    [
+      "UIQ-03",
+      "Backlog"
+    ],
+    [
+      "UIQ-04",
+      "Backlog"
+    ],
+    [
+      "UIQ-05",
+      "Backlog"
+    ],
+    [
+      "UIQ-GATE",
+      "Backlog"
+    ],
+    [
+      "UIQ-06",
+      "Backlog"
+    ],
+    [
+      "UIQ-07",
+      "Backlog"
+    ],
+    [
+      "UIQ-08",
+      "Backlog"
+    ],
+    [
+      "UIQ-09",
+      "Backlog"
+    ],
+    [
+      "UIQ-10",
+      "Backlog"
+    ],
+    [
+      "UIQ-11",
+      "Backlog"
+    ],
+    [
+      "UIQ-12",
+      "Backlog"
+    ],
+    [
+      "UIQ-13",
+      "Backlog"
+    ]
+  ]
+}

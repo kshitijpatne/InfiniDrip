@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3691,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S637 tested one bounded source-exact mark-encoding hypothesis in the existing CLO session. Eight Woven MARK_BUTTON circles became 32 exact quarter-arcs with every other parsed entity unchanged. DXF-AAMA import returned 12 named patterns and zero API errors, but the native query exposes no independently identifiable button-mark records and the actual 1:1 CLO snapshot/detail omits all seven placket buttons and the stand mark. This is a measured rendered-mark failure; no export or round trip was attempted. No setting permutation, source/product geometry, profile claim, threshold, V03 gate, status, or hold changed. See E-G04-S637-EXIT and its hash-pinned C:-only evidence."
+}

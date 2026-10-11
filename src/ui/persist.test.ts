@@ -27,6 +27,12 @@ const FABRIC = "#3A4150";
 
 describe("v4 workspace validation", () => {
   const valid = () => JSON.parse(serialize(STANDARD_M, FABRIC));
+  it("persists the advanced technical-flat canvas view", () => {
+    const workspace = { ...DEFAULT_WORKSPACE, view: "flat" as const };
+    const result = deserialize(serialize(STANDARD_M, FABRIC, {}, workspace));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.workspace.view).toBe("flat");
+  });
   it("uses identical edit/save/load bounds, including length 100 and negative ease", () => {
     const m = { ...STANDARD_M, length: 100, shoulderWidth: 70, bicep: 20, armholeDepth: 12, sleeveLength: 8, ease: -8 };
     expect(saveToStorage(m, FABRIC)).toBe(true);

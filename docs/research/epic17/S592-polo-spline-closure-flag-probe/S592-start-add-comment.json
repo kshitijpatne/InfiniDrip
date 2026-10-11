@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3486,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S592 starts from S591 commit f8c45b1a with origin/main still an ancestor. One controlled CLO 2026.1.310 DXF-AAMA trial will vary only group 70 from 25 to 24 on the five Polo CUT SPLINE entities; original controls, repeated first endpoints, knots, and all other DXF pairs stay fixed. Import follows only an exact source-side preflight. This cannot clear V03 by itself or change any scope/gate. See E-G04-S592-START."
+}

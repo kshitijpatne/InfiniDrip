@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3276,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S541 checks the seven existing hash-pinned CLO recipe exports' raw DXF header/version values against primary Autodesk and ASTM records. Read-only; no CLO repeat, conformance leap, or acceptance change."
+}

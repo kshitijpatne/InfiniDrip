@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3553,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S605 closed fail-closed: CLO 2026.1.310 returned 3 numeric pattern names and empty outline arrays; the internal-shape call failed with NameError: utility_api is not defined. S582/S581 already show the required shape-list/info getters are absent from pattern_api, so do not repeat the API survey. The S603 grading identity hold remains and no V03 gate clears. S606 returns to a remaining actual exchange/profile gate using the fixed 0.001 cm threshold and unchanged all-seven requirement. Rights and local-only handling are confirmed; CLO stays open."
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3492,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S593 starts from committed S592 3b357de4 with origin/main still an ancestor. This read-only diagnosis uses only hash-pinned S591/S592 Polo DXF inputs, outputs and reports to enumerate every receiver CUT candidate and trace residual neighborhoods to source segments/vertices. It introduces no encoding variant, CLO operation, source edit, or gate change. See docs/research/epic17/S593-polo-cut-output-topology/S593-start-packet.md."
+}

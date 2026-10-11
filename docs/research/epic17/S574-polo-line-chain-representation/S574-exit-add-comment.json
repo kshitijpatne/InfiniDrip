@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3412,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S574 is a measured no-go for this line-chain candidate: CLO imports/exports/re-imports and renders nine pieces, but 9/9 source CUT contours miss the fixed 0.001 cm gate against their matched piece blocks. Nine SEW contour geometries match, though output layer meaning is ambiguous. Generation two was not run. The next action is to trace CUT/SEW role/entity mapping in gen1 before another representation trial; no acceptance or hold changed. See E-G04-S574-EXIT."
+}

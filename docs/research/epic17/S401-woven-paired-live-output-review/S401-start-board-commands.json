@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2245,"itemId":"G04-V02","evidence":{"id":"E-G04-S401-START","kind":"document","uri":"docs/research/epic17/S401-woven-paired-live-output-review/G04-V02-WOVEN-PAIRED-LIVE-OUTPUT-REVIEW-S401.md","verified":true,"note":"Begins 28-configuration paired Woven front/back actual live-compiler output review after S400 integrates the approved W marker mapping; acceptance and all held faces remain unchanged."}},
+  {"type":"addEvidence","expectedRevision":2246,"itemId":"EPIC-17","evidenceId":"E-G04-S401-START"}
+]

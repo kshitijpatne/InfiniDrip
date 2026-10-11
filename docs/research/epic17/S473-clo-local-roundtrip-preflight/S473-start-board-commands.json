@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2911,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S473-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-start-packet.md",
+      "verified": true,
+      "note": "S473 records owner-reported 14-day all-features trial and local DXF handling, screenshots of top-level DXF import/export, and a copy-only Tee test plan; no round-trip result is claimed."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2912,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S473-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S473-clo-local-roundtrip-preflight/S473-start-packet.md",
+      "verified": true,
+      "note": "S473 prepares the first owner-operated local CLO synthetic Tee exchange within the reported free trial; all V03 rights/profile/round-trip gates remain open."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2913,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S473-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2914,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S473 records the owner's free 14-day all-features trial and local-file confirmation, plus screenshots showing File > Import > DXF and File > Export > DXF. The screenshots show top-level entries only; dialog-level profile/units and round-trip output remain unverified. A SHA-verified Tee copy and operator runbook are prepared; no source fixture or export behavior changed."
+  }
+]

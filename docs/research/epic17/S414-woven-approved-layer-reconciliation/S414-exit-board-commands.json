@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2405,"itemId":"G04-V02","evidence":{"id":"E-G04-S414-EXIT","kind":"document","uri":"docs/research/epic17/S414-woven-approved-layer-reconciliation/G04-V02-WOVEN-APPROVED-LAYER-RECONCILIATION-S414.md","verified":true,"note":"Reaffirmed collar-over-plackets approval is already implemented in S406; exact 28-option output and S407/S410 evidence leave only the distinct neckline clip choice unresolved; all 56 Woven and 34 Polo faces remain held."}},
+  {"type":"addEpicEvidence","expectedRevision":2406,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S414-EXIT"},
+  {"type":"addComment","expectedRevision":2407,"itemId":"G04-V02","actor":"Codex","text":"S414 confirms the reaffirmed collar-over-plackets order is implemented. It does not settle the separate S410 center-front neckline interruption choice. Woven: 56 held; Polo: 34 held; all-seven V02 unchanged."}
+]

@@ -53,6 +53,7 @@ const expectedPieces = [
   "trouser back right",
   "trouser waistband",
   "trouser fly shield",
+  "trouser fly underlap",
   "trouser pocket bag left",
   "trouser pocket bag right",
 ];

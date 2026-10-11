@@ -19,6 +19,7 @@
     "web:verify-g02-responsive": "node electron/verify-g02-responsive.cjs",
     "readiness:drill:test": "node --test ops/readiness/readiness-drill.test.mjs",
     "test": "vitest run",
+    "test:epic17-research": "node --test docs/research/epic17/S366-woven-back-exterior-normal-proposal/proposal-candidate.test.mjs docs/research/epic17/S367-woven-hem-half-band-proposal/half-band-topology.test.mjs docs/research/epic17/S369-woven-uncut-band-feasibility/uncut-band-hem-half.test.mjs docs/research/epic17/S370-woven-band-detail-feasibility/detached-band-layout.test.mjs docs/research/epic17/S371-woven-pom-relocated-leader/relocated-label-feasibility.test.mjs docs/research/epic17/S474-tee-geometry-oracle/tee-geometry-oracle.test.mjs",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "electron:build-main": "tsc -p electron/runtime-tsconfig.json && tsc -p electron/tsconfig.json --noEmit",

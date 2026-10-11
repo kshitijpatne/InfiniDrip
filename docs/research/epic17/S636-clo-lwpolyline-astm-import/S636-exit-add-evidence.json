@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3686,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S636-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S636-clo-lwpolyline-astm-import/S636-exit-packet.md",
+    "verified": true,
+    "note": "Final CLO LWPOLYLINE × DXF-ASTM matrix cell reproduces S635 Standard's four CUT passes/five failures on the same source revision and exact CUT representation at 0.001 cm. Actual CLO project/API data, overview and five rendered contours are hash-pinned in the C:-only S636 folder. Button-placket child shape count differs (9 vs 6) and is recorded without semantic interpretation. Packet stop-before-export honored; no DXF export or gate/status/hold change. CLO CUT permutation path is complete; next select a distinct receiver/profile from documented rights and exchange evidence."
+  }
+}

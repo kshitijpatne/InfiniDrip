@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3461,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S587-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S587-dxf-profile-contract/S587-start-packet.md",
+    "verified": true,
+    "note": "S587 maps only the source/profile fields left explicit or unresolved by S586, reusing retained official CLO/profile evidence and checking narrowly needed primary DXF metadata references. Read-only; no new receiver search, CLO retry, output, product change, or gate change."
+  }
+}

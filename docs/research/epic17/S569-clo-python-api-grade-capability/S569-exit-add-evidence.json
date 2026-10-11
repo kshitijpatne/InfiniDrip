@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3391,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S569-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S569-clo-python-api-grade-capability/S569-exit-packet.md",
+    "verified": true,
+    "note": "Official CLO docs show an in-app Python editor and an outline-point grading setter, but no documented internal-shape grading setter; the published SDK targets .224, not installed .310. A fresh CLO capture again shows workspace while accessibility reports Export DXF. No UI input or exchange followed. API route not qualified; all V03 gates remain held."
+  }
+}

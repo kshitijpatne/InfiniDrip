@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S698 confirms the S697 precision correction helped on the exact Polo M fixture, but the CLO Standard route still fails six CUT contours at the fixed 0.001 cm threshold, omits all three typed buttonhole points, and loses named layer/entity identity. Units and all SEW paths pass for this one fixture, and the reopened render was inspected. No further setting or format sweep is scheduled. The next slice will inspect the exporter and source/return entities to identify a code-supported correction before any other receiver run. See S698 gate delta and exit packet; all seven recipes, thresholds, and V03 acceptance remain unchanged.",
+  "expectedRevision": 4128
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3151,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S510-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S510-clo-aama-workspace-recovery/S510-start-packet.md",
+      "verified": true,
+      "note": "S510 follows the user's report that CLO is running and checks whether a fresh workspace exposes the authorized AAMA fixture path. All V03 gates and statuses stay unchanged; no CLO format result is presumed."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3152,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S510 is a bounded recovery check for the authorized CLO AAMA trial. It will distinguish a usable workspace from a desktop-control failure, keep all files within the existing C: evidence root, and preserve all V03 gates/statuses."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3600,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S616-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S616-standard-dxf-units-sensitivity/V03-CURRENT-GATE-MATRIX-S616.md",
+    "verified": true,
+    "note": "Refreshed V03 gate matrix after S616. CLO Standard-DXF remains a concrete scale/geometry failure for this fixture; all seven-recipe coverage, profile/rights, identity, semantics, marks, grades/options, malformed-input, rendered-detail, and repeated-roundtrip holds remain open."
+  }
+}

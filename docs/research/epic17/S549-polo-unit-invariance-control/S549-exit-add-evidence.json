@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3309,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S549-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S549-polo-unit-invariance-control/S549-exit-packet.md",
+    "verified": true,
+    "note": "Exact mm-equivalent Polo fixture generated and coordinate-verified. Five failures share 0.0456–0.0470 cm incoming segments, but CLO targetability mismatch prevented the exchange; hidden Export DXF dialog conflicted with visible canvas. No exchange result or gate change."
+  }
+}

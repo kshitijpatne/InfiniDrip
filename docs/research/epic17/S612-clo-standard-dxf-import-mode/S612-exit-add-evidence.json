@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3580,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S612-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S612-clo-standard-dxf-import-mode/S612-exit-packet.md",
+    "verified": true,
+    "note": "The Standard-DXF CLO trial did not execute because the active computer-use runtime exposes no native window inventory/binding methods. No CLO action or exchange file occurred; this is a tool-access blocker, not a CLO format result. All V03 gates remain held."
+  }
+}

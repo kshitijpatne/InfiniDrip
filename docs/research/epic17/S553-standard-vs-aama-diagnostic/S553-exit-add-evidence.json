@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3327,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S553-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S553-standard-vs-aama-diagnostic/S553-exit-packet.md",
+    "verified": true,
+    "note": "One Standard DXF export from the same imported Polo workspace exactly matches the AAMA output across all 18 contour residuals; the same five source vertices remain missing. This rules out AAMA-only loss but does not isolate import/internal representation from shared export behavior. All V03 gates remain held."
+  }
+}

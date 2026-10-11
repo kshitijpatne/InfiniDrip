@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3551,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S605 calls only documented read-only CLO geometry getters in the existing 2026.1.310 session to identify the S565 waistband's CUT outline and internal SEW path against S567 source geometry. No project change, grading setter, save, or exchange. If the exact paths cannot be uniquely distinguished, preserve the hold. V03 gates remain unchanged."
+}

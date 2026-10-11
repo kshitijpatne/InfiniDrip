@@ -1,0 +1,7 @@
+[
+  {"type":"addEvidence","expectedRevision":2068,"itemId":"G04-V02","evidence":{"id":"E-G04-S389-START","kind":"document","uri":"docs/research/epic17/S389-polo-glyph-offset-option-review/G04-V02-POLO-GLYPH-OFFSET-OPTION-REVIEW-S389.md","verified":true,"note":"Diagnostic-only all-17-option review of S387's E/I key-letter offset candidates against current S388 actual-renderer output. No production offset or approval is assumed; all 34 Polo holds remain."}},
+  {"type":"addEvidence","expectedRevision":2069,"itemId":"EPIC-17","evidenceId":"E-G04-S389-START"},
+  {"type":"addEpicEvidence","expectedRevision":2070,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S389-START"},
+  {"type":"addComment","expectedRevision":2071,"itemId":"G04-V02","actor":"Codex","text":"S389 is diagnostic only: replay the pending S387 E/I glyph-offset candidates against all 17 current S388 Polo renders, keeping source paths, marks, marker centers and POM identities fixed. No production typography change is authorized without the pending maintainer decision. Preserve all 34 holds and the 0.25 cm gate."},
+  {"type":"addComment","expectedRevision":2072,"itemId":"EPIC-17","actor":"Codex","text":"S389 isolates the open E/I display decision through option-wide evidence while continuing admitted G04 V02 work. It changes no Epic scope, all-seven acceptance, geometry, CAD, export identity, legacy DXF, or V03 dependency."}
+]

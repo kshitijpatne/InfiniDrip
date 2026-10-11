@@ -1,0 +1,28 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2596,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S436-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S436-polo-face-acceptance-audit/G04-V02-POLO-FACE-ACCEPTANCE-AUDIT-S436.md",
+      "verified": true,
+      "note": "Starts a read-only per-face audit of all 17 current Polo options / 34 views against the complete V02 gates. No acceptance or hold changes are authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2597,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S436: audit every current Polo front/back option against source identity, topology/projection, joins, overlays/colorway, POM, residual and rendered-output gates. Read-only; preserve all 34 Polo and 56 Woven holds and all G04 criteria."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2598,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S436 is a read-only Polo V02 acceptance audit. It does not change all-seven scope, face acceptance, Woven holds, protected exports, DXF behavior or V03 rights/round-trip gates."
+  }
+]

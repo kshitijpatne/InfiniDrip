@@ -1,0 +1,39 @@
+{
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "requestedFaces": 56,
+  "productionReplay": {
+    "frontEmitted": 28,
+    "backEmitted": 28,
+    "compileIssues": 0,
+    "rendererIssues": 0,
+    "browserErrors": 0,
+    "approvedFrontClipCounts": {"perFront": 6, "fronts": 28},
+    "pairedBacksByteIdenticalToS401": 28
+  },
+  "preMaskGeometricContactsPerConfiguration": {
+    "front <> outerStand": 2,
+    "front <> underCollar": 4,
+    "front <> upperCollar": 4,
+    "buttonholePlacket <> outerStand": 1,
+    "buttonholePlacket <> underCollar": "1–2",
+    "buttonholePlacket <> upperCollar": "1–2",
+    "buttonPlacket <> outerStand": 1,
+    "buttonPlacket <> underCollar": "1–2",
+    "buttonPlacket <> upperCollar": "1–2"
+  },
+  "approvedDecision": "Right button placket above left buttonhole placket; projected collar above both; clip only closure outline portions inside the collar silhouette.",
+  "approvedDecisionAlreadyImplemented": true,
+  "remainingVisibleFrontContact": "Two mirrored body-neckline/projected-collar crossings in every option; current complete body-neckline stroke already paints after the collar outlines.",
+  "necklineClipTrial": {
+    "productionImplemented": false,
+    "sourceSeamHiddenCmPerSide": [0.8426, 0.8433],
+    "visibleSeamInterruption": true,
+    "approval": "pending"
+  },
+  "wovenFacesHeld": 56,
+  "poloFacesHeld": 34,
+  "poloResidualCm": 0.68,
+  "poloGateCm": 0.25,
+  "allSevenAcceptance": "unchanged"
+}

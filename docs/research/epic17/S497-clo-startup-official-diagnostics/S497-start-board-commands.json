@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3089,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S497-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S497-clo-startup-official-diagnostics/S497-start-packet.md",
+      "verified": true,
+      "note": "S497 cross-checks official CLO startup guidance and current local ACLs after two nonresponsive launches; read-only only, with no app/settings/file changes."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3090,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S497 checks whether CLO's official disk/Intel startup guidance matches the exact reproduced launch symptoms and local ACLs. Read-only; no changes or further CLO launch. V03 and EPIC status unchanged."
+  }
+]

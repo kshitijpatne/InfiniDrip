@@ -1,0 +1,47 @@
+{
+  "startRevision": 2859,
+  "exitRevision": 2863,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "expectedRevision": 2859,
+      "itemId": "G04-V03",
+      "type": "addEvidence",
+      "evidence": {
+        "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-start-packet.md",
+        "kind": "document",
+        "note": "S466 reviews a free downloadable garment CAD candidate. No install, registration, file transfer, profile selection or compatibility claim; all V03 gates remain.",
+        "verified": true,
+        "id": "E-G04-S466-START"
+      }
+    },
+    {
+      "expectedRevision": 2860,
+      "itemId": "EPIC-17",
+      "type": "addEvidence",
+      "evidence": {
+        "uri": "docs/research/epic17/S466-free-garment-cad-candidate/S466-start-packet.md",
+        "kind": "document",
+        "note": "S466 qualifies a free CAD candidate using official disclosures only; receiver rights, exact free-build exchange and round-trip remain unproven.",
+        "verified": true,
+        "id": "E-EPIC17-S466-START"
+      }
+    },
+    {
+      "epicId": "EPIC-17",
+      "role": "maintainer",
+      "actor": "Codex",
+      "type": "addEpicEvidence",
+      "evidenceId": "E-EPIC17-S466-START",
+      "expectedRevision": 2861
+    },
+    {
+      "expectedRevision": 2862,
+      "text": "S466 screens GetonAgain Garment CAD Free Version. The vendor documents AAMA/ASTM DXF import for the free version, but free-build export, local handling and rights remain unverified. No registration, install or fixture transfer. Preserve V03 gates; see E-G04-S466-START.",
+      "actor": "Codex",
+      "itemId": "G04-V03",
+      "type": "addComment"
+    }
+  ]
+}

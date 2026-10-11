@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3374,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S565 investigates the concrete S564 mismatch: the CLO point editor displayed source-derived 20 mm per-step waistband offsets, but emitted XS/S/M/L/XL waistband blocks all remained 44.5 cm wide. Inspect the saved trial's selected point identity, piece/group assignment, and effective size outlines against S562 before any rerun. Export once only after a source-backed state change is directly verified; otherwise record the exact setting that remains unresolved. No V03 gate changes."
+}

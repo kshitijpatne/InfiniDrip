@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3595,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S615-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S615-standard-dxf-explicit-scale/V03-CURRENT-GATE-MATRIX-S615.md",
+    "verified": true,
+    "note": "Current V03 dispositions refreshed after S615 confirmed the Standard-DXF 1000% import setting does not change the one-fixture geometry failure; every V03 gate and hold remains unchanged."
+  }
+}

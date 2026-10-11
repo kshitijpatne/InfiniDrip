@@ -1,0 +1,77 @@
+
+> InfiniDrip@0.0.1 control-center:test
+> node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs
+
+✔ canonical board validates and summarizes its tracked work (33.7462ms)
+✔ approved UI packages remain planning backlog without adding G04 closure dependencies (1.2803ms)
+✔ S354 reconciliation evidence is linked without changing G04 acceptance status (1.0439ms)
+✔ S355 Woven diagnosis is linked while every G04 acceptance hold remains (1.0216ms)
+✔ S356 rejects the Woven chord-reflection candidate and retains every hold (0.6974ms)
+✔ S357 Polo residual study retains the source ease, threshold, and all holds (0.9617ms)
+✔ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (1.1625ms)
+✔ S359 records the Woven rigid-fit decision boundary without releasing holds (1.3314ms)
+✔ S360 binds the landed S359 commit without changing Polo or Woven holds (1.2589ms)
+✔ S361 evidence remains linked after the current summary reconciliation (1.4941ms)
+✔ malformed board data is rejected instead of repaired (28.4171ms)
+✔ invalid top-level and duplicate records are reported (21.6562ms)
+✔ invalid calendar dates are rejected instead of normalized (20.1582ms)
+✔ contributors can submit review but cannot complete work (0.3691ms)
+✖ closed Epics 14–16 and admitted G04 status match their evidence (7.2598ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (38.1938ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (31.2533ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (1.4249ms)
+✔ executeBoardCommand validates, persists atomically, and rejects stale revisions (219.2565ms)
+✔ writeBoardAtomic validates before opening a temporary file (54.1654ms)
+✔ writeBoardAtomic preserves the original when rename fails and removes its temporary file (74.6865ms)
+✔ a pre-existing lock fails visibly without changing the board (59.6799ms)
+✔ approved role guidance exposes the basic workflow and maintainer override (4.9476ms)
+✔ editItem changes only editable details and increments the revision (79.5248ms)
+✔ maintainer editEpic updates metadata and records the reason on its summary card (129.2086ms)
+✔ maintainer rename keeps dependent work linked and records the old identifier (104.3963ms)
+✔ future epic can be registered in Backlog without implying work has started (38.6271ms)
+✔ createItem validates a new backlog record and records its creation in transition history (26.2459ms)
+✔ createItem rejects missing rationale, invalid fields, and duplicate identifiers (77.1682ms)
+✔ status transitions persist actor guidance, reason, evidence, and delivery date (80.8865ms)
+✔ status commands reject missing reasons, role violations, and evidence-free completion (62.868ms)
+✔ addEvidence can create or link evidence and addComment records notes (90.5768ms)
+✔ Epic 13 links and closes only the nine evidence-backed phases without rewriting their history (83.704ms)
+✔ ordinary item edits cannot bypass Epic 13's exact membership boundary (92.6409ms)
+✔ Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure (259.1099ms)
+✔ epic creation, evidence, and closure commands require maintainer authority (104.8256ms)
+✔ imports only explicit verified facts into known evidence (3.6444ms)
+✔ rejects unknown, mismatched, duplicate and unproven facts (3.282ms)
+✔ localhost API persists commands and rejects stale writers (485.1116ms)
+✔ localhost API creates a schema-valid work item through the shared command layer (216.7941ms)
+✔ service exposes only intended static and referenced evidence routes (110.1858ms)
+✔ malformed commands fail without mutating the board (98.1812ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 41
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1532.3605
+
+✖ failing tests:
+
+test at ops\control-center\app\board.test.mjs:233:1
+✖ closed Epics 14–16 and admitted G04 status match their evidence (7.2598ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /docs\/planning\/EPIC-17-ADMISSION\.md/. Input:
+  
+  "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Current S448 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 blockers are 28 Woven front neckline/collar contacts under the continuous base seam and 28 Woven back sleeve crossings under fixed S370 band positions. S443's Claude Opus 5.5 xhigh research and Codex review found no source-backed fix under those decisions; S447's 13-value taper study found no viable source candidate. Polo has no current local output blocker per S436 but remains held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF, and protected export identities. V03 additionally requires a rights-cleared receiver/profile and representative round-trip evidence; S421 did not qualify a no-cost industrial apparel receiver. Current record: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical summary: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S449's targeted construction-reference review found useful general menswear drawings but none specific to Woven source revision 14:14; no face or acceptance advanced. The maintainer authorized a proposal-only study. Next: derive exact-source in-memory candidate proposals and compare all 28 option outputs before any separately approved production change. S449 record: docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md."
+  
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:257:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Current S448 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 blockers are 28 Woven front neckline/collar contacts under the continuous base seam and 28 Woven back sleeve crossings under fixed S370 band positions. S443's Claude Opus 5.5 xhigh research and Codex review found no source-backed fix under those decisions; S447's 13-value taper study found no viable source candidate. Polo has no current local output blocker per S436 but remains held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF, and protected export identities. V03 additionally requires a rights-cleared receiver/profile and representative round-trip evidence; S421 did not qualify a no-cost industrial apparel receiver. Current record: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical summary: Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. latest verified integrated tally is 56 accepted / 90 held across 73 configurations / 146 faces. S449's targeted construction-reference review found useful general menswear drawings but none specific to Woven source revision 14:14; no face or acceptance advanced. The maintainer authorized a proposal-only study. Next: derive exact-source in-memory candidate proposals and compare all 28 option outputs before any separately approved production change. S449 record: docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md.",
+    expected: /docs\/planning\/EPIC-17-ADMISSION\.md/,
+    operator: 'match',
+    diff: 'simple'
+  }

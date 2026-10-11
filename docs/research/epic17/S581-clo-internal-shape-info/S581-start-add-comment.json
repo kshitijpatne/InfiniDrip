@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3438,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S581 follows S580's direct CLO boundary result with one distinct read-only GetInternalShapeInformation query. Current official docs describe connected line groups but do not specify units or CUT/SEW meaning; runtime and any exact source comparison remain pending. C-only evidence and all existing V02/V03 gates are preserved. See E-G04-S581-START."
+}

@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 3476,
+  "itemId": "EPIC-17",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01/V02 are Done; S459 accepts all seven recipes, 73 configurations and 146 front/back faces. V03 has written product-development/local-file-processing permission and the narrow CLO 2026.1.310 / DXF-AAMA test identity. S590's clean one-generation test of a 0.05 cm Polo CUT-corner fillet derivative passed the source-side 0.000509–0.000581 cm bound but failed all five affected CUT contours at 0.006813–0.007585 cm against the unchanged 0.001 cm gate; 4/9 other CUT and 9/9 SEW contours pass. The five receiver paths have one fewer vertex and no bulge arcs. Details: docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md and V03-CURRENT-GATE-MATRIX-S590.md. S591 maps those exact residual loci before another CLO import. Preserve all-seven acceptance, every V02/V03 gate, legacy DXF behavior and protected export identities. No universal format, physical-fit, factory-acceptance or production-readiness claim."
+  }
+}

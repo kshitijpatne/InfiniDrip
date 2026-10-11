@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3097,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S498-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S498-clo-practical-retest/S498-exit-packet.md",
+      "verified": true,
+      "note": "Practical CLO 2026.1.310 retest: Tee/Woven M contours pass two measured generations; Polo five CUT contour failures reproduce in both; CLO accepts missing-EOF negative input without an explicit report; separate Tee XS/M/XL imports do not establish native grading. All existing V03 gates and claims remain unchanged. C: exchange evidence only."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3098,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S498-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3099,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S498 completed practical CLO import/export/reimport in the already-running UI. Tee/Woven M geometry remains within 0.001 cm through two generations; five Polo CUT contour misses reproduce at 0.01019–0.01119 cm. CLO accepted the missing-EOF negative control without an explicit report. Separate size-file imports do not prove native grading. Preserve every V03 rights/local-handling/profile/semantic/grade/negative/independent-receiver and round-trip gate. See E-G04-S498-EXIT."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3100,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S498 closes a practical receiver retest, not V03 acceptance. Keep G04-V03 In Progress and all seven-recipe V02/V03 gates unchanged. Next: diagnose the reproduced Polo contour changes and malformed-input tolerance; do not repeat successful Tee/Woven M cycles absent a changed candidate."
+  }
+]

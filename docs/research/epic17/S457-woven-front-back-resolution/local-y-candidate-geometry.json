@@ -1,0 +1,1225 @@
+{
+  "summary": {
+    "revision": "live-draft:woven-shirt:14:14",
+    "configurations": 28,
+    "screening": "actual Chromium SVGs, cubic outlines tessellated at 32 intervals (48 for body fills); strict proper intersections; exact segment-in-polygon intervals; S370 boxes with 0.05cm clearance",
+    "sleevePairCrossingHistogram": {
+      "0": 28
+    },
+    "bodyFillPenetrationOptions": [],
+    "bandDetailMinimumClearanceCm": 1,
+    "bandDetail05ClearanceFailures": [
+      "woven-shirt-default",
+      "woven-shirt-neckEase-min",
+      "woven-shirt-neckEase-max",
+      "woven-shirt-standHeight-min",
+      "woven-shirt-standHeight-max",
+      "woven-shirt-collarLeafDepth-min",
+      "woven-shirt-collarLeafDepth-max",
+      "woven-shirt-buttonCount-min",
+      "woven-shirt-buttonCount-max",
+      "woven-shirt-buttonSpacing-min",
+      "woven-shirt-buttonSpacing-max",
+      "woven-shirt-frontOverlap-min",
+      "woven-shirt-frontOverlap-max",
+      "woven-shirt-placketWidth-min",
+      "woven-shirt-placketWidth-max",
+      "woven-shirt-yokeDepth-min",
+      "woven-shirt-yokeDepth-max",
+      "woven-shirt-pocketWidth-min",
+      "woven-shirt-pocketWidth-max",
+      "woven-shirt-pocketHeight-min",
+      "woven-shirt-pocketHeight-max",
+      "woven-shirt-sleeveBandDepth-min",
+      "woven-shirt-sleeveBandDepth-max",
+      "woven-shirt-sideVentDepth-min",
+      "woven-shirt-sideVentDepth-max",
+      "woven-shirt-hemTurn-min",
+      "woven-shirt-hemTurn-max",
+      "woven-shirt-combined-supported"
+    ],
+    "viewBoxFailures": [],
+    "bandDetailPathHistogram": {
+      "2": 28
+    },
+    "bodyCrossingRows": []
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.9315 17 L-50.9315 54 M-50.9315 54 L-53.9315 54 M-53.9315 54 L-53.9315 17 M-53.9315 17 L-50.9315 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.9315 17 L50.9315 54 M50.9315 54 L53.9315 54 M53.9315 54 L53.9315 17 M53.9315 17 L50.9315 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1.2847312595020515,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-49.0737 15.8626 L-49.0737 52.8626 M-49.0737 52.8626 L-52.0737 52.8626 M-52.0737 52.8626 L-52.0737 15.8626 M-52.0737 15.8626 L-49.0737 15.8626",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M49.0737 15.8626 L49.0737 52.8626 M49.0737 52.8626 L52.0737 52.8626 M52.0737 52.8626 L52.0737 15.8626 M52.0737 15.8626 L49.0737 15.8626",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1.02234962708459,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-52.2425 54 M-52.2425 54 L-52.2425 17 M-52.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L52.2425 54 M52.2425 54 L52.2425 17 M52.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-55.2425 54 M-55.2425 54 L-55.2425 17 M-55.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L55.2425 54 M55.2425 54 L55.2425 17 M55.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "pairCrossings": 0,
+      "bodyProperCrossings": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:back:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:yoke:outline",
+          "crossings": [
+            0,
+            0
+          ]
+        }
+      ],
+      "bodyFillPenetrations": 0,
+      "bodyFillPenetrationDetails": [],
+      "bandDetailPaths": 2,
+      "bandDetailSegmentCounts": [
+        4,
+        4
+      ],
+      "bandDetailSamples": [
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:left",
+          "d": "M-50.2425 17 L-50.2425 54 M-50.2425 54 L-53.2425 54 M-53.2425 54 L-53.2425 17 M-53.2425 17 L-50.2425 17",
+          "tag": "path"
+        },
+        {
+          "id": "flat:woven-shirt:BACK_FLAT:component:sleeveBand:outline:detached-detail:right",
+          "d": "M50.2425 17 L50.2425 54 M50.2425 54 L53.2425 54 M53.2425 54 L53.2425 17 M53.2425 17 L50.2425 17",
+          "tag": "path"
+        }
+      ],
+      "bandDetailMinGapCm": 1,
+      "bandBoxHitsAt005cm": 2,
+      "frameOK": true
+    }
+  ]
+}

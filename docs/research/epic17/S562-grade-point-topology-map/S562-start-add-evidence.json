@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3361,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S562-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S562-grade-point-topology-map/S562-start-packet.md",
+    "verified": true,
+    "note": "Map product source grade-run deltas to exact per-size pattern points from S559 fixtures; determine whether a real source-backed DXF-ASTM test can be built without guessed syntax or geometry changes."
+  }
+}

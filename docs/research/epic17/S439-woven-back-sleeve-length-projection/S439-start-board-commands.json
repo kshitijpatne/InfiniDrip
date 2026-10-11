@@ -1,0 +1,28 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2622,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S439-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S439-woven-back-sleeve-length-projection/G04-V02-WOVEN-BACK-SLEEVE-LENGTH-PROJECTION-S439.md",
+      "verified": true,
+      "note": "Starts a no-gap offline Woven back-sleeve view candidate constrained by exact source side/half-hem lengths and body-side geometry; production changes and face releases are not authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2623,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S439: diagnose an exact-source-length, no-mask/no-gap outward back-sleeve projection candidate across 28 Woven options. Candidate pose remains an unapproved view convention; preserve complete source outlines, joins, all 56 Woven/34 Polo holds, and all-seven V02/V02-before-V03."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2624,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S439 is a bounded offline geometry/rendering diagnostic only. No production mapping, source geometry, stitch graph, V02 acceptance, CAD gate, export/DXF identity, scope, or view status changes."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3411,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S574-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S574-polo-line-chain-representation/S574-exit-packet.md",
+    "verified": true,
+    "note": "CLO 2026.1.310 accepted, exported and re-imported the Polo M connected-LINE diagnostic and rendered nine pieces, but the unchanged 0.001 cm geometry comparison found 0/9 source CUT contours within gate against their corresponding output blocks; 9/9 SEW contours have exact geometry matches, with duplicate candidate layers. Generation two was not run. Rights/local handling remain settled, but CUT/SEW mapping and other V03 gates stay held. See the C:-only DXF, saved projects, rendered snapshot and JSON analysis."
+  }
+}

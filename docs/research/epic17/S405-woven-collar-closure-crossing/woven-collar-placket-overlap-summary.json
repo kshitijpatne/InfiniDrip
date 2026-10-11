@@ -1,0 +1,5647 @@
+{
+  "source": "S403 production-renderer path matrix; no regeneration or renderer changes",
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "configurationCount": 28,
+  "crossingGroups": [
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -5,
+        "y": 9.841155352180163
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 4,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 8,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -0.8333333333333333,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -5,
+        "y": 9.841155352180163
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 4,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 8,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -0.8333333333333333,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -5,
+        "y": 9.841155352180163
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 4,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 8,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 5,
+        "y": 9.841155352180163
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 4,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 8,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 5,
+        "y": 9.841155352180163
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 4,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 8,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 0.8333333333333333,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 5,
+        "y": 9.841155352180163
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 4,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-collarLeafDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 8,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 0.8333333333333333,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-default",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonCount-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 6,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-buttonSpacing-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 9,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-frontOverlap-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 3,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 7,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-yokeDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 15,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 9,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 16,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 10,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-pocketHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 18,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 2,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sleeveBandDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 5,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 0,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-sideVentDepth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 8,
+            "hemTurn": 1
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 0.7
+          }
+        },
+        {
+          "caseId": "woven-shirt-hemTurn-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 2
+          }
+        }
+      ],
+      "configurationCount": 21,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -5,
+        "y": 9.623904811265401
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -0.8333333333333333,
+        "y": 8
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -5,
+        "y": 9.623904811265401
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -0.8333333333333333,
+        "y": 8
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -5,
+        "y": 9.623904811265401
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 5,
+        "y": 9.623904811265401
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 5,
+        "y": 9.623904811265401
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 0.8333333333333333,
+        "y": 8
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 5,
+        "y": 9.623904811265401
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 0.8333333333333333,
+        "y": 8
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-min",
+          "options": {
+            "neckEase": 0,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -5,
+        "y": 10.275691873963517
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -0.8333333333333333,
+        "y": 8.6
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -5,
+        "y": 10.275691873963517
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -0.8333333333333333,
+        "y": 8.6
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -5,
+        "y": 10.275691873963517
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 5,
+        "y": 10.275691873963517
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 5,
+        "y": 10.275691873963517
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 0.8333333333333333,
+        "y": 8.6
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 5,
+        "y": 10.275691873963517
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 0.8333333333333333,
+        "y": 8.6
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-neckEase-max",
+          "options": {
+            "neckEase": 3,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -5,
+        "y": 8.783839633823685
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 1.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -5,
+        "y": 8.783839633823685
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 1.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -5,
+        "y": 8.783839633823685
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 1.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 5,
+        "y": 8.783839633823685
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 1.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 5,
+        "y": 8.783839633823685
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 1.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 5,
+        "y": 8.783839633823685
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 1.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -5,
+        "y": 10.896991683824188
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -1.1666666666666667,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -5,
+        "y": 10.896991683824188
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -1.1666666666666667,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -5,
+        "y": 10.896991683824188
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 5,
+        "y": 10.896991683824188
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 5,
+        "y": 10.896991683824188
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 1.1666666666666667,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 5,
+        "y": 10.896991683824188
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 1.1666666666666667,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-standHeight-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 3,
+            "standHeight": 3.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -4,
+        "y": 10.157413251083067
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -4,
+        "y": 10.157413251083067
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -4,
+        "y": 10.157413251083067
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 4,
+        "y": 10.157413251083067
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 4,
+        "y": 10.157413251083067
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 4,
+        "y": 10.157413251083067
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-min",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 2,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -6,
+        "y": 9.440082688910698
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -6,
+        "y": 9.440082688910698
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -6,
+        "y": 9.440082688910698
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 6,
+        "y": 9.440082688910698
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 6,
+        "y": 9.440082688910698
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 6,
+        "y": 9.440082688910698
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-placketWidth-max",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 7,
+            "buttonSpacing": 8,
+            "frontOverlap": 1.5,
+            "placketWidth": 4,
+            "standHeight": 2.5,
+            "collarLeafDepth": 6,
+            "yokeDepth": 10,
+            "pocketWidth": 12,
+            "pocketHeight": 13,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": -6,
+        "y": 9.984367897727273
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -0.8571428571428571,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": -6,
+        "y": 9.984367897727273
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -0.8571428571428571,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonholePlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": -6,
+        "y": 9.984367897727273
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "outerStand",
+      "point": {
+        "x": 6,
+        "y": 9.984367897727273
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 6,
+        "y": 9.984367897727273
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "underCollar",
+      "point": {
+        "x": 0.8571428571428571,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 6,
+        "y": 9.984367897727273
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    },
+    {
+      "firstRole": "buttonPlacket",
+      "secondRole": "upperCollar",
+      "point": {
+        "x": 0.8571428571428571,
+        "y": 8.2
+      },
+      "cases": [
+        {
+          "caseId": "woven-shirt-combined-supported",
+          "options": {
+            "neckEase": 1,
+            "buttonCount": 6,
+            "buttonSpacing": 6,
+            "frontOverlap": 2,
+            "placketWidth": 4,
+            "standHeight": 3,
+            "collarLeafDepth": 7,
+            "yokeDepth": 10,
+            "pocketWidth": 14,
+            "pocketHeight": 15,
+            "sleeveBandDepth": 3,
+            "sideVentDepth": 3,
+            "hemTurn": 1
+          }
+        }
+      ],
+      "configurationCount": 1,
+      "uniquePoints": 1
+    }
+  ]
+}

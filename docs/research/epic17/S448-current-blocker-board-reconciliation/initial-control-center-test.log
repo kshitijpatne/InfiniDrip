@@ -1,0 +1,140 @@
+
+> InfiniDrip@0.0.1 control-center:test
+> node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs
+
+✔ canonical board validates and summarizes its tracked work (36.1731ms)
+✔ approved UI packages remain planning backlog without adding G04 closure dependencies (1.563ms)
+✔ S354 reconciliation evidence is linked without changing G04 acceptance status (0.9083ms)
+✔ S355 Woven diagnosis is linked while every G04 acceptance hold remains (0.943ms)
+✔ S356 rejects the Woven chord-reflection candidate and retains every hold (0.8692ms)
+✔ S357 Polo residual study retains the source ease, threshold, and all holds (0.8535ms)
+✔ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (1.1254ms)
+✖ S359 records the Woven rigid-fit decision boundary without releasing holds (2.6861ms)
+✖ S360 binds the landed S359 commit without changing Polo or Woven holds (1.3941ms)
+✖ S361 evidence remains linked after the current summary reconciliation (1.0101ms)
+✔ malformed board data is rejected instead of repaired (21.913ms)
+✔ invalid top-level and duplicate records are reported (31.9722ms)
+✔ invalid calendar dates are rejected instead of normalized (22.8828ms)
+✔ contributors can submit review but cannot complete work (0.5868ms)
+✖ closed Epics 14–16 and admitted G04 status match their evidence (6.8094ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (46.2008ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (29.5667ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (1.3267ms)
+✔ executeBoardCommand validates, persists atomically, and rejects stale revisions (250.6212ms)
+✔ writeBoardAtomic validates before opening a temporary file (47.9563ms)
+✔ writeBoardAtomic preserves the original when rename fails and removes its temporary file (92.622ms)
+✔ a pre-existing lock fails visibly without changing the board (60.6367ms)
+✔ approved role guidance exposes the basic workflow and maintainer override (7.6212ms)
+✔ editItem changes only editable details and increments the revision (101.3343ms)
+✔ maintainer editEpic updates metadata and records the reason on its summary card (126.4488ms)
+✔ maintainer rename keeps dependent work linked and records the old identifier (97.9614ms)
+✔ future epic can be registered in Backlog without implying work has started (33.2966ms)
+✔ createItem validates a new backlog record and records its creation in transition history (21.6803ms)
+✔ createItem rejects missing rationale, invalid fields, and duplicate identifiers (87.4042ms)
+✔ status transitions persist actor guidance, reason, evidence, and delivery date (99.3047ms)
+✔ status commands reject missing reasons, role violations, and evidence-free completion (56.7945ms)
+✔ addEvidence can create or link evidence and addComment records notes (73.6172ms)
+✔ Epic 13 links and closes only the nine evidence-backed phases without rewriting their history (82.3559ms)
+✔ ordinary item edits cannot bypass Epic 13's exact membership boundary (76.0758ms)
+✔ Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure (259.7278ms)
+✔ epic creation, evidence, and closure commands require maintainer authority (96.6054ms)
+✔ imports only explicit verified facts into known evidence (8.8191ms)
+✔ rejects unknown, mismatched, duplicate and unproven facts (5.6023ms)
+✔ localhost API persists commands and rejects stale writers (481.4606ms)
+✔ localhost API creates a schema-valid work item through the shared command layer (208.2473ms)
+✔ service exposes only intended static and referenced evidence routes (111.6428ms)
+✔ malformed commands fail without mutating the board (98.8646ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 38
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1526.8545
+
+✖ failing tests:
+
+test at ops\control-center\app\board.test.mjs:131:1
+✖ S359 records the Woven rigid-fit decision boundary without releasing holds (2.6861ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /All 56 Woven and 34 Polo faces remain held/. Input:
+
+  "Current verified state at S448: 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. All-seven V02 is blocked only by two remaining Woven output classes: 28 front neckline/collar contour contacts while preserving the continuous base seam, and 28 back sleeve-hem crossings while preserving fixed S370 band-detail positions. S443 found no source-backed view fix under those choices; S447's 13-value in-memory taper matrix also found no viable source candidate. Polo has no current local output blocker per S436, but all 34 Polo faces remain held under the all-seven gate. Keep all acceptance criteria, thresholds, V02-before-V03, legacy DXF, protected exports, and face holds unchanged. No production geometry, view mapping, or acceptance change is authorized by S448. Next action: obtain maintainer authority for a bounded, proposal-only Woven source-design study; any production change requires a separate exact proposal review and approval. Evidence: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md."
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:148:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Current verified state at S448: 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. All-seven V02 is blocked only by two remaining Woven output classes: 28 front neckline/collar contour contacts while preserving the continuous base seam, and 28 back sleeve-hem crossings while preserving fixed S370 band-detail positions. S443 found no source-backed view fix under those choices; S447's 13-value in-memory taper matrix also found no viable source candidate. Polo has no current local output blocker per S436, but all 34 Polo faces remain held under the all-seven gate. Keep all acceptance criteria, thresholds, V02-before-V03, legacy DXF, protected exports, and face holds unchanged. No production geometry, view mapping, or acceptance change is authorized by S448. Next action: obtain maintainer authority for a bounded, proposal-only Woven source-design study; any production change requires a separate exact proposal review and approval. Evidence: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md.",
+    expected: /All 56 Woven and 34 Polo faces remain held/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:153:1
+✖ S360 binds the landed S359 commit without changing Polo or Woven holds (1.3941ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /0\.25 cm/. Input:
+
+  "Current verified state at S448: 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. All-seven V02 is blocked only by two remaining Woven output classes: 28 front neckline/collar contour contacts while preserving the continuous base seam, and 28 back sleeve-hem crossings while preserving fixed S370 band-detail positions. S443 found no source-backed view fix under those choices; S447's 13-value in-memory taper matrix also found no viable source candidate. Polo has no current local output blocker per S436, but all 34 Polo faces remain held under the all-seven gate. Keep all acceptance criteria, thresholds, V02-before-V03, legacy DXF, protected exports, and face holds unchanged. No production geometry, view mapping, or acceptance change is authorized by S448. Next action: obtain maintainer authority for a bounded, proposal-only Woven source-design study; any production change requires a separate exact proposal review and approval. Evidence: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md."
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:173:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Current verified state at S448: 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. All-seven V02 is blocked only by two remaining Woven output classes: 28 front neckline/collar contour contacts while preserving the continuous base seam, and 28 back sleeve-hem crossings while preserving fixed S370 band-detail positions. S443 found no source-backed view fix under those choices; S447's 13-value in-memory taper matrix also found no viable source candidate. Polo has no current local output blocker per S436, but all 34 Polo faces remain held under the all-seven gate. Keep all acceptance criteria, thresholds, V02-before-V03, legacy DXF, protected exports, and face holds unchanged. No production geometry, view mapping, or acceptance change is authorized by S448. Next action: obtain maintainer authority for a bounded, proposal-only Woven source-design study; any production change requires a separate exact proposal review and approval. Evidence: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md.",
+    expected: /0\.25 cm/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:176:1
+✖ S361 evidence remains linked after the current summary reconciliation (1.0101ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /S381 found no evidence supporting a false Woven back-hem gap/. Input:
+
+  "Current verified state at S448: 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. All-seven V02 is blocked only by two remaining Woven output classes: 28 front neckline/collar contour contacts while preserving the continuous base seam, and 28 back sleeve-hem crossings while preserving fixed S370 band-detail positions. S443 found no source-backed view fix under those choices; S447's 13-value in-memory taper matrix also found no viable source candidate. Polo has no current local output blocker per S436, but all 34 Polo faces remain held under the all-seven gate. Keep all acceptance criteria, thresholds, V02-before-V03, legacy DXF, protected exports, and face holds unchanged. No production geometry, view mapping, or acceptance change is authorized by S448. Next action: obtain maintainer authority for a bounded, proposal-only Woven source-design study; any production change requires a separate exact proposal review and approval. Evidence: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md."
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:189:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Current verified state at S448: 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. All-seven V02 is blocked only by two remaining Woven output classes: 28 front neckline/collar contour contacts while preserving the continuous base seam, and 28 back sleeve-hem crossings while preserving fixed S370 band-detail positions. S443 found no source-backed view fix under those choices; S447's 13-value in-memory taper matrix also found no viable source candidate. Polo has no current local output blocker per S436, but all 34 Polo faces remain held under the all-seven gate. Keep all acceptance criteria, thresholds, V02-before-V03, legacy DXF, protected exports, and face holds unchanged. No production geometry, view mapping, or acceptance change is authorized by S448. Next action: obtain maintainer authority for a bounded, proposal-only Woven source-design study; any production change requires a separate exact proposal review and approval. Evidence: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md.",
+    expected: /S381 found no evidence supporting a false Woven back-hem gap/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at ops\control-center\app\board.test.mjs:233:1
+✖ closed Epics 14–16 and admitted G04 status match their evidence (6.8094ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /docs\/planning\/EPIC-17-ADMISSION\.md/. Input:
+
+  "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Current verified tally at S448 is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 release blockers are 28 Woven FRONT_FLAT neckline/collar contacts under the maintainer-approved continuous body neckline and 28 Woven BACK_FLAT sleeve crossings with S370 band-detail positions fixed by maintainer decision. S443's Claude Opus 5.5 xhigh source research and Codex verification found no source-backed view fix under those decisions. S447 screened 13 source-owned taper values across all 28 Woven options and found no viable fix; the crossing and body/yoke fill penetration persist. S422's complete neckline decision and S442's fixed S370 layout/hold decision remain controlling. Polo has no current local output blocker per S436; all 34 Polo faces remain held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF behavior and protected export identities. V03 remains gated by all-seven V02, a rights-cleared receiver/profile and representative round-trip evidence; S421 has not qualified a no-cost industrial apparel receiver. Current reconciliation: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md."
+
+      at TestContext.<anonymous> (file:///C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp/ops/control-center/app/board.test.mjs:257:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Current verified tally at S448 is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 release blockers are 28 Woven FRONT_FLAT neckline/collar contacts under the maintainer-approved continuous body neckline and 28 Woven BACK_FLAT sleeve crossings with S370 band-detail positions fixed by maintainer decision. S443's Claude Opus 5.5 xhigh source research and Codex verification found no source-backed view fix under those decisions. S447 screened 13 source-owned taper values across all 28 Woven options and found no viable fix; the crossing and body/yoke fill penetration persist. S422's complete neckline decision and S442's fixed S370 layout/hold decision remain controlling. Polo has no current local output blocker per S436; all 34 Polo faces remain held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF behavior and protected export identities. V03 remains gated by all-seven V02, a rights-cleared receiver/profile and representative round-trip evidence; S421 has not qualified a no-cost industrial apparel receiver. Current reconciliation: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md.",
+    expected: /docs\/planning\/EPIC-17-ADMISSION\.md/,
+    operator: 'match',
+    diff: 'simple'
+  }

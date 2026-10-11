@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3540,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S602-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S602-short-edge-fix-independent-review/S602-exit-packet.md",
+    "verified": true,
+    "note": "Independent review found no sourced new short-corner remedy; Codex verified the proposed UI option combination was already tested or counter-indicated. No exchange, edit, or gate change. Next bounded work is the existing source-backed waistband grading test only if live CLO state is coherent."
+  }
+}

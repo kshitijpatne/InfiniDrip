@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3454,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S585 reconciles existing CLO Standard DXF, AAMA/ASTM, DXF-AAMA, and source line-chain Polo measurements with S584's pre-export observation. It determines only whether any tested configuration can meet the unchanged Polo and V03 gates. No CLO operation is repeated, no stage cause or generalized incompatibility is inferred, and all acceptance criteria remain. See E-G04-S585-START."
+}

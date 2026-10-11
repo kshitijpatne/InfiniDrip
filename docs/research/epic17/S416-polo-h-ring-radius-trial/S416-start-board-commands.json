@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2414,"itemId":"G04-V02","evidence":{"id":"E-G04-S416-START","kind":"document","uri":"docs/research/epic17/S416-polo-h-ring-radius-trial/G04-V02-POLO-H-RING-RADIUS-TRIAL-S416.md","verified":true,"note":"Diagnostic-only all-17-option trial of smaller Polo H source-centered ring radii; preserves approved anchor, letter, POM data, source paths, 0.25 cm gate and every face hold."}},
+  {"type":"addEpicEvidence","expectedRevision":2415,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S416-START"},
+  {"type":"addComment","expectedRevision":2416,"itemId":"G04-V02","actor":"Codex","text":"S416 screens smaller open H-ring radii at the same exact Polo source station across 17 current options. This is a view-only diagnostic; no approved mapping, source mark, POM, threshold or face hold changes."}
+]

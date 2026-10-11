@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3458,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S586 audits the current product DXF writer against the seven hash-pinned M/default recipe outputs and S573's remaining V03 gates. It maps source pieces, CUT/SEW, marks, units, layer/entity content, and size/grade evidence to determine whether a concrete source/profile defect exists. This is read-only: no production edit, regeneration, CLO action, or gate relaxation. See E-G04-S586-START."
+}

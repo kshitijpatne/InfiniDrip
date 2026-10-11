@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2443,"itemId":"G04-V02","evidence":{"id":"E-G04-S420-START","kind":"document","uri":"docs/research/epic17/S420-current-board-summary-reconciliation/G04-BOARD-SUMMARY-RECONCILIATION-S420.md","verified":true,"note":"S420 records a documentation-only reconciliation of EPIC-17 and G04-V02 descriptions to verified S419 state; no acceptance, status, scope or face hold changes."}},
+  {"type":"addEpicEvidence","expectedRevision":2444,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S420-START"},
+  {"type":"addComment","expectedRevision":2445,"itemId":"G04-V02","actor":"Codex","text":"S420 reconciles the canonical EPIC-17/G04-V02 summaries to the latest verified state. No source, tests, acceptance, status, or face holds change; S419 H-ring and S410 Woven neckline decisions remain distinct and pending."}
+]

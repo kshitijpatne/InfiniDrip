@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3226,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "Correction: garment.dev is a hosted service, an explicit G04 non-goal; do not request access or pursue it for this Epic. GetonAgain is the only new desktop lead, but the free-build format capabilities, rights, and local handling are unverified. A narrowly scoped vendor inquiry requires maintainer authorization. All V03 gates remain unchanged; CLO stays untouched."
+}

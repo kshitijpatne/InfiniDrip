@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3261,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S537-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S537-no-cost-local-cad-trial-screen/S537-exit-packet.md",
+    "verified": true,
+    "note": "Official-source screen found PatternSmith's 30-day no-card trial and AAMA import/generic DXF export, but trial signup transmits personal/business details and its 2018 privacy policy does not establish local-only pattern handling. No signup/contact/download/installation occurred; no new candidate qualifies and no V03 gate changed."
+  }
+}

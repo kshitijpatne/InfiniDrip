@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3500,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S594-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S594-polo-spline-semantics-audit/S594-start-packet.md",
+    "verified": true,
+    "note": "S594 audits the hash-pinned S591/S592 degree-1 SPLINE flags, knots and controls against primary Autodesk definitions and an independent de Boor evaluation of all five source contours. No CLO trial, output, or acceptance change is authorized by this diagnostic slice."
+  }
+}

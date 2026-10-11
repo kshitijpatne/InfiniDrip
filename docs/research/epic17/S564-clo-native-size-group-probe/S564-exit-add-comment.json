@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3372,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S564 completed a practical CLO 2026.1.310 native Size Group DXF-ASTM/Graded Nest trial. Separate front/back and waistband groups emitted correctly labeled XS/S/M/L/XL block names, but combined geometry only matches 6/6 XS contours and 1/6 at each larger size under the unchanged 0.001 cm gate; max residuals are 2/4/6/8 cm. The waistband stays 44.5 cm wide across all output blocks versus source widths 44.5/46.5/48.5/50.5/52.5 cm, despite visible 20 mm per-step offsets on selected corners. CLO re-import renders one coincident outline and reports no seam allowance/Custom mode. This is a concrete workflow mismatch, not proof the product format is unsupported. Next: inspect the saved C:-folder project and exact assignment/point application state before any corrected export. No gate changes; see E-G04-S564-EXIT."
+}

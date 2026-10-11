@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3700,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S639's earlier UI-stop note is superseded by its completed, hash-pinned native Button/Buttonhole DXF-AAMA probe. A disposable Woven copy exported and cleanly reimported 12 pieces, but CLO-native trim geometry and centers do not preserve either source technical mark; detailed reimport readability remains unverified due the zoom-cropped view. This closes only the tested native-trim hypothesis and clears no gate. All V03 acceptance, 0.001 cm threshold, holds and statuses remain unchanged. See E-G04-S639-EXIT."
+}

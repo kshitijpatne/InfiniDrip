@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3351,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S559-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S559-source-backed-grade-fixture/S559-exit-packet.md",
+    "verified": true,
+    "note": "Generated per-size source fixtures for all seven recipes and ran one CLO DXF-AAMA Tee XS import/export: 6/6 CUT/SEW outlines pass 0.001 cm, but CLO relabels the source XS blocks as M; no graded relationship or size identity pass. All other V03 holds remain."
+  }
+}

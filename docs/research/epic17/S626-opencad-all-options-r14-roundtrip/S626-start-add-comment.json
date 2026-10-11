@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3643,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S626 uses the exact S459-accepted 73-row/7-recipe/32-option fixture to test current-source size-M DXF geometry and named MARK-layer entity preservation through two explicit local R14 generations. All inputs, outputs, receiver copy and reports remain under the named C: directory. It adds bounded general-CAD options/marks evidence only; it does not assert graded-size exchange, stable product IDs, an apparel industrial profile, or V03 completion. Every V03 criterion and hold remains. See E-G04-S626-START."
+}

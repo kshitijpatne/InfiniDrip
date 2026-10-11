@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3107,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S500-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S500-polo-vertex-loss-analysis/S500-start-packet.md",
+      "verified": true,
+      "note": "Offline, hash-pinned geometric diagnosis of the five Polo M CUT contours that failed in both S498 CLO generations. Uses existing C: exchange artifacts only; no source or receiver changes and no inference from S499's unrun UI matrix."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3108,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S500 traces each S498 Polo M source CUT vertex sequence to both CLO output generations to establish which coordinates were removed and whether those points are geometrically redundant or shape-changing. This offline diagnosis does not assume an import-mode cause or alter the 0.001 cm gate; S499's UI matrix remains unrun."
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2175,"itemId":"G04-V02","evidence":{"id":"E-G04-S395-START","kind":"document","uri":"docs/research/epic17/S395-woven-placket-keyed-marker-feasibility/G04-V02-WOVEN-PLACKET-KEYED-MARKER-FEASIBILITY-S395.md","verified":true,"note":"Diagnostic-only, 28-option test of a source-centered W marker and unchanged full-text schedule for the exact recurring Woven finished-placket-width POM. No production presentation, geometry, acceptance, or hold change."}},
+  {"type":"addEvidence","expectedRevision":2176,"itemId":"EPIC-17","evidenceId":"E-G04-S395-START"},
+  {"type":"addEpicEvidence","expectedRevision":2177,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S395-START"},
+  {"type":"addComment","expectedRevision":2178,"itemId":"G04-V02","actor":"Codex","text":"S395 tests only whether one source-centered keyed marker and unchanged full-text schedule can clear Woven's recurring finished-placket-width front callout in all 28 exact options. It is a diagnostic display candidate, not an implementation approval. Preserve source anchor/target, all pattern/stitch geometry, colorway, all 56 Woven holds, the continuous-back-hem crossing, all 34 Polo holds, and every G04 gate."}
+]

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3390,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S569 will determine from current official CLO API docs whether the installed 2026.1.310 build has a supported scripting route for grading the specific internal sew line and exporting without ambiguous mouse targeting. It reconciles prior S515 API/profile findings and S568's capture failure; it does not repeat an exchange, install an SDK, run version-mismatched code, or relax any V03 gate."
+}

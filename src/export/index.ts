@@ -12,3 +12,5 @@ export * from "./projector";
 export * from "./a0";
 export * from "./surface-sheet";
 export * from "./pattern-mark";
+export * from "./dxf-interchange-package";
+export * from "./dxf-interchange-roundtrip";

@@ -1,0 +1,766 @@
+{
+  "source": "Current S399 actual Polo SVGs; view-only diagnostic, no production changes",
+  "candidate": {
+    "id": "west-down-0.8",
+    "translationCm": [
+      -0.8,
+      0.8
+    ],
+    "ringCenterCm": [
+      6.2,
+      0.8
+    ],
+    "ringRadiusCm": 0.22,
+    "glyphOffsetFromOriginalCm": [
+      0.45,
+      0.52
+    ],
+    "leaderStartCm": [
+      7,
+      0
+    ],
+    "leaderEndCm": [
+      6.3697,
+      0.6303
+    ]
+  },
+  "disposition": "Rejected: although the ring and glyph clear sampled marks and labels in 17/17, the direct leader intersects collar/stand source paths in all 17 options. See corrected search matrix.",
+  "configurations": 17,
+  "scheduleRowsPerOption": 11,
+  "browserErrors": [],
+  "search": {
+    "id": "west-down-0.8",
+    "offsetCm": [
+      -0.8,
+      0.8
+    ],
+    "options": 17,
+    "optionsWithClearLeader": 0,
+    "optionsWithOnlyDeclaredSourceStationContacts": 0,
+    "optionsWithClearRing": 17,
+    "optionsWithClearGlyph": 17,
+    "optionsInFrame": 17,
+    "worstLeaderClearanceCm": -0.031
+  },
+  "renderedCases": [
+    "polo-default",
+    "polo-standFrontRise-max",
+    "polo-standFrontRise-min"
+  ],
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-default",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketLength-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketLength-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketWidth-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketWidth-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standHeight-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standHeight-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarLeafDepth-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarLeafDepth-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standFrontRise-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standFrontRise-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarPointExtension-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarPointExtension-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-sideVentDepth-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-sideVentDepth-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "revisionId": "live-draft:polo:S399:polo-backHemDrop-min",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "revisionId": "live-draft:polo:S399:polo-backHemDrop-max",
+      "offsetCm": [
+        -0.8,
+        0.8
+      ],
+      "anchor": [
+        7,
+        0
+      ],
+      "leaderEndCm": [
+        6.3697,
+        0.6303
+      ],
+      "sourcePoms": [
+        {
+          "sourceId": "pom:polo:shoulder-seam",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Shoulder seam: 16.0 cm (±0.3 cm)"
+        },
+        {
+          "sourceId": "pom:polo:neck-width",
+          "targetId": "flat:polo:FRONT_FLAT:component:front:outline",
+          "sourceEntityId": "pattern:polo:role:front:edge:shoulder",
+          "text": "Neck width: 14.0 cm (±0.6 cm)"
+        }
+      ],
+      "scheduleRows": 11,
+      "originalSchedulePreserved": true
+    }
+  ]
+}

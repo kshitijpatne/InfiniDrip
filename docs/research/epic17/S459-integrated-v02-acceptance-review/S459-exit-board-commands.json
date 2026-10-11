@@ -1,0 +1,91 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2777,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S459-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md",
+      "verified": true,
+      "note": "S459 current-production Chromium review accepts all seven recipes and all 73 configurations / 146 faces: zero renderer/browser issues, option/revision/colorway/POM-target mismatches or all-layer text intersections."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2778,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S459-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md",
+      "verified": true,
+      "note": "S459 closes G04 V02 after integrated live-output review across 73 supported configurations / 146 front/back faces. V03 remains gated on rights-reviewed receiver/profile and witnessed round-trip evidence."
+    }
+  },
+  {
+    "type": "editEpic",
+    "expectedRevision": 2779,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Record the verified integrated V02 exit while preserving EPIC-17 In Progress through V03 and safe merge.",
+    "patch": {
+      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 result and evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 remains gated on exact receiver/profile rights review and witnessed representative import/export/round-trip evidence before exact compatibility claims. Preserve legacy DXF behavior, every protected export byte identity, final full-repository verification, origin/main ancestry and required automatic deployment. No physical-fit, factory-acceptance or production-readiness claim."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2780,
+    "itemId": "EPIC-17",
+    "patch": {
+      "description": "EPIC-17/G04 is In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces from current source/revisions. V02 evidence: docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md. V03 is gated on receiver/profile rights review and witnessed representative round-trip evidence. Preserve legacy DXF, protected export identities, final repository gates, origin/main ancestry and required deployment. No physical-fit, factory-acceptance or production-readiness claim."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2781,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Integrated all-seven V02 accepted at S459. Current production UI/Chromium replay covers all 73 canonical supported configurations and 146 front/back faces across seven recipes; zero issue/hold rows, invalid option values, revision-pair/identity/colorway/POM-target mismatch, browser errors, or any-layer rendered text intersections. Source omissions and table-only POM values stay explicitly disclosed. V01/V02 Done. Preserve all-seven scope, the unchanged 0.25 cm gate and exact approved S351 exception, V02-before-V03, legacy DXF behavior, protected export byte identities and no physical/factory claim. See docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2782,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S459-EXIT"
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2783,
+    "itemId": "EPIC-17",
+    "evidenceId": "E-EPIC17-S459-EXIT"
+  },
+  {
+    "type": "updateStatus",
+    "expectedRevision": 2784,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "role": "maintainer",
+    "status": "Done",
+    "reason": "All seven recipes and 73 supported configurations / 146 front/back faces pass the current production-output V02 review and documented acceptance gates.",
+    "evidenceRefs": ["E-G04-S459-EXIT"]
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2785,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S459 accepts integrated V02: 146/146 front/back outputs across all seven recipes and 73 canonical supported configurations; zero technical-flat issues, browser failures, option/revision/identity/colorway/callout-target mismatches, or text-box intersections across any output layer. S460 may begin the dependent V03 work only after fresh branch/board checks; V03 still requires rights-reviewed receiver/profile and witnessed import/export/round-trip evidence. See E-G04-S459-EXIT."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2786,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S459 V02 exit: all 146 front/back requests across seven recipes and 73 configurations are accepted on current output evidence. EPIC-17 remains In Progress; V03 is the next gated capability. No exact CAD format claim until rights review and receiver round-trip proof. Board evidence: E-EPIC17-S459-EXIT."
+  }
+]

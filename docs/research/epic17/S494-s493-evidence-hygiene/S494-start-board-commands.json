@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3071,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S494-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S494-s493-evidence-hygiene/S494-start-packet.md",
+      "verified": true,
+      "note": "S494 corrects S493 packet EOF whitespace and records the staged diff-check finding without rewriting slice history."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3072,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S494 addresses the actual staged-diff finding from S493: two packet files had an extra EOF blank line; the earlier unstaged check did not include untracked files. Correct only packet hygiene and verification wording; acceptance, evidence, and statuses remain unchanged."
+  }
+]

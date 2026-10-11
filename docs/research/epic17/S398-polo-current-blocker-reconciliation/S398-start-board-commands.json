@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":2209,"itemId":"G04-V02","evidence":{"id":"E-G04-S398-START","kind":"document","uri":"docs/research/epic17/S398-polo-current-blocker-reconciliation/G04-V02-POLO-POST-H-OFFSET-CURRENT-BLOCKERS-S398.md","verified":true,"note":"Begins a read-only 17-option reconciliation of S394 current Polo renderer output, S391 source/topology contacts and S392 residual rows after approved H glyph offset. No implementation, face release, threshold or acceptance change."}},
+  {"type":"addEvidence","expectedRevision":2210,"itemId":"EPIC-17","evidenceId":"E-G04-S398-START"}
+]

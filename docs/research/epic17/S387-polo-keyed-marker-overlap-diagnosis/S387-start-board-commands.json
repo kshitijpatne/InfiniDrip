@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2023,"itemId":"G04-V02","evidence":{"id":"E-G04-S387-START","kind":"document","uri":"docs/research/epic17/S387-polo-keyed-marker-overlap-diagnosis/G04-V02-POLO-KEYED-MARKER-OVERLAP-DIAGNOSIS-S387.md","verified":true,"note":"Diagnostic-only next slice: classify exact S386 Polo keyed-marker/source-label overlaps using current pattern source and rendered option evidence. No implementation or gate/hold change authorized."}},
+  {"type":"addEvidence","expectedRevision":2024,"itemId":"EPIC-17","evidenceId":"E-G04-S387-START"},
+  {"type":"addEpicEvidence","expectedRevision":2025,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S387-START"},
+  {"type":"addComment","expectedRevision":2026,"itemId":"G04-V02","actor":"Codex","text":"S387 is a read-only, source-specific follow-up to S386's failed marker readability trial. Trace D/E/FG/H/I source labels and marks across the exact 17 current Polo options; propose only source-preserving display treatments supported by that evidence. Preserve all 34 holds and every V02 gate."}
+]

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3270,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S539 rechecked 14 source/receiver hashes across all seven saved CLO outputs. Matched layer-8 CUT/SEW entities share the same closed flag and have no examined non-layer discriminator in either AAMA or ASTM cohort; 36/41 CUT and 41/41 SEW contours match there, with the same five Polo CUT misses. No file operation, conformance claim, gate change, or threshold change."
+}

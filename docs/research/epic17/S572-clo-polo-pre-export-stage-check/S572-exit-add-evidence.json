@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3403,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S572-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S572-clo-polo-pre-export-stage-check/S572-exit-packet.md",
+    "verified": true,
+    "note": "One CLO 2026.1.310 AAMA import of the hash-pinned Polo M fixture rendered without a format error. The native Property Editor exposed only whole-pattern 2D/3D line totals rounded to 0.1 mm, not individual vertices or deviations at the 0.01 mm gate. No edit or repeated export; stage attribution remains unresolved and all V03 gates are unchanged. Rights/local processing are settled."
+  }
+}

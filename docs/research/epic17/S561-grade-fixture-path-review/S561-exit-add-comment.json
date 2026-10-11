@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3360,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S561 narrows the grading route to documented CLO DXF-ASTM. CLO Help lists grading-in-DXF; a CLO designer says standalone .RUL is supplied by another CAD and DXF-ASTM is used to include grading. Official API documents grade group/point methods, but target build compatibility is not verified. No legal source-backed grade fixture or round trip was available. Screenshot showed the pattern canvas while accessibility reported a hidden export dialog, so no UI file action was safe; this is not a format failure. Keep every V03 gate unchanged. Next map source grade deltas and find one lawful exact fixture/API route, then test once."
+}

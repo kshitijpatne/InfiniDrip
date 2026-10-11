@@ -1,0 +1,7 @@
+# S369 verification notes
+
+- The first diagnostic attempt tried to infer the sleeve exterior normal from production SVG role paths. Those paths did not provide closed polygons for a reliable inside/outside test. The diagnostic was corrected to assemble the sleeve outline from the drafted source edges and the approved assembly transform.
+- The next attempt called cubic coordinates as `p0`/`p1`; the source edge schema is `start`, `control1`, `control2`, `end`. The sampler was corrected to use those fields. The final `vite-node` run completed and emitted the 28-option matrix and five Chromium render pairs.
+- The `sleeveBandDepth=max` rendered extreme was opened and inspected after the other four cases. It also shows the two full bands crossing into a central X. Together, the five selected cases cover default, minimum and maximum yoke depth, maximum sleeve-band depth, and combined-supported options.
+- The final measured result is consistent across all 28 configurations: mapped top residual 0 cm; original full source join residual at most `2.5618982671915017e-14 cm`; displayed band-length ratio 0.5; four self-crossings per band outline; one crossing between the mirrored outlines per option. No band-to-sleeve, body/yoke crossings, or browser errors were recorded.
+- The focused regression test checks the retained matrix only; no production source was changed. A focused full-repository coverage/build gate is not applicable to this documentation and diagnostic-evidence slice. The final integrated G04/PR candidate still requires its prescribed complete gates.

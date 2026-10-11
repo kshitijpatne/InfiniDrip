@@ -1,0 +1,156 @@
+[
+  {
+    "sourceId": "pom:polo:across-shoulder",
+    "sourceText": "Across shoulder: 45.0 cm (±0.6 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:view-seam:polo-sleeve-cap:front:armhole": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:front:edge:armhole": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:front:outline",
+    "sourceEntity": "pattern:polo:role:front:edge:shoulder"
+  },
+  {
+    "sourceId": "pom:polo:body-chest-finished",
+    "sourceText": "Body chest (finished): 110.0 cm (±1.3 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:component:sleeve:outline": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:sleeve": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:front:outline",
+    "sourceEntity": "pattern:polo:role:front:edge:side"
+  },
+  {
+    "sourceId": "pom:polo:button-spacing",
+    "sourceText": "Button spacing: 3.5 cm (±0.1 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:component:buttonPlacket:outline": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:buttonPlacket": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-1",
+    "sourceEntity": "pattern:polo:mark:buttonPlacket:button-1"
+  },
+  {
+    "sourceId": "pom:polo:finished-placket-length",
+    "sourceText": "Finished placket length: 14.0 cm (±0.3 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection": 16,
+      "flat:polo:FRONT_FLAT:mark:front:placketBaseClipRight:fold-reflection": 1
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:mark:front:placketBaseReinforcement": 16,
+      "pattern:polo:mark:front:placketBaseClipRight": 1
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:buttonPlacket:outline",
+    "sourceEntity": "pattern:polo:role:buttonPlacket:edge:attachmentRaw"
+  },
+  {
+    "sourceId": "pom:polo:finished-placket-width",
+    "sourceText": "Finished placket width: 3.0 cm (±0.2 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:component:buttonPlacket:outline": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:buttonPlacket": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:mark:buttonPlacket:attachmentLine",
+    "sourceEntity": "pattern:polo:mark:buttonPlacket:attachmentLine"
+  },
+  {
+    "sourceId": "pom:polo:front-neck-drop",
+    "sourceText": "Front neck drop: 8.0 cm (±0.3 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:component:buttonPlacket:outline": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:buttonPlacket": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:front:outline",
+    "sourceEntity": "pattern:polo:role:front:edge:neckline"
+  },
+  {
+    "sourceId": "pom:polo:neck-width",
+    "sourceText": "Neck width: 14.0 cm (±0.6 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0.04755,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:component:outerStand:outline": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:outerStand": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:front:outline",
+    "sourceEntity": "pattern:polo:role:front:edge:shoulder"
+  },
+  {
+    "sourceId": "pom:polo:shoulder-seam",
+    "sourceText": "Shoulder seam: 16.0 cm (±0.3 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0.09799,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:component:outerStand:outline": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:outerStand": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:front:outline",
+    "sourceEntity": "pattern:polo:role:front:edge:shoulder"
+  },
+  {
+    "sourceId": "pom:polo:sleeve-bicep-width",
+    "sourceText": "Sleeve bicep width: 43.0 cm (±0.6 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:component:front:outline": 17
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:role:front": 17
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:sleeve:outline",
+    "sourceEntity": "pattern:polo:role:sleeve:edge:sideLeft"
+  },
+  {
+    "sourceId": "pom:polo:finished-pointed-collar-leaf",
+    "sourceText": "Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+    "blockedConfigurations": 17,
+    "minClearanceCm": 0,
+    "maxClearanceCm": 0.00005,
+    "nearestPathFrequency": {
+      "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch": 15,
+      "flat:polo:FRONT_FLAT:mark:outerStand:centerMatch": 2
+    },
+    "nearestPathSourceFrequency": {
+      "pattern:polo:mark:underCollar:centerMatch": 15,
+      "pattern:polo:mark:outerStand:centerMatch": 2
+    },
+    "sourceTarget": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+    "sourceEntity": "pattern:polo:role:upperCollar:edge:centerBack"
+  }
+]

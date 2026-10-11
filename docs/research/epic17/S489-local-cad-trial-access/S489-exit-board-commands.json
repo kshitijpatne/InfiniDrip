@@ -1,0 +1,65 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3041,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S489-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S489-local-cad-trial-access/S489-exit-packet.md",
+      "verified": true,
+      "note": "S489 finds no documented free local license path for StyleCAD or Optitex; hosted Optitex trial is out of scope. All V03 gates and status remain unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3042,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S489-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S489-local-cad-trial-access/S489-codex-candidate-matrix.md",
+      "verified": true,
+      "note": "Codex records StyleCAD/Optitex public no-cost access, product/trial distinctions, profile-directionality evidence, and unknowns."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3043,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S489-OPENCODE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S489-local-cad-trial-access/S489-opencode-findings.md",
+      "verified": true,
+      "note": "OpenCode exact-model review of the assigned official StyleCAD and Optitex access sources; independently checked and corrected by Codex."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3044,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S489-CODEX-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/epic17/S489-local-cad-trial-access/S489-codex-cross-review.md",
+      "verified": true,
+      "note": "Codex independently re-opened material primary sources, preserved unknowns, checked app housekeeping, and confirmed no candidate clears current V03 gates."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3045,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S489-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3046,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S489's official-source review finds no documented no-cost local receiver path for StyleCAD or Optitex. StyleCAD's online demo is not a local license grant; Optitex's free trial is hosted and local PDS installation is license-key gated. No app or files were used. Keep V03 In Progress until rights-cleared local receiver/profile and round-trip evidence pass."
+  }
+]

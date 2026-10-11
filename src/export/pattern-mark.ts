@@ -32,24 +32,40 @@ export function unfoldPatternMarks(marks: readonly PatternMark[] | undefined): r
 }
 
 const dxfPair = (code: number, value: string | number): string => `${code}\n${value}\n`;
-const dxfNum = (n: number): string => round(n).toString();
+const dxfNum = (n: number, coordinateDecimals: 3 | 6): string => {
+  const scale = 10 ** coordinateDecimals;
+  return (Math.round(n * scale) / scale).toString();
+};
 
 /** DXF R12 entities on named construction layers. */
-export function patternMarksDxf(marks: readonly PatternMark[] | undefined, height: number): string {
+export function patternMarksDxf(
+  marks: readonly PatternMark[] | undefined, height: number, coordinateDecimals: 3 | 6 = 3,
+  buttonholePointStyle: "point" | "cross" = "point",
+): string {
   if (!marks) return "";
   return marks.map((mark) => {
     const layer = `MARK_${mark.kind.toUpperCase()}`;
     if ("start" in mark) {
       return dxfPair(0, "LINE") + dxfPair(8, layer) +
-        dxfPair(10, dxfNum(mark.start.x)) + dxfPair(20, dxfNum(height - mark.start.y)) +
-        dxfPair(11, dxfNum(mark.end.x)) + dxfPair(21, dxfNum(height - mark.end.y));
+        dxfPair(10, dxfNum(mark.start.x, coordinateDecimals)) + dxfPair(20, dxfNum(height - mark.start.y, coordinateDecimals)) +
+        dxfPair(11, dxfNum(mark.end.x, coordinateDecimals)) + dxfPair(21, dxfNum(height - mark.end.y, coordinateDecimals));
     }
     if (mark.kind === "button") {
       return dxfPair(0, "CIRCLE") + dxfPair(8, layer) +
-        dxfPair(10, dxfNum(mark.at.x)) + dxfPair(20, dxfNum(height - mark.at.y)) + dxfPair(40, "0.15");
+        dxfPair(10, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(20, dxfNum(height - mark.at.y, coordinateDecimals)) + dxfPair(40, "0.15");
+    }
+    if (buttonholePointStyle === "cross" && mark.kind === "buttonhole") {
+      const halfSpan = 0.25;
+      const centerY = height - mark.at.y;
+      return dxfPair(0, "LINE") + dxfPair(8, layer) +
+        dxfPair(10, dxfNum(mark.at.x - halfSpan, coordinateDecimals)) + dxfPair(20, dxfNum(centerY, coordinateDecimals)) +
+        dxfPair(11, dxfNum(mark.at.x + halfSpan, coordinateDecimals)) + dxfPair(21, dxfNum(centerY, coordinateDecimals)) +
+        dxfPair(0, "LINE") + dxfPair(8, layer) +
+        dxfPair(10, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(20, dxfNum(centerY - halfSpan, coordinateDecimals)) +
+        dxfPair(11, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(21, dxfNum(centerY + halfSpan, coordinateDecimals));
     }
     return dxfPair(0, "POINT") + dxfPair(8, layer) +
-      dxfPair(10, dxfNum(mark.at.x)) + dxfPair(20, dxfNum(height - mark.at.y));
+      dxfPair(10, dxfNum(mark.at.x, coordinateDecimals)) + dxfPair(20, dxfNum(height - mark.at.y, coordinateDecimals));
   }).join("");
 }
 

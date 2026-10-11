@@ -30,12 +30,13 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, draftTshirt, rolePiece, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, draftTshirt, gradeRun, rolePiece, type GarmentRecipe } from "../drafting";
 import * as editEngine from "../edit";
 import * as semanticEditEngine from "../edit/semantic-edit";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
 import { currentFieldObservation, getFieldDefinitions } from "./field-provenance";
+import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
   addCaptureReadingForField,
   createMeasurementCaptureSession,
@@ -102,7 +103,7 @@ describe("mountApp", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  });
+  }, 15_000);
 
   it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
     const session = createMeasurementCaptureSession(
@@ -1185,6 +1186,93 @@ describe("mountApp", () => {
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
 
+  it("exports the opt-in source-bound CAD DXF and integrity package without changing the legacy DXF", async () => {
+    const files = new Map<string, string>();
+    window.electronAPI = { saveFile: vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    }) };
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    try {
+      const root = mount();
+      reachExportStage(root);
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(files.size).toBe(2));
+
+      expect([...files.keys()].sort()).toEqual([
+        "tee-M-cad-exchange-source.json", "tee-M-cad-exchange.dxf",
+      ]);
+      const packageJson = JSON.parse(files.get("tee-M-cad-exchange-source.json")!) as {
+        dxf: string; manifest: { schemaVersion: string; profileLabel: string; units: { length: string } };
+      };
+      expect(files.get("tee-M-cad-exchange.dxf")).toBe(packageJson.dxf);
+      expect(packageJson.manifest.schemaVersion).toBe("infinidrip.g04.dxf-package/5");
+      expect(packageJson.manifest.profileLabel).toBe("generic-dxf-centimeters-with-recipe-marks");
+      expect(packageJson.manifest.units.length).toBe("cm");
+      expect(packageJson.dxf).toContain("$INSUNITS");
+      expect(packageJson.dxf).toContain("POLYLINE");
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("audits a returned CAD DXF from the app panel using local file readers", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[0]!;
+    const sourcePackage = await createDxfInterchangePackage(recipe, graded);
+    const sourceFile = new File([""], "source.json");
+    const returnedFile = new File([""], "returned.dxf");
+    Object.defineProperty(sourceFile, "text", { value: async () => JSON.stringify(sourcePackage) });
+    Object.defineProperty(returnedFile, "text", { value: async () => sourcePackage.dxf });
+    const root = mount();
+    try {
+      reachExportStage(root);
+      setFileInput(root.querySelector<HTMLInputElement>("#dxf-source-package-file")!, sourceFile);
+      setFileInput(root.querySelector<HTMLInputElement>("#dxf-returned-file")!, returnedFile);
+      root.querySelector<HTMLButtonElement>("#audit-dxf-return")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#dxf-audit-status")?.textContent).toContain("Passed:"));
+      expect(root.querySelector("#dxf-audit-status")?.textContent).toContain("maximum difference 0.000000 cm");
+    } finally {
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("reports source-package export failures without silently producing either file", async () => {
+    window.electronAPI = { saveFile: vi.fn(async () => ({ saved: true })) };
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const digest = vi.spyOn(webcrypto.subtle, "digest");
+    try {
+      const root = mount();
+      reachExportStage(root);
+      digest.mockRejectedValueOnce(new Error("hash unavailable"));
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("CAD exchange export failed: hash unavailable"));
+
+      digest.mockRejectedValueOnce("unknown CAD package failure");
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("CAD exchange export failed: source package could not be created."));
+
+      digest.mockRejectedValueOnce("unknown digest failure");
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("Source package export failed: source package could not be created."));
+
+      digest.mockRejectedValueOnce(new Error("source package hash unavailable"));
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("Source package export failed: source package hash unavailable"));
+      expect(window.electronAPI.saveFile).not.toHaveBeenCalled();
+    } finally {
+      digest.mockRestore();
+      delete window.electronAPI;
+    }
+  });
+
   it("routes the download through window.electronAPI when running inside the desktop shell (Slice 46), skipping the Blob path entirely", async () => {
     const saveFile = vi.fn().mockResolvedValue({ saved: true, filePath: "/tmp/tee-M.svg" });
     window.electronAPI = { saveFile };
@@ -2108,6 +2196,9 @@ describe("mountApp", () => {
     expect(root.querySelector("#canvas-host")?.textContent).toContain("Graded specifications are paused.");
     clickId(root, "view-pattern");
     expect(root.querySelector("#canvas-host")?.textContent).toContain("Pattern output is paused for this size.");
+    clickId(root, "view-flat");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Technical flat withheld.");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("DRAFT_FAILED");
 
     clickId(root, "view-edit");
     root.querySelector<HTMLButtonElement>("#editor-reset")!.click();
@@ -5948,6 +6039,16 @@ describe("bundled local artwork library (Slice 203)", () => {
       window.electronAPI = { saveFile };
       const selectedSvgButton = root.querySelector<HTMLButtonElement>("#export-svg")!;
       await vi.waitFor(() => expect(selectedSvgButton.disabled).toBe(false));
+      for (const id of ["#export-cad-dxf", "#export-dxf-source-package"]) {
+        const button = root.querySelector<HTMLButtonElement>(id)!;
+        expect(button.disabled).toBe(true);
+        expect(button.title).toContain("registered recipe sizes");
+      }
+      const cadButton = root.querySelector<HTMLButtonElement>("#export-cad-dxf")!;
+      cadButton.disabled = false; // Exercise the handler's stale/programmatic custom-size guard.
+      cadButton.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("CAD package export currently requires a registered recipe size."));
       selectedSvgButton.click();
       await vi.waitFor(() => expect(saveFile).toHaveBeenCalledOnce());
       expect(saveFile.mock.calls[0]![0]).toBe("woven-shirt-One size.svg");
@@ -7182,6 +7283,56 @@ describe("bundled local artwork library (Slice 203)", () => {
       workflow.close();
       root.remove();
       vi.unstubAllGlobals();
+    }
+  });
+
+  it("shows live front and back technical flats from one draft revision and refreshes on pattern edits", () => {
+    localStorage.clear();
+    const originalGetBBox = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getBBox");
+    const originalTextLength = Object.getOwnPropertyDescriptor(SVGElement.prototype, "getComputedTextLength");
+    Object.defineProperty(SVGElement.prototype, "getBBox", { configurable: true, value() {
+      const text = this as SVGTextElement;
+      return { x: 0, y: -0.2, width: (text.textContent?.length ?? 0) * 0.18, height: 0.25 };
+    } });
+    Object.defineProperty(SVGElement.prototype, "getComputedTextLength", { configurable: true, value() {
+      return ((this as SVGTextElement).textContent?.length ?? 0) * 0.18;
+    } });
+    const root = mount();
+    try {
+      clickId(root, "view-flat");
+      const front = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(front?.getAttribute("data-view-kind")).toBe("FRONT_FLAT");
+      expect(Number.parseFloat(front?.style.width ?? "0")).toBeGreaterThanOrEqual(260);
+      const frontRevision = front?.getAttribute("data-revision-id");
+      expect(frontRevision).toMatch(/^live-draft:tee:/);
+      expect([...front!.querySelectorAll("[data-revision-id]")].every((node) => node.getAttribute("data-revision-id") === frontRevision)).toBe(true);
+
+      clickId(root, "technical-flat-back");
+      const back = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(back?.getAttribute("data-view-kind")).toBe("BACK_FLAT");
+      expect(back?.getAttribute("data-revision-id")).toBe(frontRevision);
+      expect(root.querySelector<HTMLButtonElement>("#technical-flat-back")?.getAttribute("aria-pressed")).toBe("true");
+
+      const length = root.querySelector<HTMLInputElement>('#input-length')!;
+      length.value = String(Number(length.value) + 2);
+      length.dispatchEvent(new Event("input", { bubbles: true }));
+      const refreshed = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(refreshed?.getAttribute("data-revision-id")).not.toBe(frontRevision);
+      expect(refreshed?.getAttribute("data-view-kind")).toBe("BACK_FLAT");
+
+      clickId(root, "garment-polo");
+      clickId(root, "view-flat");
+      const poloFlat = root.querySelector<SVGSVGElement>("[data-technical-flat-svg] svg");
+      expect(poloFlat?.getAttribute("data-recipe-id")).toBe("polo");
+      expect(poloFlat?.querySelectorAll("g[data-layer-group='TEXT_LABELS'] text").length).toBeGreaterThan(0);
+      expect(root.querySelector("[data-technical-flat-issues]")).toBeNull();
+    } finally {
+      root.remove();
+      localStorage.clear();
+      if (originalGetBBox) Object.defineProperty(SVGElement.prototype, "getBBox", originalGetBBox);
+      else delete (SVGElement.prototype as unknown as { getBBox?: unknown }).getBBox;
+      if (originalTextLength) Object.defineProperty(SVGElement.prototype, "getComputedTextLength", originalTextLength);
+      else delete (SVGElement.prototype as unknown as { getComputedTextLength?: unknown }).getComputedTextLength;
     }
   });
 });

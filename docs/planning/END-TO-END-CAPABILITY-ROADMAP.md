@@ -1,7 +1,134 @@
 # InfiniDrip end-to-end capability roadmap
 
+### G04 current V03 acceptance and evidence — S726 (2026-10-11)
+
+S726 makes the receiver sample criterion explicit at the serialized DXF
+exchange-structure/semantic level. The product still verifies every supported
+option at all five grade sizes (365/365). The receiver sample covers each
+distinct exchange structure across all seven recipes (10/10 classes) and
+includes one non-default Trouser XL boundary return. Each selected return
+passes the unchanged 0.001 cm audit and visible reopen review. The 365 source
+packages contain 315 normalized shape signatures; the exact LibreCAD empirical
+claim covers only the 11 fixtures actually saved/reopened and does not claim
+that every coordinate shape passed a CAD round trip. Any supported option
+that creates a new serialized structure class requires its own fixture. The
+route is LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000, with no standards or
+industrial-apparel conformance claim. This transparent sampling correction
+preserves source-side breadth, fixed fidelity checks, protected exports, and
+all release gates. See the S726 exit packet and current project state.
+
+### Prior G04 V03 acceptance decision — S724 (2026-10-11)
+
+The maintainer directed V03 acceptance to measure the product's supported
+output plus an exact empirical receiver profile, rather than require a CAD UI
+save for every matrix row. S724 found that the 73 S330 rows are M-size option
+scenarios, not option/grade pairs; 73 receiver saves would have been
+redundant and would not prove grade coverage. S726 further defines receiver
+sampling by distinct serialized DXF exchange-structure/semantic classes,
+while source-bound checks cover all option × grade packages. Preserve every
+recipe, supported option, and size. Apply the unchanged
+0.001 cm threshold, units, identity, CUT/SEW, marks and readable output to
+every selected receiver return. Manifest-only grade/options/stitch data is
+not attributed to generic CAD. LibreCAD 2.2.1.5/DXF 2000 has ten passing
+measured fixtures, but the Trouser return is not readable until its
+crossing/crowding is corrected. Preserve malformed-input, repeat, legacy byte
+identity, protected exports and final release gates. No standards or
+factory-conformance claim. See
+`docs/research/epic17/S724-librecad-option-grade-matrix/S724-exit-packet.md`.
+
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
+### EPIC-17/G04 prior evidence — S725
+
+S725 verified all 73 supported option scenarios across five sizes (365/365
+source packages) and corrected only the opt-in Trouser candidate drawing's
+page spacing. Its saved LibreCAD 2.2.1.5 / DXF 2000 return passed the existing
+audit at 0.000 cm and the ten selected outputs were visually reviewed. V03
+still requires source-derived receiver fixture coverage for each materially
+distinct geometry/topology class and the exact profile rights/workflow/claim
+record; all original fidelity and release gates remain. See the S725 exit
+packet and `PROJECT-STATE.md`.
+
+### Historical G04 route review — S721 (2026-10-11; acceptance superseded by S722)
+
+Gerber AccuMark Pattern Design is a specific documented apparel-CAD
+candidate: first-party docs describe ASTM/AAMA import from other CAD systems
+and ASTM/AAMA model export. The official download workflow requires a product
+assigned to the user's license. A read-only device check found no local
+AccuMark installation; the user's online license assignment was not checked.
+The reviewed pages document no public self-serve trial. No rights/local-handling basis or actual round trip has been
+established, so this is not a selected or passing route. No install, supplier
+contact, spending, file exchange, or acceptance change. See the S721 packet
+and linked official sources in `PROJECT-STATE.md`. This remains route research
+only; S722 supersedes its industrial-receiver prerequisite. Do not repeat the
+tested CLO/DGS/LibreCAD/OpenCAD routes.
+
+### G04 current V03 gate picture — S613 (2026-10-09)
+
+S611 found no ready free/local apparel receiver among documented candidates.
+Seamly2D's current README does not document a DXF apparel receiver route;
+OpenPatterns' tested block-table failure/no writer and Richpeace Super V8's
+lack of documented DXF export remain controlling. garment.dev claims broad
+AAMA/ASTM support but is invite-based and uses a hosted account library; this
+is outside current scope and no file was uploaded. Written CLO
+product-development authorization/local handling are confirmed for CLO only.
+S612's planned Standard-DXF import-mode trial did not execute because native
+CLO-window control is unavailable in this computer-use session; this is not a
+CLO result. S613 uniquely maps the same omitted source vertex in both previous
+AAMA/ASTM outputs for the five failed Polo CUTs. Each is on a 0.0456–0.0470 cm
+edge and creates 0.012736–0.013970 cm chord error, a plausible but unproven
+short-feature simplification. No V03 gate clears. Once a supported native
+control surface is available, run the one fixed-setting Standard-DXF input /
+ASTM output diagnostic; preserve the 0.001 cm limit and all-seven acceptance.
+See `docs/research/epic17/S613-polo-cut-vertex-adjacency/` and S612 exit.
+### Prior G04 V03 gate picture — S594 (2026-10-09)
+
+S594 independently evaluated the hash-pinned S591/S592 degree-1 SPLINE
+entities against the original source POLYLINE geometry. Ten target entities
+cover five Polo M CUTs; 3,206 degree-1 de Boor evaluations have zero source
+residual. The only S591/S592 difference is the DXF closed bit, and it does not
+change their mathematical curves. Autodesk DXF/API references document flags
+and closed/periodic conventions but do not prove CLO's interpretation or
+account for its measured output. The five CUT failures remain under the
+unchanged `0.001 cm` gate; S593 found no alternate passing receiver contour.
+The profile is still a narrow CLO DXF-AAMA trial identity, not qualified
+industrial interoperability. All-seven, identity, CUT/SEW, marks,
+grading/options, malformed-input, useful-detail and repeated-round-trip gates
+remain open. See
+`docs/research/epic17/S594-polo-spline-semantics-audit/S594-exit-packet.md`
+and `V03-CURRENT-GATE-MATRIX-S594.md`.
+
+Next S595 may prepare a periodic degree-1 candidate only after independent
+proof that its knots/controls reproduce all five exact source curves; at most
+one CLO exchange follows. No CLO test runs if that source proof fails. Preserve
+all V03 gates and all-seven scope; keep CLO open and all exchange files in the
+named C: folder.
+
+### G04 current evidence and conditional estimate — S520 (2026-10-08)
+
+S459's all-seven V02 acceptance remains Done. S520 reconciles S493–S519 and
+current candidate sources into one V03 exit picture. CLO 2026.1.310 is not a
+selected receiver: S519's only new evidence-led point-retention control still
+leaves the same five Polo CUT contours 0.012741–0.013974 cm from the receiver
+against the unchanged 0.001 cm gate. The current trial terms limit use to
+evaluation/demonstration and exclude commercial/for-profit purposes; the exact
+scope for G04 and file-content locality remain unconfirmed. No current
+alternative clears both rights/local handling and bidirectional
+apparel-DXF capability: Open Patterns has no DXF writer, OpenMarker's export
+is still planned, Seamly2D cannot import DXF, Super V8 does not document local
+DXF output, and patternForge is an export-only work-in-progress generator.
+No receiver/profile is selected; no V03 gate or claim is weakened. The exact
+next external dependency is written rights/data-handling clarification or a
+newly evidenced receiver. CLO remains open and idle; do not repeat its same
+UI case. See `docs/research/epic17/S520-v03-closure-path-reconciliation/`.
+
+### Prior G04 evidence and conditional estimate — S493 (2026-10-08)
+
+S459's all-seven V02 acceptance remains complete. S493 consolidates the actual S475–S478 CLO results: Tee M 6/6 and Woven M 24/24 contour subsets passed the recorded 0.001 cm threshold; Woven's second-generation 114/114 contour comparison also passed. Polo M has five CUT contours with measured deviations above the unchanged threshold. CLO trial rights for this exact product-development use, local-only handling, a clean import without unresolved warnings, numeric layer/mark semantics, grading, malformed-input rejection and independent receiver acceptance remain unproven. No receiver/profile is selected, no V03 gate or claim is weakened, and generic DXF/protected identities remain unchanged. See `docs/research/epic17/S493-v03-evidence-reconciliation/S493-v03-gate-matrix.md`. Next: proceed only when a permitted exact local receiver/build and local-handling basis are evidenced; then continue the specific open profile fixtures. Estimate remains conditional; rights/access delay is unbounded.
+
+### G04 current evidence and conditional estimate — S485 (2026-10-08)
+
+S459 accepted integrated V02: all seven recipes and 73 canonical configurations / 146 front/back outputs pass current UI/Chromium review. G04-V02 is Done. S475–S478 provide bounded CLO 2026.1.310 technical observations (Woven M contour round-trip passes the recorded tolerance; Polo M does not). S479 found CLO's Trial License expressly excludes commercial/for-profit purposes and the applicable license grant/scope for the sessions is not evidenced. S480 rejected Open Patterns after all three S463 generic M fixtures failed on its block-table assumption; it has no DXF writer. S481 found no reviewed receiver that clears all rights, local-use, industrial-profile, round-trip, grade and negative-case gates; S482's publisher-hosted V8 evaluation-copy package timed out before transfer. S483 found Richpeace Super V8 is labeled genuine free but its official page documents HPGL/CUT only, cloud features and Windows 7/8/10. S484 confirms the paid Cloud Super Arrangement is SaaS and sends marker commands remotely; exclude it. S485's manufacturer-branded Super V8 compatibility statement advertises DXF/PLT import, PLT save, and cloud conversion for other native CAD formats, but not local apparel DXF/AAMA/ASTM output; its linked manual was inaccessible. Third-party DXF output claims remain unverified; no Richpeace build is qualified. CLO remains closed to further trials absent rights evidence. No V03 gate or claim has been weakened. Conditional estimate remains 3–6 V03 slices plus 3–5 final review/merge/deployment slices only if a free/local rights-compatible receiver/profile becomes available; rights/access and maintainer-decision waits remain unbounded, and no candidate is qualified. See `docs/planning/EPIC-17-ADMISSION.md`, the S459 acceptance packet, and `docs/research/epic17/S485-super-v8-format-source/S485-exit-packet.md`.
 ## Authority, scheduling, and completion rules
 
 | ID | Decision / rule | Operational consequence |
@@ -72,7 +199,7 @@ _Targets were reforecast at Epic 14's limited evidence admission on 2026-09-24. 
 | G01 Admission and professional baseline | P0 | 2026-09-24 | 2026-11-13 baseline target; closed 2026-09-24 | C01/C02/C05/C06 evidence wave → C03 → C04 → final review; distinct digital remediation when confirmed | Closed at Slice 228, including S227 remediation | A-01–A-12 ownership, acceptance thresholds and unresolved facts recorded; professional parity matrix and scope decisions accepted. Exit report: `docs/research/epic14/G01-FINAL-REVIEW-EXIT.md`. |
 | G02 Versioned style foundation | P0 | Admitted 2026-09-24 | Closed 2026-09-26 at Slice 241; PR #12 brought the verified closure record to `origin/main` | G01 closed; maintainer explicitly admitted EPIC-15; F01 → F02 → F03 → final review | 10 implementation slices (Slices 230–239), plus Slice 229 admission, Slice 240 review and Slice 241 merge/closure record; 22–44 focused engineering days (planning estimate) | Multi-style local record, legacy migration, project backup/restore, source-aware fields, exact dependency invalidation, durable constrained edits, immutable revisions and hashes passed the digital exit without changing protected legacy exports. Evidence: `docs/planning/EPIC-15-ADMISSION.md`, `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`, and `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. |
 | G03 Measurement-first creation | P0 | 2027-02-15 | 2027-05-14 | G02; can parallel with technical-flat specialist research | 6–9 | One measured size, coach, editable continuation and separately approved grading work for all supported recipes. |
-| G04 Professional flats and CAD interchange | P0 | Research 2026-10-05; code 2027-02-15 | 2027-07-16 | G01/G02; integration serialized with G03 | 9–14 | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there. |
+| G04 Professional flats and CAD interchange | P0 | Admitted 2026-09-29; V01 → V02 → V03 | Reforecast after S614 practical result | G01/G02/G03 verified complete; shared integration remains serialized | V01/V02 accepted for all seven recipes. S609 CLO 2026.1.310 AAMA-import/ASTM-export trial imports/exports/reimports nine Polo M pieces; 4/9 CUT and 9/9 SEW pass `0.001 cm`, while five CUTs fail. S610/S613 trace the same five omitted CUT vertices. S614's controlled Standard-DXF input / ASTM export imports and reimports, but front output measures about 0.1× source dimensions under cm/100% settings, and its PDF is only gross-presence evidence. No V03 gate clears. | Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views remain G09/D04; production tech-pack content remains G05. | Preserve all V02/V03 gates, legacy DXF behavior, protected export identities, and no physical/factory/production-readiness claim. Require representative all-seven import/round-trip evidence before any exact compatibility claim. |
 | G05 Living production tech pack | P0 | Research 2026-10-05; code 2027-04-05 | 2027-10-15 | G02 opens T01; G04 and G03 feed later export/POM packets | 12–18 | Editable source, full configurable sections, provenance, approvals, QA fields and frozen exports across all supported recipes. |
 | G06 Professionally vetted starting designs | P1 | Research 2026-10-05; implementation 2027-05-17 | 2027-12-17 | G02 opens registry work; G04/G05 required for final B1 review; garment-family work can run in disjoint geometry lane | 10–16 plus recipe expansion below | Curated, independently reviewed starter register; no counted item lacks B1 evidence. |
 | G07 Researched garment expansion | P1, conditional on Phase 9 garment approval | 2026-10-05 earliest | 2027-12-17 target for researched set | Existing garment synthesis; shorts and upper-body foundation may run concurrently only in disjoint worktrees | 34–47, plus jogger cuff 2–3 if included | Each new recipe passes its own researched geometry/grade/POM/BOM/output matrix and B1 digital review; no physical-fit claim. |
@@ -221,7 +348,7 @@ The visual's parallel branches represent separate packets, not multiple agents e
 | M03 | G03 · 2027-05-14 | Separate grade plan: named population/size chart, chosen rules, base size, per-size override and approved run; single-size export remains first option. | Custom wearer cannot acquire a graded run merely from default recipe increments; size table reconciles with cutting files. | Codex grading/export owner. |
 | V01 | G04 · 2027-04-02 | Define technical-flat primitives: sewn silhouette, visible/hidden seams, topstitch, closures, pockets, pleats/darts, artwork, callouts and layer order. | Source-to-view map for all seven recipes; technician rejects incoherent or missing features. | Codex render contract; visual asset polish can be delegated. |
 | V02 | G04 · 2027-05-28 | Live front/back vector flats from same pattern/revision; proportional and construction annotations, variant/colorway overlays, POM callout anchoring. | All supported options have front/back snapshots and checks against pattern topology; no disconnected image redraw. | Codex render integration; disjoint visual QA. |
-| V03 | G04 · 2027-07-16 | Industrial CAD exchange proof and optional new exporter; grade/notch/allowance/units/labels; round-trip import fixtures. | Label exact formats only after documented external import/round-trip; old DXF bytes unchanged. | Codex export owner; independent importer inspection delegated. |
+| V03 | G04 · 2027-07-16 | Prove source-side package correctness for all seven recipes and all supported option × grade outputs, plus one exact local empirical DXF receiver profile with representative round trips. No standards claim without separate proof. | Exact receiver/version/profile label only for the distinct serialized exchange-structure/semantic classes represented across all recipes, plus a non-default grade-boundary fixture; compatibility claim limited to exact audited/reviewed returns. Retain 0.001 cm, units, identity, marks, readable output, repeat, malformed-input, legacy-byte and protected-export gates. | Codex export owner; independent importer inspection delegated. |
 | T01 | G05 · 2027-05-14 | Style cover, revision, base size, approval state, editable BOM, fabric/trim supplier/lot/spec, colorway, and source per field. | Changing fabric or trim updates pack, cost inputs, affected view and frozen-revision status; unknowns visible. | Codex data model; focused UI delegated. |
 | T02 | G05 · 2027-06-25 | POM methodology, landmarks, asymmetric tolerance option, size-run and grade rule source, all-callout checks; editable sample/QA records remain separate from predictions. | No POM silently lacks a definition; missing tolerance blocks supplier-ready level if required by route. | Codex geometry/POM owner. |
 | T03 | G05 · 2027-08-06 | Operation-by-operation construction: seam/stitch type, allowance, SPI/thread/needle when sourced, pressing/finish, special instructions, labels/packaging, tests and compliance fields. | Component inventory matches pattern and BOM; user/supplier decisions and unknowns clearly differentiated. | Expert content research delegated; Codex schema/validation. |

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3345,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S558-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S558-clo-profile-authoritative-evidence/S558-start-packet.md",
+    "verified": true,
+    "note": "Qualify only the exact CLO DXF-AAMA profile/build from current publisher-primary evidence; no repeated trials or UI actions. Preserve all holds."
+  }
+}

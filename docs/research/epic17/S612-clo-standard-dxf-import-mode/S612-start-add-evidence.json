@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3578,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S612-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S612-clo-standard-dxf-import-mode/S612-start-packet.md",
+    "verified": true,
+    "note": "One controlled CLO 2026.1.310 trial changes only input format mode from S609 AAMA to documented Standard DXF; exact source, other import/export settings, geometry threshold, and acceptance criteria remain fixed."
+  }
+}

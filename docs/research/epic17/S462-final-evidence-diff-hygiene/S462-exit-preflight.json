@@ -1,0 +1,59 @@
+{
+  "startRevision": 2825,
+  "exitRevision": 2831,
+  "v03Status": "In Progress",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2825,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S462-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S462-final-evidence-diff-hygiene/S462-exit-packet.md",
+        "verified": true,
+        "note": "S462 removes the extra EOF blank line caught by S461 staged diff checking, preserves S460/S461 history, and verifies the complete current staged candidate cleanly."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2826,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S462-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S462-final-evidence-diff-hygiene/S462-exit-packet.md",
+        "verified": true,
+        "note": "S462 is documentation-only; V03 remains In Progress awaiting lawful exact receiver/version access and witnessed round trips."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2827,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S462-EXIT"
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2828,
+      "itemId": "EPIC-17",
+      "evidenceId": "E-EPIC17-S462-EXIT"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2829,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S462 closes the final diff hygiene follow-up without rewriting history. The extra EOF blank line in the S461 start packet was removed; complete staged and unstaged diff checks and Control Center 42/42 pass. V03 remains In Progress pending a lawful exact receiver/version and witnessed round-trip evidence. See E-G04-S462-EXIT."
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2830,
+      "itemId": "EPIC-17",
+      "actor": "Codex",
+      "text": "S462 closes the one-line evidence correction; no V03 profile, product source, exports or acceptance changed. Keep the active G04 goal and await owner-provided/authorized exact CAD receiver access before round-trip implementation. See E-EPIC17-S462-EXIT."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3718,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S644-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S644-local-receiver-route-screen/S644-start-packet.md",
+    "verified": true,
+    "note": "Reserves S644 to reconcile existing receiver research and verify any genuinely new no-cost, local, rights-eligible apparel CAD exchange route after S643 confirmed the five Polo CUT source features must be preserved. Documentation-only; no installation, supplier contact, cloud use, product/source change, acceptance change, CLO repetition, or hold release."
+  }
+}

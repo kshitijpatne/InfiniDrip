@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3441,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S582-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S582-clo-runtime-api-inventory/S582-start-packet.md",
+    "verified": true,
+    "note": "One read-only exact-build inventory of public pattern_api names, motivated by S581's concrete missing-method result; no undocumented method invocation or geometry/acceptance claim."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3310,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S549 exact cm-to-mm fixture is ready and geometry-equivalent, but CLO's Export DXF dialog appears only in accessibility while the screenshot shows the loaded pattern canvas; one Cancel attempt had an unknown outcome and fresh state still disagreed. No exchange occurred; CLO remains open. Five failed corners share ~0.046 cm incoming segments and 16–17° turns, a testable correlation but unproven cause. Keep all V03 gates. Resume one unit-invariance trial only after screenshot/accessibility state aligns. See exit packet."
+}

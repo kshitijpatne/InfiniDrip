@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3058,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S492-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S492-style3d-dxf-access/S492-start-packet.md",
+      "verified": true,
+      "note": "S492 checks only current official Style3D Studio access, rights/local handling, and apparel-pattern DXF profile evidence; no account, download/install, cloud upload, or fixture use."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3059,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S492 is a bounded official-source check of whether Style3D Studio's documented pattern-DXF paths and access model can meet G04 V03 at no cost with rights-cleared local file handling. Do not create an account, start a trial, install, contact, upload, or use fixtures."
+  }
+]

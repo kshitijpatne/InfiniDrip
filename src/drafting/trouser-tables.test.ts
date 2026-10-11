@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { edgeStart, pieceEdge } from "./piece";
 import {
   draftTrouserWithPockets,
   TROUSER_GRADE,
@@ -38,7 +39,9 @@ describe("trouser grading, POM, and tech-pack tables", () => {
       "trouser front left", "trouser front left", "trouser front left",
       "trouser front left", "trouser front left",
     ]);
-    expect(run.every((size) => size.block.stitches.length === 10)).toBe(true);
+    expect(run.every((size) => size.block.stitches.length === 11)).toBe(true);
+    expect(run.every((size) => size.block.stitches.some((stitch) => stitch.label === "Left front fly ↔ shield"))).toBe(true);
+    expect(run.every((size) => size.block.stitches.some((stitch) => stitch.label === "Right front fly ↔ underlap"))).toBe(true);
   });
 
   it("measures every required finished/body reference from the assembled block", () => {
@@ -75,10 +78,14 @@ describe("trouser grading, POM, and tech-pack tables", () => {
     expect(value("Pocket drop (finished placement)")).toBeCloseTo(2);
     expect(rows.every((row) => row.values.every(Number.isFinite))).toBe(true);
     for (const pom of TROUSER_POMS) {
-      if (!pom.anchor) continue;
-      const anchor = pom.anchor(b);
-      expect(Number.isFinite(anchor.x) && Number.isFinite(anchor.y)).toBe(true);
+      for (const anchorMethod of [pom.anchor, pom.backAnchor]) {
+        if (!anchorMethod) continue;
+        const anchor = anchorMethod(b);
+        expect(Number.isFinite(anchor.x) && Number.isFinite(anchor.y)).toBe(true);
+      }
     }
+    const backRise = TROUSER_POMS.find((pom) => pom.label === "Back rise (finished incl. waistband)");
+    expect(backRise?.backAnchor?.(b)).toEqual(edgeStart(pieceEdge(b.roles.backLeft, "centerBack")));
   });
 
   it("keeps the BOM and construction order aligned with the emitted V1 roles", () => {

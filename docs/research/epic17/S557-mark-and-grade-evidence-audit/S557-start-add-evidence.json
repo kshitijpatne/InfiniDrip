@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3341,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S557-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S557-mark-and-grade-evidence-audit/S557-start-packet.md",
+    "verified": true,
+    "note": "Audit retained authorized seven-recipe CLO files/renders for mark mapping and verify whether genuine graded DXF fixtures exist; no repeated exchange or acceptance change."
+  }
+}

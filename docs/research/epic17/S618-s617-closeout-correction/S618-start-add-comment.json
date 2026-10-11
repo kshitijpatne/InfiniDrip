@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3607,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S618 records a docs-only S617 closeout correction: the final committed state had an extra blank line at PROJECT-STATE.md EOF and the elapsed time ended at the commit timestamp, not the earlier packet edit. Keep S617's diagnostic, acceptance criteria and holds unchanged; do not rewrite history. See E-G04-S618-START."
+}

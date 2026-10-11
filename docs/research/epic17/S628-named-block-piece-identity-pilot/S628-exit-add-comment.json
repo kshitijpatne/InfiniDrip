@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3655,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S628 completed one local CLO 2026.1.310 DXF-AAMA named-block round trip on the repaired Woven sideVentDepth=0 size-M fixture. The exported DXF has 12 unique BLOCK definitions and 12 resolving INSERT references. CLO appends _M to the literal names; the PIECE NAME payloads and clean-project reimport tree preserve all twelve source role names. Source-bound CUT and SEW vertex lists pass for all 12 pieces at the unchanged 0.001 cm gate (maximum residual 0.0007416873 mm), and the rendered reimport shows all twelve pieces. This is bounded one-fixture generic-DXF identity and geometry evidence only; output is AC1009/R12 and unitless, and the test establishes no normative apparel profile/rights, revision, grades, manufacturing-mark semantics, all-seven representative exchange, or V03 closure. Keep V02 Done, V03 and EPIC-17 In Progress, and all gates and holds unchanged. See E-G04-S628-EXIT and the S628 exit packet."
+}

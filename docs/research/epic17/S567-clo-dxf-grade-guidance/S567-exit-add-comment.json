@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3384,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S567 found current official CLO guidance plus a CLO Designer's specific instruction to grade internal-line segment points with Edit Grading. S562/S559 gives exact source-backed per-size waistband SEW point deltas: (+2,+1.5), (+4,+1.5), (+4,+1.5), (+2,+1.5) cm for each step. S566's larger blocks retain a base-XS-shaped candidate. This makes the next test precise; it does not prove version-specific export success. Current screenshot/accessibility disagreement still prevents safe selection in CLO. All V03 gates remain unchanged and held. See E-G04-S567-EXIT."
+}

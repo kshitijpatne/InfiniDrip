@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3616,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S620-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S620-aama-preexport-contour-check/S620-exit-packet.md",
+    "verified": true,
+    "note": "S574 AAMA pre-export native point lists match 9/9 source SEW paths and 0/9 CUT paths within 0.001 cm. Existing output contours carry forward native geometry. CLO layer/stage semantics remain undocumented; V03 gates unchanged."
+  }
+}

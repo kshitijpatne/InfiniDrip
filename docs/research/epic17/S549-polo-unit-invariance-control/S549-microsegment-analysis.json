@@ -1,0 +1,125 @@
+{
+  "sourceSha256": "796e537ec77e86b16d6b82c3aadd4a9982933314097b707ae689936c65944fca",
+  "mmFixtureSha256": "8fb314343cdf54557e4d331b5aabc1916dc1ab77f45ac5a791d76f9ebe6874af",
+  "scale": 10,
+  "inverseCoordinateMaximumErrorCm": 1.4210854715202004e-14,
+  "s545AamaGen1": {
+    "matchedWithin001cm": 13,
+    "overGate": 5,
+    "missing": 0,
+    "ambiguous": 5,
+    "maxBestSymmetricVertexToPathDistanceCm": 0.013974209988116201,
+    "vertexCountChanged": 5
+  },
+  "s545AamaGen2": {
+    "matchedWithin001cm": 13,
+    "overGate": 5,
+    "missing": 0,
+    "ambiguous": 5,
+    "maxBestSymmetricVertexToPathDistanceCm": 0.013987893800463684,
+    "vertexCountChanged": 5
+  },
+  "fiveCornerSignature": [
+    {
+      "sourceOrdinal": 2,
+      "piece": "back",
+      "pointCm": {
+        "x": 37.489,
+        "y": 74.514
+      },
+      "predecessorCm": {
+        "x": 37.469,
+        "y": 74.473
+      },
+      "successorCm": {
+        "x": 37.688,
+        "y": 75.742
+      },
+      "incomingSegmentCm": 0.04561797891182357,
+      "outgoingSegmentCm": 1.2440196943778759,
+      "turnDegrees": 16.798462964349568,
+      "omittedPointResidualCm": 0.012736083492453013
+    },
+    {
+      "sourceOrdinal": 10,
+      "piece": "outer collar stand",
+      "pointCm": {
+        "x": 139.277,
+        "y": 66.459
+      },
+      "predecessorCm": {
+        "x": 139.257,
+        "y": 66.417
+      },
+      "successorCm": {
+        "x": 140.777,
+        "y": 75.742
+      },
+      "incomingSegmentCm": 0.04651881339844565,
+      "outgoingSegmentCm": 9.403408371436392,
+      "turnDegrees": 16.28450432681734,
+      "omittedPointResidualCm": 0.012982545767004694
+    },
+    {
+      "sourceOrdinal": 12,
+      "piece": "inner collar stand",
+      "pointCm": {
+        "x": 156.921,
+        "y": 66.459
+      },
+      "predecessorCm": {
+        "x": 156.9,
+        "y": 66.417
+      },
+      "successorCm": {
+        "x": 158.42,
+        "y": 75.742
+      },
+      "incomingSegmentCm": 0.046957427527491005,
+      "outgoingSegmentCm": 9.403248906627965,
+      "turnDegrees": 17.39222560993241,
+      "omittedPointResidualCm": 0.013969519835794598
+    },
+    {
+      "sourceOrdinal": 14,
+      "piece": "upper pointed collar",
+      "pointCm": {
+        "x": 174.564,
+        "y": 66.459
+      },
+      "predecessorCm": {
+        "x": 174.544,
+        "y": 66.417
+      },
+      "successorCm": {
+        "x": 176.064,
+        "y": 75.742
+      },
+      "incomingSegmentCm": 0.04651881339844565,
+      "outgoingSegmentCm": 9.403408371436392,
+      "turnDegrees": 16.28450432681734,
+      "omittedPointResidualCm": 0.012982545767004694
+    },
+    {
+      "sourceOrdinal": 16,
+      "piece": "under pointed collar",
+      "pointCm": {
+        "x": 194.164,
+        "y": 66.459
+      },
+      "predecessorCm": {
+        "x": 194.144,
+        "y": 66.417
+      },
+      "successorCm": {
+        "x": 195.664,
+        "y": 75.742
+      },
+      "incomingSegmentCm": 0.04651881339844565,
+      "outgoingSegmentCm": 9.403408371436392,
+      "turnDegrees": 16.28450432681734,
+      "omittedPointResidualCm": 0.012982545767004694
+    }
+  ],
+  "interpretation": "All five failures share a short incoming source segment and a 16-17 degree turn. This is a correlation and a testable hypothesis, not proof of CLO simplification cause."
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3563,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S608 uses the saved S595 input-side scene confirmed by S601 for one read-only GetPatternInputInformation query. It compares only source-specific, uniquely matched coordinates against hash-pinned input and output to determine whether this fixture's measured changes are already present before export. Missing/ambiguous paths are reported as unattributable. No grade, save, exchange, production edit, or V03 gate/status change. See E-G04-S608-START."
+}

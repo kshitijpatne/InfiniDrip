@@ -1,0 +1,478 @@
+{
+  "generatedAt": "2026-09-30T22:32:01.567Z",
+  "browser": "Playwright Chromium production preview through the live app UI",
+  "url": "http://127.0.0.1:4175/",
+  "viewport": {
+    "width": 1440,
+    "height": 2600
+  },
+  "cases": [
+    {
+      "caseId": "tank-default",
+      "measurements": {
+        "chest": 100,
+        "shoulderWidth": 45,
+        "length": 70,
+        "armholeDepth": 24,
+        "strapWidth": 8,
+        "neckDrop": 5,
+        "neckWidthEase": 0,
+        "ease": 10
+      },
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:tank:1:1",
+          "callouts": [
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 15,
+                "y": 4
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M15 4 L19.1662 3.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 27.5,
+                "y": 24
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M27.5 24 L32.0899 23.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 27.5,
+                "y": 70
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M27.5 70 L32.2439 69.4429"
+            },
+            {
+              "sourceId": "pom:tank:front-neck-drop",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 0,
+                "y": 13
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M0 13 L3.335 14.3852"
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 7,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M7 0 L8.3927 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 29.14177131652832,
+                "y": 23.12358856201172,
+                "width": 5.916614532470703,
+                "height": 0.38317155838012695
+              }
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Body length (HPS–hem): 70.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 29.14160919189453,
+                "y": 69.12358856201172,
+                "width": 6.224850177764893,
+                "height": 0.38317155838012695
+              }
+            },
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Across shoulder: 30.0 cm (±0.6 cm)",
+              "bounds": {
+                "x": 16.578296661376953,
+                "y": 3.1235902309417725,
+                "width": 5.1326470375061035,
+                "height": 0.38317155838012695
+              }
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Neck width: 14.0 cm (±0.6 cm)",
+              "bounds": {
+                "x": 6.233367919921875,
+                "y": -0.876409649848938,
+                "width": 4.339531898498535,
+                "height": 0.38317155838012695
+              }
+            },
+            {
+              "sourceId": "pom:tank:front-neck-drop",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Front neck drop: 13.0 cm (±0.3 cm)",
+              "bounds": {
+                "x": 0.837399959564209,
+                "y": 14.065889358520508,
+                "width": 5.015514850616455,
+                "height": 0.38317155838012695
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:tank:1:1",
+          "callouts": [
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 15,
+                "y": 4
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M15 4 L19.1662 3.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 27.5,
+                "y": 24
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M27.5 24 L32.0899 23.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 27.5,
+                "y": 70
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M27.5 70 L32.2439 69.4429"
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:1:1",
+              "marker": {
+                "x": 7,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M7 0 L8.3927 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Body chest (finished): 110.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 29.14177131652832,
+                "y": 23.12358856201172,
+                "width": 5.916614532470703,
+                "height": 0.38317155838012695
+              }
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Body length (HPS–hem): 70.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 29.14160919189453,
+                "y": 69.12358856201172,
+                "width": 6.224850177764893,
+                "height": 0.38317155838012695
+              }
+            },
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Across shoulder: 30.0 cm (±0.6 cm)",
+              "bounds": {
+                "x": 16.578296661376953,
+                "y": 3.1235902309417725,
+                "width": 5.1326470375061035,
+                "height": 0.38317155838012695
+              }
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "revisionId": "live-draft:tank:1:1",
+              "text": "Neck width: 14.0 cm (±0.6 cm)",
+              "bounds": {
+                "x": 6.233367919921875,
+                "y": -0.876409649848938,
+                "width": 4.339531898498535,
+                "height": 0.38317155838012695
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        }
+      ]
+    },
+    {
+      "caseId": "tank-measurement-variant",
+      "measurements": {
+        "chest": 92,
+        "shoulderWidth": 39,
+        "length": 66,
+        "armholeDepth": 21,
+        "strapWidth": 9,
+        "neckDrop": 8,
+        "neckWidthEase": 2,
+        "ease": 10
+      },
+      "faces": [
+        {
+          "kind": "FRONT_FLAT",
+          "revisionId": "live-draft:tank:8:8",
+          "callouts": [
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 15.6,
+                "y": 4
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M15.6 4 L19.7662 3.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 25.5,
+                "y": 21
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M25.5 21 L30.1017 20.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 25.5,
+                "y": 66
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M25.5 66 L30.2439 65.4429"
+            },
+            {
+              "sourceId": "pom:tank:front-neck-drop",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 0,
+                "y": 15.6
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M0 15.6 L3.335 16.9852"
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "target": "flat:tank:FRONT_FLAT:component:front:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 8.6,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M8.6 0 L9.9927 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Body chest (finished): 102.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 27.143436431884766,
+                "y": 20.143470764160156,
+                "width": 5.929536819458008,
+                "height": 0.3593147099018097
+              }
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Body length (HPS–hem): 66.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 27.143407821655273,
+                "y": 65.14347839355469,
+                "width": 6.213881015777588,
+                "height": 0.3593147099018097
+              }
+            },
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Across shoulder: 31.2 cm (±0.6 cm)",
+              "bounds": {
+                "x": 17.183626174926758,
+                "y": 3.1434710025787354,
+                "width": 5.11828088760376,
+                "height": 0.3593147099018097
+              }
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Neck width: 17.2 cm (±0.6 cm)",
+              "bounds": {
+                "x": 7.83447265625,
+                "y": -0.8565289378166199,
+                "width": 4.329497337341309,
+                "height": 0.3593147099018097
+              }
+            },
+            {
+              "sourceId": "pom:tank:front-neck-drop",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Front neck drop: 15.6 cm (±0.3 cm)",
+              "bounds": {
+                "x": 0.8389789462089539,
+                "y": 16.685771942138672,
+                "width": 5.005146026611328,
+                "height": 0.3593147099018097
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        },
+        {
+          "kind": "BACK_FLAT",
+          "revisionId": "live-draft:tank:8:8",
+          "callouts": [
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 15.6,
+                "y": 4
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M15.6 4 L19.7662 3.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 25.5,
+                "y": 21
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M25.5 21 L30.1017 20.4429"
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 25.5,
+                "y": 66
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M25.5 66 L30.2439 65.4429"
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "target": "flat:tank:BACK_FLAT:component:back:outline",
+              "revisionId": "live-draft:tank:8:8",
+              "marker": {
+                "x": 8.6,
+                "y": 0
+              },
+              "targetHasMarkerVertex": true,
+              "leader": "M8.6 0 L9.9927 -0.5571"
+            }
+          ],
+          "labels": [
+            {
+              "sourceId": "pom:tank:body-chest-finished",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Body chest (finished): 102.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 27.143436431884766,
+                "y": 20.143470764160156,
+                "width": 5.929536819458008,
+                "height": 0.3593147099018097
+              }
+            },
+            {
+              "sourceId": "pom:tank:body-length-hps-hem",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Body length (HPS–hem): 66.0 cm (±1.3 cm)",
+              "bounds": {
+                "x": 27.143407821655273,
+                "y": 65.14347839355469,
+                "width": 6.213881015777588,
+                "height": 0.3593147099018097
+              }
+            },
+            {
+              "sourceId": "pom:tank:across-shoulder",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Across shoulder: 31.2 cm (±0.6 cm)",
+              "bounds": {
+                "x": 17.183626174926758,
+                "y": 3.1434710025787354,
+                "width": 5.11828088760376,
+                "height": 0.3593147099018097
+              }
+            },
+            {
+              "sourceId": "pom:tank:neck-width",
+              "revisionId": "live-draft:tank:8:8",
+              "text": "Neck width: 17.2 cm (±0.6 cm)",
+              "bounds": {
+                "x": 7.83447265625,
+                "y": -0.8565289378166199,
+                "width": 4.329497337341309,
+                "height": 0.3593147099018097
+              }
+            }
+          ],
+          "labelsInsidePaper": true,
+          "labelsDoNotOverlap": true
+        }
+      ]
+    }
+  ],
+  "browserErrors": []
+}

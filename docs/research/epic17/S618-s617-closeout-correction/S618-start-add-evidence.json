@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3606,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S618-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S618-s617-closeout-correction/S618-start-packet.md",
+    "verified": true,
+    "note": "S618 narrowly corrects S617 closeout timing and a trailing blank line caught after commit; no diagnostic result, code, acceptance gate, or hold changes."
+  }
+}

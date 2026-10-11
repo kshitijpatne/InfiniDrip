@@ -1,0 +1,21 @@
+[
+  {
+    "type": "editItem",
+    "expectedRevision": 2566,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S381 found no evidence supporting a false Woven back-hem gap; S406's approved Woven collar-over-plackets display remains implemented. The maintainer keeps the Woven body neckline continuous; retain all 56 Woven holds and its 28 front holds. S419 tested a 2–3-arc Polo H locator across 17 options; S425 implements the approved segmented ring. S426's corrected full-label replay reports zero source-label or marker-label overlaps across all 17 exact Polo options, preserving source marks, component paths and POM rows. S427 source analysis shows the Polo sleeve's 43 cm cap span is also the Sleeve bicep width POM station (±0.6 cm); a 0.25 cm residual pass requires 35.730905 cm, changing the POM by −7.269095 cm and materially reshaping the cap. The candidate is diagnostic only and is rejected; no source geometry changed. S428 confirms the approved single body-neckline base seam and zero duplicate stand-base strokes in all 28 exact Woven output rows; 28 front collar contacts and 28 back sleeve-hem crossings remain held. The maintainer confirms preserving all holds, rejecting the unsupported Polo cap change and retaining the implemented segmented H. S432 applies the approved endpoint-residual exception only to the exact validated Polo S351 Sleeve-cap ease representation; 0.25 cm remains for every other relation. S433 fixes the 17-option Polo back colorway closure with a fill-only duplicate of the exact same-revision armhole seam; all 17 colorway renders pass. The two front POM label placements still fail in all 17 options; the exact J/FG keyed schedule trial awaits approval. All 56 Woven and 34 Polo faces remain held. Preserve all-seven V02, V02-before-V03, legacy DXF, protected exports and V03 rights/round-trip gates. See docs/research/epic17/S433-polo-output-blocker-diagnosis/G04-V02-POLO-OUTPUT-BLOCKER-DIAGNOSIS-S433.md."
+    }
+  },
+  {
+    "type": "editEpic",
+    "expectedRevision": 2567,
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Retain established board-summary evidence assertions while reconciling to S433's current output state.",
+    "epicId": "EPIC-17",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. S425 implements the approved Polo H display; S426's corrected full-label replay reports zero source-label or marker-label overlaps across 17 Polo options. S427's rejected diagnostic cap reduction remains outside POM tolerance, and no geometry changed. The Woven body neckline remains continuous by maintainer decision. S406's approved Woven collar-over-plackets display remains implemented. S406's approved view-only collar-over-plackets order remains implemented. S428 verifies the approved single Woven body-neckline base seam without duplicate stand-base stroke; 28 front collar contacts and 28 back sleeve-hem crossings remain unresolved. S432 applies the approved exact S351 residual exception only to the validated Polo eased-cap display; 0.25 cm remains active elsewhere. S433 fixes Polo back colorway contour closure in all 17 actual renders using the exact same-revision armhole boundary. The two front POM label placements remain unresolved in all 17 options; the J/FG marker/full-schedule proposal awaits approval. All 34 Polo and 56 Woven faces remain held. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities. V03 remains gated by all-seven V02 plus rights-cleared receiver/profile and representative round-trip evidence. See docs/research/epic17/S433-polo-output-blocker-diagnosis/G04-V02-POLO-OUTPUT-BLOCKER-DIAGNOSIS-S433.md."
+    }
+  }
+]

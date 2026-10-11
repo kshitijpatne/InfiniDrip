@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3726,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S646-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S646-open-cad-profile-metadata-pilot/S646-start-packet.md",
+    "verified": true,
+    "note": "Reserves S646 for a one-recipe OpenCAD Studio R14 metadata pilot. S624 already established the official local GPL receiver and exact generic geometry; this distinct test measures explicit cm units, named piece blocks, CUT/SEW/MARK semantics and registered-app XDATA identity. All artifacts C:-confined; no CLO rerun, install/download, source change, profile acceptance, threshold or hold change."
+  }
+}

@@ -8,7 +8,8 @@
 
 import { Pom, seam, spanX, spanY, PointRef } from "./pom";
 import { pieceEdge, edgeStart, edgeEnd } from "./piece";
-import { rolePiece } from "./block";
+import { rolePiece, type Block } from "./block";
+import type { Point } from "../geometry";
 
 // The fold reference: any centre-front point (x = 0).
 const FOLD: PointRef = { edge: "centerFront", at: "start" };
@@ -70,3 +71,17 @@ export const TSHIRT_POMS: readonly Pom[] = [
     measure: (b) => seam(rolePiece(b, "sleeve"), "hem"),
   },
 ];
+
+const TEE_BACK_ANCHORS: Readonly<Partial<Record<number, (block: Block) => Point>>> = {
+  0: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "side")),
+  1: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "hem")),
+  2: (block) => edgeEnd(pieceEdge(rolePiece(block, "back"), "shoulder")),
+  5: (block) => edgeStart(pieceEdge(rolePiece(block, "back"), "shoulder")),
+};
+
+/** Tee/Tank body POMs with back-face targets for the exact matching source
+ * vertices. `TSHIRT_POMS` remains front-only for shared Polo table methods. */
+export const TEE_POMS: readonly Pom[] = TSHIRT_POMS.map((pom, index) => {
+  const backAnchor = TEE_BACK_ANCHORS[index];
+  return backAnchor ? { ...pom, backAnchor } : pom;
+});

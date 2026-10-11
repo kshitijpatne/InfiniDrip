@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":3175,"itemId":"G04-V03","evidence":{"id":"E-G04-S516-START","kind":"document","uri":"docs/research/epic17/S516-clo-foreground-activation/S516-start-packet.md","verified":true,"note":"S516 keeps the current CLO process open and tries the supported explicit foreground activation before one fresh capture; if it matches, run one AAMA export/reimport/second-generation Polo M trial under the existing C:-only authorization. No old DXF cases repeat; acceptance remains unchanged."}},
+  {"type":"addComment","expectedRevision":3176,"itemId":"G04-V03","actor":"Codex","text":"S516 uses the computer-use API's explicit foreground activation on the already-running CLO window, then one matching-screenshot check. If safe, perform only the outstanding AAMA export/reimport pilot; otherwise preserve the access issue and continue independent work. No closing or relaunching CLO."}
+]

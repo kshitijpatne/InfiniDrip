@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3652,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S628-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S628-named-block-piece-identity-pilot/S628-start-packet.md",
+    "verified": true,
+    "note": "Tests one untried generic DXF BLOCK/INSERT piece-role-name preservation route through the already-authorized local CLO DXF-AAMA round trip, using a geometry-identical derivative of the repaired Woven zero-vent fixture. This pilot does not establish revision IDs or apparel-profile semantics; all V03 criteria remain unchanged."
+  }
+}

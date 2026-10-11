@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3651,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S627 closes the supported Woven sideVentDepth=0 source NaN defect: no degenerate vent edge/marker remains, the side-to-hem join and allowance coordinates are finite, and the 0.5 cm vent control is unchanged. A regenerated final-source matrix passes 73/73 R14 geometry/mark conversions and byte-identical reopens. One CLO DXF-AAMA Woven zero-vent round trip also matches all 12 CUT/SEW point lists within 0.000685514 mm and renders all twelve pieces without gross damage. These are bounded receiver observations; no industrial profile, unit semantics, stable identity, grading, negative-input, all-seven CLO, or full V03 criterion is declared passed. G04-V02 remains Done; G04-V03 and EPIC-17 remain In Progress. Preserve every gate and hold. See E-G04-S627-EXIT and E-G04-S627-MATRIX; landed slice commit subject: Slice 627: repair Woven zero-depth vent geometry."
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3625,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S622 closes this CLO Standard-DXF import candidate on the S574 Polo M fixture: 9 patterns rendered, but only 4/9 source CUT and 4/9 SEW contours pass the unchanged 0.001 cm native-geometry gate. Five of each fail; the CUT maximum is 93.1135 mm. No DXF export occurred because pre-export geometry failed. Stop profile permutations on this fixture and qualify a distinct receiver candidate; all V03 and G04 gates/holds stay unchanged. See E-G04-S622-EXIT."
+}

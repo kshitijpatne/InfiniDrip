@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3234,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S530 confirmed the official ZIP is 248.2 MiB. Transfer ran at roughly 75 KB/s, so it was stopped; the 7.73 MB file in the dedicated C: folder is explicitly partial and provides no package-content evidence. No V03 gate changed. Next is the requested bounded CLO practical test, with S526's recorded trial-use/local-handling limits reconciled first; CLO remains open and was untouched."
+}

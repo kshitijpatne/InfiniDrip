@@ -1,0 +1,580 @@
+{
+  "sourceRevision": "live-draft:woven-shirt:14:14",
+  "configurations": 28,
+  "faceCount": 56,
+  "frontFaces": 28,
+  "backFaces": 28,
+  "visibleBaseSeamStrokeCounts": [
+    2
+  ],
+  "duplicateStandBaseStrokeCount": 0,
+  "allBoundToRevision": true,
+  "compileIssues": 0,
+  "rendererIssues": 0,
+  "backSvgByteIdentityMatchesS401": 28,
+  "backPathIdentityMatchesS401": 28,
+  "allFacesRemainHeld": true,
+  "failures": [],
+  "faceRows": [
+    {
+      "caseId": "woven-shirt-default",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72738
+    },
+    {
+      "caseId": "woven-shirt-default",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31956
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72579
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31854
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72949
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31921
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72624
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31940
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 73116
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 32118
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72561
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31944
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72432
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31976
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 71070
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31964
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72746
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31964
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72748
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31966
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72748
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31966
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72723
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31965
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72739
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31965
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72741
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31965
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72744
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31965
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72744
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31958
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72744
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31960
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72747
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31964
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72746
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31964
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72743
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31965
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72743
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31965
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72748
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31974
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72756
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31968
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72066
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31875
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72744
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31966
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72742
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31960
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 72742
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 31960
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 71363
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "visibleBaseSeamStrokes": 2,
+      "duplicateStandBaseStrokes": 0,
+      "compileIssues": 0,
+      "rendererIssues": 0,
+      "svgBytes": 32071
+    }
+  ]
+}

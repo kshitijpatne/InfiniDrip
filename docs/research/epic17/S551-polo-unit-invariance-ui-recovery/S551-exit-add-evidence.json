@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3319,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S551-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S551-polo-unit-invariance-ui-recovery/S551-exit-packet.md",
+    "verified": true,
+    "note": "Completed the authorized CLO DXF-AAMA mm control. After inverse unit conversion, 13/18 contours pass and the same five Polo CUT contours fail as in both cm generations (0.01274–0.01397 cm); unit representation alone does not explain the loss. Render and hashes are in the C:-only S551 evidence folder. No V03 gate changes."
+  }
+}

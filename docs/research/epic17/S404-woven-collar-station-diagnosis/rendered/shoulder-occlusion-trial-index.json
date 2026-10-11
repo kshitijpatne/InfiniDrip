@@ -1,0 +1,13 @@
+{
+  "sourcePaths": [
+    "flat:woven-shirt:FRONT_FLAT:component:front:outline",
+    "flat:woven-shirt:FRONT_FLAT:component:front:outline:physical-pair-reflection"
+  ],
+  "revisionId": "live-draft:woven-shirt:14:14",
+  "originalShoulderRun": "front.shoulder HPS to shoulder point",
+  "clippedTo": {
+    "x": 12.715632824489138,
+    "y": 0.5031903723447217
+  },
+  "change": "diagnostic SVG path edit only; production source unchanged"
+}

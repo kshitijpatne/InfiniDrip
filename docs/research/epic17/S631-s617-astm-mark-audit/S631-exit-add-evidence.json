@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3666,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S631-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S631-s617-astm-mark-audit/S631-exit-packet.md",
+    "verified": true,
+    "note": "Offline audit of the existing S617 Polo M Standard-DXF→CLO DXF-ASTM-labeled export→Standard-DXF reimport. At 0.001 cm, 12/21 source POINT marks have a unique output point, 6 are ambiguous, 3 buttonhole points are unmatched; 11/14 source LINEs are separate matches and 3 coincide with outlines; 0/3 button circles pass whole-curve tolerance (12-vertex polylines, 0.00511 cm chord sagitta). No output semantic layers or readable mark proof; all V03 gates and statuses unchanged."
+  }
+}

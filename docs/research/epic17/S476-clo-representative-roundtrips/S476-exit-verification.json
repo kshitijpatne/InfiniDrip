@@ -1,0 +1,10 @@
+{
+  "revision": 2943,
+  "preflightStartRevision": 2939,
+  "expectedExitRevision": 2943,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "v03ExitEvidencePresent": true,
+  "epicExitEvidencePresent": true,
+  "packetUri": "docs/research/epic17/S476-clo-representative-roundtrips/S476-exit-packet.md"
+}

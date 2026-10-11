@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3326,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S553 performs one diagnostic Standard DXF export from the existing imported S551 Polo workspace. Compare against the same-workspace AAMA output to test for an AAMA-specific short-edge loss. A repeated omission remains inconclusive for import vs shared export stage. Keep all V03 gates and C:-only file handling unchanged."
+}

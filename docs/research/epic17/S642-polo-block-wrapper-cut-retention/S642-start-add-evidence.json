@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3710,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S642-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S642-polo-block-wrapper-cut-retention/S642-start-packet.md",
+    "verified": true,
+    "note": "Reserves S642 for one source-exact Polo BLOCK/INSERT wrapper trial based on S628's successful Woven grouping control. Test whether the five short Polo CUT vertices survive CLO's native import before any export. The wrapper may change only entity grouping; preserve the pinned source, all V03 gates, local C:-only use, and every acceptance criterion."
+  }
+}

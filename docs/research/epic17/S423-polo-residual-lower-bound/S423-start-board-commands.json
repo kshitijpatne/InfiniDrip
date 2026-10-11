@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2464,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S423-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S423-polo-residual-lower-bound/G04-V02-POLO-RESIDUAL-LOWER-BOUND-S423.md",
+      "verified": true,
+      "note": "Starts a diagnostic of whether source-supported seam correspondences can meet Polo's fixed 0.25 cm gate; no production or geometry change and all faces remain held."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2465,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S423 starts a bounded exact-source diagnostic of Polo's repeated 0.68 cm production RMS versus the fixed 0.25 cm gate. It will separate endpoint and interior error under existing source-supported correspondences without changing geometry, metric or output. Preserve all 34 Polo holds and all G04 gates."
+  }
+]

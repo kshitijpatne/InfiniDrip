@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2773,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S459-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-start-packet.md",
+      "verified": true,
+      "note": "S459 starts integrated seven-recipe V02 output review at current source/options, covering all 73 configurations and 146 front/back requests without changing acceptance criteria."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2774,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S459-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S459-integrated-v02-acceptance-review/S459-start-packet.md",
+      "verified": true,
+      "note": "S459 begins current integrated all-seven V02 acceptance review following S458 Polo status correction."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2775,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S459-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2776,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S459 starts at S458 commit a26a25b, clean on codex/epic-17-g04; refreshed origin/main a5af5e13 is an ancestor. Board revision 2773; 112 locally accepted / 34 pending integrated all-seven review. Review the exact 73-case/146-face fixture through current production UI/Chromium, retain exact approved view mappings and every acceptance gate, and do not begin V03 before integrated V02 passes."
+  }
+]

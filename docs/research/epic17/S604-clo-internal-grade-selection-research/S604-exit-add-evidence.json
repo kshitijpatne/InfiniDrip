@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3548,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S604-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S604-clo-internal-grade-selection-research/S604-exit-packet.md",
+    "verified": true,
+    "note": "Primary CLO help/API sources provide no version-specific cue to identify a selected internal sewn-line grading point. Preserve the S603 hold; S605 first uses read-only exact-project geometry getters to identify CUT and internal-shape paths before any grading decision. No V03 gate clears."
+  }
+}

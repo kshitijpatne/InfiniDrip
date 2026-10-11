@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3561,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S607 failed closed at the UI precondition: Edit Grading shows 20.0 mm X steps on the selected outer CUT corner; two attempts at the S606-mapped internal SEW endpoint did not select it or change that table. No grade, project or DXF was changed, saved or exported. This is bounded to this project/workflow and clears no V03 gate. Next select a distinct pending V03 question from the current matrix; do not repeat settled probes. See E-G04-S607-EXIT."
+}

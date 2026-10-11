@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3436,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S580 completed the one-run, read-only CLO GetPatternLineInfo probe. It returns continuous, closed paths for all nine patterns; eight match source-SEW geometry, zero match source-CUT geometry, and one four-line result has no direct source match at the fixed 0.001 cm gate. No V03 gate is cleared or relaxed, and no import/export, save, pattern mutation, or CUT/SEW semantic inference occurred. Goal remains active. Next: S581 tests the distinct read-only internal-shape points getter with an evidenced frame only. See E-G04-S580-EXIT."
+}

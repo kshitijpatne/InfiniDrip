@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3621,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S621's controlled CLO AAMA swap-lines import returned the same native geometry as S620 with swap disabled: 9/9 SEW matches, 0/9 CUT within 0.001 cm. Because CUT already failed before export, no DXF was exported. Close this AAMA swap route for the fixture; compare Standard DXF next on the same input and settings, with swap off. All V03 gates stay open. See E-G04-S621-EXIT."
+}

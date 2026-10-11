@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2971,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S480-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md",
+      "verified": true,
+      "note": "S480 rejects Open Patterns as a current fixture reader/round-trip candidate: all three hash-verified generic fixtures throw at the absent dxf.blocks table; source has no DXF writer. No V03 gate or receiver is changed. Runtime evidence and parser checkout remain in C:\\G04-CLO-DXF-Exchange."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2972,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S480-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S480-open-patterns-parser-assessment/S480-exit-packet.md",
+      "verified": true,
+      "note": "Independent parser candidate assessed and rejected for current generic fixtures and DXF round-trip; rights-reviewed industrial receiver/profile remains required."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2973,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S480-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2974,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S480 confirms the Open Patterns parser cannot parse our three generic fixtures and provides no DXF writer. It is not a receiver or round-trip path; all V03 acceptance and rights gates remain unchanged."
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3213,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S525-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S525-clo-semantic-layer-audit/S525-exit-packet.md",
+      "verified": true,
+      "note": "Read-only audit of pinned S498 ASTM and S523 AAMA generation-two outputs: 41/41 pieces are uniquely block-identifiable, but layer 8 mixes CUT/SEW in all seven recipes, 78 marks lack a direct exact-geometry match, and five Polo CUT contours still fail. No rights/profile or V03 gate cleared."
+    }
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "Correction to the S525 start note: the seven analyzed CLO files are not all DXF-AAMA. Tee/Polo/Woven are the observed DXF-ASTM S498 exports; Fitted/Tank/Skirt/Trouser are the observed DXF-AAMA S523 exports. This static audit maps all 41 piece identities, but numeric layer 8 mixes CUT and SEW across all seven and 78 source marks have no direct exact-geometry match. Five Polo CUT contour failures, rights/profile/local handling, warning, grade, negative-input, and independent receiver gates remain. No CLO UI action or acceptance change."
+  }
+]

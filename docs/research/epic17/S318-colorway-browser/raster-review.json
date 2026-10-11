@@ -1,0 +1,834 @@
+{
+  "generatedAt": "2026-09-30T22:33:30.848Z",
+  "browser": "Playwright Chromium rasterized captured production live-UI SVG output",
+  "caseCount": 13,
+  "fillCount": 27,
+  "cases": [
+    {
+      "recipe": "tank",
+      "file": "tank-default-front_flat.svg",
+      "rasterPath": "tank-default-front_flat-raster.png",
+      "recipeId": "tank",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:tank:1:1",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:tank:FRONT_FLAT:component:front:outline",
+          "sourceId": "pattern:tank:role:front",
+          "revision": "live-draft:tank:1:1",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "pixel": [
+              223,
+              224,
+              227
+            ],
+            "error": 1
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "tank",
+      "file": "tank-default-back_flat.svg",
+      "rasterPath": "tank-default-back_flat-raster.png",
+      "recipeId": "tank",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:tank:1:1",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:tank:BACK_FLAT:component:back:outline",
+          "sourceId": "pattern:tank:role:back",
+          "revision": "live-draft:tank:1:1",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "pixel": [
+              223,
+              224,
+              227
+            ],
+            "error": 1
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "tank",
+      "file": "tank-measurement-variant-front_flat.svg",
+      "rasterPath": "tank-measurement-variant-front_flat-raster.png",
+      "recipeId": "tank",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:tank:8:8",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:tank:FRONT_FLAT:component:front:outline",
+          "sourceId": "pattern:tank:role:front",
+          "revision": "live-draft:tank:8:8",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -15.3,
+            "y": 13.2,
+            "pixel": [
+              223,
+              224,
+              227
+            ],
+            "error": 1
+          },
+          "insideSamples": 48,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "tank",
+      "file": "tank-measurement-variant-back_flat.svg",
+      "rasterPath": "tank-measurement-variant-back_flat-raster.png",
+      "recipeId": "tank",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:tank:8:8",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:tank:BACK_FLAT:component:back:outline",
+          "sourceId": "pattern:tank:role:back",
+          "revision": "live-draft:tank:8:8",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -15.3,
+            "y": 13.2,
+            "pixel": [
+              223,
+              224,
+              227
+            ],
+            "error": 1
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "skirt",
+      "file": "skirt-default-front_flat.svg",
+      "rasterPath": "skirt-default-front_flat-raster.png",
+      "recipeId": "skirt",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:skirt:1:1",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:skirt:FRONT_FLAT:component:front:outline",
+          "sourceId": "pattern:skirt:role:front",
+          "revision": "live-draft:skirt:1:1",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:skirt:FRONT_FLAT:component:waistband:outline",
+          "sourceId": "pattern:skirt:role:waistband",
+          "revision": "live-draft:skirt:1:1",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": 0.7,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "skirt",
+      "file": "skirt-default-back_flat.svg",
+      "rasterPath": "skirt-default-back_flat-raster.png",
+      "recipeId": "skirt",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:skirt:1:1",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:skirt:BACK_FLAT:component:back:outline",
+          "sourceId": "pattern:skirt:role:back",
+          "revision": "live-draft:skirt:1:1",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:skirt:BACK_FLAT:component:waistband:outline",
+          "sourceId": "pattern:skirt:role:waistband",
+          "revision": "live-draft:skirt:1:1",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -2.8,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "skirt",
+      "file": "skirt-measurement-variant-front_flat.svg",
+      "rasterPath": "skirt-measurement-variant-front_flat-raster.png",
+      "recipeId": "skirt",
+      "kind": "FRONT_FLAT",
+      "revision": "live-draft:skirt:5:5",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:skirt:FRONT_FLAT:component:front:outline",
+          "sourceId": "pattern:skirt:role:front",
+          "revision": "live-draft:skirt:5:5",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -18.3,
+            "y": 17.6,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:skirt:FRONT_FLAT:component:waistband:outline",
+          "sourceId": "pattern:skirt:role:waistband",
+          "revision": "live-draft:skirt:5:5",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -15.3,
+            "y": 0.7,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "skirt",
+      "file": "skirt-measurement-variant-back_flat.svg",
+      "rasterPath": "skirt-measurement-variant-back_flat-raster.png",
+      "recipeId": "skirt",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:skirt:5:5",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:skirt:BACK_FLAT:component:back:outline",
+          "sourceId": "pattern:skirt:role:back",
+          "revision": "live-draft:skirt:5:5",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -18.3,
+            "y": 17.6,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:skirt:BACK_FLAT:component:waistband:outline",
+          "sourceId": "pattern:skirt:role:waistband",
+          "revision": "live-draft:skirt:5:5",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -15.3,
+            "y": -2.8,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "trouser",
+      "file": "back-default.svg",
+      "rasterPath": "back-default-raster.png",
+      "recipeId": "trouser",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:trouser:1:4",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revision": "live-draft:trouser:1:4",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 36,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revision": "live-draft:trouser:1:4",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 36,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revision": "live-draft:trouser:1:4",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "trouser",
+      "file": "back-waistbandDepth-min.svg",
+      "rasterPath": "back-waistbandDepth-min-raster.png",
+      "recipeId": "trouser",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:trouser:3:6",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revision": "live-draft:trouser:3:6",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22.4,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 36,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revision": "live-draft:trouser:3:6",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22.4,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 36,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revision": "live-draft:trouser:3:6",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -1.6,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "trouser",
+      "file": "back-waistbandDepth-max.svg",
+      "rasterPath": "back-waistbandDepth-max-raster.png",
+      "recipeId": "trouser",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:trouser:5:8",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revision": "live-draft:trouser:5:8",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 21.2,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 36,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revision": "live-draft:trouser:5:8",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 21.2,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 36,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revision": "live-draft:trouser:5:8",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -6.4,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "trouser",
+      "file": "back-legOpening-min.svg",
+      "rasterPath": "back-legOpening-min-raster.png",
+      "recipeId": "trouser",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:trouser:7:10",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revision": "live-draft:trouser:7:10",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 21.2,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 35,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revision": "live-draft:trouser:7:10",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 21.2,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 35,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revision": "live-draft:trouser:7:10",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -6.4,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    },
+    {
+      "recipe": "trouser",
+      "file": "back-legOpening-max.svg",
+      "rasterPath": "back-legOpening-max-raster.png",
+      "recipeId": "trouser",
+      "kind": "BACK_FLAT",
+      "revision": "live-draft:trouser:9:12",
+      "color": "#3A4150",
+      "paperPixel": [
+        255,
+        255,
+        255
+      ],
+      "expectedAreaPixel": [
+        223,
+        225,
+        227
+      ],
+      "mixedRevisions": false,
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revision": "live-draft:trouser:9:12",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 21.2,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 37,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revision": "live-draft:trouser:9:12",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 21.2,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 37,
+          "visible": true,
+          "closeToExpected": true
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revision": "live-draft:trouser:9:12",
+          "fill": "#3A4150",
+          "opacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -6.4,
+            "pixel": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "insideSamples": 49,
+          "visible": true,
+          "closeToExpected": true
+        }
+      ]
+    }
+  ]
+}

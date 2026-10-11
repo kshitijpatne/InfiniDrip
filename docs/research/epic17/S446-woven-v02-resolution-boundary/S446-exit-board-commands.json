@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2673,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S446-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S446-woven-v02-resolution-boundary/G04-WOVEN-V02-RESOLUTION-BOUNDARY-S446.md",
+      "verified": true,
+      "note": "Confirms source constraints and prior option/render research leave no source-backed fix for the two Woven V02 hold classes under the continuous-neckline and fixed-S370 decisions; requests authority only for an in-memory source-design candidate study."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2674,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S446 confirms the remaining Woven front and back holds have no source-backed fix under existing approvals. The proposed next step is limited to in-memory source-design candidates for collar/stand and sleeve geometry, with exact option/render evidence and no production or acceptance changes unless a separate exact proposal is approved. Preserve all 90 held faces and all-seven V02; V03 remains gated."
+  }
+]

@@ -1,0 +1,959 @@
+{
+  "method": "Reconcile exact same-revision production-renderer path-pair crossing points to the first subpaths. Projection role mapping identifies the front body first subpath as front.shoulder and the outerStand first front run as outerStand.collar.",
+  "sourceEvidence": {
+    "rendererMatrix": "S403 exact production-renderer SVG records",
+    "revisionId": "live-draft:woven-shirt:14:14",
+    "approvedProjectionDecision": "G04-S359-WOVEN-FULL-COLLAR-ARCLENGTH",
+    "frontRun": "outerStand.collar, from approved woven-neckline transfer station to collar.end, with signed source-normal offset",
+    "bodyRun": "front.shoulder from neckline.hps to shoulder point",
+    "stitch": "Outer stand ↔ woven neckline joins outerStand.neckline to front.neckline and yoke.neckline; shoulder is not a stitch reference."
+  },
+  "summary": {
+    "configurations": 28,
+    "exactRevisionConfigurations": 28,
+    "directShoulderCollarPairCrossings": 28,
+    "distinctOptionsAffectingCrossing": [
+      "neckEase",
+      "standHeight",
+      "combined-supported"
+    ],
+    "crossingBoundsCm": {
+      "minX": 11.729380919824965,
+      "maxX": 13.701883658647763,
+      "minY": 0.30191447343366623,
+      "maxY": 0.7044660527852575
+    },
+    "maximumShoulderSegmentDistanceCm": 2.220446049250313e-16,
+    "hiddenShoulderLengthBoundsCm": {
+      "min": 1.509874251456355,
+      "max": 3.5230346595465547
+    },
+    "maximumProjectedCollarSegmentDistanceCm": 1.7798229048217483e-15
+  },
+  "records": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.466307168996147,
+        "y": 0.49326143379922943
+      },
+      "shoulderFraction": 0.19730457351969177,
+      "hiddenShoulderLengthCm": 2.5151496762450267,
+      "shoulderSegmentClearanceCm": 0,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4030242943044606,
+      "projectedCollarSegmentClearanceCm": 1.6653345369377348e-16
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 13.214198867367571,
+        "y": 0.5242976313548026
+      },
+      "shoulderFraction": 0.20971905254192097,
+      "hiddenShoulderLengthCm": 2.51935786742969,
+      "shoulderSegmentClearanceCm": 1.1102230246251565e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4063692693805631,
+      "projectedCollarSegmentClearanceCm": 0
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 11.729380919824965,
+        "y": 0.30191447343366623
+      },
+      "shoulderFraction": 0.12076578937346656,
+      "hiddenShoulderLengthCm": 1.509874251456355,
+      "shoulderSegmentClearanceCm": 1.6653345369377348e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.27201952737513846,
+      "projectedCollarSegmentClearanceCm": 0
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 13.701883658647763,
+        "y": 0.7044660527852575
+      },
+      "shoulderFraction": 0.2817864211141031,
+      "hiddenShoulderLengthCm": 3.5230346595465547,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.5097070058499801,
+      "projectedCollarSegmentClearanceCm": 0
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 12.715632824489138,
+        "y": 0.5031903723447217
+      },
+      "shoulderFraction": 0.20127614893788878,
+      "hiddenShoulderLengthCm": 2.516455001786979,
+      "shoulderSegmentClearanceCm": 2.220446049250313e-16,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4038446005976899,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceEdges": {
+        "bodyShoulder": "pattern:woven-shirt:role:front:edge:shoulder",
+        "projectedCollarRun": "pattern:woven-shirt:role:outerStand:edge:collar"
+      },
+      "crossingCm": {
+        "x": 13.208782561546627,
+        "y": 0.6038331758258422
+      },
+      "shoulderFraction": 0.2415332703303369,
+      "hiddenShoulderLengthCm": 3.0197696519337938,
+      "shoulderSegmentClearanceCm": 0,
+      "projectedCollarPolylineSegment": 0,
+      "projectedCollarSegmentFraction": 0.4595032157566715,
+      "projectedCollarSegmentClearanceCm": 1.7798229048217483e-15
+    }
+  ]
+}

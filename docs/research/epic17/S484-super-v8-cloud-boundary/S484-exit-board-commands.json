@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3003,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S484-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md",
+      "verified": true,
+      "note": "Publisher confirms paid Cloud Super Arrangement sends marker commands for remote processing. This path is excluded; local DXF/conversion handling remains unverified and V03 gates stay unchanged."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3004,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S484-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S484-super-v8-cloud-boundary/S484-exit-packet.md",
+      "verified": true,
+      "note": "The exact Super V8 paid marker-cloud path is identified and excluded; other exchange data paths remain unverified."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3005,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S484-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3006,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S484 excludes the publisher-documented paid SaaS marker workflow. It does not establish whether pattern DXF import/export or cloud conversion is local; no V03 gate clears."
+  }
+]

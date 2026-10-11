@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3549,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S604 found no reliable version-specific CLO selection cue for internal-line grading. Current API docs offer read-only outline/internal-shape geometry getters, but the documented grading setter targets outline points only. S603 remains held. Next S605 checks exact-project path identity with read-only getters only; no grading input or exchange until the paths are unambiguously identified. All V03 gates and acceptance criteria remain unchanged."
+}

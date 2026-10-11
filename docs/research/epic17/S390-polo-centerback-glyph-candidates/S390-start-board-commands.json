@@ -1,0 +1,7 @@
+[
+  {"type":"addEvidence","expectedRevision":2102,"itemId":"G04-V02","evidence":{"id":"E-G04-S390-START","kind":"document","uri":"docs/research/epic17/S390-polo-centerback-glyph-candidates/G04-V02-POLO-CENTERBACK-GLYPH-CANDIDATES-S390.md","verified":true,"note":"Implement only the maintainer-approved E (-0.38,-0.34 cm) and I (+0.34,-0.32 cm) glyph offsets with exact ring anchors fixed; verify the current 17-option output. User authorized verification, not Polo view release; all faces remain held."}},
+  {"type":"addEvidence","expectedRevision":2103,"itemId":"EPIC-17","evidenceId":"E-G04-S390-START"},
+  {"type":"addEpicEvidence","expectedRevision":2104,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S390-START"},
+  {"type":"addComment","expectedRevision":2105,"itemId":"G04-V02","actor":"Codex","text":"The maintainer approved the exact S389 E/I glyph-only offsets for implementation and 17-option verification. S390 keeps the rings at their same-revision source anchors and preserves all marks, source paths and full schedule rows. The approval does not release any Polo face or clear the independent 0.68 cm residual."},
+  {"type":"addComment","expectedRevision":2106,"itemId":"EPIC-17","actor":"Codex","text":"S390 implements only approved E/I annotation glyph translations and verifies the all-option rendered output. Pattern geometry, source stitch graph, POMs, acceptance, all-seven criterion, 0.25 cm gate, all holds, legacy DXF, protected exports and V03 dependency remain unchanged."}
+]

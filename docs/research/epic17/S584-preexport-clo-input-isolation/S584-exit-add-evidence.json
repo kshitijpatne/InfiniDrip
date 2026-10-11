@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3451,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S584-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S584-preexport-clo-input-isolation/S584-exit-packet.md",
+    "verified": true,
+    "note": "The hash-pinned S574 post-input-import/pre-export project returned nine successful GetPatternInputInformation records. Fixed comparison finds eight literal-SEW candidates, zero literal-CUT candidates, and index 3 unmatched; the same candidate sets occur in S583 with a maximum corresponding-point delta of 0.000244 mm. Getter semantics do not establish CUT/SEW roles or causation. S574/S575 still record the concrete gen1 CUT-path failure; no V03 gate clears."
+  }
+}

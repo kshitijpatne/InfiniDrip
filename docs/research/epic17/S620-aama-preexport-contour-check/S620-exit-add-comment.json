@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3617,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S620 localized the S574 AAMA fixture's CUT mismatch before export: the saved native point lists track source SEW (9/9 within tolerance) and no source CUT (0/9 within tolerance); output block contours carry forward native geometry. CLO API/layer semantics remain undocumented, so no mechanism or numeric layer role is claimed. All V03 criteria and holds remain unchanged; see E-G04-S620-EXIT."
+}

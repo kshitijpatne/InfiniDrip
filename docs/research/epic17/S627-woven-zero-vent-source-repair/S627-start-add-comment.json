@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3648,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S627 targets one source defect discovered by the full supported-option screen: Woven sideVentDepth=0 emits a zero-length vent edge with positive allowance, producing NaN coordinates across the DXF; the R14 receiver silently accepts and normalizes it. The bounded fix removes only that degenerate zero-depth vent edge/top marker, preserves all nonzero vent geometry and the stitch graph, adds focused finite-geometry coverage, then reruns all 73 canonical options at 0.001 cm. A single CLO Woven AAMA pre-export trial is conditional on the already-running UI and a passing native-geometry/render gate. No criterion/status changes or industrial-profile claim. See E-G04-S627-START."
+}

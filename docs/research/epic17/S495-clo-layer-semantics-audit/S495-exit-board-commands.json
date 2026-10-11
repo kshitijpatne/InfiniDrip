@@ -1,0 +1,36 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3079,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S495-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S495-clo-layer-semantics-audit/S495-exit-packet.md",
+      "verified": true,
+      "note": "S495 rechecked existing hash-pinned CLO DXFs: numeric layers duplicate source-correlated CUT/SEW geometry without a unique semantic mapping; Polo's five tolerance failures remain; a fresh CLO launch stalled and the process reported not responding, so no new exchange was attempted."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 3080,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S495-EXIT"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3081,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S495 confirms numeric CLO layer IDs cannot be uniquely mapped to CUT/SEW from geometry: coincident copies span the same numeric layers across Tee, Polo and Woven. Polo remains 13/18 within 0.001 cm. A new CLO launch remained at Creating Scene and Library and Windows reported Responding: False; no fresh exchange occurred. This does not negate earlier successful runs or establish format incompatibility. V03 gates/status unchanged. See E-G04-S495-EXIT."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3082,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S495 adds read-only numeric-layer evidence and records a concrete nonresponsive CLO startup. Existing Tee/Woven results and the measured Polo failure remain unchanged; no acceptance criteria or claim changed. EPIC-17/G04-V03 remain In Progress, V01/V02 Done. See E-G04-S495-EXIT."
+  }
+]

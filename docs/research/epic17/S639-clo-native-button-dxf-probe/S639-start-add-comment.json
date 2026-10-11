@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3697,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S639 reserves one CLO-native Button/Buttonhole DXF probe based on current official CLO tool documentation. It protects the S637 Woven project, adds native button and buttonhole objects only to a disposable copy, and inspects one export/reimport/render for exact emitted data and visibility. This tests a different hypothesis from S637's failed source circles and quarter-arcs. No production change or gate/hold/status modification; every exchange artifact stays under the named C: S639 folder. See E-G04-S639-START."
+}

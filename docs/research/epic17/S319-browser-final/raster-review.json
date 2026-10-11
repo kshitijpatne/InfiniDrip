@@ -1,0 +1,2107 @@
+{
+  "generatedAt": "2026-09-30T23:11:02.554Z",
+  "browser": "Playwright Chromium raster of production UI captured SVG output",
+  "matrixSvgCount": 28,
+  "colorwaySvgCount": 28,
+  "fillCount": 78,
+  "outputs": [
+    {
+      "face": "tank-default-front",
+      "recipeId": "tank",
+      "viewKind": "FRONT_FLAT",
+      "revision": "live-draft:tank:3:3",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:tank:FRONT_FLAT:component:front:outline",
+          "sourceId": "pattern:tank:role:front",
+          "revisionId": "live-draft:tank:3:3",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:tank:3:3",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "rgb": [
+              223,
+              224,
+              227
+            ],
+            "error": 1
+          },
+          "maxSampleError": 1
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "tank-default-front-raster.png",
+      "fillCount": 1
+    },
+    {
+      "face": "tank-default-back",
+      "recipeId": "tank",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:tank:3:3",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:tank:BACK_FLAT:component:back:outline",
+          "sourceId": "pattern:tank:role:back",
+          "revisionId": "live-draft:tank:3:3",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:tank:3:3",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "rgb": [
+              223,
+              224,
+              227
+            ],
+            "error": 1
+          },
+          "maxSampleError": 1
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "tank-default-back-raster.png",
+      "fillCount": 1
+    },
+    {
+      "face": "skirt-default-front",
+      "recipeId": "skirt",
+      "viewKind": "FRONT_FLAT",
+      "revision": "live-draft:skirt:83:83",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:skirt:FRONT_FLAT:component:front:outline",
+          "sourceId": "pattern:skirt:role:front",
+          "revisionId": "live-draft:skirt:83:83",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:skirt:83:83",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:skirt:FRONT_FLAT:component:waistband:outline",
+          "sourceId": "pattern:skirt:role:waistband",
+          "revisionId": "live-draft:skirt:83:83",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:skirt:83:83",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": 0.7,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "skirt-default-front-raster.png",
+      "fillCount": 2
+    },
+    {
+      "face": "skirt-default-back",
+      "recipeId": "skirt",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:skirt:83:83",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:skirt:BACK_FLAT:component:back:outline",
+          "sourceId": "pattern:skirt:role:back",
+          "revisionId": "live-draft:skirt:83:83",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:skirt:83:83",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -16.5,
+            "y": 14,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:skirt:BACK_FLAT:component:waistband:outline",
+          "sourceId": "pattern:skirt:role:waistband",
+          "revisionId": "live-draft:skirt:83:83",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:skirt:83:83",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -2.8,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "skirt-default-back-raster.png",
+      "fillCount": 2
+    },
+    {
+      "face": "trouser-default-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:84:84",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:84:84",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:84:84",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:84:84",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:84:84",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:84:84",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:84:84",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-default-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-frontRiseEase-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:85:85",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:85:85",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:85:85",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:85:85",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:85:85",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:85:85",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:85:85",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-frontRiseEase-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-frontRiseEase-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:86:86",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:86:86",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:86:86",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:86:86",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:86:86",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:86:86",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:86:86",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-frontRiseEase-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-backRiseEase-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:88:88",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:88:88",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:88:88",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 20.6,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:88:88",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:88:88",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 20.6,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:88:88",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:88:88",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-backRiseEase-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-backRiseEase-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:89:89",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:89:89",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:89:89",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 23,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:89:89",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:89:89",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 23,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:89:89",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:89:89",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-backRiseEase-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-waistbandDepth-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:91:91",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:91:91",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:91:91",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22.4,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:91:91",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:91:91",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22.4,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:91:91",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:91:91",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -1.6,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-waistbandDepth-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-waistbandDepth-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:92:92",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:92:92",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:92:92",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 21.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:92:92",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:92:92",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 21.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:92:92",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:92:92",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -6.4,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-waistbandDepth-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-thighEase-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:94:94",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:94:94",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:94:94",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:94:94",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:94:94",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:94:94",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:94:94",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-thighEase-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-thighEase-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:95:95",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:95:95",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:95:95",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:95:95",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:95:95",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:95:95",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:95:95",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-thighEase-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-kneeEase-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:97:97",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:97:97",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:97:97",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:97:97",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:97:97",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:97:97",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:97:97",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-kneeEase-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-kneeEase-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:98:98",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:98:98",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:98:98",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:98:98",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:98:98",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:98:98",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:98:98",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-kneeEase-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-legOpening-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:100:100",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:100:100",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:100:100",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:100:100",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:100:100",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:100:100",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:100:100",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-legOpening-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-legOpening-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:101:101",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:101:101",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:101:101",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:101:101",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:101:101",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:101:101",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:101:101",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-legOpening-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-flyLength-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:103:103",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:103:103",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:103:103",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:103:103",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:103:103",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:103:103",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:103:103",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-flyLength-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-flyLength-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:104:104",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:104:104",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:104:104",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:104:104",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:104:104",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:104:104",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:104:104",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-flyLength-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketOpening-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:106:106",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:106:106",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:106:106",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:106:106",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:106:106",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:106:106",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:106:106",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketOpening-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketOpening-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:107:107",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:107:107",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:107:107",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:107:107",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:107:107",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:107:107",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:107:107",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketOpening-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketAngle-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:109:109",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:109:109",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:109:109",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:109:109",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:109:109",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:109:109",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:109:109",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketAngle-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketAngle-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:110:110",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:110:110",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:110:110",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:110:110",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:110:110",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:110:110",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:110:110",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketAngle-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketBagDepth-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:112:112",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:112:112",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:112:112",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:112:112",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:112:112",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:112:112",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:112:112",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketBagDepth-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketBagDepth-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:113:113",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:113:113",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:113:113",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:113:113",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:113:113",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:113:113",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:113:113",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketBagDepth-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketDrop-min-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:115:115",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:115:115",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:115:115",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:115:115",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:115:115",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:115:115",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:115:115",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketDrop-min-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-pocketDrop-max-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:116:116",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:116:116",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:116:116",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:116:116",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:116:116",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:116:116",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:116:116",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-pocketDrop-max-back-raster.png",
+      "fillCount": 3
+    },
+    {
+      "face": "trouser-combined-supported-back",
+      "recipeId": "trouser",
+      "viewKind": "BACK_FLAT",
+      "revision": "live-draft:trouser:122:122",
+      "color": "#3A4150",
+      "paper": [
+        255,
+        255,
+        255
+      ],
+      "expected": [
+        223,
+        225,
+        227
+      ],
+      "fills": [
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backLeft:outline",
+          "sourceId": "pattern:trouser:role:backLeft",
+          "revisionId": "live-draft:trouser:122:122",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:122:122",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": 5.5,
+            "y": 22.4,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "flat:trouser:BACK_FLAT:component:backRight:outline",
+          "sourceId": "pattern:trouser:role:backRight",
+          "revisionId": "live-draft:trouser:122:122",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:122:122",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -22,
+            "y": 22.4,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        },
+        {
+          "entityId": "live-flat:trouser:BACK_FLAT:waistband:waistband:backLeft:waist:top",
+          "sourceId": "pattern:trouser:role:waistband:edge:top",
+          "revisionId": "live-draft:trouser:122:122",
+          "fill": "#3A4150",
+          "groupRevision": "live-draft:trouser:122:122",
+          "groupOpacity": "0.16",
+          "sample": {
+            "x": -14.1,
+            "y": -3.2,
+            "rgb": [
+              222,
+              223,
+              226
+            ],
+            "error": 4
+          },
+          "maxSampleError": 4
+        }
+      ],
+      "mixedRevisions": false,
+      "raster": "trouser-combined-supported-back-raster.png",
+      "fillCount": 3
+    }
+  ]
+}

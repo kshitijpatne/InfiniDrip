@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3611,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S619 reuses the saved S617 post-import/pre-export CLO project to check whether its stored pattern contours preserve the five source CUT short-edge vertices. This can distinguish import-stage from later loss without another CLO exchange. Read-only, C:-only analysis; V03 gates and all holds remain. See E-G04-S619-START."
+}

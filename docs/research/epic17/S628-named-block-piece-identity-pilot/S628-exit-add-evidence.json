@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3654,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S628-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S628-named-block-piece-identity-pilot/S628-exit-packet.md",
+    "verified": true,
+    "note": "One CLO DXF-AAMA Woven zero-vent named-block pilot preserves 12 distinct role labels and passes all 12 CUT/SEW pairs at 0.001 cm (max 0.0007416873 mm); CLO appends _M to literal BLOCK/INSERT tokens. This is one-size generic DXF evidence, not industrial-profile rights, revision/grade/mark semantics, all-seven exchange, or full V03 acceptance. All gates and statuses unchanged. Raw evidence is restricted to the named C: folder."
+  }
+}

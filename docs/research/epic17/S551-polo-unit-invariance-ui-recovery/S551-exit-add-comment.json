@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3320,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S551's CLO DXF-AAMA millimeter round trip reproduced the same five Polo CUT contour losses as both centimeter runs; 13/18 contours pass and five remain 0.01274–0.01397 cm over the unchanged 0.001 cm gate. Numeric units alone are ruled out as the cause. Screenshot-coordinate interaction recovered the visible Save/Open pickers; CLO stays open. User authorization and local handling are confirmed. Profile, CUT/SEW/mark, grade/options, malformed-input and all-seven gates remain unchanged."
+}

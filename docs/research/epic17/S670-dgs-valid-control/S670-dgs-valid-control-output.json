@@ -1,0 +1,29 @@
+{
+  "slice": 670,
+  "receiver": "GetonAgain DGS VID:20250610",
+  "profileLabel": "ASTM export menu item (vendor label; no conformance claim)",
+  "source": {
+    "kind": "native DGS control",
+    "dimensions": "100 x 100 mm",
+    "pieceName": "G04_CONTROL_10CM",
+    "grainline": "two-way vertical, border endpoint placement not verified inside",
+    "productPatternUsed": false
+  },
+  "output": {
+    "path": "C:\\G04-CLO-DXF-Exchange\\S670-dgs-valid-control\\Output\\g04-valid-control.dxf",
+    "bytes": 1223,
+    "sha256": "D90E818ADE839C2B21216247535620BD4988EB71EC5AB726E61933FDEDE11AEE",
+    "asciiSections": ["BLOCKS", "ENTITIES"],
+    "entityCounts": {"TEXT": 10, "geometric": 0, "blocks": 0},
+    "layers": {"1": 10},
+    "headers": {"$ACADVER": false, "$INSUNITS": false},
+    "validatorDialog": "none observed",
+    "content": "vendor/style/date/author/product/version/sample size/rule table/metric/tolerance metadata only",
+    "selfImport": "not run; stop condition triggered by zero geometry"
+  },
+  "render": {
+    "path": "C:\\G04-CLO-DXF-Exchange\\S670-dgs-valid-control\\Evidence\\native-dgs-render-after-name-fix.jpg",
+    "sha256": "68067B47454CC761355D3B2958CAE12482B02E9E74080993B4517C4BF01F4BCE"
+  },
+  "disposition": "DGS candidate retired; no V03 gate passed"
+}

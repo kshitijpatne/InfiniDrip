@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3706,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S641-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S641-no-cost-local-apparel-cad-candidate-screen/S641-start-packet.md",
+    "verified": true,
+    "note": "Reserves S641 for a read-only public-source screen of distinct, local, no-cost apparel CAD receiver/profile candidates after S640 corrected the connected-LINE prior-art gap. No software install, pattern upload, supplier contact, spending, or scope change is authorized by this screen. Preserve every V03 gate and hold."
+  }
+}

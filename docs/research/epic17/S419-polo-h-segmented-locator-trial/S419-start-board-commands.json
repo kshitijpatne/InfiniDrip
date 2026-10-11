@@ -1,0 +1,5 @@
+[
+  {"type":"addEvidence","expectedRevision":2435,"itemId":"G04-V02","evidence":{"id":"E-G04-S419-START","kind":"document","uri":"docs/research/epic17/S419-polo-h-segmented-locator-trial/G04-V02-POLO-H-SEGMENTED-LOCATOR-TRIAL-S419.md","verified":true,"note":"Diagnostic-only option-wide test of a segmented 0.22 cm H locator at the approved source anchor; preserves all source paths/marks and all 34 Polo holds."}},
+  {"type":"addEpicEvidence","expectedRevision":2436,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S419-START"},
+  {"type":"addComment","expectedRevision":2437,"itemId":"G04-V02","actor":"Codex","text":"S419 tests only whether a source-centered segmented H locator can avoid the all-option source-path contacts found in S416 while preserving the approved anchor, radius, glyph and full schedule. The production marker and all 34 Polo view holds remain unchanged pending actual option-wide rendered review."}
+]

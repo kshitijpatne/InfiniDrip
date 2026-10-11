@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3596,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S616-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S616-standard-dxf-units-sensitivity/S616-start-packet.md",
+    "verified": true,
+    "note": "S616 isolates CLO's Standard-DXF input Unit selector at millimeters/100% using the same unitless Polo M fixture as S614/S615, with all remaining import/export options and the 0.001 cm gate fixed. Diagnostic only; no acceptance or hold changes."
+  }
+}

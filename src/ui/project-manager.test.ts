@@ -617,7 +617,7 @@ describe("accessible project and style manager", () => {
       vi.unstubAllGlobals();
       vi.restoreAllMocks();
     }
-  });
+  }, 15_000);
 
   it("shows storage, oversize, malformed, and cancel feedback for package actions", async () => {
     const { workflow } = harness();

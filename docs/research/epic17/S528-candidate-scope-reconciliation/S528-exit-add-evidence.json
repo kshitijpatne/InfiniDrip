@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3225,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S528-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S528-candidate-scope-reconciliation/S528-exit-packet.md",
+    "verified": true,
+    "note": "Corrects S527's invite suggestion against G04's explicit hosted-service non-goal. No external contact, app/account/file action, or V03 gate change. GetonAgain remains only an unverified desktop lead pending an authorized factual vendor inquiry."
+  }
+}

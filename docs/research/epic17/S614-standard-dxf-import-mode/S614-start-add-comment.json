@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3587,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S614 compares Standard DXF input against S609 AAMA input while holding the hash-pinned Polo M source, CLO 2026.1.310, units/scale/rotation/grain/notch/curve settings, and ASTM Graded Nest export constant. The fixed-setting trial imported nine pieces, exported and reimported with no format error, and saved a CLO 2D PDF. Source-bound geometry/render review remains pending. No compatibility claim or acceptance gate changes; all V03 holds stay in place. See E-G04-S614-START."
+}

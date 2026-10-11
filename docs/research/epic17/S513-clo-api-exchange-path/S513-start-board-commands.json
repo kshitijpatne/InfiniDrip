@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":3163,"itemId":"G04-V03","evidence":{"id":"E-G04-S513-START","kind":"document","uri":"docs/research/epic17/S513-clo-api-exchange-path/S513-start-packet.md","verified":true,"note":"S513 checks official CLO Python API and SDK documentation for a reproducible C:-confined DXF exchange path without operating the UI or changing V03 acceptance."}},
+  {"type":"addComment","expectedRevision":3164,"itemId":"G04-V03","actor":"Codex","text":"S513 screens CLO's official in-app Python API for explicit-path DXF import/export and exact 2026.1.310 compatibility. It will separate documented automation capability from a tested exchange result and preserve all V03 gates."}
+]
+
+\n

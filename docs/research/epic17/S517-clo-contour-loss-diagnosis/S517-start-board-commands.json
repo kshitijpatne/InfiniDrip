@@ -1,0 +1,4 @@
+[
+  {"type":"addEvidence","expectedRevision":3179,"itemId":"G04-V03","evidence":{"id":"E-G04-S517-START","kind":"document","uri":"docs/research/epic17/S517-clo-contour-loss-diagnosis/S517-start-packet.md","verified":true,"note":"S517 diagnoses the five exact S516 CLO AAMA cut-contour losses using the existing C:-confined fixture/output and analyzer plus narrowly relevant source paths. No repeat UI trial, source change, tolerance change, or implementation; record stage-attribution limits and one targeted next experiment."}},
+  {"type":"addComment","expectedRevision":3180,"itemId":"G04-V03","actor":"Codex","text":"S517 is a bounded forensic diagnosis of the five unchanged-gate S516 contour losses. Reuse the current AAMA fixture/output, identify the altered geometry and what can be attributed from available evidence, then choose one specific next action or record the limit. Do not rerun the case in CLO or broaden into another format/options matrix."}
+]

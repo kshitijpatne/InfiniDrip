@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3032,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S488-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S488-grafis-accumark-source-screen/S488-start-packet.md",
+    "verified": true,
+    "note": "S488 screens only GRAFIS and Gerber AccuMark primary sources for lawful no-cost local apparel-profile receive/send evidence; no install or fixture."
+  }
+}

@@ -1,0 +1,28 @@
+
+ RUN  v2.1.9 C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp
+      Coverage enabled with v8
+
+ ✓ src/export/dxf-interchange-package.test.ts (10 tests) 59075ms
+   ✓ C04-bounded DXF interchange package > binds every registered recipe and grade row to an exact DXF and seam graph 22431ms
+   ✓ C04-bounded DXF interchange package > uses canonical option-key ordering and changes package revision when option data changes 2882ms
+   ✓ C04-bounded DXF interchange package > packages pieces with no explicit notch table and keeps a valid named drawing 377ms
+   ✓ C04-bounded DXF interchange package > rejects piece roles that collide after safe block-name normalization 592ms
+   ✓ C04-bounded DXF interchange package > records every canonical S330 option configuration with fully resolved values 25908ms
+   ✓ C04-bounded DXF interchange package > materializes recipe defaults and rejects invalid or unsupported options 1793ms
+   ✓ C04-bounded DXF interchange package > rejects duplicate and empty source mark identities 3148ms
+   ✓ C04-bounded DXF interchange package > rejects DXF, manifest, schema and malformed package tampering 1902ms
+ ✓ src/export/named-dxf-blocks.test.ts (3 tests) 15ms
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  19:48:54
+   Duration  63.94s (transform 1.44s, setup 0ms, collect 2.14s, tests 59.09s, environment 1ms, prepare 443ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |      100 |     100 |     100 |                   
+ ...nge-package.ts |     100 |      100 |     100 |     100 |                   
+ ...-dxf-blocks.ts |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------

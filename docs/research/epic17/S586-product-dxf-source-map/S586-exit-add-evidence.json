@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3459,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S586-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S586-product-dxf-source-map/S586-exit-packet.md",
+    "verified": true,
+    "note": "S586 hash-checked seven source and seven CLO generation-two DXFs. The product writer explicitly separates CUT/SEW, but omits units, stable piece/revision identity, mark IDs/labels, and native grade relationships. Five unmatched Polo CUT contours remain independently measured failures; 78 non-direct mark matches are not proof of loss. No acceptance or source behavior changed."
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3422,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S577 checks only current first-party evidence for exact 2026.1.310 SDK/API support and read-only 2D outline-coordinate retrieval, reconciling S513/S515/S569. No script execution, CLO UI/file operation, container decoding, or gate change. See E-G04-S577-START."
+}

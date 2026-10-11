@@ -1,0 +1,3003 @@
+{
+  "source": "Current exact Polo draft, projection/assembly/POM modules, Chromium measured text and same-revision rendered geometry",
+  "configurations": 17,
+  "facesInspected": 17,
+  "layoutsPerCallout": 3,
+  "minClearanceCm": 0.25,
+  "placementGridStepCm": 1,
+  "anchorSearchRadiusCm": 18,
+  "browserErrors": 0,
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-default",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          865,
+          817,
+          870
+        ],
+        [
+          871,
+          853,
+          870
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 2,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 98,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-placketLength-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          865,
+          817,
+          870
+        ],
+        [
+          871,
+          853,
+          870
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 2,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 98,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-placketLength-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          860,
+          807,
+          862
+        ],
+        [
+          866,
+          849,
+          862
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 2,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 98,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-placketWidth-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          887,
+          842,
+          887
+        ],
+        [
+          896,
+          874,
+          887
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 117,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 329,
+            "maxLeaderLength": 6,
+            "detourRatio": 109,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 123,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 331,
+            "maxLeaderLength": 0,
+            "detourRatio": 109,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 103,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 111,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-placketWidth-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          859,
+          794,
+          854
+        ],
+        [
+          867,
+          848,
+          854
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 2,
+            "detourRatio": 108,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 326,
+            "maxLeaderLength": 9,
+            "detourRatio": 99,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 113,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 331,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 101,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 110,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-standHeight-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 1.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 1.0305357222564875,
+            "y": 7.924036843800506
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 1.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 1.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "1.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          864,
+          814,
+          870
+        ],
+        [
+          874,
+          852,
+          870
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 331,
+            "maxLeaderLength": 4,
+            "detourRatio": 103,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 7,
+            "detourRatio": 95,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 107,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 332,
+            "maxLeaderLength": 0,
+            "detourRatio": 103,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 332,
+            "maxLeaderLength": 4,
+            "detourRatio": 99,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 332,
+            "maxLeaderLength": 0,
+            "detourRatio": 104,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-standHeight-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 3.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 3.0289235366340947,
+            "y": 7.843748965841943
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 3.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 3.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "3.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          870,
+          823,
+          876
+        ],
+        [
+          885,
+          866,
+          876
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 329,
+            "maxLeaderLength": 0,
+            "detourRatio": 112,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 107,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 122,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 110,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 103,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 329,
+            "maxLeaderLength": 0,
+            "detourRatio": 113,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-collarLeafDepth-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          865,
+          819,
+          871
+        ],
+        [
+          874,
+          854,
+          871
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 4,
+            "detourRatio": 105,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 110,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 105,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 114,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-collarLeafDepth-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          851,
+          803,
+          859
+        ],
+        [
+          860,
+          837,
+          859
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 6,
+            "detourRatio": 105,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 8,
+            "detourRatio": 95,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 114,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 329,
+            "maxLeaderLength": 0,
+            "detourRatio": 99,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 5,
+            "detourRatio": 96,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 104,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-standFrontRise-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 1.98230088495575,
+            "y": 7.734513274336283
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": -1.7763568394002505e-15,
+            "y": 8
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.0 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          861,
+          813,
+          869
+        ],
+        [
+          937,
+          919,
+          940
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 110,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 6,
+            "detourRatio": 100,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 101,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 97,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 107,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-standFrontRise-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.056762504196283,
+            "y": 8.13302495330663
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.0678819615711923,
+            "y": 7.922420615347208
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "baseRenderIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "layoutVariants": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "candidateRouteCounts": [],
+      "bestPair": null,
+      "candidateRejectedBeforeSearch": true,
+      "residualIssues": [
+        "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release."
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-collarPointExtension-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "baseRenderIssues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ],
+      "layoutVariants": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "candidateRouteCounts": [],
+      "bestPair": null,
+      "candidateRejectedBeforeSearch": true,
+      "residualIssues": [
+        "Stitch “Sleeve-cap ease” leaves its sewn endpoints 0.68 cm apart after rigid placement; review this construction line before release."
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-collarPointExtension-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          858,
+          812,
+          862
+        ],
+        [
+          865,
+          845,
+          862
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 329,
+            "maxLeaderLength": 4,
+            "detourRatio": 107,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 100,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 332,
+            "maxLeaderLength": 0,
+            "detourRatio": 110,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 330,
+            "maxLeaderLength": 0,
+            "detourRatio": 114,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 1,
+            "detourRatio": 108,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 332,
+            "maxLeaderLength": 0,
+            "detourRatio": 117,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-sideVentDepth-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 13,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          865,
+          817,
+          870
+        ],
+        [
+          871,
+          853,
+          870
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 2,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 98,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S375:polo-sideVentDepth-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          865,
+          817,
+          870
+        ],
+        [
+          871,
+          853,
+          870
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 2,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 98,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "revisionId": "live-draft:polo:S375:polo-backHemDrop-min",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          865,
+          817,
+          870
+        ],
+        [
+          871,
+          853,
+          870
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 2,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 98,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "revisionId": "live-draft:polo:S375:polo-backHemDrop-max",
+      "outputFace": "FRONT_FLAT",
+      "sourceCallouts": [
+        {
+          "label": "Finished collar stand height",
+          "sourceId": "pom:polo:finished-collar-stand-height",
+          "text": "Finished collar stand height: 2.0 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontEnd",
+          "anchor": {
+            "x": 2.029729629445291,
+            "y": 7.883892904821225
+          },
+          "individuallyResolvable": true
+        },
+        {
+          "label": "Stand front rise",
+          "sourceId": "pom:polo:stand-front-rise",
+          "text": "Stand front rise: 0.8 cm (±0.2 cm)",
+          "targetId": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+          "sourceEntityId": "pattern:polo:role:outerStand:edge:frontNeckline",
+          "anchor": {
+            "x": 0.031341815067683854,
+            "y": 7.964180782779788
+          },
+          "individuallyResolvable": true
+        }
+      ],
+      "originalIssueCounts": {
+        "Finished collar stand height": 1,
+        "Stand front rise": 1
+      },
+      "otherCalloutCount": 14,
+      "geometryPathCount": 26,
+      "layouts": [
+        [
+          {
+            "id": "collar-height-2-line-1",
+            "lines": [
+              "Finished collar stand",
+              "height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-2",
+            "lines": [
+              "Finished collar",
+              "stand height: 2.0 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "collar-height-3-line-3",
+            "lines": [
+              "Finished collar",
+              "stand height:",
+              "2.0 cm (±0.2 cm)"
+            ]
+          }
+        ],
+        [
+          {
+            "id": "front-rise-2-line-1",
+            "lines": [
+              "Stand front",
+              "rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-2",
+            "lines": [
+              "Stand",
+              "front rise: 0.8 cm (±0.2 cm)"
+            ]
+          },
+          {
+            "id": "front-rise-3-line-3",
+            "lines": [
+              "Stand",
+              "front rise:",
+              "0.8 cm (±0.2 cm)"
+            ]
+          }
+        ]
+      ],
+      "viablePositionCounts": [
+        [
+          865,
+          817,
+          870
+        ],
+        [
+          871,
+          853,
+          870
+        ]
+      ],
+      "routeDispositionCounts": [
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 2,
+            "detourRatio": 111,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 6,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 325,
+            "maxLeaderLength": 0,
+            "detourRatio": 118,
+            "accepted": 0
+          }
+        ],
+        [
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 0,
+            "detourRatio": 102,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 328,
+            "maxLeaderLength": 3,
+            "detourRatio": 98,
+            "accepted": 0
+          },
+          {
+            "attempted": 336,
+            "geometryClearance": 336,
+            "collarTracking": 327,
+            "maxLeaderLength": 0,
+            "detourRatio": 106,
+            "accepted": 0
+          }
+        ]
+      ],
+      "candidateRouteCounts": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "bestPair": null,
+      "assemblyResiduals": [
+        {
+          "sourceId": "stitch:Sleeve-cap ease"
+        }
+      ],
+      "dimensionIssues": [],
+      "closureIssues": [],
+      "colorwayAvailable": true,
+      "colorwayCompileIssues": []
+    }
+  ]
+}

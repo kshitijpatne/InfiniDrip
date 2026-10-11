@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3399,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S571-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S571-v03-closure-path-audit/S571-exit-packet.md",
+    "verified": true,
+    "note": "S571 reconciles the source-generated Polo M fixture, both existing CLO generations, current CLO/ASTM profile evidence and semantics/grade gates. Five CUT contours fail the unchanged 0.001 cm tolerance in both generations; stage attribution and exact industrial profile remain unproven. Rights/local handling are settled. No criterion or product code changes."
+  }
+}

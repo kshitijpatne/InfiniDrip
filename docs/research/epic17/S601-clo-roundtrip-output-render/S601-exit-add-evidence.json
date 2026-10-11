@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3536,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S601-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S601-clo-roundtrip-output-render/S601-exit-packet.md",
+    "verified": true,
+    "note": "The exact hash-pinned S595 CLO DXF-AAMA output reimports without a format error and renders nine pieces. This is output-side rendered evidence only; no V03 gate changes and all contour failures and other holds remain. C-only artifacts are hash-pinned."
+  }
+}

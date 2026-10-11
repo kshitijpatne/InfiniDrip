@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3378,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S566 investigates the still-failing S565 waistband SEW contour by read-only inspection of the saved CLO project, output entities/layers and source topology. The current desktop capture and accessibility tree disagree about an Export DXF dialog, matching prior recorded helper failures; no CLO input or repeat export will be attempted while they disagree. This slice changes no pattern, product code or V03 gate. All acceptance holds remain."
+}

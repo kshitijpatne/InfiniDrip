@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2943,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S477-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-start-packet.md",
+      "verified": true,
+      "note": "S477 reserves a read-only exact-piece analysis of S476's five unresolved Polo M CUT contours; C: receiver inputs/outputs and overlays remain in C:\\G04-CLO-DXF-Exchange. No geometry, exporter or V03 gate change."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2944,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S477-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S477-polo-roundtrip-contour-diagnosis/S477-start-packet.md",
+      "verified": true,
+      "note": "S477 is a bounded read-only Polo round-trip mismatch diagnosis; all receiver files remain on C: and no V03 criteria or claims change."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2945,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S477-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2946,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S477 will diagnose the five Polo M CUT contours unresolved by S476 using exact S463 source piece order and the saved CLO output. No CLO file moves outside C:\\G04-CLO-DXF-Exchange; any overlays stay in its Evidence folder. This slice changes no geometry, exporter, receiver claim or V03 gate."
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3230,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S529 confirms V2024.1 has documented ASTM/AAMA DXF import/export (manual pp. 242–244), but the free `FUZHUANGCAD_MIANFEI_20260306.zip` package is not version/feature-matched, and its rights/local-data path remain unknown. Next safe step is static C:-only package inspection; no install, phone registration, vendor contact, G04 data, CLO action, or gate change."
+}

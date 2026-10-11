@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2550,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S432-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S432-polo-s351-residual-rule/G04-V02-POLO-S351-EASE-RESIDUAL-RULE-S432.md",
+      "verified": true,
+      "note": "Starts maintainer-approved, fail-closed residual applicability for only the exact validated Polo S351 eased-cap representation; numeric 0.25 cm gate and every other V02 check stay unchanged."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2551,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S432 from clean S431 985dc27. Implement only the maintainer-approved exception for exact Polo S351 `Sleeve-cap ease` endpoint residuals when the full same-revision projection map validates. Keep 0.25 cm on every other relation and all topology, crossing, overlap, callout, identity, export and rendered-output gates. Keep every face held pending all checks."
+  }
+]

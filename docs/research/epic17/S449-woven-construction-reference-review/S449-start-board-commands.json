@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2699,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S449-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S449-woven-construction-reference-review/G04-WOVEN-CONSTRUCTION-REFERENCE-REVIEW-S449.md",
+      "verified": true,
+      "note": "Starts the maintainer-authorized proposal-only Woven construction-reference review; no production or acceptance change is authorized."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2700,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S449 is a bounded source-design reference study only. It checks references for the two exact remaining Woven blockers, preserves all-seven V02 and all holds, and will not change production geometry, view mapping or acceptance."
+  }
+]

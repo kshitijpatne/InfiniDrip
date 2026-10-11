@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3457,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S586-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S586-product-dxf-source-map/S586-start-packet.md",
+    "verified": true,
+    "note": "Read-only source-to-output audit of the existing seven recipe M/default DXF fixtures against the V03 gate matrix; no production edits, DXF regeneration, CLO action, or gate change."
+  }
+}

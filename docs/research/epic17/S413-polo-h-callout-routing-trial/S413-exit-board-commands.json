@@ -1,0 +1,116 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S413-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S413-polo-h-callout-routing-trial/G04-V02-POLO-H-CALLOUT-ROUTING-TRIAL-S413.md",
+      "note": "Eight shared H ring/label/leader translations were screened against 17 same-revision options; no candidate clears all path and label gates. All Polo faces remain held.",
+      "verified": true
+    },
+    "expectedRevision": 2391
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S413-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S413-polo-h-callout-routing-trial/h-route-candidate-matrix.json",
+      "note": "Exact 8×17 path, mark and label route screen. Upper routes collide with labels; lower routes cross source contours.",
+      "verified": true
+    },
+    "expectedRevision": 2392
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S413-REJECTED-MATRIX",
+      "kind": "document",
+      "uri": "docs/research/epic17/S413-polo-h-callout-routing-trial/h-route-west-down-0.8-output-matrix.json",
+      "note": "Actual rendered west-down trial with corrected all-option screen marking the leader as rejected; no production mapping changes.",
+      "verified": true
+    },
+    "expectedRevision": 2393
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S413-DEFAULT",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S413-polo-h-callout-routing-trial/rendered/polo-default-H-route-west-down-0.8-detail.png",
+      "note": "Actual Chromium default rendering of rejected H leader candidate; marker moves but the leader enters collar/stand source paths.",
+      "verified": true
+    },
+    "expectedRevision": 2394
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S413-RISE-MAX",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S413-polo-h-callout-routing-trial/rendered/polo-standFrontRise-max-H-route-west-down-0.8-detail.png",
+      "note": "Actual Chromium standFrontRise-max crop for rejected leader candidate; source path crossing remains visible.",
+      "verified": true
+    },
+    "expectedRevision": 2395
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S413-RISE-MIN",
+      "kind": "rendered-output",
+      "uri": "docs/research/epic17/S413-polo-h-callout-routing-trial/rendered/polo-standFrontRise-min-H-route-west-down-0.8-detail.png",
+      "note": "Actual Chromium standFrontRise-min crop for rejected leader candidate with same source target and geometry.",
+      "verified": true
+    },
+    "expectedRevision": 2396
+  },
+  {
+    "type": "addEpicEvidence",
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S413-EXIT",
+    "expectedRevision": 2397
+  },
+  {
+    "type": "addEpicEvidence",
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S413-MATRIX",
+    "expectedRevision": 2398
+  },
+  {
+    "type": "addEpicEvidence",
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S413-REJECTED-MATRIX",
+    "expectedRevision": 2399
+  },
+  {
+    "type": "addComment",
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S413 screened eight shared source-anchored H callout translations across all 17 Polo options. Downward leaders cross collar/stand paths; upward routes collide with source shoulder labels. No layout passes all options without another unresolved overlap. All 34 Polo faces remain held.",
+    "expectedRevision": 2400
+  },
+  {
+    "type": "editEpic",
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "reason": "Append the S413 bounded H-routing result and preserve all prior Epic evidence and acceptance gates.",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03; see docs/planning/EPIC-17-ADMISSION.md and PROJECT-STATE.md. Current output remains 56 accepted / 90 held across 73 configurations / 146 faces. S362's revision-bound Woven full-collar projection compiles for 28 configurations / 56 faces. S363 blocks the known straight finished-placket-width leader crossing; 31 SVGs emitted and 25 front faces held by TEXT_COLLISION. S406 implements four approved Woven front view-only conventions across all 28 same-revision options: 56/56 outputs emit without compile/SVG/browser errors, six approved clips/front, exact D schedule 28/28, and 28/28 S401-identical backs. S407 confirms two mirrored front-neckline/projected-collar contacts in every current Woven option. A diagnostic trial hides 0.8426–0.8433 cm of source base seam per side but interrupts S342's approved single-seam display; it remains unimplemented pending the exact maintainer choice. The S381 back hem has no supported gap; the settled hold is not reopened. All 56 Woven faces remain held. All 34 Polo faces remain held at the confirmed 0.25 cm residual gate, including Polo's 0.68 cm residual. Preserve all-seven V02, V02-before-V03, legacy DXF and protected export identities; no physical/factory/production-readiness claim. S407 packet and evidence are linked to G04-V02. S408 reviewed MQF-004–007, MQF-011, MQF-012 and MQF-015 against current S406 Woven and S394 Polo output; findings remain To be reviewed, the approved collar-over-plackets mapping remains implemented, S407's distinct neckline choice remains pending, all holds remain, and the S408 packet is linked to G04-V02. S409 corrects the Polo finding basis: S399 is the current 17-option production replay; its byte comparison uses S394 as baseline and isolates only the approved FG glyph plus revision/title tokens, preserving paths, schedules, colorway and paired backs. MQF-012 remains partial and To be reviewed; its concern remains unexplained, the 0.68 cm residual remains above 0.25 cm, and all 34 Polo faces remain held. See the S409 correction packet. S410 traced the exact S406 SVG paint order for all 28 Woven fronts: both full front-neckline strokes already paint after the four projected collar outlines, so the proposed continuous-neckline-over-collar reorder is a no-op. S407 changes only by clipping 0.8426–0.8433 cm of body neckline per side, exposing the collar through a base-seam interruption. The exact decision remains pending; collar-over-plackets approval does not settle it. All 56 Woven and 34 Polo faces remain held. See the S410 paint-order matrix. S411 reconciles the latest S399 actual Polo output across the same 17 options: zero keyed renderer failures, with three separate unkeyed collar-point fallback errors; approved keyed C output is clean. A/B/C contacts are source-backed station interfaces. FG and H remain visually crowded at fixed source stations, including distinct H shoulder marks. S392 confirms 34/34 sleeve-cap ease residuals remain 0.68 cm above 0.25 cm. All 34 Polo faces remain held. See docs/research/epic17/S411-polo-post-S399-blocker-audit/. S412's exact 17-option H-ring-under-source trial shows no useful readability improvement; source marks and paths remain unchanged, and all 34 Polo faces stay held. See docs/research/epic17/S412-polo-h-station-ring-trial/. S413 tested eight shared H marker/leader translations across all 17 Polo outputs. Lower routes cross outer-stand/collar source paths; upper routes collide with source shoulder labels. No candidate passes option-wide. All 34 Polo faces remain held; no production mapping changed. See docs/research/epic17/S413-polo-h-callout-routing-trial/."
+    },
+    "expectedRevision": 2401
+  }
+]

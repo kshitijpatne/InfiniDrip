@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3586,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S614-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S614-standard-dxf-import-mode/S614-start-packet.md",
+    "verified": true,
+    "note": "S614 records the fixed-setting CLO Standard DXF input / ASTM output and reimport trial on the same hash-pinned Polo M source. Nine pieces rendered without a format error; source-bound geometry and rendered detail remain to be measured, and no V03 gate or profile is qualified."
+  }
+}

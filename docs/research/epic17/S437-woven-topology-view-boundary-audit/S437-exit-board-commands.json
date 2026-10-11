@@ -1,0 +1,56 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2607,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S437-TRACE",
+      "kind": "document",
+      "uri": "docs/research/epic17/S437-woven-topology-view-boundary-audit/S437-woven-current-hold-trace.json",
+      "verified": true,
+      "note": "Reconciles exact revision 14:14 outputs, 28 mirrored front collar contacts and 28 reflected sleeve-hem crossings to retained source/output traces. All views remain held."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2608,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S437-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S437-woven-topology-view-boundary-audit/G04-V02-WOVEN-TOPOLOGY-VIEW-BOUNDARY-AUDIT-S437.md",
+      "verified": true,
+      "note": "Source/output audit confirms the existing fail-closed Woven decisions; no source-grounded truthful fix, mapping change, or face release."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2609,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S437-EXIT"
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2610,
+    "actor": "Codex",
+    "role": "maintainer",
+    "epicId": "EPIC-17",
+    "evidenceId": "E-G04-S437-TRACE"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2611,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "S437 revalidates the current exact Woven 14:14 output across 28 options: two repeated front body-neckline/collar contacts and one back crossing between reflected complete sleeve hems in every option. Source encodes no collar-over-neckline display order, sleeve-to-sleeve join, or hem over/under rule. The maintainer's prior decisions preserve the continuous base seam and reject an unsupported hem gap, so all 56 Woven faces remain held. All 34 Polo faces remain held; V02 is still blocked under all-seven acceptance."
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2612,
+    "itemId": "EPIC-17",
+    "actor": "Codex",
+    "text": "S437 is a read-only Woven topology/output reconciliation. No V02 acceptance, V03 ordering, options, geometry, stitches, holds, legacy DXF behavior, protected export identities, or physical/factory claim boundaries changed. Current tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
+  }
+]

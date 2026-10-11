@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3687,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S636 varied only CLO's DXF import mode from S635 Standard to DXF-ASTM, keeping the hash-pinned S617 source revision, coordinate-identical CUT-LWPOLYLINE derivative, CLO build, settings, identity binding and 0.001 cm geometry gate fixed. Both runs return four exact CUT passes and the same five omitted vertices with 0.012736–0.013970 cm joined-chord deviations, so the completed CLO import matrix does not justify another format/settings permutation for these points. DXF-ASTM import returned nine identities without API errors; the button-placket child-shape count differs (S635 9/S636 6), retained only as an unexplained diagnostic. Actual scene and five rendered contour comparisons are reviewed and hash-pinned. Stop-before-export honored; no source/export/acceptance/status/hold change. See E-G04-S636-EXIT."
+}

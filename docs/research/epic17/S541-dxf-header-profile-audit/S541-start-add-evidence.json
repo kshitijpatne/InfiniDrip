@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3275,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S541-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S541-dxf-header-profile-audit/S541-start-packet.md",
+    "verified": true,
+    "note": "Begin read-only hash-pinned header/version audit of the seven existing S498/S523 CLO recipe outputs against primary Autodesk and ASTM documentation; no new exchange or gate change."
+  }
+}

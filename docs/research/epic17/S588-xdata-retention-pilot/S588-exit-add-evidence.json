@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3467,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S588-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S588-xdata-retention-pilot/S588-exit-packet.md",
+    "verified": true,
+    "note": "S588 local CLO 2026.1.310 DXF-AAMA XDATA pilot retained 0/56 custom IDs and no registered app record. This rules out stable entity identity for the tested route only; geometry is unattributable due to a documented import-option deviation and two pre-existing scene inserts. Snapshot shows nine expected pieces. All V03 acceptance gates remain unchanged and open."
+  }
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2899,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S471-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S471-free-receiver-alternatives/S471-start-packet.md",
+      "verified": true,
+      "note": "S471 reviews narrow free Windows 11/local/browser candidates against V03 receiver and scope requirements without installation or fixture transfer."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2900,
+    "itemId": "EPIC-17",
+    "evidence": {
+      "id": "E-EPIC17-S471-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S471-free-receiver-alternatives/S471-start-packet.md",
+      "verified": true,
+      "note": "S471 tests whether a free Windows 11/local or browser alternative can meet admitted V03 import/export gates without expanding to hosted services."
+    }
+  },
+  {
+    "type": "addEpicEvidence",
+    "expectedRevision": 2901,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC17-S471-START"
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2902,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S471 compares free alternatives on Windows 11 support, apparel-profile import/export, rights and local processing; hosted candidates remain outside scope. No install or fixture use. See E-G04-S471-START."
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3456,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S585 hash-checked 14 existing C:-only artifacts and reviewed the saved Standard DXF render. Each tested CLO output choice has a measured Polo failure: Standard DXF visibly collapses on second import; AAMA/ASTM and AAMA/AAMA routes retain five CUT vertices beyond 0.001 cm; the connected-LINE AAMA trial misses all nine CUTs. S584's pre-export getter remains semantically/stage ambiguous. CLO 2026.1.310 is closed as a candidate for these tested configurations only, not as a general CLO/DXF incompatibility claim. Rights/local processing and named profile identity remain settled; no technical V03 gate clears or changes. See E-G04-S585-EXIT."
+}

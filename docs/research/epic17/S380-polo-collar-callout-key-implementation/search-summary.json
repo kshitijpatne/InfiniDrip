@@ -1,0 +1,41 @@
+{
+  "configurations": 17,
+  "keyedRendered": 17,
+  "originalBaseFailures": [
+    {
+      "caseId": "polo-standFrontRise-max",
+      "issues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 1.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "issues": [
+        {
+          "code": "TEXT_COLLISION",
+          "entityId": "flat:polo:FRONT_FLAT:callout:collar-point-extension",
+          "message": "Text “Collar point extension: 0.5 cm (±0.2 cm)” has no collision-free measured position near its source; reposition the annotation before review."
+        }
+      ]
+    }
+  ],
+  "keyedBaseFailures": [],
+  "sourceEdge": "upperCollar.frontTip:end",
+  "exactSourceIdentityCount": 17,
+  "collisionCountReconciliation": {
+    "s378BaseFailures": 2,
+    "finalS380BaseFailures": 2,
+    "initialS380HarnessCause": "The first harness draft inserted an isolated collar-point POM without running mapPoloDimensionCallouts, so its candidate did not have the live callout's dimension references/layout state.",
+    "correctedHarness": "Use the exact current live diagnostic callout when present; otherwise map the isolated same-revision source POM through mapPoloDimensionCallouts before comparing the unchanged baseline renderer.",
+    "reconciliation": "The same 17 option values, source revision, mapped callout and browser SVG renderer reproduce the same two base TEXT_COLLISION rows recorded in S378."
+  },
+  "browserErrors": 0,
+  "colorwayRows": 17,
+  "pairedBackUnchanged": 17,
+  "productionHoldsReleased": 0,
+  "productionChanges": 0
+}

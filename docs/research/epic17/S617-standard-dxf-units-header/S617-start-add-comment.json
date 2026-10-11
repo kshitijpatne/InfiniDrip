@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3602,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S617 follows S616's verified stop on repeated scale/unit-selector permutations. The product DXF writer emits true-centimeter geometry without a HEADER or $INSUNITS; the pinned source is also unitless. S536's geometry-preserving AC1015/$INSUNITS=4 diagnostic was tested only through AAMA, so this one cm-declared ($INSUNITS=5) Standard-DXF trial targets a specific untested source/receiver contract. No product writer, geometry, baseline, gate, or V03 hold changes. See E-G04-S617-START."
+}

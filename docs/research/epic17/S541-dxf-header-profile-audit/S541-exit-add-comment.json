@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3278,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S541 confirms all seven saved recipe outputs are AC1009 (R11/R12) and omit $INSUNITS; the three DXF-ASTM-menu files conditionally conflict with ASTM D6673-04's stated R13 requirement. This narrows but does not establish whole-standard nonconformance or clear V03."
+}

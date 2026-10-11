@@ -1,0 +1,21 @@
+[
+  {
+    "type": "editEpic",
+    "expectedRevision": 2686,
+    "epicId": "EPIC-17",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "Retain durable admission and historical evidence phrases while keeping the S448 current blocker summary authoritative.",
+    "patch": {
+      "description": "Admitted EPIC-17/G04 V01→V02→V03 through safe merge. Admission packet: docs/planning/EPIC-17-ADMISSION.md. Current verified tally at S448 is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. The remaining V02 release blockers are 28 Woven FRONT_FLAT neckline/collar contacts under the maintainer-approved continuous body neckline and 28 Woven BACK_FLAT sleeve crossings with S370 band-detail positions fixed by maintainer decision. S443's Claude Opus 5.5 xhigh source research and Codex verification found no source-backed view fix under those decisions. S447 screened 13 source-owned taper values across all 28 Woven options and found no viable fix; the crossing and body/yoke fill penetration persist. S422's complete neckline decision and S442's fixed S370 layout/hold decision remain controlling. Polo has no current local output blocker per S436; all 34 Polo faces remain held under all-seven V02. Preserve every V02 criterion, V02-before-V03, legacy DXF behavior and protected export identities. V03 remains gated by all-seven V02, a rights-cleared receiver/profile and representative round-trip evidence; S421 has not qualified a no-cost industrial apparel receiver. Current reconciliation: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical decision/evidence summary retained: S425 implements the approved Polo H display. The Woven body neckline remains continuous by maintainer decision. S406's approved view-only collar-over-plackets order remains implemented. Latest integrated tally remains 56 accepted / 90 held across 73 configurations / 146 faces."
+    }
+  },
+  {
+    "type": "editItem",
+    "expectedRevision": 2687,
+    "itemId": "G04-V02",
+    "patch": {
+      "description": "Current verified state at S448: 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. All-seven V02 is blocked only by two remaining Woven output classes: 28 front neckline/collar contour contacts while preserving the continuous base seam, and 28 back sleeve-hem crossings while preserving fixed S370 band-detail positions. S443 found no source-backed view fix under those choices; S447's 13-value in-memory taper matrix also found no viable source candidate. Polo has no current local output blocker per S436, but all 34 Polo faces remain held under the all-seven gate. Keep all acceptance criteria, thresholds, V02-before-V03, legacy DXF, protected exports, and face holds unchanged. No production geometry, view mapping, or acceptance change is authorized by S448. Next action: obtain maintainer authority for a bounded, proposal-only Woven source-design study; any production change requires a separate exact proposal review and approval. Evidence: docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical decision/evidence summary retained: Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S381 found no evidence supporting a false Woven back-hem gap. All 56 Woven and 34 Polo faces remain held. The 0.25 cm threshold for all non-approved eased-seam exceptions remains active. S426's corrected full-label replay reports zero source-label or marker-label overlaps across all 17 exact Polo options. Preserve all-seven V02, V02-before-V03."
+    }
+  }
+]

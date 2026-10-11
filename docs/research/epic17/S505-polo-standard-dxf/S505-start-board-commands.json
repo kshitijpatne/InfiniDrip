@@ -1,0 +1,9 @@
+[
+  {
+    "type": "addComment",
+    "expectedRevision": 3132,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S505 probes CLO's observed Standard DXF import mode with the hash-pinned Polo M source. Hold units, scale, grain/orientation, notches and ASTM export settings fixed where available; save all exchange material under the named C: folder. This diagnostic changes no geometry or V03 gate."
+  }
+]

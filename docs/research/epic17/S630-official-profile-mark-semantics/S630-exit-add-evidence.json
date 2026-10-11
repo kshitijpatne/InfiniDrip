@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3662,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S630-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S630-official-profile-mark-semantics/S630-exit-packet.md",
+    "verified": true,
+    "note": "Official CLO/ASTM/NIST evidence and the inspected NIST diagrams provide no authorized, specific encoding for S629's lost/approximated button marks; S628 AC1009 is R11/R12, below the Version 13 DXF named by D6673-10. Claude Opus 5.5 independently agrees. No gate changes. Next audit existing S617 ASTM-labeled output and rendered evidence offline before considering another CLO operation."
+  }
+}

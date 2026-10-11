@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3668,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S632-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S632-astm-import-mode-polo/S632-start-packet.md",
+    "verified": true,
+    "note": "Starts one controlled CLO DXF-ASTM import-mode comparison on S617's unchanged, centimeter-declared Polo M input, then two DXF-ASTM export generations. The single new variable is import mode; all source/geometry/semantic gates and 0.001 cm threshold remain unchanged. All exchange files stay in the named C: folder; no compatibility or conformance claim is inferred."
+  }
+}

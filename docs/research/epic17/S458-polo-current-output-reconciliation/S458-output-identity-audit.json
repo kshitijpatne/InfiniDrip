@@ -1,0 +1,663 @@
+{
+  "summary": {
+    "revisionPrefix": "live-draft:polo:S458:",
+    "options": 17,
+    "faces": 34,
+    "compilerRendererAndBrowserIssueCount": 0,
+    "exactOptionRows": 34,
+    "sameRevisionFrontBackPairs": 17,
+    "exactPoloSleeveEaseResidualDiagnostics": 0,
+    "colorwaySourceRevisionMismatches": 0,
+    "sourcePathIdentityDifferencesFromS434": 0,
+    "frontKeyedRowsPerOption": 13,
+    "backKeyedRows": 0
+  },
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-default",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-default",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketLength-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketLength-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketLength-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketLength-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketWidth-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketWidth-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketWidth-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-placketWidth-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standHeight-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standHeight-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standHeight-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standHeight-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarLeafDepth-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarLeafDepth-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarLeafDepth-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarLeafDepth-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standFrontRise-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standFrontRise-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standFrontRise-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-standFrontRise-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarPointExtension-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarPointExtension-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarPointExtension-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-collarPointExtension-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-sideVentDepth-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-sideVentDepth-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-sideVentDepth-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-sideVentDepth-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-backHemDrop-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-backHemDrop-min",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "kind": "FRONT_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-backHemDrop-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 6,
+      "keyedScheduleRows": 13,
+      "sourcePathIdentityMatchesS434": true
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "kind": "BACK_FLAT",
+      "revisionId": "live-draft:polo:S458:polo-backHemDrop-max",
+      "sourceAndColorwayRevisionMatch": true,
+      "colorwayFillCount": 5,
+      "keyedScheduleRows": 0,
+      "sourcePathIdentityMatchesS434": true
+    }
+  ]
+}

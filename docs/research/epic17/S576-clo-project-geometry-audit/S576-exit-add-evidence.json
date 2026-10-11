@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3419,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S576-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S576-clo-project-geometry-audit/S576-exit-packet.md",
+    "verified": true,
+    "note": "Read-only S574 project audit: valid embedded ZIP exposes scene/UI metadata only; geometry-bearing CLO-specific binary members remain opaque. Project hashes match S574 and member changes cannot attribute CUT loss. Stage remains unresolved; no CLO action, proprietary parsing or gate change. See C:-only report and exit packet."
+  }
+}

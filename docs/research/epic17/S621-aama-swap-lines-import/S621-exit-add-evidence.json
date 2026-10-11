@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3620,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S621-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S621-aama-swap-lines-import/S621-exit-packet.md",
+    "verified": true,
+    "note": "CLO AAMA swap import rendered nine pieces and matched 9/9 SEW but 0/9 CUT contours pre-export at 0.001 cm; all nine native point lists are identical to S620 no-swap baseline. No export; V03 gates unchanged."
+  }
+}

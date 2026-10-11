@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3232,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S530 downloads the vendor-listed free ZIP only into the named C: folder and inspects archive metadata without executing anything. No phone/account, vendor contact, pattern transfer, CLO action, or acceptance change."
+}

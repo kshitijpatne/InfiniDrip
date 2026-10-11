@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3571,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S610 diagnoses the exact source-to-ASTM-output changes for the five S609 CUT failures and checks only authoritative sources implicated by those entity diffs. It does not repeat CLO operations, alter source geometry/settings/tolerance, or infer semantics from numeric layers. All seven-recipe criteria and V03 holds remain. The output should be a prioritized evidence-backed next practical experiment or a specific no-go reason, not an unapproved implementation. See E-G04-S610-START."
+}

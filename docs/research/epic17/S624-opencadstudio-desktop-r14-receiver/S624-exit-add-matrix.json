@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3635,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S624-MATRIX",
+    "kind": "document",
+    "uri": "docs/research/epic17/S624-opencadstudio-desktop-r14-receiver/V03-CURRENT-GATE-MATRIX-S624.md",
+    "verified": true,
+    "note": "S624 updates the V03 candidate matrix with Open CAD Studio's bounded local R14 geometry/reopen/malformed/render results without treating general CAD fidelity as apparel-profile acceptance. All remaining V03 gates and the seven-recipe requirement remain explicit."
+  }
+}

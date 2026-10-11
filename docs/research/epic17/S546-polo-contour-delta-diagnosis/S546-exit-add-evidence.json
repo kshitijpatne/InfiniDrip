@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3297,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S546-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S546-polo-contour-delta-diagnosis/S546-exit-packet.md",
+    "verified": true,
+    "note": "S546 reconciles S545's same five above-gate Polo CUT contours with S500/S517/S519 history. A new cross-file parser failed against trusted S500 geometry and is explicitly rejected; no new CLO action or gate change. Keep V03 open and qualify a rights- and profile-evidenced alternative before another fixture transfer."
+  }
+}

@@ -1,0 +1,3903 @@
+{
+  "basis": "each production Chromium SVG compared with the sleeve hem and band top transformed from that exact option draft and face assembly",
+  "toleranceCm": 0.00011,
+  "configurations": 28,
+  "faces": 56,
+  "mirroredBandTopEdges": 112,
+  "maxSourceJoinResidualCm": 2.864289338439558e-14,
+  "maxRenderedJoinResidualCm": 0.00006285094951825994,
+  "findings": [
+    {
+      "caseId": "woven-shirt-default",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-default",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.483023736316675,
+          "y": -13.535083289077761
+        },
+        {
+          "x": 49.69160467084672,
+          "y": 23.27014923932764
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48302373631667,
+          "y": -13.535083289077754
+        },
+        {
+          "x": 49.691604670846715,
+          "y": 23.270149239327644
+        }
+      ],
+      "sourceJoinResidualCm": 1.0048591735576161e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2701
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2701
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00004946036995324949,
+        0.00004946036995324949
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 8.13750957982791,
+          "y": 34.86710470772893
+        },
+        {
+          "x": -14.164842689402207,
+          "y": 5.34414612869816
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 8.137509579827906,
+          "y": 34.86710470772893
+        },
+        {
+          "x": -14.16484268940221,
+          "y": 5.3441461286981635
+        }
+      ],
+      "sourceJoinResidualCm": 5.0242958677880805e-15,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 8.1375,
+            "y": 34.8671
+          },
+          {
+            "x": -14.1648,
+            "y": 5.3441
+          }
+        ],
+        [
+          {
+            "x": -8.1375,
+            "y": 34.8671
+          },
+          {
+            "x": 14.1648,
+            "y": 5.3441
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00006285094951825994,
+        0.00006285094951825994
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 24.09496383018792
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8798946796148748,
+            "y": 21.606425400238095
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8798946796148783,
+            "y": 21.606425400238095
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 19.117898128452545
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303551638491,
+          "y": -13.53507513452292
+        },
+        {
+          "x": 49.69160489990313,
+          "y": 23.270156203975752
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303551638491,
+          "y": -13.535075134522913
+        },
+        {
+          "x": 49.69160489990313,
+          "y": 23.27015620397576
+        }
+      ],
+      "sourceJoinResidualCm": 7.105427357601002e-15,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000044069272627798146,
+        0.000044069272627798146
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.473228333080716,
+          "y": 33.5879307778623
+        },
+        {
+          "x": -12.866624219065226,
+          "y": 2.68015832242704
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.473228333080712,
+          "y": 33.58793077786229
+        },
+        {
+          "x": -12.86662421906522,
+          "y": 2.6801583224270296
+        }
+      ],
+      "sourceJoinResidualCm": 1.2809491335957509e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.4732,
+            "y": 33.5879
+          },
+          {
+            "x": -12.8666,
+            "y": 2.6802
+          }
+        ],
+        [
+          {
+            "x": -7.4732,
+            "y": 33.5879
+          },
+          {
+            "x": 12.8666,
+            "y": 2.6802
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000048203560125833396,
+        0.000048203560125833396
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 22.231867804993165
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.7956646071521565,
+            "y": 19.503234142003524
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.7956646071521565,
+            "y": 19.50323414200352
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 16.774605065904947
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.23885340633365,
+            "y": 21.971028784365075
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.2388534063336483,
+            "y": 21.971028784365075
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 20.276970149445077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -3.0971811441315573,
+            "y": 19.429887337947015
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 3.0971811441315573,
+            "y": 19.429887337947008
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.7763568394002505e-15,
+            "y": 15.194675621772094
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "face": "FRONT_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997456,
+          "y": 23.27015772644746
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 53.48303809150684,
+          "y": -13.535073351937179
+        },
+        {
+          "x": 49.69160494997459,
+          "y": 23.270157726447465
+        }
+      ],
+      "sourceJoinResidualCm": 2.864289338439558e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 53.483,
+            "y": -13.5351
+          },
+          {
+            "x": 49.6916,
+            "y": 23.2702
+          }
+        ],
+        [
+          {
+            "x": -53.483,
+            "y": -13.5351
+          },
+          {
+            "x": -49.6916,
+            "y": 23.2702
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.000046487440732200346,
+        0.000046487440732200346
+      ],
+      "pairedBandContourCrossings": []
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "face": "BACK_FLAT",
+      "revisionId": "live-draft:woven-shirt:14:14",
+      "sourceSleeveHem": [
+        {
+          "x": 7.970955079023421,
+          "y": 34.56486651474968
+        },
+        {
+          "x": -13.869867089809526,
+          "y": 4.6988576252208425
+        }
+      ],
+      "sourceBandTop": [
+        {
+          "x": 7.970955079023417,
+          "y": 34.56486651474967
+        },
+        {
+          "x": -13.869867089809512,
+          "y": 4.698857625220821
+        }
+      ],
+      "sourceJoinResidualCm": 2.5618982671915017e-14,
+      "renderedMirroredBandTopEdges": [
+        [
+          {
+            "x": 7.971,
+            "y": 34.5649
+          },
+          {
+            "x": -13.8699,
+            "y": 4.6989
+          }
+        ],
+        [
+          {
+            "x": -7.971,
+            "y": 34.5649
+          },
+          {
+            "x": 13.8699,
+            "y": 4.6989
+          }
+        ]
+      ],
+      "renderedJoinResiduals": [
+        0.00005602817261981166,
+        0.00005602817261981166
+      ],
+      "pairedBandContourCrossings": [
+        {
+          "leftEdge": 0,
+          "rightEdge": 0,
+          "point": {
+            "x": 0,
+            "y": 23.66507966292598
+          }
+        },
+        {
+          "leftEdge": 0,
+          "rightEdge": 2,
+          "point": {
+            "x": -1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 0,
+          "point": {
+            "x": 1.8582959855996215,
+            "y": 21.123981635559055
+          }
+        },
+        {
+          "leftEdge": 2,
+          "rightEdge": 2,
+          "point": {
+            "x": 0,
+            "y": 18.582871973554077
+          }
+        }
+      ]
+    }
+  ]
+}

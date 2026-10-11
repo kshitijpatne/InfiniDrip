@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3485,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S592-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S592-polo-spline-closure-flag-probe/S592-start-packet.md",
+    "verified": true,
+    "note": "S592 tests one bounded DXF entity variable: remove only the closed flag from the five S591 target degree-1 SPLINE CUT contours, retain their repeated first control points, and prove exact source geometry before one CLO trial. All V03 gates and statuses remain unchanged."
+  }
+}

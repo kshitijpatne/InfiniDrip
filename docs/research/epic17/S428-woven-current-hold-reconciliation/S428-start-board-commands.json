@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 2514,
+    "itemId": "G04-V02",
+    "evidence": {
+      "id": "E-G04-S428-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S428-woven-current-hold-reconciliation/G04-V02-WOVEN-CURRENT-HOLD-RECONCILIATION-S428.md",
+      "verified": true,
+      "note": "Starts an exact-revision reconciliation of approved Woven base-seam display and remaining held front/back contacts; does not change mapping, geometry, acceptance, or holds."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 2515,
+    "itemId": "G04-V02",
+    "actor": "Codex",
+    "text": "Start S428 from clean S427 eb146b1. Reconcile current Woven base-seam suppression and remaining S381/S417 holds against exact revision 14:14, all 28 configurations and actual output. Preserve every hold and all-seven V02; no geometry or acceptance changes."
+  }
+]

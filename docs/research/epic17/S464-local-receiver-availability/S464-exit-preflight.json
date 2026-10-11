@@ -1,0 +1,56 @@
+{
+  "startRevision": 2846,
+  "exitRevision": 2851,
+  "epicStatus": "In Progress",
+  "v03Status": "In Progress",
+  "v01Status": "Done",
+  "v02Status": "Done",
+  "commands": [
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2846,
+      "itemId": "G04-V03",
+      "evidence": {
+        "id": "E-G04-S464-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S464-local-receiver-availability/S464-exit-packet.md",
+        "verified": true,
+        "note": "Read-only checks of standard uninstall entries, Program Files, Appx metadata and Start-menu shortcuts found no apparel-CAD receiver candidate; no license data was inspected."
+      }
+    },
+    {
+      "type": "addEvidence",
+      "expectedRevision": 2847,
+      "itemId": "EPIC-17",
+      "evidence": {
+        "id": "E-EPIC17-S464-EXIT",
+        "kind": "document",
+        "uri": "docs/research/epic17/S464-local-receiver-availability/S464-exit-packet.md",
+        "verified": true,
+        "note": "V03 remains In Progress: the current host exposes no receiver candidate in the standard locations checked, and lawful exact-version access remains owner-provided."
+      }
+    },
+    {
+      "type": "addEpicEvidence",
+      "expectedRevision": 2848,
+      "epicId": "EPIC-17",
+      "actor": "Codex",
+      "role": "maintainer",
+      "evidenceId": "E-EPIC17-S464-EXIT"
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2849,
+      "itemId": "G04-V03",
+      "actor": "Codex",
+      "text": "S464 found no apparel-CAD candidate in the standard local discovery surfaces checked. V03 still needs owner-provided lawful exact receiver/version access and witnessed round trips; no compatibility claim or acceptance change. See E-G04-S464-EXIT."
+    },
+    {
+      "type": "addComment",
+      "expectedRevision": 2850,
+      "itemId": "EPIC-17",
+      "actor": "Codex",
+      "text": "S464's limited local host check found no receiver to use. Keep G04-V03 In Progress and retain its exact rights and round-trip acceptance gates. The active goal remains necessary; see E-EPIC17-S464-EXIT."
+    }
+  ]
+}

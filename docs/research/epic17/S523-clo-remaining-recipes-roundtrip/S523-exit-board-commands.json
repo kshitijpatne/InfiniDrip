@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3205,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S523-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S523-clo-remaining-recipes-roundtrip/S523-exit-packet.md",
+      "verified": true,
+      "note": "Two-generation local CLO 2026.1.310 DXF-AAMA base-M/default round trips for Fitted, Tank, Skirt, and Trouser. All 34 source closed CUT/SEW outlines matched in each generation at 0.001 cm; rendered evidence retained under the named C: folder. V03 rights/profile and remaining matrix gates stay open."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3206,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S523 closes only two-generation base-M/default CLO trials for Fitted, Tank, Skirt, and Trouser: 68/68 outline-generation comparisons pass the unchanged 0.001 cm gate, exact piece insert counts match, and rendered evidence is retained under C:\\G04-CLO-DXF-Exchange\\S523-clo-remaining-recipe-roundtrip. Keep V03 In Progress; this does not establish rights/local handling, an industrial apparel profile, all options/grades, semantic or negative-input gates, or resolve the prior Polo contour failure. Do not repeat these fixtures without a materially different receiver/profile or source-backed mechanism."
+  }
+]

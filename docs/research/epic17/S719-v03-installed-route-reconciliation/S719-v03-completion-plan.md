@@ -1,0 +1,13 @@
+# G04 V03 evidence-led completion plan — S719
+
+The earlier S709 slice estimate is stale: repeated receiver/format work did not produce an eligible route, and the bounded S719 source review found no supported CLO source fix. Keep all current gates and thresholds.
+
+1. **Do not retry settled routes.** CLO's exact saved return fails geometry, units and semantic mark/layer checks; DGS routes fail with lost data or blank imports; LibreCAD passes one fixture but is generic CAD; OpenCAD evidence is likewise generic. No additional source edit, application setting, entity encoding or mode is supported by current evidence. **Decisive check:** none; the saved artifacts and source review already decide these tested cases. **Stop:** do not spend another slice repeating them.
+2. **Select an eligible profile only from evidence already available.** Before importing another pattern, the route must identify exact receiver/build/profile scope and rights and meet the admitted industrial-apparel profile requirement. **Decisive check:** inspect the documented profile against one existing hash-pinned representative fixture and the fixed source-bound audit; do not run breadth first. **Stop:** any eligibility or representative gate fails, retire that route and preserve evidence.
+3. **Prove one current-source representative exchange.** On a qualifying route, pass geometry at 0.001 cm, units, piece/revision/grade/seam identity, CUT/SEW, marks/grainline and rendered readability, with clean reopen. **Decisive check:** one receiver export/re-import plus machine comparison and reviewed rendered output. **Stop:** any fixed-gate miss; no variants for the same cause.
+4. **Run admitted breadth once.** Reuse the existing seven-recipe/supported-option/grade and malformed-input matrices, plus one repeat exchange. **Decisive check:** complete source-bound reports and output review for all required rows. **Stop:** first missing/failed row; do not alter thresholds or acceptance.
+5. **Release only on a settled passing candidate.** Run the full 100% repository gate, integrated build/browser/Electron/output review, necessary-file cleanup, PR review, safe merge, origin ancestry verification, required deployment and production E2E.
+
+## Current next action
+
+There is no implementation change justified for any tested route and no eligible receiver/profile among the evidence in this repository. Keep the goal active and V03 In Progress. Proceed immediately if a qualifying route is evidenced; do not manufacture a source change or declare a generic-CAD pass to satisfy the industrial-profile criterion. The PR and release gates are not yet due because the integrated V03 candidate has not passed.

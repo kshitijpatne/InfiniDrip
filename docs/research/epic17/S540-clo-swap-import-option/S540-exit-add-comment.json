@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3274,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S540 used the verified running CLO 2026.1.310 session and the hash-pinned synthetic control. Enabling Swap Cutting Line and Sewing Line did not change source-geometry-to-layer mappings or layer counts versus S532 no-swap output. All existing profile, all-seven, semantic, grading, negative-input, and round-trip gates remain unchanged. CLO stays open."
+}

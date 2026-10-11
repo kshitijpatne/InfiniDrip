@@ -1,0 +1,6 @@
+[
+  {"type":"addEvidence","expectedRevision":2365,"itemId":"G04-V02","evidence":{"id":"E-G04-S411-START","kind":"document","uri":"docs/research/epic17/S411-polo-post-S399-blocker-audit/G04-V02-POLO-POST-S399-BLOCKER-AUDIT-S411.md","verified":true,"note":"Diagnostic-only reconciliation of current S399 Polo production outputs across 17 options; preserves every face hold, all-seven V02 and the fixed 0.25 cm residual gate."}},
+  {"type":"addEvidence","expectedRevision":2366,"itemId":"EPIC-17","evidenceId":"E-G04-S411-START"},
+  {"type":"addEpicEvidence","expectedRevision":2367,"actor":"Codex","role":"maintainer","epicId":"EPIC-17","evidenceId":"E-G04-S411-START"},
+  {"type":"addComment","expectedRevision":2368,"itemId":"G04-V02","actor":"Codex","text":"S411 audits the latest S399 actual Polo renderer output and reconciles approved keyed markers, their source/topology interfaces, any remaining output contacts, and the independent fixed 0.25 cm sleeve-ease gate across all 17 supported configurations. It is diagnostic-only; all 34 Polo faces remain held."}
+]

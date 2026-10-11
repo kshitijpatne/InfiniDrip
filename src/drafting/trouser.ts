@@ -282,6 +282,16 @@ export const trouserFly: Component<TrouserOptions> = (_m, rawOptions) => {
   const options = resolveTrouserOptions(rawOptions);
   const length = options.flyLength;
   const w = FLY_SHIELD_WIDTH;
+  const underlap: Piece = {
+    name: "trouser fly underlap",
+    onFold: false,
+    edges: [
+      { kind: "line", name: "top", start: point(-w, 0), end: point(0, 0) },
+      { kind: "line", name: "frontEdge", start: point(0, 0), end: point(0, length) },
+      { kind: "line", name: "bottom", start: point(0, length), end: point(-w, length) },
+      { kind: "line", name: "shieldEdge", start: point(-w, length), end: point(-w, 0) },
+    ],
+  };
   const piece: Piece = {
     name: "trouser fly shield",
     onFold: false,
@@ -297,11 +307,16 @@ export const trouserFly: Component<TrouserOptions> = (_m, rawOptions) => {
     ],
   };
   return {
-    pieces: { flyShield: piece },
-    stitches: [],
+    pieces: { flyShield: piece, flyUnderlap: underlap },
+    stitches: [{
+      label: "Fly underlap ↔ shield",
+      a: iface(edgeRef("flyUnderlap", "shieldEdge")),
+      b: iface(edgeRef("flyShield", "right")),
+    }],
     interfaces: {
       left: iface(edgeRef("flyShield", "left")),
       right: iface(edgeRef("flyShield", "right")),
+      underlapFront: iface(edgeRef("flyUnderlap", "frontEdge")),
     },
   };
 };
@@ -405,9 +420,17 @@ export const trouserPocket: Component<TrouserOptions> = (m, rawOptions) => {
   };
 };
 
-const trouserWaistStitch = (roles: readonly string[]): Stitch => ({
+const trouserWaistInterface = () => iface(
+    edgeRef("backLeft", "waist"), edgeRef("frontLeft", "waist", true),
+    edgeRef("frontRight", "waist"), edgeRef("backRight", "waist", true),
+  );
+
+const trouserWaistStitch = (): Stitch => ({
   label: "Waistband (four legs ↔ separate waistband)",
-  a: iface(...roles.map((role) => edgeRef(role, "waist"))),
+  // Trace one continuous waist seam from center back, around the left side,
+  // across center front, and back around the right side. The authored front
+  // left and back right edges run opposite to that perimeter direction.
+  a: trouserWaistInterface(),
   b: iface(edgeRef("waistband", "bottom")),
 });
 
@@ -468,7 +491,7 @@ export const TROUSER_GRAMMAR = garmentGrammar(
   (context) => [
     {
       label: "Waistband (four legs ↔ separate waistband)",
-      a: context.interfaceOf("legs", "waist"),
+      a: trouserWaistInterface(),
       b: context.interfaceOf("waistband", "bottom"),
     },
     {
@@ -477,9 +500,9 @@ export const TROUSER_GRAMMAR = garmentGrammar(
       b: context.interfaceOf("fly", "left"),
     },
     {
-      label: "Right front fly ↔ shield",
+      label: "Right front fly ↔ underlap",
       a: context.interfaceOf("legs", "flyRight"),
-      b: context.interfaceOf("fly", "right"),
+      b: context.interfaceOf("fly", "underlapFront"),
     },
     {
       label: "Left pocket opening ↔ bag",
@@ -500,7 +523,6 @@ export function draftTrouserWithClosure(
 ): Block {
   const options = resolveTrouserOptions(rawOptions);
   const legs = addFlyMarks(draftTrouserLegs(m, options), options.flyLength);
-  const legRoles = ["frontLeft", "frontRight", "backLeft", "backRight"] as const;
   const combined = assembleComponents([
     { pieces: legs.roles, stitches: legs.stitches, interfaces: {} },
     trouserWaistband(m, options),
@@ -508,9 +530,9 @@ export function draftTrouserWithClosure(
   ]);
   const stitches: Stitch[] = [
     ...combined.stitches,
-    trouserWaistStitch(legRoles),
+    trouserWaistStitch(),
     { label: "Left front fly ↔ shield", a: iface(markRef("frontLeft", "flyEdge", "left")), b: iface(edgeRef("flyShield", "left")) },
-    { label: "Right front fly ↔ shield", a: iface(markRef("frontRight", "flyEdge", "right")), b: iface(edgeRef("flyShield", "right")) },
+    { label: "Right front fly ↔ underlap", a: iface(markRef("frontRight", "flyEdge", "right")), b: iface(edgeRef("flyUnderlap", "frontEdge")) },
   ];
   return block(combined.roles, stitches);
 }
@@ -578,6 +600,15 @@ export const TROUSER_NOTCHES: readonly PieceNotches[] = [
   {
     pieceName: "trouser fly shield",
     notches: [{ edgeName: "left", t: 0.5 }],
+    grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
+  },
+  {
+    pieceName: "trouser fly underlap",
+    notches: [{ edgeName: "shieldEdge", t: 0.5 }],
+    // Keep the underlap's lengthwise grain aligned with the adjacent shield.
+    // The maintainer approved this same-t midpoint location convention from
+    // flyShield.left; shieldEdge itself joins flyShield.right in the stitch graph.
+    // The free short edges remain unmarked.
     grainline: { topEdge: "top", topT: 0.5, bottomEdge: "bottom", bottomT: 0.5 },
   },
   ...["trouser pocket bag left", "trouser pocket bag right"].map((pieceName) => ({

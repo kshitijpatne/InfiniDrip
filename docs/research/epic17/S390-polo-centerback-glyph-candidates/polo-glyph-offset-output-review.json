@@ -1,0 +1,1567 @@
+{
+  "source": "S390 actual production-renderer SVGs compared to S388 output; actual Chromium geometry and rendered views",
+  "configurations": 17,
+  "browserErrors": [],
+  "offsetsCm": {
+    "E": [
+      -0.38,
+      -0.34
+    ],
+    "I": [
+      0.34,
+      -0.32
+    ]
+  },
+  "allChangesConfinedToApprovedGlyphCoordinatesAndRevision": true,
+  "ringCentersAndRadiiUnchanged": true,
+  "scheduleRowsPerOption": 11,
+  "samples": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-default",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-placketLength-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-placketLength-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 37.73,
+          "ringCenter": [
+            -1,
+            38
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 37.5447883605957,
+            "maxY": 37.782914116978645
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778433293104172
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 19.123231972598774
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 30.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-placketWidth-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.6546887070150293
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 2.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-placketWidth-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 4.325827179189655
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 4.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-standHeight-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 3.0309,
+          "y": -7.048,
+          "ringCenter": [
+            2.6909,
+            -6.798
+          ],
+          "textBox": {
+            "minX": 3.0029947757720947,
+            "maxX": 3.058805502951145,
+            "minY": -7.233209133148193,
+            "maxY": -6.995083376765251
+          },
+          "glyphToRingClearanceCm": 0.09209477577209446,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.0197078674693811
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.16471118224995646
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 1.021248385513777
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-standHeight-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 5.0293,
+          "y": -7.1283,
+          "ringCenter": [
+            4.6893,
+            -6.8783
+          ],
+          "textBox": {
+            "minX": 5.001394748687744,
+            "maxX": 5.057205475866795,
+            "minY": -7.313509464263916,
+            "maxY": -7.075383707880974
+          },
+          "glyphToRingClearanceCm": 0.09209474868774414,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.738162545522908
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerMatch",
+            "sourceId": "pattern:polo:mark:outerStand:centerMatch",
+            "clearanceCm": 0.16474612469153954
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.7098336668252068
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-collarLeafDepth-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.5297,
+          "y": -7.1082,
+          "ringCenter": [
+            4.1897,
+            -6.8582
+          ],
+          "textBox": {
+            "minX": 4.501794338226318,
+            "maxX": 4.557605065405369,
+            "minY": -7.2934088706970215,
+            "maxY": -7.055283114314079
+          },
+          "glyphToRingClearanceCm": 0.0920943382263184,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 0.5224255656255472
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.16465886132884094
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.22005807776351538
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 4.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-collarLeafDepth-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880155891180038,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916098833084
+          },
+          "glyphToRingClearanceCm": 0.06801558911800387,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778394401073456
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156487226486
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045211736553
+          }
+        },
+        {
+          "key": "I",
+          "x": 3.0309,
+          "y": -7.048,
+          "ringCenter": [
+            2.6909,
+            -6.798
+          ],
+          "textBox": {
+            "minX": 3.0029945373535156,
+            "maxX": 3.0588052794337273,
+            "minY": -7.233208656311035,
+            "maxY": -6.995082825422287
+          },
+          "glyphToRingClearanceCm": 0.09209453735351536,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 2.018303880948964
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.16465780686064285
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 1.021248594440432
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 7.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-standFrontRise-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 3.4373,
+          "y": -6.7898,
+          "ringCenter": [
+            3.0973,
+            -6.5398
+          ],
+          "textBox": {
+            "minX": 3.4093945026397705,
+            "maxX": 3.465205229818821,
+            "minY": -6.975008964538574,
+            "maxY": -6.736883208155632
+          },
+          "glyphToRingClearanceCm": 0.09209450263977015,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.052218463169748
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.12896202712992416
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.027219303652730984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-standFrontRise-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880155593156815,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916128635406
+          },
+          "glyphToRingClearanceCm": 0.06801555931568148,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.977841317653656
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156189203262
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.973004501085311
+          }
+        },
+        {
+          "key": "I",
+          "x": 5.0259,
+          "y": -7.4494,
+          "ringCenter": [
+            4.6859,
+            -7.1994
+          ],
+          "textBox": {
+            "minX": 4.997994899749756,
+            "maxX": 5.053805649280548,
+            "minY": -7.634609222412109,
+            "maxY": -7.396483361721039
+          },
+          "glyphToRingClearanceCm": 0.09209489974975593,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "clearanceCm": 0.6982943415641785
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.21130196333855245
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.14100946130099876
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-collarPointExtension-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 0.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-collarPointExtension-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 3.0 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-sideVentDepth-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        21
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S390:polo-sideVentDepth-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "revisionId": "live-draft:polo:S390:polo-backHemDrop-min",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "revisionId": "live-draft:polo:S390:polo-backHemDrop-max",
+      "keyGeometry": [
+        {
+          "key": "E",
+          "x": -1.38,
+          "y": 21.73,
+          "ringCenter": [
+            -1,
+            22
+          ],
+          "textBox": {
+            "minX": -1.4467661380767822,
+            "maxX": -1.2880156338214874,
+            "minY": 21.544790267944336,
+            "maxY": 21.782916024327278
+          },
+          "glyphToRingClearanceCm": 0.06801563382148745,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "clearanceCm": 1.9778414219617844
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:front:placketBaseReinforcement:fold-reflection",
+            "sourceId": "pattern:polo:mark:front:placketBaseReinforcement",
+            "clearanceCm": 0.2705156934261322
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:buttonPlacket:button-3",
+            "clearanceCm": 3.9730045513061722
+          }
+        },
+        {
+          "key": "I",
+          "x": 4.0301,
+          "y": -7.0881,
+          "ringCenter": [
+            3.6901,
+            -6.8381
+          ],
+          "textBox": {
+            "minX": 4.002194404602051,
+            "maxX": 4.058005131781101,
+            "minY": -7.273309230804443,
+            "maxY": -7.035183474421501
+          },
+          "glyphToRingClearanceCm": 0.09209440460205043,
+          "nearestSourceText": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerBack",
+            "clearanceCm": 1.019708158943781
+          },
+          "nearestSourcePath": {
+            "id": "flat:polo:FRONT_FLAT:mark:underCollar:centerMatch",
+            "sourceId": "pattern:polo:mark:underCollar:centerMatch",
+            "clearanceCm": 0.1646539933145027
+          },
+          "nearestSourceMark": {
+            "id": "flat:polo:FRONT_FLAT:mark:outerStand:centerBack",
+            "clearanceCm": 0.07040898491080984
+          }
+        }
+      ],
+      "sourcePathAndMarkCounts": [
+        26,
+        23
+      ],
+      "schedule": [
+        "B  Body chest (finished): 110.0 cm (±1.3 cm)",
+        "A  Across shoulder: 45.0 cm (±0.6 cm)",
+        "H  Shoulder seam: 16.0 cm (±0.3 cm)",
+        "H  Neck width: 14.0 cm (±0.6 cm)",
+        "FG  Front neck drop: 8.0 cm (±0.3 cm)",
+        "B  Sleeve bicep width: 43.0 cm (±0.6 cm)",
+        "E  Finished placket length: 14.0 cm (±0.3 cm)",
+        "FG  Finished placket width: 3.0 cm (±0.2 cm)",
+        "D  Button spacing: 3.5 cm (±0.1 cm)",
+        "I  Finished pointed collar leaf: 5.0 cm (±0.3 cm)",
+        "C  Collar point extension: 1.5 cm (±0.2 cm)"
+      ]
+    }
+  ]
+}

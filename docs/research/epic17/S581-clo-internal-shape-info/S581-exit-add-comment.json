@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3440,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S581's single CLO 2026.1.310 read-only run returned the exact AttributeError `module 'pattern_api' has no attribute 'GetInternalShapeInformation'` for all nine indexed patterns. Public documentation does not establish that the getter exists in this installed build. No geometry, import/export stage, compatibility gate, tolerance, or acceptance criterion is inferred or changed. CLO remains open. Next S582 inventories actual read-only pattern_api names before selecting any further runtime call. See E-G04-S581-EXIT."
+}

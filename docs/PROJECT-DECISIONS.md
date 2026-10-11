@@ -1,5 +1,271 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — S726 accepted V03 sampling correction; S730 repository hygiene
+
+The maintainer directed Codex to correct V03's acceptance logic and finish
+using already installed tools, without another paid receiver. S726 replaces
+receiver sampling by every normalized coordinate shape with sampling by each
+distinct serialized DXF exchange-structure/semantic class. The product-side
+gate still covers all seven recipes, all supported options and five sizes
+(365/365 source packages). Ten selected receiver fixtures cover all ten
+observed exchange-structure classes; a Trouser XL boundary return adds an
+explicit non-default grade check. All 11 exact saved/reopened returns pass the
+unchanged 0.001 cm source-bound audit and have rendered review. The 315
+normalized coordinate signatures are not claimed as individually round-tripped.
+
+The only compatibility claim is for LibreCAD 2.2.1.5 / Drawing Exchange DXF
+2000 and the exact 11 audited/reviewed returns. LibreCAD is generic CAD; the
+menu/file label is not evidence of ANSI/AAMA/ASTM conformance or industrial
+apparel certification. Keep identity, units, CUT/SEW, typed marks, readable
+output, repeat evidence, product-side malformed-input rejection, legacy DXF,
+protected export identities, and every release gate unchanged. The detailed
+evidence is in the S726 exit packet. No software purchase/install or further
+receiver trial is in scope. S727's integrated coverage attempt failed on a
+Node/Vitest discovery mismatch, an omitted Trouser measurement inventory row,
+and tests carrying superseded pre-S459 expectations. S728 repairs those exact
+items and checks Woven open-vent topology fail-closed. Its settled integrated
+gate passes: 158 files/2,366 tests at 100% global coverage, production and
+Electron builds, Control Center/web release checks, all 73 options/146 faces,
+zero named-layer text overlaps, and packaged Electron output parity and
+fail-closed cases. The S728 packet links exact logs, hashes and rendered
+evidence. V03 acceptance and the receiver claim remain exactly as approved.
+S729's final-diff audit discovered thousands of historical render/diagnostic
+artifacts in the repository. S730 archives 6,390 unreferenced files
+(409,943,310 bytes) to C: after hash verification and retains all 81 required
+inputs. The cleaned-tree full coverage gate passes at 100% (158 files/2,366
+tests), with build, packaged Electron, focused release suites and Markdown-link
+audit passing. No new or paid software is needed. S724/S726 acceptance and the
+passing S728 integrated evidence are unchanged. S730 results are in
+`docs/research/epic17/S730-repository-evidence-hygiene/S730-exit-packet.md`.
+The goal and Epic remain In Progress through PR/merge, ancestry, deployment
+and production E2E.
+
+## EPIC-17/G04 — S725 package layout and remaining empirical evidence
+
+S725 establishes that the Trouser receiver's apparent crossings were caused
+by tight candidate-page spacing: source and return have nine pieces and zero
+inter-piece segment intersections. The opt-in interchange drawing now uses a
+5 cm gap for Trouser only; other recipes and the legacy writer keep 2 cm. The
+actual LibreCAD 2.2.1.5 / DXF 2000 saved return passes with 0.000 cm geometry
+delta, 9 pieces, 18 outlines, and 103 marks. All ten selected receiver outputs
+were visually reviewed. The source-side option-by-grade package matrix passes
+365/365. This is bounded empirical evidence, not a DXF standards or industrial
+CAD claim.
+
+The remaining V03 work is evidence reconciliation, not another software
+trial: derive normalized geometry/topology classes from current package
+geometry, map existing selected fixtures to those classes, and document the
+precise LibreCAD license/rights basis, version, local workflow, and claim
+limits. Add no fixture unless an uncovered material class requires one. Keep
+the all-seven/options/grades, 0.001 cm, identity/marks/units, repeat,
+readability, malformed-input, legacy-byte, protected-export, and release
+gates unchanged. See the S725 exit packet.
+
+## EPIC-17/G04 — S724 corrects V03 breadth measurement
+
+The maintainer directed Codex to correct V03's receiver/acceptance logic and
+finish with installed tools, with no paid receiver or additional software.
+S724 established that the “73 option/grade rows” are 73 M-size option
+scenarios. The revised gate keeps all seven recipes, every supported option
+and grade size, the 0.001 cm contour limit, protected export identities and
+all release gates. Product-side source-package verification must cover every
+supported option across every grade size. Actual LibreCAD round-trip evidence
+is a precise empirical profile with representative fixtures for each distinct
+serialized DXF exchange-structure/semantic class across all seven recipes,
+plus a non-default grade-boundary fixture; it must not imply that every CAD UI
+row or normalized coordinate shape was imported. Grade/options/stitch relations
+that live in the digest-bound manifest are product-package guarantees, not
+claims that LibreCAD interprets those fields. Every claimed receiver fixture
+still needs exact geometry, units, piece identity, marks, repeat and
+readable-output evidence. S723's crowded/crossed Trouser return is a V03
+readability issue, not a V02 failure. See the S724 exit packet. No standards,
+industrial, physical-fit, factory or production-readiness claim follows.
+
+## EPIC-17/G04 — S722 replaces the industrial receiver gate
+
+The maintainer directed completion using already installed CAD tools and
+rejected further paid software. The “industrial CAD receiver/profile” gate is
+replaced by an exact named/versioned empirical DXF compatibility profile
+proved through actual import/export/reopen and source-bound audits. This does
+not claim ANSI/AAMA/ASTM conformance or factory acceptance, and does not make
+every installed application a required supported receiver. Compatibility is
+claimed only for a named app/version after its evidence passes.
+
+No fidelity gate is relaxed: all seven recipes and 73 supported
+option/grade configurations, `0.001 cm` geometry, centimeter units, piece/
+revision/grade and stitch identity, CUT/SEW, typed marks/grainlines, malformed
+input fail-closed behavior in the product, repeatability, readable output,
+legacy DXF, protected byte identities, and final integrated release gates stay
+required. LibreCAD 2.2.1.5 DXF 2000 is the leading candidate only; S708/S710
+prove one Polo M fixture, not V03. S721's paid AccuMark candidate is expressly
+withdrawn and must not be pursued. No purchase, installation, supplier contact
+or new software is authorized or needed. See S722's packet for the exact
+profile decision and verification plan.
+
+## EPIC-17/G04 — S707 layer-table correction did not preserve CUT (2026-10-11)
+
+S707 added a complete R2000 LAYER table to the opt-in named-piece package and
+ran its one planned LibreCAD 2.2.1.5 Drawing Exchange DXF 2000 save/reopen.
+LibreCAD retained the `CUT` table entry and all nine named identities, exact
+geometry, 111 typed marks, centimeter units and visible output, but saved all
+nine CUT outline entities on layer `0`. The layer-table-only hypothesis is
+falsified for this receiver route. Do not repeat or vary this route. LibreCAD
+remains generic CAD and does not satisfy the industrial-apparel profile gate.
+No V03 criterion, threshold, geometry or legacy export identity changed.
+Exact result: `docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`.
+
+Next: S708 audits the current candidate writer against the already-existing
+CLO/LibreCAD input and output files to find the concrete entity-level source
+of CUT reassignment. No app search/install or receiver variation is authorized
+or needed for that audit. Implement only if the measured evidence supports a
+precise code correction; keep every acceptance gate unchanged.
+
+## EPIC-17/G04 — S706 LibreCAD current-package route stopped (2026-10-11)
+
+The exact S705 Polo M candidate was saved and reopened once in LibreCAD 2.2.1.5
+using Drawing Exchange DXF 2000. S706 found 9/9 piece/revision identities,
+18/18 closed CUT/SEW outlines at 0.000 cm XY residual, 111/111 typed marks
+within 0.001 cm, `$INSUNITS=5`, and a visible reopen. The returned drawing
+renamed the semantic `CUT` layer to `0`; the route is also generic CAD, not an
+industrial apparel profile. This route does not satisfy V03 and must not be
+repeated or varied. No source geometry, legacy export, threshold, or acceptance
+changed. Exact evidence is in
+`docs/research/epic17/S706-librecad-r2000-current-package/S706-exit-packet.md`;
+CAD files and render remain under `C:\G04-CAD-Interchange\S706-librecad-r2000-current-package\`.
+
+Next work is a source-side comparison of the exact S703 CLO DXF-ASTM and S706
+LibreCAD returns with the current candidate writer. Continue implementation
+only if existing entity evidence supports a precise source change; do not
+search for or install another receiver. V03 acceptance and every fixed gate
+remain unchanged.
+
+## EPIC-17/G04 — approved empirical grainline profile trial (2026-10-10)
+
+The maintainer approved the source-derived, additive `idr-pattern-exchange/2`
+grainline convention: emit one `LINE` on `GRAINLINE` inside each same-identity
+piece block, using each recipe's existing grainline rule and current CUT
+geometry. This authorizes a bounded Polo M DGS re-import with the frozen
+`VID:20250610`/`AUTOCAD` route and settings, followed by implementation only
+if the trial and other evidence support it. Preserve every existing DXF
+entity, source geometry, identity, unit, mark and legacy writer behavior. This
+is an empirical vendor-specific candidate; it does not claim ASTM/AAMA
+conformance, clear a V03 gate, or relax the all-seven/options/grades,
+`0.001 cm`, malformed-input, repeatability, round-trip, output-readability,
+rights or protected-byte-identity requirements. Evidence: S662/S663 packets
+and the approved trial recorded at the S663 boundary.
+
+## EPIC-17/G04 — GetonAgain free desktop evaluation authorization (2026-10-10)
+
+The maintainer confirms they have written confirmation that GetonAgain may be
+used for this product-development evaluation and that its DXF handling may
+remain local. They authorize acquiring/installing/running the official
+GetonAgain Garment CAD Free Version only if it is genuinely free and necessary.
+The official Free Version page labels a downloadable free desktop route. It is
+necessary to test only after the other concrete route, CLO 2026.1.310, failed
+repeated Polo geometry/mark/negative-input checks and generic OpenCAD R14 was
+shown insufficient as an industrial apparel profile. Stop if the official
+download requires payment or its DXF path is online-only. Verify exact installed
+build, input dialect and local DXF route before importing any G04 fixture.
+This permission does not select/qualify a profile or relax any G04 gate, and
+is not an independent legal opinion. Keep files under a named C: exchange
+folder; do not use the separately advertised GetonAgain online version.
+Official product/free/online pages and S650 evidence are in
+`docs/research/epic17/S650-getonagain-rights-locality-screen/`.
+
+## EPIC-17/G04 — GetonAgain candidate is not yet authorized (S647)
+
+First-party GetonAgain materials identify Garment CAD V2024.1 as apparel CAD
+with ASTM/AAMA DXF import/export and advertise a 15-day trial. S647 found no
+first-party confirmation that the trial permits InfiniDrip product-development
+interoperability testing or that DXF files are processed locally. The vendor
+also advertises a cloud converter for other CAD formats. Do not install/run
+this new product or import G04 fixtures until the maintainer explicitly
+authorizes use of the candidate and trial rights/local file handling are
+confirmed. This does not reopen the confirmed CLO 2026.1.310 local-trial
+authorization. See `docs/research/epic17/S647-getonagain-profile-candidate-screen/`.
+
+## EPIC-17/G04 — CLO trial-use and local-processing confirmation (2026-10-08)
+
+The maintainer confirms that written confirmation covers both use of the
+existing CLO 2026.1.310 trial for InfiniDrip product-development DXF evaluation
+and local processing of imported/exported DXF files. Treat these two concerns
+as settled for the bounded local evaluation and do not ask the maintainer to
+reconfirm them. This record reflects the maintainer's report; it is not an
+independent legal opinion and does not establish an industrial profile,
+conformance, receiver acceptance, or permission to send patterns to CLO-SET,
+CONNECT, or another hosted service. Continue to keep exchange files under the
+named `C:\\G04-CLO-DXF-Exchange\\<slice-folder>` paths and preserve all V03
+geometry, semantic, grading, negative-input and round-trip gates.
+
+S538's current-window check found a mismatch between the visible CLO
+screenshot and accessibility's Export DXF dialog report. No file operation
+was attempted from that inconsistent state. This control limitation does not
+reopen the settled authorization decision or establish a CLO format failure.
+
+## EPIC-17/G04 — CLO AAMA round-trip result recorded (S516)
+
+On 2026-10-08, the already-running CLO 2026.1.310 trial was used once through
+the visible UI for an AAMA import/export/re-import of the pinned Polo M
+fixture. The output rendered and its nine source sewing outlines map to nine
+receiver blocks, but five CUT contours each lose one vertex; exact-segment
+deviation witnesses of 0.01019–0.01118 cm exceed the unchanged 0.001 cm gate.
+This is concrete evidence that this tested local profile path does not meet
+Polo cut fidelity. Do not repeat the same test, infer industrial-profile
+conformance, select CLO as the rights-cleared receiver, or alter acceptance
+from this trial. V03 still requires all-seven fixtures, grade/mark/layer and
+negative-control evidence, rights review, and a passing representative
+round-trip. Keep CLO running during G04 and close it only when the admitted
+goal is complete. See the S516 exit packet.
+
+## EPIC-17/G04 — Bounded local CLO evaluation authorization (S503)
+
+On 2026-10-08, the maintainer explicitly authorized practical DXF
+import/export evaluation using the existing installed and signed-in CLO
+2026.1.310 trial. This authorization covers the requested local test files and
+captures only under `C:\\G04-CLO-DXF-Exchange\\<named-slice-folder>`; it does
+not authorize CLO-SET/CONNECT or other cloud uploads, paid access, new
+installation, or account changes. Close CLO normally when the test no longer
+needs it. This bounded evaluation does not clear the separate receiver-rights
+review, authorize a commercial-use claim, establish an industrial exchange
+profile, or relax any G04 geometry, mark, grading, negative-input, round-trip,
+all-seven, or export-identity gate.
+
+On 2026-10-08, the maintainer clarified that CLO is an ongoing session for the
+current G04 work: do not close/reopen it between slices or access attempts;
+keep it running while it is still needed, and close it normally once when the
+whole admitted goal is complete. The user requested a single defined practical
+plan with no redundant reruns. S514's one supported recovery produced a
+concrete capture mismatch (CLO target/accessibility paired with a Codex
+screenshot), so no input or file operation followed. This is a desktop-helper
+failure, not evidence of CLO format failure. The next practical operation is a
+single instrumented C:-confined AAMA export/reimport pilot only when the CLO
+surface can be visually verified, under the already granted S503 local-trial
+authorization. That technical trial does not clear the separate V03
+receiver-rights/profile-selection gate. Previously tested Standard cases and
+the AAMA-import/ASTM-export matrix are not to be repeated. The S503
+authorization's C:-only/no-cloud/no-paid-access/no-install bounds still apply.
+
+## EPIC-17/G04 — CLO API profile source refresh (S515)
+
+On 2026-10-08, current official CLO docs were rechecked. SDK 11.0.0 is listed
+for 2026.1.224, not installed 2026.1.310. `ImportDxfOption` has no documented
+profile field; `ExportDxfOption.m_ExportDXFFormatType` remains an unmapped
+integer. The documented path-only `ExportDXF(path)` opens the options dialog,
+so a visible UI profile can be selected without guessing the integer in the
+bounded S503 local trial. This does not clear V03 receiver-rights/profile
+selection, and safe visual control of the running CLO window is still needed.
+Do not repeat already measured Standard/AAMA-import→ASTM-export cases or
+download/install the mismatched SDK.
+
+## EPIC-17/G04 — Woven technical-flat display decisions confirmed 2026-10-08
+
+The maintainer approved these view-only decisions for G04 V02:
+
+- On Woven FRONT_FLAT, mask the exact revision-bound `front.neckline` seam strokes only where the same-revision `underCollar` or `upperCollar` fills cover them. Preserve the open-V segment and all source geometry, stitches, POMs and revision identities. This supersedes S425's decision to keep the full neckline visibly continuous across the projected collar silhouettes. It does not assert a physical notch or source seam termination.
+- On Woven BACK_FLAT, use the measured local-Y sleeve reflection and move only the two source-scale detached sleeve-band view details outward to clear the sleeve silhouettes. This supersedes S442's decision to keep S370 band positions fixed. It is a view convention; it does not establish source sleeve handedness or authorize cut/stitch geometry edits. The measured displacement is 20.5737–22.4315 cm per side and viewBox width increase is 41.1474–44.863 cm.
+
+Slice 457 implements and verifies both decisions across all 28 Woven options; S459 accepts the integrated seven-recipe V02 review across 73 configurations / 146 front-back views. See `docs/research/epic17/S457-woven-front-back-resolution/S457-exit-packet.md` and `docs/research/epic17/S459-integrated-v02-acceptance-review/S459-exit-packet.md`. G04-V02 is Done. The exact approved S351 Polo exception applies only to its mapped same-revision sleeve-ease relation; the numeric 0.25 cm gate remains for all other relations. V03 remains gated on rights-reviewed receiver/profile selection and witnessed round-trip proof. No physical, factory, or production-readiness claim follows.
+
 _Confirmed directly by Kshitij on 2026-09-10 after the Slice 63 handoff. These
 decisions resolve the open questions recorded in that handoff._
 
@@ -967,3 +1233,166 @@ EPIC-17/G04 remains Backlog. Do not begin its implementation, open an admission
 packet, or change its board status until the maintainer explicitly asks to
 begin EPIC-17. Completion of EPIC-16 and roadmap ordering do not constitute
 admission. The canonical board records this hold in the EPIC-17 work item.
+The maintainer explicitly instructed Codex to begin EPIC-17/G04 on
+2026-09-29; this satisfies the admission condition and supersedes the hold
+above. Slice 261's `docs/planning/EPIC-17-ADMISSION.md` records the authority,
+verified start, sequence and gates. The Epic is now In Progress; later work
+still follows the admitted packet and current board state.
+
+## EPIC-17 view-only projection metadata — confirmed 2026-09-30
+
+The maintainer authorized G04 to add source-backed view metadata for
+construction-aware flats: fold-axis reflection only for source-declared
+`onFold` roles where the fold axis is explicit in source evidence, plus
+face-specific landmarks and multiplicity rules only where construction
+evidence supports them. This metadata may change how existing pattern geometry
+is represented in a view; it must not change canonical pattern or cut
+geometry. Do not infer a fold axis, split, role instance, or landmark from
+appearance, stitching, or screenshots. Polo and Woven-shirt collar splits
+remain held until a specific construction reference supplies the missing
+front/back landmarks. This authorization does not establish that any
+particular role is eligible for reflection.
+
+For the Woven-shirt front closure, the maintainer confirms no construction
+reference is available that identifies which physical placket belongs to each
+front and which finished placket overlaps on top. Keep the Woven closure and
+all complete Woven flats held until source evidence supports its instances and
+layer order; do not infer overlap from the current drawing or stitch graph.
+
+**Decision superseded by the later S321 maintainer decision below:** the
+maintainer subsequently approved the Polo/Woven collar exterior station
+convention, Woven sleeve/band view convention (conditional on output checks),
+and Woven closure order A (right button placket above left buttonhole placket).
+These explicit design decisions resolve the prior need for an external
+construction reference for those view choices only. They do not accept any
+face; keep every affected view held until source-topology and rendered checks
+pass, and preserve any other Woven hold.
+# EPIC-17 / G04 — maintainer decisions, 2026-10-01 (S321)
+
+- Approved Tee/Fitted view-only sleeve mapping: front uses `capLeft`, `sideLeft` and the left hem half; back uses `capRight`, `sideRight` and the right hem half. Display two mirrored sleeve instances. Do not draw a partition line, add a seam, or change cut geometry.
+- Approved Woven sleeve/band normalized-arclength transfer as a view convention, with two mirrored sleeve and band instances and yoke on the back-facing seam layer. This remains conditional on generated join, crossing, overlap and readability checks; failures keep affected views held. No stitch graph or cut geometry change is authorized.
+- Approved Polo/Woven upper and under collar exterior CB-to-CF normalized-arclength transfer from the sourced base/neckline shoulder fraction. It is a view-only convention and does not assert a physical exterior notch. Polo outer stand uses its source-encoded `backCollar`/`frontCollar` junction.
+- Approved Woven closure order A: right button placket above left buttonhole placket. Preserve the all-seven-recipe acceptance criterion; approval alone does not pass any face.
+- Trouser front: the maintainer approved the exact S325 source-repair proposal. S326 adds `flyUnderlap` (3.5 cm × live `flyLength`), routes `frontRight.flyEdge` through it to `flyShield.right`, and retains `frontLeft.flyEdge` on `flyShield.left`; both front panels and exact waistband center joins are preserved. The view map records the approved underlap-behind-`frontLeft` relation. All 24 fronts remain held until the full option and rendered-output checks pass; approval alone accepts no face.
+- These approvals settle design choices only. Each affected view remains held until its exact configuration passes same-revision topology and rendered-output checks. G04 MQF findings remain review checks; post-G17 deferrals remain unchanged.
+
+## EPIC-17 / G04 — Polo residual gate retained (S357)
+
+- On 2026-10-02, the maintainer selected the option to retain the existing 0.25 cm Polo sleeve-cap residual gate after reviewing S357's source/ease trade-off study.
+- Preserve Polo's source-authored 1.5 cm cap ease and existing pattern/POM values. The tested candidate that narrows width and removes ease is not authorized. Keep all 34 Polo faces held until the source revision passes the existing residual, topology, colorway, callout and rendered-output gates.
+- This decision changes no V02 acceptance criterion and approves no face; all seven recipes remain required before V03.
+
+## EPIC-17 / G04 — S351 eased-cap residual applicability (2026-10-07)
+
+- The maintainer approved suppressing the endpoint-only rigid residual diagnostic only for the exact `Sleeve-cap ease` relation when the exact same-revision Polo projection map validates and its sleeve role carries decision `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH`.
+- The approved S351 display maps `capLeft` to `front.armhole` and `capRight` to `back.armhole` by normalized arclength. Its receiver-edge display intentionally does not share the authored cap endpoint coordinates, so endpoint-only rigid RMS is not applicable to that displayed eased seam.
+- Keep the numeric 0.25 cm residual check for every other stitch relation. This decision changes applicability for that one view representation only; it does not change source geometry, stitch graph, ease, POMs, solver behavior, or any other topology, crossing, overlap, revision, identity, callout, output, or acceptance gate.
+- This decision accepts no face. Polo remains held until the exact 17-option/34-face output passes every applicable V02 gate, including source/revision identity, joins, crossings, callout and rendered readability. All-seven acceptance and V02-before-V03 remain.
+
+## EPIC-17 / G04 — Trouser fly-underlap source repair (S326)
+
+- The maintainer approved the exact Slice 325 proposal on 2026-10-01: add a physical `flyUnderlap` interior role sized 3.5 cm × current `flyLength`; route `frontRight.flyEdge` to `flyUnderlap.frontEdge`, then `flyUnderlap.shieldEdge` to `flyShield.right`; retain `frontLeft.flyEdge` to `flyShield.left`; place the underlap behind the exterior `frontLeft` layer.
+- Preserve both upright front panels, their exact source geometry, and the exact existing front waistband center joins. This approves only the stated source repair and associated view metadata; it does not accept any Trouser face or claim physical sewability.
+- Short-edge finishing remains unspecified and must remain explicit in pattern/output documentation. If a required output depends on it, hold that output.
+- Keep all 24 Trouser front views held until the supported option matrix and rendered-output checks pass. Preserve all seven recipe acceptance criteria and the unrelated holds.
+- No export baseline movement or DXF-writer change is authorized or required. The eight protected SHA fixtures cover legacy Tee/Fitted outputs; the approved new Trouser physical role will naturally appear in new Trouser DXF content. Existing legacy hash identities and tech-pack identity checks remain mandatory.
+
+## EPIC-17 / G04 — Polo sleeve view mapping (S333)
+
+- On 2026-10-01 the maintainer approved the exact S332 Polo sleeve view proposal: FRONT uses `capLeft` start-to-end, `sideLeft` end-to-start, and the left hem half; BACK uses `capRight` start-to-end, `sideRight` start-to-end, and the right hem half, with local-Y reflection for the back view. Reflect each displayed sleeve instance across its sewn-to body's source-declared center axis; show two mirrored instances and no crown-to-hem partition line.
+- This is view-only mapping metadata. It authorizes no cut-geometry, stitch-graph, ease, physical-mark, or solver-threshold change and does not waive the 0.25 cm assembly residual gate. Keep each Polo face held unless its exact source revision passes topology, stitch residual, join, crossing, overlap, and rendered-readability checks across the supported option matrix.
+- The S332 default diagnostic reported a 0.96 cm shoulder gap and 0.68 cm assembly residual. If the approved mapping does not remove those within the existing solver contract, preserve all 34 Polo holds and bring a separate evidence-backed proposal; do not average/scale transforms or hide the gap.
+
+## EPIC-17 / G04 — Polo dimension-only POM references (S338)
+
+- On 2026-10-01, the maintainer approved both S337 proposed dimension-only references: show the `upperCollar.centerBack` finished-leaf measurement as an annotation referencing its source-declared fold-axis edge, without drawing that edge as a garment seam/cut contour; and show Back hem drop on the back flat using `front.hem.start` Y and `back.hem.start` as the two measurement levels.
+- These are view annotations only. The cross-piece reference may show witness/dimension marks but must not imply that the front and back panels join at the hem. Use exact same-revision source identities and preserve the POM method/value. Resolve annotation collision/readability across every Polo option before accepting any affected view.
+- This decision approves those two projection conventions only; it does not accept any Polo face, change source/cut/stitch geometry, or waive the 0.25 cm sleeve-cap residual hold or the all-seven-recipe G04 acceptance criterion.
+
+## EPIC-17 / G04 — Trouser fly-underlap balance notch (S339)
+
+- On 2026-10-01, the maintainer approved adding a midpoint balance mark to `flyUnderlap.shieldEdge` at `t: 0.5`, using the existing `flyShield.left` midpoint notch as the chosen location convention.
+- The source stitch graph joins `flyUnderlap.shieldEdge` to `flyShield.right`; `flyShield.left` is joined to `frontLeft.flyEdge`. The new mark is therefore an explicit design choice on the underlap, not a matched mark on the sewn counterpart. Preserve the source stitch graph and do not describe the two marks as seam-matched.
+- Leave `flyUnderlap.top` and `flyUnderlap.bottom` unmarked. This adds a construction mark only; it does not change cut geometry, either fly stitch, waistband joins, or the explicit statement that short-edge finishing is unspecified.
+- The approval resolves the universal per-piece notch/grainline completeness check. It does not claim physical sewability, fit, factory acceptance, or acceptance of any Trouser flat; all 24 Trouser fronts remain subject to their full option-matrix and rendered-output gates.
+
+## EPIC-17 / G04 — Woven eased sleeve-cap view projection (S345)
+
+- On 2026-10-01, the maintainer approved the exact S344 proposal: map `sleeve.capLeft` (underarm→crown) by normalized arclength to `front.armhole` (underarm→shoulder); map `sleeve.capRight` (crown→underarm) to `yoke.armholeUpper` followed by `back.armholeLower`, splitting at the live yoke-edge length fraction. Render each shared body-derived join once on `SEAM` and suppress its duplicate sleeve-cap stroke.
+- Retain two reflected sleeve and band instances and put the yoke armhole on the back-facing seam layer, as approved in S321. The projection changes displayed cap curvature and visually depicts the shared join without displaying the ease. Preserve source piece/cut geometry, the source stitch graph, authored +1.5 cm ease, and the generic 0.25 cm assembly threshold. Do not interpret the rendered shared curve as physical seam-length equality or fit evidence.
+- Approval is conditional on exact revision/stitch/edge validation and generated-option checks for joins, crossings, overlap, layer order and readable output. Keep every face held when any required gate fails. This decision alone accepts no face and does not change all-seven V02 acceptance or the V02-before-V03 gate.
+
+## EPIC-17 / G04 — Polo sleeve-cap view-only seam projection (S352)
+
+- Decision ID: `G04-S351-POLO-CAP-ARMHOLE-ARCLENGTH`. On 2026-10-02, the maintainer approved the S351 proposal to map `sleeve.capLeft` to `front.armhole` and `sleeve.capRight` to `back.armhole` by normalized arclength, from underarm station to shoulder station, for the assembled seam depiction.
+- This is a view-only convention for displaying the eased seam on the receiving armhole contour. Preserve the sleeve and body cut outlines, source stitch graph, source ease, solver behavior, and the 0.25 cm assembly-residual gate. It does not assert that the projected contours are physically equal in length or that the source encodes an easing distribution.
+- Keep all 34 Polo faces held until exact revision and option-matrix checks validate joins, crossings, overlap, callout readability, and rendered output for all 17 supported configurations. The decision accepts no face and does not relax G04's all-seven-recipe V02 criterion or the V02-before-V03 dependency.
+
+## EPIC-17 / G04 — Woven full-collar view projection (S359 approval)
+
+- On 2026-10-02, the maintainer approved the exact S359 proposal for a revision-bound, piecewise normalized-arclength and signed-normal-offset display projection across `outerStand`, `innerStand`, `upperCollar`, and `underCollar`, onto the exact front body neckline and reversed back yoke neckline, split at the source-length shoulder station.
+- Preserve same-revision piece and edge identities, the previously approved exterior station convention, fold-reflected instances, current layer order, and S343's single body-neckline base seam. This is a view convention; it does not assert physical exterior notches, alter cut geometry or source stitches, or establish sewn fit.
+- The mapping may bend visible contours and change apparent silhouette, overlap, layer occlusion, and POM placement. Implement only in a separately bounded slice and keep all 56 Woven faces held until every option passes joins, crossings, overlap/layer, colorway closure, exact POM anchoring, and rendered readability. Approval accepts no face and preserves all-seven V02 acceptance and the V02-before-V03 gate.
+
+## EPIC-17 / G04 — Woven detached sleeve-band details (S370 approval)
+
+- On 2026-10-02, the maintainer approved the exact S370 view-only proposal: show two complete source-scale `sleeveBand` outlines as left/right side-gutter details, reflected across the source-declared back center line and rotated only for page fit. Preserve the original outline, grain/fold mark and multiplicity. Label both explicitly “detail only—not at assembly location” and identify their source relation without drawing a false seam connector.
+- This approval permits the detached band-only composition after the assembled band projection produced crossings. It does not authorize changing source pattern/cut geometry, the source stitch graph, instance count, seam layers, assembly positions, acceptance gates, or unrelated Woven views.
+- In S372, revalidate all 28 Woven options / 56 face identities for source-scale geometry, joins, crossings, text overlap, frame fit and rendered clarity. The main sleeve-outline crossing and any unresolved collar/POM/topology issue keep affected faces held. The approval accepts no face, preserves all-seven V02 and V02-before-V03, and does not support a physical-fit, factory-acceptance or production-readiness claim.
+
+## EPIC-17 / G04 — Polo collar-point keyed POM display (S380 approval)
+
+- On 2026-10-02, the maintainer approved the exact S378 presentation for the Polo front `Collar point extension` POM across all 17 supported option rows: replace only its inline text leader with a `C` marker centered at the same-revision `upperCollar.frontTip:end` endpoint and put the unchanged complete source POM text/value/tolerance in a keyed `C` schedule below the flat.
+- This is a view-only display convention. Keep the source-authored horizontal edge-delta measurement, anchor, source geometry, stitch graph and exact target identity unchanged. The marker does not assert an extra physical notch or construction mark.
+- The change resolves only the two known base-render `TEXT_COLLISION` rows for this POM. All other Polo callout crossings, the fixed 0.25 cm sleeve-cap residual gate and all 34 Polo holds remain. The approval accepts no face, does not relax the all-seven-recipe V02 criterion or the V02-before-V03 dependency, and makes no physical-fit, factory-acceptance or production-readiness claim.
+
+## EPIC-17 / G04 — Polo FG glyph-only offset (S399 approval)
+
+- On 2026-10-07, the maintainer approved the exact S398 display proposal: move only the Polo FG glyph by `(-0.424264,-0.424264 cm)` from its current text position, across all 17 supported option values.
+- Keep the 0.22 cm ring fixed at the shared `(0,8)` source station. Preserve both POM identities, source anchors/targets/revisions, source marks and paths, full-text schedule, pattern/cut geometry, source stitch graph, colorway and paired backs. This is a view-only annotation placement, not a physical notch or pattern construction claim.
+- Approval permits implementation and option-wide output verification only. It accepts no face and does not relax the 0.68 cm sleeve-cap residual against the 0.25 cm gate, any other V02 check, all-seven-recipe acceptance, or V02-before-V03. Keep all 34 Polo views held until every applicable output gate passes.
+
+## EPIC-17 / G04 — Woven W marker line preservation (S400 approval)
+
+- On 2026-10-07, the maintainer approved the exact S396 Woven presentation trial for the `Finished placket width` POM: retain its 0.22 cm open ring at the midpoint of the same-revision `buttonPlacket.top` edge; paint the ring after any colorway fill but below all source geometry strokes; move only the W glyph `(+0.2121,+0.2121 cm)`; preserve the unchanged full-text schedule.
+- This is annotation presentation only. Preserve the exact source POM identity, target, anchor, revision, value/method/tolerance, source paths, piece/cut/stitch geometry, colorway, and back output. The order lets source lines remain continuous over the ring; it does not alter or conceal the underlying geometry.
+- Approval authorizes implementation and 28-option rendered verification only. It accepts no Woven face and does not clear the independent back-hem crossing, other Woven joins/collar/sleeve holds, any Polo hold, the all-seven-recipe V02 requirement, or V02-before-V03. Keep all 56 Woven and 34 Polo faces held until every applicable gate passes.
+
+## EPIC-17 / G04 — Woven V02 view-only trials (S405 approvals)
+
+- On 2026-10-07, the maintainer approved the exact S402 Front button-spacing treatment: a 0.22 cm open ring at the same-revision midpoint of source `button-1` and `button-2`, the D glyph offset `(+0.2121,+0.2121 cm)`, and the unchanged complete POM schedule. The derived station is a view convention, not a physical notch.
+- The maintainer approved the exact S403 pocket foreground convention: draw the pocket edge once and suppress only the placket stroke beneath it where those source bounds coincide/overlap. Preserve every source bound, stitch relation and option value.
+- The maintainer approved the exact S404 shoulder/collar occlusion trial: show projected `outerStand.collar` above `front.shoulder` and suppress the body shoulder only from HPS to the first projected collar intersection on both sides. The visible shoulder seam start is a view convention, not a source stitch junction.
+- These decisions authorize implementation and option-wide re-verification only. They accept no face. All 28 Woven fronts/backs remain held until every applicable same-revision topology, join, crossing, overlap, callout, colorway and rendered-readability check passes; all-seven V02, Polo's unchanged 0.25 cm gate, V02-before-V03 and all CAD/export gates remain unchanged.
+- S405 established that Woven placket top/outer edges intersect the projected collar roles in the current 28-option output, while source stitch relations connect each placket to `front.centerFront` and collar roles to their separate neckline/stand/collar edges. The source encodes no collar-over-placket layer. S321's right-placket-over-left-placket decision and the S405-approved shoulder occlusion do not settle that relation. The specific S406 approval below now settles the view convention; it does not release any face.
+
+## EPIC-17 / G04 — Woven center-front collar over closure (S406 approval)
+
+- On 2026-10-07, after reviewing the exact S405 source/output diagnosis, the maintainer approved a view-only order for Woven fronts: keep the button placket above the buttonhole placket; draw the projected collar in front of both; clip only placket outline portions inside the projected collar silhouette.
+- This is an explicit display decision because source joins connect the two placket attachment edges to `front.centerFront` and connect collar pieces through their separate stand/neck/collar edges; no collar-to-placket stitch or relative source layer exists. Preserve the right-button-placket-over-left-buttonhole-placket order underneath the collar.
+- The approved view hides approximately 0.8–2.7 cm of the upper placket edge depending on option geometry. It does not change cut geometry or source stitches, does not add a physical join, and makes no sewn-construction claim. Approval permits implementation and all-28-option review only; keep all Woven/Polo faces held until every applicable same-revision topology and rendered gate passes.
+
+## EPIC-17 / G04 — Polo H segmented locator and retained holds (S425)
+
+- On 2026-10-07 the maintainer approved the S422 recommendations: reject the S424 Polo bicep-input reduction (raw 38→29.345149 cm; finished span −8.654851 cm) because it lacks pattern-specific construction support and changes the sleeve POM materially; keep the 0.25 cm gate and all Polo faces held. Keep the Woven body neckline as one continuous source seam and retain the 28 front holds because the proposed clip visibly interrupts that seam. Implement the S419 segmented source-centered H ring as an annotation-only view treatment.
+- The H marker remains centered at the exact source anchor `(7,0)`, radius 0.22 cm, with unchanged H glyph, same-revision POM targets and complete schedule. The view renderer removes only ring spans within the approved 0.045 cm source-stroke clearance, drops retained arcs shorter than 0.04 cm, and fails closed unless the output retains 2–3 arcs and at least half the circumference. Source paths, marks, cut geometry, source stitches and POM data stay unchanged.
+- S425 verifies the current renderer over all 17 exact S399 revision fixtures with zero sampled centerline contacts to component/source-mark strokes, unchanged 11-row schedule and source paths, and rendered default/least-coverage crops. This annotation approval does not accept any view. Polo's independent 0.68 cm residual still exceeds 0.25 cm; all 34 Polo faces and all 56 Woven faces remain held. No physical fit, factory acceptance or CAD compatibility claim is made.
+
+## EPIC-17 / G04 — Polo J/FG keyed POM display (S434 approval)
+
+- On 2026-10-07, the maintainer approved the exact S433 17-option view-only trial: key **J** marks the exact same-revision start of `outerStand.frontEnd` for `Finished collar stand height`; one **FG** ring marks the exact start of `outerStand.frontNeckline` for `Stand front rise`, grouped with the existing `finished-placket-width` and `front-neck-drop` FG schedule rows.
+- Keep each POM's own source identity, anchor/target edge, value, tolerance and full schedule text. Use the existing 0.22 cm open rings. The FG ring is a shared display station and not evidence that these measurements share a physical notch. Preserve all source marks/paths, pattern and cut geometry, stitch graph, revision, option values, existing glyph offsets and colorway.
+- This approval authorizes implementation and 17-option production/output review only. It accepts no view. All 34 Polo views remain held until all applicable same-revision topology, join, residual, colorway, callout, collision and rendered-readability checks pass. All-seven V02, other residual thresholds, V02-before-V03, legacy DXF, protected exports, CAD rights/round-trip and claim boundaries remain unchanged.
+
+## EPIC-17 / G04 — Retain S370 band layout and Woven back holds (S442)
+
+- On 2026-10-07, after S441's exact-revision 28-option local-Y sleeve trial, the maintainer chose to keep the approved S370 detached-band positions and retain all Woven back holds.
+- Do not implement the diagnostic local-Y sleeve reflection or move the detached-band details under this decision. The trial clears measured crossings but conflicts with the fixed S370 positions and is not established by source topology. Preserve pattern/cut geometry, stitch graph, two band details, all-seven V02 acceptance and every current face hold.
+- This disposition accepts no view and makes no physical construction claim. Revisit only with source-backed evidence or a separately approved scope/design change; V03 remains gated behind V02.
+
+## EPIC-17 / G04 — V03 receiver sampling correction (S726)
+
+- The maintainer directed that V03 be completed using the available software and that its acceptance logic be corrected rather than repeatedly requiring more applications or equivalent tests. S726 therefore separates full product-side option/grade verification from representative receiver evidence.
+- Verify every supported option scenario at every supported grade size using the source-bound package checks. For receiver evidence, require a source-bound saved/reopened fixture for every distinct serialized DXF exchange-structure/semantic class across all seven recipes; add a fixture when a supported option changes that serialized structure. Apply the existing 0.001 cm, identity, units, CUT/SEW, marks, and readability gates to every selected return. Include an explicit non-default grade-boundary sample.
+- Exact coordinate/shape variants that preserve the same serialized exchange structure do not each require a separate CAD save. This is a deliberate correction to the earlier “each materially distinct normalized geometry signature” formulation; it does not claim that every shape was individually round-tripped. S726 records 365 source packages, 315 normalized shape signatures, ten receiver structure classes, ten current structure fixtures, and one additional Trouser XL boundary fixture. LibreCAD compatibility is limited to the exact 11 saved/reopened/audited/reviewed returns.
+- The empirically tested route is LibreCAD 2.2.1.5 / `Drawing Exchange DXF 2000`, with local files on C:. This does not establish formal DXF conformance, ANSI/AAMA/ASTM support, industrial apparel-CAD certification, universal interoperability, fit, factory acceptance, or production readiness. Preserve all other V03 gates, the protected legacy export identities, and the complete Epic release gate.

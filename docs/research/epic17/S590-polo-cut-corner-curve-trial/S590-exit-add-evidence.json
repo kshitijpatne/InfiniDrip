@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3477,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S590-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S590-polo-cut-corner-curve-trial/S590-exit-packet.md",
+    "verified": true,
+    "note": "One clean CLO 2026.1.310 DXF-AAMA generation falsifies the source-bounded 0.05 cm fillet trial for Polo: five CUT contours still miss the fixed 0.001 cm gate by sampled maxima 0.006813–0.007585 cm; the other four CUT and all nine SEW contours pass. No V03 gate, source, legacy DXF behavior, or protected identity changed."
+  }
+}

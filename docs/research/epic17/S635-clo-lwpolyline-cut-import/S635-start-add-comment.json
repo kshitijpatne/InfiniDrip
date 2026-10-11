@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3681,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S635 tests one remaining concrete representation variable suggested by S634: coordinate-identical CUT POLYLINE→LWPOLYLINE conversion in the existing CLO Standard import path. All source coordinates, units, settings, SEW and mark entities stay fixed. Inspect the imported/native CUT contours before any export; stop on a native miss, regression, identity error, or UI/settings mismatch. No source geometry, tolerance, gate, or hold change. See E-G04-S635-START."
+}

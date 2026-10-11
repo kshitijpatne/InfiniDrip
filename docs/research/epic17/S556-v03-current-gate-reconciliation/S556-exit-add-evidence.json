@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3339,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S556-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S556-v03-current-gate-reconciliation/S556-exit-packet.md",
+    "verified": true,
+    "note": "Current V03 matrix preserves all gates, incorporates resolved CLO purpose/locality authorization and distinguishes limited passes, concrete failures, incomplete evidence, and gates CLO cannot independently satisfy."
+  }
+}

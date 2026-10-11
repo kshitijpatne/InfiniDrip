@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3491,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S593-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S593-polo-cut-output-topology/S593-start-packet.md",
+    "verified": true,
+    "note": "S593 read-only diagnosis enumerates every saved S591/S592 Polo receiver CUT candidate and maps residual neighborhoods against source segments/vertices. It performs no new CLO operation or encoding trial; all V03 gates remain."
+  }
+}

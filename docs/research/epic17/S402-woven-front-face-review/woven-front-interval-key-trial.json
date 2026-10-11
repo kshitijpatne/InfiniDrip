@@ -1,0 +1,3628 @@
+{
+  "summary": {
+    "configurations": 28,
+    "exactPointDistances": 28,
+    "commonClearGlyphOffsets": [
+      {
+        "id": "se",
+        "x": 0.2121,
+        "y": 0.2121
+      },
+      {
+        "id": "e",
+        "x": 0.38,
+        "y": 0
+      },
+      {
+        "id": "ne",
+        "x": 0.3,
+        "y": -0.3
+      },
+      {
+        "id": "nw",
+        "x": -0.3,
+        "y": -0.3
+      },
+      {
+        "id": "sw",
+        "x": -0.3,
+        "y": 0.3
+      },
+      {
+        "id": "w",
+        "x": -0.38,
+        "y": 0
+      }
+    ],
+    "sourcePointAnchorsPreserved": true,
+    "existingWSourceSchedulePreserved": true
+  },
+  "rows": [
+    {
+      "caseId": "woven-shirt-default",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-min",
+      "options": {
+        "neckEase": 0,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-neckEase-max",
+      "options": {
+        "neckEase": 3,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.6
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.6
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.6
+      },
+      "distanceCm": 8.000000000000002,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 1.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-standHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 3.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 4,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-collarLeafDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 8,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonCount-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 6,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 19.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 16.2
+      },
+      "distanceCm": 6,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-buttonSpacing-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 9,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 22.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.7
+      },
+      "distanceCm": 9,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+            "pattern:woven-shirt:mark:buttonPlacket:placketFace"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine",
+            "pattern:woven-shirt:mark:buttonPlacket:placketFace"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-frontOverlap-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 3,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 3,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 3,
+        "y": 21.2
+      },
+      "center": {
+        "x": 3,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 2,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-placketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 4,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 7,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-yokeDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 15,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 9,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketWidth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 16,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 10,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-pocketHeight-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 18,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 2,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-sleeveBandDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 5,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 0,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-sideVentDepth-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 8,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-min",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 0.7
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-hemTurn-max",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 7,
+        "buttonSpacing": 8,
+        "frontOverlap": 1.5,
+        "placketWidth": 3,
+        "standHeight": 2.5,
+        "collarLeafDepth": 6,
+        "yokeDepth": 10,
+        "pocketWidth": 12,
+        "pocketHeight": 13,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 2
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 1.5,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 1.5,
+        "y": 21.2
+      },
+      "center": {
+        "x": 1.5,
+        "y": 17.2
+      },
+      "distanceCm": 8,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    },
+    {
+      "caseId": "woven-shirt-combined-supported",
+      "options": {
+        "neckEase": 1,
+        "buttonCount": 6,
+        "buttonSpacing": 6,
+        "frontOverlap": 2,
+        "placketWidth": 4,
+        "standHeight": 3,
+        "collarLeafDepth": 7,
+        "yokeDepth": 10,
+        "pocketWidth": 14,
+        "pocketHeight": 15,
+        "sleeveBandDepth": 3,
+        "sideVentDepth": 3,
+        "hemTurn": 1
+      },
+      "valid": true,
+      "intervalStart": {
+        "x": 2,
+        "y": 13.2
+      },
+      "intervalEnd": {
+        "x": 2,
+        "y": 19.2
+      },
+      "center": {
+        "x": 2,
+        "y": 16.2
+      },
+      "distanceCm": 6,
+      "candidateGlyphs": [
+        {
+          "id": "se",
+          "offset": {
+            "id": "se",
+            "x": 0.2121,
+            "y": 0.2121
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "e",
+          "offset": {
+            "id": "e",
+            "x": 0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "ne",
+          "offset": {
+            "id": "ne",
+            "x": 0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "nw",
+          "offset": {
+            "id": "nw",
+            "x": -0.3,
+            "y": -0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "sw",
+          "offset": {
+            "id": "sw",
+            "x": -0.3,
+            "y": 0.3
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        },
+        {
+          "id": "s",
+          "offset": {
+            "id": "s",
+            "x": 0,
+            "y": 0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "n",
+          "offset": {
+            "id": "n",
+            "x": 0,
+            "y": -0.38
+          },
+          "sourceContacts": [
+            "pattern:woven-shirt:mark:buttonPlacket:closureLine"
+          ],
+          "textContacts": []
+        },
+        {
+          "id": "w",
+          "offset": {
+            "id": "w",
+            "x": -0.38,
+            "y": 0
+          },
+          "sourceContacts": [],
+          "textContacts": []
+        }
+      ],
+      "selectedGlyph": {
+        "id": "se",
+        "offset": {
+          "id": "se",
+          "x": 0.2121,
+          "y": 0.2121
+        },
+        "sourceContacts": [],
+        "textContacts": []
+      }
+    }
+  ]
+}

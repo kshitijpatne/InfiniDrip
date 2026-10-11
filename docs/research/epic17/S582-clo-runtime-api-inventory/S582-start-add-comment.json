@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3442,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S582 performs one exact-build, read-only inventory of names actually exposed by pattern_api after S581 found the documented GetInternalShapeInformation absent in CLO 2026.1.310. No candidate method is called in this slice; any future query must be supported by both the inventory and first-party documentation. All V02/V03 gates and claims remain unchanged. See E-G04-S582-START."
+}

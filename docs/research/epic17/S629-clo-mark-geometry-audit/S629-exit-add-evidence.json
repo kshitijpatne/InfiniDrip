@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3658,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S629-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S629-clo-mark-geometry-audit/S629-exit-packet.md",
+    "verified": true,
+    "note": "Hash-pinned audit of 29 source MARK_* entities in the existing S628 Woven size-M CLO export: 13/13 lines match separate open two-vertex output polylines geometrically; 8 circles are approximated with 0/8 within the unchanged 0.001 cm whole-curve gate; 8 buttonhole points have no distinct point representation. This is one fixture and clears no profile, apparel semantics, or full V03 gate. All acceptance and holds remain unchanged."
+  }
+}

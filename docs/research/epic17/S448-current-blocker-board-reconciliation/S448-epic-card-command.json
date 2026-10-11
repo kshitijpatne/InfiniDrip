@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "expectedRevision": 2697,
+  "itemId": "EPIC-17",
+  "patch": {
+    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. Current S448 tally is 56 accepted / 90 held across 73 configurations / 146 faces; V01 Done, V02 In Progress, V03 Backlog. V02's remaining output blockers are 28 Woven fronts with collar/neckline contacts under the continuous body seam and 28 Woven backs with sleeve crossings under fixed S370 band positions. S443's exact-model research and S447's 13-value source-taper study found no verified fix under current decisions. Polo has no current local output blocker per S436, but stays held by all-seven V02. V03 remains gated by V02 plus rights-cleared receiver/profile and representative round-trip evidence. Preserve legacy DXF, protected export identities, every V02 criterion and all holds. Current evidence is in docs/research/epic17/S448-current-blocker-board-reconciliation/S448-current-blocker-board-reconciliation.md. Historical verified context: Latest verified tally remains 56 accepted / 90 held across 73 configurations / 146 faces. S426's corrected full-label replay reports zero source-label or marker-label overlaps across all 17 exact Polo options. Preserve all-seven V02, V02-before-V03."
+  }
+}

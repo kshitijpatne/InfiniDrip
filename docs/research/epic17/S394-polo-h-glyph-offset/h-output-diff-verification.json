@@ -1,0 +1,297 @@
+{
+  "baseline": "S390 actual current-production-renderer SVGs for the identical 17 Polo option rows",
+  "current": "S394 actual current-production-renderer SVGs",
+  "configurations": 17,
+  "result": "After restoring only the H glyph coordinates and normalizing the revision/title token, every current SVG is byte-identical to S390. H rings retain exact centers and radius; source POM identities/targets, both shoulder marks, all other SVG content, schedule, geometry, colorway and paired-back output are unchanged.",
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "ringCenterAndRadiusUnchanged": true,
+      "onlyHCoordinatesDifferFromS390": true,
+      "hPomSourceIds": [
+        "pom:polo:shoulder-seam",
+        "pom:polo:neck-width"
+      ],
+      "anchor": {
+        "x": 7,
+        "y": 0
+      },
+      "text": [
+        7.45,
+        0.52
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2503 @@
+{
+  "source": "S399 saved production SVGs; diagnostic ring-radius mutation only",
+  "configurations": 17,
+  "revisionIds": [
+    "live-draft:polo:S399:polo-default",
+    "live-draft:polo:S399:polo-placketLength-min",
+    "live-draft:polo:S399:polo-placketLength-max",
+    "live-draft:polo:S399:polo-placketWidth-min",
+    "live-draft:polo:S399:polo-placketWidth-max",
+    "live-draft:polo:S399:polo-standHeight-min",
+    "live-draft:polo:S399:polo-standHeight-max",
+    "live-draft:polo:S399:polo-collarLeafDepth-min",
+    "live-draft:polo:S399:polo-collarLeafDepth-max",
+    "live-draft:polo:S399:polo-standFrontRise-min",
+    "live-draft:polo:S399:polo-standFrontRise-max",
+    "live-draft:polo:S399:polo-collarPointExtension-min",
+    "live-draft:polo:S399:polo-collarPointExtension-max",
+    "live-draft:polo:S399:polo-sideVentDepth-min",
+    "live-draft:polo:S399:polo-sideVentDepth-max",
+    "live-draft:polo:S399:polo-backHemDrop-min",
+    "live-draft:polo:S399:polo-backHemDrop-max"
+  ],
+  "candidateRadiiCm": [
+    0.1,
+    0.12,
+    0.14,
+    0.16,
+    0.18
+  ],
+  "browserErrors": [],
+  "summary": [
+    {
+      "radiusCm": 0.1,
+      "options": 17,
+      "optionsWithClearMarks": 0,
+      "optionsWithClearPaths": 0,
+      "optionsWithSeparatedGlyph": 17,
+      "worstMarkClearanceCm": 0.0001,
+      "worstPathClearanceCm": -0.01739,
+      "worstGlyphClearanceCm": 0.865
+    },
+    {
+      "radiusCm": 0.12,
+      "options": 17,
+      "optionsWithClearMarks": 0,
+      "optionsWithClearPaths": 0,
+      "optionsWithSeparatedGlyph": 17,
+      "worstMarkClearanceCm": 0.00033,
+      "worstPathClearanceCm": -0.0175,
+      "worstGlyphClearanceCm": 0.845
+    },
+    {
+      "radiusCm": 0.14,
+      "options": 17,
+      "optionsWithClearMarks": 1,
+      "optionsWithClearPaths": 0,
+      "optionsWithSeparatedGlyph": 17,
+      "worstMarkClearanceCm": 0.00001,
+      "worstPathClearanceCm": -0.01735,
+      "worstGlyphClearanceCm": 0.825
+    },
+    {
+      "radiusCm": 0.16,
+      "options": 17,
+      "optionsWithClearMarks": 1,
+      "optionsWithClearPaths": 0,
+      "optionsWithSeparatedGlyph": 17,
+      "worstMarkClearanceCm": 0.00033,
+      "worstPathClearanceCm": -0.01731,
+      "worstGlyphClearanceCm": 0.805
+    },
+    {
+      "radiusCm": 0.18,
+      "options": 17,
+      "optionsWithClearMarks": 16,
+      "optionsWithClearPaths": 0,
+      "optionsWithSeparatedGlyph": 17,
+      "worstMarkClearanceCm": 0.00061,
+      "worstPathClearanceCm": -0.01716,
+      "worstGlyphClearanceCm": 0.785
+    }
+  ],
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-default",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketLength-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "options": {
+        "placketLength": 30,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketLength-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 2,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketWidth-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 4,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-placketWidth-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 1,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standHeight-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01733,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01733
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:underCollar:outline",
+              "sourceId": "pattern:polo:role:underCollar",
+              "gapCm": -0.01733
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+              "sourceId": "pattern:polo:role:upperCollar",
+              "gapCm": -0.01733
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01688,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01688
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:underCollar:outline",
+              "sourceId": "pattern:polo:role:underCollar",
+              "gapCm": -0.01688
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+              "sourceId": "pattern:polo:role:upperCollar",
+              "gapCm": -0.01688
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01599
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:underCollar:outline",
+              "sourceId": "pattern:polo:role:underCollar",
+              "gapCm": -0.01599
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+              "sourceId": "pattern:polo:role:upperCollar",
+              "gapCm": -0.01599
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01651,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01651
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:underCollar:outline",
+              "sourceId": "pattern:polo:role:underCollar",
+              "gapCm": -0.01651
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+              "sourceId": "pattern:polo:role:upperCollar",
+              "gapCm": -0.01651
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:underCollar:outline",
+              "sourceId": "pattern:polo:role:underCollar",
+              "gapCm": -0.01605
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+              "sourceId": "pattern:polo:role:upperCollar",
+              "gapCm": -0.01605
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 3,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standHeight-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 4,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarLeafDepth-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 7,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarLeafDepth-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standFrontRise-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01739,
+          "ringToMarkClearanceCm": 0.01,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01739
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.01
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.0175,
+          "ringToMarkClearanceCm": 0.01,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.0175
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.01
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01735,
+          "ringToMarkClearanceCm": 0.03,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01735
+            }
+          ],
+          "markContacts": []
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01715,
+          "ringToMarkClearanceCm": 0.05,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01715
+            }
+          ],
+          "markContacts": []
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01692,
+          "ringToMarkClearanceCm": 0.07,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01692
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:underCollar:outline",
+              "sourceId": "pattern:polo:role:underCollar",
+              "gapCm": 0.01775
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+              "sourceId": "pattern:polo:role:upperCollar",
+              "gapCm": 0.01775
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 2,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-standFrontRise-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.00056,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01407
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00056
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00053,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01656
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00053
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00016,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01571
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00016
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01731,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01731
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01716,
+          "ringToMarkClearanceCm": 0.00061,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01716
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00061
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 0.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarPointExtension-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 3,
+        "sideVentDepth": 6,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-collarPointExtension-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 0,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-sideVentDepth-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 15,
+        "backHemDrop": 1.5
+      },
+      "revisionId": "live-draft:polo:S399:polo-sideVentDepth-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 0
+      },
+      "revisionId": "live-draft:polo:S399:polo-backHemDrop-min",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "options": {
+        "placketLength": 14,
+        "placketWidth": 3,
+        "standHeight": 2,
+        "collarLeafDepth": 5,
+        "standFrontRise": 0.75,
+        "collarPointExtension": 1.5,
+        "sideVentDepth": 6,
+        "backHemDrop": 5
+      },
+      "revisionId": "live-draft:polo:S399:polo-backHemDrop-max",
+      "candidates": [
+        {
+          "radiusCm": 0.1,
+          "ringToPathClearanceCm": -0.01696,
+          "ringToMarkClearanceCm": 0.0001,
+          "glyphToRingClearanceCm": 0.865,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01696
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01646
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.0001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.12,
+          "ringToPathClearanceCm": -0.01672,
+          "ringToMarkClearanceCm": 0.00033,
+          "glyphToRingClearanceCm": 0.845,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01672
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01593
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:front:shoulder",
+              "gapCm": 0.01
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00033
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.14,
+          "ringToPathClearanceCm": -0.01644,
+          "ringToMarkClearanceCm": 0.00001,
+          "glyphToRingClearanceCm": 0.825,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01644
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01551
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00001
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.16,
+          "ringToPathClearanceCm": -0.01619,
+          "ringToMarkClearanceCm": 0.00245,
+          "glyphToRingClearanceCm": 0.805,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01619
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01502
+            }
+          ],
+          "markContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:mark:outerStand:shoulder",
+              "gapCm": 0.00245
+            }
+          ]
+        },
+        {
+          "radiusCm": 0.18,
+          "ringToPathClearanceCm": -0.01674,
+          "ringToMarkClearanceCm": 0.02245,
+          "glyphToRingClearanceCm": 0.785,
+          "pathContacts": [
+            {
+              "id": "flat:polo:FRONT_FLAT:component:front:outline",
+              "sourceId": "pattern:polo:role:front",
+              "gapCm": -0.01602
+            },
+            {
+              "id": "flat:polo:FRONT_FLAT:component:outerStand:outline",
+              "sourceId": "pattern:polo:role:outerStand",
+              "gapCm": -0.01674
+            }
+          ],
+          "markContacts": []
+        }
+      ]
+    }
+  ]
+}

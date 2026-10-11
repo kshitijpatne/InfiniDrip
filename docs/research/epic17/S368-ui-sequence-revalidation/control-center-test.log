@@ -1,0 +1,54 @@
+
+> InfiniDrip@0.0.1 control-center:test
+> node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs
+
+✔ canonical board validates and summarizes its tracked work (35.926ms)
+✔ approved UI packages remain planning backlog without adding G04 closure dependencies (1.8217ms)
+✔ S354 reconciliation evidence is linked without changing G04 acceptance status (0.9728ms)
+✔ S355 Woven diagnosis is linked while every G04 acceptance hold remains (0.9822ms)
+✔ S356 rejects the Woven chord-reflection candidate and retains every hold (0.9782ms)
+✔ S357 Polo residual study retains the source ease, threshold, and all holds (0.9261ms)
+✔ S358 retains the Woven collar hold and records the maintainer's Polo residual decision (1.6588ms)
+✔ S359 records the Woven rigid-fit decision boundary without releasing holds (1.6872ms)
+✔ S360 binds the landed S359 commit without changing Polo or Woven holds (1.3403ms)
+✔ S361 records the Woven sleeve/band diagnostic failure and retains all holds (1.6445ms)
+✔ malformed board data is rejected instead of repaired (23.1958ms)
+✔ invalid top-level and duplicate records are reported (20.6833ms)
+✔ invalid calendar dates are rejected instead of normalized (19.9315ms)
+✔ contributors can submit review but cannot complete work (0.5208ms)
+✔ closed Epics 14–16 and admitted G04 status match their evidence (59.2727ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (50.91ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (28.8191ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (1.1021ms)
+✔ executeBoardCommand validates, persists atomically, and rejects stale revisions (239.991ms)
+✔ writeBoardAtomic validates before opening a temporary file (50.4797ms)
+✔ writeBoardAtomic preserves the original when rename fails and removes its temporary file (80.7211ms)
+✔ a pre-existing lock fails visibly without changing the board (48.6529ms)
+✔ approved role guidance exposes the basic workflow and maintainer override (5.804ms)
+✔ editItem changes only editable details and increments the revision (96.9856ms)
+✔ maintainer editEpic updates metadata and records the reason on its summary card (124.4061ms)
+✔ maintainer rename keeps dependent work linked and records the old identifier (82.174ms)
+✔ future epic can be registered in Backlog without implying work has started (25.1435ms)
+✔ createItem validates a new backlog record and records its creation in transition history (19.5706ms)
+✔ createItem rejects missing rationale, invalid fields, and duplicate identifiers (59.8838ms)
+✔ status transitions persist actor guidance, reason, evidence, and delivery date (71.252ms)
+✔ status commands reject missing reasons, role violations, and evidence-free completion (36.7074ms)
+✔ addEvidence can create or link evidence and addComment records notes (76.4164ms)
+✔ Epic 13 links and closes only the nine evidence-backed phases without rewriting their history (86.1729ms)
+✔ ordinary item edits cannot bypass Epic 13's exact membership boundary (58.2441ms)
+✔ Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure (294.3901ms)
+✔ epic creation, evidence, and closure commands require maintainer authority (141.5984ms)
+✔ imports only explicit verified facts into known evidence (4.8717ms)
+✔ rejects unknown, mismatched, duplicate and unproven facts (3.2938ms)
+✔ localhost API persists commands and rejects stale writers (421.6315ms)
+✔ localhost API creates a schema-valid work item through the shared command layer (178.9783ms)
+✔ service exposes only intended static and referenced evidence routes (129.4157ms)
+✔ malformed commands fail without mutating the board (117.5335ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 42
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1570.1554

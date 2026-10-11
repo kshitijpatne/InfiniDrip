@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 3449,
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S584-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S584-preexport-clo-input-isolation/S584-start-packet.md",
+    "verified": true,
+    "note": "One pre-export stage-isolation check from the hash-pinned saved S574 input-import project using a single documented read-only getter across nine patterns; no export, changes, stage attribution, or gate relaxation."
+  }
+}

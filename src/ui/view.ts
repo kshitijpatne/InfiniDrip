@@ -843,7 +843,18 @@ export function viewToggleMarkup(active: string): string {
     `${btn("view-spec", "Spec", active === "spec")}` +
     `${btn("view-fabric", "Nesting", active === "fabric")}` +
     `${btn("view-check", "Check", active === "check")}` +
-    `${btn("view-edit", "Edit", active === "edit")}</div></details></div>`;
+    `${btn("view-edit", "Edit", active === "edit")}` +
+    `${btn("view-flat", "Technical flat", active === "flat")}</div></details></div>`;
+}
+
+export function technicalFlatFaceToggleMarkup(active: "FRONT_FLAT" | "BACK_FLAT"): string {
+  const button = (id: string, label: string, kind: "FRONT_FLAT" | "BACK_FLAT"): string =>
+    `<button id="${id}" type="button" data-technical-flat-face="${kind}" aria-pressed="${active === kind}" ` +
+    `style="padding:5px 10px;font-size:12px;cursor:pointer;border:1px solid ${BORDER};border-radius:5px;` +
+    `background:${active === kind ? T.lineActive : T.background};color:${active === kind ? T.background : T.line}">${label}</button>`;
+  return `<div role="group" aria-label="Technical flat face" data-technical-flat-face-group ` +
+    `style="display:flex;gap:6px;align-items:center;margin:0 0 8px">` +
+    `${button("technical-flat-front", "Front", "FRONT_FLAT")}${button("technical-flat-back", "Back", "BACK_FLAT")}</div>`;
 }
 
 export type BodyCroquisView = "front-back" | "front" | "back" | "side";

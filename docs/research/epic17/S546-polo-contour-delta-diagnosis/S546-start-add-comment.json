@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3296,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S546 will localize the five Polo CUT contour deltas found in S545 using the same pinned source, CLO profile and gen1/gen2 outputs. No setting or tolerance changes; preserve all V03 holds. See E-G04-S546-START."
+}

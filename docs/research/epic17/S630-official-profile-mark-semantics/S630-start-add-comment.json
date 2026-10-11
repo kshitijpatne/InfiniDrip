@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3661,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S630 checks the official public CLO DXF import/export documentation, ASTM D6673 catalog/product record and NISTIR 5969 apparel information model to determine whether a sourced, rights-accessible DXF-AAMA mark encoding justifies another concrete receiver test. It will distinguish normative profile claims from UI labels, historical catalog entries, research models, and the measured S628/S629 CLO output. No new CLO run, standard purchase, source/geometry edit, or gate/status change is in scope. Keep all existing V03 holds. See E-G04-S630-START."
+}

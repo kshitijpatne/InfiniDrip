@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 3468,
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S588's single local CLO 2026.1.310 DXF-AAMA XDATA trial retained 0/56 InfiniDrip source IDs and no registered app record. The tested route cannot provide stable entity identity. Its geometry result is not attributable because Draw Curve Points differed from the pinned setup and two prior scene inserts were present; the snapshot verifies only that nine expected pieces appeared. No V03 gate clears or changes. S589 reconciles existing seven-recipe/two-generation evidence without repeating this test. See E-G04-S588-EXIT."
+}

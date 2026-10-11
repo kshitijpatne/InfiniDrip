@@ -1,0 +1,555 @@
+{
+  "configurations": 17,
+  "optionValuesIdenticalToS379": true,
+  "nonCLeaderGeometryIdenticalToS379": true,
+  "s380RevisionBoundPaths": true,
+  "rows": [
+    {
+      "caseId": "polo-default",
+      "currentRevision": "live-draft:polo:S380:polo-default",
+      "priorRevision": "live-draft:polo:S378:polo-default",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-placketLength-min",
+      "currentRevision": "live-draft:polo:S380:polo-placketLength-min",
+      "priorRevision": "live-draft:polo:S378:polo-placketLength-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-placketLength-max",
+      "currentRevision": "live-draft:polo:S380:polo-placketLength-max",
+      "priorRevision": "live-draft:polo:S378:polo-placketLength-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-placketWidth-min",
+      "currentRevision": "live-draft:polo:S380:polo-placketWidth-min",
+      "priorRevision": "live-draft:polo:S378:polo-placketWidth-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-placketWidth-max",
+      "currentRevision": "live-draft:polo:S380:polo-placketWidth-max",
+      "priorRevision": "live-draft:polo:S378:polo-placketWidth-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-standHeight-min",
+      "currentRevision": "live-draft:polo:S380:polo-standHeight-min",
+      "priorRevision": "live-draft:polo:S378:polo-standHeight-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-standHeight-max",
+      "currentRevision": "live-draft:polo:S380:polo-standHeight-max",
+      "priorRevision": "live-draft:polo:S378:polo-standHeight-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-collarLeafDepth-min",
+      "currentRevision": "live-draft:polo:S380:polo-collarLeafDepth-min",
+      "priorRevision": "live-draft:polo:S378:polo-collarLeafDepth-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-collarLeafDepth-max",
+      "currentRevision": "live-draft:polo:S380:polo-collarLeafDepth-max",
+      "priorRevision": "live-draft:polo:S378:polo-collarLeafDepth-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-standFrontRise-min",
+      "currentRevision": "live-draft:polo:S380:polo-standFrontRise-min",
+      "priorRevision": "live-draft:polo:S378:polo-standFrontRise-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-standFrontRise-max",
+      "currentRevision": "live-draft:polo:S380:polo-standFrontRise-max",
+      "priorRevision": "live-draft:polo:S378:polo-standFrontRise-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [
+          "TEXT_COLLISION"
+        ],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-collarPointExtension-min",
+      "currentRevision": "live-draft:polo:S380:polo-collarPointExtension-min",
+      "priorRevision": "live-draft:polo:S378:polo-collarPointExtension-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 0.5 cm (±0.2 cm)",
+        "baseIssues": [
+          "TEXT_COLLISION"
+        ],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-collarPointExtension-max",
+      "currentRevision": "live-draft:polo:S380:polo-collarPointExtension-max",
+      "priorRevision": "live-draft:polo:S378:polo-collarPointExtension-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 3.0 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-sideVentDepth-min",
+      "currentRevision": "live-draft:polo:S380:polo-sideVentDepth-min",
+      "priorRevision": "live-draft:polo:S378:polo-sideVentDepth-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 12,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-sideVentDepth-max",
+      "currentRevision": "live-draft:polo:S380:polo-sideVentDepth-max",
+      "priorRevision": "live-draft:polo:S378:polo-sideVentDepth-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-backHemDrop-min",
+      "currentRevision": "live-draft:polo:S380:polo-backHemDrop-min",
+      "priorRevision": "live-draft:polo:S378:polo-backHemDrop-min",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    },
+    {
+      "caseId": "polo-backHemDrop-max",
+      "currentRevision": "live-draft:polo:S380:polo-backHemDrop-max",
+      "priorRevision": "live-draft:polo:S378:polo-backHemDrop-max",
+      "optionValuesIdentical": true,
+      "currentNonCLeaders": 13,
+      "pathIdentitiesAndGeometryEqual": true,
+      "comparedSourceIds": [
+        "pom:polo:across-shoulder",
+        "pom:polo:body-chest-finished",
+        "pom:polo:button-spacing",
+        "pom:polo:finished-placket-length",
+        "pom:polo:finished-placket-width",
+        "pom:polo:finished-pointed-collar-leaf",
+        "pom:polo:front-body-length-hps-hem",
+        "pom:polo:front-neck-drop",
+        "pom:polo:front-side-vent-depth",
+        "pom:polo:neck-width",
+        "pom:polo:shoulder-seam",
+        "pom:polo:sleeve-bicep-width",
+        "pom:polo:sleeve-hem"
+      ],
+      "keyedC": {
+        "sourceId": "pom:polo:collar-point-extension",
+        "sourceEntityId": "pattern:polo:role:upperCollar:edge:frontTip",
+        "targetId": "flat:polo:FRONT_FLAT:component:upperCollar:outline",
+        "targetEdge": "upperCollar.frontTip:end",
+        "unchangedFullText": "C  Collar point extension: 1.5 cm (±0.2 cm)",
+        "baseIssues": [],
+        "keyedIssues": []
+      }
+    }
+  ]
+}

@@ -45,12 +45,34 @@ export function spanY(piece: Piece, a: PointRef, b: PointRef): number {
 export interface Pom {
   readonly label: string;
   readonly measure: (block: Block) => number;
-  /**
-   * Optional: the point on the FRONT piece this measure reads from, in the front
-   * piece's own coordinates. The tech-pack sketch draws a callout leader to it.
-   * POMs without an anchor are table-only (no leader). Front-only in this pass.
-   */
+  /** Optional source point on the mapped front role for FRONT_FLAT callouts. */
   readonly anchor?: (block: Block) => Point;
+  /** Optional source point on the mapped back role for BACK_FLAT callouts. */
+  readonly backAnchor?: (block: Block) => Point;
+  /** Optional option/topology guard for when a face source anchor exists. */
+  readonly anchorAvailable?: (block: Block) => boolean;
+  readonly backAnchorAvailable?: (block: Block) => boolean;
+  /** Exact source role/edge for a front outline anchor when it differs from the recipe fallback. */
+  readonly anchorRoleId?: string;
+  readonly anchorEdgeId?: string;
+  /** Exact source role/edge for a back outline anchor when it differs from the recipe fallback. */
+  readonly backAnchorRoleId?: string;
+  readonly backAnchorEdgeId?: string;
+  /** Exact authored front-face mark reference; line marks identify one authored endpoint. */
+  readonly frontMarkAnchor?: {
+    readonly roleId: string;
+    readonly markName: string;
+    readonly point: "at" | "start" | "end";
+  };
+  /** Optional authored mark entity on the back face for construction-specific callouts. */
+  readonly backMarkAnchor?: { readonly roleId: string; readonly markName: string };
+  /** Optional view-only measurement references. These never become garment edges. */
+  readonly viewDimension?:
+    | { readonly kind: "edge-length"; readonly view: "FRONT_FLAT" | "BACK_FLAT";
+      readonly roleId: string; readonly edgeId: string }
+    | { readonly kind: "vertical-levels"; readonly view: "BACK_FLAT";
+      readonly upperRoleId: string; readonly upperEdgeId: string;
+      readonly lowerRoleId: string; readonly lowerEdgeId: string };
   /**
    * Optional production tolerance in cm — how far a finished garment may drift
    * from the spec on this measure before it's a reject. A property of the POINT

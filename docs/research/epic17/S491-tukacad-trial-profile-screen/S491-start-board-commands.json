@@ -1,0 +1,21 @@
+[
+  {
+    "type": "addEvidence",
+    "expectedRevision": 3052,
+    "itemId": "G04-V03",
+    "evidence": {
+      "id": "E-G04-S491-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S491-tukacad-trial-profile-screen/S491-start-packet.md",
+      "verified": true,
+      "note": "S491 checks only official TUKAcad Learning Edition trial/package and apparel-DXF access evidence; no account, checkout, contact, install, or fixture use."
+    }
+  },
+  {
+    "type": "addComment",
+    "expectedRevision": 3053,
+    "itemId": "G04-V03",
+    "actor": "Codex",
+    "text": "S491 is a bounded official-source check of whether TUKAcad's advertised no-cost Learning Edition trial includes local apparel-DXF import/export and clears V03 rights/local-handling gates. No account, checkout, payment, vendor contact, download, installation, or fixture use."
+  }
+]
