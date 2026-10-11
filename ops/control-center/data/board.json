@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4383,
-  "updatedAt": "2026-10-11T21:40:40.011Z",
+  "revision": 4390,
+  "updatedAt": "2026-10-11T23:49:36.753Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14558,20 +14558,23 @@
     {
       "id": "UIQ-04",
       "type": "task",
-      "title": "Material versus appearance candidate",
+      "title": "Material clarity integration",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "Review",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
       "priority": "P1",
-      "risk": "low",
+      "risk": "medium",
       "owner": "Codex",
-      "contributor": "Claude Code",
+      "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "UIQ-02"
+        "UIQ-02",
+        "UIQ-03",
+        "UIQ-GATE",
+        "UIQ04-CANDIDATE"
       ],
       "protectedSurfaces": [
         "active Epic17 file ownership",
@@ -14580,13 +14583,16 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Separate native material presets/limits from illustrative swatches and shine.",
-      "expectation": "No pattern, saved color, stretch or physical-response change.",
+      "description": "Admitted current-main integration packet: docs/planning/UIQ-04-INTEGRATION-ADMISSION.md; goal: docs/planning/UIQ-04-GOAL.md. Mount the immutable native material clarity panel in a collapsed inspector disclosure behind embedded uiq_material.",
+      "expectation": "Clearly distinguish existing material/ease guidance from screen-only color, texture and shine without changing behavior, saved state, validation, pattern, exports or physical claims.",
       "acceptanceCriteria": [
-        "Clearly label illustrative cues; existing material numeric behavior unchanged; integration through UIQ-GATE.",
-        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
-        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
-        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+        "Accepted UIQ-04 component source, CSS and tests match docs/research/uiq-clarity/CANDIDATE-EXIT.json exactly.",
+        "Embedded uiq_material is default-on with local test override; off, unknown, and stale preserve the exact pre-integration app shell and existing controls.",
+        "Snapshot uses only existing selected fabric, already-rendered ease note, color and appearance. Compatibility remains explicitly unknown; no drafting or renderer logic is added.",
+        "Review fabric and Review appearance focus existing controls without changing selection, appearance, persistence, revision, journey or output.",
+        "Changed production code and the settled repository pass 100% statement, branch, function and line coverage; build/typecheck, operational, export-byte-identity and protected-output gates pass.",
+        "Actual mounted browser, accessibility/media, narrow/zoom, no-egress, flag-off fallback and supported packaged verification evidence are attached.",
+        "Codex independently reviews and merges only after every gate passes; Slice 740 verifies main deployment and closes UIQ-04. UIQ-05/07 remain Backlog."
       ],
       "statusHistory": [
         {
@@ -14596,6 +14602,24 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-11T22:19:58.446Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer authorized the next ordered UIQ package after UIQ-03 merged and deployed. Current-main UIQ-04 integration admission, unique S739/S740 boundaries, exact scope, flag/fallback, risks, and gates are recorded in docs/planning/UIQ-04-INTEGRATION-ADMISSION.md and UIQ-04-GOAL.md.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-11T23:31:52.608Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 739 implementation and pre-merge gates passed; final Codex diff review, PR review and merge remain pending.",
+          "evidenceRefs": [
+            "E-UIQ04-S739"
+          ]
         }
       ],
       "comments": [
@@ -14603,12 +14627,28 @@
           "at": "2026-10-11T14:22:54.000Z",
           "actor": "Codex",
           "text": "S733 reconciled the accepted isolated candidate child and its immutable exit proof on current main. This parent remains Backlog/unshipped; production integration requires its own package admission and verification."
+        },
+        {
+          "at": "2026-10-11T22:21:24.242Z",
+          "actor": "Codex",
+          "text": "Slice 739 work started from origin/main 9bdea4bc. Admission/goal are linked at the verified current-main board boundary (revision 4385). Accepted UIQ-04 material source/CSS/tests match the immutable candidate manifest; their app-shell placement, mapping, flag, exact fallback, ownership and exit gates are frozen in docs/planning/UIQ-04-INTEGRATION-ADMISSION.md. UIQ-05/07 remain Backlog and unadmitted."
+        },
+        {
+          "at": "2026-10-11T23:31:53.606Z",
+          "actor": "Codex",
+          "text": "Slice 739 is ready for review. Settled global gate: 164/164 files, 2,653/2,653 tests, 100% statements/branches/functions/lines; production build, Control Center 42/42, web release 10/10, readiness 5/5, production-preview responsive/no-egress browser checks and packaged Electron release verification passed. The accepted candidate bytes remain unchanged. Evidence: docs/release/UIQ-04-INTEGRATION-S739-EXIT.md and docs/research/uiq04-integration/evidence/S739-verification.json. No merge or deployment yet; Slice 740 is reserved for post-merge closeout."
+        },
+        {
+          "at": "2026-10-11T23:49:36.753Z",
+          "actor": "Codex",
+          "text": "Final settled full gate after the board-test update passed: 164/164 test files, 2,653/2,653 tests, and 100% statements/branches/functions/lines (946.08s, one worker). S425's all-option replay passed in 4.85s. Slice 739 remains Review pending final diff review, commit/PR and required CI; no merge/deployment yet."
         }
       ],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ04-S739"
       ],
-      "flagKey": null
+      "flagKey": "uiq_material"
     },
     {
       "id": "UIQ-05",
@@ -28968,6 +29008,15 @@
       "sha256": "a2b777233277d125e9b1a22ca6d5db407f7d2c95c39e20b860e321acaec0aa7d",
       "verified": true,
       "note": "Slice 738 confirms closeout PR #24, successful main workflow 38176394059, post-deployment public browser check, final coverage evidence, and the unchanged local-first boundary."
+    },
+    {
+      "id": "E-UIQ04-S739",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-04-INTEGRATION-S739-EXIT.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 739 pre-merge implementation, 2,653 passing tests with 100% global coverage, production build, operational checks, rendered browser/no-egress checks, and packaged Electron release verification. Merge/deployment remain pending Slice 740."
     }
   ]
 }

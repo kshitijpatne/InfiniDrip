@@ -81,6 +81,7 @@ import {
   type GuidancePanelControls,
   type GuidanceSnapshot,
 } from "./enhancements/guidance/guidance-panel";
+import { mountMaterialPanel, type MaterialSnapshot } from "./enhancements/material/material-panel";
 import {
   customStyleCreationErrorMessage,
   gradedMarkerAvailabilityTitle,
@@ -201,9 +202,36 @@ const emptyCaptureDraft = (unit = "cm"): CaptureDraft => ({
 });
 
 const HISTORY_LIMIT = 30;
+
+/** Map only existing caller-owned design state; never infer material compatibility. */
+export function materialSnapshotFromExistingState(input: {
+  readonly revisionLabel: string;
+  readonly stretchFabric: (typeof STRETCH_FABRICS)[number];
+  readonly notes: readonly Note[];
+  readonly color: string;
+  readonly appearance: Appearance;
+}): MaterialSnapshot {
+  const selectedFabric = STRETCH_FABRICS.find((candidate) =>
+    candidate.name === input.stretchFabric.name &&
+    candidate.family === input.stretchFabric.family &&
+    candidate.stretchPercent === input.stretchFabric.stretchPercent);
+  return {
+    revisionLabel: input.revisionLabel,
+    fabric: selectedFabric ?? null,
+    easeGuidance: input.notes.find((note) => note.field === "ease")?.text ?? null,
+    compatibility: {
+      state: "unknown",
+      detail: "The app has no separate fabric/material compatibility assessment.",
+    },
+    color: input.color,
+    appearance: input.appearance,
+  };
+}
+
 let activeMountRoot: HTMLElement | null = null;
 let activeMountGeneration = 0;
 let activeGuidancePanelControls: GuidancePanelControls | null = null;
+let activeMaterialPanelControls: ReturnType<typeof mountMaterialPanel> | null = null;
 let semanticOperationSequence = 0;
 
 function nextSemanticOperationId(): string {
@@ -234,6 +262,8 @@ export interface MountAppOptions {
   readonly uiqFoundationEnabled?: boolean;
   /** Local-only override for deterministic UIQ-03 fallback verification. */
   readonly uiqGuidanceEnabled?: boolean;
+  /** Local-only override for deterministic UIQ-04 fallback verification. */
+  readonly uiqMaterialEnabled?: boolean;
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
@@ -448,10 +478,15 @@ export function defaultArtworkAssetStore(): ArtworkAssetStore {
 export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
   activeGuidancePanelControls?.dispose();
   activeGuidancePanelControls = null;
+  activeMaterialPanelControls?.dispose();
+  activeMaterialPanelControls = null;
   activeMountRoot = root;
   const mountGeneration = ++activeMountGeneration;
   const uiqGuidanceEnabled = evaluateFeatureFlag(
     "uiq_guidance", new Date(), options.uiqGuidanceEnabled,
+  ).enabled;
+  const uiqMaterialEnabled = evaluateFeatureFlag(
+    "uiq_material", new Date(), options.uiqMaterialEnabled,
   ).enabled;
   const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
@@ -480,7 +515,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const artworkInspector = options.inspectArtworkFile ?? inspectArtworkFile;
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
-    initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations());
+    initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled);
   root.querySelector<HTMLElement>("#export-host")!.append(createDxfInterchangePanel({
     audit: (sourcePackage, returnedDxf) => auditDxfInterchangeRoundTrip(sourcePackage as never, returnedDxf),
     readFile: (file) => file.text(),
@@ -490,6 +525,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
   const guidanceHost = root.querySelector<HTMLDivElement>("#guidance-host")!;
   const styleHost = root.querySelector<HTMLDivElement>("#style-host")!;
+  const materialClarityHost = uiqMaterialEnabled
+    ? root.querySelector<HTMLDivElement>("#material-clarity-host")
+    : null;
   const fabricWidthHost = root.querySelector<HTMLDivElement>("#fabric-width-host")!;
   const journeyHost = root.querySelector<HTMLDivElement>("#journey-host")!;
   const tutorialHost = root.querySelector<HTMLDivElement>("#tutorial-host")!;
@@ -1676,6 +1714,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   };
 
   let guidancePanelControls: GuidancePanelControls | null = null;
+  let materialPanelControls: ReturnType<typeof mountMaterialPanel> | null = null;
   let guidanceSummary: HTMLParagraphElement | null = null;
   const guidanceSnapshot = (status: StageReadiness, blocker?: StageBlocker): GuidanceSnapshot => {
     const semanticState = semanticEdits ? currentSemanticState() : null;
@@ -1904,6 +1943,35 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const warnings = notes.filter((note) => note.level === "warn").length;
     root.querySelector<HTMLElement>("#guidance-details summary")!.textContent = warnings
       ? `⚠ ${warnings} to review · Guidance` : "Guidance & material advice";
+  };
+
+  const updateMaterialClarity = (notes: readonly Note[]): void => {
+    if (!uiqMaterialEnabled || !materialClarityHost) return;
+    const snapshot = materialSnapshotFromExistingState({
+      revisionLabel: `Design revision ${designRevision}`,
+      stretchFabric,
+      notes,
+      color: fabric,
+      appearance,
+    });
+    const reviewExistingControl = (target: "fabric" | "appearance"): void => {
+      if (target === "fabric") {
+        root.querySelector<HTMLButtonElement>("#stretch-host [data-material-option]")?.focus();
+        return;
+      }
+      const appearanceToggle = root.querySelector<HTMLButtonElement>("#appearance-toggle");
+      if (!appearanceOpen) appearanceToggle?.click();
+      root.querySelector<HTMLInputElement>("#appearance-hex")?.focus();
+    };
+    if (materialPanelControls) {
+      materialPanelControls.update(snapshot);
+    } else {
+      materialPanelControls = mountMaterialPanel(materialClarityHost, {
+        snapshot,
+        onReview: reviewExistingControl,
+      });
+      activeMaterialPanelControls = materialPanelControls;
+    }
   };
 
   /** Keep every SVG inside a bounded, keyboard-reachable inspection viewport.
@@ -2499,6 +2567,7 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     // the offending fields, so geometry passing can never masquerade as "ready".
     const plausible = valid;
     renderGuidance(guidanceNotes);
+    updateMaterialClarity(guidanceNotes);
     // Style = prescriptive: the gap from current measurements to the chosen target.
     styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), plausible) + gradePlanPanel() + renderSurface();
     syncSurfaceValidity();
@@ -2593,6 +2662,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       d.controls && !(journey.step === "measure" && measurementRoute === "guided") ? "" : "none";
     root.querySelector<HTMLElement>("#stretch-host")!.style.display = d.stretch ? "flex" : "none";
     root.querySelector<HTMLElement>("#swatch-host")!.style.display = d.swatches ? "flex" : "none";
+    const materialClarityDetails = root.querySelector<HTMLDetailsElement>("#material-clarity-details");
+    if (materialClarityDetails) materialClarityDetails.hidden = !d.stretch;
     root.querySelector<HTMLElement>("#export-host")!.style.display = d.exports ? "flex" : "none";
     styleHost.style.display = d.style ? "" : "none";
     guidanceHost.style.display = d.guidance ? "" : "none";

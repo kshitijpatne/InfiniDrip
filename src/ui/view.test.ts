@@ -228,6 +228,21 @@ describe("appShellMarkup", () => {
     expect(html).toContain('data-step-direction="-1"');
     expect(html).toContain('data-step-direction="1"');
   });
+
+  it("adds only the admitted material disclosure when its local flag is enabled", () => {
+    const legacy = appShellMarkup(STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES, TEE.fields);
+    const enabled = appShellMarkup(
+      STANDARD_M, DEFAULT_FABRIC, TSHIRT_SIZES, TEE.fields,
+      undefined, undefined, undefined, undefined, true,
+    );
+
+    expect(legacy).not.toContain("material-clarity-details");
+    expect(enabled).toContain('<details id="material-clarity-details"><summary>Material and screen appearance guidance</summary><div id="material-clarity-host"></div></details>');
+    expect(enabled.indexOf('id="swatch-host"')).toBeLessThan(enabled.indexOf('id="material-clarity-details"'));
+    expect(enabled.indexOf('id="material-clarity-details"')).toBeLessThan(enabled.indexOf('id="controls-panel"'));
+    expect(enabled).toContain('id="stretch-host"');
+    expect(enabled).toContain('id="appearance-toggle"');
+  });
 });
 
 describe("exportButtonsMarkup", () => {

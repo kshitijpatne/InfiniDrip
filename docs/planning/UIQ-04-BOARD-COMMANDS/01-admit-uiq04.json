@@ -1,0 +1,29 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-04",
+  "expectedRevision": 4383,
+  "patch": {
+    "title": "Material clarity integration",
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "risk": "medium",
+    "dependencies": [
+      "UIQ-02",
+      "UIQ-03",
+      "UIQ-GATE",
+      "UIQ04-CANDIDATE"
+    ],
+    "description": "Admitted current-main integration packet: docs/planning/UIQ-04-INTEGRATION-ADMISSION.md; goal: docs/planning/UIQ-04-GOAL.md. Mount the immutable native material clarity panel in a collapsed inspector disclosure behind embedded uiq_material.",
+    "expectation": "Clearly distinguish existing material/ease guidance from screen-only color, texture and shine without changing behavior, saved state, validation, pattern, exports or physical claims.",
+    "acceptanceCriteria": [
+      "Accepted UIQ-04 component source, CSS and tests match docs/research/uiq-clarity/CANDIDATE-EXIT.json exactly.",
+      "Embedded uiq_material is default-on with local test override; off, unknown, and stale preserve the exact pre-integration app shell and existing controls.",
+      "Snapshot uses only existing selected fabric, already-rendered ease note, color and appearance. Compatibility remains explicitly unknown; no drafting or renderer logic is added.",
+      "Review fabric and Review appearance focus existing controls without changing selection, appearance, persistence, revision, journey or output.",
+      "Changed production code and the settled repository pass 100% statement, branch, function and line coverage; build/typecheck, operational, export-byte-identity and protected-output gates pass.",
+      "Actual mounted browser, accessibility/media, narrow/zoom, no-egress, flag-off fallback and supported packaged verification evidence are attached.",
+      "Codex independently reviews and merges only after every gate passes; Slice 740 verifies main deployment and closes UIQ-04. UIQ-05/07 remain Backlog."
+    ],
+    "flagKey": "uiq_material"
+  }
+}

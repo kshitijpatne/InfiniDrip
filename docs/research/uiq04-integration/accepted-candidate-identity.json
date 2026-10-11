@@ -1,0 +1,25 @@
+{
+  "verifiedAt": "2026-10-11T22:24:00.000Z",
+  "base": "9bdea4bc46d6a8fa282a4679dbb87ab544998ede",
+  "manifest": "docs/research/uiq-clarity/CANDIDATE-EXIT.json",
+  "verificationMethod": "SHA-256 of git show HEAD:<path> bytes compared to the immutable manifest. The Windows working-tree representation uses CRLF; LF-normalized working-tree bytes were also compared and match.",
+  "files": [
+    {
+      "path": "src/ui/enhancements/material/material-panel.ts",
+      "sha256": "3d2392a317f3b919d7411f96b94a9766f81ffea60ab5752df48689ab6d72bc3f",
+      "match": true
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.css",
+      "sha256": "8fe36ab43677ee5a54bd19479d8985687ba3747255ccf6a313b373494719f8a5",
+      "match": true
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.test.ts",
+      "sha256": "5c9843a88813a522c7a7fe309df6e20dfb00d75a6ece5b186d25a9dd32a50c68",
+      "match": true
+    }
+  ],
+  "allMatch": true,
+  "candidateFilesChanged": false
+}
