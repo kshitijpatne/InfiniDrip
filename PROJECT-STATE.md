@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 V03 boundary — S726 technical acceptance complete
+## Current EPIC-17 / G04 V03 boundary — S727 active; S726 technical acceptance complete
 
 S726 records the maintainer-directed V03 acceptance correction and closes its
 technical evidence gates. The 365 supported option × grade source packages
@@ -15,11 +15,13 @@ ANSI/AAMA/ASTM, universal DXF, physical-fit, factory-acceptance, or
 production-readiness claim is made. S726 packet:
 `docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`.
 
-EPIC-17 remains In Progress. S727 is the integrated candidate boundary for
+EPIC-17 remains In Progress. S727 is the active integrated candidate
+boundary for
 the full repository 100% coverage gate, build/browser/Electron checks, final
 output review, necessary-file cleanup, PR, safe merge, refreshed origin
 ancestry, required automatic deployment, and production end-to-end check.
-Keep the goal active through that verified completion. Read the S726 packet,
+Keep the goal active through that verified completion. Read the S727 start
+packet and S726 packet,
 this state, `docs/PROJECT-DECISIONS.md`, `docs/planning/EPIC-17-ADMISSION.md`,
 and the validated Control Center board before continuing.
 

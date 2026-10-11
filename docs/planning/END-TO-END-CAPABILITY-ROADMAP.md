@@ -23,10 +23,10 @@ The maintainer directed V03 acceptance to measure the product's supported
 output plus an exact empirical receiver profile, rather than require a CAD UI
 save for every matrix row. S724 found that the 73 S330 rows are M-size option
 scenarios, not option/grade pairs; 73 receiver saves would have been
-redundant and would not prove grade coverage. Preserve every recipe, supported
-option, and size. Verify all option × grade packages against the source-bound
-manifest/product checks; use representative receiver fixtures for all recipes
-and materially distinct geometry/topology classes. Apply the unchanged
+redundant and would not prove grade coverage. S726 further defines receiver
+sampling by distinct serialized DXF exchange-structure/semantic classes,
+while source-bound checks cover all option × grade packages. Preserve every
+recipe, supported option, and size. Apply the unchanged
 0.001 cm threshold, units, identity, CUT/SEW, marks and readable output to
 every selected receiver return. Manifest-only grade/options/stitch data is
 not attributed to generic CAD. LibreCAD 2.2.1.5/DXF 2000 has ten passing
@@ -348,7 +348,7 @@ The visual's parallel branches represent separate packets, not multiple agents e
 | M03 | G03 · 2027-05-14 | Separate grade plan: named population/size chart, chosen rules, base size, per-size override and approved run; single-size export remains first option. | Custom wearer cannot acquire a graded run merely from default recipe increments; size table reconciles with cutting files. | Codex grading/export owner. |
 | V01 | G04 · 2027-04-02 | Define technical-flat primitives: sewn silhouette, visible/hidden seams, topstitch, closures, pockets, pleats/darts, artwork, callouts and layer order. | Source-to-view map for all seven recipes; technician rejects incoherent or missing features. | Codex render contract; visual asset polish can be delegated. |
 | V02 | G04 · 2027-05-28 | Live front/back vector flats from same pattern/revision; proportional and construction annotations, variant/colorway overlays, POM callout anchoring. | All supported options have front/back snapshots and checks against pattern topology; no disconnected image redraw. | Codex render integration; disjoint visual QA. |
-| V03 | G04 · 2027-07-16 | Prove source-side package correctness for all seven recipes and all supported option × grade outputs, plus one exact local empirical DXF receiver profile with representative round trips. No standards claim without separate proof. | Exact receiver/version/profile label only for fixtures verified across all recipes and distinct source geometry/topology; unchanged 0.001 cm, units, identity, marks, readable output, repeat, malformed-input, legacy-byte and protected-export gates. | Codex export owner; independent importer inspection delegated. |
+| V03 | G04 · 2027-07-16 | Prove source-side package correctness for all seven recipes and all supported option × grade outputs, plus one exact local empirical DXF receiver profile with representative round trips. No standards claim without separate proof. | Exact receiver/version/profile label only for the distinct serialized exchange-structure/semantic classes represented across all recipes, plus a non-default grade-boundary fixture; compatibility claim limited to exact audited/reviewed returns. Retain 0.001 cm, units, identity, marks, readable output, repeat, malformed-input, legacy-byte and protected-export gates. | Codex export owner; independent importer inspection delegated. |
 | T01 | G05 · 2027-05-14 | Style cover, revision, base size, approval state, editable BOM, fabric/trim supplier/lot/spec, colorway, and source per field. | Changing fabric or trim updates pack, cost inputs, affected view and frozen-revision status; unknowns visible. | Codex data model; focused UI delegated. |
 | T02 | G05 · 2027-06-25 | POM methodology, landmarks, asymmetric tolerance option, size-run and grade rule source, all-callout checks; editable sample/QA records remain separate from predictions. | No POM silently lacks a definition; missing tolerance blocks supplier-ready level if required by route. | Codex geometry/POM owner. |
 | T03 | G05 · 2027-08-06 | Operation-by-operation construction: seam/stitch type, allowance, SPI/thread/needle when sourced, pressing/finish, special instructions, labels/packaging, tests and compliance fields. | Component inventory matches pattern and BOM; user/supplier decisions and unknowns clearly differentiated. | Expert content research delegated; Codex schema/validation. |

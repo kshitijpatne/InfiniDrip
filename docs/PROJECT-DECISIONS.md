@@ -1,5 +1,28 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — S726 accepted V03 sampling correction; S727 release gate
+
+The maintainer directed Codex to correct V03's acceptance logic and finish
+using already installed tools, without another paid receiver. S726 replaces
+receiver sampling by every normalized coordinate shape with sampling by each
+distinct serialized DXF exchange-structure/semantic class. The product-side
+gate still covers all seven recipes, all supported options and five sizes
+(365/365 source packages). Ten selected receiver fixtures cover all ten
+observed exchange-structure classes; a Trouser XL boundary return adds an
+explicit non-default grade check. All 11 exact saved/reopened returns pass the
+unchanged 0.001 cm source-bound audit and have rendered review. The 315
+normalized coordinate signatures are not claimed as individually round-tripped.
+
+The only compatibility claim is for LibreCAD 2.2.1.5 / Drawing Exchange DXF
+2000 and the exact 11 audited/reviewed returns. LibreCAD is generic CAD; the
+menu/file label is not evidence of ANSI/AAMA/ASTM conformance or industrial
+apparel certification. Keep identity, units, CUT/SEW, typed marks, readable
+output, repeat evidence, product-side malformed-input rejection, legacy DXF,
+protected export identities, and every release gate unchanged. The detailed
+evidence is in the S726 exit packet. No software purchase/install or further
+receiver trial is in scope. S727 runs the settled integrated gate through
+cleanup, PR/merge, ancestry, required deployment, and production E2E.
+
 ## EPIC-17/G04 — S725 package layout and remaining empirical evidence
 
 S725 establishes that the Trouser receiver's apparent crossings were caused
@@ -30,9 +53,10 @@ scenarios. The revised gate keeps all seven recipes, every supported option
 and grade size, the 0.001 cm contour limit, protected export identities and
 all release gates. Product-side source-package verification must cover every
 supported option across every grade size. Actual LibreCAD round-trip evidence
-is a precise empirical profile with representative fixtures across all seven
-recipes and materially distinct geometry/topology classes; it must not imply
-that every CAD UI row or grade was imported. Grade/options/stitch relations
+is a precise empirical profile with representative fixtures for each distinct
+serialized DXF exchange-structure/semantic class across all seven recipes,
+plus a non-default grade-boundary fixture; it must not imply that every CAD UI
+row or normalized coordinate shape was imported. Grade/options/stitch relations
 that live in the digest-bound manifest are product-package guarantees, not
 claims that LibreCAD interprets those fields. Every claimed receiver fixture
 still needs exact geometry, units, piece identity, marks, repeat and

@@ -14,9 +14,11 @@ returns. No standards or industrial-apparel conformance claim is made. The
 durable matrix, license, fixture, and grade-boundary evidence is in
 `docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`.
 
-S727 is the integrated release candidate gate: full repository coverage,
-build/browser/Electron checks, final output review, necessary-file cleanup,
-PR, safe merge, origin ancestry, required deployment, and production E2E.
+S727 is the active integrated release candidate gate: full repository
+coverage, build/browser/Electron checks, final output review, necessary-file
+cleanup, PR, safe merge, origin ancestry, required deployment, and production
+E2E. S727 start packet: `docs/research/epic17/S727-integrated-epic-release/S727-start-packet.md`.
+
 No new receiver or software trial is queued; preserve legacy DXF behavior,
 protected export identities, and every final gate.
 

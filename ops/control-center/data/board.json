@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4245,
-  "updatedAt": "2026-10-11T06:55:49.434Z",
+  "revision": 4257,
+  "updatedAt": "2026-10-11T08:04:34.691Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -155,7 +155,7 @@
       "title": "EPIC-17: G04 — Professional flats and CAD interchange",
       "status": "In Progress",
       "owner": "Codex",
-      "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve legacy DXF behavior and protected export identities. S667-S670 retire the tested DGS routes: AutoCAD/Design loses units/geometry/identity/layers, ASTM/AAMA Pattern is blank/0, and a native ASTM export contains ten metadata TEXT entities with zero pattern geometry. S671 reconciles the existing CLO source/output/render matrix and prioritizes only distinct, source-exact changes that can meet unchanged V03 gates; no repeated receiver permutations or acceptance relaxation. The approved /2 grainline convention and all design decisions are settled. Maintain all-seven/options/grades, 0.001 cm, rights, identity/relations, layers/marks, malformed-input, repeatability, readable-output, legacy-DXF, protected-byte, integrated tests/build/browser/output review, PR, safe merge, ancestry and required deployment gates. No ANSI/AAMA/ASTM conformance claim, physical-fit, factory-acceptance or production-readiness claim. Admission: docs/planning/EPIC-17-ADMISSION.md.",
+      "description": "EPIC-17/G04 remains In Progress through its final release gate. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. S726 completes V03 technical acceptance: 365/365 all-seven-recipe option-by-grade source packages; ten of ten distinct serialized DXF exchange-structure classes across seven recipes; and one Trouser XL boundary return. The empirical compatibility claim is limited to the exact 11 saved/reopened/audited/render-reviewed LibreCAD 2.2.1.5 Drawing Exchange DXF 2000 returns. Do not claim all 315 coordinate signatures were round-tripped or any ANSI/AAMA/ASTM, industrial, physical-fit, factory-acceptance, or production-readiness conformance. Retain 0.001 cm, identity/relations, units, layers/marks, malformed-input, repeatability, readable-output and all existing product gates. S727 runs integrated full coverage/build/browser/Electron/output review, necessary-file cleanup, PR, safe merge, ancestry, required deployment and production E2E. Admission: docs/planning/EPIC-17-ADMISSION.md. No new software or CAD trial.",
       "evidenceRefs": [
         "E-G04-S271-EXIT",
         "E-G04-S273-EXIT",
@@ -768,7 +768,10 @@
         "E-EPIC17-S690-START",
         "E-EPIC17-S690-EXIT",
         "E-EPIC17-S691-START",
-        "E-EPIC17-S691-EXIT"
+        "E-EPIC17-S691-EXIT",
+        "E-G04-S726-LANDED",
+        "E-G04-S727-START",
+        "E-G04-S727-EXIT"
       ]
     },
     {
@@ -3297,7 +3300,7 @@
         "100% coverage",
         "maintainer gates"
       ],
-      "description": "EPIC-17 / G04 — Professional flats and CAD interchange. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven’s 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 is In Progress under the S724 correction: source-side package verification covers all supported option × grade outputs; the S330 73-row receiver matrix is 73 M-size option scenarios, not grade pairs. Receiver compatibility is an exact empirical claim limited to representative fixtures actually verified on a named installed app/version/profile. Ten LibreCAD 2.2.1.5/DXF 2000 returns currently pass geometry/units/piece/marks at 0.000 cm and a Tee repeat passes. The Trouser return is visibly crowded/crossed; readable output remains under S725 diagnosis. Preserve 0.001 cm, all seven recipes, supported options/grades, final output review/cleanup/PR/merge/ancestry/deployment gates. No standards, factory, physical-fit, or production-readiness claim.",
+      "description": "EPIC-17/G04 remains In Progress through its final release gate. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. S726 completes V03 technical acceptance: 365/365 all-seven-recipe option-by-grade source packages; ten of ten distinct serialized DXF exchange-structure classes across seven recipes; and one Trouser XL boundary return. The empirical compatibility claim is limited to the exact 11 saved/reopened/audited/render-reviewed LibreCAD 2.2.1.5 Drawing Exchange DXF 2000 returns. Do not claim all 315 coordinate signatures were round-tripped or any ANSI/AAMA/ASTM, industrial, physical-fit, factory-acceptance, or production-readiness conformance. Retain 0.001 cm, identity/relations, units, layers/marks, malformed-input, repeatability, readable-output and all existing product gates. S727 runs integrated full coverage/build/browser/Electron/output review, necessary-file cleanup, PR, safe merge, ancestry, required deployment and production E2E. Admission: docs/planning/EPIC-17-ADMISSION.md. No new software or CAD trial.",
       "expectation": "Front/back technical flats for every supported recipe/variant and proven CAD interchange. Pattern-linked side/oblique views are explicitly owned by G09/D04, so the complete view set is accepted only there.",
       "acceptanceCriteria": [
         "Complete every G04 planned packet and its stated exit evidence in docs/planning/END-TO-END-CAPABILITY-ROADMAP.md, including remediation of failures.",
@@ -4990,6 +4993,16 @@
           "at": "2026-10-10T21:13:39.426Z",
           "actor": "Codex",
           "text": "S691 closed; EPIC-17 remains In Progress with V01/V02 Done and V03 Blocked pending an eligible named apparel/industrial receiver and documented input/sidecar contract. S691 evidence attached. Cleanup is noted for final PR hygiene only; no cleanup performed."
+        },
+        {
+          "at": "2026-10-11T07:06:11.469Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04: V01, V02, and V03 technical acceptance are complete. S726 confirms 365/365 all-seven-recipe option-by-grade source packages, ten of ten distinct serialized DXF exchange-structure classes, and one Trouser XL boundary return. The empirical compatibility claim is limited to the exact 11 saved/reopened/audited/render-reviewed LibreCAD 2.2.1.5 Drawing Exchange DXF 2000 returns; do not claim all 315 coordinate signatures were round-tripped or standards/industrial/physical/factory conformance. Preserve 0.001 cm, legacy DXF behavior, protected export byte identities, and every product gate. S727 is the integrated full coverage/build/browser/Electron/output review, minimal-file cleanup, PR, safe merge, ancestry, required deployment, and production E2E. No new software or CAD trial.). Reconcile the canonical Epic summary with S726-complete technical acceptance and S727 release-gate work; no scope or threshold change."
+        },
+        {
+          "at": "2026-10-11T07:07:43.550Z",
+          "actor": "Codex",
+          "text": "Updated Epic metadata (description: EPIC-17/G04 remains In Progress through its final release gate. V01 and V02 are Done. S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Preserve V02-before-V03, legacy DXF behavior and protected export identities. S726 completes V03 technical acceptance: 365/365 all-seven-recipe option-by-grade source packages; ten of ten distinct serialized DXF exchange-structure classes across seven recipes; and one Trouser XL boundary return. The empirical compatibility claim is limited to the exact 11 saved/reopened/audited/render-reviewed LibreCAD 2.2.1.5 Drawing Exchange DXF 2000 returns. Do not claim all 315 coordinate signatures were round-tripped or any ANSI/AAMA/ASTM, industrial, physical-fit, factory-acceptance, or production-readiness conformance. Retain 0.001 cm, identity/relations, units, layers/marks, malformed-input, repeatability, readable-output and all existing product gates. S727 runs integrated full coverage/build/browser/Electron/output review, necessary-file cleanup, PR, safe merge, ancestry, required deployment and production E2E. Admission: docs/planning/EPIC-17-ADMISSION.md. No new software or CAD trial.). Retain durable V01/V02 traceability assertions while reconciling V03 to S726 and current S727 release work."
         }
       ],
       "evidenceRefs": [
@@ -10758,7 +10771,7 @@
         "100% coverage",
         "export byte identity"
       ],
-      "description": "V03 separates product-side breadth from representative receiver evidence. Validate every supported option scenario at each of five grade sizes (365 source-bound packages). Use LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000 only as the tested empirical route, with one saved/reopened/audited/render-reviewed fixture per serialized DXF exchange-structure class across all seven recipes; add a fixture when an option changes serialized structure. The 365 source rows contain 315 normalized shape signatures, but compatibility is claimed only for the exact 11 returns actually reviewed, not all 315 shapes or all option/grade round trips. Keep the 0.001 cm, identity, units, CUT/SEW, marks, repeat, readability, malformed-input, legacy-export, protected-identity and final release gates. No ANSI/AAMA/ASTM, industrial, universal, fit, factory, or production-readiness claim.",
+      "description": "V01 and V02 are Done. V03 technical acceptance is complete under S726: product-side verification covers all seven recipes, 73 supported option scenarios and five sizes (365 source-bound packages). Receiver evidence covers ten distinct serialized DXF exchange-structure/semantic classes across all seven recipes and one non-default Trouser XL boundary return. The exact empirical claim is limited to the 11 saved/reopened/audited/render-reviewed LibreCAD 2.2.1.5 / Drawing Exchange DXF 2000 returns; no claim that all 315 normalized coordinate signatures were CAD-round-tripped or that the route is industrial/standards-conformant. Retain 0.001 cm, units, piece identity, CUT/SEW, marks, readable output, semantic repeat, product-side malformed-input rejection, legacy DXF behavior and protected export identities. Preserve V02-before-V03. S727 runs the integrated full coverage/build/browser/Electron/output review, cleanup, PR, safe merge, ancestry, required deployment and production E2E.",
       "expectation": "All 365 supported option-by-grade source packages pass source-bound verification; receiver evidence passes one exact return per each of ten current DXF exchange-structure classes across all seven recipes plus a Trouser XL grade-boundary fixture, with the empirical claim limited to the 11 audited/reviewed returns.",
       "acceptanceCriteria": [
         "Verify every supported recipe, option scenario, and grade size as a source-bound DXF plus digest-bound manifest; preserve revision, selected grade, options, piece identity, stitch graph, geometry, CUT/SEW, construction marks/grainlines, and centimeter units.",
@@ -13537,6 +13550,11 @@
           "at": "2026-10-11T06:55:48.155Z",
           "actor": "Codex",
           "text": "S726 closes V03 technical acceptance under the maintainer-directed split: all 365 supported option-by-grade source packages pass; ten LibreCAD 2.2.1.5 / DXF 2000 fixtures cover the ten distinct serialized exchange-structure classes, plus an audited/reopened Trouser XL grade-boundary return. All 11 selected returns pass at 0.000 cm and are visually reviewed. The 315 normalized shape signatures are not claimed as individually round-tripped. Compatibility is limited to the exact 11 returns. G04/Epic stay In Progress through the integrated full gate, cleanup, PR, safe merge, ancestry, deployment and production E2E. See S726 exit packet. No new software, format or threshold change."
+        },
+        {
+          "at": "2026-10-11T08:04:34.691Z",
+          "actor": "Codex",
+          "text": "S727 integrated gate failed: 12 files/8 tests. V03 technical acceptance remains accepted; no CAD app changes. S728 will fix the current runner, inventory, projection-validation and superseded test expectations, then rerun the full gate. Epic and goal remain In Progress."
         }
       ],
       "evidenceRefs": [
@@ -14120,7 +14138,9 @@
         "E-G04-S725-EXIT",
         "E-G04-S725-LANDED",
         "E-G04-S726-START",
-        "E-G04-S726-EXIT"
+        "E-G04-S726-EXIT",
+        "E-G04-S727-START",
+        "E-G04-S727-EXIT"
       ],
       "flagKey": null
     },
@@ -27823,6 +27843,33 @@
       "sha256": null,
       "verified": true,
       "note": "S726 closes V03 technical acceptance under the corrected source/receiver split: 365/365 option-grade source packages, ten of ten DXF exchange-structure classes represented across seven recipes, and one Trouser XL boundary fixture. All 11 selected LibreCAD returns pass the 0.001 cm gate at 0.000 cm and were visually reviewed. The claim is exact-fixture only; the 315 normalized shapes are not claimed all round-tripped. Full integrated release gates remain."
+    },
+    {
+      "id": "E-G04-S726-LANDED",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md",
+      "commit": "672332e90943fc21cb19aea7f5c58c084048a688",
+      "sha256": null,
+      "verified": true,
+      "note": "Landed S726 source/receiver class reconciliation: all 365 source packages; ten exchange-structure classes; eleven exact LibreCAD returns audited and visually reviewed, including Trouser XL. V03 technical acceptance complete under the corrected sampling rule."
+    },
+    {
+      "id": "E-G04-S727-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S727-integrated-epic-release/S727-start-packet.md",
+      "commit": "672332e90943fc21cb19aea7f5c58c084048a688",
+      "sha256": null,
+      "verified": true,
+      "note": "S727 starts from S726 after refreshed origin/main ancestry, unique slice, active goal, usage, dirty tree, fixed V03 acceptance, and integrated release gates were verified."
+    },
+    {
+      "id": "E-G04-S727-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S727-integrated-epic-release/S727-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S727 records the integrated coverage failure (12 files/8 tests); V03 stays technically accepted, Epic/goal remain In Progress, and S728 has the precise repair plan. Full gate logs are preserved under C:\\G04-CAD-Interchange."
     }
   ]
 }

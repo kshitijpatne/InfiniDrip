@@ -42,14 +42,18 @@ is authoritative for maintainer decisions that are not derivable from code.
 - Code signing has not started.
 - EPIC-16/G03 is closed after PR #14's verified merge and PR #15's board
   closeout. Its automatic main-branch deployment succeeded in GitHub Actions
-  run `36535708194`; the configured site returned HTTP 200. EPIC-17/G04 was
-  explicitly admitted by the maintainer and remains In Progress on
-  `codex/epic-17-g04`. Continue from `docs/planning/EPIC-17-ADMISSION.md`,
-  `PROJECT-STATE.md`, and the linked V02 evidence; do not restart admission or
-  treat pending V02 decisions as permission to release faces. The approved UI
-  overlay is `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`: isolated candidates
-  remain outside the G04 critical path and do not add closure dependencies.
-  Future numbered Epic admissions and launch/physical gates remain explicit.
+  run `36535708194`; the configured site returned HTTP 200. EPIC-17/G04 is
+  admitted on `codex/epic-17-g04`. S726 completes V03 technical acceptance
+  under the maintainer-directed empirical sampling correction: all 365
+  option/grade source packages, ten exchange-structure classes across seven
+  recipes, and one Trouser XL return; compatibility is limited to the 11
+  audited/reviewed LibreCAD 2.2.1.5 / DXF 2000 fixtures. Read
+  `docs/planning/EPIC-17-ADMISSION.md`, `PROJECT-STATE.md`, S726 evidence and
+  the validated board. S727 owns the integrated full gate, final output review,
+  necessary-file cleanup, PR, safe merge, ancestry, required deployment and
+  production E2E. No new receiver/software trial is planned. Preserve the
+  approved UI overlay `docs/planning/UI-ENHANCEMENT-SEQUENCE.md` outside the
+  G04 critical path. Keep the goal active until all release evidence passes.
 
 ## Durable workflow rules
 
