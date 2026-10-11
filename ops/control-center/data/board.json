@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4154,
-  "updatedAt": "2026-10-11T00:59:16.930Z",
+  "revision": 4158,
+  "updatedAt": "2026-10-11T01:21:27.154Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13314,6 +13314,16 @@
           "at": "2026-10-11T00:59:16.930Z",
           "actor": "Codex",
           "text": "S706 closed the one planned LibreCAD 2.2.1.5 DXF 2000 current-package test. The saved/reopened Polo M retained all 9 named piece identities, 18/18 closed CUT/SEW outlines at 0.000 cm XY residual, all 111 typed marks within 0.001 cm, and $INSUNITS=5. The returned layer table replaced CUT with 0, a concrete semantic-layer failure. LibreCAD is generic CAD and does not qualify the industrial apparel-profile gate. No source code or V03 acceptance changed. Stop this route; do not repeat it or switch format/settings. V03, all-seven/options/grades, malformed-input, repeatability, full readability, cleanup, integration gates, PR/merge, deployment and production checks remain due."
+        },
+        {
+          "at": "2026-10-11T01:01:59.908Z",
+          "actor": "Codex",
+          "text": "S707 uses the exact S690/S706 contrast to correct one candidate-source issue: S690's non-block R2000 fixture retained CUT, while S706's named-block package omitted explicit LAYER table records and LibreCAD returned CUT as 0. Add deterministic layer definitions only to the opt-in package without changing any entity or geometry; prove all current package rows and protected defaults, then make one same-route save/reopen to see whether the measured loss is fixed. Stop after that result; industrial profile, breadth, grade, malformed-input, repeatability and full-readability gates stay separate and unchanged."
+        },
+        {
+          "at": "2026-10-11T01:21:27.154Z",
+          "actor": "Codex",
+          "text": "S707 closed the one authorized same-route check. The candidate declared all layers and LibreCAD retained the table, but it still saved all 9 CUT outlines on layer 0; adding a layer table does not fix the semantic-layer failure. This same Polo M return passes piece/revision identity, 18/18 geometry paths at 0.000 cm, 111/111 marks within 0.001 cm, cm units, and visible clean reopen. The layer gate fails; LibreCAD is generic CAD and does not qualify the industrial-apparel profile. No route variation, app search, geometry edit, threshold change, or acceptance change. S708 will audit the exact current writer and already-saved CLO/LibreCAD returns for an entity-level cause, then implement only if those records support a concrete correction. All-seven/options/grades, malformed input, repeatability, complete readability, rights/profile, protected identities, cleanup, integrated gates, PR/merge, ancestry and production checks remain due."
         }
       ],
       "evidenceRefs": [
@@ -13856,7 +13866,9 @@
         "E-G04-S705-START",
         "E-G04-S705-EXIT",
         "E-G04-S706-START",
-        "E-G04-S706-EXIT"
+        "E-G04-S706-EXIT",
+        "E-G04-S707-START",
+        "E-G04-S707-EXIT"
       ],
       "flagKey": null
     },
@@ -27190,6 +27202,24 @@
       "sha256": null,
       "verified": true,
       "note": "One exact LibreCAD 2.2.1.5 DXF 2000 round trip preserved all 9 named pieces, 18/18 CUT/SEW outlines at 0.000 cm XY residual, all 111 typed marks within 0.001 cm, cm units, and clean visible reopen; it changed semantic CUT to layer 0 and is generic CAD, so the route fails V03 qualification. No source or acceptance change."
+    },
+    {
+      "id": "E-G04-S707-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S707-candidate-layer-table/S707-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S707 targets the source-verified omission of an explicit layer table from named candidate blocks, measured alongside LibreCAD's CUT-to-0 return in S706. Candidate-only layer declarations, all current coverage/identity gates, and one same-profile post-fix proof; no geometry/threshold/profile change."
+    },
+    {
+      "id": "E-G04-S707-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One exact LibreCAD DXF 2000 save/reopen retained 9/9 piece identities, 18/18 CUT/SEW outlines at 0.000 cm, 111/111 marks within 0.001 cm, centimeters and visible reopen; all 9 CUT entities still returned on layer 0 despite the retained CUT table entry. Layer-table hypothesis fails; LibreCAD remains generic CAD and unqualified. No acceptance or threshold change. Exact hashes and C:-only render in S707 packet."
     }
   ]
 }

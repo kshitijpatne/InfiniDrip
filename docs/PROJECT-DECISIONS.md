@@ -1,5 +1,23 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — S707 layer-table correction did not preserve CUT (2026-10-11)
+
+S707 added a complete R2000 LAYER table to the opt-in named-piece package and
+ran its one planned LibreCAD 2.2.1.5 Drawing Exchange DXF 2000 save/reopen.
+LibreCAD retained the `CUT` table entry and all nine named identities, exact
+geometry, 111 typed marks, centimeter units and visible output, but saved all
+nine CUT outline entities on layer `0`. The layer-table-only hypothesis is
+falsified for this receiver route. Do not repeat or vary this route. LibreCAD
+remains generic CAD and does not satisfy the industrial-apparel profile gate.
+No V03 criterion, threshold, geometry or legacy export identity changed.
+Exact result: `docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`.
+
+Next: S708 audits the current candidate writer against the already-existing
+CLO/LibreCAD input and output files to find the concrete entity-level source
+of CUT reassignment. No app search/install or receiver variation is authorized
+or needed for that audit. Implement only if the measured evidence supports a
+precise code correction; keep every acceptance gate unchanged.
+
 ## EPIC-17/G04 — S706 LibreCAD current-package route stopped (2026-10-11)
 
 The exact S705 Polo M candidate was saved and reopened once in LibreCAD 2.2.1.5

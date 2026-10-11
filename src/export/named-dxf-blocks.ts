@@ -79,6 +79,22 @@ function entityPairs(entity: string): Pair[] {
   return parsePairs(entity);
 }
 
+function layerTableSection(layers: readonly string[]): Pair[] {
+  const names = [...new Set(["0", ...layers])].sort((a, b) => a.localeCompare(b));
+  const tableHandle = 1;
+  const records = names.flatMap((name, index) => [
+    pair(0, "LAYER"), pair(5, (tableHandle + index + 1).toString(16).toUpperCase()),
+    pair(100, "AcDbSymbolTableRecord"), pair(100, "AcDbLayerTableRecord"),
+    pair(2, name), pair(70, 0), pair(62, 7), pair(6, "CONTINUOUS"),
+  ]);
+  return [
+    pair(0, "SECTION"), pair(2, "TABLES"),
+    pair(0, "TABLE"), pair(2, "LAYER"), pair(5, tableHandle.toString(16).toUpperCase()),
+    pair(100, "AcDbSymbolTable"), pair(70, names.length),
+    ...records, pair(0, "ENDTAB"), pair(0, "ENDSEC"),
+  ];
+}
+
 export function dxfEntityTypeAndLayer(entity: string): { readonly type: string; readonly layer: string } {
   const pairs = parsePairs(entity);
   return { type: pairs[0]![1], layer: pairs.find(([code]) => code === 8)?.[1] ?? "" };
@@ -98,8 +114,14 @@ export function wrapDxfEntitiesInNamedBlocks(dxf: string, groups: readonly Named
   }
 
   const pairs = parsePairs(dxf);
+  if (pairs.some((entry, index) => entry[0] === 2 && entry[1] === "TABLES" &&
+      pairs[index - 1]?.[0] === 0 && pairs[index - 1]?.[1] === "SECTION")) {
+    throw new Error("DXF named-block source must not already contain a TABLES section");
+  }
   const bounds = sectionBounds(pairs, "ENTITIES");
   const entities = entityStrings(pairs, bounds.body, bounds.end);
+  const layers = entities.map((entity) => dxfEntityTypeAndLayer(entity).layer);
+  if (layers.some((layer) => !layer)) throw new Error("DXF named-block entities must name their layers");
   const leadingCount = groups.reduce((total, group) => total + group.leadingEntityCount, 0);
   const trailingCount = groups.reduce((total, group) => total + group.trailingEntityCount, 0);
   if (leadingCount + trailingCount !== entities.length) {
@@ -117,13 +139,17 @@ export function wrapDxfEntitiesInNamedBlocks(dxf: string, groups: readonly Named
       pair(10, 0), pair(20, 0), pair(30, 0), pair(3, group.name), pair(1, "")];
     return [...header, ...blockEntities.flatMap(entityPairs), pair(0, "ENDBLK"), pair(8, "0")];
   });
+  const tableSection = layerTableSection(layers);
   const blockSection = [pair(0, "SECTION"), pair(2, "BLOCKS"), ...blocks.flat(), pair(0, "ENDSEC")];
   const inserts = groups.flatMap(({ name }) => [
     pair(0, "INSERT"), pair(8, "0"), pair(2, name), pair(10, 0), pair(20, 0), pair(30, 0),
     pair(41, 1), pair(42, 1), pair(43, 1), pair(50, 0),
   ]);
   const entitySection = [pair(0, "SECTION"), pair(2, "ENTITIES"), ...inserts, pair(0, "ENDSEC")];
-  return serialize([...pairs.slice(0, bounds.start), ...blockSection, ...entitySection, ...pairs.slice(bounds.end + 1)]);
+  return serialize([
+    ...pairs.slice(0, bounds.start), ...tableSection, ...blockSection, ...entitySection,
+    ...pairs.slice(bounds.end + 1),
+  ]);
 }
 
 export function readNamedDxfDrawing(dxf: string): NamedDxfDrawing {

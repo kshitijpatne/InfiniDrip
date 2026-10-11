@@ -1,4 +1,19 @@
-## Current EPIC-17 / G04 V03 boundary — S706 closed
+## Prior EPIC-17 / G04 V03 boundary — S706 closed
+
+## Current EPIC-17 / G04 V03 boundary — S707 closed
+
+S707's exact LibreCAD 2.2.1.5 DXF 2000 return retained 9 piece identities,
+18/18 closed outlines at 0.000 cm, 111/111 marks within 0.001 cm, centimeters,
+the declared CUT layer record, and clean visible reopen. It still assigned all
+nine CUT outlines to layer `0`; the table-only candidate change does not pass
+semantic-layer preservation. LibreCAD is generic CAD and does not qualify the
+industrial-apparel profile gate. See `PROJECT-STATE.md` and
+`docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`.
+
+Next S708 audits already-existing exact source/return evidence for the entity
+reason that CUT alone changes layer. No receiver or settings variation is
+queued. Keep all V03 criteria fixed and the goal active through cleanup, full
+gates, PR/merge, ancestry, deployment and production end-to-end verification.
 
 S706's one LibreCAD 2.2.1.5 DXF 2000 round trip retained 9 named pieces,
 18/18 closed CUT/SEW paths at 0.000 cm XY residual, 111/111 typed marks within

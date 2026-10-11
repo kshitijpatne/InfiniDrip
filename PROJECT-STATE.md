@@ -1,26 +1,26 @@
-## EPIC-17/G04 — S706 closed; current LibreCAD route stopped on CUT layer loss
+## EPIC-17/G04 — S707 closed; explicit layer table did not preserve CUT
 
-The one S706 LibreCAD 2.2.1.5 DXF 2000 current-package round trip retained all
-9 named Polo M pieces, 18/18 closed CUT/SEW outlines at 0.000 cm XY residual,
-111/111 typed marks within 0.001 cm, centimeter units, and a clean visible
-reopen. It changed the semantic `CUT` layer to `0`. LibreCAD is generic CAD,
-not a qualifying industrial apparel profile, and this exact route fails the
-semantic-layer gate. Do not repeat the route or vary its format/settings. The
-source and return hashes and rendered capture are in S706's packet; generated
-CAD/evidence files remain only under the named C: folder. No source code or
-acceptance changed. See
-`docs/research/epic17/S706-librecad-r2000-current-package/S706-exit-packet.md`.
+S707 added deterministic R2000 layer records to the candidate-only named-piece
+DXF, then performed the single authorized LibreCAD 2.2.1.5 DXF 2000
+save/reopen. The exact Polo M return retained all nine piece/revision
+identities, 18/18 closed CUT/SEW outlines at 0.000 cm, 111/111 typed marks
+within 0.001 cm, centimeter units and clean visible reopen. The LAYER table
+also retained its `CUT` record, but all nine returned cut outlines remained on
+layer `0`. This falsifies the table-only fix; semantic-layer preservation
+fails, and LibreCAD remains generic CAD rather than a qualified industrial
+apparel profile. Exact hashes, parsed counts and C:-only rendered evidence are
+in `docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`.
 
-GMS/DGS remains retired: the apparel import showed 0/0 patterns and its
-control output contained no geometry. No more software installs or app search
-are queued. Next is a single source-side audit of the exact S703 CLO DXF-ASTM
-and S706 LibreCAD returns against the current candidate writer. Continue only
-with a specific code change supported by those entity differences; otherwise
-identify the smallest concrete requirement that no installed route can prove.
-V01/V02 remain Done; V03 remains held; EPIC-17 and the goal remain active.
-Unchanged all-seven/options/grades, thresholds, protected export identities,
-cleanup inventory, integrated full gate, final output review, PR/merge,
-ancestry, deployment, and production end-to-end gates remain due.
+Next S708 audits the current candidate writer and the already-saved S703 CLO,
+S706 LibreCAD and S707 LibreCAD evidence for the entity-level reason that CUT
+alone becomes layer `0`. Reuse those records and do not run another app,
+format, setting or encoding trial. Implement only a specific evidence-backed
+source correction; meanwhile complete independent all-seven/options/grades,
+malformed-input, repeatability, readability, rights/profile and final Epic
+closeout work. Acceptance and thresholds remain unchanged. No new app search
+or installation is queued. V01/V02 remain Done; V03 remains held; EPIC-17 and
+the goal stay active through cleanup, integrated gates, final output review,
+PR/merge, ancestry, deployment and production end-to-end verification.
 
 ## EPIC-17/G04 — S705 closed; candidate buttonhole display verified
 

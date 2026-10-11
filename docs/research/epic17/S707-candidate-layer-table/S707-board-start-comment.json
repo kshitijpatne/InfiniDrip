@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S707 uses the exact S690/S706 contrast: S690's non-block R2000 input retained CUT on return, while S706's named-block input returned CUT as 0. The current candidate writer declares no explicit LAYER table. Add deterministic definitions only to the opt-in package without changing any entity or geometry; prove all current package rows and protected defaults, then make one same-route save/reopen to test this source-format hypothesis. Stop after that result; industrial profile, breadth, grade, malformed-input, repeatability and full-readability gates stay separate and unchanged.",
+  "expectedRevision": 4155
+}

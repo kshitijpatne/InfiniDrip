@@ -31,6 +31,15 @@ describe("named DXF piece blocks", () => {
       ...drawing.blocks[1]!.entities,
     ]);
     expect(wrapped).toContain("9\n$INSUNITS\n70\n5\n");
+    expect(wrapped.indexOf("2\nTABLES\n")).toBeLessThan(wrapped.indexOf("2\nBLOCKS\n"));
+    const tableStart = wrapped.indexOf("2\nTABLES\n");
+    const tableEnd = wrapped.indexOf("0\nENDSEC\n", tableStart);
+    const table = wrapped.slice(tableStart, tableEnd);
+    const declaredLayers = [...table.matchAll(/\n2\n([^\n]+)\n70\n0\n62\n7\n6\nCONTINUOUS\n/gu)].map((match) => match[1]);
+    expect(declaredLayers).toEqual(["0", "CUT", "MARK_BUTTONHOLE", "MARK_NOTCH", "SEW"]);
+    const tablePairs = table.trimEnd().split(/\r?\n/u);
+    const handles = tablePairs.flatMap((code, index) => code === "5" && index % 2 === 0 ? [tablePairs[index + 1]] : []);
+    expect(new Set(handles).size).toBe(6);
   });
 
   it("rejects invalid group names, counts, and source entity streams", () => {
@@ -46,6 +55,9 @@ describe("named DXF piece blocks", () => {
     expect(() => wrapDxfEntitiesInNamedBlocks(`${header}0\nSECTION\n2\nENTITIES\n0\nEOF\n`, groups)).toThrow("unterminated");
     expect(() => wrapDxfEntitiesInNamedBlocks(`${header}x\nBAD\n`, groups)).toThrow("not an integer");
     expect(() => wrapDxfEntitiesInNamedBlocks("0\nSECTION\n2\nENTITIES\n0\nLINE\n8\nCUT\n10\n", groups)).toThrow("incomplete group-code/value pair");
+    const unnamedLayer = `${header}0\nSECTION\n2\nENTITIES\n0\nLINE\n10\n0\n20\n0\n11\n1\n21\n1\n${entities.slice(sourceEntities[0]!.length)}0\nENDSEC\n0\nEOF\n`;
+    expect(() => wrapDxfEntitiesInNamedBlocks(unnamedLayer, groups)).toThrow("must name their layers");
+    expect(() => wrapDxfEntitiesInNamedBlocks(`${header}0\nSECTION\n2\nTABLES\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n${entities}0\nENDSEC\n0\nEOF\n`, groups)).toThrow("must not already contain a TABLES section");
     expect(dxfEntityTypeAndLayer("0\nPOINT\n10\n0\n20\n0\n")).toEqual({ type: "POINT", layer: "" });
   });
 

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S707-EXIT",
+    "kind": "document",
+    "uri": "docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md",
+    "verified": true,
+    "note": "One exact LibreCAD DXF 2000 save/reopen retained 9/9 piece identities, 18/18 CUT/SEW outlines at 0.000 cm, 111/111 marks within 0.001 cm, centimeters and visible reopen; all 9 CUT entities still returned on layer 0 despite the retained CUT table entry. Layer-table hypothesis fails; LibreCAD remains generic CAD and unqualified. No acceptance or threshold change. Exact hashes and C:-only render in S707 packet."
+  },
+  "expectedRevision": 4156
+}

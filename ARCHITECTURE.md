@@ -1061,6 +1061,13 @@ three buttonhole points still exceeded the fixed acceptance checks. The
 package structure therefore improves source-side identity but does not claim
 that CLO or any industrial CAD profile passes G04 V03. See
 [`docs/research/epic17/S700-named-piece-package/S700-exit-packet.md`](docs/research/epic17/S700-named-piece-package/S700-exit-packet.md).
+
+S707 adds explicit R2000 layer-table declarations to that opt-in package.
+LibreCAD 2.2.1.5 retained the table but saved all nine CUT outline entities on
+layer `0`, although geometry, marks, units and piece identity passed for the
+single Polo M fixture. The table therefore does not prove semantic layer
+preservation; V03 remains held. See
+[`docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md`](docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md).
 ## What is outside the current product
 
 Accounts, profiles, a hosted database, cloud sync, monitoring, email, and
