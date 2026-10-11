@@ -1,3 +1,32 @@
+## EPIC-17 / G04 — S722 V03 acceptance refined; empirical profile route
+
+The maintainer directed Codex to complete V03 with the CAD software already
+available and expressly rejected further paid-software candidates. S722
+replaces the admission's “industrial CAD receiver/profile” category gate with
+a named, version-specific **empirical DXF compatibility profile**. This is an
+explicit acceptance refinement, not an industry-standard or factory
+conformance claim. The strongest existing receiver evidence is LibreCAD
+2.2.1.5 DXF 2000 on one Polo M fixture (S708/S710); it is only a candidate
+until the retained all-seven/73-configuration, repeat, and rendered gates
+pass. CLO, GMS/DGS and OpenCAD keep their measured route limitations; no
+further software will be installed or purchased.
+
+All fidelity criteria remain: seven recipes/73 supported configurations,
+`0.001 cm` geometry, centimeter units, source-bound piece/revision/grade and
+stitch identity, CUT/SEW and construction marks/grainlines, readable output,
+repeatability, product-side malformed-input fail-closed behavior, legacy DXF,
+and protected byte identities. No source geometry compensation. Full global
+coverage/build/browser/Electron/output review, necessary-file cleanup, PR,
+safe merge, refreshed ancestry, required deployment and production E2E remain
+completion gates. S721's AccuMark candidate/access plan is withdrawn and
+superseded; no purchase or vendor contact.
+
+S722 records are linked in the validated board at revision 4222. Focused
+Control Center tests pass 42/42; `git diff --check` passes. Packet and revised
+plan: `docs/research/epic17/S722-v03-empirical-profile-acceptance/S722-exit-packet.md`.
+Next: one bounded evidence pass using the existing LibreCAD route and fixtures;
+do not restart old CLO/DGS/GMS/OpenCAD trials. The goal remains active and the
+board remains In Progress. No physical-fit or factory-acceptance claim.
 ## EPIC-17/G04 — S721 closed; AccuMark documented route is not locally available
 
 S721 identifies Gerber AccuMark Pattern Design as a concrete official

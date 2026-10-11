@@ -1,8 +1,19 @@
 # InfiniDrip end-to-end capability roadmap
 
+### G04 current V03 acceptance decision — S722 (2026-10-11)
+
+The maintainer replaced the industrial-receiver category gate with a named,
+version-specific empirical DXF compatibility profile using an already
+installed receiver. No ANSI/AAMA/ASTM or factory-conformance claim follows.
+The all-seven/73-configuration breadth, 0.001 cm geometry, units, identity and
+construction semantics, malformed-input, repeatability, readable-output,
+legacy byte-identity, and final release gates remain fixed. LibreCAD
+2.2.1.5/DXF 2000 is a candidate based on one Polo M fixture only. AccuMark is
+withdrawn; no additional application will be installed. See the S722 packet.
+
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
-### G04 current V03 route update — S721 (2026-10-11)
+### Historical G04 route review — S721 (2026-10-11; acceptance superseded by S722)
 
 Gerber AccuMark Pattern Design is a specific documented apparel-CAD
 candidate: first-party docs describe ASTM/AAMA import from other CAD systems
@@ -12,8 +23,9 @@ AccuMark installation; the user's online license assignment was not checked.
 The reviewed pages document no public self-serve trial. No rights/local-handling basis or actual round trip has been
 established, so this is not a selected or passing route. No install, supplier
 contact, spending, file exchange, or acceptance change. See the S721 packet
-and linked official sources in `PROJECT-STATE.md`. Preserve the unchanged V03
-gates; do not repeat tested CLO/DGS/LibreCAD/OpenCAD routes.
+and linked official sources in `PROJECT-STATE.md`. This remains route research
+only; S722 supersedes its industrial-receiver prerequisite. Do not repeat the
+tested CLO/DGS/LibreCAD/OpenCAD routes.
 
 ### G04 current V03 gate picture — S613 (2026-10-09)
 
@@ -300,7 +312,7 @@ The visual's parallel branches represent separate packets, not multiple agents e
 | M03 | G03 · 2027-05-14 | Separate grade plan: named population/size chart, chosen rules, base size, per-size override and approved run; single-size export remains first option. | Custom wearer cannot acquire a graded run merely from default recipe increments; size table reconciles with cutting files. | Codex grading/export owner. |
 | V01 | G04 · 2027-04-02 | Define technical-flat primitives: sewn silhouette, visible/hidden seams, topstitch, closures, pockets, pleats/darts, artwork, callouts and layer order. | Source-to-view map for all seven recipes; technician rejects incoherent or missing features. | Codex render contract; visual asset polish can be delegated. |
 | V02 | G04 · 2027-05-28 | Live front/back vector flats from same pattern/revision; proportional and construction annotations, variant/colorway overlays, POM callout anchoring. | All supported options have front/back snapshots and checks against pattern topology; no disconnected image redraw. | Codex render integration; disjoint visual QA. |
-| V03 | G04 · 2027-07-16 | Industrial CAD exchange proof and optional new exporter; grade/notch/allowance/units/labels; round-trip import fixtures. | Label exact formats only after documented external import/round-trip; old DXF bytes unchanged. | Codex export owner; independent importer inspection delegated. |
+| V03 | G04 · 2027-07-16 | Prove one named, version-specific empirical DXF compatibility profile on an existing local CAD receiver; grade/notch/allowance/units/labels; source-bound import/export/reopen fixtures. No standards claim without separate proof. | Exact app/version labels only after observed all-seven/73-configuration round trip; fixed geometry/identity/mark/readability/repeatability/malformed-input gates; old DXF bytes unchanged. | Codex export owner; independent importer inspection delegated. |
 | T01 | G05 · 2027-05-14 | Style cover, revision, base size, approval state, editable BOM, fabric/trim supplier/lot/spec, colorway, and source per field. | Changing fabric or trim updates pack, cost inputs, affected view and frozen-revision status; unknowns visible. | Codex data model; focused UI delegated. |
 | T02 | G05 · 2027-06-25 | POM methodology, landmarks, asymmetric tolerance option, size-run and grade rule source, all-callout checks; editable sample/QA records remain separate from predictions. | No POM silently lacks a definition; missing tolerance blocks supplier-ready level if required by route. | Codex geometry/POM owner. |
 | T03 | G05 · 2027-08-06 | Operation-by-operation construction: seam/stitch type, allowance, SPI/thread/needle when sourced, pressing/finish, special instructions, labels/packaging, tests and compliance fields. | Component inventory matches pattern and BOM; user/supplier decisions and unknowns clearly differentiated. | Expert content research delegated; Codex schema/validation. |

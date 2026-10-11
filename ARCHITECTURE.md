@@ -848,6 +848,16 @@ The protected legacy `exportDxf` remains at its existing three-decimal
 precision and its recorded byte identities are unchanged. The candidate is
 not wired to the UI or selected as an apparel-CAD profile; no receiver
 compatibility is claimed.
+G04 V03 now uses a named, version-specific **empirical compatibility profile**
+for an already installed receiver instead of requiring the receiver to belong
+to an “industrial CAD” category. A pass is limited to the exact measured
+application/version/workflow and remains subject to all-seven, geometry,
+identity, marks, units, repeatability, malformed-input, and readable-output
+gates. This label is not ANSI/AAMA/ASTM conformance or factory acceptance.
+LibreCAD 2.2.1.5/DXF 2000 is only a candidate from the single Polo M evidence
+in S708/S710. The opt-in candidate/package remains separate from and cannot
+change legacy `exportDxf` bytes. Current status and bounded checks are in
+`PROJECT-STATE.md` and the S722 packet.
 `createDxfInterchangePackage` produces a separate versioned JSON manifest for
 recipe/piece roles, selected size and grade, options, stitch relationships,
 and explicit centimeter units verified against `$INSUNITS=5`. Its SHA-256

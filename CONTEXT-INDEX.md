@@ -1,3 +1,15 @@
+## Current EPIC-17 / G04 V03 decision — S722
+
+S722 replaces the unachievable “industrial receiver” category requirement
+with a version-specific empirical compatibility profile for a receiver
+already installed locally. No standards-conformance claim follows. LibreCAD
+2.2.1.5/DXF 2000 is only a candidate based on one Polo M round-trip. All fixed
+V03 fidelity gates, all-seven/73-configuration scope, export identities, and
+final merge/deployment gates remain. AccuMark was withdrawn; no new software
+is planned. Read `PROJECT-STATE.md`,
+`docs/research/epic17/S722-v03-empirical-profile-acceptance/S722-exit-packet.md`,
+`docs/planning/EPIC-17-ADMISSION.md`, and the canonical Control Center board
+before continuing.
 ## EPIC-17 / G04 V03 — S721 closed; exact AccuMark route identified, access unavailable
 
 Official Gerber AccuMark documentation confirms ASTM/AAMA DXF import from

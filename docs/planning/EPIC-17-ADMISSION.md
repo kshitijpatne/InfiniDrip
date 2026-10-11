@@ -2319,3 +2319,32 @@ claim. S719 is uniquely reserved after S718; refreshed `origin/main` remains
 an ancestor. Validated board replay 4203→4205→4207; Control Center 42/42 and
 `git diff --check` pass. See the S719 start/exit packets for timing, review
 limits and verification.
+## S722 maintainer-directed V03 acceptance refinement
+
+The product owner directed V03 completion using already-installed tools and
+rejected further paid software. The admitted “industrial CAD receiver/profile”
+gate is superseded by a named, version-specific empirical DXF compatibility
+profile proven through observed local exchange. Do not claim standards
+conformance from a menu label or generic file extension. Support and label only
+the exact app/version whose evidence passes; failure in another app does not
+invalidate a passing profile and no app is assumed to pass.
+
+The all-seven recipe / all-73 supported option-grade configurations, fixed
+`0.001 cm` maximum geometry difference, centimeter units, source-bound
+identity/relationships, CUT/SEW and construction marks/grainlines,
+repeatability, readable output, product-side malformed-input rejection,
+legacy DXF behavior, protected byte identities, and final release gates are
+unchanged. LibreCAD 2.2.1.5/DXF 2000 is the leading evidence-backed candidate
+because S708/S710 pass one Polo M fixture. This evidence does not yet clear V03.
+AccuMark is withdrawn; no app install/purchase/vendor contact or broad app
+search is part of G04.
+
+S722's bounded plan is: (1) exercise the existing LibreCAD route on
+representative fixtures for remaining recipes; (2) reuse the current 73-row
+matrix/harness for the exact route and one semantic repeat; (3) finish rendered
+review, local profile documentation, malformed-input flow and byte identity
+reconciliation; (4) run the final full gate, output review, end-only necessary
+file cleanup, PR, safe merge, ancestry, required deployment and production E2E.
+Stop on actual row-level evidence; do not vary unrelated formats/settings or
+retest CLO/DGS/GMS/OpenCAD. See
+`docs/research/epic17/S722-v03-empirical-profile-acceptance/S722-exit-packet.md`.

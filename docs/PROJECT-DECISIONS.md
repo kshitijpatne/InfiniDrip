@@ -1,5 +1,26 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — S722 replaces the industrial receiver gate
+
+The maintainer directed completion using already installed CAD tools and
+rejected further paid software. The “industrial CAD receiver/profile” gate is
+replaced by an exact named/versioned empirical DXF compatibility profile
+proved through actual import/export/reopen and source-bound audits. This does
+not claim ANSI/AAMA/ASTM conformance or factory acceptance, and does not make
+every installed application a required supported receiver. Compatibility is
+claimed only for a named app/version after its evidence passes.
+
+No fidelity gate is relaxed: all seven recipes and 73 supported
+option/grade configurations, `0.001 cm` geometry, centimeter units, piece/
+revision/grade and stitch identity, CUT/SEW, typed marks/grainlines, malformed
+input fail-closed behavior in the product, repeatability, readable output,
+legacy DXF, protected byte identities, and final integrated release gates stay
+required. LibreCAD 2.2.1.5 DXF 2000 is the leading candidate only; S708/S710
+prove one Polo M fixture, not V03. S721's paid AccuMark candidate is expressly
+withdrawn and must not be pursued. No purchase, installation, supplier contact
+or new software is authorized or needed. See S722's packet for the exact
+profile decision and verification plan.
+
 ## EPIC-17/G04 — S707 layer-table correction did not preserve CUT (2026-10-11)
 
 S707 added a complete R2000 LAYER table to the opt-in named-piece package and
