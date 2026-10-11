@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4199,
+  "evidence": {
+    "id": "E-G04-S718-START",
+    "uri": "docs/research/epic17/S718-return-audit-ui-negative-matrix/S718-start-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "Exercise representative existing returned-DXF audit failure shapes through the actual local panel; assert exact accessible fail-closed UI results. Test-only; no new receiver trial or gate change."
+  }
+}

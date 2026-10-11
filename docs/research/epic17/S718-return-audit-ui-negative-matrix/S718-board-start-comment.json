@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "expectedRevision": 4200,
+  "text": "S718 is a bounded test-only acceptance slice: route representative malformed/misleading returned-DXF cases through the live panel and production auditor, proving exact accessible failure reasons and no partial counts. Reuses existing failure shapes; no receiver, format, setting, threshold, or scope changes."
+}

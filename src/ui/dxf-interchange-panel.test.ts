@@ -4,6 +4,7 @@ import { webcrypto } from "node:crypto";
 import { GARMENTS, STANDARD_M, gradeRun } from "../drafting";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import { auditDxfInterchangeRoundTrip } from "../export/dxf-interchange-roundtrip";
+import { dxfEntityTypeAndLayer, readNamedDxfDrawing } from "../export/named-dxf-blocks";
 import type { DxfInterchangeRoundTripReport } from "../export/dxf-interchange-roundtrip";
 import { createDxfInterchangePanel, requireDxfInterchangeSourceBlock } from "./dxf-interchange-panel";
 
@@ -31,6 +32,21 @@ function setup(overrides: Partial<Parameters<typeof createDxfInterchangePanel>[0
 async function clickAndFlush(button: HTMLButtonElement): Promise<void> {
   button.dispatchEvent(new Event("click"));
   await new Promise((resolve) => setTimeout(resolve, 0));
+}
+
+function replaceDxfEntity(dxf: string, entity: string, replacement: (value: string) => string): string {
+  const start = dxf.indexOf(entity);
+  if (start < 0) throw new Error("Test entity not found");
+  return `${dxf.slice(0, start)}${replacement(entity)}${dxf.slice(start + entity.length)}`;
+}
+
+function shiftMiddleVertex(entity: string, amount: number): string {
+  const lines = entity.split("\n");
+  const vertices = lines.flatMap((line, index) => line === "0" && lines[index + 1] === "VERTEX" ? [index] : []);
+  const vertex = vertices[Math.floor(vertices.length / 2)]!;
+  const x = lines.findIndex((line, index) => index > vertex && line === "10");
+  lines[x + 1] = String(Number(lines[x + 1]) + amount);
+  return lines.join("\n");
 }
 
 describe("local DXF return audit panel", () => {
@@ -112,6 +128,66 @@ describe("local DXF return audit panel", () => {
       await vi.waitFor(() => expect(panel.status.textContent).not.toBe("Checking locally…"));
       expect(panel.status.textContent).toBe("Check failed: Source package failed its integrity check");
       expect(panel.status.textContent).not.toContain("pieces");
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  }, 30_000);
+
+  it("shows actual auditor reasons for malformed and misleading returns without partial counts", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    try {
+      const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+      const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2]!;
+      const sourcePackage = await createDxfInterchangePackage(recipe, graded);
+      const firstBlock = readNamedDxfDrawing(sourcePackage.dxf).blocks[0]!;
+      const cut = firstBlock.entities.find((entity) => dxfEntityTypeAndLayer(entity).layer === "CUT")!;
+      const firstPieceName = sourcePackage.manifest.pieces[0]!.blockName;
+      const entitiesSection = sourcePackage.dxf.indexOf("0\nSECTION\n2\nENTITIES\n");
+      const identityAt = sourcePackage.dxf.indexOf(`2\n${firstPieceName}\n`, entitiesSection);
+      const missingIdentity = `${sourcePackage.dxf.slice(0, identityAt)}2\nS718_MISSING_PIECE\n` +
+        sourcePackage.dxf.slice(identityAt + `2\n${firstPieceName}\n`.length);
+      const wrongLayer = replaceDxfEntity(sourcePackage.dxf, cut, (entity) =>
+        entity.replace("\n8\nCUT\n", "\n8\nUNEXPECTED\n"),
+      );
+      const nonFiniteGeometry = replaceDxfEntity(sourcePackage.dxf, cut, (entity) => {
+        const lines = entity.split("\n");
+        const vertex = lines.findIndex((line, index) => line === "0" && lines[index + 1] === "VERTEX");
+        const x = lines.findIndex((line, index) => index > vertex && line === "10");
+        lines[x + 1] = "NaN";
+        return lines.join("\n");
+      });
+      const outsideTolerance = replaceDxfEntity(sourcePackage.dxf, cut, (entity) => shiftMiddleVertex(entity, 0.01));
+      const missingOutline = replaceDxfEntity(sourcePackage.dxf, cut, () => "");
+      const firstInsert = readNamedDxfDrawing(sourcePackage.dxf).inserts[0]!.entity;
+      const entitiesEnd = sourcePackage.dxf.indexOf("0\nENDSEC\n", entitiesSection);
+      const duplicatePiece = `${sourcePackage.dxf.slice(0, entitiesEnd)}${firstInsert}${sourcePackage.dxf.slice(entitiesEnd)}`;
+      const failures = [
+        { name: "malformed.dxf", dxf: sourcePackage.dxf.replace("0\nSECTION\n2\nBLOCKS\n", "0\nSECTION\n2\nBROKEN\n") },
+        { name: "missing-identity.dxf", dxf: missingIdentity },
+        { name: "wrong-layer.dxf", dxf: wrongLayer },
+        { name: "non-finite.dxf", dxf: nonFiniteGeometry },
+        { name: "outside-tolerance.dxf", dxf: outsideTolerance },
+        { name: "missing-outline.dxf", dxf: missingOutline },
+        { name: "duplicate-piece.dxf", dxf: duplicatePiece },
+      ];
+      const fileContents = new Map([["source.json", JSON.stringify(sourcePackage)]]);
+      for (const failure of failures) fileContents.set(failure.name, failure.dxf);
+      const panel = setup({
+        audit: (candidate, returnedDxf) => auditDxfInterchangeRoundTrip(candidate as never, returnedDxf),
+        readFile: vi.fn(async (file) => fileContents.get(file.name) ?? ""),
+      });
+      panel.choose(panel.source, "source.json");
+
+      for (const failure of failures) {
+        const expected = await auditDxfInterchangeRoundTrip(sourcePackage, failure.dxf);
+        expect(expected.passed, failure.name).toBe(false);
+        panel.choose(panel.returned, failure.name);
+        panel.check.dispatchEvent(new Event("click"));
+        await vi.waitFor(() => expect(panel.status.textContent).not.toBe("Checking locally…"));
+        expect(panel.status.getAttribute("role"), failure.name).toBe("alert");
+        expect(panel.status.textContent, failure.name).toBe(`Check failed: ${expected.reason}`);
+        expect(panel.status.textContent, failure.name).not.toMatch(/\b(pieces|outlines|mark entities|maximum difference)\b/u);
+      }
     } finally {
       vi.unstubAllGlobals();
     }

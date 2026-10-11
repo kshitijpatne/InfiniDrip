@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4199,
-  "updatedAt": "2026-10-11T03:35:41.170Z",
+  "revision": 4203,
+  "updatedAt": "2026-10-11T03:41:24.679Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13434,6 +13434,16 @@
           "at": "2026-10-11T03:35:41.170Z",
           "actor": "Codex",
           "text": "S717 closed test-only: 11/11 panel tests pass; changed panel coverage is 100% across statements/branches/functions/lines. A real Tee M package flows through the live panel to the production auditor, with exact report summary; missing units and tampered digest fail closed without counts. No production or receiver claim; all V03 gates remain unchanged. Goal stays active."
+        },
+        {
+          "at": "2026-10-11T03:38:49.581Z",
+          "actor": "Codex",
+          "text": "S718 is a bounded test-only acceptance slice: route representative malformed/misleading returned-DXF cases through the live panel and production auditor, proving exact accessible failure reasons and no partial counts. Reuses existing failure shapes; no receiver, format, setting, threshold, or scope changes."
+        },
+        {
+          "at": "2026-10-11T03:41:24.679Z",
+          "actor": "Codex",
+          "text": "S718 closes the local negative-return UI matrix: malformed structure, missing identity, wrong layer, non-finite geometry, over-tolerance geometry, missing outline, and duplicate piece each show the real auditor reason as an alert without partial counts. Focused suite 12/12; panel coverage remains 100%. No receiver/profile gate passes from this evidence; all V03 criteria remain unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13998,7 +14008,9 @@
         "E-G04-S716-START",
         "E-G04-S716-EXIT",
         "E-G04-S717-START",
-        "E-G04-S717-EXIT"
+        "E-G04-S717-EXIT",
+        "E-G04-S718-START",
+        "E-G04-S718-EXIT"
       ],
       "flagKey": null
     },
@@ -27530,6 +27542,24 @@
       "sha256": null,
       "verified": true,
       "note": "Real Tee M schema-v5 package passed through the local panel and production return auditor; actual report summary matched and missing-units/tampered-source returns failed closed. This does not qualify a receiver or clear remaining V03 gates."
+    },
+    {
+      "id": "E-G04-S718-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S718-return-audit-ui-negative-matrix/S718-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Exercise representative existing returned-DXF audit failure shapes through the actual local panel; assert exact accessible fail-closed UI results. Test-only; no new receiver trial or gate change."
+    },
+    {
+      "id": "E-G04-S718-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S718-return-audit-ui-negative-matrix/S718-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Seven representative malformed/misleading returns pass through the live local panel and production auditor; each displays the auditor's exact alert without partial counts. Local UI negative coverage only; receiver/profile and other V03 gates remain."
     }
   ]
 }

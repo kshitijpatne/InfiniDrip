@@ -1,4 +1,29 @@
-## EPIC-17/G04 — S717 closed; local audit integration proof completed
+## EPIC-17/G04 — S718 closed; local return-audit failure matrix exercised
+
+S718 routes seven malformed/misleading returned-DXF cases through the actual
+local panel and production return auditor: malformed structure, missing piece
+identity, wrong CUT layer, non-finite geometry, over-tolerance geometry,
+missing outline, and duplicate piece. Every result displays the real auditor
+reason as an accessible alert with no partial counts. Focused tests pass
+12/12; changed panel-module coverage remains 100% across statements, branches,
+functions and lines. Alongside S716/S717 it closes local fail-closed UI checks
+for these tested classes, not receiver rejection, profile qualification,
+external readability, breadth, or repeatability. See
+`docs/research/epic17/S718-return-audit-ui-negative-matrix/S718-exit-packet.md`.
+
+Verified S718 boundary: 2026-10-11 03:40 UTC from S717
+`d89c3805` (`Slice 717: exercise real DXF audit UI path`); refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remains an ancestor;
+board start revisions 4199–4201. S718 closes after validated exit replay.
+V01/V02 remain Done, EPIC-17/G04-V03 remain In Progress, and the goal remains
+active. The two pre-existing untracked S700 diagnostics remain untouched.
+The V03 receiver/profile, measured CLO fixed-gate failures, all-seven
+round-trip, repeatability and receiver-readable output remain unresolved or
+unproven. Keep all gates, thresholds, legacy DXF, protected export identities,
+final full coverage/build/output review, necessary-file cleanup, PR, safe
+merge, ancestry, deployment and production E2E unchanged.
+
+## Prior boundary — S717 closed; local audit integration proof completed
 
 S717 exercises one real generated registered Tee M schema-v5 package through
 the Export panel and production DXF return auditor. The UI summary matches the

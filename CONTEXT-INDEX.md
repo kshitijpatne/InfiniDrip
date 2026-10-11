@@ -1,4 +1,22 @@
-## Current EPIC-17 / G04 V03 boundary — S717 closed
+## Current EPIC-17 / G04 V03 boundary — S718 closed
+
+S718 passes seven malformed/misleading returned-DXF cases through the actual
+local panel and production return auditor. The UI presents each exact auditor
+reason as an accessible alert with no partial counts. Together with S716/S717,
+this closes local fail-closed UI checks for the tested classes only; it does
+not qualify an external receiver/profile or pass its geometry, units, identity,
+marks/layers, breadth, repeatability, and readable-output gates. Focused suite:
+12/12; panel coverage: 100% statements/branches/functions/lines. Packet:
+`docs/research/epic17/S718-return-audit-ui-negative-matrix/S718-exit-packet.md`.
+
+V01/V02 are Done; EPIC-17 and G04-V03 remain In Progress, and the goal remains
+active. Continue from S709's fixed gate matrix; no repeated software/profile
+trial is queued. Preserve all acceptance, thresholds, seven-recipe/options/
+grades scope and export identities. Keep final full coverage/build/output
+review, necessary-file cleanup, PR, safe merge, ancestry, required deployment
+and production end-to-end checks as completion gates.
+
+## Prior boundary — S717 closed
 
 S717 proves one real generated registered Tee M schema-v5 package passes
 through the Export panel into the production return auditor; the visible

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4201,
+  "evidence": {
+    "id": "E-G04-S718-EXIT",
+    "uri": "docs/research/epic17/S718-return-audit-ui-negative-matrix/S718-exit-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "Seven representative malformed/misleading returns pass through the live local panel and production auditor; each displays the auditor's exact alert without partial counts. Local UI negative coverage only; receiver/profile and other V03 gates remain."
+  }
+}
