@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 4105,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S692 source correction: the five repeated Polo CUT-loss stations map to one current-source cubic whose 1 cm normal offset has an analytic cusp. Next is an additive, separately versioned candidate-export offset fix; no pattern/allowance/legacy DXF change and no receiver gate is yet passed. Goal remains active; G04-V03 remains held on independent receiver evidence."
-}

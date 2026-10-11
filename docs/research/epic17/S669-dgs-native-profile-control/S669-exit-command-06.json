@@ -1,7 +1,0 @@
-{
-  "actor": "Codex",
-  "type": "addComment",
-  "text": "S669's one native 10×10 cm DGS control failed DGS validation for its default name/size and outside-border grainline. Its single ASTM export has ten metadata TEXT entities and zero pattern geometry; the exact fresh-document self-import renders blank and registers 0/0. This is not a valid positive control, but together with S667/S668 it retires the tested DGS product route. S670 may correct only these exact native-control conditions from first-party instructions, then one clean control; no user decision is pending. V03 gates and acceptance stay unchanged.",
-  "expectedRevision": 3947,
-  "itemId": "G04-V03"
-}

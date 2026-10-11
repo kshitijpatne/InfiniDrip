@@ -1,8 +1,0 @@
-{
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve fixed 0.001 cm geometry, units, piece/grade identity and relations, seams/marks/grainlines, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected byte identities. S668's source preflight passed: only the nine approved grainline XDATA version digits changed to /2. The actual DGS ASTM/AAMA Pattern decoder then produced a blank canvas and 0/0 registered patterns without a warning dialog; this candidate failed and is retired. No export/reimport. S669 will inspect only local vendor-supplied examples/input contract, then use existing eligible local receiver evidence to select the next practical route. Keep every V03 gate and hold."
-  },
-  "type": "editItem",
-  "expectedRevision": 3932,
-  "itemId": "G04-V03"
-}

@@ -1,8 +1,0 @@
-{
-  "type": "editItem",
-  "itemId": "G04-V03",
-  "expectedRevision": 3813,
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor mode label. GetonAgain DGS VID:20250610 now launches after the official 15-file update and verified MPVCI prerequisite. Its direct local File→Import DXF route and `.dxf` filter are visible; ASTM/AAMA, TIIP, AutoCAD modes and unit/text/seam/grade options are exposed. The manual still does not specify entity/layer/identity/sidecar semantics; Export DXF is disabled in the blank workspace. Do not import the generic S648 R14 fixture without a matched source/profile contract. No fixture exchanged; no V03 gate clears. Keep Blocked pending one documented/matched candidate contract and the representative import/export round trip. See docs/research/epic17/S659-dgs-update-and-route-check/S659-exit-packet.md."
-  }
-}

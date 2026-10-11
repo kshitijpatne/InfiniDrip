@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4054,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S685 investigates the measured S684 CLO output unit mismatch at our existing package boundary. The original input/output are immutable evidence. Any product-side unit normalization requires full per-piece geometry and mark identity proof within the fixed 0.001 cm gate; otherwise no production change. No new application/profile trial or V03 gate relaxation."
-}

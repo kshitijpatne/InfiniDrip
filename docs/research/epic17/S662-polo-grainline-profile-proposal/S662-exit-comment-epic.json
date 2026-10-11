@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "EPIC-17",
-  "expectedRevision": 3859,
-  "actor": "Codex",
-  "text": "S662 closes a source-only study of the exact Polo M grainline warning. It found a concrete additive, source-derived profile trial and identified the receiver's layer/entity semantics as the only decision that needs maintainer approval before implementation. No V03 acceptance or gate changed; DGS remains open, and the active Epic goal continues."
-}

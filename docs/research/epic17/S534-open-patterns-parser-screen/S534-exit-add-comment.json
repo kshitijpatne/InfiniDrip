@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3250,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S534 screened Open Patterns: the package parses ASTM/AAMA DXF into OPF and renders SVG/PNG but does not write DXF or provide a CAD receiver, so it cannot meet V03 round-trip acceptance. It may be a future one-way cross-check subject to rights review. No install, G04 data, or acceptance change. The next blocker is written CLO product-development permission and acceptable local-data handling, or a different rights-cleared free apparel CAD receiver/profile."
-}

@@ -1,6 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V02",
-  "actor": "Codex",
-  "text": "Slice 361 is a non-production diagnostic of the approved Woven two-instance sleeve/band view after the S349 back crossing. It tests a source-bound normal-offset candidate across all 28 options / 56 faces. No production mapping, source geometry, stitch graph, threshold or accepted status may change in this slice; preserve all 56 Woven and 34 Polo holds, all-seven V02 and V02-before-V03. The user confirmed Polo's 0.25 cm residual gate and approved the separate S359 full-collar projection proposal for a later implementation slice, subject to its complete output checks."
-}

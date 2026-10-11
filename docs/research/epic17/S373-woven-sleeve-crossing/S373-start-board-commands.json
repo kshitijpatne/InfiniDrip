@@ -1,6 +1,0 @@
-[
-  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S373-START","kind":"document","uri":"docs/research/epic17/G04-V02-WOVEN-REMAINING-SLEEVE-CROSSING-DIAGNOSIS-S373.md","verified":true,"note":"S373 starts a diagnostic-only trace of the remaining mirrored Woven sleeve hem crossing after S372. It preserves the all-seven V02 gate, all holds, the Polo 0.25 cm threshold and V02-before-V03."}},
-  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S373-START","actor":"Codex","role":"maintainer"},
-  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S373-START"},
-  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"Slice 373 starts from S372 at board revision 1800. It will trace the remaining Woven back sleeve crossing against all 28 current production outputs and generate annotated renders. This slice is diagnostic/proposal-only; it does not change source geometry, stitches, accepted-face totals, output gates, or holds. The separately admitted UI sequence reconciliation is recorded at S368 and introduces no new G04 closure dependency."}
-]

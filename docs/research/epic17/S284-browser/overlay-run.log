@@ -1,2 +1,0 @@
-page.waitForFunction: Timeout 10000ms exceeded.
-    at main (C:\Users\kshit\.codex\worktrees\epic-17-g04\designApp\ops\web\verify-g04-s284-overlays.mjs:54:18)

@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 boundary — S729 final release and merge
+## Current EPIC-17 / G04 boundary — S730 repository-evidence hygiene
 
 S726 completes V03's technical acceptance under the maintainer-directed
 exchange-structure sampling definition. All 365 option × grade packages are
@@ -19,12 +19,16 @@ tested. Read `PROJECT-STATE.md`,
 `docs/research/epic17/S726-source-class-and-profile-evidence/`,
 `docs/research/epic17/S727-integrated-epic-release/`,
 `docs/research/epic17/S728-integrated-gate-corrections/`, and the validated
-board. S729 starts from the clean S728 commit with origin/main an ancestor;
-the inherited S700 diagnostic text files are preserved outside the repository
-on C: with verified hashes. S729 is limited to final candidate review, PR,
-safe merge, refreshed ancestry, required deployment and production E2E; it does
-not reopen receiver or construction research. The start packet is
-`docs/research/epic17/S729-final-release/S729-start-packet.md`.
+board. S729's final-diff audit exposed thousands of historical raw
+research/render outputs. S730 archives 6,390 unreferenced generated files
+(409,943,310 bytes) after SHA-256 verification to C:. It retains all 81
+required linked/dynamic-test inputs; the Markdown-link audit reports zero
+moved or missing links. The cleaned-tree integrated gate passes 158 files/
+2,366 tests at 100% global coverage; build, packaged Electron, focused release
+suites, and the S728 production replay pass. Exact evidence is in
+`docs/research/epic17/S730-repository-evidence-hygiene/S730-exit-packet.md`.
+Receiver and acceptance research remain closed. Keep the goal active through
+final diff review, PR, merge, ancestry, deployment, and production E2E.
 
 ## Prior boundary — S725 closed
 

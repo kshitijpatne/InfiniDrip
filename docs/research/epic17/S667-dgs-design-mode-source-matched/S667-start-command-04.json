@@ -1,7 +1,0 @@
-{
-  "text": "S667 begins from verified S666 commit f70d1992 and board revision 3911. It changes only the documented DGS AutoCAD Pattern/Design selector on the frozen S664 Polo M source. No approval is pending; the approved grainline mapping remains settled. Stop this candidate on any concrete warning, loss, unreadable geometry or precision miss; V03 acceptance remains unchanged.",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "type": "addComment",
-  "expectedRevision": 3914
-}

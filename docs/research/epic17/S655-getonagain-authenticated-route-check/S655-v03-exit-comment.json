@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "text": "Slice 655 exit: user sign-in reaches GMS V2024.1 nesting workspace. File→Open is a local Marker File (*.mkr) picker, not DXF; Output Auto CAD dxf is disabled with no marker loaded. DGS V2023.1 Pattern Design & Grading still yields no targetable window/process after one launch attempt. No fixture exchanged; all V03 gates remain blocked. See S655 exit packet.",
-  "expectedRevision": 3776,
-  "actor": "Codex",
-  "itemId": "G04-V03"
-}

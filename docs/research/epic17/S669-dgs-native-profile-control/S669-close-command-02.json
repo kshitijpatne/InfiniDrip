@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3949,
-  "type": "editItem",
-  "itemId": "G04-V03",
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve fixed 0.001 cm geometry, units, piece/grade identity and relations, seams/marks/grainlines, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected byte identities. S667 DGS AutoCAD/Design export fails units/geometry/identity/layers. S668 DGS ASTM/AAMA Pattern import of the source-verified, maintainer-approved /2 fixture is blank/0. S669 found no local DGS sample; its invalid native 10×10 cm control produced a metadata-only 1,227-byte ASTM DXF and blank/0 self-import. No passing profile is inferred; the tested DGS product routes are retired, with one bounded S670 check only for the native validity error. All V03 gates and holds remain unchanged. No normative claim from menu labels. See docs/planning/EPIC-17-ADMISSION.md and the S669 gate matrix/completion plan."
-  }
-}

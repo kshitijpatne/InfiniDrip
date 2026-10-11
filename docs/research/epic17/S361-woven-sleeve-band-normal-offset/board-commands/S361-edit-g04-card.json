@@ -1,7 +1,0 @@
-{
-  "type": "editItem",
-  "itemId": "G04-V02",
-  "patch": {
-    "description": "Current integrated matrix remains 73 configurations / 146 face requests, 56 accepted / 90 held. All 34 Polo and 56 Woven faces remain held. S359's full-collar arclength/normal-offset view projection is approved for a separately bounded implementation, subject to every output gate. S361's diagnostic Woven sleeve/band normal-offset candidate fails the conditional crossing gate in all 28 back configurations; see docs/research/epic17/G04-V02-WOVEN-SLEEVE-BAND-NORMAL-OFFSET-DIAGNOSTIC-S361.md. Preserve the confirmed Polo 0.25 cm residual gate, all-seven-recipe V02 criterion, and V02-before-V03 gate."
-  }
-}

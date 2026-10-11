@@ -1,8 +1,0 @@
-{
-  "type": "editItem",
-  "itemId": "EPIC-17",
-  "patch": {
-    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01/V02 are Done; S459 accepted all seven recipes, 73 supported configurations and 146 front/back faces. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains unqualified. The authorized local GetonAgain DGS session is signed in; executable file version 2023.1.0.0, About VID:20250610 (V2024.1 is the manual/package). The maintainer-approved S662 source-derived LINE/GRAINLINE mapping was tested in S664; DGS warned grainline outside border on 9/9. S661's no-grainline input showed the same warning. These exact candidates fail; cause and broader DXF support remain unproven. S665 records the gate matrix and bounded route. Next S666: one C:-only native DGS grainline calibration with exact settings recorded, fixed geometry/units/frame, precision at 0.001 cm, one parse and one reimport. Stop the DGS candidate on inability to prove precision or unresolved loss; no permutations. Preserve all-seven/options/grades, fixed thresholds, C04 sidecar limits, V02 holds, legacy DXF, protected identities and final gates. No ANSI/AAMA or ASTM conformance, physical-fit, factory-acceptance or production-readiness claim. Current state: PROJECT-STATE.md; S665 packet: docs/research/epic17/S665-v03-gate-refresh/S665-exit-packet.md."
-  },
-  "expectedRevision": 3890
-}

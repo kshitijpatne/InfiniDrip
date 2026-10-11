@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3972,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S671 starts one distinct source-exact hypothesis on the existing Polo M fixture: split only the long straight segment adjacent to each of the five shallow failing CUT corners into collinear steps ≤0.05 cm, preserving the exact represented path and all original source records. CLO Standard import runs once; export only if every native CUT/SEW and semantic gate passes. Stop on a miss; no alternate density/mode or tolerance change. All approvals, including grainline /2, remain settled.",
-  "expectedRevision": 3972
-}

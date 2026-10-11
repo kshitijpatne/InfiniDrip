@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3240,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S532 begins one synthetic positive-control DXF-AAMA export and fresh re-import in the same CLO session. Inspect exact profile/settings and compare source/exported geometry. Keep all files in the named C: folder; no G04 bytes or acceptance change. Preserve the S531 malformed-input failure and every other V03 hold."
-}

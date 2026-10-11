@@ -1,5 +1,0 @@
-{
-  "type": "addEvidence",
-  "itemId": "G04-V02",
-  "evidence": { "id": "E-G04-S361-MATRIX", "kind": "document", "uri": "docs/research/epic17/S361-woven-sleeve-band-normal-offset/normal-offset-candidate-matrix.json", "verified": true, "note": "All 28 source configurations / 56 face requests; every back candidate retains four or eight band-pair crossings." }
-}

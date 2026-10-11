@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4002,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S674 source-based pre-install check: the exact hash-pinned S671 input is AC1015/$INSUNITS=5 and uses only 18 polylines, 14 lines, 21 points, and 3 circles across CUT/SEW and typed MARK_* layers; it has no INSERT, XDATA, or piece identity. LibreCAD first-party docs cover DXF read/write, the relevant 2D entities/layers, and AC2000 among listed DXF versions, but also warn that not all DXF features are supported. This makes the single existing fixture pilot relevant, not proven. No LibreCAD install, exchange, or V03 gate pass occurred; no additional candidate/format/setting trial is planned. Full V03 acceptance remains unchanged. See the S674 source-based pre-install screen in the packet."
-}

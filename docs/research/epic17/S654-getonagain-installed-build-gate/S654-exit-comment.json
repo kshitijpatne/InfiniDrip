@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3763,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S654 verifies the official package at C:\\Garment CAD(GetonAgain Free version). GMS.exe is V2024.1 and opens to Sign in/Register; no authenticated workspace or direct local DXF route is verified. DGS.exe is V2023.1 Pattern Design & Grading and did not expose a targetable window on one launch attempt. Authentication was not automated and no fixture was opened. Keep V03 Blocked and every acceptance gate unchanged. See docs/research/epic17/S654-getonagain-installed-build-gate/S654-exit-packet.md."
-}

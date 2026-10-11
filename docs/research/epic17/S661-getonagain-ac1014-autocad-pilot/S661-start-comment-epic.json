@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "EPIC-17",
-  "expectedRevision": 3843,
-  "actor": "Codex",
-  "text": "Slice 661 starts after the user confirmed sign-in. The live DGS workspace is past login but empty. A single hash-pinned S648 generic AC1014 fixture will be piloted through DGS AUTOCAD import with frozen settings; all V03 gates remain technical and unpassed. The C: exchange folder follows the approved C:\\G04-CLO-DXF-Exchange root."
-}

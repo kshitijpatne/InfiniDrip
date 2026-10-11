@@ -1,8 +1,0 @@
-{
-  "type": "editItem",
-  "itemId": "G04-V03",
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected export identities. Do not infer ANSI/AAMA or ASTM conformance from a vendor menu label. GetonAgain DGS local evaluation rights, local handling and sign-in are settled; executable file version 2023.1.0.0 / About VID:20250610. S661/S664 AutoCAD/Pattern candidates failed with nine outside-border warnings. S666's one closed control fixture has zero source grainline entities, but one DGS AutoCAD/Pattern import reported the same warning and rendered unexpected internal strokes; selected-pattern native recreation did not clear it. No export occurred; this exact candidate failed and the DGS-wide cause remains unproven. See S666 gate delta/plan. Next S667 tests only the documented AutoCAD/Design mode against the exact S664 source-matched Polo M candidate, changing Pattern→Design. Require warning-free, readable geometry and identity within 0.001 cm before one export/parse/reimport; stop on any concrete miss. Preserve every acceptance gate and hold."
-  },
-  "expectedRevision": 3903
-}

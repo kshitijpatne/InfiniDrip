@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3978,
-  "type": "addEpicEvidence",
-  "epicId": "EPIC-17",
-  "evidenceId": "E-G04-S671-MATRIX",
-  "role": "maintainer",
-  "actor": "Codex"
-}

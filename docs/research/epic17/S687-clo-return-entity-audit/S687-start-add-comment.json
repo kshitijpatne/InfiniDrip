@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4062,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S687 checks the eight measured S685 mark misses against every entity type in the saved receiver drawing and verifies the pinned hashes. This is a read-only diagnostic for a possible comparison-logic defect; it does not authorize another app operation, export variant, or acceptance change."
-}

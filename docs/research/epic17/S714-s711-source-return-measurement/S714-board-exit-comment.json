@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4186,
-  "text": "S714 closed with an exact comparison of the saved S711 return and S708 source: 13/18 CUT/SEW contours are within 0.001 cm; all nine SEW paths pass, while the back, both stands and both collars fail on CUT. Both files use straight polylines; numeric return layers repeat the same contour geometry. Units and source-identifiable marks/layers remain failed. No source, pattern geometry, gate, threshold, or CAD output changed. Next: inspect the five source-side CUT paths for a tolerance-preserving interchange-writer correction; no new CAD candidate or format trial."
-}

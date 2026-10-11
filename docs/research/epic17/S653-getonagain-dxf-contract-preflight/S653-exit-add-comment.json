@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3757,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S653 reviewed the verified V2024.1 manual pp. 239-241. ASTM/AAMA and Auto CAD menus are distinct vendor choices; the manual does not define a supported DXF entity/layer/version or metadata contract and limits RUL drill/buttonhole counts to base-size counts. GetonAgain is authorized for bounded evaluation but remains uninstalled/unqualified. Two matching consent prompts remain live; only the maintainer can approve Windows security UI. No V03 gate or hold changed. See docs/research/epic17/S653-getonagain-dxf-contract-preflight/S653-exit-packet.md."
-}

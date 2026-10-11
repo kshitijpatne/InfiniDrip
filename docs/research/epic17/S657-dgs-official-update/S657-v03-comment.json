@@ -1,7 +1,0 @@
-{
-  "actor": "Codex",
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "expectedRevision": 3794,
-  "text": "S657 exit: verified rollback copies for installed DGS.exe and all language files. One documented MPVCI launch left two live setup processes but no targetable window, consent process, event, registry install or completion/error message. No DGS update or fixture exchange occurred. Keep Blocked; maintainer must inspect the visible installer state before continuation."
-}

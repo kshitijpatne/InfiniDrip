@@ -1,5 +1,0 @@
-[
-  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S374-WHOLE","kind":"rendered-output","uri":"docs/research/epic17/S374-woven-pom-wrapped-label/annotated/woven-shirt-combined-supported-three-line-candidate-whole.png","verified":true,"note":"Manually reviewed whole front-flat candidate render. The wrapped POM remains locally legible at whole-view scale but exists only in one combined option row; it is not an all-option solution and remains diagnostic only."}},
-  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S374-WHOLE","actor":"Codex","role":"maintainer"},
-  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S374-WHOLE"}
-]

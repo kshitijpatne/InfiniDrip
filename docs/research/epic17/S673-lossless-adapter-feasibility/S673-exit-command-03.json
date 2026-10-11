@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3995,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S673 closes with a no-go for source-side recovery of the tested CLO output: five CUT paths exceed 0.001 cm and the DXF lacks provenance to distinguish receiver simplification from CAD edits. The C04 sidecar can bind identity/grade/relations but cannot replace CUT/SEW or visible marks. No production adapter was added. OpenMarker was screened from its first-party README; it is offline/open-source but has no export flow yet. V03 remains In Progress with all gates unchanged. S674 screens only documented free/local apparel CAD options with both DXF import and export.",
-  "expectedRevision": 3995
-}

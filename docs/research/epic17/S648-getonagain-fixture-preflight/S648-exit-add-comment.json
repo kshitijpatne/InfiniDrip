@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3737,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S648 closes the offline C:-only fixture preflight: exact S646 R14 Polo M first output copied byte-identically (153647 bytes, SHA-256 ABB6282723B9A4198F6DE54D5A1CFA70D5784455402D5FBD25E7791456B87461), with its 9-piece/56-entity/unit/layer baseline. No receiver import or CLO operation occurred; GetonAgain rights/locality remain unverified and every V03 gate/hold is unchanged. S640 is already closed with five CUT failures before export. Next is a bounded evidence reconciliation/plan, not another experiment. See E-G04-S648-EXIT."
-}

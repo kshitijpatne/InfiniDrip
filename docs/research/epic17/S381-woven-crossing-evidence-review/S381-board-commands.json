@@ -1,4 +1,0 @@
-[
-  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S381-START","kind":"document","uri":"docs/research/epic17/S381-woven-crossing-evidence-review/G04-V02-WOVEN-CROSSING-EVIDENCE-REVIEW-S381.md","verified":true,"note":"S381 reuses the exact S373 28-option source/output handoff; no 0.60 cm gap is supported by Woven source or stitch topology."}},
-  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"S381 is active for a bounded Woven back hem-crossing evidence review. It rechecks the current continuous sleeve hem and S373 exact 28-option rendered trace. No gap or mapping change is authorized by the existing source evidence; all Woven/Polo holds and V02/V03 gates remain."}
-]

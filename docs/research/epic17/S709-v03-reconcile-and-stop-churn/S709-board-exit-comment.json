@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S709 closes the S640/S700/S704/S708 gate reconciliation and bounded Sol high review. S708's R2000 writer correction passes one LibreCAD Polo M fixture; LibreCAD is generic and cannot pass the admitted industrial-apparel profile gate. Do not spend a 73-row run on it. Next S710 advances source-side return identity and fail-closed checks against the existing evidence; no new app/mode/acceptance change. CLO/DGS tested failures, fixed thresholds, all-seven/options/grades, protected exports, final cleanup/merge/production gates remain recorded. G04-V03 and Epic stay In Progress; no gate is declared Done.",
-  "expectedRevision": 4166
-}

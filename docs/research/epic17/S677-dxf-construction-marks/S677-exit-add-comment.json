@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4024,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S677 adds recipe-owned notch ticks and grainline shaft/chevrons to the opt-in centimeter DXF candidate only, resolving marks through the same live rules and laid-out geometry used by SVG. Seven recipe M-size DXFs were generated and their emitted records rendered/inspected; exact evidence and hashes are in the S677 packet and C:\\G04-CAD-Interchange\\S677-construction-marks. Focused six-suite checks pass 37/37, changed-module coverage is 100% in all dimensions, build passes, Control Center passes 42/42, legacy/protected regressions are unchanged. This does not prove receiver acceptance, identity/grade package, or V03; all gates and acceptance remain unchanged. Next S678: source-bound identity/grade/seam sidecar feasibility and implementation against the C04 contract."
-}

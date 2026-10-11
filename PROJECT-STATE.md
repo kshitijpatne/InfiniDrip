@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 boundary — S729 final release and merge
+## Current EPIC-17 / G04 boundary — S730 repository-evidence hygiene
 
 S726 records the maintainer-directed V03 acceptance correction and closes its
 technical evidence gates. The 365 supported option × grade source packages
@@ -22,15 +22,17 @@ application. The settled full gate, builds, Control Center/web checks, current
 73-option/146-face Chromium replay, text-overlap audit, visual review and
 packaged Electron export/lifecycle checks pass; evidence and hashes are in
 `docs/research/epic17/S728-integrated-gate-corrections/S728-exit-packet.md`.
-S729 starts from the clean S728 commit `c639615f` with refreshed
-`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` still an ancestor and
-board revision 4266. The two inherited S700 diagnostics are now preserved on
-C: with verified hashes; generated replay/build/package outputs remain on C:,
-and the temporary junction and generated ignored build directories have been
-removed. S729 owns only final candidate hygiene/review, the already-authorized
-PR, safe merge, ancestry, required deployment, and production E2E. Its start
-packet is `docs/research/epic17/S729-final-release/S729-start-packet.md`.
-EPIC-17 and the goal remain In Progress until every exit gate passes.
+S729 confirmed the goal record is active and aligned, refreshed origin/main
+remains an ancestor, and closed the S728 verification record. S730 archives
+6,390 unreferenced generated files (409,943,310 bytes) after SHA-256
+verification to C:. It retains all 81 required linked/dynamic-test inputs;
+the Markdown-link audit reports zero moved or missing links. The cleaned-tree
+integrated gate passes 158 files/2,366 tests at 100% global coverage; build,
+packaged Electron, focused release suites, and the S728 production replay pass.
+Exact evidence is in
+`docs/research/epic17/S730-repository-evidence-hygiene/S730-exit-packet.md`.
+EPIC-17 and the goal remain In Progress through final diff review, PR, merge,
+ancestry, deployment and production E2E.
 
 ## Prior boundary — S724 closed; V03 evidence model corrected
 

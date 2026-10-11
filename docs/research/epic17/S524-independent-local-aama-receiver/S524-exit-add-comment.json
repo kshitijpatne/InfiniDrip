@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3210,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S524 is closed as an import-only Pixie Space screen: seven generic base-M inputs rendered without a displayed error, but the app's export menu exposed no destination picker and browser controls could not guarantee a save under C:\\G04-CLO-DXF-Exchange\\S524-independent-local-aama-receiver. Export was deliberately not clicked. No round trip, industrial profile, rights, or V03 gate is cleared. Do not repeat these imports or S523's CLO trials; next receiver experiment requires a distinct sourced mechanism and verifiable C:-only output path. Keep CLO open for G04."
-}

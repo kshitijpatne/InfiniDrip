@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4190,
-  "text": "S715 closes source CUT diagnosis: every returned contour vertex maps to an input vertex within 0.000038 cm; the same five shallow corners are omitted and exceed 0.001 cm. The source writer already emits all points at six decimals. S503 already tested Optimize All Curve Points on/off without changing the five CUT contours; prior entity, unit, mode and density trials also settle those variants. No code-side defect or supported new trial exists, so no pattern/writer change or repeat CLO test was made. Continue with the independent local malformed-return UX gate; all profile, geometry, breadth, and remaining V03 gates stay unchanged."
-}

@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4022,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S677 is reserved from clean S676 `4e842633`; refreshed origin/main remains an ancestor and S676 is the highest assigned slice. Source audit found recipe notch/grainline rules are rendered in SVG but are not passed to the legacy DXF writer. Implement those source-authored marks only in the opt-in centimeter candidate, preserve all legacy bytes, and test all seven recipes. V03 stays In Progress; no receiver/profile gate is passed or acceptance changed."
-}

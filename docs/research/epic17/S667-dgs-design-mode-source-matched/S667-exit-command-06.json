@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 3921,
-  "text": "S667 retired DGS AutoCAD/Design on actual parsed export: units changed cm→mm without scaling, INSERT identities and semantic layers were flattened, profile absent, and physical geometry missed 0.001 cm by up to 191.201177 cm. No reimport. S668 will validate the approved /2 input then test the distinct apparel decoder once; no external approval is pending.",
-  "type": "addComment",
-  "actor": "Codex",
-  "itemId": "G04-V03"
-}

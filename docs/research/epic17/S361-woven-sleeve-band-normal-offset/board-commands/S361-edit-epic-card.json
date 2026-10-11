@@ -1,7 +1,0 @@
-{
-  "type": "editItem",
-  "itemId": "EPIC-17",
-  "patch": {
-    "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope remains G04 V01 → V02 → V03; all-seven V02 acceptance, protected export identities, legacy DXF behavior and V02-before-V03 gate are unchanged. Current integrated output: 56 accepted / 90 held across 73 configurations / 146 faces; all 56 Woven and 34 Polo faces remain held. The maintainer approved the S359 full-collar arclength/normal-offset projection for a separate implementation slice, subject to complete output checks. S361's non-production Woven sleeve/band normal-offset candidate retains four crossings in 26 options and eight in two; it does not clear the hold. Polo authored 1.5 cm ease and confirmed 0.25 cm gate remain. Conditional minimum is at least 13 additional slices; no upper bound while other view holds and CAD rights/receiver evidence remain unresolved. Details: docs/planning/EPIC-17-ADMISSION.md and current PROJECT-STATE.md."
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "actor": "Codex",
-  "itemId": "G04-V03",
-  "expectedRevision": 3785,
-  "type": "addComment",
-  "text": "Slice 656: verified the installed DGS V2023.1 is older than the official Free_Version_DGS_20250610 bundle. The vendor install note specifies MPVCI 2.7 then the DGS upgrade; whether this caused the failed launch remains unproven. No install, extraction or DXF fixture action in this slice. Keep all gates/holds; next follow the already-authorized update path and recheck DGS menus."
-}

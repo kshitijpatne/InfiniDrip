@@ -1,8 +1,0 @@
-{
-  "type": "editItem",
-  "itemId": "EPIC-17",
-  "expectedRevision": 3812,
-  "patch": {
-    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. Admission: docs/planning/EPIC-17-ADMISSION.md. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. V03 is Blocked; no receiver/profile is selected or qualified. CLO empirical routes have measured geometry, marks and malformed-input failures; generic OpenCAD R14 is not an industrial apparel profile. Written product-development/local-DXF permission and official GetonAgain Free evaluation are recorded. MPVCI V2.7 and Microsoft VC++ 2010 x64/x86 10.0.40219 are registered. The official hash-pinned DGS 20250610 bundle was applied with all 15 S657 rollback files verified; updated DGS launches and Help/About reports VID:20250610 while file version remains 2023.1.0.0. File→Import DXF is enabled with a local .dxf picker; modes are ASTM/AAMA, TIIP, AutoCAD. File→Export DXF is disabled with an empty workspace. The first-party manual and observed dialogs do not define the exact entity/layer/identity/sidecar contract; no fixture was imported and no V03 gate clears. Next: resolve a profile-specific contract from primary evidence before one source-matched pilot. Preserve V02-before-V03, legacy DXF behavior and protected export identities; preserve all-seven/options/grades, 0.001 cm geometry, all technical gates and claim boundaries. S659 packet: docs/research/epic17/S659-dgs-update-and-route-check/S659-exit-packet.md."
-  }
-}

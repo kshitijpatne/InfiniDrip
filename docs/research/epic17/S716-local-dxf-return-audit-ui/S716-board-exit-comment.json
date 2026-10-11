@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4194,
-  "text": "S716 closes the local returned-DXF audit UI. The existing schema-v5 package writer and strict auditor now have an accessible local Export-panel flow with paired source DXF/package downloads, local source/return file selection, and visible fail-closed results. Targeted tests, 100% changed-panel coverage, build, 42 Control Center tests, browser rendering, and the legacy DXF download check passed. A broad app-suite attempt was stopped at >2 GB worker memory; no result is claimed. CLO remains unqualified with existing measured failures; no V03 gate or threshold changed."
-}

@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3989,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S672 closes the exact S671 fixture trial. CLO Standard-DXF produces nine pieces, but only 4/9 CUT and 9/9 SEW pass the 0.001 cm gate; `$INSUNITS` changes 5 (cm) to 4 (mm) without numeric rescaling, source identity/semantic layers and typed marks are lost, and the saved whole-layout render is too faint to read. The CLO export happened before the planned import gate was fully closed; this deviation is disclosed and the file is diagnostic only, not a qualified round trip. CLO Standard is disqualified; DGS remains retired. Updated gate matrix and shortest completion plan are in the S672 folder. All V03 acceptance and `/2` grainline approval remain unchanged; no decision is pending.",
-  "expectedRevision": 3989
-}

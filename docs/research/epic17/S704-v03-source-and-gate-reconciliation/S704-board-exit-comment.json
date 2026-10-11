@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S704 reconciles every fixed V03 gate with the exact S703 return, existing R2000/CLO/DGS/GMS/OpenCAD evidence and current candidate writer. S703 source-unit wording is corrected: source declares $INSUNITS=5; only CLO return drops it. No more CLO or new-software variations. Existing LibreCAD 2.2.1.5 R2000 is the only previously measured route passing one fixture for geometry, units, marks, layers and reopen; it remains a generic-CAD empirical candidate, and the admitted industrial-profile gate is not claimed passed. Next is a candidate-only buttonhole cross using the existing PDF renderer convention, then one exact R2000 current-package test; no geometry, threshold, acceptance or legacy writer changes.",
-  "expectedRevision": 4147
-}

@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4038,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S681 adds a source-bound mark identity table to the additive DXF package manifest because the writer currently drops PatternMark names and labels. Actual mark entities and geometry remain present and unchanged. Reuse the 73-option matrix, preserve legacy/protected outputs, and make no receiver or V03 pass claim."
-}

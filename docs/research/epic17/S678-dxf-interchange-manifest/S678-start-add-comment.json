@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4026,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S678 starts from clean S677 `280580ad`; refreshed origin/main remains an ancestor and slice 677 is the highest assigned. Board revision 4025, V01/V02 Done and V03/Epic In Progress. Implement deterministic C04-limited package metadata bound to exact DXF SHA-256 and a canonical package revision digest: recipe/piece roles, selected grade/size, options, and Block.stitches relations. Reuse grade fixtures; reject tampering. No UI, legacy writer, receiver/profile, or acceptance changes."
-}

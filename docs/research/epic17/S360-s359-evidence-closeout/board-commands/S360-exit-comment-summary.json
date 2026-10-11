@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 1498,
-  "itemId": "EPIC-17",
-  "actor": "Codex",
-  "text": "Slice 360 is a documentation/evidence closeout only. No V02 face was accepted and no production or export behavior changed."
-}

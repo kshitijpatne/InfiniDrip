@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3926,
-  "itemId": "G04-V03",
-  "type": "editItem",
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve fixed 0.001 cm geometry, units, piece/grade identity and relations, seams/marks/grainlines, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected byte identities. S667 DGS AutoCAD/Design candidate failed identity, layer, profile, units and geometry. S668 independently validates an approved /2 source fixture and tests one DGS ASTM/AAMA apparel decoder import; a clean import alone permits one export/parse/reimport. A menu label is not conformance proof. Keep every V03 gate and hold."
-  }
-}

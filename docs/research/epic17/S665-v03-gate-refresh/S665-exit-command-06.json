@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S665 closes the current V03 reconciliation without changing any gate. The approved S662 mapping was tested in S664 and the exact LINE/GRAINLINE candidate failed 9/9; S661's no-grainline input showed the same warning, so the internal cause and broader DGS DXF support remain unproven. The next authorized action is one C:-only native DGS grainline calibration with fixed geometry/settings, a 0.001 cm evidence stop, one parse and one reimport. No format/entity/mode/settings permutations. See S665 matrix, plan, reviewer disposition and exit packet.",
-  "expectedRevision": 3894
-}

@@ -1,7 +1,0 @@
-{
-  "actor": "Codex",
-  "itemId": "EPIC-17",
-  "expectedRevision": 3786,
-  "type": "addComment",
-  "text": "Slice 656 reconciles DGS launch evidence: installed V2023.1 is older than the bundled official DGS update; vendor install note specifies MPVCI 2.7 followed by the update. Cause is not proven and no update/fixture action occurred. Next is the authorized update with rollback and Windows security prompt stop. Epic remains In Progress; V03 Blocked."
-}

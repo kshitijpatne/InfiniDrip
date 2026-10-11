@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S708 is a source-to-return audit using the already-generated S703 CLO, S706 LibreCAD and S707 LibreCAD files plus the current named-block writer. It will compare actual entity types, group-code layer names and geometry to determine whether our writer emits CUT correctly and what the saved receivers change. No software, format, settings or entity-encoding trial will be run. A code correction is in scope only if these exact files prove a writer defect; V03 thresholds, all-seven/options/grades, profile/rights and every other gate remain unchanged.",
-  "expectedRevision": 4159
-}

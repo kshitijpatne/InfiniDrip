@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 1464,
-  "itemId": "G04-V02",
-  "actor": "Codex",
-  "text": "Slice 358 exit: exact upperCollar/underCollar path arrays coincide on all 56 current Woven faces, but annotated front/back output still shows detached/crossed collar assembly and unreadable overlaps. Duplicate suppression cannot fix placement, and no additional layer convention is source-authorized. Preserve all Woven holds. Maintainer chose to keep Polo's 0.25 cm gate; all 34 Polo faces remain held. See S358 exit packet and rendered artifacts. Integrated tally remains 56 accepted / 90 held; V02 all-seven criterion and V03 gate unchanged."
-}

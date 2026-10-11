@@ -1,7 +1,0 @@
-{
-  "actor": "Codex",
-  "type": "addComment",
-  "text": "S668 tests the approved /2 candidate. Preflight proves only nine XDATA version digits changed; all source units, entities, identity and geometry remain unchanged. DGS ASTM/AAMA Pattern import completed but renders blank and registers 0/0 patterns, with no warning. Candidate retired; no export/reimport or other DGS permutation.",
-  "expectedRevision": 3935,
-  "itemId": "G04-V03"
-}

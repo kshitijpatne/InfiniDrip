@@ -1,8 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "text": "Correction after bounded Sol review: do not run the proposed LibreCAD current-candidate pilot. Even a technical pass cannot clear the route eligibility gate; S690/C04 classify LibreCAD as generic CAD. The S696 plan and PROJECT-STATE now record the precise re-entry condition and retain every acceptance gate. No further app/format/setting trial is scheduled without evidence for an eligible, already available local apparel/industrial profile.",
-  "actor": "Codex",
-  "expectedRevision": 4123
-}
-\n

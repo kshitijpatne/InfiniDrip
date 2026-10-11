@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3957,
-  "type": "editItem",
-  "itemId": "G04-V03",
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with import/export/round trips across all seven recipes and supported options/grades. Preserve 0.001 cm geometry, units, piece/revision/grade identity and relations, CUT/SEW, marks/grainlines, malformed-input rejection, repeatability, readable output, legacy DXF and protected byte identities. Tested DGS product routes failed (S667 unit/identity/layer/geometry loss; S668 approved /2 decoder import blank/0). S669's invalid native control emitted only metadata. S670 is one bounded native-validity/self-control check; no product fixture, alternate mode/encoding, or acceptance relaxation. If it cannot produce a clean native validator plus measurable self-roundtrip, retire DGS and use existing CLO evidence. No conformance claim from menu labels; grainline /2 is approved and no decision is pending. Keep V03 In Progress and every gate/hold unchanged."
-  }
-}

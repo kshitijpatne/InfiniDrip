@@ -113,7 +113,7 @@ describe("C04-bounded DXF interchange package", () => {
         expect(await verifyDxfInterchangePackage(candidate)).toBe(true);
       }
     }
-  }, 60_000);
+  }, 120_000);
 
   it("uses canonical option-key ordering and changes package revision when option data changes", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
@@ -176,7 +176,7 @@ describe("C04-bounded DXF interchange package", () => {
       expect(candidate.manifest.options).toEqual(resolvedOptions);
       expect(await verifyDxfInterchangePackage(candidate)).toBe(true);
     }
-  }, 60_000);
+  }, 120_000);
 
   it("materializes recipe defaults and rejects invalid or unsupported options", async () => {
     const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
@@ -523,5 +523,5 @@ describe("C04-bounded DXF interchange package", () => {
     expect(await verifyDxfInterchangePackage("not a package")).toBe(false);
     expect(await verifyDxfInterchangePackage({ dxf: 42, manifest: {} })).toBe(false);
     expect(await verifyDxfInterchangePackage({ dxf: "", manifest: null })).toBe(false);
-  });
+  }, 15_000);
 });

@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4184,
-  "text": "S714 is a read-only coordinate comparison of the exact existing S711 CLO return against its source package. It measures all nine CUT/SEW outlines at 0.001 cm despite renamed layers, then separates source/writer behavior from receiver changes. No app, format, or setting variation; no gate or acceptance changes."
-}

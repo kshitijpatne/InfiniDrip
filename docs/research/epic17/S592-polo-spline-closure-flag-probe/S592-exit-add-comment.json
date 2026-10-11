@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3490,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S592 completed one clean-scene CLO 2026.1.310 DXF-AAMA round trip after changing only SPLINE group 70 from 25 to 24 on five source-exact Polo M CUT entities. The source-side proof is zero deviation; CLO rendered nine pieces without a format error. Nine SEW and four unaffected CUT paths pass. The back and four collar CUT bounds improve versus S591 but remain 4.063040 and 0.159193–0.467258 cm, over the unchanged 0.001 cm gate. The tested variant is rejected for this build/profile/fixture only; no undocumented cause is inferred, and no V03 gate or source geometry changes. PDF/PNG, project, fixture/output hashes and analysis are in the S592 packet. Next S593 maps every receiver CUT candidate to source segment/vertex neighborhoods; no further encoding trial without a bounded source-exact hypothesis."
-}

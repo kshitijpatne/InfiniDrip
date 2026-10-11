@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S706 closed the one planned LibreCAD 2.2.1.5 DXF 2000 current-package test. The saved/reopened Polo M retained all 9 named piece identities, 18/18 closed CUT/SEW outlines at 0.000 cm XY residual, all 111 typed marks within 0.001 cm, and $INSUNITS=5. The returned layer table replaced CUT with 0, a concrete semantic-layer failure. LibreCAD is generic CAD and does not qualify the industrial apparel-profile gate. No source code or V03 acceptance changed. Stop this route; do not repeat it or switch format/settings. V03, all-seven/options/grades, malformed-input, repeatability, full readability, cleanup, integration gates, PR/merge, deployment and production checks remain due.",
-  "expectedRevision": 4153
-}

@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3938,
-  "type": "editItem",
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes/options/grades. Preserve fixed 0.001 cm geometry, units, piece/grade identity and relations, seams/marks/grainlines, malformed-input rejection, repeatability, readable rendered output, legacy DXF and protected identities. S668 DGS ASTM/AAMA import of approved /2 candidate returned a blank canvas and 0/0 patterns; candidate retired. S669 performs one local DGS sample/native positive-control roundtrip to identify whether a receiver-native profile route exists. This cannot pass product acceptance or establish standards conformance. Keep all gates and holds."
-  },
-  "itemId": "G04-V03"
-}

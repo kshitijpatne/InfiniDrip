@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3966,
-  "type": "editItem",
-  "itemId": "G04-V03",
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with import/export/round trips across all seven recipes and supported options/grades. Preserve 0.001 cm geometry, units, piece/revision/grade identity and relations, CUT/SEW, marks/grainlines, malformed-input rejection, repeatability, readable output, legacy DXF and protected byte identities. DGS product routes S667-S670 are retired: AutoCAD/Design loses fidelity, ASTM/AAMA Pattern imports blank, and one native ASTM control exported only 10 metadata TEXT entities with zero geometry. Continue by reconciling existing CLO evidence and one precisely evidenced source-bound remediation if it can clear the fixed gates. Do not repeat failed modes/encodings or relax any V03 criterion. The approved /2 grainline convention and all other design decisions are settled. No conformance claim from vendor menu labels. Keep V03 In Progress and all holds unchanged."
-  }
-}

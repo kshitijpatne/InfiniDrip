@@ -1,8 +1,0 @@
-{
-  "itemId": "G04-V03",
-  "expectedRevision": 3781,
-  "type": "editItem",
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, and readable rendered output; preserve legacy DXF and protected export identities. Do not claim ANSI/AAMA or ASTM conformance from a vendor menu label. The maintainer manually authenticated GMS V2024.1, but its observed local Open dialog accepts Marker File (*.mkr), not DXF, and Output Auto CAD dxf is disabled without a marker. Bundled DGS V2023.1 Pattern Design & Grading does not expose a window/process after one launch. The official package contains a dated DGS upgrade bundle and directs installation of MPVCI 2.7 before applying it; exact cause of the launch failure is unproven. Keep Blocked; no fixture exchanged and no acceptance gate clears. Next: follow the already-authorized official DGS update sequence, stop at any Windows security prompt, then verify the new build and exact local DXF route before fixture exchange. See docs/research/epic17/S656-dgs-module-launch-diagnosis/S656-exit-packet.md."
-  }
-}

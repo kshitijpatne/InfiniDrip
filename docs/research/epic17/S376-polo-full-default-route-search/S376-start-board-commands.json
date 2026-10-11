@@ -1,6 +1,0 @@
-[
-  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S376-START","kind":"document","uri":"docs/research/epic17/G04-V02-POLO-FULL-DEFAULT-ROUTE-SEARCH-S376.md","verified":true,"note":"S376 starts an exact-source diagnostic search over every legal 1 cm text box in the bounded default Polo front placement square, extending S375's nearest-48 sample. No implementation or hold release is authorized."}},
-  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S376-START","actor":"Codex","role":"maintainer"},
-  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S376-START"},
-  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"Slice 376 starts from S375 commit bbb8bc6 at board revision 1851. It expands the exact Polo default front callout study to every legal label box on the bounded 1 cm lattice (±18 cm X/Y), testing both exact POMs jointly with their source text/anchors and the fixed 0.25 cm clearance gate. This diagnostic does not authorize a production mapping; all 34 Polo face holds and all existing G04 gates remain unchanged."}
-]

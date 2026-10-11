@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4069,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S688 reconciles Sol's bounded source audit with exact receiver and rendered/import evidence. No source code fix is causally supported, and no already tested route meets the fixed exchange gates. There is no pending user approval or UI action. G04-V03 is blocked only on an available, rights-cleared receiver/profile that can pass the admitted pilot; all gates and thresholds remain unchanged."
-}

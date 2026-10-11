@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3975,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S671 C:-only preflight prepared and independently verified a path-identical Polo M fixture; all original records/vertices remain, and the five local CUT segments now have <=0.05 cm collinear spacing. Actual CLO import has not run: Windows reports CLO active, but this task's computer-use app inventory is empty and its control API is browser-only. This is not a receiver result or V03 pass. Next is the single planned import when native desktop control is available; no fixture recreation or DGS/CLO permutation.",
-  "expectedRevision": 3975
-}

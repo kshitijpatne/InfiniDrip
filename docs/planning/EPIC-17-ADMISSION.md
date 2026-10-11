@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 boundary — S729 final release
+## Current EPIC-17 / G04 boundary — S730 final candidate hygiene
 
 S726 closes V03 technical acceptance under the maintainer-directed criterion
 that separates complete product-side option/grade output verification from
@@ -22,10 +22,15 @@ gate, build, Control Center/web release checks, current 73-option/146-face
 browser replay, named-layer text audit, visual review and packaged Electron
 checks pass. See
 `docs/research/epic17/S728-integrated-gate-corrections/S728-exit-packet.md`.
-S729 owns final candidate hygiene and review, PR, safe merge, refreshed
-ancestry, required deployment and production E2E. Its verified start is
-`docs/research/epic17/S729-final-release/S729-start-packet.md`. Keep the goal
-active until these are verified.
+S729 records the pre-merge candidate review. S730 archives 6,390 unreferenced
+raw research/render artifacts (409,943,310 bytes) after hash verification,
+retaining all 81 linked/dynamic-test inputs. The Markdown-link audit reports
+zero moved or missing links. Its full cleaned-tree coverage gate passes at
+100% (158 files/2,366 tests), and the build/package and focused release gates
+pass. Exact closeout is in
+`docs/research/epic17/S730-repository-evidence-hygiene/S730-exit-packet.md`.
+The final PR, safe merge, refreshed ancestry, required deployment and
+production E2E remain required; keep the goal active through them.
 
 No new receiver or software trial is queued; preserve legacy DXF behavior,
 protected export identities, and every final gate.

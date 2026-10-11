@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S700 completed the bounded source fix: the opt-in package now carries deterministic role/revision named piece blocks and exact expansion tests; the legacy writer is unchanged. All registered recipes/grades and 73 option configurations pass focused checks with 100% changed-code coverage. The one planned CLO test retained all nine names with `_M`, but failed the unchanged 0.001 cm CUT limit on the back, both stands and both collar leaves, and three buttonhole points remain absent despite Draw Curve Points being enabled. The saved return and render evidence are hash-pinned in the C: folder. The predeclared stop condition is met: do not repeat a CLO setting/format or switch to another app for these same misses. V03 remains held; no acceptance or threshold changed. Next: reconcile the exact returned entities and admitted profile gate, then implement only a source defect proven by that evidence.",
-  "expectedRevision": 4134
-}

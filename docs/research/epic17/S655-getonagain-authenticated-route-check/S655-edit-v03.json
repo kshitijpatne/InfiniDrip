@@ -1,8 +1,0 @@
-{
-  "type": "editItem",
-  "expectedRevision": 3772,
-  "patch": {
-    "description": "Qualify one rights-reviewed industrial CAD receiver/profile with representative import/export/round trips across all seven recipes and supported options/grades. Preserve the fixed 0.001 cm geometry gate, units, piece/grade identity and relations, seams/marks, malformed-input rejection, repeatability, and readable rendered output; preserve legacy DXF and protected export identities. Do not claim ANSI/AAMA or ASTM conformance from a vendor menu label. The maintainer has signed in manually to GetonAgain GMS V2024.1, a blank nesting workspace. Its observed local Open dialog accepts Marker File (*.mkr), not DXF; Output Auto CAD dxf is disabled without a loaded marker. Bundled DGS V2023.1 Pattern Design & Grading still exposes no window/process after a fresh launch attempt. No fixture was opened or exchanged. Keep Blocked; all gates and scope remain unchanged. Next: one targeted read-only DGS launch diagnosis, then verify a direct local DXF route and exact contract before fixture exchange. See docs/research/epic17/S655-getonagain-authenticated-route-check/S655-exit-packet.md."
-  },
-  "itemId": "G04-V03"
-}

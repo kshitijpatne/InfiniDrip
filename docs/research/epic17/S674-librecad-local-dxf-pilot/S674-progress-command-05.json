@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4003,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S674 live UI checkpoint: after the exact fixture preflight, the hash-pinned official LibreCAD 2.2.1.5 installer was invoked once. Windows elevation consent UI is live (consent PID 130656); no install completed and no DXF import/export occurred. The exact pilot is waiting for on-screen elevation approval. Do not relaunch, bypass, vary settings, or introduce another candidate. All V03 gates and acceptance remain unchanged; see S674 packet."
-}

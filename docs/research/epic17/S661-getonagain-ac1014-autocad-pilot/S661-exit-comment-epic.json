@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "EPIC-17",
-  "expectedRevision": 3849,
-  "actor": "Codex",
-  "text": "Slice 661 confirms the user is signed in and DGS is usable. The one S648 import yielded all nine pieces but a native grainline-outside-border error for every piece; no export was attempted. The source fixture has no GRAINLINE layer, and the legacy product DXF writer omits modeled grainlines. S661 proposes a source-derived separate-profile mapping for maintainer decision; it does not infer or claim DGS semantics. The empirical trial, artifacts, and unchanged V03 gates are documented in the linked exit packet."
-}

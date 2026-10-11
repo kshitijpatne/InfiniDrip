@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4001,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S674's final safe install-route check found no official Windows portable archive for LibreCAD 2.2.1.5; the first-party release provides a Windows installer only, and WinGet has no user-scope installer. The installed GMS route cannot import DXF. No DXF exchange or V03 gate has passed. S674 remains In Progress pending one manual Windows elevation approval for the already hash-verified installer; acceptance and thresholds remain unchanged."
-}

@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4210,
-  "text": "S720 closes the one evidence-backed CLO setting comparison. On and off returns have identical contour measurements; five CUT paths still fail the unchanged 0.001 cm gate, and both outputs omit centimeter units and use numeric layers. Nine pieces import/render without an error dialog. No source change, candidate qualification, acceptance relaxation or standards claim. V01/V02 stay Done; V03/Epic stay In Progress and the goal stays active. S719's stop-churn plan remains controlling."
-}

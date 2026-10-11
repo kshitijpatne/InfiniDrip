@@ -1,5 +1,0 @@
-[
-  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S379-START","kind":"document","uri":"docs/research/epic17/S379-polo-front-callout-crossing-audit/G04-V02-POLO-FRONT-CALLOUT-CROSSING-AUDIT-S379.md","verified":true,"note":"Slice 379 begins an exact-source, 17-option audit of Polo FRONT_FLAT POM leader crossings and clearance against unrelated pattern paths/labels. It makes no production or acceptance change and retains every hold and gate."}},
-  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S379-START","actor":"Codex","role":"maintainer"},
-  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S379-START"}
-]

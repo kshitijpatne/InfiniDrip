@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4178,
-  "text": "S712 closed with test-only enforcement of the returned-DXF audit fail-closed contract: all rejected existing fixtures return an explicit reason and zero partial result counts. Focused interchange/package and protected export identity tests pass 26/26; TypeScript, Control Center 42/42, and diff check pass. This is API-level evidence; InfiniDrip has no DXF-return UI, so receiver-visible rejection remains unproven. No profile, production code, acceptance, threshold, or remaining V03 gate changed."
-}

@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4215,
-  "text": "S721 scope clarification: the device check covered Windows uninstall registrations, expected install directories, and the current app/window inventory only. It found no local AccuMark installation. The user's online account and assigned-license status were not checked. No conclusion is made about whether an AccuMark evaluation seat is assigned to the account."
-}

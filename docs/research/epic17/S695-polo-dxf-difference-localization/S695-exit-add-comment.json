@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 4116,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S695 confirms byte-for-byte source regeneration and localizes the seven failing CUT returns; no source shape correction is supported. One controlled test of Import Draw Curve Points off is next, with all other settings fixed. Any geometry/mark/output failure retires CLO Standard from further trials. Goal remains active; no acceptance changes."
-}

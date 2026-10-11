@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3238,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S531 closes with a concrete DXF-AAMA malformed-input failure in CLO 2026.1.310: silent acceptance and omitted inset SEW geometry versus the matched valid control. No G04 data was used, no criterion/status changed, and all other V03 gates remain. CLO stays open. Next: one synthetic positive-control export/re-import in this session; do not repeat the negative control."
-}

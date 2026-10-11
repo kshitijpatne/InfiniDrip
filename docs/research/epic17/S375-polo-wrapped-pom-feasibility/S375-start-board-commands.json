@@ -1,6 +1,0 @@
-[
-  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S375-START","kind":"document","uri":"docs/research/epic17/G04-V02-POLO-WRAPPED-POM-LABEL-FEASIBILITY-S375.md","verified":true,"note":"S375 starts a diagnostic-only 17-option study of joint two-/three-line wrapping for Polo's exact blocked front POMs. Keep all 34 face holds, the 0.68 cm residual and 0.25 cm gate unchanged; no production label mapping is authorized."}},
-  {"type":"addEpicEvidence","epicId":"EPIC-17","evidenceId":"E-G04-S375-START","actor":"Codex","role":"maintainer"},
-  {"type":"addEvidence","itemId":"EPIC-17","evidenceId":"E-G04-S375-START"},
-  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"Slice 375 starts from S374 commit 9883858 at board revision 1834. It evaluates exact-source wrapped label candidates jointly for Polo's blocked front collar-stand-height and stand-front-rise POMs over all 17 options. S353's approved cap projection is already implemented. Preserve the 0.68 cm residual, 0.25 cm threshold, all 34 Polo holds and all existing G04 gates."}
-]

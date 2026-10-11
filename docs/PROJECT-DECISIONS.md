@@ -1,6 +1,6 @@
 # InfiniDrip — Confirmed project decisions
 
-## EPIC-17/G04 — S726 accepted V03 sampling correction; S729 release closeout
+## EPIC-17/G04 — S726 accepted V03 sampling correction; S730 repository hygiene
 
 The maintainer directed Codex to correct V03's acceptance logic and finish
 using already installed tools, without another paid receiver. S726 replaces
@@ -29,10 +29,16 @@ Electron builds, Control Center/web release checks, all 73 options/146 faces,
 zero named-layer text overlaps, and packaged Electron output parity and
 fail-closed cases. The S728 packet links exact logs, hashes and rendered
 evidence. V03 acceptance and the receiver claim remain exactly as approved.
-S729 is the final release slice; it does not alter S726's criteria or the S728
-passing integrated evidence. No new or paid software is needed. The goal and
-Epic remain In Progress through PR/merge, ancestry, required deployment, and
-production E2E.
+S729's final-diff audit discovered thousands of historical render/diagnostic
+artifacts in the repository. S730 archives 6,390 unreferenced files
+(409,943,310 bytes) to C: after hash verification and retains all 81 required
+inputs. The cleaned-tree full coverage gate passes at 100% (158 files/2,366
+tests), with build, packaged Electron, focused release suites and Markdown-link
+audit passing. No new or paid software is needed. S724/S726 acceptance and the
+passing S728 integrated evidence are unchanged. S730 results are in
+`docs/research/epic17/S730-repository-evidence-hygiene/S730-exit-packet.md`.
+The goal and Epic remain In Progress through PR/merge, ancestry, deployment
+and production E2E.
 
 ## EPIC-17/G04 — S725 package layout and remaining empirical evidence
 

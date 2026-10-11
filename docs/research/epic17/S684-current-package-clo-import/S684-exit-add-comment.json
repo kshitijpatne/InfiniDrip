@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4052,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S684 closed after one current Polo M CLO Standard DXF import/export. The exported DXF declares millimeters while retaining centimeter-sized coordinates, a measured 10x unit-label mismatch; the failed output was not reopened. No new application, mode, encoding, source change, threshold or acceptance relaxation. Inspect repository-owned source unit handling next; keep G04-V03 In Progress and all remaining gates."
-}

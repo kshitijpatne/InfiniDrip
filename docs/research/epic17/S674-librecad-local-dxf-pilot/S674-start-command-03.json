@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3998,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S674 tests one new free/local generic 2D CAD receiver, LibreCAD 2.2.1.5, against the exact hash-pinned Polo M DXF. The test is import → save as DXF → clean reimport with source-bound geometry/units/marks/render checks. LibreCAD is not apparel CAD; no profile or conformance claim is assumed. Install/download and all exchange artifacts stay under the named C: folder. Stop on any fixed-gate miss; no setting variation or acceptance change.",
-  "expectedRevision": 3998
-}

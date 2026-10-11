@@ -1,8 +1,0 @@
-{
-  "patch": {
-    "description": "EPIC-17/G04 remains In Progress through admitted V01→V02→V03 and safe merge. V01 and V02 are Done; S459 accepts all seven recipes, 73 supported configurations and 146 front/back faces. Woven's 56 local faces pass the approved S457 front mask and local-Y back/band placement. S406's approved view-only collar-over-plackets order remains implemented. Admission: docs/planning/EPIC-17-ADMISSION.md. Preserve V02-before-V03, legacy DXF behavior and protected export identities. V03 remains In Progress. S667 actual DGS AutoCAD/Design import rendered nine outlines with no warning but registered 0/0 patterns. Its single diagnostic Auto CAD export changed units cm→mm without scaling numeric values, flattened nine INSERT identities/11 blocks into layer-0 entities, omitted profile metadata, and failed the 0.001 cm geometry gate by up to 191.201177 cm. The tested source was tagged profile /1, not approved /2. This exact candidate is retired; no reimport. Evidence/matrix/plan: docs/research/epic17/S667-dgs-design-mode-source-matched/. Next S668 verifies a source-derived /2 fixture and runs one DGS apparel-decoder import; one roundtrip follows only if clean. No other DGS mode/encoding trials; no conformance, physical-fit, factory-acceptance or production-readiness claim. No external approval is pending. Preserve all-seven/options/grades, fixed gates, rights, output review and merge/deployment gates."
-  },
-  "itemId": "EPIC-17",
-  "type": "editItem",
-  "expectedRevision": 3923
-}

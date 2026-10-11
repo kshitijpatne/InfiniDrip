@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "EPIC-17",
-  "expectedRevision": 3854,
-  "actor": "Codex",
-  "text": "Slice 662 is a source-only derivation of exact Polo M grainline geometry following S661's nine native DGS grainline warnings. It will quantify the source facts and make one explicit profile-mapping proposal; no implementation or second import is authorized in this slice. V03 remains In Progress with all acceptance gates unchanged."
-}

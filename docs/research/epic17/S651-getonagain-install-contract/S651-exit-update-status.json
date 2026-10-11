@@ -1,1 +1,0 @@
-{"type":"updateStatus","expectedRevision":3751,"itemId":"G04-V03","actor":"Codex","role":"maintainer","status":"Blocked","reason":"S651 found no targetable installer window after the maintainer-authorized launch; a manual Windows security/elevation prompt must be handled by the maintainer before installation can be verified.","evidenceRefs":["E-G04-S651-EXIT"]}

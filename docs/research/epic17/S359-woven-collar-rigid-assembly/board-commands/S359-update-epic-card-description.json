@@ -1,8 +1,0 @@
-{
-  "type": "editItem",
-  "expectedRevision": 1487,
-  "itemId": "EPIC-17",
-  "patch": {
-    "description": "Admitted 2026-09-29 by explicit maintainer instruction. Scope remains G04 V01 → V02 → V03; all-seven V02 acceptance, protected export identities, legacy DXF behavior and V02-before-V03 gate are unchanged. S359: current integrated output is 56 accepted / 90 held across 73 configurations / 146 faces. All 56 Woven and 34 Polo faces remain held. Woven's straight stand base has a 0.68814–0.73975 cm front and 0.26283–0.28254 cm back rigid endpoint lower bound across all 28 options, above 0.25 cm. A full-collar arclength/normal-offset view projection is documented for maintainer decision but not implemented. Polo authored 1.5 cm ease and 0.25 cm gate remain. Conditional minimum is at least 13 additional slices; no upper bound while view decisions and CAD rights/receiver evidence remain unresolved. Details: docs/planning/EPIC-17-ADMISSION.md and docs/research/epic17/G04-V02-WOVEN-COLLAR-RIGID-ASSEMBLY-S359.md."
-  }
-}

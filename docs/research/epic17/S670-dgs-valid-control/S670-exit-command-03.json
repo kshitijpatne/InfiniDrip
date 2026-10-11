@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3963,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S670 stop condition met: one ASTM export from the named DGS native control completed without a validator dialog but produced only 10 metadata TEXT entities, zero geometric entities and zero blocks. The same file was not re-imported. Retire DGS as a V03 candidate; no acceptance or other V03 gate changes. Continue with existing source-bound CLO evidence at S671.",
-  "expectedRevision": 3963
-}

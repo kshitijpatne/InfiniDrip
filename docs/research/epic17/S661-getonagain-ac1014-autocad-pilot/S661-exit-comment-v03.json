@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "expectedRevision": 3848,
-  "actor": "Codex",
-  "text": "S661 exit: DGS VID:20250610 AUTOCAD imported 9/9 S648 patterns but returned grainline-outside-border errors for all nine. The warning-free pilot criterion failed for this exact generic fixture/mode/settings; export was correctly stopped. Independent parsing shows no GRAINLINE layer/entity in S648, while product source has recipe grainline rules omitted by legacy DXF. Likely fixture/profile gap is an inference; receiver semantics remain undocumented. See S661 exit packet and C:-only rendered/source artifacts. All V03 acceptance gates remain unpassed."
-}

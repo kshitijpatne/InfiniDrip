@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4028,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S678 closes with a C04-bounded versioned manifest for exact candidate recipe/piece identity, size/grade, options and stitch relationships. It binds to the exact DXF bytes and canonical package revision. All registered recipes and grade rows pass package generation/verification and tamper rejection; seven M-size DXF hashes exactly match the S677 rendered/reviewed candidate. Focused checks 42/42, changed-module coverage 100%, build, Control Center 42/42 and diff hygiene pass. Source-side identity gap fixed; receiver preservation, supported-option round trips, malformed-input handling, repeatability and readable receiver output remain unproven. No V03 gate is marked passed from this sidecar. Next reconcile the selected receiver output with this exact candidate and existing fixtures; no additional application or profile variations."
-}

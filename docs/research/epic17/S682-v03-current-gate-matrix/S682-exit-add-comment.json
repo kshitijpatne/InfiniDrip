@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4044,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S682 confirms the source-side fixes and 73-option package matrix pass, but no tested receiver satisfies all unchanged V03 gates. CLO, DGS, LibreCAD R12 and generic OpenCAD have already measured blocking failures. No new app, mode or encoding was tried. The evidence matrix and one-shot stop rule are linked in E-G04-S682-EXIT."
-}

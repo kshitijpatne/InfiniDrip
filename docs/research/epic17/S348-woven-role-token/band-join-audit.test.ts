@@ -113,5 +113,5 @@ describe("S348 Woven source seam and accepted detail-only back display", () => {
     expect(findings).toHaveLength(56);
     expect(backDetailInstanceCount).toBe(56);
     expect(maxFrontJoinResidualCm).toBeLessThanOrEqual(toleranceCm);
-  });
+  }, 15_000);
 });

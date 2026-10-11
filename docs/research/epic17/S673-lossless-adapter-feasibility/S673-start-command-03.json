@@ -1,8 +1,0 @@
-{
-  "expectedRevision": 3992,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S673 is the next bounded static feasibility proof, using existing pinned fixtures only. It checks unique piece/revision binding, unit and mark restoration, and whether source edits can be distinguished from CLO simplification. No CLO/DGS/OpenCAD setting variation, production code, or acceptance change is in scope. The `/2` grainline and all other maintainer decisions remain settled.",
-  "expectedRevision": 3992
-}

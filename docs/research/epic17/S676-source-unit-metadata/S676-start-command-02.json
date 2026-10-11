@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4017,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S676 starts from clean S675 336d3a2a with refreshed origin/main still an ancestor; slice 676 is unique. Source audit separates the S674 LibreCAD R12 output omission from the product writer's independent missing-unit-header gap. Implement only an additive opt-in centimeter-declared DXF candidate over the exact legacy body; preserve all existing bytes, UI claims and V03 acceptance. No receiver or additional software trial is included."
-}

@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3698,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S639 execution has not yet touched CLO's project. The existing CLO window was confirmed running on the imported Woven fixture, but its window handle became unusable before a File-menu click. Computer Use then reported a physical Escape stop during its one handle recovery, so UI automation stopped immediately. No Save As, project edit, import, export or close occurred; the S639 C: folder remains empty. Continue this same packet from a fresh authorized UI observation; preserve the loaded source and keep every V03 gate/hold unchanged."
-}

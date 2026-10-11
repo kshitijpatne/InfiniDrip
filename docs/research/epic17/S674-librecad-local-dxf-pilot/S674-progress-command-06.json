@@ -1,7 +1,0 @@
-{
-  "expectedRevision": 4004,
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S674 prompt-state correction: maintainer reported no visible installer prompt. Read-only desktop window inventory showed no installer/elevation window; consent PID 130656 is gone; no LibreCAD process, install directory, or uninstall entry exists. Installation did not complete and the disappearance cause is unknown. No DXF operation or V03 pass occurred. Do not relaunch the installer without action-time confirmation; no new candidate or setting variation. Acceptance remains unchanged. See S674 packet."
-}

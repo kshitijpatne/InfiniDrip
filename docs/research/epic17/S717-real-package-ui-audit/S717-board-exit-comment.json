@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4198,
-  "text": "S717 closed test-only: 11/11 panel tests pass; changed panel coverage is 100% across statements/branches/functions/lines. A real Tee M package flows through the live panel to the production auditor, with exact report summary; missing units and tampered digest fail closed without counts. No production or receiver claim; all V03 gates remain unchanged. Goal stays active."
-}

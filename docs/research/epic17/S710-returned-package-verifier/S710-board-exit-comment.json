@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S710 is verified and closed. The saved S708 LibreCAD return passes our new source-side auditor. Its initial rejection was our bug: we treated a zero Z scale on a flat 2D insert as if it changed the drawing. The corrected audit accepts that harmless Z value but still rejects moves, rotation, in-plane scaling and duplicate instances. Focused audit and existing package negative tests are green at 100% coverage; protected byte-identity tests pass. This one generic-CAD fixture does not qualify the industrial profile or clear breadth/repeatability/readability gates. No acceptance or threshold changed.",
-  "expectedRevision": 4170
-}

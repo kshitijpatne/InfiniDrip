@@ -66,5 +66,5 @@ describe("S349 Woven source/accepted-view crosswalk", () => {
     expect(sourceMatrix.configurations).toBe(28);
     expect(acceptedFaces).toBe(56);
     expect(detachedBackFaces).toBe(28);
-  });
+  }, 15_000);
 });

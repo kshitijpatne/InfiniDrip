@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 1462,
-  "itemId": "EPIC-17",
-  "actor": "Codex",
-  "text": "Slice 358 starts diagnostic-only Woven collar exterior/layer audit from verified S357 and board revision 1459. Exact source edges, same-revision assembly, duplicate stroke identity and current rendered joins will be checked. All 56 Woven and 34 Polo faces remain held; maintainer has reaffirmed Polo's 0.25 cm residual gate. Packet: docs/research/epic17/G04-V02-WOVEN-COLLAR-EXTERIOR-LAYER-DIAGNOSIS-S358.md."
-}

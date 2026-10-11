@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "expectedRevision": 3252,
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "text": "S535 checks local receiver availability only after the registry and Program Files search found no installed apparel CAD/DXF receiver. No new candidate search, software installation, CLO launch, G04 data, or gate change."
-}

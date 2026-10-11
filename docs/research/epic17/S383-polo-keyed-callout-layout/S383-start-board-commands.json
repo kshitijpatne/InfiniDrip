@@ -1,4 +1,0 @@
-[
-  {"type":"addEvidence","itemId":"G04-V02","evidence":{"id":"E-G04-S383-START","kind":"document","uri":"docs/research/epic17/S383-polo-keyed-callout-layout/G04-V02-POLO-KEYED-CALLOUT-LAYOUT-FEASIBILITY-S383.md","verified":true,"note":"S383 tests the specific unapproved source-centered marker/full-text schedule candidate against actual S380 Polo rendering for all 17 options; no production change or face release."}},
-  {"type":"addComment","itemId":"G04-V02","actor":"Codex","text":"S383 is a bounded diagnostic feasibility study of the proposed A/B/D–I source-centered keyed POM markers and complete full-text schedule across all 17 current Polo options. It preserves exact source POMs, anchors, geometry, the 0.25 cm gate, residual and all 34 holds; production implementation requires a later explicit approval."}
-]

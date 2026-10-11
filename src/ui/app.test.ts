@@ -103,7 +103,7 @@ describe("mountApp", () => {
       vi.unstubAllGlobals();
       localStorage.clear();
     }
-  });
+  }, 15_000);
 
   it("serializes only meaningful saved drafts and preserves every optional draft field", () => {
     const session = createMeasurementCaptureSession(

@@ -1,7 +1,0 @@
-{
-  "type": "addComment",
-  "itemId": "G04-V03",
-  "actor": "Codex",
-  "expectedRevision": 4188,
-  "text": "S715 compares the actual source/return CUT vertices for the five S714 failures and inspects only the opt-in interchange writer, rounding, transforms and path ordering. A code-side candidate proceeds only if source geometry remains within 0.001 cm and it addresses the measured loss. If so, one same-route CLO check is allowed; no new app, format, setting, or entity encoding. All V03 gates and legacy identities remain fixed."
-}
