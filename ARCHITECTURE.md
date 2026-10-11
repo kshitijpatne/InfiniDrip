@@ -36,16 +36,18 @@ On first use, the app offers an optional tour of the controls. It can be skipped
 and replayed. It does not alter design values, mark a design as checked, or
 start an export.
 
-The UIQ-02 integration branch applies the accepted native foundation panel and
-warning primitives to the active guided-tour panel only. This is scoped to the
-tour and does not restyle the app shell or other panels. The embedded
+The shipped UIQ-02 integration applies the accepted native foundation panel
+and warning primitives to the active guided-tour panel only. This is scoped to
+the tour and does not restyle the app shell or other panels. The embedded
 `uiq_foundation` flag defaults on; its off path retains the previous tour
 markup and styles. The flag is local metadata/programmatic only, not a
 user-facing or remote kill switch. Changing the default and deploying a new
 build is required to roll back for preview users. The completed/suppressed
-replay prompt retains the legacy rendering. This branch is not merged or
-deployed; see `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md` for current gate
-status.
+replay prompt retains the legacy rendering. PR #21 is merged to main at
+`5726a1ff6f73e11a3f78999dcabfcba1c51fcc55`; production workflow `38158498775`
+passed and `https://infinidrip-preview.pages.dev` returned HTTP 200. See
+`docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md` for deployment proof and
+`docs/release/UIQ-02-INTEGRATION-S734-EXIT.md` for the implementation gates.
 
 ## How measurements become pattern shapes
 

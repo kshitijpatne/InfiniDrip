@@ -1,4 +1,26 @@
-## Current boundary — UIQ-02 integration in final review (Slice 734)
+## Current boundary — UIQ-02 integration shipped (Slice 735 closeout)
+
+EPIC-17/G04 and UIQ-GATE remain complete. UIQ-02's bounded guided-tour
+foundation integration landed in PR #21 at main commit
+`5726a1ff6f73e11a3f78999dcabfcba1c51fcc55` (Slice 734 commit
+`3c3031a8acb4a70a0071f1bc0574bcc747bea4d9`). Production workflow
+`38158498775` passed full CI, build, deterministic web artifact verification,
+and Cloudflare Pages deployment. The configured share URL
+`https://infinidrip-preview.pages.dev` returned HTTP 200 after deployment.
+Canonical UIQ-02 is Done with deployment proof at board revision 4370; see
+`docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md` and its validated board
+command record.
+
+The shipped boundary remains narrow: native foundation on the active guided
+tour and storage warning behind embedded `uiq_foundation` (default on,
+compatible-v1 fallback). There is no remote/user-facing kill switch; rollback
+requires a default change and redeployment. No global restyle, journey/data
+change, or output change was made. UIQ-03/04/05/07 remain Backlog/unshipped.
+No next candidate is admitted by this closeout; future integration requires a
+fresh packet from current main. EPIC-17/S425 artifacts and local verification
+folders in the integration worktree were preserved and not staged.
+
+## Prior boundary — UIQ-02 implementation and pre-merge review (Slice 734)
 
 EPIC-17/G04 is complete and UIQ-GATE readiness is closed. PR #20 merged
 Slice 733 to `origin/main` at `7484fe4452f9d34a8760bf1f2eeda0ee05d20209`;
@@ -18,19 +40,21 @@ required focused/full web, repository, browser, and packaged Electron gates
 now pass. The package initially encountered a transient Windows `EPERM`
 runtime-folder rename, but a later clean retry succeeded and the complete
 offline/render/export lifecycle verification passed. The app-level local
-override also explicitly exercises the legacy fallback. Codex final diff
-review is complete; this is not yet merged or deployed. Evidence is in
+override also explicitly exercises the legacy fallback. At this boundary the
+candidate was in final Codex review and had not yet merged or deployed. Its
+pre-merge evidence is in
 `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`.
 
-UIQ-02 is Review on the canonical board pending PR merge and deployment. The
+At the S734 review boundary UIQ-02 was Review pending PR merge and deployment. The
 failed first package attempt remains retained as unverified negative evidence,
 and separate verified records document the successful package, browser, and
 coverage gates. The source/test/web changes remain local to the integration
-branch; no PR, push, merge, or deployment has occurred.
+branch at that boundary; PR #21 and deployment are recorded in the S735
+closeout above.
 UIQ-03/04/05/07 remain Backlog and unshipped until their own sequential
 admissions. Current branch/worktree and exact acceptance gates are in the
-admission. Codex's actual-diff review is complete; the single next action is to
-commit Slice 734 and open its PR for merge.
+admission. UIQ-03/04/05/07 remain backlogged; a separate current-main
+admission is required before the next candidate begins.
 
 ## Prior boundary — EPIC-17 and UIQ-GATE closed
 

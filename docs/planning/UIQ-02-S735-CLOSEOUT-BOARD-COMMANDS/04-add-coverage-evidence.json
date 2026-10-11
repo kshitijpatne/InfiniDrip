@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-02",
+  "expectedRevision": 4369,
+  "evidence": {
+    "id": "E-UIQ02-S735-COVERAGE",
+    "kind": "test",
+    "uri": "docs/research/uiq02-integration/evidence/S735-closeout-coverage.json",
+    "commit": null,
+    "sha256": null,
+    "verified": true,
+    "note": "Final post-closeout regression gate: 164/164 test files, 2,640/2,640 tests, 100% global statement/branch/function/line coverage; protected export byte identity 9/9."
+  }
+}

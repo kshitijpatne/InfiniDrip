@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4366,
-  "updatedAt": "2026-10-11T17:06:29.268Z",
+  "revision": 4370,
+  "updatedAt": "2026-10-11T17:35:51.232Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14321,10 +14321,10 @@
       "title": "Native visual foundation candidate",
       "epicId": null,
       "releaseId": null,
-      "status": "Review",
+      "status": "Done",
       "openedAt": "2026-10-02",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-11",
       "priority": "P1",
       "risk": "low",
       "owner": "Codex",
@@ -14400,6 +14400,16 @@
             "E-UIQ02-S734-ELECTRON-VERIFIED",
             "E-UIQ02-S734-EXIT"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-11T17:19:13.629Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Slice 734 was reviewed and merged by PR #21 at 5726a1ff; production workflow 38158498775 passed and the live Pages URL returned HTTP 200. Slice 735 records the release closeout.",
+          "evidenceRefs": [
+            "E-UIQ02-S735-DEPLOYMENT"
+          ]
         }
       ],
       "comments": [
@@ -14412,6 +14422,11 @@
           "at": "2026-10-11T15:36:23.683Z",
           "actor": "Codex",
           "text": "Slice 734 admitted on current main. Integration is limited to the active guided tour and storage-unavailable notice. uiq_foundation defaults on with the exact current tour as compatible fallback; flag is embedded/programmatic only, so public rollback requires a code change and deploy. No global restyle. See docs/planning/UIQ-02-INTEGRATION-ADMISSION.md."
+        },
+        {
+          "at": "2026-10-11T17:19:13.803Z",
+          "actor": "Codex",
+          "text": "Shipped: Slice 734 merged by PR #21 at 5726a1ff. Production Pages workflow 38158498775 passed and https://infinidrip-preview.pages.dev returned HTTP 200. Verified scope is limited to the guided-tour panel/storage warning with embedded uiq_foundation default-on and compatible-v1 fallback; no remote kill switch. UIQ-03/04/05/07 remain Backlog. Slice 735 closeout: docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md"
         }
       ],
       "evidenceRefs": [
@@ -14423,7 +14438,9 @@
         "E-UIQ02-S734-ELECTRON-VERIFIED",
         "E-UIQ02-S734-FULL-COVERAGE",
         "E-UIQ02-S734-BROWSER",
-        "E-UIQ02-S734-EXIT"
+        "E-UIQ02-S734-EXIT",
+        "E-UIQ02-S735-DEPLOYMENT",
+        "E-UIQ02-S735-COVERAGE"
       ],
       "flagKey": "uiq_foundation"
     },
@@ -28832,6 +28849,24 @@
       "sha256": "9d22257dd72cf91d766b0a02e1907bfc76cb2f4206880255b16123f503b336e3",
       "verified": true,
       "note": "Verified Slice 734 implementation and gate summary; release not yet merged/deployed."
+    },
+    {
+      "id": "E-UIQ02-S735-DEPLOYMENT",
+      "kind": "browser",
+      "uri": "docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md",
+      "commit": "5726a1ff6f73e11a3f78999dcabfcba1c51fcc55",
+      "sha256": null,
+      "verified": true,
+      "note": "PR #21 merge commit is on origin/main; production workflow 38158498775 passed full CI/build/artifact verification/Pages deployment, and https://infinidrip-preview.pages.dev returned HTTP 200. See Slice 735 closeout."
+    },
+    {
+      "id": "E-UIQ02-S735-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/uiq02-integration/evidence/S735-closeout-coverage.json",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Final post-closeout regression gate: 164/164 test files, 2,640/2,640 tests, 100% global statement/branch/function/line coverage; protected export byte identity 9/9."
     }
   ]
 }

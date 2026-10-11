@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-02",
+  "actor": "Codex",
+  "expectedRevision": 4368,
+  "text": "Shipped: Slice 734 merged by PR #21 at 5726a1ff. Production Pages workflow 38158498775 passed and https://infinidrip-preview.pages.dev returned HTTP 200. Verified scope is limited to the guided-tour panel/storage warning with embedded uiq_foundation default-on and compatible-v1 fallback; no remote kill switch. UIQ-03/04/05/07 remain Backlog. Slice 735 closeout: docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md"
+}

@@ -140,11 +140,16 @@ only through an explicitly admitted, linked Epic packet.
   current-main Slice 734 integration boundary for the accepted native
   foundation on the active guided tour and its local-storage warning only.
   It defines the embedded flag/default/fallback, shared-file ownership,
-  rendered acceptance and explicit non-goals. Passed gate evidence and the
-  current review boundary are in
-  `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`. This is not a global
-  redesign; later accepted UIQ candidates still require separate serialized
-  admissions.
+  rendered acceptance and explicit non-goals. The accepted integration is
+  merged and deployed: Slice 734 implementation evidence is in
+  `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`, and Slice 735 merge/deploy
+  proof is in `docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md`. UIQ-02 is Done;
+  this is not a global redesign. UIQ-03/04/05/07 remain Backlog and require
+  separate serialized admissions.
+- `docs/planning/UIQ-02-S735-CLOSEOUT-BOARD-COMMANDS/` — validated board-layer
+  commands that attach the merged/deployed UIQ-02 evidence and final coverage,
+  close the parent as Done, and record its release comment; use only as
+  historical proof and never replay against a newer board.
 - `docs/planning/UI-ENHANCEMENT-BOARD-COMMANDS.json` — additive validated replay
   for newer boards, never replacement of active progress with an older board.
   `UI-ENHANCEMENT-EPIC17-NOTE.md` is the user-pasted non-diverting handoff;
