@@ -1,3 +1,26 @@
+## EPIC-17 / G04 — S700 closed; named piece package measured in CLO
+
+S700 implements deterministic named DXF blocks bound to recipe role and
+source revision in the opt-in G04 package. Block expansion reproduces the
+prior flat drawing exactly; all recipe/grade rows and 73 supported options
+pass. Focused tests 13/13, changed-code statement/branch/function/line
+coverage 100%, typecheck, and the unchanged legacy-output hash pass. The
+actual one-time CLO 2026.1.310 test retained all nine piece names (with `_M`)
+but failed five of nine CUT contours at the fixed 0.001 cm threshold; three
+buttonhole points also remain absent with Draw Curve Points enabled. All nine
+SEW contours pass for this Polo M fixture only. The exact source/return hashes
+and rendered review are in `docs/research/epic17/S700-named-piece-package/`
+and `C:\G04-CAD-Interchange\S700-named-piece-package\` respectively. This
+fixes the source package identity gap but does not qualify CLO or clear V03.
+The predeclared CLO stop condition is met; do not repeat its setting/format or
+try another app for these same failures. See the S700 exit packet for exact
+residuals and gate status. V01/V02 remain Done; V03 remains held; EPIC-17 and
+the goal remain active. Next: reconcile the exact returned entities and
+admitted profile contract in one evidence-led plan, making no receiver/software
+variation unless a distinct unmet gate and existing evidence justify it.
+Cleanup, integrated full gate, output review, PR, safe merge, ancestry and
+required production end-to-end verification remain due.
+
 ## EPIC-17 / G04 — S699 closed; loss causes isolated and source repair selected
 
 S699 compared the exact S698 Polo M DXF files with the writer and prior

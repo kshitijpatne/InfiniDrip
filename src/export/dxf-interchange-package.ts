@@ -3,18 +3,28 @@ import type { GarmentOptions } from "../drafting/options";
 import type { GarmentRecipe } from "../drafting/recipe";
 import type { GradedSize } from "../drafting/grading";
 import type { PatternMark } from "../drafting/pattern-mark";
+import type { Piece } from "../drafting/piece";
 import type { Point } from "../geometry";
 import { blockPieces } from "../drafting/block";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
+import {
+  dxfEntityTypeAndLayer,
+  expandNamedDxfDrawing,
+  readNamedDxfDrawing,
+  wrapDxfEntitiesInNamedBlocks,
+} from "./named-dxf-blocks";
 
-const SCHEMA_VERSION = "infinidrip.g04.dxf-package/3" as const;
-const PREVIOUS_SCHEMA_VERSION = "infinidrip.g04.dxf-package/2" as const;
+const SCHEMA_VERSION = "infinidrip.g04.dxf-package/4" as const;
+const PREVIOUS_SCHEMA_VERSION = "infinidrip.g04.dxf-package/3" as const;
+const LEGACY_SCHEMA_VERSION = "infinidrip.g04.dxf-package/2" as const;
 
 type DxfPatternMarkRecord = {
   readonly id: string;
   readonly pieceId: string;
   readonly entityOrdinal: number;
+  readonly blockName: string;
+  readonly sourceRevisionId: string;
   readonly name: string;
   readonly kind: PatternMark["kind"];
   readonly entityType: "LINE" | "CIRCLE" | "POINT";
@@ -46,6 +56,8 @@ export interface DxfInterchangePackageManifest {
     readonly name: string;
     readonly onFold: boolean;
     readonly edges: readonly string[];
+    readonly blockName: string;
+    readonly sourceRevisionId: string;
   }[];
   readonly patternMarks: readonly DxfPatternMarkRecord[];
   readonly stitches: Block["stitches"];
@@ -109,21 +121,75 @@ function hasCentimeterHeader(dxf: string): boolean {
   );
 }
 
-function pieceRecords(recipe: GarmentRecipe, block: Block): DxfInterchangePackageManifest["pieces"] {
-  return Object.entries(block.roles).map(([role, piece]) => ({
-    id: `${recipe.name}:${role}`,
-    role,
-    name: piece.name,
-    onFold: piece.onFold,
-    edges: piece.edges.map((edge) => edge.name),
-  }));
+interface PieceIdentity {
+  readonly id: string;
+  readonly role: string;
+  readonly blockName: string;
+  readonly sourceRevisionId: string;
 }
 
-function patternMarkRecords(recipe: GarmentRecipe, block: Block): readonly DxfPatternMarkRecord[] {
+function dxfIdentifier(value: string): string {
+  return value.normalize("NFKD").replace(/[^A-Za-z0-9]+/gu, "_").replace(/^_|_$/gu, "").toUpperCase();
+}
+
+async function pieceIdentities(
+  recipe: GarmentRecipe,
+  block: Block,
+  options: GarmentOptions,
+  graded: GradedSize,
+): Promise<readonly PieceIdentity[]> {
+  const sourceRevisionId = await sha256(canonicalJson({
+    recipeId: recipe.name,
+    options,
+    selectedSize: { label: graded.label, step: graded.step },
+    gradeRule: recipe.grade,
+    patternBlock: block,
+  }));
+  const identities = Object.entries(block.roles).map(([role]) => {
+    const id = `${recipe.name}:${role}`;
+    return {
+      id,
+      role,
+      sourceRevisionId,
+      blockName: `IDR_${dxfIdentifier(recipe.name)}_${dxfIdentifier(role)}_${sourceRevisionId.slice(0, 16).toUpperCase()}`,
+    };
+  });
+  if (new Set(identities.map(({ blockName }) => blockName)).size !== identities.length) {
+    throw new Error("Piece block identity collision");
+  }
+  return identities;
+}
+
+function pieceRecords(
+  recipe: GarmentRecipe,
+  block: Block,
+  identities: readonly PieceIdentity[],
+): DxfInterchangePackageManifest["pieces"] {
+  const identityByRole = new Map(identities.map((identity) => [identity.role, identity]));
+  return Object.entries(block.roles).map(([role, piece]) => {
+    const identity = identityByRole.get(role)!;
+    return {
+      id: `${recipe.name}:${role}`,
+      role,
+      name: piece.name,
+      onFold: piece.onFold,
+      edges: piece.edges.map((edge) => edge.name),
+      blockName: identity.blockName,
+      sourceRevisionId: identity.sourceRevisionId,
+    };
+  });
+}
+
+function patternMarkRecords(
+  recipe: GarmentRecipe,
+  block: Block,
+  identities: readonly PieceIdentity[],
+): readonly DxfPatternMarkRecord[] {
   const records: DxfPatternMarkRecord[] = [];
   const ids = new Set<string>();
-  let entityOrdinal = 1;
+  const identityByRole = new Map(identities.map((identity) => [identity.role, identity]));
   for (const [role, piece] of Object.entries(block.roles)) {
+    const identity = identityByRole.get(role)!;
     const marks = piece.marks ?? [];
     for (const [markIndex, mark] of marks.entries()) {
       const id = `${recipe.name}:${role}:mark:${mark.name}`;
@@ -135,7 +201,9 @@ function patternMarkRecords(recipe: GarmentRecipe, block: Block): readonly DxfPa
       records.push({
         id,
         pieceId: `${recipe.name}:${role}`,
-        entityOrdinal: entityOrdinal + 2 + markIndex,
+        entityOrdinal: 3 + markIndex,
+        blockName: identity.blockName,
+        sourceRevisionId: identity.sourceRevisionId,
         name: mark.name,
         kind: mark.kind,
         entityType: isLine ? "LINE" : mark.kind === "button" ? "CIRCLE" : "POINT",
@@ -147,9 +215,26 @@ function patternMarkRecords(recipe: GarmentRecipe, block: Block): readonly DxfPa
         ...(mark.labelRole !== undefined ? { labelRole: mark.labelRole } : {}),
       });
     }
-    entityOrdinal += 2 + marks.length;
   }
   return records;
+}
+
+function pieceBlockGroups(
+  pieces: readonly Piece[],
+  recipe: GarmentRecipe,
+  identities: readonly PieceIdentity[],
+): readonly { readonly name: string; readonly leadingEntityCount: number; readonly trailingEntityCount: number }[] {
+  const notchesByPiece = new Map(recipe.notches.map((table) => [table.pieceName, table]));
+  return pieces.map((piece, index) => {
+    const identity = identities[index]!;
+    const marks = piece.marks?.length ?? 0;
+    const notchTable = notchesByPiece.get(piece.name);
+    return {
+      name: identity.blockName,
+      leadingEntityCount: 2 + marks,
+      trailingEntityCount: notchTable ? notchTable.notches.length + 5 : 0,
+    };
+  });
 }
 
 function dxfEntityRefs(dxf: string): readonly { readonly type: string; readonly layer: string }[] {
@@ -194,7 +279,9 @@ export async function createDxfInterchangePackage(
 
   const pieces = blockPieces(sourceBlock);
   const cutOutlines = pieces.map((piece) => adaptiveSeamAllowance(piece, recipe.allowances));
-  const dxf = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches, cutOutlines);
+  const identities = await pieceIdentities(recipe, sourceBlock, resolvedOptions, graded);
+  const flatDxf = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches, cutOutlines);
+  const dxf = wrapDxfEntitiesInNamedBlocks(flatDxf, pieceBlockGroups(pieces, recipe, identities));
   const drawingSha256 = await sha256(dxf);
   const core = {
     schemaVersion: SCHEMA_VERSION,
@@ -213,8 +300,8 @@ export async function createDxfInterchangePackage(
       sizeRun: recipe.sizes.map((entry) => ({ ...entry })),
       rule: { ...recipe.grade },
     },
-    pieces: pieceRecords(recipe, sourceBlock),
-    patternMarks: patternMarkRecords(recipe, sourceBlock),
+    pieces: pieceRecords(recipe, sourceBlock, identities),
+    patternMarks: patternMarkRecords(recipe, sourceBlock, identities),
     stitches: sourceBlock.stitches.map((stitch) => ({
       label: stitch.label,
       a: { edges: stitch.a.edges.map((reference) => ({ ...reference })) },
@@ -231,17 +318,54 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
   const candidate = value as { dxf?: unknown; manifest?: unknown };
   if (typeof candidate.dxf !== "string" || candidate.manifest === null || typeof candidate.manifest !== "object") return false;
   const manifest = candidate.manifest as Record<string, unknown>;
-  if ((manifest.schemaVersion !== SCHEMA_VERSION && manifest.schemaVersion !== PREVIOUS_SCHEMA_VERSION) ||
+  if (![SCHEMA_VERSION, PREVIOUS_SCHEMA_VERSION, LEGACY_SCHEMA_VERSION].includes(manifest.schemaVersion as never) ||
       typeof manifest.drawingSha256 !== "string" || typeof manifest.revisionId !== "string") return false;
-  if (manifest.schemaVersion === SCHEMA_VERSION && manifest.cutGeometryAlgorithm !== CUT_GEOMETRY_ALGORITHM) return false;
-  if (manifest.schemaVersion === PREVIOUS_SCHEMA_VERSION && manifest.cutGeometryAlgorithm !== undefined) return false;
+  if ((manifest.schemaVersion === SCHEMA_VERSION || manifest.schemaVersion === PREVIOUS_SCHEMA_VERSION) &&
+      manifest.cutGeometryAlgorithm !== CUT_GEOMETRY_ALGORITHM) return false;
+  if (manifest.schemaVersion === LEGACY_SCHEMA_VERSION && manifest.cutGeometryAlgorithm !== undefined) return false;
   const units = manifest.units as { length?: unknown; dxfInsunits?: unknown } | undefined;
   if (units?.length !== "cm" || units.dxfInsunits !== 5 || !hasCentimeterHeader(candidate.dxf)) return false;
   if (await sha256(candidate.dxf) !== manifest.drawingSha256) return false;
   if (!Array.isArray(manifest.patternMarks)) return false;
-  const refs = dxfEntityRefs(candidate.dxf);
   const ids = new Set<string>();
-  const ordinals = new Set<number>();
+  const ordinals = new Set<string>();
+  let refs: readonly { readonly type: string; readonly layer: string }[] = [];
+  let blocksByName = new Map<string, readonly string[]>();
+  let piecesByBlock = new Map<string, Record<string, unknown>>();
+  if (manifest.schemaVersion === SCHEMA_VERSION) {
+    if (!Array.isArray(manifest.pieces) || manifest.pieces.length === 0 ||
+        manifest.recipe === null || typeof manifest.recipe !== "object") return false;
+    const recipe = manifest.recipe as Record<string, unknown>;
+    if (typeof recipe.id !== "string") return false;
+    for (const value of manifest.pieces) {
+      if (value === null || typeof value !== "object") return false;
+      const piece = value as Record<string, unknown>;
+      if (typeof piece.id !== "string" || typeof piece.role !== "string" ||
+          piece.id !== `${recipe.id}:${piece.role}` || typeof piece.blockName !== "string" ||
+          !/^[A-Z0-9_]{1,200}$/u.test(piece.blockName) || typeof piece.sourceRevisionId !== "string" ||
+          !/^[a-f0-9]{64}$/u.test(piece.sourceRevisionId) ||
+          !piece.blockName.endsWith(piece.sourceRevisionId.slice(0, 16).toUpperCase()) ||
+          piecesByBlock.has(piece.blockName)) return false;
+      piecesByBlock.set(piece.blockName, piece);
+    }
+    try {
+      const drawing = readNamedDxfDrawing(candidate.dxf);
+      const blockNames = new Set(drawing.blocks.map((block) => block.name));
+      if (blockNames.size !== drawing.blocks.length || blockNames.size !== piecesByBlock.size ||
+          drawing.inserts.length !== piecesByBlock.size || new Set(drawing.inserts.map(({ name }) => name)).size !== drawing.inserts.length ||
+          drawing.inserts.some(({ name }) => !piecesByBlock.has(name) || !blockNames.has(name))) return false;
+      expandNamedDxfDrawing(candidate.dxf);
+      blocksByName = new Map(drawing.blocks.map((block) => [block.name, block.entities]));
+      for (const entities of blocksByName.values()) {
+        const types = entities.map((entity) => dxfEntityTypeAndLayer(entity).type);
+        if (types.filter((type) => type === "POLYLINE" || type === "LWPOLYLINE").length < 2) return false;
+      }
+    } catch {
+      return false;
+    }
+  } else {
+    refs = dxfEntityRefs(candidate.dxf);
+  }
   for (const value of manifest.patternMarks) {
     if (value === null || typeof value !== "object") return false;
     const mark = value as Partial<DxfPatternMarkRecord>;
@@ -249,12 +373,25 @@ export async function verifyDxfInterchangePackage(value: unknown): Promise<boole
     if (typeof mark.pieceId !== "string" || typeof mark.name !== "string" || !mark.name.trim()) return false;
     if (!Number.isInteger(mark.entityOrdinal)) return false;
     const ordinal = mark.entityOrdinal as number;
-    if (ordinal < 1 || ordinals.has(ordinal)) return false;
+    if (ordinal < 1) return false;
     if (typeof mark.entityType !== "string" || typeof mark.layer !== "string") return false;
-    const entity = refs[ordinal - 1];
-    if (!entity || entity.type !== mark.entityType || entity.layer !== mark.layer) return false;
+    if (manifest.schemaVersion === SCHEMA_VERSION) {
+      if (typeof mark.blockName !== "string" || typeof mark.sourceRevisionId !== "string") return false;
+      const piece = piecesByBlock.get(mark.blockName);
+      const entities = blocksByName.get(mark.blockName);
+      const entityKey = `${mark.blockName}:${ordinal}`;
+      if (!piece || !entities || mark.pieceId !== piece.id || mark.sourceRevisionId !== piece.sourceRevisionId || ordinals.has(entityKey)) return false;
+      const entity = entities[ordinal - 1];
+      const identity = entity ? dxfEntityTypeAndLayer(entity) : undefined;
+      if (!identity || identity.type !== mark.entityType || identity.layer !== mark.layer) return false;
+      ordinals.add(entityKey);
+    } else {
+      if (ordinals.has(String(ordinal))) return false;
+      const entity = refs[ordinal - 1];
+      if (!entity || entity.type !== mark.entityType || entity.layer !== mark.layer) return false;
+      ordinals.add(String(ordinal));
+    }
     ids.add(mark.id);
-    ordinals.add(ordinal);
   }
   const { revisionId, ...core } = manifest;
   try {

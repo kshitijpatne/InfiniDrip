@@ -1,3 +1,18 @@
+## Current EPIC-17 / G04 V03 boundary — S700 closed; named blocks do not clear CLO losses
+
+S700 adds source-revision and piece-role named DXF blocks to the opt-in
+package, with exact block expansion, all-seven/grade/73-option validation,
+100% changed-code coverage, and unchanged legacy output identity. The single
+planned CLO import/export retains nine names with `_M`, but five CUT contours
+exceed 0.001 cm and three buttonhole POINTs are absent even with point import
+enabled. Thus the identity source gap is improved, but this receiver remains
+unqualified and V03 remains held. No more CLO variations or new app trials for
+these same failures. Read `PROJECT-STATE.md` and
+`docs/research/epic17/S700-named-piece-package/S700-exit-packet.md`; CAD files
+and rendered output are only under the named C: folder. The goal remains active
+through the unchanged gates, cleanup, full integrated verification, PR, safe
+merge, ancestry, and production end-to-end checks.
+
 ## Current EPIC-17 / G04 V03 boundary — S699 closed; next repair is source-bound
 
 S699 isolates S698: the candidate source already preserves path/coordinate

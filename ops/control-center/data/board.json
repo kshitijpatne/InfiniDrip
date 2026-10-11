@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4132,
-  "updatedAt": "2026-10-10T23:31:25.178Z",
+  "revision": 4135,
+  "updatedAt": "2026-10-10T23:59:45.835Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13274,6 +13274,11 @@
           "at": "2026-10-10T23:31:25.178Z",
           "actor": "Codex",
           "text": "S699 traced S698 losses against the actual writer and existing trials. The source retains precise CUT paths; CLO has already dropped shallow curved points across multiple entity/density representations, so no more format sweep is planned. The three S698 buttonhole POINTs were present in the candidate but `Import Draw Curve Points` was off; validate the enabled setting once. Our concrete source gap is flat anonymous DXF geometry with role/revision identity only in the side manifest. S628 already proved a named BLOCK/INSERT wrapper preserved 12 Woven piece names and CUT/SEW geometry. S700 will integrate that structure without altering entity payloads, verify all-seven package expansion, and run one named-block Polo M CLO round trip with point import enabled. If curved cuts still fail 0.001 cm, retire this CLO route. No acceptance or threshold change."
+        },
+        {
+          "at": "2026-10-10T23:59:45.835Z",
+          "actor": "Codex",
+          "text": "S700 completed the bounded source fix: the opt-in package now carries deterministic role/revision named piece blocks and exact expansion tests; the legacy writer is unchanged. All registered recipes/grades and 73 option configurations pass focused checks with 100% changed-code coverage. The one planned CLO test retained all nine names with `_M`, but failed the unchanged 0.001 cm CUT limit on the back, both stands and both collar leaves, and three buttonhole points remain absent despite Draw Curve Points being enabled. The saved return and render evidence are hash-pinned in the C: folder. The predeclared stop condition is met: do not repeat a CLO setting/format or switch to another app for these same misses. V03 remains held; no acceptance or threshold changed. Next: reconcile the exact returned entities and admitted profile gate, then implement only a source defect proven by that evidence."
         }
       ],
       "evidenceRefs": [
@@ -13802,7 +13807,9 @@
         "E-G04-S698-START",
         "E-G04-S698-EXIT",
         "E-G04-S699-START",
-        "E-G04-S699-EXIT"
+        "E-G04-S699-EXIT",
+        "E-G04-S700-START",
+        "E-G04-S700-EXIT"
       ],
       "flagKey": null
     },
@@ -27010,6 +27017,24 @@
       "sha256": null,
       "verified": true,
       "note": "Source/return audit distinguishes correct six-decimal/path output, CLO curve-point loss, the S698 Draw Curve Points-off condition for missing POINT marks, and the candidate's flat unnamed DXF structure. S628 named-block evidence supports the next source repair; all gates and thresholds stay fixed."
+    },
+    {
+      "id": "E-G04-S700-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S700-named-piece-package/S700-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Implements named piece BLOCK/INSERT structures based on S628 positive round-trip evidence and S699 source audit; preserves exact entity payload and all V03 gates. One existing-CLO Polo M pilot follows focused implementation gates."
+    },
+    {
+      "id": "E-G04-S700-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S700-named-piece-package/S700-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Opt-in package now emits exact-expanding source-revision named piece blocks; tests, all-seven/grade/73-option matrix, typecheck and changed-code coverage pass. Actual CLO return retains nine names but fails five of nine CUT contours and three buttonhole points at fixed limits, so CLO remains unqualified and V03 stays held."
     }
   ]
 }
