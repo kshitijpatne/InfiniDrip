@@ -1,3 +1,11 @@
+## Current EPIC-17 / G04 V03 boundary — S711 closed; CLO current-source marks fail
+
+S711 imports and exports the exact S708 Polo M package once through CLO 2026.1.310 DXF-ASTM. The source's six buttonhole-cross LINE entities are not preserved as identifiable marks: the named mark layer is absent, nearest returned point geometry is 0.249992 cm from each cross center, and the nearest returned path is 1.499992 cm away. CLO also omits the source centimeter header and suffixes all nine piece names with `_M`. The current source-side auditor rejects the return; no acceptance was weakened. S703 still proves five CUT contour failures above 0.001 cm; S711 did not remeasure them or claim readable returned output. The tested CLO route remains unqualified and no standards claim is made. No further receiver variation is planned. Exact hashes and measurements: `docs/research/epic17/S711-clo-current-marks-check/S711-exit-packet.md`; raw return/report stay in `C:\G04-CAD-Interchange\S711-clo-current-marks-check\`.
+
+Continue from S709's prioritized plan with source/code work tied to a measured gate. Keep every V03 criterion, all-seven/options/grades scope, fixed threshold, protected export identity, and final full gate/cleanup/PR/merge/deployment/production checks unchanged. G04-V03 and EPIC-17 remain In Progress; goal stays active.
+## Historical — S711 start
+
+S711 performs one same-route CLO 2026.1.310 DXF-ASTM current-source check of the exact S708 Polo M package because S705 specifically changed the buttonhole representation after the prior route lost point-only marks. It is limited to validating that measured source correction plus capturing any other return evidence; no extra software, format, setting, retry, profile qualification, or gate change. Known contour failures remain. Start packet: `docs/research/epic17/S711-clo-current-marks-check/S711-start-packet.md`.
 ## Current EPIC-17 / G04 V03 boundary — S710 closed
 
 S710's separate source-side return audit passes the saved S708 LibreCAD Polo M

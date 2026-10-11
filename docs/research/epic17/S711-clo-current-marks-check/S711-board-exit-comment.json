@@ -1,0 +1,7 @@
+{
+  "expectedRevision": 4174,
+  "text": "S711 completed its one authorized current-source CLO round trip. The saved file retains 9 named blocks and 9 inserts but changes each piece name with _M, adds 9 model-space labels, replaces semantic layers with numeric layers, drops the centimeter declaration, and does not retain the six source buttonhole-cross lines as identifiable marks. The closest returned point entity is 0.249992 cm from each source cross center, over the unchanged 0.001 cm limit. The strict audit fails on missing units; known contour failures from S703 remain, and no breadth/profile/readability claim is made. No code or acceptance changed; no further receiver variant is planned.",
+  "itemId": "G04-V03",
+  "type": "addComment",
+  "actor": "Codex"
+}

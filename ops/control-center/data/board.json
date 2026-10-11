@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4171,
-  "updatedAt": "2026-10-11T02:20:54.584Z",
+  "revision": 4175,
+  "updatedAt": "2026-10-11T02:47:10.439Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13364,6 +13364,16 @@
           "at": "2026-10-11T02:20:54.584Z",
           "actor": "Codex",
           "text": "S710 is verified and closed. The saved S708 LibreCAD return passes our new source-side auditor. Its initial rejection was our bug: we treated a zero Z scale on a flat 2D insert as if it changed the drawing. The corrected audit accepts that harmless Z value but still rejects moves, rotation, in-plane scaling and duplicate instances. Focused audit and existing package negative tests are green at 100% coverage; protected byte-identity tests pass. This one generic-CAD fixture does not qualify the industrial profile or clear breadth/repeatability/readability gates. No acceptance or threshold changed."
+        },
+        {
+          "at": "2026-10-11T02:36:18.340Z",
+          "actor": "Codex",
+          "text": "S711 will import/export the exact S708 current Polo M package once through the same CLO DXF-ASTM path and controls already used in S703. The only new question is whether S705's visible buttonhole crosses fix the previously measured loss of point-only buttonhole marks. Record other returned facts from the same file, but known contour failures remain; this is not profile qualification, no new software/setting, and no acceptance change."
+        },
+        {
+          "at": "2026-10-11T02:47:10.439Z",
+          "actor": "Codex",
+          "text": "S711 completed its one authorized current-source CLO round trip. The saved file retains 9 named blocks and 9 inserts but changes each piece name with _M, adds 9 model-space labels, replaces semantic layers with numeric layers, drops the centimeter declaration, and does not retain the six source buttonhole-cross lines as identifiable marks. The closest returned point entity is 0.249992 cm from each source cross center, over the unchanged 0.001 cm limit. The strict audit fails on missing units; known contour failures from S703 remain, and no breadth/profile/readability claim is made. No code or acceptance changed; no further receiver variant is planned."
         }
       ],
       "evidenceRefs": [
@@ -13914,7 +13924,9 @@
         "E-G04-S709-START",
         "E-G04-S709-EXIT",
         "E-G04-S710-START",
-        "E-G04-S710-EXIT"
+        "E-G04-S710-EXIT",
+        "E-G04-S711-START",
+        "E-G04-S711-EXIT"
       ],
       "flagKey": null
     },
@@ -27320,6 +27332,24 @@
       "sha256": null,
       "verified": true,
       "note": "S710 adds a returned-DXF audit without changing original package hash validation. The saved S708 LibreCAD Polo M return passes: 9 pieces, 18 outlines, 111 marks, cm units, 0.000 cm XY delta. Focused audit/package negatives have 100% coverage; export byte-identity tests pass. This is one generic-CAD fixture, not an industrial profile or breadth pass."
+    },
+    {
+      "id": "E-G04-S711-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S711-clo-current-marks-check/S711-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S711 starts one same-route CLO DXF-ASTM check of the exact S708 source. It is narrowly justified to verify the S705 change from point-only buttonholes to visible cross marks against CLO's previously measured point-mark loss; no new app/mode/setting or gate change."
+    },
+    {
+      "id": "E-G04-S711-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S711-clo-current-marks-check/S711-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One exact current-source CLO DXF-ASTM return completed. The six source buttonhole-cross lines lost source-identifiable mark layer/anchors (nearest returned point 0.249992 cm from each center), centimeter header absent, and piece names gain _M. Known S703 contour failures remain; no profile, breadth, readable-output or standard conformance pass. All gates unchanged."
     }
   ]
 }

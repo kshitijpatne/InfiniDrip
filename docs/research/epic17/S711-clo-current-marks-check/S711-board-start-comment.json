@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S711 will import/export the exact S708 current Polo M package once through the same CLO DXF-ASTM path and controls already used in S703. The only new question is whether S705's visible buttonhole crosses fix the previously measured loss of point-only buttonhole marks. Record other returned facts from the same file, but known contour failures remain; this is not profile qualification, no new software/setting, and no acceptance change.",
+  "expectedRevision": 4172
+}
