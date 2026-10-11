@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4376,
+  "itemId": "UIQ-03",
+  "evidence": {
+    "id": "E-UIQ03-S737-PUBLIC",
+    "kind": "browser",
+    "uri": "docs/research/uiq03-integration/evidence/S737-public-verification.json",
+    "commit": "8ef63471c0531ecbfe6947452ab41fa08a82c55b",
+    "sha256": "f2186036be0c241f7934ec377295f014a8587767556e749f3a42abe735f09684",
+    "verified": true,
+    "note": "Fresh browser verified the merged main deployment at the existing preview URL: HTTP 200, UIQ guidance visible, original checklist absent under the enabled flag, journey control retained, no page errors or off-origin requests."
+  }
+}

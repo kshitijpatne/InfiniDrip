@@ -1,0 +1,35 @@
+{
+  "slice": 737,
+  "gate": "full-repository-final-closeout",
+  "status": "passed",
+  "startedAtUtc": "2026-10-11T16:58:17Z",
+  "durationSeconds": 1529.76,
+  "workerCount": 1,
+  "testFiles": {
+    "passed": 164,
+    "total": 164
+  },
+  "tests": {
+    "passed": 2647,
+    "total": 2647
+  },
+  "coveragePercent": {
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  },
+  "exportByteIdentity": {
+    "passed": 9,
+    "total": 9
+  },
+  "command": "npm run coverage -- --exclude=tmp/ui-repo-sources/** --minWorkers=1 --maxWorkers=1 --coverage.reportsDirectory=coverage-uiq03-s737-final --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --reporter=dot",
+  "focusedGates": {
+    "controlCenter": "42/42 passed",
+    "webRelease": "10/10 passed",
+    "readinessDrill": "5/5 passed",
+    "diffCheck": "passed",
+    "canonicalBoard": "UIQ-03 Done, revision 4380, delivered 2026-10-11"
+  },
+  "scope": "Closeout only; no production code changed."
+}

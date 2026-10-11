@@ -81,11 +81,13 @@ Slice 737 deployment closeout). The accepted panel is limited to the existing
 Design readiness disclosure behind `uiq_guidance`; existing journey controls
 and decisions are preserved, with the old checklist as the flag-off fallback.
 UIQ-03's presentation omits the exact blocker duplicate from the ordinary note
-list; Slice 736 full coverage, packaged verification and rendered evidence are
-in `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md` and
-`docs/research/uiq03-integration/`. It is ready for independent PR review;
-merge/deployment remain pending. UIQ-04/05/07 remain Backlog until separate
-admissions.
+list. Slice 736's full coverage, packaged verification and rendered evidence
+are in `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md` and
+`docs/research/uiq03-integration/`. PR #23 is merged; deployment run
+`38173525917` passed and the existing public URL returned HTTP 200 with the
+panel visible. Slice 737 closed UIQ-03 Done at board revision 4380; see
+`docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. UIQ-04/05/07 remain
+Backlog; no next integration is admitted.
 
 ## Parallel boundaries
 

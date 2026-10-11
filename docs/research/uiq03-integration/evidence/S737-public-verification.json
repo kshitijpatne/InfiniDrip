@@ -1,0 +1,29 @@
+{
+  "slice": 737,
+  "status": "passed",
+  "pullRequest": "https://github.com/kshitijpatne/InfiniDrip/pull/23",
+  "mainCommit": "8ef63471c0531ecbfe6947452ab41fa08a82c55b",
+  "deploymentWorkflow": "https://github.com/kshitijpatne/InfiniDrip/actions/runs/38173525917",
+  "deploymentRunId": 38173525917,
+  "workflowConclusion": "success",
+  "workflowStages": {
+    "fullTestSuite": "success",
+    "productionBuild": "success",
+    "deterministicWebArtifact": "success",
+    "cloudflarePagesDeployment": "success"
+  },
+  "publicUrl": "https://infinidrip-preview.pages.dev",
+  "browserCheck": {
+    "httpStatus": 200,
+    "title": "InfiniDrip",
+    "stage": "refine",
+    "guidancePanelVisible": true,
+    "legacyChecklistCount": 0,
+    "journeyNextCount": 1,
+    "fitDefault": "No fit preference supplied",
+    "requestsOutsideOrigin": [],
+    "pageErrors": []
+  },
+  "authOrBackendAdded": false,
+  "paymentsOrNewServicesAdded": false
+}

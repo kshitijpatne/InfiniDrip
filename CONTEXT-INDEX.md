@@ -144,8 +144,10 @@ only through an explicitly admitted, linked Epic packet.
   merged and deployed: Slice 734 implementation evidence is in
   `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md`, and Slice 735 merge/deploy
   proof is in `docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md`. UIQ-02 is Done;
-  this is not a global redesign. UIQ-03/04/05/07 remain Backlog and require
-  separate serialized admissions.
+  this is not a global redesign. At the S735 boundary UIQ-03/04/05/07 were
+  Backlog and required separate serialized admissions; UIQ-03 was subsequently
+  admitted and shipped under its own S736/S737 packet below. UIQ-04/05/07 remain
+  Backlog.
 - `docs/planning/UIQ-02-S735-CLOSEOUT-BOARD-COMMANDS/` — validated board-layer
   commands that attach the merged/deployed UIQ-02 evidence and final coverage,
   close the parent as Done, and record its release comment; use only as
@@ -158,10 +160,13 @@ only through an explicitly admitted, linked Epic packet.
   correction semantics, saved data and exports remain protected.
   `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md` and
   `docs/research/uiq03-integration/` record the full gate, packaged lifecycle,
-  rendered pressure test and two diagnostic coverage attempts. Slice 736's
-  100% global coverage, build, operational checks, rendered/accessibility and
-  packaged Electron gates are complete; UIQ-03 is entering independent PR
-  review on its admitted branch, not yet merged or deployed.
+  rendered pressure test and diagnostic coverage attempts. Slice 736's 100%
+  global coverage and all pre-merge gates passed. PR #23 merged the integration;
+  Slice 737 verified Actions run `38173525917`, the existing public preview URL
+  and closed UIQ-03 Done at board revision 4380. Complete closeout is
+  `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`; machine browser proof is
+  `docs/research/uiq03-integration/evidence/S737-public-verification.json`.
+  UIQ-04/05/07 remain Backlog; no further integration is admitted.
 - `docs/planning/UI-ENHANCEMENT-BOARD-COMMANDS.json` — additive validated replay
   for newer boards, never replacement of active progress with an older board.
   `UI-ENHANCEMENT-EPIC17-NOTE.md` is the user-pasted non-diverting handoff;

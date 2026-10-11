@@ -1,7 +1,9 @@
 # UIQ-03 integration goal
 
-Status: ACTIVE — pre-merge gates passed and canonical board is in Review; PR,
-merge and deployment remain pending.
+Status: ACTIVE — Slice 736 is merged and publicly deployed. Slice 737 records
+the verified release and canonical board Done transition; merge this closeout
+packet to `main` and confirm its main-only Pages workflow succeeds before
+marking the durable goal complete.
 
 Objective: integrate the immutable accepted UIQ-03 guidance panel into the
 existing Design readiness disclosure, preserving its legacy checklist fallback
@@ -104,9 +106,39 @@ command/test durations where available rather than estimating.
 
 ### Next action
 
-The packaged Electron lifecycle/output gate, final production-render pressure
-check, full coverage and Control Center board transition all pass. Next: finish
-the complete diff review, create the single Slice 736 commit and PR, then merge
-only after required checks and Codex review pass. Slice 737 remains post-merge
-deployment/board closeout only; no public behavior changes until the reviewed
-merge and automatic deployment.
+Slice 736 and the original feature deployment are complete. The Slice 737
+closeout packet is prepared on current main and its validated commands close
+UIQ-03 with deployment evidence; run/review the final docs/board test gates,
+open and merge the closeout PR, and confirm its main-only Pages workflow. Keep
+UIQ-04/05/07 Backlog and do not start another package without a fresh admission.
+
+### Slice 737 — merged release and closeout packet
+
+PR #23 merged Slice 736 at `8ef63471c0531ecbfe6947452ab41fa08a82c55`. Main
+workflow `38173525917` passed all stages, and a fresh browser observed the same
+public preview URL at HTTP 200 with the UIQ panel visible, the exact legacy
+checklist absent under the enabled flag, journey navigation preserved, and no
+page errors or off-origin requests. Machine evidence is
+`docs/research/uiq03-integration/evidence/S737-public-verification.json`.
+
+Slice 737 is documentation/board closeout only. It attaches deployment and
+exit evidence via validated Control Center commands and records UIQ-03 Done at
+board revision 4380. UIQ-04/05/07 remain Backlog; no next UIQ integration is
+admitted. The remaining action at this checkpoint is to merge the S737
+closeout PR to main and verify that push-triggered Pages workflow succeeds;
+then the overall goal is complete. Do not conflate this docs/board closeout
+deployment run with product release evidence from PR #23.
+
+The Slice 737 post-closeout regression gate passed after the board status test
+was updated: 164/164 test files, 2,647/2,647 tests, 100% global statements,
+branches, functions, and lines, and all 9 export-byte-identity tests, using one
+worker in 1,529.76 seconds. Focused gates also passed: Control Center 42/42,
+web release 10/10, readiness drill 5/5, and `git diff --check`. Exact machine
+result: `docs/research/uiq03-integration/evidence/S737-closeout-coverage.json`.
+
+### Next action
+
+Review, commit, and open the Slice 737 closeout PR; after independent diff
+review, merge it and verify the resulting main-branch Pages workflow and public
+URL. The UIQ-03 integration goal remains active until those post-merge checks
+pass. No further product implementation is in scope.

@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4377,
+  "itemId": "UIQ-03",
+  "evidence": {
+    "id": "E-UIQ03-S737-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md",
+    "commit": "8ef63471c0531ecbfe6947452ab41fa08a82c55b",
+    "sha256": "29dc81d898824c7e849b8cd7dffd6f1df1c09d6d0f1f57bf31230a1243096b4c",
+    "verified": true,
+    "note": "Slice 737 closeout records PR #23 merge, successful main workflow 38173525917, public-browser proof, and the local-first preview release boundary."
+  }
+}

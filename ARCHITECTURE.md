@@ -49,15 +49,17 @@ passed and `https://infinidrip-preview.pages.dev` returned HTTP 200. See
 `docs/release/UIQ-02-INTEGRATION-S735-CLOSEOUT.md` for deployment proof and
 `docs/release/UIQ-02-INTEGRATION-S734-EXIT.md` for the implementation gates.
 
-The current isolated integration branch also contains the admitted UIQ-03
-presentation inside the existing Design readiness disclosure, behind embedded
-`uiq_guidance` with the exact existing checklist as its fallback. It renders
-readiness, fit intent and digital validity from existing state; it does not
-change validation, navigation, correction data, persistence, drafting or
-exports. This Slice 736 integration has passed its full, rendered and packaged
-pre-merge gates but is not yet merged or deployed. Its current boundary and
-proofs are in `docs/planning/UIQ-03-INTEGRATION-ADMISSION.md` and
-`docs/release/UIQ-03-INTEGRATION-S736-EXIT.md`. UIQ-04/05/07 remain Backlog.
+The shipped UIQ-03 presentation is inside the existing Design readiness
+disclosure behind embedded `uiq_guidance`, with the exact existing checklist as
+its fallback. It renders readiness, fit intent and digital validity from
+existing state; it does not change validation, navigation, correction data,
+persistence, drafting or exports. PR #23 merged it at `8ef63471`; main workflow
+`38173525917` passed and a fresh browser verified
+`https://infinidrip-preview.pages.dev` at HTTP 200 with the panel visible and no
+page errors or off-origin requests. Slice 736's implementation gates are in
+`docs/release/UIQ-03-INTEGRATION-S736-EXIT.md`; Slice 737's release/board proof
+is in `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. UIQ-04/05/07 remain
+Backlog; no further integration is admitted.
 
 ## How measurements become pattern shapes
 
