@@ -1,3 +1,15 @@
+## Current EPIC-17 / G04 V03 boundary — S702 closed; one documented CLO profile remains to verify
+
+CLO's current first-party documentation distinguishes apparel DXF-ASTM/AAMA
+import/export from Standard DXF. S700 used Standard, so it did not test CLO's
+documented apparel route. The next bounded step is one DXF-ASTM import/export
+using the exact saved Polo M candidate; curve optimization remains off and
+fixed thresholds remain in force. This is not an ASTM conformance claim.
+No other app or format variation is queued. Read `PROJECT-STATE.md` and
+`docs/research/epic17/S702-installed-profile-documentation/S702-exit-packet.md`.
+Goal remains active through V03, cleanup, integrated gates, PR/merge, ancestry
+and production checks.
+
 ## Current EPIC-17 / G04 V03 boundary — S701 closed; actual return losses confirmed
 
 S701 confirmed the five S700 CUT misses are receiver-side contour

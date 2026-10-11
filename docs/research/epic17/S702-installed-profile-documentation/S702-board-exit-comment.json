@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "text": "S702 checked current CLO first-party documentation and found the concrete distinction missed by the earlier test plan: CLO exposes DXF-ASTM and DXF-AAMA apparel import/export modes in addition to Standard DXF. S700 used Standard, so it did not test the documented apparel profile. This finding justifies one bounded DXF-ASTM import/export of the same hash-pinned Polo M package in S703, with curve optimization off and unchanged units/tolerances. This is not a standards-conformance claim; stop at the first import, geometry, mark, or identity failure. No new app or other format is queued; all V03 acceptance stays unchanged.",
+  "expectedRevision": 4140
+}

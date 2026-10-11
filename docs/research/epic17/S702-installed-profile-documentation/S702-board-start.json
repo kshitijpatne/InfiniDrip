@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S702-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S702-installed-profile-documentation/S702-start-packet.md",
+    "verified": true,
+    "note": "First-party documentation check only: determine whether the already-installed CLO apparel workflow has a distinct documented DXF profile addressing the measured S700 contour/mark losses; no app or receiver operation."
+  },
+  "expectedRevision": 4138
+}

@@ -1,3 +1,16 @@
+## EPIC-17 / G04 — S702 closed; correct CLO apparel profile identified
+
+S702 checked CLO's first-party documentation. CLO has a distinct DXF-ASTM
+apparel import/export mode alongside Standard DXF and AAMA. S700 used
+Standard, so its measured losses do not settle the documented ASTM route. One
+bounded pilot using the exact saved Polo M fixture through DXF-ASTM is
+justified; curve optimization stays off and all geometry/mark/identity
+thresholds stay fixed. This is an empirical CLO profile test, not an ASTM
+conformance claim. No app operation occurred in S702. See
+`docs/research/epic17/S702-installed-profile-documentation/`. V03 remains held
+until pilot and remaining all-seven, rights, malformed-input, repeatability,
+readability, and final exit gates pass. EPIC-17 and goal remain active.
+
 ## EPIC-17 / G04 — S701 closed; exact return entity diagnosis
 
 S701 parsed the saved S700 source and CLO return directly. Five CUT contours

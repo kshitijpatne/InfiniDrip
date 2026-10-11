@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4138,
-  "updatedAt": "2026-10-11T00:03:08.257Z",
+  "revision": 4141,
+  "updatedAt": "2026-10-11T00:04:32.860Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13284,6 +13284,11 @@
           "at": "2026-10-11T00:03:08.257Z",
           "actor": "Codex",
           "text": "S701 parsed the exact saved S700 entities. Five return CUT contours are genuinely simplified by CLO and exceed 0.001 cm; the source drawing bytes and coordinates are unchanged. The three buttonhole POINTs are genuinely absent: the 1.4999984 cm nearest path is a continuous placket boundary, not an individual mark, so accepting its midpoint would be a false pass. No product-code or geometry workaround is supported. This ends testing of the CLO candidate. Next use only existing evidence and first-party profile documentation to reconcile the already-installed apparel CAD workflows against the remaining fixed V03 gates; do not install, switch apps, or repeat trials absent a distinct profile proof that addresses the measured misses. All acceptance and thresholds remain unchanged; V03 stays held."
+        },
+        {
+          "at": "2026-10-11T00:04:32.860Z",
+          "actor": "Codex",
+          "text": "S702 checked current CLO first-party documentation and found the concrete distinction missed by the earlier test plan: CLO exposes DXF-ASTM and DXF-AAMA apparel import/export modes in addition to Standard DXF. S700 used Standard, so it did not test the documented apparel profile. This finding justifies one bounded DXF-ASTM import/export of the same hash-pinned Polo M package in S703, with curve optimization off and unchanged units/tolerances. This is not a standards-conformance claim; stop at the first import, geometry, mark, or identity failure. No new app or other format is queued; all V03 acceptance stays unchanged."
         }
       ],
       "evidenceRefs": [
@@ -13816,7 +13821,9 @@
         "E-G04-S700-START",
         "E-G04-S700-EXIT",
         "E-G04-S701-START",
-        "E-G04-S701-EXIT"
+        "E-G04-S701-EXIT",
+        "E-G04-S702-START",
+        "E-G04-S702-EXIT"
       ],
       "flagKey": null
     },
@@ -27060,6 +27067,24 @@
       "sha256": null,
       "verified": true,
       "note": "Exact S700 entities confirm five real CLO CUT-contour losses and three absent buttonhole marks; the shared 1.5 cm offset is to a continuous placket boundary, not a buttonhole glyph. Source serialization is exact; no safe source geometry change or comparator exception is justified."
+    },
+    {
+      "id": "E-G04-S702-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S702-installed-profile-documentation/S702-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "First-party documentation check only: determine whether the already-installed CLO apparel workflow has a distinct documented DXF profile addressing the measured S700 contour/mark losses; no app or receiver operation."
+    },
+    {
+      "id": "E-G04-S702-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S702-installed-profile-documentation/S702-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "CLO first-party docs distinguish its apparel DXF-ASTM/AAMA profiles from Standard DXF. S700 used Standard; one bounded ASTM-profile pilot is specifically justified and does not claim standards conformance."
     }
   ]
 }
