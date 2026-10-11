@@ -1,9 +1,8 @@
 # UIQ-03 integration goal
 
-Status: ACTIVE — Slice 736 is merged and publicly deployed. Slice 737 records
-the verified release and canonical board Done transition; merge this closeout
-packet to `main` and confirm its main-only Pages workflow succeeds before
-marking the durable goal complete.
+Status: COMPLETE — PR #23 shipped the UIQ-03 integration, PR #24 merged the
+Slice 737 durable closeout, its main-only workflow succeeded, and the public
+preview URL was reverified after deployment. Canonical board status is Done.
 
 Objective: integrate the immutable accepted UIQ-03 guidance panel into the
 existing Design readiness disclosure, preserving its legacy checklist fallback
@@ -104,13 +103,11 @@ Implementation, focused verification, rendered review, external waits and
 maintainer decision time were not independently stopwatch-metered; record
 command/test durations where available rather than estimating.
 
-### Next action
+### Superseded pre-closeout checkpoint
 
-Slice 736 and the original feature deployment are complete. The Slice 737
-closeout packet is prepared on current main and its validated commands close
-UIQ-03 with deployment evidence; run/review the final docs/board test gates,
-open and merge the closeout PR, and confirm its main-only Pages workflow. Keep
-UIQ-04/05/07 Backlog and do not start another package without a fresh admission.
+At this earlier checkpoint, Slice 736 and PR #23 were complete while Slice 737
+closeout was still pending. The final result below supersedes that next-action
+state.
 
 ### Slice 737 — merged release and closeout packet
 
@@ -124,10 +121,9 @@ page errors or off-origin requests. Machine evidence is
 Slice 737 is documentation/board closeout only. It attaches deployment and
 exit evidence via validated Control Center commands and records UIQ-03 Done at
 board revision 4380. UIQ-04/05/07 remain Backlog; no next UIQ integration is
-admitted. The remaining action at this checkpoint is to merge the S737
-closeout PR to main and verify that push-triggered Pages workflow succeeds;
-then the overall goal is complete. Do not conflate this docs/board closeout
-deployment run with product release evidence from PR #23.
+admitted. At this checkpoint the remaining action was to merge the closeout PR
+and verify its workflow; the final result below records completion. Do not
+conflate the closeout deployment run with product release evidence from PR #23.
 
 The Slice 737 post-closeout regression gate passed after the board status test
 was updated: 164/164 test files, 2,647/2,647 tests, 100% global statements,
@@ -136,9 +132,19 @@ worker in 1,529.76 seconds. Focused gates also passed: Control Center 42/42,
 web release 10/10, readiness drill 5/5, and `git diff --check`. Exact machine
 result: `docs/research/uiq03-integration/evidence/S737-closeout-coverage.json`.
 
-### Next action
+### Final result — Slice 738
 
-Review, commit, and open the Slice 737 closeout PR; after independent diff
-review, merge it and verify the resulting main-branch Pages workflow and public
-URL. The UIQ-03 integration goal remains active until those post-merge checks
-pass. No further product implementation is in scope.
+Slice 737 closeout merged as PR #24 at
+`bbb802a84d5d819e3f4f4755c74e3c4a925a3ecf`. Main workflow `38176394059`
+passed dependency and Chromium setup, the full test suite, production build,
+deterministic artifact verification, and Cloudflare Pages deployment. A fresh
+browser then reconfirmed the same public preview URL at HTTP 200, title
+`InfiniDrip`, UIQ guidance visible on Check, no legacy checklist, one visible
+journey Next control, “No fit preference supplied”, digital validity visible,
+and no page errors or off-origin requests. Machine evidence:
+`docs/research/uiq03-integration/evidence/S738-final-closeout.json`.
+
+Validated board commands 11–13 attach final release/exit evidence and record
+the post-merge check without reopening UIQ-03. UIQ-03 remains Done; UIQ-04/05/07
+remain Backlog and require separate maintainer admission. The durable UIQ-03
+goal is complete, with no further product implementation in scope.

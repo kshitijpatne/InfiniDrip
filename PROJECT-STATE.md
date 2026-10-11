@@ -11,6 +11,14 @@ the enabled flag, journey navigation present, no page errors and no off-origin
 requests. Slice 737 records the verification and closes UIQ-03 at board revision
 4380; see `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md` and
 `docs/research/uiq03-integration/evidence/S737-public-verification.json`.
+The Slice 737 closeout is merged as PR #24 at
+`bbb802a84d5d819e3f4f4755c74e3c4a925a3ecf`; main workflow `38176394059`
+passed and deployed successfully. A fresh browser reconfirmed HTTP 200, the
+guidance panel, journey navigation, the truthful no-fit state, and no page
+errors or off-origin requests. Final evidence is
+`docs/research/uiq03-integration/evidence/S738-final-closeout.json`; the
+durable UIQ-03 goal is complete. Validated Slice 738 evidence/comment commands
+bring the canonical board to revision 4383 while preserving UIQ-03 as Done.
 
 Slice 736's scope and immutable accepted candidate boundary remain documented
 in `docs/planning/UIQ-03-INTEGRATION-ADMISSION.md` and

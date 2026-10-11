@@ -58,8 +58,10 @@ persistence, drafting or exports. PR #23 merged it at `8ef63471`; main workflow
 `https://infinidrip-preview.pages.dev` at HTTP 200 with the panel visible and no
 page errors or off-origin requests. Slice 736's implementation gates are in
 `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md`; Slice 737's release/board proof
-is in `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. UIQ-04/05/07 remain
-Backlog; no further integration is admitted.
+is in `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. Closeout PR #24 and
+main workflow `38176394059` also passed, and the same public URL was verified
+again. UIQ-03's goal is complete; UIQ-04/05/07 remain Backlog and no further
+integration is admitted.
 
 ## How measurements become pattern shapes
 

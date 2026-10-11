@@ -1,0 +1,41 @@
+{
+  "slice": 738,
+  "verifiedAtUtc": "2026-10-11T21:37:50Z",
+  "status": "passed",
+  "closeoutPullRequest": "https://github.com/kshitijpatne/InfiniDrip/pull/24",
+  "closeoutMergeCommit": "bbb802a84d5d819e3f4f4755c74e3c4a925a3ecf",
+  "mainWorkflow": {
+    "url": "https://github.com/kshitijpatne/InfiniDrip/actions/runs/38176394059",
+    "runId": 38176394059,
+    "completedAtUtc": "2026-10-11T21:32:58Z",
+    "conclusion": "success",
+    "stages": {
+      "installDependencies": "success",
+      "installChromium": "success",
+      "fullTestSuite": "success",
+      "productionBuild": "success",
+      "deterministicArtifactVerification": "success",
+      "cloudflarePagesDeployment": "success"
+    }
+  },
+  "publicUrl": "https://infinidrip-preview.pages.dev",
+  "freshBrowser": {
+    "httpStatus": 200,
+    "title": "InfiniDrip",
+    "stage": "4 Check",
+    "guidancePanelVisible": true,
+    "legacyChecklistCount": 0,
+    "journeyNextCount": 1,
+    "journeyNextVisible": true,
+    "fitDefault": "No fit preference supplied",
+    "digitalValidityVisible": true,
+    "offOriginRequests": [],
+    "pageErrors": []
+  },
+  "boardBeforeSupplementalEvidence": {
+    "revision": 4380,
+    "uiq03Status": "Done",
+    "deliveredAt": "2026-10-11"
+  },
+  "scope": "Post-merge record verification only; static local-first preview. No authentication, database, payments, or new service."
+}

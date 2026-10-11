@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4381,
+  "itemId": "UIQ-03",
+  "evidence": {
+    "id": "E-UIQ03-S738-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-03-S738-FINAL-CLOSEOUT.md",
+    "commit": "bbb802a84d5d819e3f4f4755c74e3c4a925a3ecf",
+    "sha256": "a2b777233277d125e9b1a22ca6d5db407f7d2c95c39e20b860e321acaec0aa7d",
+    "verified": true,
+    "note": "Slice 738 confirms closeout PR #24, successful main workflow 38176394059, post-deployment public browser check, final coverage evidence, and the unchanged local-first boundary."
+  }
+}
