@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>UIQ-03 guidance panel — isolated candidate preview</title>
+    <link rel="stylesheet" href="../../src/ui/enhancements/foundation/foundation.css" />
+    <link rel="stylesheet" href="../../src/ui/enhancements/guidance/guidance-panel.css" />
+    <style>
+      /* Preview-only chrome. Not part of the guidance-panel module itself, and
+         not a shared production stylesheet: it only lays out this page's own
+         scenario sections and never selects anything under .uiq-guidance. */
+      body {
+        margin: 0;
+        padding: 24px;
+        background-color: #060d16;
+        color: #edf5fa;
+        font-family: system-ui, sans-serif;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      .preview-intro {
+        max-width: 72ch;
+        color: #bdd1df;
+        font-size: 13px;
+      }
+      #preview-root {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 640px;
+      }
+      .preview-scenario {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #2a3f54;
+      }
+      .preview-scenario h2 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .preview-scenario-description {
+        margin: 0;
+        color: #bdd1df;
+        font-size: 12px;
+      }
+      .preview-mount-point {
+        min-width: 0;
+      }
+      .preview-log {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px 12px;
+        border: 1px dashed #2a3f54;
+        border-radius: 8px;
+        font-size: 11px;
+        font-family: ui-monospace, monospace;
+        color: #bdd1df;
+        max-height: 160px;
+        overflow: auto;
+      }
+      .preview-log-heading {
+        margin: 0;
+        font-weight: 700;
+        color: #edf5fa;
+      }
+      .preview-log-line {
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+      .preview-two-mounts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .preview-two-mounts-column {
+        flex: 1 1 280px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+      }
+      @media (max-width: 480px) {
+        body {
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>UIQ-03 guidance panel — isolated candidate preview</h1>
+    <p class="preview-intro">
+      Each section below mounts <code>mountGuidancePanel</code> against a fixed, synthetic
+      <code>GuidanceSnapshot</code>. No scenario here reads or writes real app state, and clicking a
+      "Review correction" or note action button only appends a line to that scenario's own log — it never
+      navigates. This page exercises native keyboard focus, 320px–1440px reflow, and 480px-equivalent zoom
+      by resizing the browser viewport; it does not simulate those conditions itself.
+    </p>
+    <div id="preview-root"></div>
+    <script type="module" src="./guidance-preview.ts"></script>
+  </body>
+</html>

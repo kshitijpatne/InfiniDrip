@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>UIQ-02 foundation — isolated candidate preview</title>
+    <style>
+      /* Page-chrome styling only. Everything inside .preview-section-body is
+         rendered exclusively by the scoped foundation.css module. */
+      html, body {
+        margin: 0;
+        background: #060c15;
+        color: #d9e6ef;
+        font-family: system-ui, sans-serif;
+      }
+      .candidate-banner {
+        box-sizing: border-box;
+        padding: 10px 16px;
+        background: #3a2a0a;
+        color: #ffdfa6;
+        border-bottom: 2px solid #b58b32;
+        font-weight: 700;
+        font-size: 13px;
+      }
+      main {
+        box-sizing: border-box;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      h1 { font-size: 18px; margin: 0; }
+      h2.preview-section-title { font-size: 14px; color: #9bb8cc; margin: 0 0 8px; }
+      .preview-section-body {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      #preview-glass {
+        padding: 24px;
+        border-radius: 10px;
+        background-image:
+          repeating-linear-gradient(45deg, #1c2f45 0 12px, #142437 12px 24px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="candidate-banner">
+      Isolated UIQ-02 candidate preview — not a live feature, not sewn or shipped evidence.
+    </div>
+    <main>
+      <h1>UIQ-02 native foundation: panels and status primitives</h1>
+
+      <section>
+        <h2 class="preview-section-title">Panels (short / long / hostile-looking text)</h2>
+        <div id="preview-panels" class="preview-section-body"></div>
+      </section>
+
+      <section>
+        <h2 class="preview-section-title">Status: info / warning / error</h2>
+        <div id="preview-status" class="preview-section-body"></div>
+      </section>
+
+      <section>
+        <h2 class="preview-section-title">Native enabled / disabled controls</h2>
+        <div id="preview-controls" class="preview-section-body"></div>
+      </section>
+
+      <section>
+        <h2 class="preview-section-title">Solid vs. glass panel comparison (checker backdrop)</h2>
+        <div id="preview-glass" class="preview-section-body"></div>
+      </section>
+    </main>
+    <script type="module" src="./foundation-preview.ts"></script>
+  </body>
+</html>

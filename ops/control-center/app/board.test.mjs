@@ -34,10 +34,12 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 
-test("approved UI packages remain planning backlog without adding G04 closure dependencies", () => {
-  const ids = [...Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`), "UIQ-GATE"];
+test("approved UI packages remain backlog after the readiness-only UIQ gate closes", () => {
+  const ids = Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`);
   const cards = ids.map((id) => board.workItems.find((item) => item.id === id));
+  const gate = board.workItems.find((item) => item.id === "UIQ-GATE");
   const approval = board.evidence.find((entry) => entry.id === "E-UIQ-APPROVAL");
+  const gateExit = board.evidence.find((entry) => entry.id === "E-UIQ-GATE-S733-VERIFICATION");
   assert.equal(approval?.kind, "decision");
   assert.equal(approval?.verified, true);
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
@@ -53,7 +55,12 @@ test("approved UI packages remain planning backlog without adding G04 closure de
     assert.ok(card.evidenceRefs.includes(approval.id));
     assert.ok(card.acceptanceCriteria.length >= 4);
   }
-  assert.deepEqual(cards.at(-1).dependencies, ["EPIC-17"]);
+  assert.equal(gate?.status, "Done");
+  assert.equal(gate?.releaseId, null);
+  assert.equal(gate?.deliveredAt, "2026-10-11");
+  assert.ok(gateExit?.verified);
+  assert.ok(gate?.evidenceRefs.includes(gateExit.id));
+  assert.deepEqual(gate?.dependencies, ["EPIC-17"]);
   assert.deepEqual(cards[2].dependencies, ["UIQ-02"]);
   assert.deepEqual(cards[3].dependencies, ["UIQ-02"]);
   assert.deepEqual(cards[4].dependencies, []);

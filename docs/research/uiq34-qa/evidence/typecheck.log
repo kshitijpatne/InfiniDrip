@@ -1,0 +1,3 @@
+Root typecheck: npx tsc --noEmit
+Result: clean, no diagnostics, exit 0.
+No build, no install, no full/global gate run.

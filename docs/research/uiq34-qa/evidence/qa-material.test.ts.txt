@@ -1,0 +1,263 @@
+// @vitest-environment jsdom
+// QA adversarial probes for UIQ-04 material-panel — independent of contributor tests.
+import { describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
+import { mountMaterialPanel, type MaterialSnapshot } from "../../../src/ui/enhancements/material/material-panel";
+import { STRETCH_FABRICS } from "../../../src/drafting/ease";
+
+function base(o: Partial<MaterialSnapshot> = {}): MaterialSnapshot {
+  return {
+    revisionLabel: "R1",
+    fabric: STRETCH_FABRICS[2],
+    easeGuidance: "guide",
+    compatibility: { state: "compatible", detail: "ok" },
+    color: "#336699",
+    appearance: { texture: "woven", shine: 30 },
+    ...o,
+  };
+}
+function mount(s: MaterialSnapshot, onReview = vi.fn()) {
+  const host = document.createElement("div");
+  document.body.append(host);
+  const handle = mountMaterialPanel(host, { snapshot: s, onReview });
+  return { host, handle, onReview };
+}
+function unmount(host: HTMLElement) {
+  host.remove();
+}
+
+describe("QA-M04 preset honesty / stretch edges", () => {
+  it("all five presets render literally from the source table", () => {
+    const { host, handle } = mount(base());
+    const items = Array.from(host.querySelectorAll(".uiq-material-preset-item"));
+    expect(items).toHaveLength(5);
+    STRETCH_FABRICS.forEach((p, i) => {
+      expect(items[i].textContent).toBe(`${p.name} — ${p.family}, ${p.stretchPercent}% stretch`);
+    });
+    handle.dispose(); unmount(host);
+  });
+  it("same name but different family/stretch is custom, not known preset", () => {
+    const collide = { name: STRETCH_FABRICS[2].name, family: "woven" as const, stretchPercent: 99 };
+    const { host, handle } = mount(base({ fabric: collide }));
+    expect(host.querySelector(".uiq-material-fabric-name")?.textContent).toContain("Custom / unverified");
+    handle.dispose(); unmount(host);
+  });
+  it("custom stretch 125 is usable with no invented cap; negative/NaN/Infinity stay literal unclamped", () => {
+    for (const v of [125, 101, 250]) {
+      const { host, handle } = mount(base({ fabric: { name: "Big", family: "knit", stretchPercent: v } }));
+      const el = host.querySelector(".uiq-material-fabric-stretch");
+      expect(el?.textContent).toBe(`Stretch: ${v}%.`);
+      expect(el?.className).not.toContain("invalid");
+      handle.dispose(); unmount(host);
+    }
+    for (const v of [-5, Number.NaN, Number.POSITIVE_INFINITY]) {
+      const { host, handle } = mount(base({ fabric: { name: "Bad", family: "knit", stretchPercent: v } }));
+      const el = host.querySelector(".uiq-material-fabric-stretch");
+      expect(el?.textContent).toContain(String(v));
+      expect(el?.textContent).toContain("not clamped");
+      expect(el?.className).toContain("invalid");
+      handle.dispose(); unmount(host);
+    }
+  });
+  it("null fabric and null ease are explicit unavailable states, not defaults", () => {
+    const { host, handle } = mount(base({ fabric: null, easeGuidance: null }));
+    expect(host.querySelector(".uiq-material-fabric-name")?.textContent).toContain("Unknown fabric");
+    expect(host.querySelector(".uiq-material-ease-guidance")?.textContent).toBe("Ease guidance unavailable.");
+    expect(host.textContent).toContain("heuristic defaults");
+    expect(host.textContent).toContain("Physical sampling is still needed");
+    handle.dispose(); unmount(host);
+  });
+});
+
+describe("QA-M04 appearance / color / compatibility honesty", () => {
+  it("shine 0 and 100 both render; all four textures produce distinct cue classes", () => {
+    for (const t of ["smooth", "woven", "rib", "heather"] as const) {
+      const { host, handle } = mount(base({ appearance: { texture: t, shine: t === "smooth" ? 0 : 100 } }));
+      const cue = host.querySelector(".uiq-material-appearance-cue") as HTMLElement;
+      expect((cue.hidden)).toBe(false);
+      if (t !== "smooth") expect(cue.className).toContain(`uiq-material-appearance-cue--${t}`);
+      handle.dispose(); unmount(host);
+    }
+  });
+  it("invalid URL-ish color never reaches style; raw value stays literal with Preview unavailable", () => {
+    for (const bad of ["cornflowerblue", "url(javascript:alert(1))", "#fff", "red; background:url(evil)", ""]) {
+      const { host, handle } = mount(base({ color: bad, appearance: { texture: "woven", shine: 40 } }));
+      const swatch = host.querySelector(".uiq-material-color-swatch") as HTMLElement;
+      const cue = host.querySelector(".uiq-material-appearance-cue") as HTMLElement;
+      expect(swatch.hidden).toBe(true);
+      expect(swatch.style.backgroundColor).toBe("");
+      expect(host.querySelector(".uiq-material-color-text")?.textContent).toContain("Preview unavailable");
+      expect(host.querySelector(".uiq-material-color-text")?.textContent).toContain(bad);
+      expect(cue.hidden).toBe(true);
+      expect(host.querySelectorAll("script").length).toBe(0);
+      handle.dispose(); unmount(host);
+    }
+  });
+  it("unknown texture / out-of-range / NaN shine withholds cue but keeps raw values literal", () => {
+    const cases: unknown[] = [
+      { texture: "plaid", shine: 10 },
+      { texture: "woven", shine: 101 },
+      { texture: "woven", shine: Number.NaN },
+      { texture: "woven", shine: Number.POSITIVE_INFINITY },
+    ];
+    for (const a of cases) {
+      const { host, handle } = mount(base({ appearance: a as MaterialSnapshot["appearance"] }));
+      const cue = host.querySelector(".uiq-material-appearance-cue") as HTMLElement;
+      expect(cue.hidden).toBe(true);
+      expect(cue.style.backgroundColor).toBe("");
+      expect(host.querySelector(".uiq-material-appearance-text")?.textContent).toContain("Shown as supplied; not clamped");
+      handle.dispose(); unmount(host);
+    }
+  });
+  it("null appearance is explicit unavailable, distinct from a valid default; raw hostile appearance stays inert", () => {
+    const { host, handle } = mount(base({ appearance: null }));
+    expect(host.querySelector(".uiq-material-appearance-text")?.textContent).toBe("Appearance not supplied.");
+    expect((host.querySelector(".uiq-material-appearance-cue") as HTMLElement).hidden).toBe(true);
+    handle.dispose(); unmount(host);
+    const evil = { texture: "<img src=x onerror=alert(1)>", shine: 20 } as unknown as MaterialSnapshot["appearance"];
+    const m2 = mount(base({ appearance: evil }));
+    expect(m2.host.querySelectorAll("script").length).toBe(0);
+    expect(m2.host.querySelector(".uiq-material-appearance-text")?.textContent).toContain(String((evil as unknown as Record<string, unknown>).texture));
+    m2.handle.dispose(); unmount(m2.host);
+  });
+  it("malformed runtime appearance object without fields withholds cue and stays literal (no crash)", () => {
+    const malformed = {} as unknown as MaterialSnapshot["appearance"];
+    const { host, handle } = mount(base({ appearance: malformed }));
+    expect((host.querySelector(".uiq-material-appearance-cue") as HTMLElement).hidden).toBe(true);
+    expect(host.querySelector(".uiq-material-appearance-text")?.textContent).toContain("not clamped");
+    handle.dispose(); unmount(host);
+  });
+  it("undefined appearance/fabric (outside typed contract) fails closed via throw, never silently defaults", () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    expect(() =>
+      mountMaterialPanel(host, {
+        snapshot: base({ appearance: undefined as unknown as MaterialSnapshot["appearance"] }),
+        onReview: vi.fn(),
+      }),
+    ).toThrow();
+    host.remove();
+    const host2 = document.createElement("div");
+    document.body.append(host2);
+    expect(() =>
+      mountMaterialPanel(host2, {
+        snapshot: base({ fabric: undefined as unknown as MaterialSnapshot["fabric"] }),
+        onReview: vi.fn(),
+      }),
+    ).toThrow();
+    host2.remove();
+  });
+  it("mismatch/unknown compatibility retained verbatim with valid swatch; review buttons never disabled", () => {
+    const { host, handle } = mount(
+      base({ compatibility: { state: "mismatch", detail: "Recipe expects knit; fabric woven." } }),
+    );
+    expect(host.querySelector(".uiq-material-compatibility-label")?.textContent).toBe("Mismatch");
+    expect(host.querySelector(".uiq-material-compatibility-detail")?.textContent).toContain("expects knit");
+    const fab = host.querySelector(".uiq-material-review-fabric") as HTMLButtonElement;
+    const app = host.querySelector(".uiq-material-review-appearance") as HTMLButtonElement;
+    expect(fab.disabled).toBe(false);
+    expect(app.disabled).toBe(false);
+    handle.dispose(); unmount(host);
+  });
+  it("hostile strings across all fields render literally, no script/style injection", () => {
+    const evil = "<script>window.__qam=true;</script>";
+    const { host, handle, onReview } = mount(
+      base({
+        revisionLabel: evil,
+        fabric: { name: evil, family: "knit", stretchPercent: 25 },
+        easeGuidance: evil,
+        compatibility: { state: "unknown", detail: evil },
+        color: evil,
+        appearance: { texture: "woven", shine: 50 },
+      }),
+      vi.fn(),
+    );
+    expect(host.querySelectorAll("script").length).toBe(0);
+    expect((window as unknown as Record<string, unknown>).__qam).toBeUndefined();
+    expect(host.querySelector(".uiq-material-revision")?.textContent).toBe(evil);
+    expect(host.querySelector(".uiq-material-ease-guidance")?.textContent).toBe(evil);
+    expect(onReview).not.toHaveBeenCalled();
+    handle.dispose(); unmount(host);
+  });
+});
+
+describe("QA-M04 callbacks / lifecycle / isolation", () => {
+  it("exactly two native buttons, exact labels, click emits once, no mount/update/hover emit", () => {
+    const { host, handle, onReview } = mount(base());
+    const btns = Array.from(host.querySelectorAll("button"));
+    expect(btns.map((b) => b.textContent)).toEqual(["Review fabric", "Review appearance"]);
+    (host.querySelector(".uiq-material-review-fabric") as HTMLButtonElement).click();
+    expect(onReview).toHaveBeenCalledTimes(1);
+    expect(onReview.mock.calls[0][0]).toBe("fabric");
+    handle.update(base({ revisionLabel: "R2" }));
+    expect(onReview).toHaveBeenCalledTimes(1);
+    handle.dispose(); unmount(host);
+  });
+  it("controlled sync update from inside onReview preserves button nodes and focus", () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    let h!: ReturnType<typeof mountMaterialPanel>;
+    const on = vi.fn(() => {
+      h.update(base({ revisionLabel: "R-sync" }));
+    });
+    h = mountMaterialPanel(host, { snapshot: base(), onReview: on });
+    const btn = host.querySelector(".uiq-material-review-fabric") as HTMLButtonElement;
+    btn.focus();
+    btn.click();
+    expect(on).toHaveBeenCalledTimes(1);
+    expect(host.querySelector(".uiq-material-review-fabric")).toBe(btn);
+    expect(document.activeElement).toBe(btn);
+    expect(host.querySelector(".uiq-material-revision")?.textContent).toBe("R-sync");
+    h.dispose(); unmount(host);
+  });
+  it("repeated updates add no duplicate listeners; dispose idempotent; post-dispose update + detached click inert", () => {
+    const { host, handle, onReview } = mount(base());
+    for (let i = 0; i < 5; i++) handle.update(base({ revisionLabel: "R" + i }));
+    (host.querySelector(".uiq-material-review-appearance") as HTMLButtonElement).click();
+    expect(onReview).toHaveBeenCalledTimes(1);
+    const stale = host.querySelector(".uiq-material-review-appearance") as HTMLButtonElement;
+    const root = host.firstElementChild as HTMLElement;
+    handle.dispose();
+    expect(root.isConnected).toBe(false);
+    expect(() => {
+      handle.dispose();
+      handle.update(base());
+    }).not.toThrow();
+    stale.click();
+    expect(onReview).toHaveBeenCalledTimes(1);
+    unmount(host);
+  });
+  it("two mounts independent; source hygiene holds (no engine math, textContent only, scoped CSS)", () => {
+    const a = mount(base({ revisionLabel: "A" }));
+    const b = mount(base({ revisionLabel: "B" }));
+    expect(a.host.querySelector(".uiq-material-revision")?.textContent).toBe("A");
+    expect(b.host.querySelector(".uiq-material-revision")?.textContent).toBe("B");
+    (a.host.querySelector(".uiq-material-review-fabric") as HTMLButtonElement).click();
+    expect(a.onReview).toHaveBeenCalledTimes(1);
+    expect(b.onReview).not.toHaveBeenCalled();
+    a.handle.dispose(); b.handle.dispose(); unmount(a.host); unmount(b.host);
+    const src = readFileSync("src/ui/enhancements/material/material-panel.ts", "utf8");
+    expect(src).not.toMatch(/suggestedEase/);
+    expect(src).not.toMatch(/fabricEaseNote/);
+    expect(src.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "")).not.toMatch(/\.innerHTML/);
+    const css = readFileSync("src/ui/enhancements/material/material-panel.css", "utf8");
+    const selectorLines = css
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(
+        (line) =>
+          line.length > 0 &&
+          !line.startsWith("/*") &&
+          !line.startsWith("*") &&
+          !line.startsWith("@") &&
+          line.endsWith("{"),
+      );
+    expect(selectorLines.length).toBeGreaterThan(0);
+    for (const line of selectorLines) {
+      const group = line.slice(0, -1).trim();
+      for (const one of group.split(",")) {
+        expect(one.trim().includes(".uiq-foundation.uiq-material")).toBe(true);
+      }
+    }
+  });
+});

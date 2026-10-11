@@ -1,0 +1,115 @@
+{
+  "frozenAt": "2026-10-02T15:58:29.8907207Z",
+  "timestampNote": "Corrected to original manifest CreationTimeUtc; private readonly QA copy retained its nominal15:59 label. Source/input hashes unchanged.",
+  "scope": "Original returned candidates and readonly QA inputs; Codex corrections occur only in coordinator after this freeze.",
+  "entries": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "f21b682b5c9f7d9c0f9221f87964360c884edbf5ff087c746f6a2d39b5640131"
+    },
+    {
+      "path": "CONTEXT-INDEX.md",
+      "sha256": "13a6a90321ce2c44634b9f7b8c67ce3ec6229a31e6a71b7c9694c50a6855140c"
+    },
+    {
+      "path": "PROJECT-STATE.md",
+      "sha256": "004ec58e4e1d694594dfa6d56e35b376359f5c0cfea250cba81554db18cb35ba"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "sha256": "e5673e4fd92bae65bcd9859d853b0bbb4d3e45b1a1a5f2071ee7c1cb05901c36"
+    },
+    {
+      "path": "docs/PROJECT-DECISIONS.md",
+      "sha256": "839d9b4b8bd5d7565719f53a58a7df7405457f5a51aab44d887f76316c4853e5"
+    },
+    {
+      "path": "docs/OPENCODE-WORKFLOW.md",
+      "sha256": "23a7bf1d8dd2d7a4b4099ee655d2ca12348103697c7730b4bf2efd306ec1ff35"
+    },
+    {
+      "path": "docs/planning/UI-ENHANCEMENT-SEQUENCE.md",
+      "sha256": "393d12cdf7d808eda198a26b451cf7fdde820969f0c68c977df5f2356b00e9e3"
+    },
+    {
+      "path": "docs/planning/UIQ-CLARITY-ADMISSION.md",
+      "sha256": "efb0b199a4cec46fee1e70eaa7306522e4f55bd4f77b36e51e767ae5bd2cb640"
+    },
+    {
+      "path": "docs/planning/UIQ-CLARITY-GOAL.md",
+      "sha256": "00bb192794d349df8484e2251a0e398ff03d5daa72af2cb32503479d21817a4b"
+    },
+    {
+      "path": "docs/research/uiq-parallel/CANDIDATE-EXIT.json",
+      "sha256": "e64948426c7d67478432b5af663c6bb9987b685c60c12e1fbc4425832b645925"
+    },
+    {
+      "path": "src/ui/enhancements/foundation/foundation.css",
+      "sha256": "505a674728fcb4427eec81be17bcd227205d20cb4865b9ad3e77c85dac606c71"
+    },
+    {
+      "path": "src/ui/enhancements/foundation/foundation.test.ts",
+      "sha256": "6633293ca77e2549fe014a302e99f459840c06f97fcf328e46898520c42b73da"
+    },
+    {
+      "path": "src/ui/enhancements/foundation/foundation.ts",
+      "sha256": "8addb2f3cc2f7c21ea49cdf5cd2a1fa0b05d735c1a5df778080c06ddac6e4d17"
+    },
+    {
+      "path": "docs/research/uiq-clarity/QA-HANDOFF.md",
+      "sha256": "31e0d3320df907b6379dba5105d411f58302d52c7fdff460d42d9270788687d4"
+    },
+    {
+      "path": "docs/research/uiq-clarity/REVIEW-MATRIX.md",
+      "sha256": "0b50cc4a36ccca22fd10cceedc3396c6e538bd26f3ac434c1530ebb7b96ace6c"
+    },
+    {
+      "path": "src/ui/enhancements/guidance/guidance-panel.ts",
+      "sha256": "699836ee32815ea39a724a6c57d2e70bd52d1ace678d7ad2fc1c947d7d9c1ffa"
+    },
+    {
+      "path": "src/ui/enhancements/guidance/guidance-panel.css",
+      "sha256": "924211761c1a03b96ce78f7b2e5619d75df308a17a59567a808d34a38fa7e203"
+    },
+    {
+      "path": "src/ui/enhancements/guidance/guidance-panel.test.ts",
+      "sha256": "314316f2adec82d498b57f03986ec6f46d0ed8e10cfad91df0dd29aadac9bbef"
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.ts",
+      "sha256": "9ead3de25e17d8aa2ea4992c1f9806958cf653583adae96a1c949381c32dade8"
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.css",
+      "sha256": "8fe36ab43677ee5a54bd19479d8985687ba3747255ccf6a313b373494719f8a5"
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.test.ts",
+      "sha256": "a964eb96bb4ef4c8e2b40a89120047cac8ac3b7566a064ce6eabc45cd3aebf5c"
+    },
+    {
+      "path": "ops/ui-candidates/guidance.html",
+      "sha256": "2348f346fb489eb32cc88283b143569baf6cc24db725d374a69d7708243ec4f3"
+    },
+    {
+      "path": "ops/ui-candidates/guidance-preview.ts",
+      "sha256": "c89d551c8b175f5e6e02f912270b209f56ce9ef59696db56b7c456e9d85c62f3"
+    },
+    {
+      "path": "ops/ui-candidates/material.html",
+      "sha256": "aaee45284a48d98029ce383e68e18630dfb952593185b6f7e7d7753a291f0757"
+    },
+    {
+      "path": "ops/ui-candidates/material-preview.ts",
+      "sha256": "5f00311a4426d2d019110b27d4e25012af200e6eb9f207e81e6012721130f4d1"
+    },
+    {
+      "path": "docs/research/uiq03/CONTRIBUTOR-RETURN.md",
+      "sha256": "9b8c75551ff904ce1208d76837b3008da67613e9f694795399ac9ba9499cdc92"
+    },
+    {
+      "path": "docs/research/uiq04/CONTRIBUTOR-RETURN.md",
+      "sha256": "89d3599108b890150f21d6432720de80d403dd6adab52536cd1cfcc76e335b2f"
+    }
+  ]
+}

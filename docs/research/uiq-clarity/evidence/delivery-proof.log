@@ -1,0 +1,22 @@
+
+> InfiniDrip@0.0.1 web:release:test
+> node --test ops/web/create-artifact-manifest.test.mjs ops/web/release-rehearsal.test.mjs
+
+✔ manifest is sorted, content-addressed and repeatable (77.5158ms)
+✔ manifest writer creates a stable JSON artifact and rejects missing input (30.4864ms)
+✔ whole-manifest digest is stable across object key ordering (6.0955ms)
+✔ missing or failed required checks reject a candidate (7.319ms)
+✔ approval requires a reviewer and timestamp (0.7728ms)
+✔ fully checked and approved candidate is promotable locally (0.7467ms)
+✔ failed smoke selects the previous known-good candidate (3.2256ms)
+✔ failed smoke rejects an invalid rollback target (1.6949ms)
+✔ malformed candidate identities are rejected without coercion (2.3977ms)
+✔ a malformed candidate cannot roll back merely because smoke is false (1.0872ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 436.7837

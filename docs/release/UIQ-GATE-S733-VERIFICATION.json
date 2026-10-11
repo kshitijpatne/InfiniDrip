@@ -1,0 +1,47 @@
+{
+  "slice": 733,
+  "verifiedAt": "2026-10-11T14:51:53Z",
+  "baseCommit": "89e52024b3599d3c1977a2a73aec60476cdc5a74",
+  "boardRevisionBeforeGateClose": 4347,
+  "scope": "readiness and durable candidate reconciliation only; no live app wiring",
+  "candidateProvenance": {
+    "manifestEntriesVerified": 51,
+    "candidateSourceOrEvidenceHashesMismatch": 0,
+    "historicalBasesRecastAsCurrentMainProof": false
+  },
+  "checks": {
+    "controlCenter": { "command": "npm run control-center:test", "passed": true, "tests": 42 },
+    "coverage": {
+      "command": "npm run coverage",
+      "passed": true,
+      "files": 145,
+      "statements": { "covered": 32764, "total": 32764, "percent": 100 },
+      "branches": { "covered": 17145, "total": 17145, "percent": 100 },
+      "functions": { "covered": 1888, "total": 1888, "percent": 100 },
+      "lines": { "percent": 100 },
+      "candidateModules": {
+        "src/ui/enhancements/artwork/artwork-panel.ts": { "statements": "477/477", "functions": "28/28", "branches": "106/106", "linesPercent": 100 },
+        "src/ui/enhancements/entry/welcome-panel.ts": { "statements": "31/31", "functions": "2/2", "branches": "2/2", "linesPercent": 100 },
+        "src/ui/enhancements/foundation/foundation.ts": { "statements": "32/32", "functions": "2/2", "branches": "4/4", "linesPercent": 100 },
+        "src/ui/enhancements/guidance/guidance-panel.ts": { "statements": "283/283", "functions": "14/14", "branches": "71/71", "linesPercent": 100 },
+        "src/ui/enhancements/material/material-panel.ts": { "statements": "216/216", "functions": "15/15", "branches": "44/44", "linesPercent": 100 }
+      }
+    },
+    "build": { "command": "npm run build", "passed": true, "typeScript": true, "vite": true, "existingLargeAssetAdvisory": true },
+    "diffCheck": { "command": "git diff --check", "passed": true, "lineEndingAdvisoriesOnly": true }
+  },
+  "historicalCandidateBrowserEvidence": {
+    "path": "docs/research/uiq-parallel/evidence/browser-pressure-test.json",
+    "passedChecks": 18,
+    "failures": 0,
+    "localImagesDecoded": 12,
+    "externalRequests": 0,
+    "externalSockets": 0,
+    "claim": "isolated candidate proof only; not current-main integration evidence"
+  },
+  "dependencyInstall": { "command": "npm ci", "passed": true, "packagesAdded": 440, "auditFindings": { "moderate": 11, "high": 8, "critical": 3 } },
+  "runtimeChanges": false,
+  "exportBaselineMoved": false,
+  "deploymentPerformed": false,
+  "parentCardsRemainBacklog": true
+}

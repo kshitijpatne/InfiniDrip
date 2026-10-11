@@ -1,0 +1,55 @@
+{
+  "startedAt": "2026-10-02T16:38:05.020Z",
+  "gates": [
+    {
+      "name": "type-build",
+      "command": "npm run build",
+      "startedAt": "2026-10-02T16:38:05.022Z",
+      "elapsedMs": 23939,
+      "exitCode": 0
+    },
+    {
+      "name": "preview-typecheck",
+      "command": "npx tsc --noEmit --strict --target ES2020 --module ESNext --moduleResolution bundler --esModuleInterop --skipLibCheck ops/ui-candidates/clarity-preview.ts ops/ui-candidates/guidance-preview.ts ops/ui-candidates/material-preview.ts",
+      "startedAt": "2026-10-02T16:38:28.965Z",
+      "elapsedMs": 4965,
+      "exitCode": 0
+    },
+    {
+      "name": "control-center",
+      "command": "npm run control-center:test",
+      "startedAt": "2026-10-02T16:38:33.931Z",
+      "elapsedMs": 2622,
+      "exitCode": 0
+    },
+    {
+      "name": "delivery-proof",
+      "command": "npm run web:release:test",
+      "startedAt": "2026-10-02T16:38:36.554Z",
+      "elapsedMs": 2086,
+      "exitCode": 0
+    },
+    {
+      "name": "readiness",
+      "command": "npm run readiness:drill:test",
+      "startedAt": "2026-10-02T16:38:38.643Z",
+      "elapsedMs": 1451,
+      "exitCode": 0
+    },
+    {
+      "name": "browser",
+      "command": "node ops/ui-candidates/clarity-verify.mjs",
+      "startedAt": "2026-10-02T16:38:40.095Z",
+      "elapsedMs": 7407,
+      "exitCode": 0
+    },
+    {
+      "name": "protected-identities",
+      "command": "node ops/ui-candidates/clarity-identities.mjs",
+      "startedAt": "2026-10-02T16:38:47.503Z",
+      "elapsedMs": 708,
+      "exitCode": 0
+    }
+  ],
+  "finishedAt": "2026-10-02T16:38:48.212Z"
+}

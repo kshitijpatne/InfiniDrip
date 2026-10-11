@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-10-02T15:49:46.824Z",
+  "baseUrl": "http://localhost:5183/ops/ui-candidates/material.html",
+  "caseCount": 26,
+  "buttonCount": 54,
+  "sectionHeadingsSample": [
+    "Material behavior guidance",
+    "Screen appearance only"
+  ],
+  "narrowOverflow320": false,
+  "narrowOverflow390": false,
+  "wideOverflow1440": false,
+  "focusedBeforeClick": "uiq-material-review-fabric",
+  "firstLogText": "onReview fired once with target=\"fabric\" at 11:49:46 AM.",
+  "invalidColorCaseText": "Preview unavailable (supplied color: cornflowerblue).",
+  "hostileCaseScriptCount": 0,
+  "windowPwnedFlag": false,
+  "consoleErrors": [],
+  "totalRequests": 9,
+  "externalRequests": []
+}

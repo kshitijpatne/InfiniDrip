@@ -1,0 +1,46 @@
+
+> InfiniDrip@0.0.1 control-center:test
+> node --test ops/control-center/app/board.test.mjs ops/control-center/commands.test.mjs ops/control-center/board-store.test.mjs ops/control-center/import-facts.test.mjs ops/control-center/server.test.mjs
+
+✔ canonical board validates and summarizes its tracked work (19.5406ms)
+✔ approved UI packages remain planning backlog without adding G04 closure dependencies (1.8756ms)
+✔ malformed board data is rejected instead of repaired (14.3313ms)
+✔ invalid top-level and duplicate records are reported (9.9259ms)
+✔ invalid calendar dates are rejected instead of normalized (12.1913ms)
+✔ contributors can submit review but cannot complete work (0.4883ms)
+✔ closed Epics 14–16, active Epic17 and gated future backlog match their evidence (66.5699ms)
+✔ literal search and filters cover title, slice, body, owner, priority, and type (35.9572ms)
+✔ detail rendering exposes editing, evidence, history, and escapes board text (13.6314ms)
+✔ new work item form captures schema-required fields and starts with Backlog workflow guidance (1.6479ms)
+✔ executeBoardCommand validates, persists atomically, and rejects stale revisions (132.1718ms)
+✔ writeBoardAtomic validates before opening a temporary file (24.2586ms)
+✔ writeBoardAtomic preserves the original when rename fails and removes its temporary file (47.2784ms)
+✔ a pre-existing lock fails visibly without changing the board (27.5561ms)
+✔ approved role guidance exposes the basic workflow and maintainer override (4.9317ms)
+✔ editItem changes only editable details and increments the revision (59.1912ms)
+✔ maintainer editEpic updates metadata and records the reason on its summary card (64.4296ms)
+✔ maintainer rename keeps dependent work linked and records the old identifier (51.2345ms)
+✔ future epic can be registered in Backlog without implying work has started (14.1128ms)
+✔ createItem validates a new backlog record and records its creation in transition history (14.1787ms)
+✔ createItem rejects missing rationale, invalid fields, and duplicate identifiers (30.4368ms)
+✔ status transitions persist actor guidance, reason, evidence, and delivery date (34.9585ms)
+✔ status commands reject missing reasons, role violations, and evidence-free completion (18.1873ms)
+✔ addEvidence can create or link evidence and addComment records notes (41.1415ms)
+✔ Epic 13 links and closes only the nine evidence-backed phases without rewriting their history (41.2173ms)
+✔ ordinary item edits cannot bypass Epic 13's exact membership boundary (36.3087ms)
+✔ Epic 13 rejects wrong membership, unverified phase evidence, incomplete phases, and evidence-free closure (127.0231ms)
+✔ epic creation, evidence, and closure commands require maintainer authority (56.7007ms)
+✔ imports only explicit verified facts into known evidence (4.4231ms)
+✔ rejects unknown, mismatched, duplicate and unproven facts (2.6532ms)
+✔ localhost API persists commands and rejects stale writers (268.2879ms)
+✔ localhost API creates a schema-valid work item through the shared command layer (130.3841ms)
+✔ service exposes only intended static and referenced evidence routes (61.3669ms)
+✔ malformed commands fail without mutating the board (59.3527ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 940.5905

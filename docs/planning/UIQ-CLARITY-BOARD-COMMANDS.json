@@ -1,0 +1,294 @@
+[
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Maintainer approved recommendation and said proceed on 2026-10-02; admitted isolated scope only.",
+    "workItem": {
+      "type": "task",
+      "epicId": null,
+      "releaseId": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "reviewer": "Codex",
+      "targetAt": null,
+      "dependencies": [
+        "UIQ02-CANDIDATE"
+      ],
+      "protectedSurfaces": [
+        "accepted UIQ02/UIQ05 hashes",
+        "active Epic17 worktree/source/board",
+        "core app/journey/validation/math/persistence/exports",
+        "100% coverage and byte identities",
+        "no-cost local-first"
+      ],
+      "flagKey": null,
+      "id": "UIQ03-CANDIDATE",
+      "title": "UIQ-03 guidance/journey isolated candidate",
+      "contributor": "Claude Code",
+      "description": "Readonly guidance, fit preference versus validity, existing readiness states and exact review requests; no navigation or decision-engine changes. Packet: docs/planning/UIQ-CLARITY-ADMISSION.md.",
+      "expectation": "Both isolated candidates independently Codex-accepted with full frozen contracts and evidence; no parent release or app wiring.",
+      "acceptanceCriteria": [
+        "Honor frozen contracts/file ownership; accepted02/05 and Epic17 unchanged.",
+        "Explicit WORK FINISHED before output inspection; QA starts only after both implementation completions.",
+        "100% four-metric changed/global coverage, type/build/export identities and operational gates.",
+        "Actual rendered keyboard/target/contrast/reflow/media/hostile/cleanup/no-egress evidence.",
+        "Codex reviews/corrects actual diff; parent cards remain unshipped; later UIQ-GATE integration separate."
+      ]
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ03-CANDIDATE",
+    "evidence": {
+      "id": "E-UIQ-CLARITY-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-CLARITY-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Direct maintainer approval authorizes only isolated03/04 candidates and independent QA; decision evidence is not implementation acceptance."
+    }
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ03-CANDIDATE",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Frozen admission and readonly dependency verified; disjoint Claude implementation dispatch at this boundary."
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Maintainer approved recommendation and said proceed on 2026-10-02; admitted isolated scope only.",
+    "workItem": {
+      "type": "task",
+      "epicId": null,
+      "releaseId": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "reviewer": "Codex",
+      "targetAt": null,
+      "dependencies": [
+        "UIQ02-CANDIDATE"
+      ],
+      "protectedSurfaces": [
+        "accepted UIQ02/UIQ05 hashes",
+        "active Epic17 worktree/source/board",
+        "core app/journey/validation/math/persistence/exports",
+        "100% coverage and byte identities",
+        "no-cost local-first"
+      ],
+      "flagKey": null,
+      "id": "UIQ04-CANDIDATE",
+      "title": "UIQ-04 material clarity isolated candidate",
+      "contributor": "Claude Code",
+      "description": "Readonly material presets/limits versus illustrative screen appearance; exact review-target requests, safe swatch guards; no behavior math or saved-value changes. Packet: docs/planning/UIQ-CLARITY-ADMISSION.md.",
+      "expectation": "Both isolated candidates independently Codex-accepted with full frozen contracts and evidence; no parent release or app wiring.",
+      "acceptanceCriteria": [
+        "Honor frozen contracts/file ownership; accepted02/05 and Epic17 unchanged.",
+        "Explicit WORK FINISHED before output inspection; QA starts only after both implementation completions.",
+        "100% four-metric changed/global coverage, type/build/export identities and operational gates.",
+        "Actual rendered keyboard/target/contrast/reflow/media/hostile/cleanup/no-egress evidence.",
+        "Codex reviews/corrects actual diff; parent cards remain unshipped; later UIQ-GATE integration separate."
+      ]
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ04-CANDIDATE",
+    "evidenceId": "E-UIQ-CLARITY-ADMISSION"
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ04-CANDIDATE",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Frozen admission and readonly dependency verified; disjoint Claude implementation dispatch at this boundary."
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Maintainer approved recommendation and said proceed on 2026-10-02; admitted isolated scope only.",
+    "workItem": {
+      "type": "task",
+      "epicId": null,
+      "releaseId": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "reviewer": "Codex",
+      "targetAt": null,
+      "dependencies": [
+        "UIQ02-CANDIDATE"
+      ],
+      "protectedSurfaces": [
+        "accepted UIQ02/UIQ05 hashes",
+        "active Epic17 worktree/source/board",
+        "core app/journey/validation/math/persistence/exports",
+        "100% coverage and byte identities",
+        "no-cost local-first"
+      ],
+      "flagKey": null,
+      "id": "UIQ34-QA",
+      "title": "UIQ-03/04 independent candidate QA",
+      "contributor": "OpenCode",
+      "description": "Exact Muse Spark1.3 xhigh normal independent actual-source/negative-state audit AFTER both implementation WORK FINISHED. QA does not mutate product source. Packet: docs/planning/UIQ-CLARITY-ADMISSION.md.",
+      "expectation": "Both isolated candidates independently Codex-accepted with full frozen contracts and evidence; no parent release or app wiring.",
+      "acceptanceCriteria": [
+        "Honor frozen contracts/file ownership; accepted02/05 and Epic17 unchanged.",
+        "Explicit WORK FINISHED before output inspection; QA starts only after both implementation completions.",
+        "100% four-metric changed/global coverage, type/build/export identities and operational gates.",
+        "Actual rendered keyboard/target/contrast/reflow/media/hostile/cleanup/no-egress evidence.",
+        "Codex reviews/corrects actual diff; parent cards remain unshipped; later UIQ-GATE integration separate."
+      ]
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ34-QA",
+    "evidenceId": "E-UIQ-CLARITY-ADMISSION"
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-03",
+    "actor": "Codex",
+    "text": "Maintainer admitted isolated delivery in UIQ03-CANDIDATE under docs/planning/UIQ-CLARITY-ADMISSION.md, then independent UIQ34-QA. This parent remains Backlog/unshipped; no Epic17 or production wiring dependency added."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-04",
+    "actor": "Codex",
+    "text": "Maintainer admitted isolated delivery in UIQ04-CANDIDATE under docs/planning/UIQ-CLARITY-ADMISSION.md, then independent UIQ34-QA. This parent remains Backlog/unshipped; no Epic17 or production wiring dependency added."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ03-CANDIDATE",
+    "status": "Review",
+    "actor": "Claude Code (via Codex)",
+    "role": "contributor",
+    "reason": "Explicit WORK FINISHED received in disjoint worktree; Codex corrections, independent QA and full settled gates pending."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ04-CANDIDATE",
+    "status": "Review",
+    "actor": "Claude Code (via Codex)",
+    "role": "contributor",
+    "reason": "Explicit WORK FINISHED received in disjoint worktree; Codex corrections, independent QA and full settled gates pending."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ34-QA",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Both WORK FINISHED received; frozen readonly source/inputs dispatched to exact requested Muse Spark1.3 xhigh normal build QA in a third isolated worktree."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ34-QA",
+    "actor": "Codex",
+    "text": "Original returned sources are frozen in docs/research/uiq-clarity/QA-SNAPSHOT.json. Worktree F:/designApp-worktrees/uiq34-qa, branch opencode/uiq34-clarity-qa, terminal86767; no source edits or acceptance authority. Wait explicit WORK FINISHED before inspecting audit outputs; Codex corrects only coordinator files."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ34-QA",
+    "status": "Review",
+    "actor": "OpenCode (via Codex)",
+    "role": "contributor",
+    "reason": "Explicit WORK FINISHED; read-only audit returned30 adversarial probes and unchanged27 inputs. Codex verified actual exact model, reviews limitations/corrections and final global/rendered exit gates."
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ03-CANDIDATE",
+    "evidence": {
+      "id": "E-UIQ-CLARITY-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq-clarity/CANDIDATE-EXIT.json",
+      "commit": null,
+      "sha256": "75066163e83dbc019bc2214b83a4b6459048f84b029da927aa0999d17761a786",
+      "verified": true,
+      "note": "Codex independently accepted corrected isolated03/04:137 suites/2292 tests,201 focused,100% four metrics,18 rendered checks/no egress,49 operational,293 protected hashes. Not committed/pushed/deployed; parents remain Backlog."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ04-CANDIDATE",
+    "evidenceId": "E-UIQ-CLARITY-EXIT"
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ34-QA",
+    "evidenceId": "E-UIQ-CLARITY-EXIT"
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ03-CANDIDATE",
+    "actor": "Codex",
+    "text": "Independent reviewer acceptance: docs/research/uiq-clarity/CANDIDATE-EXIT.json and CODEX-REVIEW.md. Actual final global15959 exited0, exact137 suites/2292 tests and global/focused four-metric100%;201 focused,18 rendered pressure checks,0 external requests/page errors,49 operational and293 protected identities passed. Screenshots: docs/research/uiq-clarity/evidence/guidance-desktop.png, material-desktop.png, clarity-hostile-narrow.png, clarity-forced.png, clarity-reduce.png. Exact-model OpenCode QA30 probes reviewed; Codex corrected real-browser focus, explicit listener removal, legacy blockers, nested/obsolete actions and invalid-state guidance. Acceptance applies only to corrected root candidate, not original CLI snapshots. Parent release Backlog, no app wiring/commit/push/deploy or Epic17 writes. Separate admitted UIQ-GATE after settled merged Epic17."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ03-CANDIDATE",
+    "status": "Done",
+    "actor": "Codex",
+    "role": "reviewer",
+    "reason": "All admitted isolated-candidate acceptance gates independently verified on frozen corrected source; no production release.",
+    "evidenceRefs": [
+      "E-UIQ-CLARITY-EXIT"
+    ]
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ04-CANDIDATE",
+    "actor": "Codex",
+    "text": "Independent reviewer acceptance: docs/research/uiq-clarity/CANDIDATE-EXIT.json and CODEX-REVIEW.md. Actual final global15959 exited0, exact137 suites/2292 tests and global/focused four-metric100%;201 focused,18 rendered pressure checks,0 external requests/page errors,49 operational and293 protected identities passed. Screenshots: docs/research/uiq-clarity/evidence/guidance-desktop.png, material-desktop.png, clarity-hostile-narrow.png, clarity-forced.png, clarity-reduce.png. Exact-model OpenCode QA30 probes reviewed; Codex corrected real-browser focus, explicit listener removal, legacy blockers, nested/obsolete actions and invalid-state guidance. Acceptance applies only to corrected root candidate, not original CLI snapshots. Parent release Backlog, no app wiring/commit/push/deploy or Epic17 writes. Separate admitted UIQ-GATE after settled merged Epic17."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ04-CANDIDATE",
+    "status": "Done",
+    "actor": "Codex",
+    "role": "reviewer",
+    "reason": "All admitted isolated-candidate acceptance gates independently verified on frozen corrected source; no production release.",
+    "evidenceRefs": [
+      "E-UIQ-CLARITY-EXIT"
+    ]
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ34-QA",
+    "actor": "Codex",
+    "text": "Independent reviewer acceptance: docs/research/uiq-clarity/CANDIDATE-EXIT.json and CODEX-REVIEW.md. Actual final global15959 exited0, exact137 suites/2292 tests and global/focused four-metric100%;201 focused,18 rendered pressure checks,0 external requests/page errors,49 operational and293 protected identities passed. Screenshots: docs/research/uiq-clarity/evidence/guidance-desktop.png, material-desktop.png, clarity-hostile-narrow.png, clarity-forced.png, clarity-reduce.png. Exact-model OpenCode QA30 probes reviewed; Codex corrected real-browser focus, explicit listener removal, legacy blockers, nested/obsolete actions and invalid-state guidance. Acceptance applies only to corrected root candidate, not original CLI snapshots. Parent release Backlog, no app wiring/commit/push/deploy or Epic17 writes. Separate admitted UIQ-GATE after settled merged Epic17."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ34-QA",
+    "status": "Done",
+    "actor": "Codex",
+    "role": "reviewer",
+    "reason": "All admitted isolated-candidate acceptance gates independently verified on frozen corrected source; no production release.",
+    "evidenceRefs": [
+      "E-UIQ-CLARITY-EXIT"
+    ]
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-03",
+    "actor": "Codex",
+    "text": "Isolated candidate and independent QA reviewer-closed Done with E-UIQ-CLARITY-EXIT. This parent remains Backlog/unshipped with no release assignment. Shared production wiring/flags/desktop/release proof requires separately admitted UIQ-GATE after settled merged Epic17; no G04 closure dependency."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-04",
+    "actor": "Codex",
+    "text": "Isolated candidate and independent QA reviewer-closed Done with E-UIQ-CLARITY-EXIT. This parent remains Backlog/unshipped with no release assignment. Shared production wiring/flags/desktop/release proof requires separately admitted UIQ-GATE after settled merged Epic17; no G04 closure dependency."
+  }
+]

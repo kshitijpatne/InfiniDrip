@@ -1,0 +1,357 @@
+/*
+ * UIQ-03 native guidance panel.
+ *
+ * Every selector is scoped under .uiq-guidance (this module's own root),
+ * never under .uiq-foundation alone, so this stylesheet cannot affect — and
+ * cannot be affected by — any unrelated lookalike element on the host page
+ * (isolated-candidate contract). The frozen UIQ-02 token NAMES and hex
+ * DEFAULTS are reused verbatim but declared locally on .uiq-guidance rather
+ * than on :root or on .uiq-foundation, so this file is self-contained and
+ * never depends on foundation.css being loaded in production.
+ *
+ * Because every color pair below reuses the exact same hex values already
+ * measured in src/ui/enhancements/foundation/foundation.css, the contrast
+ * ratios documented there are unchanged by reuse (identical sRGB values
+ * produce identical relative luminance):
+ *   text  (#edf5fa) on panel (#11273b): 13.83:1
+ *   text  (#edf5fa) on bg    (#0a1422): 16.76:1
+ *   muted (#bdd1df) on panel (#11273b): 9.69:1
+ *   accent(#88d7ef) on panel (#11273b): 9.45:1   (focus outline, needs 3:1)
+ *   border(#7ca4bd) on panel (#11273b): 5.74:1   (non-text UI, needs 3:1)
+ *   danger(#ffb4b4) on panel (#11273b): 9.03:1
+ * All pairs clear the 4.5:1 normal-text and 3:1 UI-component/focus minimums.
+ */
+
+.uiq-guidance {
+  --uiq-bg: #0a1422;
+  --uiq-panel: #11273b;
+  --uiq-text: #edf5fa;
+  --uiq-muted: #bdd1df;
+  --uiq-accent: #88d7ef;
+  --uiq-border: #7ca4bd;
+  --uiq-danger: #ffb4b4;
+  --uiq-radius: 10px;
+  --uiq-space: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--uiq-space);
+  min-width: 0;
+  max-width: 100%;
+  padding: var(--uiq-space);
+  border: 1px solid var(--uiq-border);
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-panel);
+  color: var(--uiq-text);
+  font-family: system-ui, sans-serif;
+}
+
+.uiq-guidance,
+.uiq-guidance * {
+  box-sizing: border-box;
+}
+
+.uiq-guidance [hidden] {
+  display: none !important;
+}
+
+.uiq-guidance .uiq-guidance-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.uiq-guidance .uiq-guidance-revision {
+  margin: 0;
+  color: var(--uiq-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* Stage rail */
+
+.uiq-guidance .uiq-guidance-stages {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--uiq-space) / 2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.uiq-guidance .uiq-guidance-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: calc(var(--uiq-space) / 2);
+  border: 1px solid var(--uiq-border);
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-bg);
+}
+
+.uiq-guidance .uiq-guidance-stage-label {
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.uiq-guidance .uiq-guidance-stage-hint {
+  margin: 0;
+  color: var(--uiq-muted);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.uiq-guidance .uiq-guidance-stage-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--uiq-space) / 2);
+}
+
+.uiq-guidance .uiq-guidance-badge {
+  padding: 2px 8px;
+  border: 1px solid var(--uiq-border);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--uiq-text);
+  overflow-wrap: anywhere;
+}
+
+.uiq-guidance .uiq-guidance-badge--current {
+  border-color: var(--uiq-accent);
+  color: var(--uiq-accent);
+}
+
+.uiq-guidance .uiq-guidance-badge--blocked {
+  border-color: var(--uiq-danger);
+  color: var(--uiq-danger);
+}
+
+/* Fit preference / digital validity */
+
+.uiq-guidance .uiq-guidance-fit,
+.uiq-guidance .uiq-guidance-validity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.uiq-guidance .uiq-guidance-fit h3,
+.uiq-guidance .uiq-guidance-validity h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.uiq-guidance .uiq-guidance-fit-value,
+.uiq-guidance .uiq-guidance-validity-state,
+.uiq-guidance .uiq-guidance-validity-detail {
+  margin: 0;
+  font-size: 13px;
+  color: var(--uiq-muted);
+  overflow-wrap: anywhere;
+}
+
+.uiq-guidance .uiq-guidance-validity-state {
+  font-weight: 700;
+  color: var(--uiq-text);
+}
+
+.uiq-guidance .uiq-guidance-validity-state[data-state="invalid"] {
+  color: var(--uiq-danger);
+}
+
+.uiq-guidance .uiq-guidance-validity-state[data-state="unknown"] {
+  color: var(--uiq-accent);
+}
+
+.uiq-guidance .uiq-guidance-caveat {
+  margin: 0;
+  color: var(--uiq-muted);
+  font-size: 11px;
+  font-style: italic;
+  overflow-wrap: anywhere;
+}
+
+/* Blocker */
+
+.uiq-guidance .uiq-guidance-blocker {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--uiq-space) / 2);
+  padding: calc(var(--uiq-space) * 0.6) var(--uiq-space);
+  border: 1px solid var(--uiq-danger);
+  border-left-width: 4px;
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-bg);
+}
+
+.uiq-guidance .uiq-guidance-blocker-message {
+  margin: 0;
+  color: var(--uiq-danger);
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* Notes */
+
+.uiq-guidance .uiq-guidance-notes {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--uiq-space) / 2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.uiq-guidance .uiq-guidance-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: calc(var(--uiq-space) / 2);
+  padding: calc(var(--uiq-space) * 0.6) var(--uiq-space);
+  border: 1px solid var(--uiq-border);
+  border-left-width: 4px;
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-bg);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.uiq-guidance .uiq-guidance-note[data-level="warn"] {
+  border-left-color: var(--uiq-danger);
+}
+
+.uiq-guidance .uiq-guidance-note[data-level="info"] {
+  border-left-color: var(--uiq-accent);
+}
+
+.uiq-guidance .uiq-guidance-note-empty {
+  margin: 0;
+  padding: calc(var(--uiq-space) * 0.6) var(--uiq-space);
+  color: var(--uiq-muted);
+  font-size: 13px;
+}
+
+.uiq-guidance .uiq-guidance-note-icon {
+  flex: 0 0 auto;
+}
+
+.uiq-guidance .uiq-guidance-note-level {
+  flex: 0 0 auto;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.uiq-guidance .uiq-guidance-note-text {
+  flex: 1 1 240px;
+  min-width: 0;
+  color: var(--uiq-muted);
+}
+
+.uiq-guidance .uiq-guidance-note-detail {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+.uiq-guidance .uiq-guidance-note-detail p {
+  margin: 4px 0 0;
+  color: var(--uiq-muted);
+  overflow-wrap: anywhere;
+}
+
+/* Native controls: buttons and disclosure summaries */
+
+.uiq-guidance button {
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--uiq-border);
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-panel);
+  color: var(--uiq-text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.uiq-guidance button:hover {
+  border-color: var(--uiq-accent);
+}
+
+.uiq-guidance button:focus-visible {
+  outline: 3px solid var(--uiq-accent);
+  outline-offset: 2px;
+}
+
+.uiq-guidance summary {
+  min-height: 44px;
+  padding: 10px 0;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.uiq-guidance summary:focus-visible {
+  outline: 3px solid var(--uiq-accent);
+  outline-offset: 2px;
+}
+
+/* Responsive wrapping: this panel never forces horizontal overflow at
+ * narrow widths (320px content) or 480px-equivalent 200% zoom. */
+
+.uiq-guidance {
+  width: 100%;
+}
+
+/* Reduced motion: no required-behavior transitions ship in this module; the
+ * one decorative hover affordance above (border-color) is disabled here. */
+
+@media (prefers-reduced-motion: reduce) {
+  .uiq-guidance,
+  .uiq-guidance * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Forced colors: let the user's system palette take over borders, text and
+ * focus rings instead of the frozen hex tokens, keeping every panel, note,
+ * and control opaque and readable. */
+
+@media (forced-colors: active) {
+  .uiq-guidance,
+  .uiq-guidance .uiq-guidance-stage,
+  .uiq-guidance .uiq-guidance-blocker,
+  .uiq-guidance .uiq-guidance-note,
+  .uiq-guidance button {
+    background-color: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+
+  .uiq-guidance .uiq-guidance-badge--current,
+  .uiq-guidance .uiq-guidance-badge--blocked,
+  .uiq-guidance .uiq-guidance-validity-state[data-state="invalid"],
+  .uiq-guidance .uiq-guidance-validity-state[data-state="unknown"],
+  .uiq-guidance .uiq-guidance-blocker-message {
+    color: CanvasText;
+  }
+
+  .uiq-guidance button:focus-visible,
+  .uiq-guidance summary:focus-visible {
+    outline-color: Highlight;
+  }
+}

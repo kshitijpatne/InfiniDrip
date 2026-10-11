@@ -1,0 +1,245 @@
+/*
+ * UIQ-02 native foundation primitives.
+ *
+ * Every selector is scoped under .uiq-foundation so this stylesheet cannot
+ * affect any element outside it (isolated-candidate contract). Colors use
+ * the frozen --uiq-* variables, declared locally on .uiq-foundation rather
+ * than :root, so this candidate never leaks tokens onto the host page.
+ *
+ * Measured WCAG contrast (sRGB relative luminance) for the frozen palette:
+ *   text  (#edf5fa) on panel (#11273b): 13.83:1
+ *   text  (#edf5fa) on bg    (#0a1422): 16.76:1
+ *   muted (#bdd1df) on panel (#11273b): 9.69:1
+ *   muted (#bdd1df) on bg    (#0a1422): 11.75:1
+ *   accent(#88d7ef) on panel (#11273b): 9.45:1   (focus outline, needs 3:1)
+ *   border(#7ca4bd) on panel (#11273b): 5.74:1   (non-text UI, needs 3:1)
+ *   danger(#ffb4b4) on panel (#11273b): 9.03:1
+ * All pairs clear the 4.5:1 normal-text and 3:1 UI-component/focus minimums.
+ */
+
+.uiq-foundation {
+  --uiq-bg: #0a1422;
+  --uiq-panel: #11273b;
+  --uiq-text: #edf5fa;
+  --uiq-muted: #bdd1df;
+  --uiq-accent: #88d7ef;
+  --uiq-border: #7ca4bd;
+  --uiq-danger: #ffb4b4;
+  --uiq-radius: 10px;
+  --uiq-space: 12px;
+
+  color: var(--uiq-text);
+  font-family: system-ui, sans-serif;
+  min-width: 0;
+}
+
+.uiq-foundation,
+.uiq-foundation * {
+  box-sizing: border-box;
+}
+
+.uiq-foundation [hidden] {
+  display: none !important;
+}
+
+/* Headings */
+
+.uiq-foundation .uiq-foundation-panel-title {
+  margin: 0 0 calc(var(--uiq-space) / 2);
+  color: var(--uiq-text);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+/* Panels */
+
+.uiq-foundation.uiq-foundation-panel {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--uiq-space) / 2);
+  min-width: 0;
+  max-width: 100%;
+  padding: var(--uiq-space);
+  border: 1px solid var(--uiq-border);
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-panel);
+  overflow-wrap: anywhere;
+}
+
+.uiq-foundation .uiq-foundation-panel-description {
+  margin: 0;
+  color: var(--uiq-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Optional scoped "glass" treatment. A solid background is declared first so
+ * every environment (including forced-colors, and browsers without
+ * backdrop-filter) renders a fully opaque, readable panel; translucency and
+ * blur are additive enhancements layered on only when supported. */
+
+.uiq-foundation.uiq-foundation-panel--glass {
+  background-color: var(--uiq-panel);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .uiq-foundation.uiq-foundation-panel--glass {
+    /* Retain readable muted text even over a white host backdrop. */
+    background-color: color-mix(in srgb, var(--uiq-panel) 88%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+}
+
+/* Status */
+
+.uiq-foundation.uiq-foundation-status {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: calc(var(--uiq-space) / 2);
+  min-width: 0;
+  max-width: 100%;
+  padding: calc(var(--uiq-space) * 0.6) var(--uiq-space);
+  border: 1px solid var(--uiq-border);
+  border-left-width: 4px;
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-panel);
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.uiq-foundation.uiq-foundation-status[data-kind="warning"] {
+  border-left-color: var(--uiq-accent);
+}
+
+.uiq-foundation.uiq-foundation-status[data-kind="error"] {
+  border-left-color: var(--uiq-danger);
+}
+
+.uiq-foundation .uiq-foundation-status-label {
+  flex: 0 0 auto;
+  color: var(--uiq-text);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.uiq-foundation.uiq-foundation-status[data-kind="error"] .uiq-foundation-status-label {
+  color: var(--uiq-danger);
+}
+
+.uiq-foundation .uiq-foundation-status-message {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--uiq-muted);
+}
+
+/* Native controls: inputs, selects, buttons */
+
+.uiq-foundation button,
+.uiq-foundation select,
+.uiq-foundation input {
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--uiq-border);
+  border-radius: var(--uiq-radius);
+  background-color: var(--uiq-panel);
+  color: var(--uiq-text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.uiq-foundation button {
+  cursor: pointer;
+}
+
+.uiq-foundation button:disabled,
+.uiq-foundation select:disabled,
+.uiq-foundation input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.uiq-foundation button:hover:not(:disabled) {
+  border-color: var(--uiq-accent);
+}
+
+/* Visible keyboard focus. Outline is drawn on every focusable native control
+ * and clears 3:1 contrast against the panel background (9.45:1 measured). */
+
+.uiq-foundation button:focus-visible,
+.uiq-foundation select:focus-visible,
+.uiq-foundation input:focus-visible {
+  outline: 3px solid var(--uiq-accent);
+  outline-offset: 2px;
+}
+
+.uiq-foundation summary {
+  min-height: 44px;
+  padding: 10px 0;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.uiq-foundation summary:focus-visible {
+  outline: 3px solid var(--uiq-accent);
+  outline-offset: 2px;
+}
+
+/* Responsive wrapping: panels and controls never force horizontal overflow
+ * at narrow widths (320px content, 480px-equivalent 200% zoom). */
+
+.uiq-foundation.uiq-foundation-panel,
+.uiq-foundation.uiq-foundation-status {
+  width: 100%;
+}
+
+/* Reduced motion: this module ships no required-behavior transitions; the
+ * one decorative hover affordance above (border-color) is disabled here. */
+
+@media (prefers-reduced-motion: reduce) {
+  .uiq-foundation,
+  .uiq-foundation * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Forced colors: let the user's system palette take over borders, text and
+ * focus rings instead of the frozen hex tokens, and keep the glass panel
+ * opaque rather than translucent. */
+
+@media (forced-colors: active) {
+  .uiq-foundation.uiq-foundation-panel,
+  .uiq-foundation.uiq-foundation-panel--glass,
+  .uiq-foundation.uiq-foundation-status,
+  .uiq-foundation button,
+  .uiq-foundation select,
+  .uiq-foundation input {
+    background-color: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .uiq-foundation.uiq-foundation-status[data-kind="warning"],
+  .uiq-foundation.uiq-foundation-status[data-kind="error"] {
+    border-left-color: CanvasText;
+  }
+
+  .uiq-foundation button:focus-visible,
+  .uiq-foundation select:focus-visible,
+  .uiq-foundation input:focus-visible,
+  .uiq-foundation summary:focus-visible {
+    outline-color: Highlight;
+  }
+}

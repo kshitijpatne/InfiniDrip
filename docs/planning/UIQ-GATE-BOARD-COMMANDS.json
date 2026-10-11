@@ -1,0 +1,51 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ-GATE",
+    "evidence": {
+      "id": "E-UIQ-GATE-S733-VERIFICATION",
+      "kind": "test",
+      "uri": "docs/release/UIQ-GATE-S733-VERIFICATION.json",
+      "commit": null,
+      "sha256": "79b717653b6010802335e1365f6792679f252bdb04925fc1c03fe7420384df7b",
+      "verified": true,
+      "note": "S733 control-center tests, full 100% coverage, production build, diff check and candidate provenance verification; historical browser/no-egress evidence remains explicitly candidate-only."
+    },
+    "expectedRevision": 4347
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ-GATE",
+    "status": "In Progress",
+    "actor": "Codex",
+    "role": "maintainer",
+    "reason": "S733 post-EPIC-17 integration-readiness admission and candidate reconciliation are underway.",
+    "expectedRevision": 4348
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ-GATE",
+    "status": "Review",
+    "actor": "Codex",
+    "role": "contributor",
+    "reason": "S733 acceptance checks and durable candidate reconciliation passed; independent gate closeout review is ready.",
+    "expectedRevision": 4349
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ-GATE",
+    "status": "Done",
+    "actor": "Codex",
+    "role": "reviewer",
+    "reason": "Reviewer verified S733 evidence, full coverage/build gates and preserved unshipped UIQ parent scope.",
+    "evidenceRefs": ["E-UIQ-GATE-S733-VERIFICATION"],
+    "expectedRevision": 4350
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-GATE",
+    "actor": "Codex",
+    "text": "S733 closes the post-EPIC-17 readiness gate only. The six isolated candidate child cards remain Done, but UIQ-02/03/04/05/07 parents remain Backlog/unshipped with no release assignment. Next: separately admit UIQ-02 on the then-current main with a fresh shared-host/flag/fallback/file-boundary and rendered acceptance packet. Evidence: docs/release/UIQ-GATE-S733-EXIT.md and E-UIQ-GATE-S733-VERIFICATION.",
+    "expectedRevision": 4351
+  }
+]

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>InfiniDrip isolated UI candidate review</title><style>
+/* Review-page chrome only; the outside sentinel deliberately remains native. */
+#candidate-review { background: #0a1422; padding: 12px; overflow-wrap: anywhere; }
+#candidate-review > section, #candidate-review > nav { margin: 12px 0; }
+#candidate-review > nav { display: flex; flex-wrap: wrap; gap: 12px; }
+#candidate-review > nav a { color: #88d7ef; padding: 12px; min-height: 44px; }
+#candidate-review > nav a:focus-visible { outline: 3px solid #88d7ef; }
+</style></head>
+<body><main class="uiq-foundation" id="candidate-review"><h1>InfiniDrip UI candidate review</h1><p>Isolated preview only. These components are not wired into the live app, saved designs or exports.</p><nav aria-label="Candidate previews"><a href="./foundation.html">Foundation preview</a> · <a href="./artwork.html">Artwork preview</a></nav><section id="foundation-statuses" aria-label="Foundation status examples"></section><section aria-label="Review fixture controls"><label for="review-fixture">Review fixture</label><select id="review-fixture"><option value="catalog">Existing catalog</option><option value="empty">Empty catalog</option><option value="hostile">Long and hostile-looking text</option><option value="missing">Missing local image</option><option value="remote">Remote image rejected</option><option value="endpoint">Same-origin endpoint rejected</option></select><button type="button" id="review-unknown">Select unavailable ID</button><button type="button" id="review-clear">Clear external selection</button><button type="button" id="review-dispose">Dispose panel</button><button type="button" id="review-remount">Remount panel</button><button type="button" id="review-audit">Run accessibility audit</button><p id="review-audit-result" role="status">Audit not run.</p><p id="review-selection" role="status">No selection callback.</p></section><section id="review-artwork-host" aria-label="Artwork candidate"></section></main><aside id="isolation-sentinel"><h2>Outside component scope</h2><p>Native sibling appearance must not be restyled by candidate CSS.</p><button type="button">Outside button</button></aside><script type="module" src="./review-preview.ts"></script></body>
+</html>

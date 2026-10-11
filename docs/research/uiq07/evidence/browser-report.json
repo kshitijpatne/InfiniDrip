@@ -1,0 +1,30 @@
+{
+  "origin": "http://127.0.0.1:4187",
+  "checks": [
+    "accessible-region-wordmark-decorative-ornament-no-controls",
+    "axe-wcag-2.1-aa",
+    "text-contrast-at-least-4.5-to-1-on-flat-fallback",
+    "responsive-no-overflow-320px",
+    "responsive-no-overflow-390px",
+    "responsive-no-overflow-480px",
+    "responsive-no-overflow-1440px",
+    "forced-colors-readable-wordmark",
+    "reduced-motion-no-animation",
+    "no-external-requests-or-page-errors"
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "screenshots": [
+    "docs/research/uiq07/evidence/welcome-mobile.png",
+    "docs/research/uiq07/evidence/welcome-desktop.png",
+    "docs/research/uiq07/evidence/welcome-forced-colors.png"
+  ],
+  "contrastRatiosOnFlatFallback": {
+    "wordmarkGradientLightestStop": 17.38,
+    "wordmarkGradientDarkestStop": 8.29,
+    "eyebrow": 13.03,
+    "welcome": 17.19,
+    "description": 12.3
+  },
+  "verifiedAt": "2026-10-07T17:39:54.286Z"
+}

@@ -1,0 +1,142 @@
+{
+  "verifiedAt": "2026-10-02T06:26:45.324Z",
+  "protectedFiles": 279,
+  "globalCoverage": {
+    "lines": {
+      "total": 24582,
+      "covered": 24582,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 24582,
+      "covered": 24582,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 1483,
+      "covered": 1483,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 11193,
+      "covered": 11193,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "focusedCoverage": {
+    "lines": {
+      "total": 509,
+      "covered": 509,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 509,
+      "covered": 509,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 30,
+      "covered": 30,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 110,
+      "covered": 110,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": "Unknown"
+    }
+  },
+  "requests": 310,
+  "localSockets": 5,
+  "externalRequests": 0,
+  "browserChecks": 18,
+  "sourceHashes": {
+    "src/ui/enhancements/artwork/artwork-panel.ts": "cb07c959e2b3f32c4df8004dc8a3c275d415b225e93404cd4c233ed954a2b60f",
+    "src/ui/enhancements/artwork/artwork-panel.css": "bcb9052b921e5676e7c96ab1d49d5cd60d18fe3f1f77b951a151c6f71858e7ec",
+    "src/ui/enhancements/foundation/foundation.ts": "8addb2f3cc2f7c21ea49cdf5cd2a1fa0b05d735c1a5df778080c06ddac6e4d17",
+    "src/ui/enhancements/foundation/foundation.css": "505a674728fcb4427eec81be17bcd227205d20cb4865b9ad3e77c85dac606c71",
+    "ops/ui-candidates/review-preview.ts": "484535bf8c9a941c22c21bad40b3c43a7cb1e92fe48302dc7fbc9712a2478bc5"
+  },
+  "evidenceHashes": {
+    "docs/research/uiq-parallel/evidence/full-coverage-one-worker.log": "851b346e0e5a4cdf24beaad124f2d41c6dd4f4a60d9349d8d1196c041a570e08",
+    "coverage-uiq-settled-one-worker/coverage-final.json": "248bc03edd9fd378e534eefedb1263802a649e246f43a4dd4b191d0f014d1aa9",
+    "docs/research/uiq-parallel/evidence/browser-pressure-test.json": "f90c678996aea659f6c8645105163abde630dc332ad5cb5443fbf6969580cf3d",
+    "docs/research/uiq-parallel/evidence/operational-tests.log": "e341b7ee351fa7ea595a1af91d4466f6b9aca7731634cae92a57178095f10222"
+  },
+  "status": "independently accepted isolated candidates",
+  "candidateIds": [
+    "UIQ02-CANDIDATE",
+    "UIQ05-CANDIDATE"
+  ],
+  "base": "a5af5e13c2e967946b3f6035fcea66ff03a5e0e0",
+  "reviewer": "Codex",
+  "contributors": {
+    "foundation": "Claude Code / claude-sonnet-5 high / WORK FINISHED",
+    "artwork": "OpenCode / Muse Spark1.3 xhigh normal / WORK FINISHED"
+  },
+  "independentRemediationReview": "Luna root-only bounded review: WORK FINISHED, no remaining bounded defect",
+  "fullGate": {
+    "session": 2056,
+    "exitCode": 0,
+    "suites": 135,
+    "tests": 2091,
+    "durationSeconds": 1824.91,
+    "expectedSuiteInventoryVerified": true,
+    "exportIdentityTests": 9,
+    "workerOverride": "CLI minWorkers=1/maxWorkers=1; repository defaults unchanged",
+    "extraDiscoveryExclusion": "tmp/ui-repo-sources/** foreign research only",
+    "originalAssertionsTimeoutsThresholdsAndBaselinesPreserved": true
+  },
+  "focusedTests": 61,
+  "operationalTests": 49,
+  "operationalDurationMs": 2524.1707,
+  "typecheck": {
+    "root": "passed",
+    "standalonePreviews": "passed"
+  },
+  "build": {
+    "session": 69198,
+    "exitCode": 0,
+    "durationSeconds": 30.66,
+    "preexistingChunkAdvisoryRetained": true
+  },
+  "protectedMismatches": 0,
+  "renderedSourceMismatches": 0,
+  "production": {
+    "wired": false,
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "parentReleaseCards": "Backlog/unshipped",
+    "epic17WrittenOrInterrupted": false
+  },
+  "remainingCandidateVerificationWork": [],
+  "integrationHolds": [
+    "Separate admission after settled merged Epic17/UIQ-GATE",
+    "Fresh current-main review, numbered landing and shared file ownership",
+    "Feature flag default/fallback and production rollout",
+    "Trusted bundled file-origin policy and actual Electron proof before desktop wiring"
+  ],
+  "admission": "docs/planning/UIQ-PARALLEL-ADMISSION.md",
+  "review": "docs/research/uiq-parallel/CODEX-REVIEW.md",
+  "checklist": "docs/research/uiq-parallel/REVIEW-CHECKLIST.md"
+}

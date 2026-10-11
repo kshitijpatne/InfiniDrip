@@ -1,0 +1,33 @@
+// Final read-only gate adjudication. Emits proof; never changes source or board.
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { resolve } from "node:path";
+const json = path => JSON.parse(readFileSync(path, "utf8"));
+const hash = path => createHash("sha256").update(readFileSync(path)).digest("hex");
+const settled = json("docs/research/uiq-clarity/SETTLED-SNAPSHOT.json");
+const protectedManifest = json("docs/research/uiq-clarity/BASELINE-IDENTITY.json");
+for (const entry of [...protectedManifest.entries, ...settled.sourceHashes]) assert.equal(hash(entry.path), entry.sha256, `Changed frozen file ${entry.path}`);
+const full = json("docs/research/uiq-clarity/evidence/full-gates.json");
+assert.equal(full.gates.length, 1); assert.equal(full.gates[0].exitCode, 0); assert(full.finishedAt);
+const support = json("docs/research/uiq-clarity/evidence/supporting-gates.json");
+assert.equal(support.gates.length, 7); assert(support.gates.every(g => g.exitCode === 0));
+const result = json("docs/research/uiq-clarity/evidence/full-vitest-results.json");
+assert(result.success); assert.equal(result.numTotalTests, settled.expectedTestCount); assert.equal(result.numPassedTests, settled.expectedTestCount);
+assert.equal(result.numFailedTests, 0); assert.equal(result.numPendingTests, 0);
+const names = result.testResults.map(s => s.name.replaceAll("\\", "/"));
+assert.deepEqual(names.sort(), settled.expectedSuites.map(p => resolve(p).replaceAll("\\", "/")).sort());
+for (const suite of result.testResults) assert(suite.assertionResults.every(t => t.status === "passed"), suite.name);
+const quality = result.testResults.find(s => s.name.replaceAll("\\", "/").endsWith("/src/quality/export-identity.test.ts"));
+const legacy = result.testResults.find(s => s.name.replaceAll("\\", "/").endsWith("/src/export/regression.test.ts"));
+assert.equal(quality.assertionResults.length, 9); assert.equal(legacy.assertionResults.length, 8);
+const global = json("coverage-uiq34-global/coverage-summary.json").total;
+const focused = json("coverage-uiq34-final-focused/coverage-summary.json").total;
+for (const coverage of [global, focused]) for (const kind of ["lines", "statements", "functions", "branches"]) { assert.equal(coverage[kind].pct, 100); assert.equal(coverage[kind].covered, coverage[kind].total); assert.equal(coverage[kind].skipped, 0); }
+const browser = json("docs/research/uiq-clarity/evidence/clarity-browser-report.json");
+assert.equal(browser.checks.length, 18); assert.equal(browser.failures.length, 0); assert.equal(browser.pageErrors.length, 0); assert(browser.checks.every(c => c.passed));
+for (const [path, digest] of Object.entries(browser.hashes)) assert.equal(hash(path), digest, `Rendered source drift ${path}`);
+assert(browser.requests.every(url => new URL(url).origin === "http://127.0.0.1:4186"));
+assert(browser.websockets.every(url => new URL(url).hostname === "127.0.0.1"));
+const proofFiles = ["docs/research/uiq-clarity/evidence/full-global.log", "docs/research/uiq-clarity/evidence/full-vitest-results.json", "docs/research/uiq-clarity/evidence/full-gates.json", "coverage-uiq34-global/coverage-summary.json", "coverage-uiq34-global/coverage-final.json", "coverage-uiq34-final-focused/coverage-summary.json", "docs/research/uiq-clarity/evidence/supporting-gates.json", "docs/research/uiq-clarity/evidence/clarity-browser-report.json", "docs/research/uiq-clarity/QA-SNAPSHOT.json", "docs/research/uiq34-qa/RETURN.md", "docs/research/uiq-clarity/evidence/guidance-desktop.png", "docs/research/uiq-clarity/evidence/material-desktop.png", "docs/research/uiq-clarity/evidence/clarity-hostile-narrow.png", "docs/research/uiq-clarity/evidence/clarity-forced.png", "docs/research/uiq-clarity/evidence/clarity-reduce.png"];
+console.log(JSON.stringify({ verifiedAt: new Date().toISOString(), status: "settled isolated candidate gates verified; reviewer board closure still required", candidateIds: ["UIQ03-CANDIDATE", "UIQ04-CANDIDATE"], reviewer: "Codex", base: protectedManifest.base, suites: names.length, tests: result.numPassedTests, focusedTests: 201, coverage: { global, focused }, exports: { qualityIdentityTests: 9, legacyHashTests: 8, baselineMoved: false }, browser: { checks: 18, externalRequests: 0, localRequests: browser.requests.length, pageErrors: 0 }, protectedFiles: protectedManifest.entries.length, protectedMismatches: 0, sourceHashes: settled.sourceHashes, evidenceHashes: Object.fromEntries(proofFiles.map(path => [path, hash(path)])), fullGate: full, supportingGates: support, independentQa: { model: "opencode/muse-spark-1.3-contributor-free", variant: "xhigh", mode: "build", session: "ses_f02a94477ffe2Ymm1v3ippgMvg", workFinished: true, adversarialProbes: 30, readonlyInputs: 27, browserClaims: false, originalSnapshots: "docs/research/uiq-clarity/QA-SNAPSHOT.json", limitationsAndCodexCorrections: "docs/research/uiq-clarity/CODEX-REVIEW.md" }, production: { wired: false, committed: false, pushed: false, deployed: false, parentReleaseCards: "Backlog/unshipped", epic17WrittenOrInterrupted: false }, integrationHolds: ["Separate admitted UIQ-GATE after settled merged Epic17", "Fresh main/ownership review, unique numbered landing, production flag/default/fallback", "Actual desktop/file-origin integration proof before desktop wiring"] }, null, 2));
