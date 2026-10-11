@@ -8,6 +8,8 @@ import board from "../data/board.json" with { type: "json" };
 import { canTransition, filterItems, filterOptions, renderCreateForm, renderDetail, renderItemList, renderSummary, safeText, summarizeBoard, validateBoard } from "./board.mjs";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
+const g04FinalExitRecorded = board.evidence.some((entry) => entry.id === "E-G04-S732-EXIT");
+const expectedG04V03Status = g04FinalExitRecorded ? "Done" : "In Progress";
 
 function hashEvidenceArtifact(uri) {
   const artifact = readFileSync(resolve(projectRoot, uri));
@@ -83,7 +85,7 @@ test("S355 Woven diagnosis is linked while every G04 acceptance hold remains", (
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, expectedG04V03Status);
   assert.equal(epic.dependencies.includes("UIQ-GATE"), false);
   assert.ok(g04.comments.some((comment) => /Slice 355 rejected Woven back seam-layer occlusion/.test(comment.text)));
 });
@@ -98,7 +100,7 @@ test("S356 rejects the Woven chord-reflection candidate and retains every hold",
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, expectedG04V03Status);
   assert.ok(g04.comments.some((comment) => /Slice 356 rejected the Woven sleeve\/band chord-reflection candidate/.test(comment.text)));
 });
 
@@ -112,7 +114,7 @@ test("S357 Polo residual study retains the source ease, threshold, and all holds
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, expectedG04V03Status);
   assert.ok(g04.comments.some((comment) => /Slice 357 found no viable Polo source repair/.test(comment.text)));
 });
 
@@ -128,7 +130,7 @@ test("S358 retains the Woven collar hold and records the maintainer's Polo resid
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, expectedG04V03Status);
   assert.ok(g04.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
   assert.ok(epic.comments.some((comment) => /Slice 358 exit: exact upperCollar\/underCollar path arrays coincide on all 56 current Woven faces/.test(comment.text)));
 });
@@ -150,7 +152,7 @@ test("S359 records the Woven rigid-fit decision boundary without releasing holds
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, expectedG04V03Status);
   assert.match(g04.description, /all 73 canonical supported configurations and 146 front\/back faces/);
   assert.ok(g04.comments.some((comment) => /Slice 359 exit: source arc\/chord incompatibility/.test(comment.text)));
   assert.ok(epic.comments.some((comment) => /Slice 359 retains the current 56 accepted \/ 90 held integrated tally/.test(comment.text)));
@@ -176,7 +178,7 @@ test("S360 binds the landed S359 commit without changing Polo or Woven holds", (
   }
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, expectedG04V03Status);
   assert.match(board.workItems.find((item) => item.id === "G04-V02").description, /0\.25 cm/);
 });
 
@@ -193,7 +195,7 @@ test("S361 evidence remains linked after the current summary reconciliation", ()
   assert.equal(g04.status, "Done");
   assert.ok(g04.evidenceRefs.includes("E-G04-S459-EXIT"));
   assert.equal(board.workItems.find((item) => item.id === "G04-V01").status, "Done");
-  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, "In Progress");
+  assert.equal(board.workItems.find((item) => item.id === "G04-V03").status, expectedG04V03Status);
   assert.match(g04.description, /Integrated all-seven V02 accepted at S459/);
   assert.match(g04.description, /exact approved S351 exception/);
   assert.match(g04.description, /all-seven V02/);
@@ -240,18 +242,16 @@ test("contributors can submit review but cannot complete work", () => {
   assert.equal(canTransition("Done", "In Progress", "reviewer"), false);
 });
 
-test("closed Epics 14–16 and admitted G04 status match their evidence", () => {
+test("closed Epics 14–17 and G04 status match their evidence", () => {
   for (let index = 1; index <= 17; index += 1) {
     const id = `EPIC-${index + 13}`;
     const goal = `G${String(index).padStart(2, "0")}`;
     const epic = board.epics.find((entry) => entry.id === id);
     const card = board.workItems.find((entry) => entry.id === id);
     const expectedEpicStatus = id === "EPIC-14" || id === "EPIC-15" || id === "EPIC-16"
-      ? "Closed"
-      : id === "EPIC-17" ? "In Progress" : "Backlog";
+      ? "Closed" : id === "EPIC-17" ? (g04FinalExitRecorded ? "Closed" : "In Progress") : "Backlog";
     const expectedCardStatus = id === "EPIC-14" || id === "EPIC-15" || id === "EPIC-16"
-      ? "Done"
-      : id === "EPIC-17" ? "In Progress" : "Backlog";
+      ? "Done" : id === "EPIC-17" ? (g04FinalExitRecorded ? "Done" : "In Progress") : "Backlog";
     assert.equal(epic?.status, expectedEpicStatus);
     assert.equal(card?.status, expectedCardStatus);
     assert.equal(card?.type, "epic");
@@ -264,6 +264,8 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
     }
     if (id === "EPIC-17") {
       const g04V02 = board.workItems.find((entry) => entry.id === "G04-V02");
+      const g04V03 = board.workItems.find((entry) => entry.id === "G04-V03");
+      const finalEvidence = board.evidence.find((entry) => entry.id === "E-G04-S732-EXIT");
       assert.match(epic.description, /docs\/planning\/EPIC-17-ADMISSION\.md/);
       assert.match(epic.description, /S459 accepts all seven recipes, 73 supported configurations and 146 front\/back faces/);
       assert.match(epic.description, /Woven's 56 local faces pass the approved S457 front mask and local-Y back\/band placement/);
@@ -271,6 +273,17 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.match(card.description, /S459 accepts all seven recipes, 73 supported configurations and 146 front\/back faces/);
       assert.match(card.description, /V01 and V02 are Done/);
       assert.match(card.description, /Preserve V02-before-V03, legacy DXF behavior and protected export identities/);
+      assert.equal(g04V03?.status, expectedG04V03Status);
+      if (g04FinalExitRecorded) {
+        assert.match(card.description, /S732 closed EPIC-17 on 2026-10-11/);
+        assert.ok(g04V03?.evidenceRefs.includes("E-G04-S732-EXIT"));
+        assert.ok(card.evidenceRefs.includes("E-G04-S732-EXIT"));
+        assert.ok(epic.evidenceRefs.includes("E-G04-S732-EXIT"));
+        assert.equal(finalEvidence?.kind, "exit-report");
+        assert.equal(finalEvidence?.verified, true);
+        assert.equal(finalEvidence?.uri, "docs/research/epic17/S732-final-closeout/S732-exit-packet.md");
+        assert.equal(hashEvidenceArtifact(finalEvidence.uri), finalEvidence.sha256);
+      }
       assert.ok(g04V02?.evidenceRefs.includes("E-G04-S420-EXIT"));
       assert.ok(card.evidenceRefs.includes("E-G04-S420-EXIT"));
       assert.ok(g04V02.evidenceRefs.includes("E-G04-S458-EXIT"));
@@ -476,7 +489,7 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
       assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S334 verified exit: exact Woven source-edge traversal corrections pass focused 100% coverage and build/.test(comment.text)));
       assert.ok(admittedWork.find((entry) => entry.id === "G04-V02")?.comments.some((comment) => /S335 started 2026-10-01 15:24:44 UTC from clean S334 b27a444a/.test(comment.text)));
       assert.deepEqual(admittedWork.map((entry) => entry.id), ["G04-V01", "G04-V02", "G04-V03"]);
-      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "Done", "In Progress"]);
+      assert.deepEqual(admittedWork.map((entry) => entry.status), ["Done", "Done", expectedG04V03Status]);
       assert.match(admittedWork[1].description, /S406's approved view-only collar-over-plackets order remains implemented/);
       assert.match(admittedWork[1].description, /Integrated all-seven V02 accepted at S459/);
       assert.match(admittedWork[1].description, /exact approved S351 exception/);
@@ -732,9 +745,9 @@ test("closed Epics 14–16 and admitted G04 status match their evidence", () => 
   const laterEpics = board.epics.filter((entry) => /^EPIC-(1[6-9]|2\d|30)$/.test(entry.id));
   assert.equal(laterEpics.length, 15);
   assert.equal(laterEpics.find((entry) => entry.id === "EPIC-16")?.status, "Closed");
-  assert.equal(laterEpics.find((entry) => entry.id === "EPIC-17")?.status, "In Progress");
+  assert.equal(laterEpics.find((entry) => entry.id === "EPIC-17")?.status, g04FinalExitRecorded ? "Closed" : "In Progress");
   assert.ok(laterEpics.filter((entry) => entry.id !== "EPIC-16" && entry.id !== "EPIC-17").every((entry) => entry.status === "Backlog"),
-    "goals after the admitted EPIC-17 remain in Backlog");
+    "goals after closed EPIC-17 remain in Backlog");
   const g02AdmissionEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-G02-ADMISSION-S229");
   const f01StorageContractEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-STORAGE-S230");
   const f01RecordModelEvidence = board.evidence.find((entry) => entry.id === "E-EPIC15-F01-MODEL-S231");

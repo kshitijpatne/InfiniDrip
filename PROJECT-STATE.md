@@ -1,16 +1,20 @@
-## Current EPIC-17 / G04 boundary — S731 CI browser runtime
+## Current EPIC-17 / G04 boundary — S732 production verified
 
-PR #17 merged the reviewed candidate at
-`653c01a2589da1b78fec79539f72f2ebf45d48af`; its tree matches the PR head and
-the previous `origin/main` commit is its parent. Deployment run 38139722106
-failed at the S425 browser-render test because GitHub Actions did not install
-the Playwright Chromium revision required by the lockfile (157/158 files and
-2,365/2,366 tests passed). S731 adds that browser install step before the
-existing suite, without changing product source or acceptance. S726's V03
-technical acceptance remains complete; EPIC-17 and the goal remain In Progress
-pending successful deployment and production browser exchange verification.
-S731 start packet:
-`docs/research/epic17/S731-github-actions-playwright-browser/S731-start-packet.md`.
+PR #17's reviewed product/evidence tree is on main at
+`653c01a2589da1b78fec79539f72f2ebf45d48af`; PR #18's CI Chromium prerequisite
+is on main at `548481bba85be0458200931841fc7a53c0275e93`, the refreshed
+`origin/main`. Automatic workflow `38141301239` passed the full suite,
+production build, deterministic artifact verification, and Pages deployment.
+The live production flow reached Export and accepted the bound XL source
+package plus saved/reopened LibreCAD return at 0.000000 cm, with no browser
+errors. S732's full repository coverage passed 158/158 files and 2,366/2,366
+tests with all four coverage columns at 100%. S726's V03 criteria remain
+unchanged and met: product-side 365/365 option-grade packages and 11 exact
+LibreCAD 2.2.1.5 / DXF 2000 return fixtures across ten serialized structure
+classes, with claims limited to those reviewed fixtures. The AccuMark
+suggestion is withdrawn; no new/paid CAD application is needed. The S732
+closeout packet and board transition are the final repository closeout record.
+`docs/research/epic17/S732-final-closeout/S732-exit-packet.md`.
 
 ## Prior completed boundary — S730 repository-evidence hygiene
 

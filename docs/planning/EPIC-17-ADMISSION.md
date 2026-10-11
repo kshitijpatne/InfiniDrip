@@ -1,16 +1,23 @@
-## Current EPIC-17 / G04 boundary — S731 deployment workflow correction
+## Current EPIC-17 / G04 boundary — S732 production closeout
 
-PR #17 merged S730 at `653c01a2589da1b78fec79539f72f2ebf45d48af`. Its tree
-matches the PR head and its parent is the previous `origin/main` commit.
-Deployment run 38139722106 reached the full test suite but failed only when
-S425 launched Playwright without the pinned Chromium headless-shell browser
-installed on the Ubuntu runner (157/158 files, 2,365/2,366 tests passed).
-S731's sole implementation change installs lockfile-matched Chromium after
-`npm ci` and before `npm test`; no CAD application or product acceptance is
-changed. S726's V03 acceptance remains complete under the approved empirical
-profile. Keep EPIC-17 and the goal In Progress through S731 CI, deployment, and
-production E2E. Start packet:
-`docs/research/epic17/S731-github-actions-playwright-browser/S731-start-packet.md`.
+S726's maintainer-approved V03 acceptance remains unchanged and complete. The
+11 LibreCAD 2.2.1.5 / DXF 2000 fixtures cover all ten observed serialized
+exchange-structure classes plus the Trouser XL grade boundary; all pass the
+0.001 cm audit at 0.000 cm and have rendered review. Product-side source
+package checks pass for 365/365 supported option-grade combinations. The
+compatibility claim stays limited to those exact reviewed returns. The
+maintainer vetoed the proposed paid AccuMark route; it is withdrawn and no
+new CAD application or trial is needed.
+
+PR #17 and the CI-only PR #18 are merged to `origin/main` at
+`548481bba85be0458200931841fc7a53c0275e93`. Main workflow `38141301239` passed
+the tests, production build, deterministic web artifact proof and deployment.
+The live production Export flow accepted the digest-bound XL package and
+reviewed receiver return at 0.000000 cm with zero browser errors. S732's
+global gate passes 158/158 test files, 2,366/2,366 tests and 100% of each
+coverage metric. Preserve the no-standards/no-fit/no-factory claim boundary.
+The S732 final closeout packet is
+`docs/research/epic17/S732-final-closeout/S732-exit-packet.md`.
 
 ## Prior completed boundary — S730 final candidate hygiene
 
