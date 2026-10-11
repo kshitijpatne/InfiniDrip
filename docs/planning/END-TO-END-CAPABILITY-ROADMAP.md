@@ -2,6 +2,19 @@
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
+### G04 current V03 route update — S721 (2026-10-11)
+
+Gerber AccuMark Pattern Design is a specific documented apparel-CAD
+candidate: first-party docs describe ASTM/AAMA import from other CAD systems
+and ASTM/AAMA model export. The official download workflow requires a product
+assigned to the user's license. A read-only device check found no local
+AccuMark installation; the user's online license assignment was not checked.
+The reviewed pages document no public self-serve trial. No rights/local-handling basis or actual round trip has been
+established, so this is not a selected or passing route. No install, supplier
+contact, spending, file exchange, or acceptance change. See the S721 packet
+and linked official sources in `PROJECT-STATE.md`. Preserve the unchanged V03
+gates; do not repeat tested CLO/DGS/LibreCAD/OpenCAD routes.
+
 ### G04 current V03 gate picture — S613 (2026-10-09)
 
 S611 found no ready free/local apparel receiver among documented candidates.

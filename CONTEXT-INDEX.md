@@ -1,3 +1,23 @@
+## EPIC-17 / G04 V03 — S721 closed; exact AccuMark route identified, access unavailable
+
+Official Gerber AccuMark documentation confirms ASTM/AAMA DXF import from
+other CAD systems and model export. Its official download portal lists
+licensed products assigned to each user. The current device has no registered
+or known-path AccuMark install and no AccuMark process/window; the user's
+online license assignment was not checked. The official pages reviewed do not
+describe a public self-serve trial. No installation,
+vendor contact, purchase, exchange, or acceptance change occurred. The exact
+build/profile, rights and local handling, and every round-trip gate remain
+unproven. This is a named candidate, not a passing route. See
+`docs/research/epic17/S721-accumark-route-access-review/S721-exit-packet.md`.
+
+No V03 criterion changes. Do not repeat settled CLO/DGS/LibreCAD/OpenCAD
+tests. Continue only if assigned AccuMark access and rights/local handling are
+available within current no-spending/no-supplier-contact scope; run one
+representative pilot before breadth. V01/V02 remain Done, V03/Epic In
+Progress, goal active; retain all final gates and no conformance/physical-fit/
+factory/production-readiness claims.
+
 ## EPIC-17 / G04 V03 — S720 closed
 
 S720 tested one evidence-backed CLO 2026.1.310 DXF-ASTM setting with a

@@ -1,3 +1,27 @@
+## EPIC-17/G04 — S721 closed; AccuMark documented route is not locally available
+
+S721 identifies Gerber AccuMark Pattern Design as a concrete official
+bidirectional ASTM/AAMA candidate: Gerber documents import from other CAD
+systems and model export in ASTM/AAMA DXF. Its official download workflow
+lists software assigned to the user's license. A read-only device check found
+no AccuMark/Lectra uninstall entry, expected install directory, process, or
+window. The user's online license assignment was not checked; the reviewed
+official pages do not document a public self-serve free trial. Thus the exact build, license/rights, local handling, and every actual
+round-trip gate remain unproven. No installation, contact, purchase, upload,
+file exchange, test variation, or acceptance change occurred. CLO, DGS,
+LibreCAD and OpenCAD evidence remains as in S719/S720. Packet:
+`docs/research/epic17/S721-accumark-route-access-review/S721-exit-packet.md`.
+
+Board closeout revisions 4214–4216 link S721 to G04-V03, including a scope
+clarification that online account/license status was not checked. EPIC-17 and V03
+remain In Progress; V01/V02 remain Done and the goal stays active. Continue
+only if an assigned AccuMark evaluation/license and rights/local-handling
+basis become available within the admitted no-spending/no-supplier-contact
+scope; then use one existing representative pilot before any breadth matrix.
+All V03 gates, thresholds, seven-recipe/options/grades, legacy DXF, protected
+export identities, cleanup, full gate, output review, PR, merge, ancestry,
+deployment and production E2E remain unchanged.
+
 ## EPIC-17/G04 — S720 closed; CLO import setting comparison had no effect
 
 S720 tested one evidence-backed same-source CLO 2026.1.310 DXF-ASTM off/on pair for `Import Draw Curve Points`. It produced no change in measured outline geometry: the candidate and control reports are identical except for the return-file hash. Five CUT contours still fail the fixed `0.001 cm` limit (back 0.0025785809 cm; outer/inner stand 0.0329337961/0.0329350687 cm; upper/under collar 0.0108510435/0.0108510683 cm). All nine SEW contours and four other CUT contours pass this fixture only.

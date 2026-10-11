@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4211,
-  "updatedAt": "2026-10-11T04:32:35.600Z",
+  "revision": 4216,
+  "updatedAt": "2026-10-11T04:41:38.212Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13464,6 +13464,21 @@
           "at": "2026-10-11T04:32:35.600Z",
           "actor": "Codex",
           "text": "S720 closes the one evidence-backed CLO setting comparison. On and off returns have identical contour measurements; five CUT paths still fail the unchanged 0.001 cm gate, and both outputs omit centimeter units and use numeric layers. Nine pieces import/render without an error dialog. No source change, candidate qualification, acceptance relaxation or standards claim. V01/V02 stay Done; V03/Epic stay In Progress and the goal stays active. S719's stop-churn plan remains controlling."
+        },
+        {
+          "at": "2026-10-11T04:40:11.356Z",
+          "actor": "Codex",
+          "text": "S721 begins a bounded first-party AccuMark route/access review. The purpose is to identify a documented professional apparel CAD exchange path and check whether it is already available locally. No install, supplier contact, spending, file transfer, receiver trial, scope change or acceptance change is authorized."
+        },
+        {
+          "at": "2026-10-11T04:40:34.883Z",
+          "actor": "Codex",
+          "text": "S721 identifies Gerber AccuMark Pattern Design as a specific officially documented bidirectional ASTM/AAMA apparel-CAD candidate. Its software portal lists assigned licensed products; this device has no AccuMark installation/license entry. No rights, exact build, local handling or round-trip gate is proven. No install, vendor contact, spending, file transfer, acceptance change or standards claim. V03 and EPIC-17 remain In Progress; see the linked packet."
+        },
+        {
+          "at": "2026-10-11T04:41:38.212Z",
+          "actor": "Codex",
+          "text": "S721 scope clarification: the device check covered Windows uninstall registrations, expected install directories, and the current app/window inventory only. It found no local AccuMark installation. The user's online account and assigned-license status were not checked. No conclusion is made about whether an AccuMark evaluation seat is assigned to the account."
         }
       ],
       "evidenceRefs": [
@@ -14034,7 +14049,9 @@
         "E-G04-S719-START",
         "E-G04-S719-EXIT",
         "E-G04-S720-START",
-        "E-G04-S720-EXIT"
+        "E-G04-S720-EXIT",
+        "E-G04-S721-START",
+        "E-G04-S721-EXIT"
       ],
       "flagKey": null
     },
@@ -27620,6 +27637,24 @@
       "sha256": null,
       "verified": true,
       "note": "One same-source CLO 2026.1.310 DXF-ASTM off/on comparison completed. Import Draw Curve Points made no change to measured geometry; five CUT contours still exceed 0.001 cm, and both returns omit $INSUNITS and semantic layer names. Exact files, hashes, measurement comparison and block audit are in the S720 C:-only evidence directory. No code or acceptance change; all V03 holds remain."
+    },
+    {
+      "id": "E-G04-S721-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S721-accumark-route-access-review/S721-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Bounded read-only review of official AccuMark ASTM/AAMA import/export documentation and current local install/license availability; no installation, vendor contact, spending, file transfer, test variation or acceptance change."
+    },
+    {
+      "id": "E-G04-S721-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S721-accumark-route-access-review/S721-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Identifies Gerber AccuMark Pattern Design as a first-party documented bidirectional ASTM/AAMA candidate. Official downloads are assigned-license based; no local installation/license entry exists. Rights, exact build, local handling and every round-trip gate remain unproven; no install, contact, spending or test occurred."
     }
   ]
 }
