@@ -10,6 +10,7 @@ import {
   captureSessionMatchesRecipe,
   type CaptureDraft,
   guidedCaptureStageBlocker,
+  guidedCaptureFieldId,
   mountApp,
   serializeCaptureDrafts,
   renderSemanticEditorPiece,
@@ -3485,6 +3486,11 @@ describe("measurement-plausibility surfacing (Slice 32)", () => {
 describe("guided journey", () => {
   beforeEach(() => localStorage.clear());
 
+  it("maps recipe input keys to guided-capture field IDs and preserves unknown keys", () => {
+    expect(guidedCaptureFieldId("tee", "chest")).toBe("body.chest-girth");
+    expect(guidedCaptureFieldId("tee", "future-field")).toBe("future-field");
+  });
+
   const jclick = (root: HTMLElement, id: string): void => {
     root.querySelector<HTMLElement>(`#${id}`)!
       .dispatchEvent(new Event("click", { bubbles: true }));
@@ -3511,6 +3517,106 @@ describe("guided journey", () => {
     expect(root.querySelector("#tutorial-title")?.textContent).toBe("Welcome");
     expect(root.querySelector("#welcome-start")?.textContent).toBe("Start the tour");
     expect(root.querySelector("#welcome-skip")).not.toBeNull();
+    root.remove();
+  });
+
+  it("mounts UIQ guidance inside Design readiness without replacing stage navigation", () => {
+    const root = mount();
+    const readiness = root.querySelector<HTMLDetailsElement>("#readiness-details")!;
+    readiness.open = true;
+
+    expect(root.querySelector("#readiness-host .uiq-guidance")).not.toBeNull();
+    expect(root.querySelector("#readiness-host .journey-checklist")).toBeNull();
+    expect(root.querySelector(".uiq-guidance-fit-value")?.textContent).toBe("No fit preference supplied");
+    expect(root.querySelector("#journey-step-fit")).not.toBeNull();
+    expect(root.querySelector("#journey-next")).not.toBeNull();
+
+    clickId(root, "journey-step-fit");
+    clickId(root, "journey-next");
+    expect(root.querySelector(".uiq-guidance-fit-value")?.textContent).not.toBe("No fit preference supplied");
+    expect(root.querySelector<HTMLElement>('.uiq-guidance-stage[data-step="refine"] .uiq-guidance-badge--current')?.hidden)
+      .toBe(false);
+    root.remove();
+  });
+
+  it("retains the exact legacy readiness checklist when UIQ guidance is disabled", () => {
+    const root = mount({ uiqGuidanceEnabled: false });
+    expect(root.querySelector("#readiness-host .uiq-guidance")).toBeNull();
+    expect(root.querySelector("#readiness-host .journey-checklist")?.textContent)
+      .toContain("Garment chosen");
+    expect(root.querySelector("#journey-step-fit")).not.toBeNull();
+    expect(root.querySelector("#journey-next")).not.toBeNull();
+    root.remove();
+  });
+
+  it("routes UIQ blocker review through existing correction focus without changing the input", () => {
+    const root = mount();
+    document.body.append(root);
+    clickId(root, "journey-step-measure");
+    const chest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    chest.value = "0";
+    chest.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "journey-step-refine");
+    root.querySelector<HTMLDetailsElement>("#readiness-details")!.open = true;
+
+    expect(root.querySelector(".uiq-guidance-blocker-message")?.textContent).toBeTruthy();
+    expect(root.querySelector(".uiq-guidance-correction")).not.toBeNull();
+    const blockerMessage = root.querySelector(".uiq-guidance-blocker-message")!.textContent!;
+    expect([...root.querySelectorAll(".uiq-guidance-note-text")]
+      .filter((note) => note.textContent === blockerMessage)).toHaveLength(0);
+    clickId(root, "journey-step-measure");
+    clickId(root, "journey-step-refine");
+    const review = root.querySelector<HTMLButtonElement>(".uiq-guidance-correction")!;
+    review.click();
+
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(document.activeElement).toBe(chest);
+    expect(chest.value).toBe("0");
+    root.remove();
+  });
+
+  it("routes recipe-field guidance into guided capture and tolerates a stale capture target", () => {
+    const root = mount();
+    document.body.append(root);
+    clickId(root, "journey-next");
+    const editorChest = root.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    editorChest.value = "0";
+    editorChest.dispatchEvent(new Event("input", { bubbles: true }));
+    clickId(root, "journey-guided");
+    clickId(root, "journey-step-refine");
+    root.querySelector<HTMLDetailsElement>("#readiness-details")!.open = true;
+
+    const findChestAction = (): HTMLButtonElement => root.querySelector<HTMLButtonElement>(".uiq-guidance-correction")!;
+    expect(findChestAction()?.closest(".uiq-guidance")?.textContent).toContain("Chest: enter 60–160.");
+    findChestAction().click();
+    const captureChest = root.querySelector<HTMLInputElement>(
+      '[data-action="capture-edit-raw"][data-field-id="body.chest-girth"]',
+    )!;
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(document.activeElement).toBe(captureChest);
+
+    clickId(root, "journey-step-refine");
+    root.querySelector<HTMLDetailsElement>("#readiness-details")!.open = true;
+    const correction = findChestAction();
+    const originalQueryAll = root.querySelectorAll.bind(root);
+    const queryAllSpy = vi.spyOn(root, "querySelectorAll").mockImplementation((selector: string) => {
+      if (selector === 'input[data-action="capture-edit-raw"]') return [] as unknown as NodeListOf<Element>;
+      return originalQueryAll(selector);
+    });
+    expect(() => correction.click()).not.toThrow();
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("measure");
+    expect(queryAllSpy).toHaveBeenCalledWith('input[data-action="capture-edit-raw"]');
+    queryAllSpy.mockRestore();
+    root.remove();
+  });
+
+  it("routes a blocker without a field to its existing stage", () => {
+    const root = mount();
+    clickId(root, "journey-step-refine");
+    const correction = root.querySelector<HTMLButtonElement>(".uiq-guidance-correction")!;
+    expect(correction).toBeTruthy();
+    correction.click();
+    expect(root.querySelector<HTMLElement>("#infini-shell")!.dataset.stage).toBe("fit");
     root.remove();
   });
 

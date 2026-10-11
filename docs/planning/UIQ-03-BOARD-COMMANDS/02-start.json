@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4371,
+  "itemId": "UIQ-03",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Maintainer authorized UIQ candidate integration after UIQ-02 shipped. Fresh current-main admission and exact Slice 736/737 gates are recorded in docs/planning/UIQ-03-INTEGRATION-ADMISSION.md and docs/planning/UIQ-03-GOAL.md."
+}

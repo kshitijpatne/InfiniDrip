@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4374,
+  "itemId": "UIQ-03",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "Slice 736 implementation and all pre-merge gates are complete; the exit report is attached. Independent PR review, merge, production deployment and Slice 737 closeout remain pending.",
+  "evidenceRefs": ["E-UIQ03-S736-EXIT"]
+}

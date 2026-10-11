@@ -1,0 +1,20 @@
+{
+  "slice": 736,
+  "gate": "packaged Electron release/lifecycle/output verification",
+  "status": "passed",
+  "packaged": true,
+  "host": "Windows x64",
+  "electronVersion": "44.1.0",
+  "inventoryFiles": 72,
+  "noAbsoluteDevelopmentPath": true,
+  "freshProfileWelcome": true,
+  "offlineReload": true,
+  "malformedSavedAndRecoveryStateHandled": true,
+  "outputs": ["SVG", "DXF", "PDF", "Tech Pack PDF", "Projector SVG", "A0 PDF"],
+  "buttonMenuParity": true,
+  "cancellationAndWriteFailuresHandled": true,
+  "windowLifecycleAndRecovery": true,
+  "errors": [],
+  "source": "electron/verify-release.cjs --packaged",
+  "generatedEvidence": "tmp/epic9-release/verification.json"
+}

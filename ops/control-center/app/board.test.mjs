@@ -34,7 +34,7 @@ test("canonical board validates and summarizes its tracked work", () => {
   assert.match(renderItemList(board.workItems, "SLICE-184"), /SLICE-184/);
 });
 
-test("only UIQ-02 is admitted and its packaged gate has verified evidence", () => {
+test("UIQ-02 is shipped and UIQ-03 is the next admitted candidate integration", () => {
   const ids = Array.from({ length: 13 }, (_, index) => `UIQ-${String(index + 1).padStart(2, "0")}`);
   const cards = ids.map((id) => board.workItems.find((item) => item.id === id));
   const gate = board.workItems.find((item) => item.id === "UIQ-GATE");
@@ -48,7 +48,8 @@ test("only UIQ-02 is admitted and its packaged gate has verified evidence", () =
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
   for (const card of cards) {
     assert.ok(card);
-    if (card.id === "UIQ-02") assert.ok(["In Progress", "Review", "Done"].includes(card.status));
+    if (card.id === "UIQ-02") assert.equal(card.status, "Done");
+    else if (card.id === "UIQ-03") assert.ok(["In Progress", "Review"].includes(card.status));
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
@@ -61,6 +62,8 @@ test("only UIQ-02 is admitted and its packaged gate has verified evidence", () =
   }
   assert.equal(cards[1].contributor, "Codex");
   assert.equal(cards[1].flagKey, "uiq_foundation");
+  assert.equal(cards[2].contributor, "Codex");
+  assert.equal(cards[2].flagKey, "uiq_guidance");
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));

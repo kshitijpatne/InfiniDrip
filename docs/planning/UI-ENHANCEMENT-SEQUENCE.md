@@ -8,7 +8,7 @@ Research: `docs/research/ui-repo-review-2026-10-01/UI-REPOSITORY-RECOMMENDATIONS
 
 Planning began 2026-10-02 03:03:33 UTC (2026-10-01 23:03:33 New York). Fetched main is `a5af5e13c2e967946b3f6035fcea66ff03a5e0e0`. This checkout is `codex/execution-time-efficiency` at `50afb32`, with an identical committed tree, pre-existing untracked research/logs/coverage and a pre-existing empty EPIC-17 admission file. They are preserved.
 
-Epic17 is independently active on `codex/epic-17-g04`, worktree `C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp`. Its admission packet and newer board, not this checkout's older Slice260 handoff, govern its ongoing work. At inspection its latest commit was `4f0e2d5` (Slice352), V02 remained open and V03 remained gated. These are observations, not a durable substitute for rereading its latest state. Do not copy a stale board or this checkout's old PROJECT-STATE over that worktree.
+Historical planning observation from 2026-10-02: Epic17 was independently active on `codex/epic-17-g04`, worktree `C:/Users/kshit/.codex/worktrees/epic-17-g04/designApp`, at Slice352 with V02 open and V03 gated. This was superseded by the 2026-10-11 EPIC-17/G04 closure recorded below; it is not current task state. At that historical boundary, the active task's packet/board—not this checkout's older Slice260 handoff—governed its work. Never copy a stale board or old PROJECT-STATE across worktrees.
 
 This planning update has no landed slice assignment or commit. Epic17 is allocating slices concurrently; the integrating task must reserve the next unused number after inspecting main and every active history/reservation at its normal boundary. Do not invent a future numbered slice or reuse 352. No message was sent to or interruption made in the active task.
 
@@ -36,9 +36,11 @@ All new cards start Backlog. Codex owns scope, review, required fixes, integrate
 
 EPIC-17/G04 is closed on `origin/main` after PR #19 and production verification.
 The accepted isolated candidates UIQ-02/03/04/05/07 and UIQ-03/04 independent QA
-are tracked as Done child work; their parent UIQ feature cards remain
-Backlog/unshipped. Their exact proofs and current integration boundary are
-indexed in `CONTEXT-INDEX.md` and `docs/planning/UIQ-GATE-ADMISSION.md`.
+were tracked as Done child work at this historical post-EPIC-17 checkpoint.
+Parent UIQ-02 was subsequently integrated and deployed; UIQ-03's current
+admitted integration status below supersedes this snapshot. Other parent cards
+remain Backlog/unshipped. Their exact proofs and current integration boundary
+are indexed in `CONTEXT-INDEX.md` and `docs/planning/UIQ-GATE-ADMISSION.md`.
 
 UIQ-GATE depended on EPIC-17 and closed as a readiness-only task at board
 revision 4352. UIQ-02 was subsequently admitted from current main as Slice 734,
@@ -70,6 +72,21 @@ implementation record.
 
 No historical roadmap dates are re-promised: target/release/delivery dates for new cards are null until the next admission/scoping decision. Added work uses genuinely spare independent capacity first; shared UI integration is serialized and reforecast rather than squeezing Epic17's gates or adding cosmetic critical-path work. Future Epic18/19/21/22/30 admissions and existing garment, launch-cost, supplier, physical and legal gates remain intact.
 
+### Current integration status — 2026-10-11
+
+UIQ-02 is Done/deployed. The maintainer authorized UIQ-03 as the next serial
+integration; its fresh current-main admission is
+`docs/planning/UIQ-03-INTEGRATION-ADMISSION.md` (Slice 736 implementation,
+Slice 737 deployment closeout). The accepted panel is limited to the existing
+Design readiness disclosure behind `uiq_guidance`; existing journey controls
+and decisions are preserved, with the old checklist as the flag-off fallback.
+UIQ-03's presentation omits the exact blocker duplicate from the ordinary note
+list; Slice 736 full coverage, packaged verification and rendered evidence are
+in `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md` and
+`docs/research/uiq03-integration/`. It is ready for independent PR review;
+merge/deployment remain pending. UIQ-04/05/07 remain Backlog until separate
+admissions.
+
 ## Parallel boundaries
 
 - Track A: current Codex Epic17 scope and source/render/CAD contracts.
@@ -95,4 +112,4 @@ On a newer board, skip a createItem if its ID already exists, skip an evidence c
 
 At the next ordinary Epic17 boundary, the user-pasted instruction in `UI-ENHANCEMENT-EPIC17-NOTE.md` asks that task to read this packet, absorb the new research/planning files and relevant additive context sections, and replay the additive commands against its latest board. Do not copy this checkout's board, PROJECT-STATE, AGENTS or full older roadmap over its newer versions. Retain that task's exact slice/commit and current packet. Inspect duplicate work before adding anything; keep the current G04 fixes and QA, queue unrelated UI packages outside its critical path.
 
-The update remains local/uncommitted until a coordinated fresh slice and normal Codex review. To make it GitHub-durable, the integrating task lands the reconciled docs/board on its branch and takes them through its authorized merge path; no main push/deployment is performed by this planning task.
+Historical planning boundary: this roadmap/board update began local and uncommitted; its subsequent durability is tracked through the admitted UIQ integration branch, PR and release records below. The original planning task did not directly push to main or deploy.

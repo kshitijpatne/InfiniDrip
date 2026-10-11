@@ -1,0 +1,28 @@
+{
+  "slice": 736,
+  "gate": "full repository Vitest and global V8 coverage",
+  "status": "passed",
+  "branch": "codex/uiq03-integration",
+  "startingCommit": "f25ff25779c9223284106cf745c94d0ebc5cb885",
+  "command": "npm run coverage -- --exclude=tmp/ui-repo-sources/** --minWorkers=1 --maxWorkers=1 --coverage.reportsDirectory=coverage-uiq03-final --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --reporter=dot",
+  "workers": 1,
+  "testFilesPassed": 164,
+  "testFilesFailed": 0,
+  "testsPassed": 2647,
+  "testsFailed": 0,
+  "coveragePercent": {
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  },
+  "durationSeconds": 1263.47,
+  "previousSettledPassDurationSeconds": 1702.41,
+  "finalRunReason": "Re-run after the Control Center assertion was broadened to allow the canonical Review status.",
+  "exportByteIdentityTests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "limitations": [],
+  "baselineChanged": false
+}

@@ -1,4 +1,48 @@
-## Current boundary — UIQ-02 integration shipped (Slice 735 closeout)
+## Current boundary — UIQ-03 integration admitted (Slices 736–737)
+
+UIQ-02 is merged/deployed and Done; see the immediately following prior
+boundary and its linked proofs. After UIQ-02 shipped, the maintainer authorized
+the next serialized UIQ package: integrate the accepted UIQ-03 guidance panel
+inside the existing Design readiness disclosure. Fresh packet:
+`docs/planning/UIQ-03-INTEGRATION-ADMISSION.md`; durable active goal:
+`docs/planning/UIQ-03-GOAL.md`; canonical board parent UIQ-03 is Review.
+
+Start is clean `codex/uiq03-integration` at `origin/main`
+`f25ff25779c9223284106cf745c94d0ebc5cb885`, board revision 4370 before
+validated admission commands. Slice 736 is reserved for app integration and
+pre-merge verification; Slice 737 is reserved only for merge/deployment and
+board closeout. The existing journey bar/nav, validation, corrections,
+readiness decisions, saved values and exports are protected; the new component
+is read-only and uses the legacy readiness checklist when `uiq_guidance` is
+off, unknown or stale. UIQ-04/05/07 stay Backlog. Slice 736 wiring is
+implemented but remains uncommitted and unmerged. Focused UI/flag tests, build,
+rendered desktop/720px/320px review, invalid-input correction, legacy fallback,
+Axe, media preference, and no-egress checks have passed. A repeated blocker
+note discovered in the first rendered pressure test was removed from the
+panel's ordinary notes list; the existing journey banner and panel's actionable
+blocker remain authoritative. The first settled global run passed 2,644 tests
+but failed 100% coverage at 99.98% for three unmapped guided-focus branches.
+Slice 736 now resolves recipe editor keys to semantic capture IDs; the focused
+route/stale-target/fieldless-blocker tests pass. A corrected single-worker
+global gate is restarting; release, packaged Electron, PR and deployment gates
+remain pending.
+See `docs/research/uiq03-integration/S736-RENDERED-PRESSURE-TEST.md`.
+
+The accepted candidate source/test/CSS Git blobs still match
+`docs/research/uiq-clarity/CANDIDATE-EXIT.json`; do not edit those files.
+The final full gate passed 164 files / 2,647 tests and 100% statements,
+branches, functions, and lines in 1,263.47s on one worker; all nine export
+byte-identity checks passed. An earlier settled 100% pass took 1,702.41s. See
+`docs/research/uiq03-integration/evidence/S736-full-coverage.json`. The two
+earlier 99.98% and 99.99% attempts and the fixes are retained in
+`docs/planning/UIQ-03-GOAL.md`. Latest usage check before final gate: 6% primary used, ordinary
+usage allowed, 20% weekly used (informational), and no reset credits at the
+last check before final gate. Slice 736's pre-merge acceptance report is
+`docs/release/UIQ-03-INTEGRATION-S736-EXIT.md`; validated board commands
+4374–4376 attach it and move the parent to Review. Next: final complete-diff
+review, one Slice 736 commit and PR, then merge only after all required checks.
+
+## Prior boundary — UIQ-02 integration shipped (Slice 735 closeout)
 
 EPIC-17/G04 and UIQ-GATE remain complete. UIQ-02's bounded guided-tour
 foundation integration landed in PR #21 at main commit

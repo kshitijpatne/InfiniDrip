@@ -1,0 +1,20 @@
+{
+  "type": "editItem",
+  "expectedRevision": 4370,
+  "actor": "Codex",
+  "itemId": "UIQ-03",
+  "patch": {
+    "contributor": "Codex",
+    "description": "Current-main integration packet: docs/planning/UIQ-03-INTEGRATION-ADMISSION.md. Mount the accepted native guidance/journey presentation inside the existing Design readiness disclosure; preserve journey navigation, correction behavior and legacy checklist fallback.",
+    "expectation": "Clearly distinguish user-confirmed fit intent from digital validity; show readiness/blocker/guidance honestly, route explicit correction requests to existing controls, and never change engine decisions or infer physical fit.",
+    "acceptanceCriteria": [
+      "Accepted candidate source, CSS and tests match the immutable exit manifest and remain byte-identical.",
+      "Embedded uiq_guidance default, local override, stale/unknown fail-safe and exact legacy checklist fallback are tested.",
+      "Existing journey navigation, validation, blockers, guidance actions, saved data and exports remain unchanged; fit intent is shown only after explicit Style review.",
+      "Changed production code and the settled repository pass 100% statement/branch/function/line coverage, build/typecheck, operational and export-byte-identity gates.",
+      "Actual rendered desktop/narrow/zoom, accessibility/media, no-egress, fallback and required packaged behavior are inspected and recorded.",
+      "Codex reviews/merges the PR; Slice 737 verifies main deployment and closes the canonical board. UIQ-04/05/07 stay Backlog."
+    ],
+    "flagKey": "uiq_guidance"
+  }
+}

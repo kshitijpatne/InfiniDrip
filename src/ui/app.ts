@@ -76,6 +76,12 @@ import {
 } from "./journey";
 import { ProjectWorkflow } from "./project-workflow";
 import {
+  mountGuidancePanel,
+  type GuidanceAction,
+  type GuidancePanelControls,
+  type GuidanceSnapshot,
+} from "./enhancements/guidance/guidance-panel";
+import {
   customStyleCreationErrorMessage,
   gradedMarkerAvailabilityTitle,
   materializeCustomSizeDesign,
@@ -197,6 +203,7 @@ const emptyCaptureDraft = (unit = "cm"): CaptureDraft => ({
 const HISTORY_LIMIT = 30;
 let activeMountRoot: HTMLElement | null = null;
 let activeMountGeneration = 0;
+let activeGuidancePanelControls: GuidancePanelControls | null = null;
 let semanticOperationSequence = 0;
 
 function nextSemanticOperationId(): string {
@@ -215,9 +222,18 @@ export function stageBlockerFromNote(note: Note | undefined): StageBlocker {
   return { message: note.text, step: correctionStepForField(note.field), field: note.field };
 }
 
+/** Resolve a legacy recipe input key to the guided-capture field ID when available. */
+export function guidedCaptureFieldId(recipeId: string, field: string): string {
+  return getFieldDefinitions(recipeId)
+    .find((definition) => definition.id === field || definition.inputKey === field)?.id
+    ?? field;
+}
+
 export interface MountAppOptions {
   /** Local-only override for deterministic UIQ-02 fallback verification. */
   readonly uiqFoundationEnabled?: boolean;
+  /** Local-only override for deterministic UIQ-03 fallback verification. */
+  readonly uiqGuidanceEnabled?: boolean;
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
@@ -430,8 +446,13 @@ export function defaultArtworkAssetStore(): ArtworkAssetStore {
 }
 
 export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void {
+  activeGuidancePanelControls?.dispose();
+  activeGuidancePanelControls = null;
   activeMountRoot = root;
   const mountGeneration = ++activeMountGeneration;
+  const uiqGuidanceEnabled = evaluateFeatureFlag(
+    "uiq_guidance", new Date(), options.uiqGuidanceEnabled,
+  ).enabled;
   const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
   const saved = projectWorkflow?.snapshot.activeStyle.design ?? loadFromStorage();
@@ -1654,6 +1675,57 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     return undefined;
   };
 
+  let guidancePanelControls: GuidancePanelControls | null = null;
+  let guidanceSummary: HTMLParagraphElement | null = null;
+  const guidanceSnapshot = (status: StageReadiness, blocker?: StageBlocker): GuidanceSnapshot => {
+    const semanticState = semanticEdits ? currentSemanticState() : null;
+    const validity = status.checksOk;
+    const validityUnknown = semanticEdits !== null && (
+      semanticState?.source.status === "checking" ||
+      (semanticState?.source.status === "ready" && semanticState.evaluation === null)
+    );
+    const validityState = validityUnknown ? "unknown" : validity ? "valid" : "invalid";
+    const validityDetail = validityState === "valid"
+      ? "Current digital design checks report no blocking issues."
+      : validityState === "unknown"
+        ? "Digital validity is not available while saved semantic edits are being checked."
+        : "Current digital checks need review. Use the correction actions here or the existing Guidance & corrections section.";
+    return {
+      revisionLabel: `Local draft · ${recipe.label} · change ${designRevision}`,
+      step: journey.step,
+      readiness: status,
+      blocker,
+      // The journey bar already surfaces the active blocker with its own
+      // correction action. Keep the panel's blocker card as its local action,
+      // but do not repeat the identical note again in the notes list.
+      notes: currentNotes.filter((note) => note.text !== blocker?.message).map((note, index) => ({
+        id: `note-${index}-${note.field ?? "general"}`,
+        note,
+        ...(note.field ? {
+          action: {
+            label: "Review correction",
+            step: correctionStepForField(note.field),
+            field: note.field,
+          },
+        } : {}),
+      })),
+      fitIntent: styleReviewed ? targetStyle : null,
+      validity: { state: validityState, detail: validityDetail },
+    };
+  };
+  const reviewGuidanceAction = (action: GuidanceAction): void => {
+    if (action.field && action.step === "measure" && measurementRoute === "guided") {
+      setStep("measure");
+      const captureFieldId = guidedCaptureFieldId(recipe.name, action.field);
+      [...root.querySelectorAll<HTMLInputElement>('input[data-action="capture-edit-raw"]')]
+        .find((candidate) => candidate.dataset.fieldId === captureFieldId)?.focus();
+    } else if (action.field) {
+      focusGuidanceField(action.field);
+    } else {
+      setStep(action.step);
+    }
+  };
+
   const tutorialTargets: Readonly<Record<TutorialStep, readonly string[]>> = {
     welcome: [],
     garment: ["#garment-toggle-host"],
@@ -1737,7 +1809,28 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       parts.push(measurementCapturePanel());
     }
     if (celebrating) parts.push(celebrationMarkup(status.checksOk));
-    root.querySelector<HTMLElement>("#readiness-host")!.innerHTML = checklistMarkup(journeyChecklist(status));
+    const readinessHost = root.querySelector<HTMLElement>("#readiness-host")!;
+    if (uiqGuidanceEnabled) {
+      const snapshot = guidanceSnapshot(status, blocker);
+      if (!guidanceSummary) {
+        guidanceSummary = document.createElement("p");
+        guidanceSummary.className = "journey-checklist-summary";
+        readinessHost.append(guidanceSummary);
+      }
+      const checklist = journeyChecklist(status);
+      const completion = checklist.filter((item) => item.done).length;
+      guidanceSummary.textContent = `${completion} of ${checklist.length} to an exportable design`;
+      if (guidancePanelControls) guidancePanelControls.update(snapshot);
+      else {
+        guidancePanelControls = mountGuidancePanel(readinessHost, {
+          snapshot,
+          onReview: reviewGuidanceAction,
+        });
+        activeGuidancePanelControls = guidancePanelControls;
+      }
+    } else {
+      readinessHost.innerHTML = checklistMarkup(journeyChecklist(status));
+    }
     journeyHost.innerHTML = parts.join("");
     if ((journey.tutorial.status === "unseen" || journey.tutorial.status === "in_progress") &&
       journey.tutorial.step === "welcome") {

@@ -44,6 +44,18 @@ export const FEATURE_FLAGS = Object.freeze({
     onBehavior: "Use the scoped native foundation on active guided-tour panels and the storage warning.",
     offBehavior: "Keep the existing guided-tour markup and legacy panel styling.",
   } satisfies FeatureFlagDefinition),
+  uiq_guidance: Object.freeze({
+    key: "uiq_guidance",
+    owner: "Codex",
+    audience: "public",
+    defaultValue: true,
+    expiresOn: "2027-01-11",
+    removalRelease: "UIQ clarity adoption/cleanup; no later than expiry",
+    rollout: "embedded",
+    fallback: "compatible-v1",
+    onBehavior: "Show the accepted native guidance and journey summary inside Design readiness.",
+    offBehavior: "Keep the existing Design readiness checklist and all current journey behavior.",
+  } satisfies FeatureFlagDefinition),
   polo_v2: Object.freeze({
     key: "polo_v2",
     owner: "Codex",

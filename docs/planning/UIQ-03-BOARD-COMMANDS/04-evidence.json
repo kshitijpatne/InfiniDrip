@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4373,
+  "itemId": "UIQ-03",
+  "evidence": {
+    "id": "E-UIQ03-S736-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-03-INTEGRATION-S736-EXIT.md",
+    "commit": null,
+    "sha256": "f6b6aa1f17e370f9b062b6411324ebb4e98de96769e82d53be5509218d4ea49c",
+    "verified": true,
+    "note": "Slice 736 integration and pre-merge gate report; PR review, merge and deployment remain pending."
+  }
+}

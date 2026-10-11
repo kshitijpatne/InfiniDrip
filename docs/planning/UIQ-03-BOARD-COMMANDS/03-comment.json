@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "expectedRevision": 4372,
+  "itemId": "UIQ-03",
+  "actor": "Codex",
+  "text": "Slice 736 admitted from origin/main f25ff257. The accepted component is integrated only inside the existing Design readiness disclosure, behind embedded uiq_guidance with the legacy checklist fallback. Slice 737 is reserved for post-merge deployment/board closeout. No live behavior has changed yet; see docs/planning/UIQ-03-INTEGRATION-ADMISSION.md."
+}
