@@ -1,4 +1,24 @@
-## Current EPIC-17 / G04 V03 boundary — S716 closed
+## Current EPIC-17 / G04 V03 boundary — S717 closed
+
+S717 proves one real generated registered Tee M schema-v5 package passes
+through the Export panel into the production return auditor; the visible
+summary matches the auditor's 3-piece/6-outline/26-mark report at 0.000000 cm.
+Missing centimeter units and a tampered source digest fail closed accessibly,
+without partial counts. Focused tests pass 11/11 with 100% coverage for the
+panel module. This is local UI/auditor wiring evidence only: it neither
+qualifies a CAD receiver nor clears CLO's measured failures or V03's
+all-recipe/options/grades, repeatability, and readable-output gates. Details:
+`docs/research/epic17/S717-real-package-ui-audit/S717-exit-packet.md`.
+
+Continue from S709's fixed V03 matrix; no receiver/software/mode/encoding
+retrial is queued. Do not weaken acceptance, thresholds, seven-recipe scope,
+or protected export identities. Keep the goal active through the settled
+candidate's full coverage/build/browser/Electron/output review, necessary-file
+cleanup, PR, safe merge, `origin/main` ancestry, required deployment and
+production end-to-end verification. No physical-fit, factory-acceptance or
+standards-conformance claim without evidence.
+
+## Prior boundary — S716 closed
 
 S715 confirms the saved CLO return contains source vertices but omits shallow corners; each retained CUT vertex is within 0.000038 cm of a source vertex. Five contours still exceed 0.001 cm. The source writer itself is not implicated, and existing S503 optimizer, S536 entity form, S545/S551 units, S553 mode, S640 connected-line and S671/S672 density evidence already settles repeat trials. No new application, format, setting, encoding or pattern change. See `docs/research/epic17/S715-source-cut-contour-cause/S715-exit-packet.md`.
 

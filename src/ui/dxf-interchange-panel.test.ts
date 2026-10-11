@@ -1,5 +1,9 @@
 // @vitest-environment jsdom
 import { describe, expect, it, vi } from "vitest";
+import { webcrypto } from "node:crypto";
+import { GARMENTS, STANDARD_M, gradeRun } from "../drafting";
+import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
+import { auditDxfInterchangeRoundTrip } from "../export/dxf-interchange-roundtrip";
 import type { DxfInterchangeRoundTripReport } from "../export/dxf-interchange-roundtrip";
 import { createDxfInterchangePanel, requireDxfInterchangeSourceBlock } from "./dxf-interchange-panel";
 
@@ -62,6 +66,56 @@ describe("local DXF return audit panel", () => {
     expect(status.textContent).toBe("Passed: 3 pieces, 6 outlines, 4 mark entities; maximum difference 0.000200 cm.");
     expect(status.getAttribute("role")).toBe("status");
   });
+
+  it("routes a real generated package through the actual auditor for pass and fixed-gate failures", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    try {
+      const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+      const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2]!;
+      const sourcePackage = await createDxfInterchangePackage(recipe, graded);
+      const expectedReport = await auditDxfInterchangeRoundTrip(sourcePackage, sourcePackage.dxf);
+      expect(expectedReport.passed).toBe(true);
+      const noUnits = sourcePackage.dxf.replace("9\n$INSUNITS\n70\n5\n", "");
+      const tamperedPackage = {
+        ...sourcePackage,
+        manifest: { ...sourcePackage.manifest, revisionId: "0".repeat(64) },
+      };
+      const fileContents = new Map([
+        ["source.json", JSON.stringify(sourcePackage)],
+        ["tampered-source.json", JSON.stringify(tamperedPackage)],
+        ["valid.dxf", sourcePackage.dxf],
+        ["missing-units.dxf", noUnits],
+      ]);
+      const panel = setup({
+        audit: (candidate, returnedDxf) => auditDxfInterchangeRoundTrip(candidate as never, returnedDxf),
+        readFile: vi.fn(async (file) => fileContents.get(file.name) ?? ""),
+      });
+      panel.choose(panel.source, "source.json");
+      panel.choose(panel.returned, "valid.dxf");
+      panel.check.dispatchEvent(new Event("click"));
+      await vi.waitFor(() => expect(panel.status.textContent).not.toBe("Checking locally…"));
+      expect(panel.status.textContent).toBe(
+        `Passed: ${expectedReport.pieceCount} pieces, ${expectedReport.outlineCount} outlines, ` +
+        `${expectedReport.markEntityCount} mark entities; maximum difference ${expectedReport.maxGeometryDeltaCm.toFixed(6)} cm.`,
+      );
+
+      panel.choose(panel.returned, "missing-units.dxf");
+      panel.check.dispatchEvent(new Event("click"));
+      await vi.waitFor(() => expect(panel.status.textContent).not.toBe("Checking locally…"));
+      expect(panel.status.getAttribute("role")).toBe("alert");
+      expect(panel.status.textContent).toBe("Check failed: Returned DXF does not declare centimeters");
+      expect(panel.status.textContent).not.toContain("pieces");
+
+      panel.choose(panel.source, "tampered-source.json");
+      panel.choose(panel.returned, "valid.dxf");
+      panel.check.dispatchEvent(new Event("click"));
+      await vi.waitFor(() => expect(panel.status.textContent).not.toBe("Checking locally…"));
+      expect(panel.status.textContent).toBe("Check failed: Source package failed its integrity check");
+      expect(panel.status.textContent).not.toContain("pieces");
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  }, 30_000);
 
   it("reports malformed source JSON as an accessible failure", async () => {
     const { source, returned, check, status, audit, choose } = setup({

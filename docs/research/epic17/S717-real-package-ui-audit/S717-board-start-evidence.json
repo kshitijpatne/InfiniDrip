@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4195,
+  "evidence": {
+    "id": "E-G04-S717-START",
+    "uri": "docs/research/epic17/S717-real-package-ui-audit/S717-start-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "S717 closes the S716 evidence gap: exercise the local panel with a real schema-v5 package and the production return auditor for one pass and fail-closed returns; no production or receiver changes."
+  }
+}

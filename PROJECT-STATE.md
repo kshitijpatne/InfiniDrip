@@ -1,4 +1,29 @@
-## EPIC-17/G04 — S716 closed; receiver route remains unqualified
+## EPIC-17/G04 — S717 closed; local audit integration proof completed
+
+S717 exercises one real generated registered Tee M schema-v5 package through
+the Export panel and production DXF return auditor. The UI summary matches the
+auditor report (3 pieces, 6 outlines, 26 mark entities, 0.000000 cm maximum
+difference). Missing centimeter declaration and a tampered source digest each
+produce an accessible fail-closed result without partial counts. Focused panel
+tests pass 11/11 with 100% statement/branch/function/line coverage of the
+panel module. This closes only the local panel-to-auditor evidence gap; it
+does not qualify a receiver/profile or clear the measured CLO failures and
+unproven breadth/repeatability/readability gates. See
+`docs/research/epic17/S717-real-package-ui-audit/S717-exit-packet.md`.
+
+Verified S717 boundary: 2026-10-11 03:35 UTC from S716
+`8c3175fd5778c84485dadb8c838476a445ef4b9f`; refreshed `origin/main` is
+`a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` and remains an ancestor; start
+board revisions 4195–4197. S717 is closed; EPIC-17/G04-V03 remain In Progress
+and the goal stays active. The two pre-existing untracked S700 coverage
+diagnostics remain untouched. No receiver trial or production-code change was
+made. Continue from S709's fixed V03 matrix and stop repeating settled
+software/mode/encoding variants. Preserve all V03 gates, thresholds,
+all-seven/options/grades scope, protected export identities, and final
+full-coverage/build/output review, necessary-file cleanup, PR, safe merge,
+ancestry, required deployment, and production end-to-end verification.
+
+## Prior boundary — S716 closed; receiver route remains unqualified
 
 S714 measured the exact saved S711 CLO return against the S708 source: 13/18 contours pass at the unchanged 0.001 cm limit; every SEW path passes; five CUT paths fail. S715 confirms every returned CUT vertex maps to an input vertex within 0.000038 cm, while omitted shallow corners create the measured failure. The source writer's six-decimal output is not implicated. S503 already tested CLO's curve-point optimizer on/off without changing the five CUT contours; prior format, units, mode and density evidence also settle those variations. No pattern/writer change or repeated CLO test is justified. Packet: `docs/research/epic17/S715-source-cut-contour-cause/S715-exit-packet.md`.
 

@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4197,
+  "evidence": {
+    "id": "E-G04-S717-EXIT",
+    "uri": "docs/research/epic17/S717-real-package-ui-audit/S717-exit-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "Real Tee M schema-v5 package passed through the local panel and production return auditor; actual report summary matched and missing-units/tampered-source returns failed closed. This does not qualify a receiver or clear remaining V03 gates."
+  }
+}
