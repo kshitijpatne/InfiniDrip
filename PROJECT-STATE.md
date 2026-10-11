@@ -1,4 +1,18 @@
-## Current EPIC-17 / G04 boundary — S730 repository-evidence hygiene
+## Current EPIC-17 / G04 boundary — S731 CI browser runtime
+
+PR #17 merged the reviewed candidate at
+`653c01a2589da1b78fec79539f72f2ebf45d48af`; its tree matches the PR head and
+the previous `origin/main` commit is its parent. Deployment run 38139722106
+failed at the S425 browser-render test because GitHub Actions did not install
+the Playwright Chromium revision required by the lockfile (157/158 files and
+2,365/2,366 tests passed). S731 adds that browser install step before the
+existing suite, without changing product source or acceptance. S726's V03
+technical acceptance remains complete; EPIC-17 and the goal remain In Progress
+pending successful deployment and production browser exchange verification.
+S731 start packet:
+`docs/research/epic17/S731-github-actions-playwright-browser/S731-start-packet.md`.
+
+## Prior completed boundary — S730 repository-evidence hygiene
 
 S726 records the maintainer-directed V03 acceptance correction and closes its
 technical evidence gates. The 365 supported option × grade source packages

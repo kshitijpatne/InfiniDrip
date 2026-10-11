@@ -1,6 +1,18 @@
 # InfiniDrip — Confirmed project decisions
 
-## EPIC-17/G04 — S726 accepted V03 sampling correction; S730 repository hygiene
+## EPIC-17/G04 — S726 accepted V03 sampling correction; S731 CI correction
+
+The maintainer-approved S726 V03 evidence definition remains unchanged and
+complete. PR #17 merged the reviewed tree to main as one squash commit. Its
+automatic production workflow exposed a missing GitHub Actions prerequisite:
+the existing S425 rendered test requires Playwright's pinned Chromium browser,
+but the workflow installed npm packages only. One of 2,366 tests failed with
+the exact missing headless-shell executable; 2,365 passed. S731 installs the
+required Chromium runtime in CI before the same test suite. This is not a new
+CAD receiver, purchase, or product change. Keep the Epic and goal active until
+the corrected main deployment and production end-to-end exchange check pass.
+
+## Prior completed decision — S726 V03 sampling correction / S730 repository hygiene
 
 The maintainer directed Codex to correct V03's acceptance logic and finish
 using already installed tools, without another paid receiver. S726 replaces
