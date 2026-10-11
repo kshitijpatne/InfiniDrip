@@ -1,6 +1,6 @@
 # InfiniDrip — Confirmed project decisions
 
-## EPIC-17/G04 — S726 accepted V03 sampling correction; S728 gate passed
+## EPIC-17/G04 — S726 accepted V03 sampling correction; S729 release closeout
 
 The maintainer directed Codex to correct V03's acceptance logic and finish
 using already installed tools, without another paid receiver. S726 replaces
@@ -29,8 +29,10 @@ Electron builds, Control Center/web release checks, all 73 options/146 faces,
 zero named-layer text overlaps, and packaged Electron output parity and
 fail-closed cases. The S728 packet links exact logs, hashes and rendered
 evidence. V03 acceptance and the receiver claim remain exactly as approved.
-The goal and Epic remain In Progress through necessary-file cleanup, PR/merge,
-ancestry, required deployment, and production E2E.
+S729 is the final release slice; it does not alter S726's criteria or the S728
+passing integrated evidence. No new or paid software is needed. The goal and
+Epic remain In Progress through PR/merge, ancestry, required deployment, and
+production E2E.
 
 ## EPIC-17/G04 — S725 package layout and remaining empirical evidence
 

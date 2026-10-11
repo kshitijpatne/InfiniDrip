@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 boundary — S728 closed; final release work next
+## Current EPIC-17 / G04 boundary — S729 final release and merge
 
 S726 completes V03's technical acceptance under the maintainer-directed
 exchange-structure sampling definition. All 365 option × grade packages are
@@ -19,9 +19,12 @@ tested. Read `PROJECT-STATE.md`,
 `docs/research/epic17/S726-source-class-and-profile-evidence/`,
 `docs/research/epic17/S727-integrated-epic-release/`,
 `docs/research/epic17/S728-integrated-gate-corrections/`, and the validated
-board. The remaining work is necessary-file cleanup, PR, safe merge, fresh
-ancestry, required deployment and production E2E; S728 does not reopen receiver
-or construction research.
+board. S729 starts from the clean S728 commit with origin/main an ancestor;
+the inherited S700 diagnostic text files are preserved outside the repository
+on C: with verified hashes. S729 is limited to final candidate review, PR,
+safe merge, refreshed ancestry, required deployment and production E2E; it does
+not reopen receiver or construction research. The start packet is
+`docs/research/epic17/S729-final-release/S729-start-packet.md`.
 
 ## Prior boundary — S725 closed
 

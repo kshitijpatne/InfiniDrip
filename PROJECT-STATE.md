@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 boundary — S728 closed; final release work next
+## Current EPIC-17 / G04 boundary — S729 final release and merge
 
 S726 records the maintainer-directed V03 acceptance correction and closes its
 technical evidence gates. The 365 supported option × grade source packages
@@ -22,12 +22,15 @@ application. The settled full gate, builds, Control Center/web checks, current
 73-option/146-face Chromium replay, text-overlap audit, visual review and
 packaged Electron export/lifecycle checks pass; evidence and hashes are in
 `docs/research/epic17/S728-integrated-gate-corrections/S728-exit-packet.md`.
-Next: preserve and relocate the two untracked S700 diagnostic files and
-generated build/junction artifacts outside the repository, verify the staged
-candidate contains only necessary tracked project and durable acceptance
-evidence, then open/review/merge the PR, refresh origin ancestry, verify the
-required deployment, and run production E2E. EPIC-17 and its goal remain In
-Progress until all those gates pass.
+S729 starts from the clean S728 commit `c639615f` with refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` still an ancestor and
+board revision 4266. The two inherited S700 diagnostics are now preserved on
+C: with verified hashes; generated replay/build/package outputs remain on C:,
+and the temporary junction and generated ignored build directories have been
+removed. S729 owns only final candidate hygiene/review, the already-authorized
+PR, safe merge, ancestry, required deployment, and production E2E. Its start
+packet is `docs/research/epic17/S729-final-release/S729-start-packet.md`.
+EPIC-17 and the goal remain In Progress until every exit gate passes.
 
 ## Prior boundary — S724 closed; V03 evidence model corrected
 
