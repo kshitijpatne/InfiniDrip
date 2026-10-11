@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4380,
+  "itemId": "UIQ-03",
+  "evidence": {
+    "id": "E-UIQ03-S738-PUBLIC",
+    "kind": "browser",
+    "uri": "docs/research/uiq03-integration/evidence/S738-final-closeout.json",
+    "commit": "bbb802a84d5d819e3f4f4755c74e3c4a925a3ecf",
+    "sha256": "b9c6451344d8a87eed51ee17500140342fb44c0f09e439c1ac80747e3a770cbe",
+    "verified": true,
+    "note": "After closeout PR #24 and main workflow 38176394059 passed, a fresh browser verified the same public URL at HTTP 200 with the guidance panel visible, legacy checklist absent, journey control and truthful no-fit state present, and no page errors or off-origin requests."
+  }
+}

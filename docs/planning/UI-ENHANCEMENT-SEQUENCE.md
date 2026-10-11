@@ -87,7 +87,9 @@ are in `docs/release/UIQ-03-INTEGRATION-S736-EXIT.md` and
 `38173525917` passed and the existing public URL returned HTTP 200 with the
 panel visible. Slice 737 closed UIQ-03 Done at board revision 4380; see
 `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. UIQ-04/05/07 remain
-Backlog; no next integration is admitted.
+Backlog; no next integration is admitted. Final closeout PR #24 and main
+workflow `38176394059` succeeded, and the existing public URL passed a fresh
+post-deployment browser check; see `docs/release/UIQ-03-S738-FINAL-CLOSEOUT.md`.
 
 ## Parallel boundaries
 

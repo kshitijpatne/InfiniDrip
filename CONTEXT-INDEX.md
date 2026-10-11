@@ -166,6 +166,11 @@ only through an explicitly admitted, linked Epic packet.
   and closed UIQ-03 Done at board revision 4380. Complete closeout is
   `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`; machine browser proof is
   `docs/research/uiq03-integration/evidence/S737-public-verification.json`.
+  Final closeout PR #24 is merged at `bbb802a8`; main workflow `38176394059`
+  succeeded and the public URL was verified again after deployment. See
+  `docs/research/uiq03-integration/evidence/S738-final-closeout.json` and
+  `docs/release/UIQ-03-S738-FINAL-CLOSEOUT.md`. Board revision 4383 retains
+  UIQ-03 Done with the final proof; the UIQ-03 goal is complete.
   UIQ-04/05/07 remain Backlog; no further integration is admitted.
 - `docs/planning/UI-ENHANCEMENT-BOARD-COMMANDS.json` — additive validated replay
   for newer boards, never replacement of active progress with an older board.
