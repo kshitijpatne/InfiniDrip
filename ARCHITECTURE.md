@@ -1077,6 +1077,13 @@ repeated instances. This is one generic-CAD fixture and a source-side verifier
 result; it does not qualify the receiver profile or establish broad exchange
 behavior.
 
+S716 exposes that package writer and auditor in the Export panel. Users can
+save the opt-in schema-v5 DXF and its integrity-bound JSON package, then select
+the JSON package and a returned DXF for a local, accessible pass/fail result.
+The files are read in the app and are not uploaded or persisted by this audit
+flow. This is a generic package and source-side audit surface; it makes no
+receiver or standards claim and does not change the protected legacy DXF path.
+
 S707 adds explicit R2000 layer-table declarations to that opt-in package.
 LibreCAD 2.2.1.5 retained the table but saved all nine CUT outline entities on
 layer `0` in its Polo M round trip. S708 adds deterministic R2000 block-record

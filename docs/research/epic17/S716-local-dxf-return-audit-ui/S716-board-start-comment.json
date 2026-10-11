@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "expectedRevision": 4192,
+  "text": "S716 adds only a local UI around the existing G04 source package and returned-file auditor: export the opt-in source DXF/manifest, then audit source DXF + manifest + returned DXF with visible, accessible pass/fail feedback. Reuse fixed API gates, preserve legacy export bytes and do not claim industrial-profile or standards compliance. The failed CLO receiver route remains held."
+}

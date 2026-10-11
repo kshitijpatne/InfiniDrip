@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "expectedRevision": 4191,
+  "evidence": {
+    "id": "E-G04-S716-START",
+    "uri": "docs/research/epic17/S716-local-dxf-return-audit-ui/S716-start-packet.md",
+    "verified": true,
+    "kind": "document",
+    "note": "S716 exposes existing local source package and fail-closed returned-DXF auditor in a narrow user-visible flow. No upload, audit logic/threshold change, profile claim, or receiver trial."
+  }
+}

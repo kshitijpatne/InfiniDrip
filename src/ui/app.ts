@@ -7,7 +7,7 @@ import { gradeRun, gradeMeasurements, draftAtSize, specSheet, GARMENTS, GarmentR
 import { block, blockPieces } from "../drafting";
 import { wovenShirtAllowances } from "../drafting/shirt";
 import type { AllowanceSpec } from "../drafting/allowance";
-import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun } from "../export";
+import { exportSvg, exportDxf, exportPdf, exportTechPackV2, exportTechPackV2ForGradePlan, exportProjectorSvg, exportA0Pdf, exportSurfaceSheet, flattenPiece, nestPieces, gradedMarker, gradedMarkerForRun, createDxfInterchangePackage, auditDxfInterchangeRoundTrip } from "../export";
 import { renderBlueprint, renderGarment, renderNest, renderFabricNest, renderEditor, renderBody, renderBodyPair, renderSkirtGarment, renderSkirtBody, renderTrouserGarment, renderTrouserBody, renderTrouserBodyPair, renderTrouserSide, renderSideCroquis, DEFAULT_FABRIC } from "../render";
 import { moveHandle, nearestHandle, editorViewBox, viewboxPointToCm, Handle } from "../edit";
 import {
@@ -62,6 +62,7 @@ import { pieceFrames } from "../surface/piece-frames";
 import { patternMeasurementDefinition, type PatternMeasurementField } from "./pattern-measurements";
 import { describeFieldArtifactImpact, getFieldArtifactDependency } from "./artifact-dependencies";
 import { inspectArtworkFile, type InspectedArtworkFile } from "../surface/artwork-file";
+import { createDxfInterchangePanel, requireDxfInterchangeSourceBlock } from "./dxf-interchange-panel";
 import {
   createElectronArtworkStore, createIndexedDbArtworkStore, createUnavailableArtworkStore,
   loadArtworkAsset, storeArtworkFile,
@@ -455,6 +456,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
     initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations());
+  root.querySelector<HTMLElement>("#export-host")!.append(createDxfInterchangePanel({
+    audit: (sourcePackage, returnedDxf) => auditDxfInterchangeRoundTrip(sourcePackage as never, returnedDxf),
+    readFile: (file) => file.text(),
+  }));
 
   const canvasHost = root.querySelector<HTMLDivElement>("#canvas-host")!;
   let technicalFlatTextMeasurer: TechnicalFlatMeasureText | null = null;
@@ -2123,14 +2128,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     }
     root.querySelectorAll<HTMLButtonElement>('#export-host button[id^="export-"]').forEach((button) => {
       const needsArtwork = button.id === "export-surface-sheet" && surfacePlacementsNow().length === 0;
-      const allowed = button.id === "export-techpack" || button.id === "export-projector"
+      const packageSizeUnsupported = customOneSizeStyle()
+        && (button.id === "export-cad-dxf" || button.id === "export-dxf-source-package");
+      const allowed = !packageSizeUnsupported && (button.id === "export-techpack" || button.id === "export-projector"
         ? canExportRun()
         : button.id === "export-surface-sheet"
           ? styleReviewed && checkReviewed && baseDesignValid()
-          : canExport();
+          : canExport());
       button.disabled = !allowed || needsArtwork;
       button.title = !allowed
-        ? customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
+        ? packageSizeUnsupported
+          ? "CAD exchange packages currently support registered recipe sizes, not custom one-size styles."
+          : customOneSizeStyle() && (button.id === "export-techpack" || button.id === "export-projector")
         ? !gradePlanOutputBaseIsSaved() && gradePlanState?.plan ? gradePlanOutputSaveMessage
           : gradePlanApproved()
             ? currentGradePlanRun().issues[0] ?? "Review Style and the current digital checks before exporting."
@@ -4366,6 +4375,18 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const planned = customOneSizeStyle() ? selectedGradePlanSize() : null;
     return planned?.options ? allowancesForOptions(planned.options) : currentAllowances();
   };
+  const createPackageForCurrentSelection = async () => {
+    if (customOneSizeStyle()) throw new Error("CAD package export currently requires a registered recipe size.");
+    const step = selectedOutputStep();
+    const sourceBlock = requireDxfInterchangeSourceBlock(semanticSizeBlock(step));
+    const outputRecipe = recipeForCurrentOutputs();
+    return createDxfInterchangePackage(outputRecipe, {
+      label: selectedSizeLabel(recipe.sizes, step),
+      step,
+      measurements: gradeMeasurements(measurements, recipe.grade, step),
+      block: sourceBlock,
+    }, recipeOptions(outputRecipe));
+  };
   // The desktop shell's only bridge into this app (Slice 46): when running
   // inside Electron, `window.electronAPI` is set by electron/preload.cts via
   // contextBridge, and download() below routes through it instead of the
@@ -4548,6 +4569,20 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   });
   onExport("#export-dxf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.dxf`, exportDxf(exportPieces(), exportAllowances()), "image/vnd.dxf");
+  });
+  onExport("#export-cad-dxf", () => {
+    void createPackageForCurrentSelection().then((candidate) =>
+      download(`${recipe.name}-${exportSizeLabel()}-cad-exchange.dxf`, candidate.dxf, "image/vnd.dxf"),
+    ).catch((error: unknown) => {
+      flash(`CAD exchange export failed: ${error instanceof Error ? error.message : "source package could not be created."}`, BLUEPRINT.lineActive);
+    });
+  });
+  onExport("#export-dxf-source-package", () => {
+    void createPackageForCurrentSelection().then((candidate) =>
+      download(`${recipe.name}-${exportSizeLabel()}-cad-exchange-source.json`, JSON.stringify(candidate, null, 2), "application/json"),
+    ).catch((error: unknown) => {
+      flash(`Source package export failed: ${error instanceof Error ? error.message : "source package could not be created."}`, BLUEPRINT.lineActive);
+    });
   });
   onExport("#export-pdf", () => {
     download(`${recipe.name}-${exportSizeLabel()}.pdf`, exportPdf(

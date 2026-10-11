@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4191,
-  "updatedAt": "2026-10-11T03:16:18.430Z",
+  "revision": 4195,
+  "updatedAt": "2026-10-11T03:27:53.793Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13414,6 +13414,16 @@
           "at": "2026-10-11T03:16:18.430Z",
           "actor": "Codex",
           "text": "S715 closes source CUT diagnosis: every returned contour vertex maps to an input vertex within 0.000038 cm; the same five shallow corners are omitted and exceed 0.001 cm. The source writer already emits all points at six decimals. S503 already tested Optimize All Curve Points on/off without changing the five CUT contours; prior entity, unit, mode and density trials also settle those variants. No code-side defect or supported new trial exists, so no pattern/writer change or repeat CLO test was made. Continue with the independent local malformed-return UX gate; all profile, geometry, breadth, and remaining V03 gates stay unchanged."
+        },
+        {
+          "at": "2026-10-11T03:18:21.937Z",
+          "actor": "Codex",
+          "text": "S716 adds only a local UI around the existing G04 source package and returned-file auditor: export the opt-in source DXF/manifest, then audit source DXF + manifest + returned DXF with visible, accessible pass/fail feedback. Reuse fixed API gates, preserve legacy export bytes and do not claim industrial-profile or standards compliance. The failed CLO receiver route remains held."
+        },
+        {
+          "at": "2026-10-11T03:27:53.793Z",
+          "actor": "Codex",
+          "text": "S716 closes the local returned-DXF audit UI. The existing schema-v5 package writer and strict auditor now have an accessible local Export-panel flow with paired source DXF/package downloads, local source/return file selection, and visible fail-closed results. Targeted tests, 100% changed-panel coverage, build, 42 Control Center tests, browser rendering, and the legacy DXF download check passed. A broad app-suite attempt was stopped at >2 GB worker memory; no result is claimed. CLO remains unqualified with existing measured failures; no V03 gate or threshold changed."
         }
       ],
       "evidenceRefs": [
@@ -13974,7 +13984,9 @@
         "E-G04-S714-START",
         "E-G04-S714-EXIT",
         "E-G04-S715-START",
-        "E-G04-S715-EXIT"
+        "E-G04-S715-EXIT",
+        "E-G04-S716-START",
+        "E-G04-S716-EXIT"
       ],
       "flagKey": null
     },
@@ -27470,6 +27482,24 @@
       "sha256": null,
       "verified": true,
       "note": "S714/S715 show CLO removes source CUT vertices; retained vertices match source. Prior on/off optimizer and format/density evidence already tested the relevant path. No source defect or new setting/encoding trial is justified."
+    },
+    {
+      "id": "E-G04-S716-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S716-local-dxf-return-audit-ui/S716-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S716 exposes existing local source package and fail-closed returned-DXF auditor in a narrow user-visible flow. No upload, audit logic/threshold change, profile claim, or receiver trial."
+    },
+    {
+      "id": "E-G04-S716-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S716-local-dxf-return-audit-ui/S716-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S716 adds local schema-v5 package export and accessible returned-DXF auditing. Panel coverage is 100%; targeted app/package and legacy-export checks and build pass. The measured CLO route remains failed and unqualified; all G04 V03 gates remain unchanged."
     }
   ]
 }

@@ -1185,6 +1185,60 @@ describe("mountApp", () => {
     expect(URL.createObjectURL).toHaveBeenCalledTimes(3);
   });
 
+  it("exports the opt-in source-bound CAD DXF and integrity package without changing the legacy DXF", async () => {
+    const files = new Map<string, string>();
+    window.electronAPI = { saveFile: vi.fn(async (filename: string, content: string) => {
+      files.set(filename, content);
+      return { saved: true, filePath: filename };
+    }) };
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    try {
+      const root = mount();
+      reachExportStage(root);
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(files.size).toBe(2));
+
+      expect([...files.keys()].sort()).toEqual([
+        "tee-M-cad-exchange-source.json", "tee-M-cad-exchange.dxf",
+      ]);
+      const packageJson = JSON.parse(files.get("tee-M-cad-exchange-source.json")!) as {
+        dxf: string; manifest: { schemaVersion: string; profileLabel: string; units: { length: string } };
+      };
+      expect(files.get("tee-M-cad-exchange.dxf")).toBe(packageJson.dxf);
+      expect(packageJson.manifest.schemaVersion).toBe("infinidrip.g04.dxf-package/5");
+      expect(packageJson.manifest.profileLabel).toBe("generic-dxf-centimeters-with-recipe-marks");
+      expect(packageJson.manifest.units.length).toBe("cm");
+      expect(packageJson.dxf).toContain("$INSUNITS");
+      expect(packageJson.dxf).toContain("POLYLINE");
+    } finally {
+      delete window.electronAPI;
+    }
+  });
+
+  it("reports source-package export failures without silently producing either file", async () => {
+    window.electronAPI = { saveFile: vi.fn(async () => ({ saved: true })) };
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const digest = vi.spyOn(webcrypto.subtle, "digest");
+    try {
+      const root = mount();
+      reachExportStage(root);
+      digest.mockRejectedValueOnce(new Error("hash unavailable"));
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("CAD exchange export failed: hash unavailable"));
+
+      digest.mockRejectedValueOnce("unknown digest failure");
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("Source package export failed: source package could not be created."));
+      expect(window.electronAPI.saveFile).not.toHaveBeenCalled();
+    } finally {
+      digest.mockRestore();
+      delete window.electronAPI;
+    }
+  });
+
   it("routes the download through window.electronAPI when running inside the desktop shell (Slice 46), skipping the Blob path entirely", async () => {
     const saveFile = vi.fn().mockResolvedValue({ saved: true, filePath: "/tmp/tee-M.svg" });
     window.electronAPI = { saveFile };
@@ -5948,6 +6002,16 @@ describe("bundled local artwork library (Slice 203)", () => {
       window.electronAPI = { saveFile };
       const selectedSvgButton = root.querySelector<HTMLButtonElement>("#export-svg")!;
       await vi.waitFor(() => expect(selectedSvgButton.disabled).toBe(false));
+      for (const id of ["#export-cad-dxf", "#export-dxf-source-package"]) {
+        const button = root.querySelector<HTMLButtonElement>(id)!;
+        expect(button.disabled).toBe(true);
+        expect(button.title).toContain("registered recipe sizes");
+      }
+      const cadButton = root.querySelector<HTMLButtonElement>("#export-cad-dxf")!;
+      cadButton.disabled = false; // Exercise the handler's stale/programmatic custom-size guard.
+      cadButton.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("CAD package export currently requires a registered recipe size."));
       selectedSvgButton.click();
       await vi.waitFor(() => expect(saveFile).toHaveBeenCalledOnce());
       expect(saveFile.mock.calls[0]![0]).toBe("woven-shirt-One size.svg");
