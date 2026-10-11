@@ -1,0 +1,92 @@
+{
+  "startedAt": "2026-10-02T15:59:10.760Z",
+  "checks": [
+    {
+      "name": "literal headings and caveats; no fabricated review or file confirmation",
+      "passed": true,
+      "evidence": {
+        "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceRelaxed preference — not a validity verdictDigital input validityValidCaller reports valid digital inputs; review remains incomplete.Digital checks are not physical fit validation.ℹInfoFabric advice is a heuristic.More detailSupplied explanation only. Nothing is inferred.Review fabric preference⚠WarningPhysical sampling has not been completed.More detail✓OKCaller-provided note, not a global pass.",
+        "materialText": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 0.Review appearance"
+      }
+    },
+    {
+      "name": "native review requests and synchronous controlled updates preserve keyed focus/details",
+      "passed": true,
+      "evidence": {
+        "clickEnterSpaceOnce": true,
+        "reorderedNodeRetained": true,
+        "openDisclosureRetained": true
+      }
+    },
+    {
+      "name": "duplicate update atomicity and obsolete controls inert",
+      "passed": true,
+      "evidence": {
+        "atomic": true,
+        "detachedActionInert": true
+      }
+    },
+    {
+      "name": "caller blocker is exact and fit/validity remain distinct",
+      "passed": true,
+      "evidence": [
+        {
+          "fixture": "empty",
+          "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceNo fit preference suppliedDigital input validityUnknownNo digital verdict was supplied.Digital checks are not physical fit validation.No guidance notes supplied."
+        },
+        {
+          "fixture": "legacy",
+          "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceRelaxed preference — not a validity verdictDigital input validityValidCaller reports valid digital inputs; review remains incomplete.Digital checks are not physical fit validation.ℹInfoFabric advice is a heuristic.More detailSupplied explanation only. Nothing is inferred.Review fabric preference⚠WarningPhysical sampling has not been completed.More detail✓OKCaller-provided note, not a global pass."
+        },
+        {
+          "fixture": "complete",
+          "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceRelaxed preference — not a validity verdictDigital input validityValidCaller reports valid digital inputs; review remains incomplete.Digital checks are not physical fit validation.ℹInfoFabric advice is a heuristic.More detailSupplied explanation only. Nothing is inferred.Review fabric preference⚠WarningPhysical sampling has not been completed.More detail✓OKCaller-provided note, not a global pass."
+        }
+      ]
+    },
+    {
+      "name": "material requests preserve focus and node identity without changing guidance",
+      "passed": true,
+      "evidence": {
+        "sameButton": true,
+        "callerGuidanceUnchanged": true
+      }
+    }
+  ],
+  "failures": [
+    {
+      "name": "five source presets, custom stretch, unknown/mismatch, textures and invalid states",
+      "message": "The input did not match the regular expression /Preview unavailable/i. Input:\n\n'Synthetic material revision AMaterial behavior guidanceUnknown fabric: none supplied.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Ease guidance unavailable.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.UnknownInformation missing; do not invent a verdict.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Appearance not supplied.Review appearance'\n"
+    }
+  ],
+  "requests": [
+    "http://127.0.0.1:4186/ops/ui-candidates/clarity.html",
+    "http://127.0.0.1:4186/@vite/client",
+    "http://127.0.0.1:4186/ops/ui-candidates/clarity-preview.ts",
+    "http://127.0.0.1:4186/node_modules/vite/dist/client/env.mjs",
+    "http://127.0.0.1:4186/src/drafting/ease.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/guidance/guidance-panel.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/material/material-panel.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.css?t=1790917381620",
+    "http://127.0.0.1:4186/src/ui/enhancements/guidance/guidance-panel.css",
+    "http://127.0.0.1:4186/src/ui/enhancements/material/material-panel.css",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/axe-core.js?v=66b82f1c",
+    "http://127.0.0.1:4186/src/guidance/note.ts",
+    "http://127.0.0.1:4186/src/ui/journey.ts",
+    "http://127.0.0.1:4186/src/ui/appearance.ts",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=5ae4586d"
+  ],
+  "websockets": [
+    "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5"
+  ],
+  "pageErrors": [],
+  "hashes": {
+    "ops/ui-candidates/clarity.html": "913207ef9e21cee19b3d6028fcc4a68275337cafdbebbbd08ea06c060cd929e0",
+    "ops/ui-candidates/clarity-preview.ts": "8552d14e251d8ed74be982b128329b9c949036282a375820f495e58ff2cddfce",
+    "src/ui/enhancements/guidance/guidance-panel.ts": "699836ee32815ea39a724a6c57d2e70bd52d1ace678d7ad2fc1c947d7d9c1ffa",
+    "src/ui/enhancements/guidance/guidance-panel.css": "924211761c1a03b96ce78f7b2e5619d75df308a17a59567a808d34a38fa7e203",
+    "src/ui/enhancements/material/material-panel.ts": "9ead3de25e17d8aa2ea4992c1f9806958cf653583adae96a1c949381c32dade8",
+    "src/ui/enhancements/material/material-panel.css": "8fe36ab43677ee5a54bd19479d8985687ba3747255ccf6a313b373494719f8a5"
+  },
+  "finishedAt": "2026-10-02T15:59:12.828Z"
+}

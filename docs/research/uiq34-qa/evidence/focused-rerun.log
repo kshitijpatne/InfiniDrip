@@ -1,0 +1,6 @@
+Contributor focused rerun (independent, narrow, no coverage flags):
+- src/ui/enhancements/guidance/guidance-panel.test.ts: 89 passed
+- src/ui/enhancements/material/material-panel.test.ts: 97 passed
+Total: 186 passed, 0 failed.
+Command: npx vitest run src/ui/enhancements/guidance/guidance-panel.test.ts src/ui/enhancements/material/material-panel.test.ts --reporter=basic
+Matches contributor claims (89 + 97). Coverage percentages not re-measured by QA; contributor logs claim 100% four-metric each.

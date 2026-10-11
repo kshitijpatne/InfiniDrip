@@ -1,0 +1,7 @@
+QA adversarial narrow run (after fix): 30/30 passed
+- ops/ui-candidates/qa/qa-guidance.test.ts: 14 passed
+- ops/ui-candidates/qa/qa-material.test.ts: 16 passed
+Command: npx vitest run ops/ui-candidates/qa/qa-guidance.test.ts ops/ui-candidates/qa/qa-material.test.ts --reporter=basic
+Duration: ~2.3s, env jsdom, vitest v2.1.9
+Initial run had 2 QA-test bugs (CSS comment handling, innerHTML comment match); fixed in QA files only, no source touched. Rerun clean.
+Probes cover: journey independence, warn+valid, null/unknown/empty distinct, legacy done, current+complete+blocked, hostile/unbroken/Unicode zero-script, duplicate atomicity, empty-detail literal, alias-free callbacks, field add/remove, reorder identity, sync controlled focus+open, detached/disposed inert, multi-mount, preset exact/collision, stretch 125/101/250 usable + negative/NaN/Infinity literal, null unavailable, shine 0/100 + 4 textures, invalid color/texture/shine withheld + raw literal, null vs default distinct, {} malformed literal, undefined fail-closed throw, mismatch retained, hostile inert, 2-button exact once, sync focus, no duplicate listeners, hygiene (no engine math, textContent, scoped CSS).

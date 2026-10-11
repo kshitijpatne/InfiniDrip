@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>InfiniDrip isolated clarity review</title><style>
+/* Local synthetic review chrome only. No app wiring or shared stylesheet edits. */
+#clarity-review { background: #0a1422; padding: 12px; overflow-wrap: anywhere; }
+#clarity-review > section { margin: 12px 0; }
+#clarity-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+#clarity-controls label { display: flex; flex-direction: column; gap: 6px; }
+#clarity-controls select { max-width: 100%; }
+</style></head>
+<body><main id="clarity-review" class="uiq-foundation"><h1>InfiniDrip clarity candidates</h1><p>Synthetic isolated review only. Nothing here changes a design, confirms a garment's physical fit, navigates the app or enables an export.</p>
+<section id="clarity-controls" aria-label="Synthetic review controls">
+<label for="clarity-guidance-fixture">Guidance fixture<select id="clarity-guidance-fixture"><option value="valid">Valid but unreviewed</option><option value="blocked">Invalid with blocker</option><option value="empty">Unknown and no guidance</option><option value="legacy">Legacy done, file unconfirmed</option><option value="legacy-blocked">Legacy done blocker</option><option value="complete">Current and completed</option><option value="hostile">Long literal strings</option><option value="blank-label">Blank action label</option><option value="reordered">Same IDs reordered</option><option value="removed">Action removed</option></select></label>
+<label for="clarity-material-fixture">Material fixture<select id="clarity-material-fixture"><option value="cotton">Cotton woven</option><option value="linen">Linen</option><option value="jersey">Cotton jersey</option><option value="rib">Rib knit</option><option value="spandex">Spandex blend</option><option value="custom">Custom high stretch</option><option value="unknown">Missing information</option><option value="mismatch">Caller mismatch</option><option value="heather">Heather and maximum shine</option><option value="bad-color">Invalid color</option><option value="bad-texture">Invalid texture</option><option value="bad-shine">Invalid shine</option><option value="bad-stretch">Invalid stretch</option><option value="hostile">Long literal strings</option></select></label>
+<button type="button" id="clarity-refresh">Refresh same snapshots</button><button type="button" id="clarity-duplicate">Attempt duplicate note IDs</button><button type="button" id="clarity-dispose">Dispose primary panels</button><button type="button" id="clarity-remount">Remount primary panels</button><button type="button" id="clarity-audit">Run accessibility audit</button>
+</section><p id="clarity-callback" role="status">No review request.</p><p id="clarity-duplicate-result" role="status">No duplicate attempt.</p><p id="clarity-audit-result" role="status">Audit not run.</p>
+<section id="clarity-guidance" aria-label="Primary guidance candidate"></section><section id="clarity-material" aria-label="Primary material candidate"></section>
+<section id="clarity-guidance-second" aria-label="Independent guidance instance"></section><section id="clarity-material-second" aria-label="Independent material instance"></section>
+<section id="clarity-nested-outer" aria-label="Nested guidance isolation"></section><p id="clarity-nested-status" role="status">Outer requests:0; inner requests:0.</p>
+</main><aside id="clarity-sentinel"><h2>Outside candidate scope</h2><p class="uiq-guidance-title uiq-material-title">Native sibling: candidate-looking class names must not leak styles.</p><button type="button">Outside button</button></aside><script type="module" src="./clarity-preview.ts"></script></body>
+</html>

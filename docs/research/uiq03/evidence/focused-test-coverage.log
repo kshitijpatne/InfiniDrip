@@ -1,0 +1,18 @@
+
+ RUN  v2.1.9 F:/designApp-worktrees/uiq03-guidance
+      Coverage enabled with v8
+
+ ✓ src/ui/enhancements/guidance/guidance-panel.test.ts (89 tests) 641ms
+
+ Test Files  1 passed (1)
+      Tests  89 passed (89)
+   Start at  11:52:49
+   Duration  2.85s (transform 167ms, setup 0ms, collect 170ms, tests 641ms, environment 822ms, prepare 389ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |      100 |     100 |     100 |                   
+ guidance-panel.ts |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------

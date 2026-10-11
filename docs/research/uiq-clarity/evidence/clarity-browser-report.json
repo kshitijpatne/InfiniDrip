@@ -1,0 +1,428 @@
+{
+  "startedAt": "2026-10-02T16:38:40.988Z",
+  "checks": [
+    {
+      "name": "literal headings and caveats; no fabricated review or file confirmation",
+      "passed": true,
+      "evidence": {
+        "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceRelaxed preference — not a validity verdictDigital input validityValidCaller reports valid digital inputs; review remains incomplete.Digital checks are not physical fit validation.ℹInfoFabric advice is a heuristic.More detailSupplied explanation only. Nothing is inferred.Review fabric preference⚠WarningPhysical sampling has not been completed.More detail✓OKCaller-provided note, not a global pass.",
+        "materialText": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 0.Review appearance"
+      }
+    },
+    {
+      "name": "native review requests and synchronous controlled updates preserve keyed focus/details",
+      "passed": true,
+      "evidence": {
+        "clickEnterSpaceOnce": true,
+        "reorderedNodeRetained": true,
+        "openDisclosureRetained": true
+      }
+    },
+    {
+      "name": "duplicate update atomicity and obsolete controls inert",
+      "passed": true,
+      "evidence": {
+        "atomic": true,
+        "detachedActionInert": true
+      }
+    },
+    {
+      "name": "caller blocker is exact and fit/validity remain distinct",
+      "passed": true,
+      "evidence": [
+        {
+          "fixture": "empty",
+          "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceNo fit preference suppliedDigital input validityUnknownNo digital verdict was supplied.Digital checks are not physical fit validation.No guidance notes supplied."
+        },
+        {
+          "fixture": "legacy",
+          "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceRelaxed preference — not a validity verdictDigital input validityValidCaller reports valid digital inputs; review remains incomplete.Digital checks are not physical fit validation.ℹInfoFabric advice is a heuristic.More detailSupplied explanation only. Nothing is inferred.Review fabric preference⚠WarningPhysical sampling has not been completed.More detail✓OKCaller-provided note, not a global pass."
+        },
+        {
+          "fixture": "legacy-blocked",
+          "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceRelaxed preference — not a validity verdictDigital input validityValidCaller reports valid digital inputs; review remains incomplete.Digital checks are not physical fit validation.File confirmation unavailableReview correctionℹInfoFabric advice is a heuristic.More detailSupplied explanation only. Nothing is inferred.Review fabric preference⚠WarningPhysical sampling has not been completed.More detail✓OKCaller-provided note, not a global pass."
+        },
+        {
+          "fixture": "complete",
+          "text": "GuidanceSynthetic guidance revision A1 GarmentChoose a garment to begin. Your design stays editable as you move through the stages.Current stageCompleteNeeds correction2 MeasureEnter body measurements. The app flags values that need review.Current stageCompleteNeeds correction3 StyleChoose a fit intent and fabric; this changes digital ease guidance, not physical fit.Current stageCompleteNeeds correction4 CheckReview the pattern and digital checks. Fix flagged inputs before exporting.Current stageCompleteNeeds correction5 ExportChoose a size, then export files. Digital checks do not replace physical fit validation.Current stageCompleteNeeds correctionFit preferenceRelaxed preference — not a validity verdictDigital input validityValidCaller reports valid digital inputs; review remains incomplete.Digital checks are not physical fit validation.ℹInfoFabric advice is a heuristic.More detailSupplied explanation only. Nothing is inferred.Review fabric preference⚠WarningPhysical sampling has not been completed.More detail✓OKCaller-provided note, not a global pass."
+        }
+      ]
+    },
+    {
+      "name": "material requests preserve focus and node identity without changing guidance",
+      "passed": true,
+      "evidence": {
+        "sameButton": true,
+        "callerGuidanceUnchanged": true
+      }
+    },
+    {
+      "name": "five source presets, custom stretch, unknown/mismatch, textures and invalid states",
+      "passed": true,
+      "evidence": [
+        {
+          "fixture": "cotton",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 0.Review appearance"
+        },
+        {
+          "fixture": "linen",
+          "text": "Synthetic material revision AMaterial behavior guidanceLinen (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Fine weave. Shine: 0.Review appearance"
+        },
+        {
+          "fixture": "jersey",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton jersey (knit) — Known preset.Stretch: 25%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 0.Review appearance"
+        },
+        {
+          "fixture": "rib",
+          "text": "Synthetic material revision AMaterial behavior guidanceRib knit (knit) — Known preset.Stretch: 50%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Rib. Shine: 25.Review appearance"
+        },
+        {
+          "fixture": "spandex",
+          "text": "Synthetic material revision AMaterial behavior guidanceSpandex blend (knit) — Known preset.Stretch: 80%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 100.Review appearance"
+        },
+        {
+          "fixture": "custom",
+          "text": "Synthetic material revision AMaterial behavior guidanceUnverified custom stretch (knit) — Custom / unverified fabric.Stretch: 125%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.UnknownNo compatibility verdict supplied for this custom fabric.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 0.Review appearance"
+        },
+        {
+          "fixture": "unknown",
+          "text": "Synthetic material revision AMaterial behavior guidanceUnknown fabric: none supplied.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Ease guidance unavailable.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.UnknownInformation missing; do not invent a verdict.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Appearance not supplied. Preview unavailable.Review appearance"
+        },
+        {
+          "fixture": "mismatch",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.MismatchCaller detected a mismatch. Appearance cannot repair it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 0.Review appearance"
+        },
+        {
+          "fixture": "heather",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Heather. Shine: 100.Review appearance"
+        },
+        {
+          "fixture": "bad-color",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Preview unavailable (supplied color: url(https://example.invalid/never-fetch)).Texture: Smooth. Shine: 0.Review appearance"
+        },
+        {
+          "fixture": "bad-texture",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Appearance values supplied are invalid. Supplied texture: url(https://example.invalid/never-fetch), supplied shine: 0. Shown as supplied; not clamped. Review appearance: choose a listed texture and finite shine between 0 and 100.Review appearance"
+        },
+        {
+          "fixture": "bad-shine",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Known preset.Stretch: 0%.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Appearance values supplied are invalid. Supplied texture: Smooth, supplied shine: 101. Shown as supplied; not clamped. Review appearance: choose a listed texture and finite shine between 0 and 100.Review appearance"
+        },
+        {
+          "fixture": "bad-stretch",
+          "text": "Synthetic material revision AMaterial behavior guidanceCotton woven (woven) — Custom / unverified fabric.Stretch value supplied is invalid: -1. Shown as supplied; not clamped. Review fabric: supply a finite stretch percentage of 0 or greater.Cotton woven — woven, 0% stretchLinen — woven, 0% stretchCotton jersey — knit, 25% stretchRib knit — knit, 50% stretchSpandex blend — knit, 80% stretchPreset stretch values are heuristic defaults, not measurements or certified material specifications.Caller-provided digital ease advice only.This guidance is a heuristic, not drape physics. Physical sampling is still needed before cutting.CompatibleCaller supplied this status; this panel did not infer it.Review fabricScreen appearance onlyColor, texture, and shine are a screen preview only. They do not change material behavior or establish fabric compatibility.Supplied color: #287AAD.Texture: Smooth. Shine: 0.Review appearance"
+        }
+      ]
+    },
+    {
+      "name": "two instances and native outside sentinel remain independent",
+      "passed": true,
+      "evidence": {
+        "ids": [
+          "clarity-nested-inner"
+        ],
+        "outside": {
+          "font": "Arial",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(240, 240, 240)",
+          "radius": "0px"
+        }
+      }
+    },
+    {
+      "name": "blank supplied action is named while its emitted payload stays literal",
+      "passed": true,
+      "evidence": {
+        "violations": []
+      }
+    },
+    {
+      "name": "nested instances do not double-route identical caller IDs",
+      "passed": true,
+      "evidence": {
+        "exactInnerNativeRequests": 3,
+        "noParentRouting": true,
+        "outerStillIndependent": true
+      }
+    },
+    {
+      "name": "normal accessibility",
+      "passed": true,
+      "evidence": {
+        "violations": []
+      }
+    },
+    {
+      "name": "desktop rendered evidence",
+      "passed": true,
+      "evidence": {
+        "screenshots": [
+          "clarity-desktop.png",
+          "guidance-desktop.png",
+          "material-desktop.png"
+        ]
+      }
+    },
+    {
+      "name": "hostile text literal, no images/injected markup, long reflow at five widths",
+      "passed": true,
+      "evidence": {
+        "layouts": [
+          {
+            "width": 320,
+            "scroll": 320,
+            "client": 320
+          },
+          {
+            "width": 390,
+            "scroll": 390,
+            "client": 390
+          },
+          {
+            "width": 1440,
+            "scroll": 1440,
+            "client": 1440
+          },
+          {
+            "width": 480,
+            "scroll": 480,
+            "client": 480
+          },
+          {
+            "width": 960,
+            "scroll": 960,
+            "client": 960
+          }
+        ],
+        "zoomEquivalent": "480 CSS px reflow, not actual browser zoom",
+        "literalText": true
+      }
+    },
+    {
+      "name": "hostile accessibility",
+      "passed": true,
+      "evidence": {
+        "violations": []
+      }
+    },
+    {
+      "name": "44px native targets, actual text contrast and keyboard focus",
+      "passed": true,
+      "evidence": {
+        "targets": [
+          {
+            "tag": "SUMMARY",
+            "width": 295,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 176.984375,
+            "height": 44
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 295,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 107.125,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 144.390625,
+            "height": 44
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 295,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 176.984375,
+            "height": 44
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 295,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 107.125,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 144.390625,
+            "height": 44
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 295,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 176.984375,
+            "height": 44
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 295,
+            "height": 44
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 269,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 176.984375,
+            "height": 44
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 269,
+            "height": 44
+          }
+        ],
+        "minimumTextContrast": 9.693246485053146,
+        "focus": {
+          "width": "3px",
+          "color": "rgb(237, 245, 250)",
+          "background": "rgb(17, 39, 59)"
+        },
+        "focusContrast": 13.826866964968627
+      }
+    },
+    {
+      "name": "reduce media fallback",
+      "passed": true,
+      "evidence": [
+        {
+          "background": "rgb(17, 39, 59)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(17, 39, 59)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(17, 39, 59)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(17, 39, 59)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(17, 39, 59)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(17, 39, 59)",
+          "animation": "none",
+          "transition": "0s"
+        }
+      ]
+    },
+    {
+      "name": "forced media fallback",
+      "passed": true,
+      "evidence": [
+        {
+          "background": "rgb(255, 255, 255)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(255, 255, 255)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(255, 255, 255)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(255, 255, 255)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(255, 255, 255)",
+          "animation": "none",
+          "transition": "0s"
+        },
+        {
+          "background": "rgb(255, 255, 255)",
+          "animation": "none",
+          "transition": "0s"
+        }
+      ]
+    },
+    {
+      "name": "disposal, stale controls and unchanged second instance",
+      "passed": true,
+      "evidence": {
+        "disposedInert": true,
+        "secondUntouched": true,
+        "remountSingle": true
+      }
+    },
+    {
+      "name": "no external network or console execution throughout pressure matrix",
+      "passed": true,
+      "evidence": {
+        "external": [],
+        "websocketUrls": [
+          "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5"
+        ],
+        "requests": 15,
+        "pageErrors": []
+      }
+    }
+  ],
+  "failures": [],
+  "requests": [
+    "http://127.0.0.1:4186/ops/ui-candidates/clarity.html",
+    "http://127.0.0.1:4186/@vite/client",
+    "http://127.0.0.1:4186/ops/ui-candidates/clarity-preview.ts",
+    "http://127.0.0.1:4186/node_modules/vite/dist/client/env.mjs",
+    "http://127.0.0.1:4186/src/drafting/ease.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/guidance/guidance-panel.ts?t=1790958932881",
+    "http://127.0.0.1:4186/src/ui/enhancements/material/material-panel.ts?t=1790957306969",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.css?t=1790917381620",
+    "http://127.0.0.1:4186/src/ui/enhancements/guidance/guidance-panel.css",
+    "http://127.0.0.1:4186/src/ui/enhancements/material/material-panel.css",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/axe-core.js?v=66b82f1c",
+    "http://127.0.0.1:4186/src/guidance/note.ts",
+    "http://127.0.0.1:4186/src/ui/journey.ts",
+    "http://127.0.0.1:4186/src/ui/appearance.ts",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=5ae4586d"
+  ],
+  "websockets": [
+    "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5"
+  ],
+  "pageErrors": [],
+  "hashes": {
+    "ops/ui-candidates/clarity.html": "9a379c5bd58bd0fbb38a67a55a3f43cff34f49e492b113e5d69768d2fd5b2945",
+    "ops/ui-candidates/clarity-preview.ts": "24a384b5732b73e9780de386f47b5cdc4505eb7586e714b819af8f3d8d52927b",
+    "src/ui/enhancements/guidance/guidance-panel.ts": "5008f6ffad836606d1fe5adeea6b61b9a935861aa504584c8821c042c37b1ef3",
+    "src/ui/enhancements/guidance/guidance-panel.css": "924211761c1a03b96ce78f7b2e5619d75df308a17a59567a808d34a38fa7e203",
+    "src/ui/enhancements/material/material-panel.ts": "3d2392a317f3b919d7411f96b94a9766f81ffea60ab5752df48689ab6d72bc3f",
+    "src/ui/enhancements/material/material-panel.css": "8fe36ab43677ee5a54bd19479d8985687ba3747255ccf6a313b373494719f8a5"
+  },
+  "finishedAt": "2026-10-02T16:38:47.291Z"
+}

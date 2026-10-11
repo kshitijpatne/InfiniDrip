@@ -1,20 +1,32 @@
-## Current EPIC-17 / G04 boundary — S732 production verified
+## Current boundary — EPIC-17 and UIQ-GATE closed; next UIQ-02 admission
 
-PR #17's reviewed product/evidence tree is on main at
-`653c01a2589da1b78fec79539f72f2ebf45d48af`; PR #18's CI Chromium prerequisite
-is on main at `548481bba85be0458200931841fc7a53c0275e93`, the refreshed
-`origin/main`. Automatic workflow `38141301239` passed the full suite,
-production build, deterministic artifact verification, and Pages deployment.
-The live production flow reached Export and accepted the bound XL source
-package plus saved/reopened LibreCAD return at 0.000000 cm, with no browser
-errors. S732's full repository coverage passed 158/158 files and 2,366/2,366
-tests with all four coverage columns at 100%. S726's V03 criteria remain
-unchanged and met: product-side 365/365 option-grade packages and 11 exact
-LibreCAD 2.2.1.5 / DXF 2000 return fixtures across ten serialized structure
-classes, with claims limited to those reviewed fixtures. The AccuMark
-suggestion is withdrawn; no new/paid CAD application is needed. The S732
-closeout packet and board transition are the final repository closeout record.
+EPIC-17/G04 is complete and PR #19 is merged to `origin/main` at
+`89e52024b3599d3c1977a2a73aec60476cdc5a74` (`Slice 732: close EPIC-17 after
+production verification`). PR #17 contains the reviewed product/evidence tree;
+PR #18 supplies the lockfile-matched Playwright Chromium CI prerequisite.
+Main workflow `38141301239` passed the full suite, production build,
+deterministic artifact proof and Pages deployment. The production flow reached
+Export and accepted the bound XL source package and reviewed LibreCAD 2.2.1.5 /
+DXF 2000 return at 0.000000 cm without browser errors. S732 passed 158/158
+files, 2,366/2,366 tests and 100% statements, branches, functions and lines.
+The exact empirical compatibility claim and limitations are in
 `docs/research/epic17/S732-final-closeout/S732-exit-packet.md`.
+
+S733 (`codex/uiq-gate-s733`) closed the readiness-only UIQ-GATE at canonical
+board revision 4352. Its pre-replay board was revision 4299; accepted candidate
+children were additively reconciled at revision 4347 and the gate's verified
+evidence/status/comment at 4348–4352. The pre-merge coordinator checkout at
+`F:/designApp` remains untouched. Candidate modules/evidence are hash-verified,
+unmounted and not shipped. Parent cards UIQ-02/03/04/05/07 remain Backlog with
+no release assignment. The frozen host, props, style and shared-file boundaries
+are in `docs/planning/UIQ-GATE-ADMISSION.md`; S733 added no runtime feature or
+flag.
+
+S733 exit and verification: `docs/release/UIQ-GATE-S733-EXIT.md` and
+`docs/release/UIQ-GATE-S733-VERIFICATION.json`. Next: separately admit UIQ-02
+against the then-current main with exact host/props, feature-flag default and
+fallback, protected-file boundary, and rendered acceptance criteria. Candidate
+acceptance and readiness closure do not equal feature integration or release.
 
 ## Prior completed boundary — S730 repository-evidence hygiene
 

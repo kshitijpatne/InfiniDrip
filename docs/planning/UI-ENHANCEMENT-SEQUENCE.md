@@ -32,7 +32,22 @@ All new cards start Backlog. Codex owns scope, review, required fixes, integrate
 | 12 UIQ-12 | Pattern-linked assembled/all-recipe views, measurement-driven avatar and later material/cloth behavior | EPIC-22/G09 D02–D06 | Epic22 admission, accepted UIQ-11 proof, G03/G04 contracts and D-stage gates | Codex geometry/fitting/solver integration; independent assets and visual QA only. Physical claims stay held. |
 | 13 UIQ-13 | Optional ShaderGradient welcome pilot, only if it earns its cost over native CSS | Conditional UI lane | UIQ-07, UIQ-GATE, full exact-version notices/assets and device/network/performance evidence | Claude can own isolated experiment; no automatic runtime adoption. Native CSS remains default if benefit/cost gate fails. |
 
-UIQ-GATE is a separate integration-readiness card depending on EPIC-17. It requires a settled merged base, frozen host/props/style contracts and a Codex review of active file ownership. It is not a promise to integrate every package in one giant PR. Each admitted candidate integrates and is verified separately; its release is recorded independently. Candidate cards must distinguish component delivery from app release in exit evidence and comments. No candidate receives a delivered release date for unshipped app behavior.
+### Post-EPIC-17 status — 2026-10-11
+
+EPIC-17/G04 is closed on `origin/main` after PR #19 and production verification.
+The accepted isolated candidates UIQ-02/03/04/05/07 and UIQ-03/04 independent QA
+are tracked as Done child work; their parent UIQ feature cards remain
+Backlog/unshipped. Their exact proofs and current integration boundary are
+indexed in `CONTEXT-INDEX.md` and `docs/planning/UIQ-GATE-ADMISSION.md`.
+
+UIQ-GATE depended on EPIC-17 and is now closed as a readiness-only task at
+board revision 4352. Its accepted candidates remain isolated and the parent
+UIQ feature cards remain Backlog/unshipped. The next action is a separate
+current-main UIQ-02 admission. Closing the gate is not a promise to integrate
+every package in one giant PR. Each feature integrates and is verified under
+its own packet; its release is recorded independently. Candidate cards must
+distinguish component delivery from app release in exit evidence and comments.
+No candidate receives a delivered release date for unshipped app behavior.
 
 No historical roadmap dates are re-promised: target/release/delivery dates for new cards are null until the next admission/scoping decision. Added work uses genuinely spare independent capacity first; shared UI integration is serialized and reforecast rather than squeezing Epic17's gates or adding cosmetic critical-path work. Future Epic18/19/21/22/30 admissions and existing garment, launch-cost, supplier, physical and legal gates remain intact.
 

@@ -1,0 +1,13 @@
+{
+  "startedAt": "2026-10-02T16:41:13.100Z",
+  "gates": [
+    {
+      "name": "full-global",
+      "command": "npx vitest run --coverage --exclude=tmp/ui-repo-sources/** --minWorkers=1 --maxWorkers=1 --coverage.reportsDirectory=coverage-uiq34-global --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --reporter=default --reporter=json --outputFile=docs/research/uiq-clarity/evidence/full-vitest-results.json",
+      "startedAt": "2026-10-02T16:41:13.101Z",
+      "elapsedMs": 1363195,
+      "exitCode": 0
+    }
+  ],
+  "finishedAt": "2026-10-02T17:03:56.298Z"
+}

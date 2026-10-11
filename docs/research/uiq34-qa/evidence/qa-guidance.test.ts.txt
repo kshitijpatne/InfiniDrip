@@ -1,0 +1,291 @@
+// @vitest-environment jsdom
+// QA adversarial probes for UIQ-03 guidance-panel — independent of contributor tests.
+// Narrow, existing deps only (vitest/jsdom). No source edits.
+import { describe, expect, it, vi } from "vitest";
+import { readFileSync } from "node:fs";
+import { mountGuidancePanel, type GuidanceSnapshot } from "../../../src/ui/enhancements/guidance/guidance-panel";
+import type { JourneyStep, StageReadiness } from "../../../src/ui/journey";
+
+function readiness(o: Partial<StageReadiness> = {}): StageReadiness {
+  return { inputsOk: true, styleReviewed: true, checksOk: true, checkReviewed: true, exported: false, ...o };
+}
+function snap(o: Partial<GuidanceSnapshot> = {}): GuidanceSnapshot {
+  return {
+    revisionLabel: "R1",
+    step: "measure" as JourneyStep,
+    readiness: readiness(),
+    notes: [],
+    fitIntent: null,
+    validity: { state: "unknown", detail: "pending" },
+    ...o,
+  };
+}
+function host(): HTMLElement {
+  const h = document.createElement("div");
+  document.body.append(h);
+  return h;
+}
+function cleanup(h: HTMLElement) {
+  h.remove();
+}
+
+describe("QA-G03 data honesty / journey independence", () => {
+  it("warn note stays visible alongside valid verdict; no synthesis into invalidity", () => {
+    const h = host();
+    const s = snap({
+      validity: { state: "valid", detail: "All inputs valid." },
+      notes: [{ id: "w1", note: { level: "warn", text: "Hem near minimum." } }],
+    });
+    const c = mountGuidancePanel(h, { snapshot: s, onReview: vi.fn() });
+    expect(h.querySelector(".uiq-guidance-validity-state")?.textContent).toBe("Valid");
+    expect(h.querySelector(".uiq-guidance-note-text")?.textContent).toBe("Hem near minimum.");
+    expect(h.querySelector(".uiq-guidance-note-level")?.textContent).toBe("Warning");
+    expect(h.querySelector(".uiq-guidance-caveat")?.textContent).toContain("not physical fit");
+    c.dispose(); cleanup(h);
+  });
+  it("null fit, unknown validity, empty notes are three distinct literal states", () => {
+    const h = host();
+    const c = mountGuidancePanel(h, { snapshot: snap(), onReview: vi.fn() });
+    expect(h.querySelector(".uiq-guidance-fit-value")?.textContent).toBe("No fit preference supplied");
+    expect(h.querySelector(".uiq-guidance-validity-state")?.textContent).toBe("Unknown");
+    expect(h.querySelector(".uiq-guidance-note-empty")?.textContent).toBe("No guidance notes supplied.");
+    c.dispose(); cleanup(h);
+  });
+  it("legacy done maps to output current without implying export when exported=false", () => {
+    const h = host();
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({ step: "done" as JourneyStep, readiness: readiness({ exported: false }) }),
+      onReview: vi.fn(),
+    });
+    const stages = Array.from(h.querySelectorAll(".uiq-guidance-stage"));
+    const current = stages.filter((li) => (li as HTMLElement).dataset.current === "true");
+    expect(current).toHaveLength(1);
+    expect(current[0].querySelector(".uiq-guidance-stage-label")?.textContent).toBe("5 Export");
+    const completeFlags = stages.map((li) => (li as HTMLElement).dataset.complete);
+    expect(completeFlags[4]).toBe("false");
+    c.dispose(); cleanup(h);
+  });
+  it("current + complete + blocked badges are independent on one step", () => {
+    const h = host();
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({
+        step: "measure" as JourneyStep,
+        readiness: readiness({ inputsOk: true }),
+        blocker: { message: "Fix collar.", step: "measure" as JourneyStep, field: "collar" },
+      }),
+      onReview: vi.fn(),
+    });
+    const measure = Array.from(h.querySelectorAll(".uiq-guidance-stage")).find(
+      (li) => (li as HTMLElement).dataset.step === "measure",
+    ) as HTMLElement;
+    expect(measure.dataset.current).toBe("true");
+    expect(measure.dataset.complete).toBe("true");
+    expect(measure.dataset.blocked).toBe("true");
+    expect(h.querySelector(".uiq-guidance-blocker")?.getAttribute("role")).toBe("alert");
+    c.dispose(); cleanup(h);
+  });
+  it("blocker on a different step does not mark current step blocked", () => {
+    const h = host();
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({ step: "fit" as JourneyStep, blocker: { message: "Fix measure.", step: "measure" as JourneyStep } }),
+      onReview: vi.fn(),
+    });
+    const fit = Array.from(h.querySelectorAll(".uiq-guidance-stage")).find(
+      (li) => (li as HTMLElement).dataset.step === "fit",
+    ) as HTMLElement;
+    const meas = Array.from(h.querySelectorAll(".uiq-guidance-stage")).find(
+      (li) => (li as HTMLElement).dataset.step === "measure",
+    ) as HTMLElement;
+    expect(fit.dataset.current).toBe("true");
+    expect(fit.dataset.blocked).toBe("false");
+    expect(meas.dataset.blocked).toBe("true");
+    c.dispose(); cleanup(h);
+  });
+});
+
+describe("QA-G03 hostile literal / duplicate atomicity / empty detail", () => {
+  it("hostile + unbroken + Unicode renders literally with zero script elements", () => {
+    const h = host();
+    const evil = "<script>window.__qa_pwned=true;</script><img src=x onerror=alert(1)>";
+    const long = "a".repeat(2000);
+    const uni = "ünïcödé — emoji 🎉 RTL ‏تجربة";
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({
+        revisionLabel: evil,
+        fitIntent: evil,
+        validity: { state: "invalid", detail: evil },
+        blocker: { message: evil, step: "fit" as JourneyStep },
+        notes: [{ id: "e1", note: { level: "warn", text: evil + " " + long + " " + uni }, detail: evil }],
+      }),
+      onReview: vi.fn(),
+    });
+    expect(h.querySelectorAll("script").length).toBe(0);
+    expect(h.querySelector(".uiq-guidance-revision")?.textContent).toBe(evil);
+    expect(h.querySelector(".uiq-guidance-note-text")?.textContent).toContain(long);
+    expect(h.querySelector(".uiq-guidance-note-text")?.textContent).toContain(uni);
+    expect((window as unknown as Record<string, unknown>).__qa_pwned).toBeUndefined();
+    c.dispose(); cleanup(h);
+  });
+  it("duplicate-id update throws before mutating prior DOM", () => {
+    const h = host();
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({ notes: [{ id: "k1", note: { level: "ok", text: "keep" } }] }),
+      onReview: vi.fn(),
+    });
+    const before = h.querySelector(".uiq-guidance-note-text")?.textContent;
+    expect(() =>
+      c.update(snap({ notes: [{ id: "k1", note: { level: "ok", text: "x" } }, { id: "k1", note: { level: "ok", text: "y" } }] })),
+    ).toThrow(/duplicate/i);
+    expect(h.querySelector(".uiq-guidance-note-text")?.textContent).toBe(before);
+    c.dispose(); cleanup(h);
+  });
+  it("empty-string detail renders literal empty disclosure, missing detail renders none, no fabricated rationale", () => {
+    const h = host();
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({ notes: [{ id: "d1", note: { level: "info", text: "t" }, detail: "" }] }),
+      onReview: vi.fn(),
+    });
+    const det = h.querySelector("details.uiq-guidance-note-detail");
+    expect(det).not.toBeNull();
+    expect(det?.querySelector("p")?.textContent).toBe("");
+    expect(det?.querySelector("summary")?.textContent).toBe("More detail");
+    c.update(snap({ notes: [{ id: "d1", note: { level: "info", text: "t" } }] }));
+    expect(h.querySelector("details.uiq-guidance-note-detail")).toBeNull();
+    c.dispose(); cleanup(h);
+  });
+});
+
+describe("QA-G03 callbacks / lifecycle / keyed reconciliation", () => {
+  it("onReview payload is a fresh object, not an alias; mutating it does not affect next emit", () => {
+    const h = host();
+    const supplied = { label: "Go", step: "measure" as JourneyStep, field: "c" };
+    const seen: unknown[] = [];
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({ notes: [{ id: "a1", note: { level: "warn", text: "t" }, action: supplied }] }),
+      onReview: (a) => seen.push(a),
+    });
+    const btn = h.querySelector(".uiq-guidance-note-action") as HTMLButtonElement;
+    btn.click();
+    expect(seen).toHaveLength(1);
+    expect(seen[0]).not.toBe(supplied);
+    expect(seen[0]).toEqual(supplied);
+    (seen[0] as Record<string, unknown>).label = "MUT";
+    btn.click();
+    expect((seen[1] as Record<string, unknown>).label).toBe("Go");
+    c.dispose(); cleanup(h);
+  });
+  it("optional field add/remove across update changes emit shape; absent field means absent key", () => {
+    const h = host();
+    const seen: unknown[] = [];
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({ notes: [{ id: "a1", note: { level: "warn", text: "t" }, action: { label: "L", step: "fit" as JourneyStep } }] }),
+      onReview: (a) => seen.push(a),
+    });
+    (h.querySelector(".uiq-guidance-note-action") as HTMLButtonElement).click();
+    expect("field" in (seen[0] as object)).toBe(false);
+    c.update(snap({ notes: [{ id: "a1", note: { level: "warn", text: "t" }, action: { label: "L2", step: "fit" as JourneyStep, field: "f2" } }] }));
+    (h.querySelector(".uiq-guidance-note-action") as HTMLButtonElement).click();
+    expect((seen[1] as Record<string, unknown>).field).toBe("f2");
+    c.update(snap({ notes: [{ id: "a1", note: { level: "warn", text: "t" } }] }));
+    expect(h.querySelector(".uiq-guidance-note-action")).toBeNull();
+    c.dispose(); cleanup(h);
+  });
+  it("reorder preserves node identity; controlled sync update from callback preserves focus + open disclosure", () => {
+    const h = host();
+    let ctrl!: { update(s: GuidanceSnapshot): void };
+    const mk = (order: string[]) =>
+      snap({ notes: order.map((id) => ({ id, note: { level: "info", text: "t-" + id }, detail: "d-" + id, action: { label: "L-" + id, step: "fit" as JourneyStep } })) });
+    const c = mountGuidancePanel(h, {
+      snapshot: mk(["n1", "n2"]),
+      onReview: () => {
+        ctrl.update(mk(["n2", "n1"]));
+      },
+    });
+    ctrl = c;
+    const n1li = h.querySelector('[data-note-id="n1"]') as HTMLElement;
+    const n1btn = n1li.querySelector("button") as HTMLButtonElement;
+    const n1det = n1li.querySelector("details") as HTMLDetailsElement;
+    n1det.open = true;
+    n1btn.focus();
+    expect(document.activeElement).toBe(n1btn);
+    n1btn.click();
+    const n1liAfter = h.querySelector('[data-note-id="n1"]') as HTMLElement;
+    expect(n1liAfter).toBe(n1li);
+    expect(n1liAfter.querySelector("details")).toBe(n1det);
+    expect(n1det.open).toBe(true);
+    expect(document.activeElement).toBe(n1btn);
+    const order = Array.from(h.querySelectorAll(".uiq-guidance-note")).map((li) => (li as HTMLElement).dataset.noteId);
+    expect(order).toEqual(["n2", "n1"]);
+    c.dispose(); cleanup(h);
+  });
+  it("removed action button held by caller cannot emit; detached post-dispose control inert; double dispose + post-dispose update safe", () => {
+    const h = host();
+    const on = vi.fn();
+    const c = mountGuidancePanel(h, {
+      snapshot: snap({ notes: [{ id: "z1", note: { level: "warn", text: "t" }, action: { label: "L", step: "fit" as JourneyStep } }] }),
+      onReview: on,
+    });
+    const stale = h.querySelector(".uiq-guidance-note-action") as HTMLButtonElement;
+    c.update(snap({ notes: [{ id: "z1", note: { level: "warn", text: "t" } }] }));
+    expect(stale.isConnected).toBe(false);
+    stale.click();
+    expect(on).not.toHaveBeenCalled();
+    const c2host = host();
+    const c2 = mountGuidancePanel(c2host, { snapshot: snap(), onReview: on });
+    const root = c2host.firstElementChild as HTMLElement;
+    c2.dispose();
+    expect(root.isConnected).toBe(false);
+    expect(() => {
+      c2.dispose();
+      c2.update(snap());
+    }).not.toThrow();
+    expect(on).not.toHaveBeenCalled();
+    c.dispose(); cleanup(h); cleanup(c2host);
+  });
+  it("distinct mounts with repeated ids stay independent", () => {
+    const h1 = host();
+    const h2 = host();
+    const o1 = vi.fn();
+    const o2 = vi.fn();
+    const c1 = mountGuidancePanel(h1, {
+      snapshot: snap({ notes: [{ id: "dup", note: { level: "warn", text: "one" }, action: { label: "L1", step: "fit" as JourneyStep } }] }),
+      onReview: o1,
+    });
+    const c2 = mountGuidancePanel(h2, {
+      snapshot: snap({ notes: [{ id: "dup", note: { level: "warn", text: "two" }, action: { label: "L2", step: "fit" as JourneyStep } }] }),
+      onReview: o2,
+    });
+    (h1.querySelector(".uiq-guidance-note-action") as HTMLButtonElement).click();
+    expect(o1).toHaveBeenCalledTimes(1);
+    expect(o2).not.toHaveBeenCalled();
+    expect((o1.mock.calls[0][0] as { label: string }).label).toBe("L1");
+    c1.dispose(); c2.dispose(); cleanup(h1); cleanup(h2);
+  });
+  it("source imports only allowed engine readers; CSS requires own root", () => {
+    const src = readFileSync("src/ui/enhancements/guidance/guidance-panel.ts", "utf8");
+    expect(src).not.toMatch(/journeyBarMarkup/);
+    expect(src.replace(/\/\/.*$/gm, "")).not.toMatch(/\.innerHTML/);
+    expect(src).toMatch(/journeyChecklist/);
+    const css = readFileSync("src/ui/enhancements/guidance/guidance-panel.css", "utf8");
+    const selectorLines = css
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(
+        (line) =>
+          line.length > 0 &&
+          !line.startsWith("/*") &&
+          !line.startsWith("*") &&
+          !line.startsWith("@") &&
+          line.endsWith("{"),
+      );
+    expect(selectorLines.length).toBeGreaterThan(0);
+    for (const line of selectorLines) {
+      const group = line.slice(0, -1).trim();
+      for (const sel of group.split(",")) {
+        expect(sel.trim()).toMatch(/^\.uiq-guidance\b/);
+      }
+    }
+    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(css).toContain("@media (forced-colors: active)");
+  });
+});

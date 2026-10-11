@@ -1,0 +1,11 @@
+
+ RUN  v2.1.9 F:/designApp
+
+ ✓ src/ui/app.test.ts (268 tests | 267 skipped) 1818ms
+   ✓ mountApp > persists Single/Marker as a preview preference without dirtying or adding undo history 1815ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 267 skipped (268)
+   Start at  01:47:21
+   Duration  7.52s (transform 2.56s, setup 0ms, collect 3.62s, tests 1.82s, environment 1.12s, prepare 317ms)
+

@@ -1,0 +1,138 @@
+{
+  "verifiedAt": "2026-10-07T17:40:31.248Z",
+  "status": "independently accepted isolated candidate; not shipped",
+  "candidateId": "UIQ07-CANDIDATE",
+  "parentId": "UIQ-07",
+  "reviewer": "Codex",
+  "base": "50afb32ea8e5bd42ebb73fda13cc863e89fd9d8f",
+  "originMain": "a5af5e13c2e967946b3f6035fcea66ff03a5e0e0",
+  "sourceAndEvidenceHashes": [
+    {
+      "path": "src/ui/enhancements/entry/welcome-panel.ts",
+      "sha256": "757dfa56899d3f6d0894b4b950da6248d2a2b838575d5db891966b091a91a66d",
+      "bytes": 1600
+    },
+    {
+      "path": "src/ui/enhancements/entry/welcome-panel.css",
+      "sha256": "d67d971c4ad8d7f976bfb8b0ae16b630cf7cebbeccdbe0cb431ffa6b1a22c532",
+      "bytes": 3725
+    },
+    {
+      "path": "src/ui/enhancements/entry/welcome-panel.test.ts",
+      "sha256": "ce489869ba7080eec713285035ce2301b45c76e73aa233165032b7c394cada3a",
+      "bytes": 2928
+    },
+    {
+      "path": "ops/ui-candidates/welcome.html",
+      "sha256": "0136082f72d8091436d02a003a88bd470552defd07e2bc0b6562502f4e2eda0e",
+      "bytes": 1382
+    },
+    {
+      "path": "ops/ui-candidates/welcome-preview.ts",
+      "sha256": "daf3ff2c1fc73087d4fd6a9628aa93ea7e73636e227cb8667fbeaf70ec4b247a",
+      "bytes": 230
+    },
+    {
+      "path": "ops/ui-candidates/welcome-verify.mjs",
+      "sha256": "8c5d4325cf3fec56259ada38a31af543bf067997555d1710aa859667b6fe33d3",
+      "bytes": 6020
+    },
+    {
+      "path": "docs/research/uiq07/evidence/browser-report.json",
+      "sha256": "072fc543d0b6fbaa7f8532c4a538aa398f216786137a2c98eea22a458eeec18f",
+      "bytes": 944
+    },
+    {
+      "path": "docs/research/uiq07/evidence/welcome-desktop.png",
+      "sha256": "12ff34ae5aeda0160b3394e547650532954344986c7b4efa66b68d3f4e29b6d7",
+      "bytes": 538480
+    },
+    {
+      "path": "docs/research/uiq07/evidence/welcome-mobile.png",
+      "sha256": "d67fbf47d2985476b735a830994d377ba2b8cccb967ad8e0d488f4e234c37036",
+      "bytes": 131670
+    },
+    {
+      "path": "docs/research/uiq07/evidence/welcome-forced-colors.png",
+      "sha256": "53100f41d49f1515b228cd86776758414668590fa06fc5d756aa491ff0f8667f",
+      "bytes": 27532
+    },
+    {
+      "path": "coverage-uiq07-focused/coverage-summary.json",
+      "sha256": "1b04c69dc47c2341ece2b152f5972763ebc6b30fae1c02f1dde4688b2ec9eaf3",
+      "bytes": 613
+    }
+  ],
+  "verification": {
+    "focused": {
+      "command": "npx vitest run src/ui/enhancements/entry/welcome-panel.test.ts --coverage --coverage.include=src/ui/enhancements/entry/welcome-panel.ts --coverage.reportsDirectory=coverage-uiq07-focused --coverage.reporter=text --coverage.reporter=json-summary",
+      "testFiles": 1,
+      "tests": 3,
+      "passed": 3,
+      "coverage": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    "typecheck": "Preview strict TypeScript check and repository npm run build passed; Vite transformed129 modules and existing application bundle remained index-WTBpXvzr.js (663.47kB). Candidate is not imported by application entry.",
+    "rendered": {
+      "browser": "Chromium via local Vite preview at 127.0.0.1:4187",
+      "checks": 10,
+      "viewportsPx": [
+        320,
+        390,
+        480,
+        1440
+      ],
+      "overflow": "No document overflow; decorative geometry clipped to panel; text bounds within panel.",
+      "axeViolations": 0,
+      "contrastRatiosOnFlatFallback": {
+        "wordmarkGradientLightestStop": 17.38,
+        "wordmarkGradientDarkestStop": 8.29,
+        "eyebrow": 13.03,
+        "welcome": 17.19,
+        "description": 12.3
+      },
+      "forcedColors": "Wordmark returns to solid CanvasText; decorative ornament hidden.",
+      "reducedMotion": "No animation/transitions present.",
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "interactiveControls": 0,
+      "zoom": "480px-equivalent reflow only, not actual browser zoom"
+    },
+    "screenshots": [
+      "docs/research/uiq07/evidence/welcome-desktop.png",
+      "docs/research/uiq07/evidence/welcome-mobile.png",
+      "docs/research/uiq07/evidence/welcome-forced-colors.png"
+    ]
+  },
+  "protectedIdentity": {
+    "files": 293,
+    "mismatches": 0,
+    "acceptedUIQ02ProofSha256": "e64948426c7d67478432b5af663c6bb9987b685c60c12e1fbc4425832b645925",
+    "acceptedUIQ03UIQ04ProofSha256": "75066163e83dbc019bc2214b83a4b6459048f84b029da927aa0999d17761a786",
+    "exportBaselineMoved": false
+  },
+  "review": {
+    "actualDiffReviewed": true,
+    "narrowViewportIssue": "Initial 320px run found decorative ring increased panel scrollWidth while clipped; ring repositioned; repeat browser run passed.",
+    "sourceScope": "Only admitted new entry component/CSS/test, standalone preview/verifier, and UIQ07 planning/evidence files.",
+    "deployment": {
+      "appWired": false,
+      "numberedSliceAssigned": false,
+      "committed": false,
+      "pushed": false,
+      "deployed": false,
+      "parentStatus": "Backlog",
+      "releaseId": null,
+      "epic17Touched": false
+    }
+  },
+  "holds": [
+    "No login, CTA, account/profile, navigation, tutorial, persistence, feature flag, remote image/font or renderer.",
+    "Separate UIQ-GATE after settled merged EPIC-17 is required for any app entry-flow integration.",
+    "No physical garment/fit claim."
+  ]
+}

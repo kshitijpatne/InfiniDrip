@@ -1,0 +1,572 @@
+
+> InfiniDrip@0.0.1 coverage
+> vitest run --coverage --exclude=tmp/ui-repo-sources/** --exclude=ops/**/*.test.mjs --exclude=**/node_modules/** --exclude=**/.git/** --coverage.reportsDirectory=coverage-uiq-settled-clean
+
+
+ RUN  v2.1.9 F:/designApp
+      Coverage enabled with v8
+
+ ✓ src/surface/artwork-file.test.ts (30 tests) 270ms
+ ✓ src/ui/journey.test.ts (40 tests) 395ms
+ ✓ src/render/body.test.ts (37 tests) 470ms
+ ✓ src/ui/persist.test.ts (58 tests) 198ms
+ ✓ src/quality/persistence-properties.test.ts (10 tests) 351ms
+ ✓ src/export/projector.test.ts (27 tests) 1036ms
+ ✓ src/render/skirt-figure.test.ts (27 tests) 2012ms
+   ✓ the figure is a lower body, drawn only where there is a number (Slice 43) > fits everything it draws inside its own viewBox 412ms
+   ✓ the figure is a lower body, drawn only where there is a number (Slice 43) > stays well-formed across the whole slider range, warned states included 303ms
+ ✓ src/export/export.test.ts (14 tests) 362ms
+ ✓ src/ui/enhancements/foundation/foundation.test.ts (28 tests) 223ms
+ ✓ src/ui/measurement-capture-panel.test.ts (22 tests) 7715ms
+   ✓ measurement capture panel > renders every field state in visible text with its own correction path 359ms
+   ✓ measurement capture panel > associates labels, descriptions and live status with unique ids that all resolve 3372ms
+   ✓ measurement capture panel > keeps optional source, method, date and recorder fields visibly labeled 605ms
+   ✓ measurement capture panel > accepts capture-model sessions, readings and assessments without adaptation 467ms
+   ✓ measurement capture panel > keeps optional source controls grouped and labeled per field 364ms
+   ✓ measurement capture panel > keeps keyboard interaction on native controls with DOM order and no tabindex overrides 606ms
+ ✓ src/render/trouser-figure.test.ts (5 tests) 1039ms
+   ✓ trouser render integration (Slice 100) > annotates lower-body controls and returns separate front/back body figures 563ms
+ ✓ src/export/trouser-final.test.ts (3 tests) 1444ms
+   ✓ Slice 101 — trouser output consumers > parses the selected-size SVG, DXF, tiled PDF, A0 PDF, projector SVG, and tech pack 1351ms
+ ✓ src/export/polo-final.test.ts (4 tests) 1539ms
+   ✓ Slice 73 — Polo cross-size readiness > keeps all five size layers and construction marks in the projector file 937ms
+ ✓ src/render/surface-overlay.test.ts (8 tests) 115ms
+ ✓ src/render/croquis-contract.test.ts (8 tests) 1922ms
+   ✓ shared croquis contracts across the garment registry > keeps tee on a valid front/side/back contract 380ms
+   ✓ shared croquis contracts across the garment registry > keeps trouser on a valid front/side/back contract 418ms
+   ✓ shared croquis contracts across the garment registry > keeps every export writer unchanged when the side croquis is rendered 404ms
+ ✓ src/ui/project-manager.test.ts (12 tests) 10086ms
+   ✓ accessible project and style manager > labels unmatched frozen revisions as historical and forwards restore recovery to the editor 537ms
+   ✓ accessible project and style manager > compares and restores immutable revisions, freezes all seven exact outputs, and retrieves stored bytes 1684ms
+   ✓ accessible project and style manager > handles identical and failed comparisons, then browser-downloads the stored frozen bytes 667ms
+   ✓ accessible project and style manager > creates, duplicates, renames, switches, archives, and restores styles 1577ms
+   ✓ accessible project and style manager > exports, imports a clean-profile package, handles idempotency/copy conflicts, and switches projects 2965ms
+   ✓ accessible project and style manager > shows storage, oversize, malformed, and cancel feedback for package actions 497ms
+   ✓ accessible project and style manager > uses the browser download fallback and accepts an empty local-project selection 1005ms
+   ✓ accessible project and style manager > keeps invalid duplicates visible and reports conflicts, generic failures, and missing style IDs 435ms
+ ✓ src/ui/enhancements/artwork/artwork-panel.test.ts (33 tests) 12789ms
+   ✓ defaults and options > shows all twelve records by default with placement guidance 474ms
+   ✓ defaults and options > accepts explicit null selection and default placement when options are omitted 323ms
+   ✓ defaults and options > supports each print-use label in the filter select 300ms
+   ✓ search and filters > filters by each dimension and their intersection 1650ms
+   ✓ search and filters > uses every taxonomy value without mutating order 2548ms
+   ✓ search and filters > distinguishes empty catalog from no matches and clears to all 463ms
+   ✓ search and filters > retains focus and control nodes while typing 390ms
+   ✓ search and filters > print-use selection filters and reassesses; clearing restores default assessment and selection 1017ms
+   ✓ search and filters > selecting Any print use returns assessment to the supplied default 987ms
+   ✓ selection contract > preserves focused controls, expanded provenance and preview nodes during controlled selection 313ms
+   ✓ selection contract > calls back with the exact asset ID only on explicit activation 361ms
+   ✓ selection contract > explains unknown and filtered-out selections instead of reassigning 484ms
+   ✓ instances and disposal > keeps simultaneous instances independent with unique input IDs 617ms
+   ✓ instances and disposal > dispose is idempotent and detached controls cannot call back 345ms
+   ✓ instances and disposal > releases obsolete card listeners on a filter rerender 352ms
+   ✓ instances and disposal > associates every control with its label 414ms
+ ✓ src/export/surface-sheet.test.ts (6 tests) 126ms
+ ✓ src/render/croquis.test.ts (11 tests) 43ms
+ ✓ src/render/croquis-view.test.ts (2 tests) 172ms
+ ✓ src/ui/grade-plan.test.ts (30 tests) 379ms
+ ✓ src/ui/view.test.ts (89 tests) 355ms
+ ✓ src/edit/semantic-edit.test.ts (32 tests) 1809ms
+   ✓ semantic edit source and operations > reports every unchanged recipe baseline as usable across its declared sizes 313ms
+ ✓ src/ui/project-records.test.ts (10 tests) 207ms
+ ✓ src/ui/project-repository.test.ts (61 tests) 3606ms
+   ✓ transactional project repository > validates immutable inputs and atomically seeds a new style with its frozen outputs 311ms
+   ✓ transactional project repository > fails closed on tampered revision chains and frozen output manifests 492ms
+ ✓ src/export/techpack.test.ts (45 tests) 997ms
+ ✓ src/ui/field-provenance.test.ts (12 tests) 189ms
+ ✓ src/ui/project-workflow.test.ts (41 tests) 6228ms
+   ✓ local project/style workflow > serializes saves, recovery, switching, naming, duplication, archive and restore without crossing styles 535ms
+   ✓ local project/style workflow > rejects stale output captures and verifies every historical artifact before download 321ms
+   ✓ G03 capture persistence through the project workflow > loads and saves grade plans through the active style with compare-and-swap 1005ms
+ ✓ src/ui/measurement-capture.test.ts (11 tests) 148ms
+ ✓ src/ui/grade-plan-run.test.ts (13 tests) 4917ms
+   ✓ approved grade-plan drafting and exact reconciliation > drafts each explicit size from authored inputs for all seven recipes without using legacy grades 781ms
+   ✓ approved grade-plan drafting and exact reconciliation > parses Tech Pack PDFs, checks Projector labels, and reconciles Marker pieces for all seven declared runs 1269ms
+   ✓ approved grade-plan drafting and exact reconciliation > replays exact nonzero digital size geometry into outputs for all seven recipes 1199ms
+   ✓ approved grade-plan drafting and exact reconciliation > blocks exact POM mismatches after nonzero inputs and option deltas from an off-center base 863ms
+ ✓ src/surface/artwork-library/search.test.ts (24 tests) 110ms
+ ✓ src/ui/style-revisions.test.ts (8 tests) 2734ms
+   ✓ immutable revision and frozen output records > rejects partial, duplicate, empty, oversized, or unsafe output sets before a capture is returned 2371ms
+ ✓ src/surface/artwork-store.test.ts (19 tests) 185ms
+ ✓ src/drafting/polo.test.ts (19 tests) 407ms
+ ✓ src/render/garment.test.ts (29 tests) 145ms
+ ✓ src/drafting/stitch.test.ts (36 tests) 151ms
+ ✓ src/quality/surface-invariants.test.ts (25 tests) 2529ms
+   ✓ EPIC 10 — independent geometry oracle on flattened loops (Slice 143) > tee: every drafted piece's flattened cut loop is a simple polygon agreeing with the oracle's area 370ms
+   ✓ EPIC 10 — independent geometry oracle on flattened loops (Slice 143) > polo: every drafted piece's flattened cut loop is a simple polygon agreeing with the oracle's area 838ms
+   ✓ EPIC 10 — independent geometry oracle on flattened loops (Slice 143) > woven-shirt: every drafted piece's flattened cut loop is a simple polygon agreeing with the oracle's area 496ms
+ ✓ src/drafting/shirt.test.ts (17 tests) 105ms
+ ✓ src/drafting/recipe.test.ts (20 tests) 335ms
+ ✓ src/ui/grade-plan-context.test.ts (8 tests) 643ms
+   ✓ explicit grade-plan base context > lists every recipe measurement, saved control, and raw current POM without inventing target deltas 575ms
+ ✓ src/drafting/neckline.test.ts (20 tests) 46ms
+ ✓ src/ui/artifact-dependencies.test.ts (6 tests) 3068ms
+   ✓ field-to-artifact invalidation graph > probes every field against the real recipe draft and records hem-turn cut dependencies 470ms
+   ✓ field-to-artifact invalidation graph > maps woven body hem turn to cut outputs while preserving the sleeve allowance 539ms
+   ✓ field-to-artifact invalidation graph > distinguishes mark-only woven-shirt edits from cut geometry and measures button spacing 2025ms
+ ✓ src/guidance/plausibility.test.ts (30 tests) 81ms
+ ✓ src/ui/custom-size-materialization.test.ts (6 tests) 1008ms
+   ✓ custom one-size design materialization > matches the ordinary step-zero block, POMs, and selected-size file contents for every recipe 932ms
+ ✓ src/drafting/polo-collar.test.ts (11 tests) 119ms
+ ✓ src/drafting/trouser-pocket.test.ts (6 tests) 122ms
+ ✓ src/drafting/grammar.test.ts (10 tests) 147ms
+ ✓ src/surface/store.test.ts (26 tests) 41ms
+ ✓ src/drafting/tank.test.ts (22 tests) 70ms
+ ✓ src/render/allowance.test.ts (14 tests) 67ms
+ ✓ src/quality/polo-v2-pressure.test.ts (4 tests) 3085ms
+   ✓ EPIC 11 Slice 160 — Polo V2 pressure matrix > keeps XS, M, and XL finite, sewable, reportable, and previewable 420ms
+   ✓ EPIC 11 Slice 160 — Polo V2 pressure matrix > keeps endpoint and crossed-risk values visible, finite, and actionable 538ms
+   ✓ EPIC 11 Slice 160 — Polo V2 pressure matrix > parses SVG, DXF, tiled PDF, A0, projector, and tech-pack outputs at true scale 1430ms
+   ✓ EPIC 11 Slice 160 — Polo V2 pressure matrix > keeps narrow/wide graded nesting deterministic and carries populated surface output 690ms
+ ✓ src/ui/measurement-help.test.ts (6 tests) 657ms
+   ✓ measurement help catalog > contains no invented procedure, ease, target, or fit-validation copy 420ms
+ ✓ src/export/a0.test.ts (16 tests) 188ms
+ ✓ src/surface/artwork-library/catalog.test.ts (3 tests) 429ms
+   ✓ bundled artwork catalog > verifies required provenance, local asset paths, image dimensions, and exact bytes for every record 393ms
+ ✓ src/drafting/skirt.test.ts (20 tests) 88ms
+ ✓ src/guidance/surface-notes.test.ts (16 tests) 43ms
+ ✓ src/ui/grade-plan-panel.test.ts (6 tests) 37ms
+ ✓ src/ui/grade-plan-run-panel.test.ts (7 tests) 25ms
+ ✓ src/quality/guidance-properties.test.ts (7 tests) 448ms
+ ✓ src/drafting/trouser-tables.test.ts (6 tests) 49ms
+ ✓ src/surface/placement.test.ts (18 tests) 37ms
+ ✓ src/drafting/dart.test.ts (26 tests) 71ms
+ ✓ src/ui/project-package-failure.test.ts (4 tests) 175ms
+ ✓ src/guidance/garment-check.test.ts (13 tests) 213ms
+ ✓ src/quality/geometry-finiteness.test.ts (23 tests) 2547ms
+   ✓ EPIC 10 — geometry finiteness (Slice 142) > polo: every drafted coordinate stays finite across its declared domain 314ms
+   ✓ EPIC 10 — geometry finiteness (Slice 142) > polo: repeated drafting of the same valid input is deterministic 446ms
+   ✓ EPIC 10 — geometry finiteness (Slice 142) > polo: every declared stitch resolves to a real edge or mark (no dangling interface reference) 318ms
+ ✓ src/export/nesting-intelligence.test.ts (16 tests) 30ms
+ ✓ src/ui/project-package-writer.test.ts (2 tests) 190ms
+ ✓ src/render/canvas.test.ts (14 tests) 212ms
+ ✓ src/export/pdf.test.ts (17 tests) 110ms
+ ✓ src/edit/edit.test.ts (12 tests) 38ms
+ ✓ src/drafting/trouser.test.ts (7 tests) 74ms
+ ✓ src/export/woven-shirt-final.test.ts (3 tests) 2311ms
+   ✓ Slice 93 — woven-shirt component-library exit > renders the pattern and preview editor from the same assembled block 1056ms
+   ✓ Slice 93 — woven-shirt component-library exit > passes the six-button sample through SVG, DXF, tiled PDF, A0, projector, and tech pack consumers 960ms
+ ✓ src/drafting/component.test.ts (9 tests) 35ms
+ ✓ src/drafting/trouser-components.test.ts (5 tests) 32ms
+ ✓ src/drafting/armhole.test.ts (8 tests) 27ms
+ ✓ src/style/style.test.ts (18 tests) 34ms
+ ✓ src/drafting/grading.test.ts (12 tests) 203ms
+ ✓ src/render/notch.test.ts (14 tests) 37ms
+ ✓ src/export/techpack-surface.test.ts (7 tests) 358ms
+ ✓ src/surface/transform.test.ts (16 tests) 30ms
+ ✓ src/drafting/pom.test.ts (13 tests) 75ms
+ ✓ src/surface/piece-frames.test.ts (12 tests) 53ms
+ ✓ src/drafting/facets.test.ts (15 tests) 25ms
+ ✓ src/drafting/waistband.test.ts (10 tests) 45ms
+ ✓ src/guidance/guidance.test.ts (9 tests) 89ms
+ ✓ src/export/unfold.test.ts (9 tests) 78ms
+ ✓ src/drafting/tshirt-guidance.test.ts (12 tests) 39ms
+ ✓ src/drafting/sleeve.test.ts (6 tests) 55ms
+ ✓ src/export/nesting-proof-contract.test.ts (3 tests) 20ms
+ ✓ src/ui/pattern-annotations.test.ts (4 tests) 115ms
+ ✓ src/ui/controls.test.ts (9 tests) 25ms
+ ✓ src/export/nesting.test.ts (9 tests) 46ms
+ ✓ src/export/regression.test.ts (8 tests) 156ms
+ ✓ src/drafting/fit-compare.test.ts (11 tests) 36ms
+ ✓ src/platform/feature-flags.test.ts (6 tests) 24ms
+ ✓ src/export/polo-final-pdf.test.ts (3 tests) 748ms
+   ✓ Slice 73 — Polo PDF readiness > keeps every Polo piece and calibration evidence in parsed A0 368ms
+ ✓ src/drafting/tshirt-checks.test.ts (8 tests) 71ms
+ ✓ src/render/neckline-path.test.ts (6 tests) 21ms
+ ✓ src/drafting/tshirt.test.ts (10 tests) 31ms
+ ✓ src/ui/appearance.test.ts (5 tests) 25ms
+ ✓ src/guidance/check.test.ts (9 tests) 26ms
+ ✓ src/drafting/fitted.test.ts (6 tests) 31ms
+ ✓ src/export/marker.test.ts (6 tests) 237ms
+ ✓ src/drafting/bodice.test.ts (6 tests) 25ms
+ ✓ src/drafting/block.test.ts (5 tests) 28ms
+ ✓ src/drafting/piece.test.ts (7 tests) 23ms
+ ✓ src/ui/pattern-measurements.test.ts (2 tests) 127ms
+stdout | src/ui/project-package.test.ts > portable local project package > exports, validates, and imports bounded and near-cap package fixtures
+PROJECT_PACKAGE_PRESSURE {"label":"4-MiB-coverage","assets":4,"uncompressedBytes":4194304,"archiveBytes":4209618,"elapsedMs":5068,"peakRssBytes":338120704}
+
+ ✓ src/drafting/shirt-contract.test.ts (3 tests) 22ms
+ ✓ src/export/pattern-mark.test.ts (3 tests) 20ms
+ ✓ src/quality/export-identity.test.ts (9 tests) 5767ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > tee: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements 675ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > fitted: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements 799ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > polo: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements 2088ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > woven-shirt: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements 948ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > trouser: an empty artwork set produces a byte-identical tech pack to no artwork argument at all, across valid measurements 545ms
+   ✓ EPIC 10 — empty-placement export identity (Slice 144) > regression fixture: STANDARD_M tech pack is byte-identical with/without an explicit empty artwork array, for every recipe 376ms
+ ✓ src/render/pattern-mark.test.ts (3 tests) 14ms
+ ✓ src/drafting/trouser-contract.test.ts (3 tests) 58ms
+ ✓ src/geometry/curve.test.ts (6 tests) 20ms
+ ✓ src/geometry/rotate.test.ts (5 tests) 15ms
+ ✓ src/drafting/ease.test.ts (7 tests) 18ms
+ ✓ src/render/nest.test.ts (6 tests) 20ms
+ ✓ src/render/shape.test.ts (4 tests) 20ms
+ ✓ src/drafting/fitted-tables.test.ts (3 tests) 37ms
+ ✓ src/render/fabric.test.ts (4 tests) 14ms
+ ✓ src/drafting/garment-check-golden.test.ts (3 tests) 221ms
+ ✓ src/ui/history.test.ts (3 tests) 14ms
+ ✓ src/ui/project-package.test.ts (55 tests) 60046ms
+   ✓ portable local project package > rejects inconsistent immutable history and resolves only proven artwork references 652ms
+   ✓ portable local project package > enforces the immutable capture count and manifest-to-revision binding 18038ms
+   ✓ portable local project package > backs up a frozen artifact larger than the artwork cap but within its own limit 7174ms
+   ✓ portable local project package > enforces the uncompressed package cap without allocating hundreds of megabytes 413ms
+   ✓ portable local project package > detects artwork and frozen-output changes during backup preparation and streaming 525ms
+   ✓ portable local project package > rejects tampered frozen-output archive metadata, revision links, and bytes 1543ms
+   ✓ portable local project package > round-trips immutable revision history and exact frozen artifacts through v3 and copy remapping 595ms
+   ✓ portable local project package > rejects malformed manifests, excess assets, stale hashes, and oversized JSON before import 14134ms
+   ✓ portable local project package > rejects orphaned or duplicate recovery records and remaps a valid recovery with copied style IDs 386ms
+   ✓ portable local project package > uses the built-in safe SVG inspector when an importer does not provide an override 614ms
+   ✓ portable local project package > reuses identical asset bytes and requires an explicit copy when an asset ID has different bytes 424ms
+   ✓ portable local project package > cleans staged artwork after a repository abort and reports when cleanup itself fails 313ms
+   ✓ portable local project package > enforces export asset, content, manifest, integrity, and cancellation boundaries 1983ms
+   ✓ portable local project package > exports, validates, and imports bounded and near-cap package fixtures 5106ms
+   ✓ G03 capture sessions in project backups > keeps capture-free backups at exact v3 and adds captures only as package v4 341ms
+   ✓ G03 capture sessions in project backups > rejects malformed, foreign, duplicate, empty, or misversioned capture data in a package 501ms
+   ✓ G03 capture sessions in project backups > custom one-size styles (package v5) > writes custom styles only as package v5 and keeps legacy v3 and capture-only v4 manifests unchanged 492ms
+   ✓ G03 capture sessions in project backups > custom one-size styles (package v5) > round-trips a custom style through import, re-export, and copy import without losing its size mode 552ms
+   ✓ G03 capture sessions in project backups > custom one-size styles (package v5) > rejects malformed size markers and package versions that do not match custom styles 1418ms
+   ✓ G03 grade plans in project backups (package v6) > writes grade plans only as package v6 and keeps v3/v4/v5 bodies unchanged 377ms
+   ✓ G03 grade plans in project backups (package v6) > round-trips a draft grade plan through export, import, and re-export without enabling outputs 307ms
+   ✓ G03 grade plans in project backups (package v6) > rejects malformed, duplicate, foreign, and mismatched grade plans 796ms
+ ✓ src/drafting/measurements.test.ts (5 tests) 16ms
+ ✓ src/drafting/options.test.ts (3 tests) 14ms
+ ✓ src/render/editor.test.ts (2 tests) 13ms
+ ✓ src/geometry/point.test.ts (7 tests) 16ms
+ ✓ src/drafting/allowance.test.ts (1 test) 11ms
+ ✓ src/drafting/pattern-mark.test.ts (1 test) 11ms
+ ✓ src/ui/accessibility.test.ts (2 tests) 80086ms
+   ✓ Slice 121 accessibility audit > keeps the Welcome, Garment, and Measure stages free of axe violations 28920ms
+   ✓ Slice 121 accessibility audit > covers Style, Check, Export, assembled, view-menu, and load-dialog states 51161ms
+ ✓ src/ui/surface-exit.test.ts (1 test) 110449ms
+   ✓ EPIC-6 exit audit > carries one style's artwork end to end on every garment 110445ms
+ ✓ src/ui/bugfix-p1.test.ts (13 tests) 126485ms
+   ✓ P1 input truth > restores the active workspace, option controls, swatch and view on Load and restart 42756ms
+   ✓ P1 input truth > rejects an incomplete save visibly and preserves the previous saved workspace 7789ms
+   ✓ P1 input truth > updates chest/hip totals in place, including incomplete inputs 6999ms
+   ✓ P1 input truth > gates every status and export on invalid woven option combinations 17314ms
+   ✓ P1 input truth > drafts negative ease verbatim and recovers from empty/range errors without losing focus 6940ms
+   ✓ P1 input truth > diagnoses empty and out-of-range options and safely resumes Edit 11876ms
+   ✓ P1 input truth > does not download when an invalid control disables output 2712ms
+   ✓ P1 input truth > keeps canceled and failed desktop exports incomplete with distinct feedback 5419ms
+   ✓ P1 input truth > invalidates a confirmed export after a later design change 5652ms
+   ✓ P1 input truth > does not celebrate an Electron export that finishes after a later edit 5340ms
+   ✓ P1 input truth > allows the confirmed-export celebration to be dismissed 4245ms
+   ✓ P1 input truth > reports a browser failure without claiming export completion 5514ms
+   ✓ P1 input truth > falls back to the base export size if a recipe loses the selected step 3923ms
+ ✓ src/ui/project-app.test.ts (18 tests) 132550ms
+   ✓ repository-backed app workflow > flushes a pending input before opening its field history dialog 7309ms
+   ✓ repository-backed app workflow > keeps field history closed and reports when the pending write fails 4734ms
+   ✓ repository-backed app workflow > shows a safe message when flushing history rejects a non-Error value 4308ms
+   ✓ repository-backed app workflow > preserves a recovery failure when the field-history write later succeeds 4763ms
+   ✓ repository-backed app workflow > persists an edited style's recovery, switches, restores, saves, duplicates, archives, and reloads 48268ms
+   ✓ repository-backed app workflow > fails visibly and leaves the project unchanged when the default style template is invalid 4241ms
+   ✓ repository-backed app workflow > freezes the app-generated outputs after review and saves verified bytes through Electron 9679ms
+   ✓ repository-backed app workflow > shows and reloads invalid raw field provenance through the mounted project workflow 5966ms
+   ✓ repository-backed app workflow > marks a same-value user capture in provenance without dirtying its saved design 2457ms
+   ✓ repository-backed app workflow > ignores a delayed field-history write from a replaced app mount 5802ms
+   ✓ repository-backed app workflow > ignores delayed field-history success or failure after the active style changes 4329ms
+   ✓ repository-backed app workflow > ignores a delayed recovery failure after the user has switched to another style 8871ms
+   ✓ repository-backed app workflow > blocks garment changes, Save, and Load when exact field history could not be persisted 4007ms
+   ✓ repository-backed app workflow > keeps the source summary usable if a loaded style has no field-history record 2531ms
+   ✓ repository-backed app workflow > reports a non-Error timer failure and blocks a pending recipe switch 5846ms
+   ✓ repository-backed app workflow > reports a non-Error timer failure on Save before committing an edited design 3094ms
+   ✓ repository-backed app workflow > reports a non-Error timer failure on Load and preserves the raw editor value 2772ms
+   ✓ repository-backed app workflow > does not write a detached recipe field after switching garments 3529ms
+ ✓ src/ui/studio.test.ts (19 tests) 175939ms
+   ✓ bounded measurement groups > keeps every 'Tee' field reachable exactly once through groups 22469ms
+   ✓ bounded measurement groups > keeps every 'Darted tee' field reachable exactly once through groups 21082ms
+   ✓ bounded measurement groups > keeps every 'Tank' field reachable exactly once through groups 23187ms
+   ✓ bounded measurement groups > keeps every 'Polo' field reachable exactly once through groups 26924ms
+   ✓ bounded measurement groups > keeps every 'Woven shirt' field reachable exactly once through groups 26816ms
+   ✓ bounded measurement groups > keeps every 'Skirt' field reachable exactly once through groups 9540ms
+   ✓ bounded measurement groups > keeps every 'Trouser' field reachable exactly once through groups 17134ms
+   ✓ bounded measurement groups > reveals a guidance target in its group before focusing the named input 1816ms
+   ✓ bounded measurement groups > keeps local workspace actions outside stage-specific export controls 1740ms
+   ✓ bounded measurement groups > never dims a complete figure when the active view has no truthful field target 3578ms
+   ✓ reversible assembled lens > returns to pattern without losing the analysis or zoom context 2132ms
+   ✓ reversible assembled lens > returns to body without losing the analysis or zoom context 2134ms
+   ✓ reversible assembled lens > returns to nest without losing the analysis or zoom context 1979ms
+   ✓ reversible assembled lens > returns to spec without losing the analysis or zoom context 2332ms
+   ✓ reversible assembled lens > returns to fabric without losing the analysis or zoom context 2281ms
+   ✓ reversible assembled lens > returns to check without losing the analysis or zoom context 2060ms
+   ✓ reversible assembled lens > returns to edit without losing the analysis or zoom context 3132ms
+   ✓ reversible assembled lens > preserves transient Edit coordinates and blocks dragging the assembled picture 3802ms
+   ✓ reversible assembled lens > keeps the paused frame honest when incomplete input is toggled 1795ms
+ ✓ src/ui/nesting-exit.test.ts (5 tests) 203031ms
+   ✓ EPIC-7 exit audit > shows empty-state planning readouts on every garment 64134ms
+   ✓ EPIC-7 exit audit > judges valid, invalid, too-short, and too-narrow states per garment 65486ms
+   ✓ EPIC-7 exit audit > keeps metrics deterministic across scope round-trips 28073ms
+   ✓ EPIC-7 exit audit > saves and reloads planning values on every garment 36202ms
+   ✓ EPIC-7 exit audit > renders planning readouts at narrow and wide widths without errors 9131ms
+ ❯ src/ui/app.test.ts (268 tests | 1 failed) 1111193ms
+   × mountApp > persists Single/Marker as a preview preference without dirtying or adding undo history 8044ms
+     → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+   ✓ mountApp > shows a render failure and disables exports when the current source throws 3607ms
+   ✓ mountApp > reports the refreshed and on-demand outputs for a changed measurement 4121ms
+   ✓ mountApp > maps woven hem turn to cutting outputs while keeping finished POMs independent 7833ms
+   ✓ mountApp > warns when tank shoulder width is not consumed by the drafted pattern 5379ms
+   ✓ mountApp > draws the canvas and the garment on mount 3402ms
+   ✓ mountApp > keeps every garment's Pattern labels and instructions in a piece-grouped key 17956ms
+   ✓ mountApp > lays out the Pattern key beside wide canvases and below narrow canvases 4038ms
+   ✓ mountApp > starts a fresh Tee workspace with a knit-appropriate material 5586ms
+   ✓ mountApp > opens the guided capture route with recipe help and keeps the full editor available 80352ms
+   ✓ mountApp > renders and gates guided capture against every current recipe field list 89644ms
+   ✓ mountApp > replaces the active canvas with Assembled, then returns to the same view 1190ms
+   ✓ mountApp > redraws the canvas when a measurement changes 1003ms
+   ✓ mountApp > uses flank +/- buttons and keeps the live boundary rail truthful 1731ms
+   ✓ mountApp > repeats a held stepper and suppresses the synthetic click 4790ms
+   ✓ mountApp > keeps the same +/- and range contract for recipe options, nesting width, and Edit coordinates 3588ms
+   ✓ mountApp > falls back to the original control if a stepper event detaches its input 1003ms
+   ✓ mountApp > preserves an out-of-range field with an actionable correction on change 1000ms
+   ✓ mountApp > recolours the garment when a fabric swatch is clicked 990ms
+   ✓ mountApp > opens the contextual appearance editor and updates color, texture, and shine 1850ms
+   ✓ mountApp > covers native appearance controls, wheel pointer input, and ignored keys 2632ms
+   ✓ mountApp > rejects an incomplete exact color without changing the live preview 1108ms
+   ✓ mountApp > round-trips appearance choices through the existing local workspace save 2764ms
+   ✓ mountApp > switches the canvas to the body view when Body is clicked 1001ms
+   ✓ mountApp > moves focus from a guidance note to its associated control 1127ms
+   ✓ mountApp > handles inspector menus, missing guidance targets, and preview spotlights safely 4977ms
+   ✓ mountApp > routes a field-backed journey correction to its input 1224ms
+   ✓ mountApp > supports readable single-figure body focus and bounded zoom 1562ms
+   ✓ mountApp > keeps the back body figure named and fits a wide inspection SVG 2699ms
+   ✓ mountApp > offers the schematic Side body view for both upper and lower garments 1972ms
+   ✓ mountApp > draws the tank without a sleeve, in both the body view and the assembled view (Slice 60) 1223ms
+   ✓ mountApp > still draws the tee WITH a sleeve — the fix is garment-specific, not global 947ms
+   ✓ mountApp > downloads a file when an export button is clicked 1539ms
+   ✓ mountApp > routes the download through window.electronAPI when running inside the desktop shell (Slice 46), skipping the Blob path entirely 1461ms
+   ✓ mountApp > routes a menu-triggered export (Slice 47) through the SAME button the mouse click uses, not a duplicated export path 1740ms
+   ✓ mountApp > registers no menu listener at all when electronAPI has no onExportRequested (a plain browser tab) 900ms
+   ✓ mountApp > downloads a whole-style tech pack, ignoring the per-size picker 2078ms
+   ✓ mountApp > downloads a whole-run projector file, ignoring the per-size picker 1652ms
+   ✓ mountApp > downloads the A0 file at the picked size 1622ms
+   ✓ mountApp > exports the chosen size: the picker drives the filename and the geometry 1614ms
+   ✓ mountApp > offers one export size per graded step, defaulting to the base 804ms
+   ✓ mountApp > Save writes to localStorage and Load protects unsaved edits before restoring 2755ms
+   ✓ mountApp > closes the dirty-load confirmation with Escape and returns focus 1130ms
+   ✓ mountApp > closes a load confirmation safely when its pending request is gone 1004ms
+   ✓ mountApp > recovers an unfinished input without allowing drafting or Save to accept it 4756ms
+   ✓ mountApp > discards an unfinished recovery draft explicitly 1831ms
+   ✓ mountApp > recovers when the local option map predates the active recipe 2245ms
+   ✓ mountApp > preserves an incomplete recipe option through recovery 3421ms
+   ✓ mountApp > keeps the assembled inspection frame selected when invalid input pauses the draft 1111ms
+   ✓ mountApp > rebuilds the semantic Edit source when a recipe option changes 2215ms
+   ✓ mountApp > opens field history immediately when the app has no project workflow 806ms
+   ✓ mountApp > selects the conventional front role for recipes without an explicit Edit role 1544ms
+   ✓ mountApp > keeps the reviewed journey incomplete when Electron cancels a file write 2493ms
+   ✓ mountApp > does not mark an older Electron export complete after the design changes 2159ms
+   ✓ mountApp > reports an Electron export write error without confirming export 2343ms
+   ✓ mountApp > reports when a browser cannot create the local export download 1914ms
+   ✓ mountApp > resets a selected export size when the next recipe does not support it 1546ms
+   ✓ mountApp > opens linked pages in inventory order and highlights only the mapped fields without editing values 1738ms
+   ✓ mountApp > steps through the measurement groups with the control-page buttons 1059ms
+   ✓ mountApp > opens the first linked page from a keyboard-activated SVG piece 1359ms
+   ✓ mountApp > explains option-only blocks without navigating to an unrelated measurement 2147ms
+   ✓ mountApp > explains when a live pattern block has no reviewed mapping 961ms
+   ✓ mountApp > clears highlights on an unrelated page and ignores a stale page link 2249ms
+   ✓ mountApp > uses an explicit fallback when an option-only mapping has no explanatory text 1352ms
+   ✓ mountApp > explains when a mapped field has no page in the active garment 819ms
+   ✓ mountApp > preserves an incomplete Polo V2 option through recovery 3103ms
+   ✓ mountApp > undoes and redoes a Polo V2 option without changing body measurements 5286ms
+   ✓ mountApp > guards navigation while dirty and clears the guard after a valid Save 1194ms
+   ✓ mountApp > keeps bounded Undo/Redo separate from native text editing 5243ms
+   ✓ mountApp > keeps empty history and unrelated shortcuts as no-ops 2661ms
+   ✓ mountApp > Save shows a failure message when localStorage throws 1067ms
+   ✓ mountApp > routes an unready menu export back to the current review stage 1211ms
+   ✓ mountApp > Load is a no-op when nothing has been saved 788ms
+   ✓ mountApp > keeps dirty Load safe when no HTMLElement owns focus 1352ms
+   ✓ mountApp > changing the target style updates the style panel gap, not the measurements 963ms
+   ✓ mountApp > uses fit and material cards without bypassing the native state controls 1807ms
+   ✓ mountApp > surfaces a material mismatch when a woven garment gets an explicit knit choice 2539ms
+   ✓ mountApp > uses a garment-family material default until the user makes an explicit choice 3359ms
+   ✓ mountApp > shows a fabric-stretch ease note and updates it when fabric changes 952ms
+   ✓ mountApp > confirms Export only after Electron confirms the reviewed write 1941ms
+   ✓ mountApp > explains and gates a knit material selected for the woven shirt 1837ms
+   ✓ mountApp > shows the auto-measured spec sheet in the Spec view 1433ms
+   ✓ mountApp > shows the fabric nesting estimate in the Nesting view 1355ms
+   ✓ mountApp > re-nests when the fabric width changes, and ignores an invalid width 1212ms
+   ✓ mountApp > renders the freeform editor with handles and a reset in the Edit view 1414ms
+   ✓ mountApp > persists an invalid semantic edit and pauses dependent outputs until correction 5935ms
+   ✓ mountApp > does not present preview checks as current when source input is invalid 1339ms
+   ✓ mountApp > applies keyboard coordinate edits and rejects incomplete or unknown coordinates 1983ms
+   ✓ mountApp > commits one durable semantic operation for a drag and clears it on reset 3400ms
+   ✓ mountApp > shows the production-readiness verdict in the Check view 1267ms
+   ✓ mountApp > toggles the canvas between the pattern and the graded size run 1257ms
+   ✓ mountApp > restores a previous save automatically on mount 2099ms
+   ✓ garment toggle > swaps the Pattern view to the darted fitted front and back to the tee 1462ms
+   ✓ garment toggle > carries the garment through the Spec view (the fitted sheet reports its dart) 1360ms
+   ✓ garment toggle > carries the garment through the Check view (the fitted report checks its dart) 1279ms
+   ✓ garment toggle > re-snapshots the freeform editor when the garment changes 2120ms
+   ✓ fabric width visibility > shows the bolt-width box only in the Nesting view, where it does something 1347ms
+   ✓ woven hem-turn propagation > rebuilds all cut-line exports without changing finished POM values 7778ms
+   ✓ semantic Edit view > does not expose topology-changing dart shortcuts 1754ms
+   ✓ semantic Edit view > labels an edit candidate when a recipe has no registered sizes 1341ms
+   ✓ semantic Edit view > uses the local operation ID fallback when randomUUID is unavailable 2054ms
+   ✓ semantic Edit view > keeps Edit usable and outputs paused when source hashing fails 2789ms
+   ✓ semantic Edit view > ignores a failed hash result after its source snapshot has been replaced 2620ms
+   ✓ semantic Edit view > keeps the rebase action harmless when source verification fails 3580ms
+   ✓ semantic Edit view > asks the user to wait when rebase is activated during source verification 4359ms
+   ✓ semantic Edit view > shows a guarded source failure if a recipe draft cannot be generated 1951ms
+   ✓ semantic Edit view > lists the fitted garment's recipe-authored roles for direct editing 2222ms
+   ✓ semantic Edit view > preserves edits when reselecting their recipe and clears them on a different recipe 4195ms
+   ✓ semantic Edit view > supports durable undo and redo as separate semantic history operations 3084ms
+   ✓ semantic Edit view > keeps coordinate no-ops empty and commits an exact y-only movement 2421ms
+   ✓ semantic Edit view > does not persist a non-finite pointer movement 2962ms
+   ✓ semantic Edit view > does not create a semantic edit when a drag returns to its start 2976ms
+   ✓ semantic Edit view > reports thrown operation-ID failures without losing the style draft 5938ms
+   ✓ semantic Edit view > blocks a drag whose source changes before release 3347ms
+   ✓ semantic Edit view > does not commit if a dragged pattern anchor no longer resolves 3571ms
+   ✓ semantic Edit view > saves semantic edits across reload and requires an explicit rebase after source changes 4716ms
+   ✓ semantic Edit view > keeps an unresolvable edit blocked when explicit rebase fails 3519ms
+   ✓ semantic Edit view > requires explicit edit review when tank shoulder width changes and directs users to strap width 3232ms
+   ✓ semantic Edit view > restores unsaved semantic operations from the versioned recovery record 4256ms
+   ✓ semantic Edit view > feeds saved semantic geometry into single-size and whole-run garment exports 4472ms
+   ✓ semantic Edit view > ignores clicks that are not semantic edit actions 1929ms
+   ✓ nesting scope toggle > uses the selected export size for the Single size nest 1172ms
+   ✓ nesting scope toggle > switches the fabric view to a graded marker when Marker is clicked 1356ms
+   ✓ body-view measurement linking > maps Tank-specific controls to their schematic dimensions and edges 1650ms
+   ✓ body-view measurement linking > makes Polo options live, persisted design controls separate from measurements 2032ms
+   ✓ body-view measurement linking > spotlights the Polo option's corresponding body feature 2080ms
+   ✓ body-view measurement linking > spotlights Woven options on matching assembled features 2552ms
+   ✓ body-view measurement linking > offers an honest Assembled route when the active Body view has no target 2734ms
+   ✓ body-view measurement linking > anchors a warning to its visible target and carries a dismissal into Check 2255ms
+   ✓ body-view measurement linking > handles spatial guidance geometry fallbacks and missing overlay hosts 8916ms
+   ✓ body-view measurement linking > blocks Check-to-Export when a reviewed style has a material warning 2524ms
+   ✓ body-view measurement linking > switches to the woven-shirt recipe and renders its live design details 1540ms
+   ✓ body-view measurement linking > keeps the woven neck measurement visible and live in Body view 1893ms
+   ✓ body-view measurement linking > maps Woven lower measurements to both Body figures and their side seams 2222ms
+   ✓ body-view measurement linking > runs the woven shirt through every user-facing view at the component exit 4541ms
+   ✓ body-view measurement linking > spotlights the hovered measurement's dimension and fades the rest 944ms
+   ✓ body-view measurement linking > keeps the spotlight after a slider change redraws the body 1097ms
+   ✓ body-view measurement linking > lifts the outline edges the measurement shapes, and dims the silhouette 894ms
+   ✓ body-view measurement linking > restores the silhouette and every edge on mouse leave 893ms
+   ✓ body-view measurement linking > spotlights the outline from keyboard focus, not just hover 981ms
+   ✓ body-view measurement linking > keeps the outline spotlight after a slider change redraws the body 1131ms
+   ✓ body-view measurement linking > keeps keyboard focus spotlighted after the pointer leaves the row 966ms
+   ✓ measurement-plausibility surfacing (Slice 32) > leaves fields un-outlined and the verdict clean for a sane body 725ms
+   ✓ measurement-plausibility surfacing (Slice 32) > amber-outlines an implausible field and clears it when fixed 1025ms
+   ✓ measurement-plausibility surfacing (Slice 32) > switches the guidance verdict to a review count on an implausible value 847ms
+   ✓ measurement-plausibility surfacing (Slice 32) > withholds the green Ready banner in the check view while implausible 1077ms
+   ✓ measurement-plausibility surfacing (Slice 32) > stops the style panel reading green while implausible 1951ms
+   ✓ guided journey > opens the first run on the approved non-modal Welcome without hiding Garment 836ms
+   ✓ guided journey > starts on Garment, then advances to Measure without choosing a garment 1282ms
+   ✓ guided journey > suppresses the undecided Welcome when someone navigates directly to another stage 1105ms
+   ✓ guided journey > opens an older saved workspace at Measure without auto-opening the tour 1817ms
+   ✓ guided journey > restores the active tour step and target after a reload 2093ms
+   ✓ guided journey > keeps the workspace usable and warns when tutorial persistence fails 996ms
+   ✓ guided journey > reaches Export through the reviewed stage path, with exports finally revealed 1836ms
+   ✓ guided journey > does not claim a browser download was written 1940ms
+   ✓ guided journey > never celebrates green while a measurement is implausible 2114ms
+   ✓ guided journey > skips without changing the current stage or design and retains replay 2021ms
+   ✓ guided journey > lets the active tour explain later stages while preserving invalid measurements and the Export gate 2286ms
+   ✓ guided journey > moves focus to the Check correction when a newly flagged value removes Next 2768ms
+   ✓ guided journey > finishes without exporting and keeps a replay action 2674ms
+   ✓ guided journey > returns the inspector to the new stage context when navigation changes stage 1404ms
+   ✓ guided journey > resumes a persisted journey where it left off 737ms
+   ✓ guided journey > steps back with the Back button 1882ms
+   ✓ guided journey > lets the first four stage chips revisit their stage and preferred view 1657ms
+   ✓ guided journey > keeps the legacy Done state from bypassing the reviewed journey 2835ms
+   ✓ guided journey > keeps the Slice-30 hover spotlight alive inside the journey 2967ms
+   ✓ switching to the skirt (Slice 38) > swaps the measurement controls to the skirt's fields 2840ms
+   ✓ switching to the skirt (Slice 38) > keeps the re-rendered skirt inputs live (listeners re-wired) 3261ms
+   ✓ switching to the skirt (Slice 38) > draws the skirt in both the assembled view and the body view (Slice 40) 2884ms
+   ✓ skirt styles are selectable (Slice 39) > populates the target dropdown with skirt styles and switches target 1964ms
+   ✓ switching to the trouser recipe (Slice 100) > routes all six export buttons through the live trouser recipe and picked size 9014ms
+   ✓ switching to the trouser recipe (Slice 100) > routes the registered lower-body recipe through controls, views, and Edit 4754ms
+   ✓ switching to the trouser recipe (Slice 100) > keeps option and measurement changes live in the shared draft-backed previews 2889ms
+   ✓ switching to the trouser recipe (Slice 100) > pauses invalid trouser options, reports material incompatibility, and restores saved state 7200ms
+   ✓ surface artwork panel (Slice 126) > renders the panel with an add form on the fit step 2407ms
+   ✓ surface artwork panel (Slice 126) > rejects empty and duplicate names without adding anything 2110ms
+   ✓ surface artwork panel (Slice 126) > adds a placement with a true-scale preview polygon 2932ms
+   ✓ surface artwork panel (Slice 126) > creates a placement with its entered size and optional provenance reference 1673ms
+   ✓ surface artwork panel (Slice 126) > suggests the current garment's exact piece roles, including lower-body roles 3003ms
+   ✓ surface artwork panel (Slice 126) > falls back to manual role entry when the current draft cannot supply roles 2120ms
+   ✓ surface artwork panel (Slice 126) > keeps an invalid creation dimension visible and gives field-specific feedback 1216ms
+   ✓ surface artwork panel (Slice 126) > rejects a blank placement height without filling or hiding the input 1405ms
+   ✓ surface artwork panel (Slice 126) > keeps invalid values visible with an actionable error while drafting continues 2208ms
+   ✓ surface artwork panel (Slice 126) > recovers through the stepper and the kind select 2712ms
+   ✓ surface artwork panel (Slice 126) > edits transform fields into the nested transform 2374ms
+   ✓ surface artwork panel (Slice 126) > does not replace a manually edited numeric field while capturing raw input 1934ms
+   ✓ surface artwork panel (Slice 126) > removes a placement explicitly 2041ms
+   ✓ surface artwork panel (Slice 126) > round-trips artwork, including raw invalid values, through save and load 5162ms
+   ✓ surface artwork panel (Slice 126) > loads pre-surface saves with an empty set 4198ms
+   ✓ surface artwork panel (Slice 126) > isolates artwork sets per style and shares them across sizes 3202ms
+   ✓ surface artwork panel (Slice 126) > renders the panel for all seven garments with the assembled preview intact 6314ms
+   ✓ surface artwork panel (Slice 126) > renders at narrow and wide widths without errors 19230ms
+   ✓ surface artwork panel (Slice 126) > treats a cleared field as explicitly incomplete 1728ms
+   ✓ surface artwork panel (Slice 126) > ignores stray surface controls that name no row 2372ms
+   ✓ surface artwork panel (Slice 126) > ignores typing in the add form until Add is pressed 1301ms
+   ✓ surface artwork panel (Slice 126) > survives a hostile save and recovers through explicit edits 4589ms
+   ✓ surface output (Slice 127) > disables the print sheet with an artwork reason when the style is empty 2697ms
+   ✓ surface output (Slice 127) > downloads the print sheet for the current style, ignoring the size picker 3493ms
+   ✓ surface output (Slice 127) > downloads the tech pack with the artwork section for the current style 4919ms
+   ✓ surface output (Slice 127) > leaves export filenames stable when the style is empty 2400ms
+   ✓ surface guidance (Slice 128) > shows artwork warnings in guidance with a Review action 2827ms
+   ✓ surface guidance (Slice 128) > focuses the failing control from the Review action 3531ms
+   ✓ surface guidance (Slice 128) > dismisses the warning until a pattern change brings it back 4215ms
+   ✓ surface guidance (Slice 128) > keeps artwork warnings visible on the Check view without gating exports 5527ms
+   ✓ surface frame guidance (Slice 130) > repairs an empty name through Review focus on the Name input 7631ms
+   ✓ surface frame guidance (Slice 130) > warns when artwork leaves its piece and when it covers the whole piece 2726ms
+   ✓ surface frame guidance (Slice 130) > names unknown piece roles with the available choices 2520ms
+   ✓ surface frame guidance (Slice 130) > warns below the print floor for rated sources and stays silent otherwise 3326ms
+   ✓ surface frame guidance (Slice 130) > treats cleared optional source dimensions as unknown, not invalid 2703ms
+   ✓ surface frame guidance (Slice 130) > round-trips source dimensions through save and load 6111ms
+   ✓ nesting intelligence (Slice 133) > renders planning controls and estimate readouts on the fabric view 2747ms
+   ✓ nesting intelligence (Slice 133) > renders the estimate for all seven garments without leaking values 7620ms
+   ✓ nesting intelligence (Slice 133) > recomputes truthfully across single-size and marker scopes 3158ms
+   ✓ nesting intelligence (Slice 133) > keeps invalid buffer visible with guidance while drafting continues 3569ms
+   ✓ nesting intelligence (Slice 133) > judges fits and shortage against fabric on hand 5219ms
+   ✓ nesting intelligence (Slice 133) > toggles the directional notice without changing placements 2816ms
+   ✓ nesting intelligence (Slice 133) > focuses the failing control from the Review action 3110ms
+   ✓ nesting intelligence (Slice 133) > round-trips planning values through save and load 5110ms
+   ✓ nesting intelligence (Slice 133) > rejects an invalid buffer visibly at save time 3160ms
+   ✓ nesting intelligence (Slice 133) > loads a null on-hand value as a blank input 8417ms
+   ✓ nesting intelligence (Slice 133) > loads pre-intelligence saves with planning defaults 6217ms
+   ✓ nesting intelligence (Slice 133) > restores raw invalid planning values through recovery 4912ms
+   ✓ nesting intelligence (Slice 133) > renders planning readouts at narrow and wide widths without errors 25382ms
+   ✓ safe local artwork import and persistence (Slice 200) > imports with the picker, saves only a stable asset reference, and reloads local artwork 5661ms
+   ✓ safe local artwork import and persistence (Slice 200) > uses the desktop bridge by default instead of browser storage 3854ms
+   ✓ safe local artwork import and persistence (Slice 200) > keeps desktop imports disabled when the local bridge is incomplete 1764ms
+   ✓ safe local artwork import and persistence (Slice 200) > creates and revokes object-URL previews for local images 2255ms
+   ✓ safe local artwork import and persistence (Slice 200) > creates a placement from a dropped file on the new-placement drop target 1828ms
+   ✓ safe local artwork import and persistence (Slice 200) > accepts a dropped file on an existing placement and preserves it if replacement storage fails 2347ms
+   ✓ safe local artwork import and persistence (Slice 200) > shows a missing asset distinctly and restores it with the file picker 6324ms
+   ✓ safe local artwork import and persistence (Slice 200) > rejects a file clearly and blocks creation without changing design or storage 2018ms
+   ✓ safe local artwork import and persistence (Slice 200) > keeps the new-file picker usable while checking and handles empty, multiple, and unknown-size selections 1933ms
+   ✓ safe local artwork import and persistence (Slice 200) > handles drag feedback and reports when a placement changes during replacement inspection 2621ms
+   ✓ safe local artwork import and persistence (Slice 200) > ignores an older replacement selection after a newer file is chosen 2593ms
+   ✓ safe local artwork import and persistence (Slice 200) > shows storage-unavailable preview feedback without a browser object-URL provider 7313ms
+   ✓ safe local artwork import and persistence (Slice 200) > blocks duplicate placement saves while a validated image is still being written 3161ms
+   ✓ bundled local artwork library (Slice 203) > searches, filters, and changes guidance without mutating the design or imported-art store 5154ms
+   ✓ bundled local artwork library (Slice 203) > stages a bundled item, saves its stable ID, and reloads its preview without imported storage 9647ms
+   ✓ bundled local artwork library (Slice 203) > stages and reloads a CMA reference using its institution and accession number 5683ms
+   ✓ bundled local artwork library (Slice 203) > keeps manual placement creation working with no artwork or source reference 2859ms
+   ✓ bundled local artwork library (Slice 203) > keeps the artwork target aligned when its placement or an earlier placement is removed 8012ms
+   ✓ bundled local artwork library (Slice 203) > uses the stable bundled ID when an artwork title cannot form a placement name 2205ms
+   ✓ bundled local artwork library (Slice 203) > replaces an existing placement's artwork metadata without changing its design values 10629ms
+   ✓ bundled local artwork library (Slice 203) > keeps the first-run journey on Garment and routes project backup bytes through the optional Electron binary-save bridge 1344ms
+   ✓ bundled local artwork library (Slice 203) > resumes guided measurement drafts from the active local style without turning them into readings 6249ms
+   ✓ bundled local artwork library (Slice 203) > keeps Measure and garment selection in place when a pending guided capture cannot be saved 2721ms
+   ✓ bundled local artwork library (Slice 203) > turns a ready guided capture into one saved custom style and withholds whole-run controls 55621ms
+   ✓ bundled local artwork library (Slice 203) > freezes the reviewed standard graded outputs through the project manager 3490ms
+   ✓ bundled local artwork library (Slice 203) > gates whole-run outputs on exact plan readiness and invalidates approval after edits 101723ms
+   ✓ bundled local artwork library (Slice 203) > rejects a forced review action when the explicit grade plan is incomplete 6140ms
+   ✓ bundled local artwork library (Slice 203) > discards stale grade-plan loads and reports failed context or repository loads 12243ms
+   ✓ bundled local artwork library (Slice 203) > keeps grade-plan creation blocked when a custom style has no saved measurement capture 1469ms
+   ✓ bundled local artwork library (Slice 203) > evaluates custom one-size semantic edits only at step zero 9201ms
+   ✓ bundled local artwork library (Slice 203) > waits for semantic source verification before binding grade-plan POMs to saved edits 7996ms
+   ✓ bundled local artwork library (Slice 203) > reports a non-Error failure while saving a completed custom size 5952ms
+   ✓ bundled local artwork library (Slice 203) > reports failed guided capture loads, including a non-Error rejection 1416ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ui/app.test.ts > mountApp > persists Single/Marker as a preview preference without dirtying or adding undo history
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 134 passed (135)
+      Tests  1 failed | 2090 passed (2091)
+   Start at  01:26:12
+   Duration  1129.62s (transform 40.52s, setup 0ms, collect 162.19s, tests 2093.45s, environment 81.46s, prepare 66.30s)
+

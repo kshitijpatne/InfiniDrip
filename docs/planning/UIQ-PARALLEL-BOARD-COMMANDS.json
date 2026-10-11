@@ -1,0 +1,202 @@
+[
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Explicit begin on 2026-10-02; isolate candidate delivery from production integration.",
+    "workItem": {
+      "id": "UIQ02-CANDIDATE",
+      "type": "task",
+      "title": "UIQ-02 native foundation isolated candidate",
+      "epicId": null,
+      "releaseId": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Claude Code",
+      "reviewer": "Codex",
+      "targetAt": null,
+      "dependencies": [],
+      "protectedSurfaces": [
+        "EPIC-17 active worktree and source",
+        "shared app wiring",
+        "catalog bytes/search semantics",
+        "local-first no-cost",
+        "100% coverage/export identity"
+      ],
+      "description": "Admitted isolated candidate under docs/planning/UIQ-PARALLEL-ADMISSION.md; parent UIQ-02 remains unshipped. No shared wiring/production merge/deployment.",
+      "expectation": "Reviewed native candidate, frozen props, 100% changed-production coverage and actual rendered/no-egress evidence; no live feature claim.",
+      "acceptanceCriteria": [
+        "Respect exact file ownership and frozen API/CSS contract in admission packet.",
+        "Contributor returns WORK FINISHED and source/tests/evidence; Codex independently verifies.",
+        "Pass 100% four-metric focused coverage and settled combined repository gates; do not weaken tests/baselines.",
+        "Pass browser keyboard/narrow/zoom/fallback/hostile text/isolation/no-egress matrix.",
+        "Keep release/delivery unset for production; integration remains gated after Epic17."
+      ],
+      "flagKey": null
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ02-CANDIDATE",
+    "evidence": {
+      "id": "E-UIQ-PARALLEL-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-PARALLEL-ADMISSION.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Direct maintainer begin authorizes only the two isolated candidates on 2026-10-02 New York. Planning admission, not implementation acceptance."
+    }
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ02-CANDIDATE",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Bounded headless contributor started in a disjoint worktree under the admitted contract."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-02",
+    "actor": "Codex",
+    "text": "Isolated candidate admission tracked in UIQ02-CANDIDATE under docs/planning/UIQ-PARALLEL-ADMISSION.md. Parent retains unshipped Backlog; no shared integration or release before UIQ-GATE. Active Epic17 worktree is not changed."
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Explicit begin on 2026-10-02; isolate candidate delivery from production integration.",
+    "workItem": {
+      "id": "UIQ05-CANDIDATE",
+      "type": "task",
+      "title": "UIQ-05 existing artwork panel isolated candidate",
+      "epicId": null,
+      "releaseId": null,
+      "priority": "P1",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "OpenCode",
+      "reviewer": "Codex",
+      "targetAt": null,
+      "dependencies": [],
+      "protectedSurfaces": [
+        "EPIC-17 active worktree and source",
+        "shared app wiring",
+        "catalog bytes/search semantics",
+        "local-first no-cost",
+        "100% coverage/export identity"
+      ],
+      "description": "Admitted isolated candidate under docs/planning/UIQ-PARALLEL-ADMISSION.md; parent UIQ-05 remains unshipped. No shared wiring/production merge/deployment.",
+      "expectation": "Reviewed native candidate, frozen props, 100% changed-production coverage and actual rendered/no-egress evidence; no live feature claim.",
+      "acceptanceCriteria": [
+        "Respect exact file ownership and frozen API/CSS contract in admission packet.",
+        "Contributor returns WORK FINISHED and source/tests/evidence; Codex independently verifies.",
+        "Pass 100% four-metric focused coverage and settled combined repository gates; do not weaken tests/baselines.",
+        "Pass browser keyboard/narrow/zoom/fallback/hostile text/isolation/no-egress matrix.",
+        "Keep release/delivery unset for production; integration remains gated after Epic17."
+      ],
+      "flagKey": null
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ05-CANDIDATE",
+    "evidenceId": "E-UIQ-PARALLEL-ADMISSION"
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ05-CANDIDATE",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Bounded headless contributor started in a disjoint worktree under the admitted contract."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-05",
+    "actor": "Codex",
+    "text": "Isolated candidate admission tracked in UIQ05-CANDIDATE under docs/planning/UIQ-PARALLEL-ADMISSION.md. Parent retains unshipped Backlog; no shared integration or release before UIQ-GATE. Active Epic17 worktree is not changed."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ02-CANDIDATE",
+    "status": "Review",
+    "actor": "Claude Code (via Codex)",
+    "role": "contributor",
+    "reason": "Explicit WORK FINISHED received; Codex actual-diff, browser and full gates pending."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ05-CANDIDATE",
+    "status": "Review",
+    "actor": "OpenCode (via Codex)",
+    "role": "contributor",
+    "reason": "Explicit WORK FINISHED received; Codex actual-diff, browser and full gates pending."
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ02-CANDIDATE",
+    "evidence": {
+      "id": "E-UIQ-PARALLEL-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq-parallel/CANDIDATE-EXIT.json",
+      "commit": null,
+      "sha256": "e64948426c7d67478432b5af663c6bb9987b685c60c12e1fbc4425832b645925",
+      "verified": true,
+      "note": "Codex accepted both isolated local-web candidates: 135 suites/2091 tests, global and changed-production 100% four metrics, 9 export identities, 49 operational tests, type/build, 18 rendered cases, no egress and 279 protected identities. Uncommitted candidate evidence only, not shipped app behavior."
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ05-CANDIDATE",
+    "evidenceId": "E-UIQ-PARALLEL-EXIT"
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ02-CANDIDATE",
+    "actor": "Codex",
+    "text": "Independent reviewer acceptance: docs/research/uiq-parallel/CANDIDATE-EXIT.json and CODEX-REVIEW.md. All scoped criteria pass; actual screenshots in docs/research/uiq-parallel/evidence/foundation-desktop.png, in-app-combined-desktop.png, in-app-long-narrow.png and forced-colors PNGs. Delivered date records isolated candidate acceptance only. No app wiring, commit, main push or deployment; packaged file-origin assets and production flags/fallback await UIQ-GATE after settled merged Epic17."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ05-CANDIDATE",
+    "actor": "Codex",
+    "text": "Independent reviewer acceptance: docs/research/uiq-parallel/CANDIDATE-EXIT.json and CODEX-REVIEW.md. All scoped criteria pass; actual screenshots in docs/research/uiq-parallel/evidence/foundation-desktop.png, in-app-combined-desktop.png, in-app-long-narrow.png and forced-colors PNGs. Delivered date records isolated candidate acceptance only. No app wiring, commit, main push or deployment; packaged file-origin assets and production flags/fallback await UIQ-GATE after settled merged Epic17."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ02-CANDIDATE",
+    "status": "Done",
+    "actor": "Codex",
+    "role": "reviewer",
+    "reason": "Codex independently reviewed actual diff/corrections, rendered/output evidence and complete settled gates; isolated candidate accepted, not production released.",
+    "evidenceRefs": [
+      "E-UIQ-PARALLEL-EXIT"
+    ]
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ05-CANDIDATE",
+    "status": "Done",
+    "actor": "Codex",
+    "role": "reviewer",
+    "reason": "Codex independently reviewed actual diff/corrections, rendered/output evidence and complete settled gates; isolated candidate accepted, not production released.",
+    "evidenceRefs": [
+      "E-UIQ-PARALLEL-EXIT"
+    ]
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-02",
+    "actor": "Codex",
+    "text": "UIQ02-CANDIDATE independently accepted on 2026-10-02; immutable exit proof: docs/research/uiq-parallel/CANDIDATE-EXIT.json. This parent remains Backlog/unshipped: integration requires separate UIQ-GATE admission after settled merged Epic17. No new G04 closure dependency."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-05",
+    "actor": "Codex",
+    "text": "UIQ05-CANDIDATE independently accepted on 2026-10-02; immutable exit proof: docs/research/uiq-parallel/CANDIDATE-EXIT.json. This parent remains Backlog/unshipped: integration requires separate UIQ-GATE admission after settled merged Epic17. No new G04 closure dependency."
+  }
+]

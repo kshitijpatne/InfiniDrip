@@ -1,0 +1,291 @@
+{
+  "verifiedAt": "2026-10-02T17:07:43.422Z",
+  "status": "independently accepted isolated UIQ03/UIQ04 candidates; not shipped",
+  "candidateIds": [
+    "UIQ03-CANDIDATE",
+    "UIQ04-CANDIDATE"
+  ],
+  "reviewer": "Codex",
+  "base": "a5af5e13c2e967946b3f6035fcea66ff03a5e0e0",
+  "suites": 137,
+  "tests": 2292,
+  "focusedTests": 201,
+  "coverage": {
+    "global": {
+      "lines": {
+        "total": 25081,
+        "covered": 25081,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 25081,
+        "covered": 25081,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 1512,
+        "covered": 1512,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 11305,
+        "covered": 11305,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "focused": {
+      "lines": {
+        "total": 499,
+        "covered": 499,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 499,
+        "covered": 499,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 29,
+        "covered": 29,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 115,
+        "covered": 115,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    }
+  },
+  "exports": {
+    "qualityIdentityTests": 9,
+    "legacyHashTests": 8,
+    "baselineMoved": false
+  },
+  "browser": {
+    "checks": 18,
+    "externalRequests": 0,
+    "localRequests": 15,
+    "pageErrors": 0
+  },
+  "protectedFiles": 293,
+  "protectedMismatches": 0,
+  "sourceHashes": [
+    {
+      "path": "src/ui/enhancements/guidance/guidance-panel.ts",
+      "sha256": "5008f6ffad836606d1fe5adeea6b61b9a935861aa504584c8821c042c37b1ef3"
+    },
+    {
+      "path": "src/ui/enhancements/guidance/guidance-panel.test.ts",
+      "sha256": "10960f56ff944de2184fce1700809b004fe532e7f6430670d948a7aaa4fdb530"
+    },
+    {
+      "path": "src/ui/enhancements/guidance/guidance-panel.css",
+      "sha256": "924211761c1a03b96ce78f7b2e5619d75df308a17a59567a808d34a38fa7e203"
+    },
+    {
+      "path": "ops/ui-candidates/clarity-exit.mjs",
+      "sha256": "4ccff3972d7617a5024d10ec3dfea782f549c70159f3ecb98716c029a6e99a8b"
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.css",
+      "sha256": "8fe36ab43677ee5a54bd19479d8985687ba3747255ccf6a313b373494719f8a5"
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.test.ts",
+      "sha256": "5c9843a88813a522c7a7fe309df6e20dfb00d75a6ece5b186d25a9dd32a50c68"
+    },
+    {
+      "path": "src/ui/enhancements/material/material-panel.ts",
+      "sha256": "3d2392a317f3b919d7411f96b94a9766f81ffea60ab5752df48689ab6d72bc3f"
+    },
+    {
+      "path": "ops/ui-candidates/clarity-gates.mjs",
+      "sha256": "9e5fab0ca97eed6325b53c4e79f7f5bad492b1847267587d6d0cfaa4af3fed8e"
+    },
+    {
+      "path": "ops/ui-candidates/clarity-identities.mjs",
+      "sha256": "ed7b528f18f18006f14c64a7cbea4621497b6de3bf6496b6ec3985be2a692d4c"
+    },
+    {
+      "path": "ops/ui-candidates/material.html",
+      "sha256": "aaee45284a48d98029ce383e68e18630dfb952593185b6f7e7d7753a291f0757"
+    },
+    {
+      "path": "ops/ui-candidates/material-preview.ts",
+      "sha256": "5f00311a4426d2d019110b27d4e25012af200e6eb9f207e81e6012721130f4d1"
+    },
+    {
+      "path": "ops/ui-candidates/guidance.html",
+      "sha256": "2348f346fb489eb32cc88283b143569baf6cc24db725d374a69d7708243ec4f3"
+    },
+    {
+      "path": "ops/ui-candidates/guidance-preview.ts",
+      "sha256": "c89d551c8b175f5e6e02f912270b209f56ce9ef59696db56b7c456e9d85c62f3"
+    },
+    {
+      "path": "ops/ui-candidates/clarity.html",
+      "sha256": "9a379c5bd58bd0fbb38a67a55a3f43cff34f49e492b113e5d69768d2fd5b2945"
+    },
+    {
+      "path": "ops/ui-candidates/clarity-verify.mjs",
+      "sha256": "3304a159b0499dab6720d40b3199054d0e72da0c29d7c46d707cb5927a789108"
+    },
+    {
+      "path": "ops/ui-candidates/clarity-preview.ts",
+      "sha256": "24a384b5732b73e9780de386f47b5cdc4505eb7586e714b819af8f3d8d52927b"
+    }
+  ],
+  "evidenceHashes": {
+    "docs/research/uiq-clarity/evidence/full-global.log": "d1c078635be03d1cb55c169a20e58dbafcacaba8e7dd81adb80d11eccb76a947",
+    "docs/research/uiq-clarity/evidence/full-vitest-results.json": "8dbb9749762053f4af91b5d0a13ba40cd3d9d280e573542105dfd08bb9dc70af",
+    "docs/research/uiq-clarity/evidence/full-gates.json": "aeb73e8d05de209c31495fe5045320c3a29a963bc48d65329744992c0fa5e404",
+    "coverage-uiq34-global/coverage-summary.json": "30fa1c8caf06d9ff064eb73e7b8b2aa70f4a2060263eadb7d3e07336c3f8c9a9",
+    "coverage-uiq34-global/coverage-final.json": "520f1accfef607d244b666d4607c71310ea290ec9f0cb2f48a5046d691e44103",
+    "coverage-uiq34-final-focused/coverage-summary.json": "bd80a8d6ce389505a93c3a3c722a902e93e5d9f84d5bc1bdc75955077c3949c9",
+    "docs/research/uiq-clarity/evidence/supporting-gates.json": "d1a5dd0145098dae88230dff715ec52d95ade25c24f405f75935dd523d767a26",
+    "docs/research/uiq-clarity/evidence/clarity-browser-report.json": "13a78d92c9ffdb7afb8e9eb7273d9674ffca3a0a3ce5385e1be603d84e79930b",
+    "docs/research/uiq-clarity/QA-SNAPSHOT.json": "7a160794216efbea3160f63f378a4757c788edf1d47282ab867cfd172e69854b",
+    "docs/research/uiq34-qa/RETURN.md": "fc4ee2f6f53797e63987e0772ebcf5ccf1162571a2b99f0465bf426b02d6a288",
+    "docs/research/uiq-clarity/evidence/guidance-desktop.png": "b6962b48d2db7c8d3d5587bbb4ce0343bc906d4558e5fec4c29ecc42482ad876",
+    "docs/research/uiq-clarity/evidence/material-desktop.png": "dbb3aaf733ac1d0127c291869d877a5f763c5e37cdb15756ef932829be49128e",
+    "docs/research/uiq-clarity/evidence/clarity-hostile-narrow.png": "a345ed84779b94395901fd9c5a23648855b945197ef766e66f19072ca0525a39",
+    "docs/research/uiq-clarity/evidence/clarity-forced.png": "f74d32ab8017e653818096a63cefcafee5608677ad0fd98a59b678c4d600801a",
+    "docs/research/uiq-clarity/evidence/clarity-reduce.png": "a13c6a4cd491834fc50fec47bafb3356a90eae070809126fc2ee018697bf64ab"
+  },
+  "fullGate": {
+    "startedAt": "2026-10-02T16:41:13.100Z",
+    "gates": [
+      {
+        "name": "full-global",
+        "command": "npx vitest run --coverage --exclude=tmp/ui-repo-sources/** --minWorkers=1 --maxWorkers=1 --coverage.reportsDirectory=coverage-uiq34-global --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --reporter=default --reporter=json --outputFile=docs/research/uiq-clarity/evidence/full-vitest-results.json",
+        "startedAt": "2026-10-02T16:41:13.101Z",
+        "elapsedMs": 1363195,
+        "exitCode": 0
+      }
+    ],
+    "finishedAt": "2026-10-02T17:03:56.298Z"
+  },
+  "supportingGates": {
+    "startedAt": "2026-10-02T16:38:05.020Z",
+    "gates": [
+      {
+        "name": "type-build",
+        "command": "npm run build",
+        "startedAt": "2026-10-02T16:38:05.022Z",
+        "elapsedMs": 23939,
+        "exitCode": 0
+      },
+      {
+        "name": "preview-typecheck",
+        "command": "npx tsc --noEmit --strict --target ES2020 --module ESNext --moduleResolution bundler --esModuleInterop --skipLibCheck ops/ui-candidates/clarity-preview.ts ops/ui-candidates/guidance-preview.ts ops/ui-candidates/material-preview.ts",
+        "startedAt": "2026-10-02T16:38:28.965Z",
+        "elapsedMs": 4965,
+        "exitCode": 0
+      },
+      {
+        "name": "control-center",
+        "command": "npm run control-center:test",
+        "startedAt": "2026-10-02T16:38:33.931Z",
+        "elapsedMs": 2622,
+        "exitCode": 0
+      },
+      {
+        "name": "delivery-proof",
+        "command": "npm run web:release:test",
+        "startedAt": "2026-10-02T16:38:36.554Z",
+        "elapsedMs": 2086,
+        "exitCode": 0
+      },
+      {
+        "name": "readiness",
+        "command": "npm run readiness:drill:test",
+        "startedAt": "2026-10-02T16:38:38.643Z",
+        "elapsedMs": 1451,
+        "exitCode": 0
+      },
+      {
+        "name": "browser",
+        "command": "node ops/ui-candidates/clarity-verify.mjs",
+        "startedAt": "2026-10-02T16:38:40.095Z",
+        "elapsedMs": 7407,
+        "exitCode": 0
+      },
+      {
+        "name": "protected-identities",
+        "command": "node ops/ui-candidates/clarity-identities.mjs",
+        "startedAt": "2026-10-02T16:38:47.503Z",
+        "elapsedMs": 708,
+        "exitCode": 0
+      }
+    ],
+    "finishedAt": "2026-10-02T16:38:48.212Z"
+  },
+  "independentQa": {
+    "model": "opencode/muse-spark-1.3-contributor-free",
+    "variant": "xhigh",
+    "mode": "build",
+    "session": "ses_f02a94477ffe2Ymm1v3ippgMvg",
+    "workFinished": true,
+    "adversarialProbes": 30,
+    "readonlyInputs": 27,
+    "browserClaims": false,
+    "originalSnapshots": "docs/research/uiq-clarity/QA-SNAPSHOT.json",
+    "limitationsAndCodexCorrections": "docs/research/uiq-clarity/CODEX-REVIEW.md"
+  },
+  "production": {
+    "wired": false,
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "parentReleaseCards": "Backlog/unshipped",
+    "epic17WrittenOrInterrupted": false
+  },
+  "integrationHolds": [
+    "Separate admitted UIQ-GATE after settled merged Epic17",
+    "Fresh main/ownership review, unique numbered landing, production flag/default/fallback",
+    "Actual desktop/file-origin integration proof before desktop wiring"
+  ],
+  "acceptance": {
+    "at": "2026-10-02T17:07:43.422Z",
+    "reviewer": "Codex",
+    "scope": "corrected coordinator source only",
+    "actualDiffReviewed": true,
+    "allAdmissionP0Passed": true,
+    "boardClosure": "recorded separately through validated commands; parent releases remain Backlog",
+    "review": "docs/research/uiq-clarity/CODEX-REVIEW.md",
+    "matrix": "docs/research/uiq-clarity/REVIEW-MATRIX.md",
+    "priorAcceptedProof": "docs/research/uiq-parallel/CANDIDATE-EXIT.json",
+    "originalContributorSnapshotsNotApprovedForIntegration": true
+  },
+  "timing": {
+    "goalStartedAt": "2026-10-02T15:24:23.000Z",
+    "guidanceCliWallMs": 1129434,
+    "materialCliWallMs": 884058,
+    "contributorsRanInParallel": true,
+    "finalFullVerificationMs": 1363195,
+    "finalSupportingVerificationMs": 43192,
+    "maintainerDecisionWaitMs": 0,
+    "implementationAndExternalWaitExclusiveTime": "not fully instrumented; CLI wall times include their own verification and cannot be summed as exclusive work",
+    "diagnosticRuns": "two intentionally stopped incomplete globals retained; neither counted as passing evidence"
+  }
+}

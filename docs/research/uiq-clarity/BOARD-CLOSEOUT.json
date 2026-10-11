@@ -1,0 +1,50 @@
+{
+  "verifiedAt": "2026-10-02T17:12:38.230Z",
+  "boardRevision": 447,
+  "boardValid": true,
+  "reviewer": "Codex",
+  "exitEvidence": "E-UIQ-CLARITY-EXIT",
+  "exitProofSha256": "75066163e83dbc019bc2214b83a4b6459048f84b029da927aa0999d17761a786",
+  "children": [
+    {
+      "id": "UIQ03-CANDIDATE",
+      "status": "Done",
+      "deliveredAt": "2026-10-02",
+      "releaseId": null
+    },
+    {
+      "id": "UIQ04-CANDIDATE",
+      "status": "Done",
+      "deliveredAt": "2026-10-02",
+      "releaseId": null
+    },
+    {
+      "id": "UIQ34-QA",
+      "status": "Done",
+      "deliveredAt": "2026-10-02",
+      "releaseId": null
+    }
+  ],
+  "parents": [
+    {
+      "id": "UIQ-03",
+      "status": "Backlog",
+      "releaseId": null
+    },
+    {
+      "id": "UIQ-04",
+      "status": "Backlog",
+      "releaseId": null
+    }
+  ],
+  "replayCommands": 26,
+  "postCloseControlCenter": {
+    "tests": 34,
+    "passed": 34,
+    "failed": 0,
+    "log": "docs/research/uiq-clarity/evidence/post-close-control-center.log"
+  },
+  "prodSourceChangedAfterFullGate": false,
+  "notCommittedPushedOrDeployed": true,
+  "nextGate": "Separate admitted UIQ-GATE after settled merged Epic17"
+}

@@ -1,0 +1,113 @@
+[
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Maintainer approved isolated UIQ-07 static welcome candidate on 2026-10-07; no production entry flow admitted.",
+    "workItem": {
+      "type": "task",
+      "epicId": null,
+      "releaseId": null,
+      "priority": "P2",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "targetAt": null,
+      "dependencies": [
+        "UIQ02-CANDIDATE"
+      ],
+      "protectedSurfaces": [
+        "accepted UIQ02/03/04/05 candidate hashes",
+        "active EPIC-17 source/worktree/board",
+        "application entry/login/persistence/config",
+        "local-first/no-cost boundary",
+        "100% changed-code coverage and export byte identity"
+      ],
+      "flagKey": null,
+      "id": "UIQ07-CANDIDATE",
+      "title": "UIQ-07 static welcome visual isolated candidate",
+      "description": "Original native typographic wordmark and static CSS backdrop, with standalone noindex preview. Packet: docs/planning/UIQ-07-ADMISSION.md.",
+      "expectation": "A polished, readable, locally rendered welcome visual can be reviewed independently without changing the app or entry flow.",
+      "acceptanceCriteria": [
+        "Only the five admitted candidate source/preview files plus review evidence; no app entry/login/CTA/navigation/feature flag.",
+        "Native scoped CSS and text; no external assets, URLs, dependencies, or unlicensed material.",
+        "Focused production code coverage 100% across statements/branches/functions/lines; preview typecheck and repository build pass.",
+        "Actual browser proof at desktop and narrow viewports, keyboard/document semantics, contrast, forced colors, reduced motion, and zoom-equivalent reflow.",
+        "No egress; hostile HTML-looking copy is literal; accepted UIQ02/03/04/05 proofs and production protected files unchanged.",
+        "Codex reviewer closes candidate with evidence; parent remains Backlog/unshipped pending separate UIQ-GATE after merged EPIC-17."
+      ]
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ07-CANDIDATE",
+    "evidence": {
+      "id": "E-UIQ07-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-07-ADMISSION.md",
+      "commit": null,
+      "sha256": "712ac6c6f01f13b4958198f56ad4e54d0a0aba0a607a5907119893567b35b65b",
+      "verified": true,
+      "note": "Direct maintainer approval for a parallel isolated static welcome visual, 2026-10-07; does not authorize login, entry flow, app wiring, or deployment."
+    }
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ07-CANDIDATE",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Bounded UIQ-07 admission and protected ownership verified; isolated native implementation begins."
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-07",
+    "actor": "Codex",
+      "text": "Maintainer separately admitted UIQ07-CANDIDATE for parallel isolated static welcome visuals on 2026-10-07. Candidate card tracks only native original wordmark/backdrop and standalone preview; no login/entry wiring, no new assets/dependencies, and no EPIC-17 dependency. Parent remains Backlog/unshipped pending separate UIQ-GATE after merged EPIC-17."
+    },
+  {
+    "type": "addEvidence",
+    "itemId": "UIQ07-CANDIDATE",
+    "evidence": {
+      "id": "E-UIQ07-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq07/CANDIDATE-EXIT.json",
+      "commit": null,
+      "sha256": "c2656ec11f2471e82f8b581445251b9fb64cc8ccaff848706d0225b8e2906013",
+      "verified": true,
+      "note": "Codex accepted static isolated welcome visual: focused3 tests/100% coverage, build/types pass,10 rendered checks,0 egress/errors,0 axe violations; 293 protected hashes unchanged. Not wired or shipped."
+    }
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ07-CANDIDATE",
+    "actor": "Codex",
+    "text": "Independent reviewer acceptance: docs/research/uiq07/CANDIDATE-EXIT.json and browser-report.json. Three focused tests at100% four metrics; repository build and strict preview typecheck pass. Ten actual Chromium checks passed at320/390/480/1440px,0 axe violations, measured flat-fallback contrast 8.29:1 minimum, forced colors/reduced motion pass,0 external requests/page errors. Screenshots retained. 293 protected identities unchanged. A real 320px decorative scroll-width issue was corrected and rechecked. Candidate remains isolated: no app/login/CTA integration, numbered slice, commit/push/deploy; parent Backlog until UIQ-GATE after merged EPIC-17."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ07-CANDIDATE",
+    "status": "Review",
+    "actor": "Codex",
+    "role": "contributor",
+    "reason": "Implementation, Codex corrections and rendered verification are complete; independent reviewer closeout evidence is attached."
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "UIQ07-CANDIDATE",
+    "status": "Done",
+    "actor": "Codex",
+    "role": "reviewer",
+    "reason": "All UIQ-07 isolated candidate admission gates independently verified on frozen root source; app release remains held.",
+    "evidenceRefs": [
+      "E-UIQ07-EXIT"
+    ]
+  },
+  {
+    "type": "addComment",
+    "itemId": "UIQ-07",
+    "actor": "Codex",
+    "text": "Isolated welcome visual candidate UIQ07-CANDIDATE is reviewer-closed Done with E-UIQ07-EXIT. This parent remains Backlog/unshipped with releaseId null. Integration requires separate UIQ-GATE after settled merged EPIC-17 and actual app entry ownership review."
+  }
+]

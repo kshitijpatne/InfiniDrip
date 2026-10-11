@@ -1,0 +1,1034 @@
+{
+  "startedAt": "2026-10-02T05:19:25.935Z",
+  "checks": [
+    {
+      "name": "all twelve existing local images decode",
+      "passed": true,
+      "evidence": [
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+          "width": 2605,
+          "height": 4000
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221939.jpg",
+          "width": 3331,
+          "height": 4000
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221948.jpg",
+          "width": 1673,
+          "height": 3889
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221951.jpg",
+          "width": 2509,
+          "height": 3926
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-229298.jpg",
+          "width": 632,
+          "height": 1893
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710048.jpg",
+          "width": 1526,
+          "height": 1349
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710711.jpg",
+          "width": 2227,
+          "height": 1732
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-69802.jpg",
+          "width": 1730,
+          "height": 5229
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1928-269.jpg",
+          "width": 1843,
+          "height": 3400
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-2009-267.jpg",
+          "width": 3400,
+          "height": 2294
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1916-1324.jpg",
+          "width": 2905,
+          "height": 3400
+        },
+        {
+          "src": "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1930-192.jpg",
+          "width": 2583,
+          "height": 3400
+        }
+      ]
+    },
+    {
+      "name": "controlled mouse and keyboard selection keeps focus and provenance",
+      "passed": true,
+      "evidence": {
+        "focused": "builtin-met-221932",
+        "open": true,
+        "pressed": "true"
+      }
+    },
+    {
+      "name": "search/filter dimensions preserve selection and never invoke callback",
+      "passed": true,
+      "evidence": {
+        "focus": "uiq-artwork-0-search",
+        "callbackUnchanged": true,
+        "hiddenAndUnknownExplicit": true,
+        "filters": 4
+      }
+    },
+    {
+      "name": "empty, failed-local, remote and hostile fixtures",
+      "passed": true,
+      "evidence": {
+        "emptyDistinct": true,
+        "failureSelectable": true,
+        "remoteRejected": true,
+        "hostileLiteral": true
+      }
+    },
+    {
+      "name": "trusted bundled image load failure stays selectable",
+      "passed": true,
+      "evidence": {
+        "failedExactBundledUrl": "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+        "fallback": true,
+        "stillSelectable": true,
+        "injectedFailure": true
+      }
+    },
+    {
+      "name": "narrow, desktop and zoom-equivalent layout with long hostile tokens",
+      "passed": true,
+      "evidence": {
+        "layouts": [
+          {
+            "width": 320,
+            "scroll": 320,
+            "client": 320,
+            "grid": 254,
+            "cards": [
+              254,
+              254,
+              254,
+              254,
+              254,
+              254,
+              254,
+              254,
+              254,
+              254,
+              254,
+              254
+            ]
+          },
+          {
+            "width": 390,
+            "scroll": 390,
+            "client": 390,
+            "grid": 324,
+            "cards": [
+              324,
+              324,
+              324,
+              324,
+              324,
+              324,
+              324,
+              324,
+              324,
+              324,
+              324,
+              324
+            ]
+          },
+          {
+            "width": 1440,
+            "scroll": 1440,
+            "client": 1440,
+            "grid": 1374,
+            "cards": [
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5,
+              334.5
+            ]
+          },
+          {
+            "width": 480,
+            "scroll": 480,
+            "client": 480,
+            "grid": 414,
+            "cards": [
+              414,
+              414,
+              414,
+              414,
+              414,
+              414,
+              414,
+              414,
+              414,
+              414,
+              414,
+              414
+            ]
+          },
+          {
+            "width": 960,
+            "scroll": 960,
+            "client": 960,
+            "grid": 894,
+            "cards": [
+              290,
+              290,
+              290,
+              290,
+              290,
+              290,
+              290,
+              290,
+              290,
+              290,
+              290,
+              290
+            ]
+          }
+        ],
+        "zoomEquivalent": "480 CSS px represents the reflow width of 960px at 200%; not a browser zoom measurement"
+      }
+    },
+    {
+      "name": "literal long fixture accessibility",
+      "passed": true,
+      "evidence": {
+        "violations": []
+      }
+    },
+    {
+      "name": "catalog accessibility",
+      "passed": true,
+      "evidence": {
+        "violations": []
+      }
+    },
+    {
+      "name": "actual text contrast, focus contrast and native 44px targets",
+      "passed": true,
+      "evidence": {
+        "minimumTextContrast": 9.693246485053146,
+        "focusContrast": 11.454802379708715,
+        "focus": {
+          "width": "3px",
+          "color": "rgb(136, 215, 239)",
+          "background": "rgb(10, 20, 34)"
+        },
+        "targets": [
+          {
+            "tag": "INPUT",
+            "width": 221.375,
+            "height": 46
+          },
+          {
+            "tag": "SELECT",
+            "width": 221.390625,
+            "height": 45
+          },
+          {
+            "tag": "SELECT",
+            "width": 221.375,
+            "height": 45
+          },
+          {
+            "tag": "SELECT",
+            "width": 221.390625,
+            "height": 45
+          },
+          {
+            "tag": "SELECT",
+            "width": 221.390625,
+            "height": 45
+          },
+          {
+            "tag": "BUTTON",
+            "width": 207.078125,
+            "height": 48
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 72
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 48
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 48
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 48
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 72
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 96
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 168
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 72
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 48
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 48
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 72
+          },
+          {
+            "tag": "SUMMARY",
+            "width": 282.5,
+            "height": 44
+          },
+          {
+            "tag": "BUTTON",
+            "width": 308.5,
+            "height": 72
+          }
+        ]
+      }
+    },
+    {
+      "name": "outside CSS sentinel remains native",
+      "passed": true,
+      "evidence": {
+        "background": "rgb(240, 240, 240)",
+        "font": "Arial",
+        "borderRadius": "0px"
+      }
+    },
+    {
+      "name": "dispose/remount has exactly one owned root",
+      "passed": true,
+      "evidence": {
+        "idempotent": true,
+        "singleRoot": true
+      }
+    },
+    {
+      "name": "two browser instances remain independent with unique input IDs",
+      "passed": true,
+      "evidence": {
+        "inputIds": [
+          "uiq-artwork-0-search",
+          "uiq-artwork-0-category",
+          "uiq-artwork-0-family",
+          "uiq-artwork-0-role",
+          "uiq-artwork-0-print",
+          "uiq-artwork-1-search",
+          "uiq-artwork-1-category",
+          "uiq-artwork-1-family",
+          "uiq-artwork-1-role",
+          "uiq-artwork-1-print"
+        ],
+        "independentFilters": true,
+        "independentCallback": true
+      }
+    },
+    {
+      "name": "index reduced-motion",
+      "passed": true,
+      "evidence": [
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        }
+      ]
+    },
+    {
+      "name": "index forced-colors",
+      "passed": true,
+      "evidence": [
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        }
+      ]
+    },
+    {
+      "name": "foundation reduced-motion",
+      "passed": true,
+      "evidence": [
+        {
+          "transition": "0s",
+          "animation": "none"
+        },
+        {
+          "transition": "0s",
+          "animation": "none"
+        }
+      ]
+    },
+    {
+      "name": "foundation forced-colors",
+      "passed": true,
+      "evidence": [
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        },
+        {
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(255, 255, 255)",
+          "blur": "none"
+        }
+      ]
+    },
+    {
+      "name": "foundation reflow, literal strings, selected native controls and disclosure",
+      "passed": true,
+      "evidence": {
+        "metrics": [
+          {
+            "width": 320,
+            "scroll": 320,
+            "client": 320
+          },
+          {
+            "width": 390,
+            "scroll": 390,
+            "client": 390
+          },
+          {
+            "width": 1440,
+            "scroll": 1440,
+            "client": 1440
+          },
+          {
+            "width": 480,
+            "scroll": 480,
+            "client": 480
+          },
+          {
+            "width": 960,
+            "scroll": 960,
+            "client": 960
+          }
+        ],
+        "targets": [
+          {
+            "width": 902,
+            "height": 44
+          },
+          {
+            "width": 902,
+            "height": 44
+          },
+          {
+            "width": 902,
+            "height": 44
+          },
+          {
+            "width": 902,
+            "height": 44
+          },
+          {
+            "width": 902,
+            "height": 44
+          },
+          {
+            "width": 902,
+            "height": 44
+          }
+        ],
+        "solidFallback": "rgb(17, 39, 59)",
+        "literalText": true,
+        "keyboardDisclosure": true
+      }
+    },
+    {
+      "name": "no network egress across all fixtures/media/asset loads",
+      "passed": true,
+      "evidence": {
+        "requestCount": 310,
+        "external": [],
+        "externalSockets": [],
+        "localMissingImageIsExpectedNegativeFixture": true
+      }
+    }
+  ],
+  "failures": [],
+  "requests": [
+    "http://127.0.0.1:4186/ops/ui-candidates/index.html",
+    "http://127.0.0.1:4186/@vite/client",
+    "http://127.0.0.1:4186/ops/ui-candidates/review-preview.ts",
+    "http://127.0.0.1:4186/src/surface/artwork-library/catalog.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/artwork/artwork-panel.ts?t=1790917944413",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.css?t=1790917381620",
+    "http://127.0.0.1:4186/src/ui/enhancements/artwork/artwork-panel.css?t=1790917343876",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/axe-core.js?v=66b82f1c",
+    "http://127.0.0.1:4186/node_modules/vite/dist/client/env.mjs",
+    "http://127.0.0.1:4186/src/surface/artwork-library/search.ts",
+    "http://127.0.0.1:4186/src/guidance/surface-notes.ts",
+    "http://127.0.0.1:4186/src/surface/placement.ts",
+    "http://127.0.0.1:4186/src/surface/store.ts",
+    "http://127.0.0.1:4186/src/surface/piece-frames.ts",
+    "http://127.0.0.1:4186/src/export/layout.ts",
+    "http://127.0.0.1:4186/src/export/nesting.ts",
+    "http://127.0.0.1:4186/src/surface/transform.ts",
+    "http://127.0.0.1:4186/src/render/index.ts",
+    "http://127.0.0.1:4186/src/geometry/point.ts",
+    "http://127.0.0.1:4186/src/geometry/rotate.ts",
+    "http://127.0.0.1:4186/src/render/theme.ts",
+    "http://127.0.0.1:4186/src/render/shape.ts",
+    "http://127.0.0.1:4186/src/render/canvas.ts",
+    "http://127.0.0.1:4186/src/render/allowance.ts",
+    "http://127.0.0.1:4186/src/render/garment.ts",
+    "http://127.0.0.1:4186/src/render/skirt-figure.ts",
+    "http://127.0.0.1:4186/src/render/trouser-figure.ts",
+    "http://127.0.0.1:4186/src/render/notch.ts",
+    "http://127.0.0.1:4186/src/render/nest.ts",
+    "http://127.0.0.1:4186/src/render/fabric.ts",
+    "http://127.0.0.1:4186/src/render/editor.ts",
+    "http://127.0.0.1:4186/src/render/body.ts",
+    "http://127.0.0.1:4186/src/render/croquis.ts",
+    "http://127.0.0.1:4186/src/render/croquis-view.ts",
+    "http://127.0.0.1:4186/src/render/neckline-path.ts",
+    "http://127.0.0.1:4186/src/render/pattern-mark.ts",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=5ae4586d",
+    "http://127.0.0.1:4186/src/drafting/index.ts",
+    "http://127.0.0.1:4186/src/geometry/index.ts",
+    "http://127.0.0.1:4186/src/drafting/armhole.ts",
+    "http://127.0.0.1:4186/src/render/polo-details.ts",
+    "http://127.0.0.1:4186/src/geometry/curve.ts",
+    "http://127.0.0.1:4186/src/drafting/measurements.ts",
+    "http://127.0.0.1:4186/src/drafting/facets.ts",
+    "http://127.0.0.1:4186/src/drafting/piece.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-notches.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-checks.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-guidance.ts",
+    "http://127.0.0.1:4186/src/drafting/skirt.ts",
+    "http://127.0.0.1:4186/src/drafting/ease.ts",
+    "http://127.0.0.1:4186/src/drafting/grading.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-grade.ts",
+    "http://127.0.0.1:4186/src/drafting/pom.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-pom.ts",
+    "http://127.0.0.1:4186/src/drafting/dart.ts",
+    "http://127.0.0.1:4186/src/drafting/fitted.ts",
+    "http://127.0.0.1:4186/src/drafting/block.ts",
+    "http://127.0.0.1:4186/src/drafting/allowance.ts",
+    "http://127.0.0.1:4186/src/drafting/fitted-tables.ts",
+    "http://127.0.0.1:4186/src/drafting/recipe.ts",
+    "http://127.0.0.1:4186/src/drafting/fit-compare.ts",
+    "http://127.0.0.1:4186/src/drafting/stitch.ts",
+    "http://127.0.0.1:4186/src/drafting/component.ts",
+    "http://127.0.0.1:4186/src/drafting/grammar.ts",
+    "http://127.0.0.1:4186/src/drafting/bodice.ts",
+    "http://127.0.0.1:4186/src/drafting/sleeve.ts",
+    "http://127.0.0.1:4186/src/drafting/neckline.ts",
+    "http://127.0.0.1:4186/src/drafting/waistband.ts",
+    "http://127.0.0.1:4186/src/drafting/tank.ts",
+    "http://127.0.0.1:4186/src/drafting/pattern-mark.ts",
+    "http://127.0.0.1:4186/src/drafting/options.ts",
+    "http://127.0.0.1:4186/src/drafting/polo.ts",
+    "http://127.0.0.1:4186/src/drafting/polo-collar.ts",
+    "http://127.0.0.1:4186/src/drafting/shirt-contract.ts",
+    "http://127.0.0.1:4186/src/drafting/shirt.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-contract.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-guidance.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-tables.ts",
+    "http://127.0.0.1:4186/src/guidance/check.ts",
+    "http://127.0.0.1:4186/src/style/index.ts",
+    "http://127.0.0.1:4186/src/style/style.ts",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221939.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221948.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221951.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-229298.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710048.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710711.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-69802.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1928-269.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-2009-267.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1916-1324.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1930-192.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221939.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221948.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221951.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-229298.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710048.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710711.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-69802.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1928-269.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-2009-267.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1916-1324.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1930-192.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+    "http://127.0.0.1:4186/ops/ui-candidates/artwork.html",
+    "http://127.0.0.1:4186/@vite/client",
+    "http://127.0.0.1:4186/src/ui/enhancements/artwork/artwork-panel.css",
+    "http://127.0.0.1:4186/ops/ui-candidates/artwork-preview.ts",
+    "http://127.0.0.1:4186/node_modules/vite/dist/client/env.mjs",
+    "http://127.0.0.1:4186/src/ui/enhancements/artwork/artwork-panel.ts?t=1790917944413",
+    "http://127.0.0.1:4186/src/surface/artwork-library/catalog.ts",
+    "http://127.0.0.1:4186/src/surface/artwork-library/search.ts",
+    "http://127.0.0.1:4186/src/guidance/surface-notes.ts",
+    "http://127.0.0.1:4186/src/surface/placement.ts",
+    "http://127.0.0.1:4186/src/surface/store.ts",
+    "http://127.0.0.1:4186/src/surface/piece-frames.ts",
+    "http://127.0.0.1:4186/src/export/layout.ts",
+    "http://127.0.0.1:4186/src/export/nesting.ts",
+    "http://127.0.0.1:4186/src/surface/transform.ts",
+    "http://127.0.0.1:4186/src/render/index.ts",
+    "http://127.0.0.1:4186/src/geometry/point.ts",
+    "http://127.0.0.1:4186/src/geometry/rotate.ts",
+    "http://127.0.0.1:4186/src/render/theme.ts",
+    "http://127.0.0.1:4186/src/render/shape.ts",
+    "http://127.0.0.1:4186/src/render/canvas.ts",
+    "http://127.0.0.1:4186/src/render/allowance.ts",
+    "http://127.0.0.1:4186/src/render/garment.ts",
+    "http://127.0.0.1:4186/src/render/skirt-figure.ts",
+    "http://127.0.0.1:4186/src/render/trouser-figure.ts",
+    "http://127.0.0.1:4186/src/render/notch.ts",
+    "http://127.0.0.1:4186/src/render/nest.ts",
+    "http://127.0.0.1:4186/src/render/fabric.ts",
+    "http://127.0.0.1:4186/src/render/editor.ts",
+    "http://127.0.0.1:4186/src/render/body.ts",
+    "http://127.0.0.1:4186/src/render/croquis.ts",
+    "http://127.0.0.1:4186/src/render/croquis-view.ts",
+    "http://127.0.0.1:4186/src/render/neckline-path.ts",
+    "http://127.0.0.1:4186/src/render/pattern-mark.ts",
+    "http://127.0.0.1:4186/src/drafting/index.ts",
+    "http://127.0.0.1:4186/src/geometry/index.ts",
+    "http://127.0.0.1:4186/src/drafting/armhole.ts",
+    "http://127.0.0.1:4186/src/render/polo-details.ts",
+    "http://127.0.0.1:4186/src/geometry/curve.ts",
+    "http://127.0.0.1:4186/src/drafting/measurements.ts",
+    "http://127.0.0.1:4186/src/drafting/facets.ts",
+    "http://127.0.0.1:4186/src/drafting/piece.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-notches.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-checks.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-guidance.ts",
+    "http://127.0.0.1:4186/src/drafting/skirt.ts",
+    "http://127.0.0.1:4186/src/drafting/ease.ts",
+    "http://127.0.0.1:4186/src/drafting/grading.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-grade.ts",
+    "http://127.0.0.1:4186/src/drafting/pom.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-pom.ts",
+    "http://127.0.0.1:4186/src/drafting/dart.ts",
+    "http://127.0.0.1:4186/src/drafting/fitted.ts",
+    "http://127.0.0.1:4186/src/drafting/block.ts",
+    "http://127.0.0.1:4186/src/drafting/allowance.ts",
+    "http://127.0.0.1:4186/src/drafting/fitted-tables.ts",
+    "http://127.0.0.1:4186/src/drafting/recipe.ts",
+    "http://127.0.0.1:4186/src/drafting/fit-compare.ts",
+    "http://127.0.0.1:4186/src/drafting/stitch.ts",
+    "http://127.0.0.1:4186/src/drafting/component.ts",
+    "http://127.0.0.1:4186/src/drafting/grammar.ts",
+    "http://127.0.0.1:4186/src/drafting/bodice.ts",
+    "http://127.0.0.1:4186/src/drafting/sleeve.ts",
+    "http://127.0.0.1:4186/src/drafting/neckline.ts",
+    "http://127.0.0.1:4186/src/drafting/waistband.ts",
+    "http://127.0.0.1:4186/src/drafting/tank.ts",
+    "http://127.0.0.1:4186/src/drafting/pattern-mark.ts",
+    "http://127.0.0.1:4186/src/drafting/options.ts",
+    "http://127.0.0.1:4186/src/drafting/polo.ts",
+    "http://127.0.0.1:4186/src/drafting/polo-collar.ts",
+    "http://127.0.0.1:4186/src/drafting/shirt-contract.ts",
+    "http://127.0.0.1:4186/src/drafting/shirt.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-contract.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-guidance.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-tables.ts",
+    "http://127.0.0.1:4186/src/guidance/check.ts",
+    "http://127.0.0.1:4186/src/style/index.ts",
+    "http://127.0.0.1:4186/src/style/style.ts",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221939.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221948.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221951.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-229298.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710048.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710711.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-69802.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1928-269.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-2009-267.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1916-1324.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1930-192.jpg",
+    "http://127.0.0.1:4186/ops/ui-candidates/index.html",
+    "http://127.0.0.1:4186/@vite/client",
+    "http://127.0.0.1:4186/ops/ui-candidates/review-preview.ts",
+    "http://127.0.0.1:4186/src/surface/artwork-library/catalog.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/artwork/artwork-panel.ts?t=1790917944413",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.css?t=1790917381620",
+    "http://127.0.0.1:4186/src/ui/enhancements/artwork/artwork-panel.css?t=1790917343876",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/axe-core.js?v=66b82f1c",
+    "http://127.0.0.1:4186/node_modules/vite/dist/client/env.mjs",
+    "http://127.0.0.1:4186/src/surface/artwork-library/search.ts",
+    "http://127.0.0.1:4186/src/guidance/surface-notes.ts",
+    "http://127.0.0.1:4186/src/surface/placement.ts",
+    "http://127.0.0.1:4186/src/surface/store.ts",
+    "http://127.0.0.1:4186/src/surface/piece-frames.ts",
+    "http://127.0.0.1:4186/src/export/layout.ts",
+    "http://127.0.0.1:4186/src/export/nesting.ts",
+    "http://127.0.0.1:4186/src/surface/transform.ts",
+    "http://127.0.0.1:4186/src/render/index.ts",
+    "http://127.0.0.1:4186/src/geometry/point.ts",
+    "http://127.0.0.1:4186/src/geometry/rotate.ts",
+    "http://127.0.0.1:4186/node_modules/.vite/deps/chunk-BUSYA2B4.js?v=5ae4586d",
+    "http://127.0.0.1:4186/src/render/theme.ts",
+    "http://127.0.0.1:4186/src/render/shape.ts",
+    "http://127.0.0.1:4186/src/render/canvas.ts",
+    "http://127.0.0.1:4186/src/render/allowance.ts",
+    "http://127.0.0.1:4186/src/render/garment.ts",
+    "http://127.0.0.1:4186/src/render/skirt-figure.ts",
+    "http://127.0.0.1:4186/src/render/trouser-figure.ts",
+    "http://127.0.0.1:4186/src/render/notch.ts",
+    "http://127.0.0.1:4186/src/render/nest.ts",
+    "http://127.0.0.1:4186/src/render/fabric.ts",
+    "http://127.0.0.1:4186/src/render/editor.ts",
+    "http://127.0.0.1:4186/src/render/body.ts",
+    "http://127.0.0.1:4186/src/render/croquis.ts",
+    "http://127.0.0.1:4186/src/render/croquis-view.ts",
+    "http://127.0.0.1:4186/src/render/neckline-path.ts",
+    "http://127.0.0.1:4186/src/render/pattern-mark.ts",
+    "http://127.0.0.1:4186/src/drafting/index.ts",
+    "http://127.0.0.1:4186/src/geometry/index.ts",
+    "http://127.0.0.1:4186/src/drafting/armhole.ts",
+    "http://127.0.0.1:4186/src/render/polo-details.ts",
+    "http://127.0.0.1:4186/src/drafting/measurements.ts",
+    "http://127.0.0.1:4186/src/drafting/facets.ts",
+    "http://127.0.0.1:4186/src/drafting/piece.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-notches.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-checks.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-guidance.ts",
+    "http://127.0.0.1:4186/src/drafting/skirt.ts",
+    "http://127.0.0.1:4186/src/drafting/ease.ts",
+    "http://127.0.0.1:4186/src/drafting/grading.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-grade.ts",
+    "http://127.0.0.1:4186/src/drafting/pom.ts",
+    "http://127.0.0.1:4186/src/drafting/tshirt-pom.ts",
+    "http://127.0.0.1:4186/src/drafting/dart.ts",
+    "http://127.0.0.1:4186/src/drafting/fitted.ts",
+    "http://127.0.0.1:4186/src/drafting/block.ts",
+    "http://127.0.0.1:4186/src/drafting/allowance.ts",
+    "http://127.0.0.1:4186/src/drafting/fitted-tables.ts",
+    "http://127.0.0.1:4186/src/drafting/recipe.ts",
+    "http://127.0.0.1:4186/src/drafting/fit-compare.ts",
+    "http://127.0.0.1:4186/src/drafting/stitch.ts",
+    "http://127.0.0.1:4186/src/drafting/component.ts",
+    "http://127.0.0.1:4186/src/drafting/grammar.ts",
+    "http://127.0.0.1:4186/src/drafting/bodice.ts",
+    "http://127.0.0.1:4186/src/drafting/sleeve.ts",
+    "http://127.0.0.1:4186/src/drafting/neckline.ts",
+    "http://127.0.0.1:4186/src/drafting/waistband.ts",
+    "http://127.0.0.1:4186/src/drafting/tank.ts",
+    "http://127.0.0.1:4186/src/drafting/pattern-mark.ts",
+    "http://127.0.0.1:4186/src/drafting/options.ts",
+    "http://127.0.0.1:4186/src/drafting/polo.ts",
+    "http://127.0.0.1:4186/src/drafting/polo-collar.ts",
+    "http://127.0.0.1:4186/src/drafting/shirt-contract.ts",
+    "http://127.0.0.1:4186/src/drafting/shirt.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-contract.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-guidance.ts",
+    "http://127.0.0.1:4186/src/drafting/trouser-tables.ts",
+    "http://127.0.0.1:4186/src/geometry/curve.ts",
+    "http://127.0.0.1:4186/src/guidance/check.ts",
+    "http://127.0.0.1:4186/src/style/index.ts",
+    "http://127.0.0.1:4186/src/style/style.ts",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221932.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221939.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221948.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-221951.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-229298.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710048.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-710711.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/met-69802.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1928-269.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-2009-267.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1916-1324.jpg",
+    "http://127.0.0.1:4186/src/surface/artwork-library/assets/cma-1930-192.jpg",
+    "http://127.0.0.1:4186/ops/ui-candidates/foundation.html",
+    "http://127.0.0.1:4186/@vite/client",
+    "http://127.0.0.1:4186/ops/ui-candidates/foundation-preview.ts",
+    "http://127.0.0.1:4186/node_modules/vite/dist/client/env.mjs",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.css?t=1790917381620",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.ts",
+    "http://127.0.0.1:4186/ops/ui-candidates/foundation.html",
+    "http://127.0.0.1:4186/@vite/client",
+    "http://127.0.0.1:4186/ops/ui-candidates/foundation-preview.ts",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.css?t=1790917381620",
+    "http://127.0.0.1:4186/src/ui/enhancements/foundation/foundation.ts",
+    "http://127.0.0.1:4186/node_modules/vite/dist/client/env.mjs"
+  ],
+  "websocketUrls": [
+    "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5",
+    "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5",
+    "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5",
+    "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5",
+    "ws://127.0.0.1:4186/?token=ghi9yTZGw7b5"
+  ],
+  "sourceHashes": {
+    "src/ui/enhancements/artwork/artwork-panel.ts": "cb07c959e2b3f32c4df8004dc8a3c275d415b225e93404cd4c233ed954a2b60f",
+    "src/ui/enhancements/artwork/artwork-panel.css": "bcb9052b921e5676e7c96ab1d49d5cd60d18fe3f1f77b951a151c6f71858e7ec",
+    "src/ui/enhancements/foundation/foundation.ts": "8addb2f3cc2f7c21ea49cdf5cd2a1fa0b05d735c1a5df778080c06ddac6e4d17",
+    "src/ui/enhancements/foundation/foundation.css": "505a674728fcb4427eec81be17bcd227205d20cb4865b9ad3e77c85dac606c71",
+    "ops/ui-candidates/review-preview.ts": "484535bf8c9a941c22c21bad40b3c43a7cb1e92fe48302dc7fbc9712a2478bc5"
+  },
+  "finishedAt": "2026-10-02T05:20:16.990Z"
+}

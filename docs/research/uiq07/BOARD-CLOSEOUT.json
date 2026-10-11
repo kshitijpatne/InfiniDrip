@@ -1,0 +1,37 @@
+{
+  "verifiedAt": "2026-10-07T17:44:52.919Z",
+  "boardRevision": 456,
+  "boardValid": true,
+  "exitEvidence": "E-UIQ07-EXIT",
+  "exitProofSha256": "c2656ec11f2471e82f8b581445251b9fb64cc8ccaff848706d0225b8e2906013",
+  "child": {
+    "id": "UIQ07-CANDIDATE",
+    "status": "Done",
+    "deliveredAt": "2026-10-07",
+    "releaseId": null
+  },
+  "parent": {
+    "id": "UIQ-07",
+    "status": "Backlog",
+    "releaseId": null
+  },
+  "replayCommands": 9,
+  "postCloseControlCenter": {
+    "tests": 34,
+    "passed": 34,
+    "failed": 0
+  },
+  "protectedFiles": 293,
+  "epic17Touched": false,
+  "productionWiring": false,
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "candidateImplementationPaths": [
+    "ops/ui-candidates/welcome-preview.ts",
+    "ops/ui-candidates/welcome-verify.mjs",
+    "ops/ui-candidates/welcome.html",
+    "src/ui/enhancements/entry/"
+  ],
+  "applicationAndConfigurationEdits": "No tracked app entry, package, lockfile, Vite or Vitest configuration edits"
+}

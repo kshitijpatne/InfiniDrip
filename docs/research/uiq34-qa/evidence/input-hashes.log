@@ -1,0 +1,15 @@
+INPUT-SNAPSHOT.json recheck (node sha256 vs frozenAt 2026-10-02T15:59:00Z):
+Before audit: 27/27 OK, BAD:[]
+After audit: BAD:[], OK:true
+Frozen candidate hashes (from snapshot, re-verified):
+- src/ui/enhancements/guidance/guidance-panel.ts: 699836ee32815ea39a724a6c57d2e70bd52d1ace678d7ad2fc1c947d7d9c1ffa
+- src/ui/enhancements/guidance/guidance-panel.css: 924211761c1a03b96ce78f7b2e5619d75df308a17a59567a808d34a38fa7e203
+- src/ui/enhancements/guidance/guidance-panel.test.ts: 314316f2adec82d498b57f03986ec6f46d0ed8e10cfad91df0dd29aadac9bbef
+- src/ui/enhancements/material/material-panel.ts: 9ead3de25e17d8aa2ea4992c1f9806958cf653583adae96a1c949381c32dade8
+- src/ui/enhancements/material/material-panel.css: 8fe36ab43677ee5a54bd19479d8985687ba3747255ccf6a313b373494719f8a5
+- src/ui/enhancements/material/material-panel.test.ts: a964eb96bb4ef4c8e2b40a89120047cac8ac3b7566a064ce6eabc45cd3aebf5c
+- ops/ui-candidates/guidance.html: 2348f346fb489eb32cc88283b143569baf6cc24db725d374a69d7708243ec4f3
+- ops/ui-candidates/guidance-preview.ts: c89d551c8b175f5e6e02f912270b209f56ce9ef59696db56b7c456e9d85c62f3
+- ops/ui-candidates/material.html: aaee45284a48d98029ce383e68e18630dfb952593185b6f7e7d7753a291f0757
+- ops/ui-candidates/material-preview.ts: 5f00311a4426d2d019110b27d4e25012af200e6eb9f207e81e6012721130f4d1
+Source/CSS/tests/context READONLY held; writes only to docs/research/uiq34-qa/RETURN.md, evidence/**, ops/ui-candidates/qa/**.

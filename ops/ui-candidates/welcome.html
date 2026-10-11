@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>UIQ-07 welcome — isolated candidate preview</title>
+    <link rel="stylesheet" href="../../src/ui/enhancements/foundation/foundation.css" />
+    <link rel="stylesheet" href="../../src/ui/enhancements/entry/welcome-panel.css" />
+    <style>
+      html, body { margin: 0; min-width: 0; background: #060c15; color: #d9e6ef; font-family: system-ui, sans-serif; }
+      .candidate-banner { box-sizing: border-box; padding: 10px 16px; background: #3a2a0a; color: #ffdfa6; border-bottom: 2px solid #b58b32; font-weight: 700; font-size: 13px; }
+      main { box-sizing: border-box; width: min(100%, 1320px); margin: 0 auto; padding: clamp(12px, 3vw, 32px); }
+      .preview-title { margin: 0 0 16px; font-size: 1rem; color: #bdd1df; }
+      #welcome-preview { min-width: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="candidate-banner">UIQ-07 isolated preview — not the live app; no login or action is connected.</div>
+    <main>
+      <p class="preview-title">Static welcome backdrop and original typographic wordmark</p>
+      <div id="welcome-preview"></div>
+    </main>
+    <script type="module" src="./welcome-preview.ts"></script>
+  </body>
+</html>
