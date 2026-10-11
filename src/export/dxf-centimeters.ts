@@ -22,11 +22,12 @@ export function exportDxfCentimeters(
   notchTables: readonly PieceNotches[] = [],
   cutOutlines?: readonly Polyline[],
   buttonholePointStyle: "point" | "cross" = "point",
+  layoutGapCm = 2,
 ): string {
   if (cutOutlines && cutOutlines.length !== pieces.length) {
     throw new Error("DXF cut outline count must match its piece count");
   }
-  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance, cutOutlines, 6, buttonholePointStyle);
+  const output = CENTIMETER_HEADER + exportDxf(pieces, allowance, cutOutlines, 6, buttonholePointStyle, layoutGapCm);
   if (notchTables.length === 0) return output;
 
   const byPiece = new Map<string, PieceNotches>();
@@ -45,7 +46,7 @@ export function exportDxfCentimeters(
       ? { name: piece.name, sew: outlinePoints(piece), cut: cutOutlines[index]! }
       : flattenPiece(piece, allowance);
   });
-  const layout = layoutPieces(flats);
+  const layout = layoutPieces(flats, layoutGapCm);
   const entities = pieces.map((piece, index) => {
     const table = byPiece.get(piece.name);
     if (!table) return "";

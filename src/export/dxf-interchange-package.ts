@@ -21,6 +21,8 @@ const SCHEMA_VERSION = "infinidrip.g04.dxf-package/5" as const;
 const PREVIOUS_SCHEMA_VERSION = "infinidrip.g04.dxf-package/4" as const;
 const OLDER_SCHEMA_VERSION = "infinidrip.g04.dxf-package/3" as const;
 const LEGACY_SCHEMA_VERSION = "infinidrip.g04.dxf-package/2" as const;
+const DEFAULT_INTERCHANGE_LAYOUT_GAP_CM = 2;
+const TROUSER_INTERCHANGE_LAYOUT_GAP_CM = 5;
 
 type DxfPatternMarkRecord = {
   readonly id: string;
@@ -294,9 +296,12 @@ export async function createDxfInterchangePackage(
 
   const pieces = blockPieces(sourceBlock);
   const cutOutlines = pieces.map((piece) => adaptiveSeamAllowance(piece, recipe.allowances));
+  const layoutGapCm = recipe.name === "trouser"
+    ? TROUSER_INTERCHANGE_LAYOUT_GAP_CM
+    : DEFAULT_INTERCHANGE_LAYOUT_GAP_CM;
   const identities = await pieceIdentities(recipe, sourceBlock, resolvedOptions, graded);
   const sourceFlats = pieces.map((piece, index) => ({ name: piece.name, sew: outlinePoints(piece), cut: cutOutlines[index]! }));
-  const layout = layoutPieces(sourceFlats);
+  const layout = layoutPieces(sourceFlats, layoutGapCm);
   const transforms = pieces.map((_, index) => {
     const sourceBounds = polylineBounds(cutOutlines[index]!);
     const drawingBounds = polylineBounds(layout.pieces[index]!.cut);
@@ -306,7 +311,9 @@ export async function createDxfInterchangePackage(
       drawingHeight: layout.height,
     };
   });
-  const flatDxf = exportDxfCentimeters(pieces, recipe.allowances, recipe.notches, cutOutlines, "cross");
+  const flatDxf = exportDxfCentimeters(
+    pieces, recipe.allowances, recipe.notches, cutOutlines, "cross", layoutGapCm,
+  );
   const dxf = wrapDxfEntitiesInNamedBlocks(flatDxf, pieceBlockGroups(pieces, recipe, identities));
   const drawingSha256 = await sha256(dxf);
   const core = {

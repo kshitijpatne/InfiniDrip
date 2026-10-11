@@ -108,4 +108,14 @@ describe("exportDxfCentimeters", () => {
     expect(() => exportDxf(pieces, recipe.allowances, [])).toThrow("cut outline count must match its piece count");
     expect(() => exportDxfCentimeters(pieces, recipe.allowances, [], [])).toThrow("cut outline count must match its piece count");
   });
+
+  it("rejects invalid candidate layout gaps", () => {
+    const recipe = garmentByName("tee");
+    const pieces = blockPieces(draftAtSize(STANDARD_M, recipe.grade, 0, recipe.draft));
+
+    expect(() => exportDxfCentimeters(pieces, recipe.allowances, [], undefined, "point", -1))
+      .toThrow("DXF layout gap must be a non-negative finite number");
+    expect(() => exportDxfCentimeters(pieces, recipe.allowances, [], undefined, "point", Number.NaN))
+      .toThrow("DXF layout gap must be a non-negative finite number");
+  });
 });

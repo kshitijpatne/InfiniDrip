@@ -1,4 +1,15 @@
-## Current EPIC-17 / G04 V03 boundary — S724 closed
+## Current EPIC-17 / G04 V03 boundary — S725 closed
+
+S725 corrected only the opt-in Trouser package's layout gap (5 cm; other
+recipes and legacy DXF remain at 2 cm), visually reviewed the regenerated
+LibreCAD return, and verified 365/365 option-by-grade source packages. The
+return audit is 9 pieces, 18 outlines, 103 marks, 0.000 cm geometry delta.
+V03 remains In Progress: source-derived geometry/topology class coverage and
+the exact LibreCAD empirical profile rights/claim record remain to reconcile.
+Read `PROJECT-STATE.md`, `docs/research/epic17/S725-trouser-readable-output/`,
+the S724 packet, and the validated board.
+
+## Prior boundary — S724 closed
 
 S724 records ten passing LibreCAD 2.2.1.5/DXF 2000 fixture audits and one
 semantic Tee M repeat. The 73 S330 rows are M-size option cases, not grade

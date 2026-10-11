@@ -3,6 +3,7 @@ import { STANDARD_M, GARMENTS, blockPieces, gradeRun } from "../drafting";
 import optionMatrix from "../../docs/research/epic17/S330-integrated-browser/matrix.json";
 import { exportDxfCentimeters } from "./dxf-centimeters";
 import { adaptiveSeamAllowance, CUT_GEOMETRY_ALGORITHM } from "./adaptive-cut";
+import { polylineBounds } from "./layout";
 import {
   createDxfInterchangePackage,
   verifyDxfInterchangePackage,
@@ -79,7 +80,16 @@ describe("C04-bounded DXF interchange package", () => {
         expect(drawing.inserts.map((insert) => insert.name)).toEqual(candidate.manifest.pieces.map((piece) => piece.blockName));
         expect(expandNamedDxfDrawing(candidate.dxf)).toHaveLength(drawing.blocks.reduce((total, block) => total + block.entities.length, 0));
         const candidateCuts = candidatePieces.map((piece) => adaptiveSeamAllowance(piece, recipe.allowances));
-        const flatDxf = exportDxfCentimeters(candidatePieces, recipe.allowances, recipe.notches, candidateCuts, "cross");
+        const placedBounds = candidateCuts.map((cut, index) => {
+          const bounds = polylineBounds(cut);
+          const transform = candidate.manifest.pieces[index]!.drawingTransform!;
+          return { minX: bounds.minX + transform.xOffset, maxX: bounds.minX + bounds.width + transform.xOffset };
+        });
+        const expectedGap = recipe.name === "trouser" ? 5 : 2;
+        for (let index = 1; index < placedBounds.length; index += 1) {
+          expect(placedBounds[index]!.minX - placedBounds[index - 1]!.maxX).toBeCloseTo(expectedGap, 5);
+        }
+        const flatDxf = exportDxfCentimeters(candidatePieces, recipe.allowances, recipe.notches, candidateCuts, "cross", expectedGap);
         const expectedGroups = candidate.manifest.pieces.map((pieceRecord, index) => {
           const piece = candidatePieces[index]!;
           const notchTable = recipe.notches.find((table) => table.pieceName === piece.name);

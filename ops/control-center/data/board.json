@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4234,
-  "updatedAt": "2026-10-11T06:01:04.111Z",
+  "revision": 4238,
+  "updatedAt": "2026-10-11T06:36:06.811Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13512,6 +13512,16 @@
           "at": "2026-10-11T05:59:17.444Z",
           "actor": "Codex",
           "text": "S724: ten named M-size LibreCAD 2.2.1.5/DXF 2000 returns pass the unchanged audit at 0.000 cm; Tee default-M semantic repeat passes twice. The S330 73 rows are M-only option cases, not grade cases. Acceptance now requires all supported option × grade source packages and a representative exact receiver profile, not 73 repetitive receiver saves. Trouser’s saved return has visible crossing/crowding and fails readability pending S725 layout diagnosis; this is a V03 receiver-output gate, not a V02 hold. No standards/factory claim; all fidelity thresholds and protected export gates remain."
+        },
+        {
+          "at": "2026-10-11T06:03:22.586Z",
+          "actor": "Codex",
+          "text": "S725 continues from S724 without a new receiver or format. The exact Trouser source and LibreCAD return will be measured by named piece/layer for real intersections versus close screen-scale spacing. Only a proven candidate-layout display cause may be corrected; pattern geometry, legacy DXF, all fidelity limits and the all-recipes/options/grades source requirements stay intact. No goal/status change."
+        },
+        {
+          "at": "2026-10-11T06:36:06.811Z",
+          "actor": "Codex",
+          "text": "S725 closes with 365/365 option-grade package checks, a source-equivalent Trouser return after candidate-only spacing correction, and visual review of all ten selected LibreCAD fixtures. V03 remains In Progress. S726 will map the existing fixtures to normalized source geometry/topology classes and complete the precise empirical LibreCAD rights/workflow/claim record; no new software, format, setting, or acceptance relaxation."
         }
       ],
       "evidenceRefs": [
@@ -14090,7 +14100,9 @@
         "E-G04-S723-START",
         "E-G04-S723-EXIT",
         "E-G04-S724-START",
-        "E-G04-S724-EXIT"
+        "E-G04-S724-EXIT",
+        "E-G04-S725-START",
+        "E-G04-S725-EXIT"
       ],
       "flagKey": null
     },
@@ -27748,6 +27760,24 @@
       "sha256": null,
       "verified": true,
       "note": "S724 ten exact LibreCAD 2.2.1.5/DXF 2000 fixture audits, one Tee repeat, source-matrix correction, and revised V03 acceptance model. Trouser readability remains open."
+    },
+    {
+      "id": "E-G04-S725-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S725-trouser-readable-output/S725-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S725 diagnoses exact source/returned Trouser geometry and receiver readability. A candidate-only layout correction is allowed only if source evidence shows the geometry is disjoint and placement/render spacing causes the crowding; preserve all source contours and the exact LibreCAD profile."
+    },
+    {
+      "id": "E-G04-S725-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S725 verifies 365/365 option-grade source packages and ten selected rendered LibreCAD fixtures. The Trouser-only candidate spacing correction passes the source-bound return audit at 0.000 cm. S726 still reconciles normalized geometry/topology classes and the exact empirical profile rights/workflow/claim boundary."
     }
   ]
 }

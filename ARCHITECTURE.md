@@ -1108,6 +1108,19 @@ unchanged and V03 acceptance remains open. See
 [`docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`](docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md)
 and the historical [`S707 result`](docs/research/epic17/S707-candidate-layer-table/S707-exit-packet.md).
 
+S725 verified the 73 supported option scenarios across five size grades in
+the product package path (365/365 generated and source-verified packages).
+It also widened the opt-in Trouser drawing's piece spacing to 5 cm because
+the prior 2 cm gaps looked crowded at whole-layout scale; source and returned
+geometry had zero inter-piece segment intersections. Other recipes and the
+legacy DXF path retain 2 cm. The regenerated LibreCAD Trouser return passes
+the existing source-bound audit at 0.000 cm for nine pieces, 18 outlines, and
+103 marks, and the ten selected fixtures were visually reviewed. This remains
+a bounded empirical candidate. Source-derived geometry/topology class
+coverage and the exact profile rights/workflow/claim record remain open for
+V03. See
+[`docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md`](docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md).
+
 ## What is outside the current product
 
 Accounts, profiles, a hosted database, cloud sync, monitoring, email, and

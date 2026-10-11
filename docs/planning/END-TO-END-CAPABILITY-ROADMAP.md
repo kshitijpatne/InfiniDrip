@@ -21,6 +21,17 @@ factory-conformance claim. See
 
 _Planning baseline: 2026-09-23; status reconciled through Slice 242 on 2026-09-26. This is the durable proposed work sequence and acceptance contract, not evidence that the capabilities exist. Current status and gates remain controlled by `PROJECT-STATE.md`, `docs/PROJECT-DECISIONS.md`, the canonical Control Center board, and the actual code/Git state. The roadmap's dated work rows are not admission or task handoffs._
 
+### EPIC-17/G04 current evidence — S725
+
+S725 verified all 73 supported option scenarios across five sizes (365/365
+source packages) and corrected only the opt-in Trouser candidate drawing's
+page spacing. Its saved LibreCAD 2.2.1.5 / DXF 2000 return passed the existing
+audit at 0.000 cm and the ten selected outputs were visually reviewed. V03
+still requires source-derived receiver fixture coverage for each materially
+distinct geometry/topology class and the exact profile rights/workflow/claim
+record; all original fidelity and release gates remain. See the S725 exit
+packet and `PROJECT-STATE.md`.
+
 ### Historical G04 route review — S721 (2026-10-11; acceptance superseded by S722)
 
 Gerber AccuMark Pattern Design is a specific documented apparel-CAD

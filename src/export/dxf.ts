@@ -40,16 +40,20 @@ export function exportDxf(
   pieces: readonly Piece[], allowance: AllowanceSpec, cutOutlines?: readonly Polyline[],
   coordinateDecimals: 3 | 6 = 3,
   buttonholePointStyle: "point" | "cross" = "point",
+  layoutGapCm = 2,
 ): string {
   if (cutOutlines && cutOutlines.length !== pieces.length) {
     throw new Error("DXF cut outline count must match its piece count");
+  }
+  if (!Number.isFinite(layoutGapCm) || layoutGapCm < 0) {
+    throw new Error("DXF layout gap must be a non-negative finite number");
   }
   const flats = pieces.map((piece, index) => {
     return cutOutlines
       ? { name: piece.name, sew: outlinePoints(piece), cut: cutOutlines[index]! }
       : flattenPiece(piece, allowance);
   });
-  const layout = layoutPieces(flats);
+  const layout = layoutPieces(flats, layoutGapCm);
   const entities = layout.pieces
     .map((p, i) => {
       const original = pieces[i];

@@ -1,4 +1,23 @@
-## EPIC-17 / G04 — S724 closed; V03 evidence model corrected
+## EPIC-17 / G04 — S725 closed; package breadth and Trouser readability verified
+
+S725 found zero actual inter-piece intersections in the Trouser source and
+return. Its 2 cm layout gaps looked crowded at whole-page scale, so the
+opt-in package now uses 5 cm for Trouser only. Other recipes retain 2 cm and
+legacy DXF retains its 2 cm default and byte identities. No pattern geometry,
+stitches, marks, or source identity changed. The LibreCAD 2.2.1.5 / DXF 2000
+Trouser return passes at 0.000 cm across 9 pieces, 18 outlines, and 103 marks;
+all ten selected receiver drawings were visually reviewed. The S330 73-option
+matrix crossed with five supported sizes produced 365/365 verified packages.
+V03 remains In Progress: map the existing receiver fixtures to normalized
+source geometry/topology classes and finish the precise LibreCAD rights,
+workflow, and claim-boundary record. No new software or receiver variation.
+See `docs/research/epic17/S725-trouser-readable-output/S725-exit-packet.md`.
+
+S726: derive and verify the source geometry/topology fixture mapping and
+complete the exact empirical-profile record from current evidence. Preserve
+the active goal and every final integrated gate.
+
+## Prior boundary — S724 closed; V03 evidence model corrected
 
 S724's ten LibreCAD 2.2.1.5 / DXF 2000 receiver returns pass the unchanged
 source-bound audit at 0.000 cm; a Tee M repeat also passes. The 73 S330 rows

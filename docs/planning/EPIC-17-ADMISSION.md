@@ -1,4 +1,17 @@
-## Current V03 acceptance amendment — S724
+## Current V03 progress — S725
+
+S725 passed the 73-option × five-size product-package matrix (365/365) and
+resolved Trouser whole-layout readability through a candidate-only 5 cm
+spacing rule; no source pattern geometry or legacy export changed. The exact
+LibreCAD 2.2.1.5 / DXF 2000 Trouser return passes at 0.000 cm across 9 pieces,
+18 outlines and 103 marks, and all ten selected outputs were visually
+reviewed. V03 remains open only for source-derived fixture geometry/topology
+class coverage and the exact empirical-profile rights/workflow/claim record,
+plus final integrated gates. Next: S726 maps normalized classes to the
+existing fixtures and records the precise LibreCAD profile evidence; no new
+software/format trial or acceptance relaxation.
+
+## Prior V03 acceptance amendment — S724
 
 The S722 empirical-profile decision is refined by S724. The S330 matrix is 73
 M-size option scenarios, not 73 option/grade rows. Product-side package

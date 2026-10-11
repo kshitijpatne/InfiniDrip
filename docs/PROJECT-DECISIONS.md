@@ -1,5 +1,26 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-17/G04 — S725 package layout and remaining empirical evidence
+
+S725 establishes that the Trouser receiver's apparent crossings were caused
+by tight candidate-page spacing: source and return have nine pieces and zero
+inter-piece segment intersections. The opt-in interchange drawing now uses a
+5 cm gap for Trouser only; other recipes and the legacy writer keep 2 cm. The
+actual LibreCAD 2.2.1.5 / DXF 2000 saved return passes with 0.000 cm geometry
+delta, 9 pieces, 18 outlines, and 103 marks. All ten selected receiver outputs
+were visually reviewed. The source-side option-by-grade package matrix passes
+365/365. This is bounded empirical evidence, not a DXF standards or industrial
+CAD claim.
+
+The remaining V03 work is evidence reconciliation, not another software
+trial: derive normalized geometry/topology classes from current package
+geometry, map existing selected fixtures to those classes, and document the
+precise LibreCAD license/rights basis, version, local workflow, and claim
+limits. Add no fixture unless an uncovered material class requires one. Keep
+the all-seven/options/grades, 0.001 cm, identity/marks/units, repeat,
+readability, malformed-input, legacy-byte, protected-export, and release
+gates unchanged. See the S725 exit packet.
+
 ## EPIC-17/G04 — S724 corrects V03 breadth measurement
 
 The maintainer directed Codex to correct V03's receiver/acceptance logic and
