@@ -170,7 +170,15 @@ describe("approved Woven front view conventions", () => {
     expect(clipped.find((primitive) => primitive.viewClip?.decisionId === "G04-S457-WOVEN-NECKLINE-LEAF-MASK")?.viewClip?.roleIds)
       .toEqual(["underCollar", "upperCollar"]);
     expect(result.primitives.find((primitive) => primitive.id === "button")?.kind).toBe("path");
-    const missingInput = [button, buttonhole, shoulderA, necklineA];
+    const missingSourceEdgeLineage = { ...necklineA, id: "neckline-unmapped", sourceEdgeIds: undefined,
+      source: { ...necklineA.source, sourceId: "pattern:woven-shirt:role:front:edge:shoulder" } };
+    const sourceEdgeLineage = { ...necklineA, id: "neckline-edge-lineage", sourceEdgeIds: [neckline],
+      source: { ...necklineA.source, sourceId: "pattern:woven-shirt:role:front" } };
+    const unmappedSubpathLineage = { ...necklineA, id: "neckline-missing-first-edge-lineage",
+      sourceEdgeIds: [undefined, neckline] as unknown as string[],
+      source: { ...necklineA.source, sourceId: "pattern:woven-shirt:role:front" } };
+    const missingInput = [button, buttonhole, shoulderA, necklineA, missingSourceEdgeLineage,
+      sourceEdgeLineage, unmappedSubpathLineage];
     const missing = applyWovenFrontApprovedViewClips(missingInput, revisionId);
     expect(missing.issues.length).toBeGreaterThan(0);
     expect(missing.primitives).toBe(missingInput);
@@ -1262,6 +1270,22 @@ describe("compileTechnicalFlatLiveView", () => {
         }
       }
     }
+  });
+
+  it("holds Polo faces when an unapproved cap-ease interface exceeds the residual tolerance", () => {
+    const recipe = GARMENTS.find((candidate) => candidate.name === "polo")!;
+    const source = recipe.draft(STANDARD_M, defaultGarmentOptions(recipe.options ?? []));
+    const malformed = { ...source, stitches: source.stitches.map((stitch) => stitch.label === "Sleeve-cap ease"
+      ? { ...stitch, label: "Sleeve-cap ease source changed",
+        a: { ...stitch.a, edges: stitch.a.edges.filter((ref) => "edge" in ref && ref.edge === "capLeft") },
+        b: { ...stitch.b, edges: stitch.b.edges.filter((ref) => ref.piece === "front") } }
+      : stitch) };
+    const result = compileTechnicalFlatLiveView({ recipe, block: malformed, revisionId: "polo-cap-residual-hold",
+      kind: "FRONT_FLAT", placements: [], colorHex: "#456789", texture: "smooth", shine: 0 });
+    expect(result.view).toBeNull();
+    expect(result.issues).toContainEqual(expect.objectContaining({ stage: "assembly",
+      sourceId: "stitch:Sleeve-cap ease source changed",
+      message: expect.stringContaining("within the 0.25 cm acceptance tolerance") }));
   });
 
   it("retains the Woven sleeve residual hold when its source stitch no longer matches the approved projection", () => {

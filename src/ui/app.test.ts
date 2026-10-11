@@ -30,12 +30,13 @@ import * as gradePlan from "./grade-plan";
 import type { ArtworkAssetStore, StoredArtworkAsset } from "../surface/artwork-store";
 import type { InspectedArtworkFile } from "../surface/artwork-file";
 import { ARTWORK_CATALOG } from "../surface/artwork-library/catalog";
-import { GARMENTS, STANDARD_M, draftTshirt, rolePiece, type GarmentRecipe } from "../drafting";
+import { GARMENTS, STANDARD_M, draftTshirt, gradeRun, rolePiece, type GarmentRecipe } from "../drafting";
 import * as editEngine from "../edit";
 import * as semanticEditEngine from "../edit/semantic-edit";
 import { pieceHandles, editorViewBox } from "../edit";
 import { loadJourney } from "./journey";
 import { currentFieldObservation, getFieldDefinitions } from "./field-provenance";
+import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
 import {
   addCaptureReadingForField,
   createMeasurementCaptureSession,
@@ -1216,6 +1217,29 @@ describe("mountApp", () => {
     }
   });
 
+  it("audits a returned CAD DXF from the app panel using local file readers", async () => {
+    vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
+    const recipe = GARMENTS.find((candidate) => candidate.name === "tee")!;
+    const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[0]!;
+    const sourcePackage = await createDxfInterchangePackage(recipe, graded);
+    const sourceFile = new File([""], "source.json");
+    const returnedFile = new File([""], "returned.dxf");
+    Object.defineProperty(sourceFile, "text", { value: async () => JSON.stringify(sourcePackage) });
+    Object.defineProperty(returnedFile, "text", { value: async () => sourcePackage.dxf });
+    const root = mount();
+    try {
+      reachExportStage(root);
+      setFileInput(root.querySelector<HTMLInputElement>("#dxf-source-package-file")!, sourceFile);
+      setFileInput(root.querySelector<HTMLInputElement>("#dxf-returned-file")!, returnedFile);
+      root.querySelector<HTMLButtonElement>("#audit-dxf-return")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#dxf-audit-status")?.textContent).toContain("Passed:"));
+      expect(root.querySelector("#dxf-audit-status")?.textContent).toContain("maximum difference 0.000000 cm");
+    } finally {
+      root.remove();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("reports source-package export failures without silently producing either file", async () => {
     window.electronAPI = { saveFile: vi.fn(async () => ({ saved: true })) };
     vi.stubGlobal("crypto", webcrypto as unknown as Crypto);
@@ -1228,10 +1252,20 @@ describe("mountApp", () => {
       await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
         .toContain("CAD exchange export failed: hash unavailable"));
 
+      digest.mockRejectedValueOnce("unknown CAD package failure");
+      root.querySelector<HTMLButtonElement>("#export-cad-dxf")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("CAD exchange export failed: source package could not be created."));
+
       digest.mockRejectedValueOnce("unknown digest failure");
       root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
       await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
         .toContain("Source package export failed: source package could not be created."));
+
+      digest.mockRejectedValueOnce(new Error("source package hash unavailable"));
+      root.querySelector<HTMLButtonElement>("#export-dxf-source-package")!.click();
+      await vi.waitFor(() => expect(root.querySelector("#persist-status")?.textContent)
+        .toContain("Source package export failed: source package hash unavailable"));
       expect(window.electronAPI.saveFile).not.toHaveBeenCalled();
     } finally {
       digest.mockRestore();
@@ -2162,6 +2196,9 @@ describe("mountApp", () => {
     expect(root.querySelector("#canvas-host")?.textContent).toContain("Graded specifications are paused.");
     clickId(root, "view-pattern");
     expect(root.querySelector("#canvas-host")?.textContent).toContain("Pattern output is paused for this size.");
+    clickId(root, "view-flat");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("Technical flat withheld.");
+    expect(root.querySelector("#canvas-host")?.textContent).toContain("DRAFT_FAILED");
 
     clickId(root, "view-edit");
     root.querySelector<HTMLButtonElement>("#editor-reset")!.click();

@@ -423,7 +423,9 @@ describe("technical-flat source geometry", () => {
     const closedMap = createG04TechnicalFlatProjectionMap("woven-shirt", closedBlock, revision)!;
     const closedFront = closedMap.faces[0].roles.find((role) => role.roleId === "front")!;
     expect(closedFront.runs.some((run) => run.edgeId === "vent")).toBe(false);
-    expect(closedFront.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "vent" }));
+    expect(closedBlock.roles.front!.edges.some((edge) => edge.name === "vent")).toBe(false);
+    expect(closedFront.faceExcludedEdges?.some((edge) => edge.edgeId === "vent") ?? false).toBe(false);
+    expect(closedFront.heldEdges.some((edge) => edge.edgeId === "vent")).toBe(false);
     const closedFrontOutput = compileTechnicalFlatSourceGeometry("woven-shirt", closedBlock, revision, "FRONT_FLAT", closedMap);
     expect(closedFrontOutput.issues).toEqual([]);
     expect(closedFrontOutput.primitives.length).toBeGreaterThan(0);

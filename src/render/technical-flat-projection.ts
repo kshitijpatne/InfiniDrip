@@ -863,14 +863,19 @@ function wovenCollarRoleProjection(
   };
 }
 
-function isClosedWovenVent(piece: Piece, edge: Edge): boolean {
-  if (edge.name !== "vent" || !samePoint(edgeStart(edge), edgeEnd(edge))) return false;
+function wovenVentTopologyIssue(piece: Piece): string | undefined {
+  const vent = piece.edges.find((edge) => edge.name === "vent");
+  if (!vent) return undefined;
+  const sideLower = piece.edges.find((edge) => edge.name === "sideLower");
+  const hem = piece.edges.find((edge) => edge.name === "hem");
   const ventTop = piece.marks?.find((mark) => mark.name === "ventTop");
-  const sideLower = piece.edges.find((candidate) => candidate.name === "sideLower");
-  const hem = piece.edges.find((candidate) => candidate.name === "hem");
-  return !!ventTop && "at" in ventTop && samePoint(ventTop.at, edgeStart(edge))
-    && !!sideLower && samePoint(edgeEnd(sideLower), ventTop.at)
-    && !!hem && samePoint(edgeStart(hem), ventTop.at);
+  if (!sideLower || sideLower.kind !== "line" || vent.kind !== "line" || !hem
+    || !ventTop || !("at" in ventTop)
+    || !samePoint(sideLower.end, vent.start) || !samePoint(vent.start, ventTop.at)
+    || !samePoint(vent.end, edgeStart(hem))) {
+    return "The source Woven vent no longer joins sideLower, ventTop, and hem in the drafted order.";
+  }
+  return undefined;
 }
 
 /** Build the current per-recipe map from explicit V01 role membership and the
@@ -970,6 +975,9 @@ export function createG04TechnicalFlatProjectionMap(
         const heldRoleReason = role.treatment === "INTERIOR_HIDDEN"
           ? `Interior role “${role.roleId}” is intentionally hidden in this exterior view.`
           : G04_UNRESOLVED_PROJECTION_ROLES[recipeId]?.[role.roleId]
+            ?? (recipeId === "woven-shirt" && (role.roleId === "front" || role.roleId === "back")
+              ? wovenVentTopologyIssue(piece)
+              : undefined)
             ?? (piece.onFold && !axisEdge && !nonMirrorReason
               ? "This on-fold role does not expose one explicit straight center/fold edge on local x=0 with the rest of the piece on one side."
               : undefined);
@@ -979,10 +987,7 @@ export function createG04TechnicalFlatProjectionMap(
         for (const edge of piece.edges) {
           const start = edgeStart(edge);
           const end = edgeEnd(edge);
-          if (recipeId === "woven-shirt" && isClosedWovenVent(piece, edge)) {
-            faceExcludedEdges.push({ edgeId: edge.name,
-              reason: "The source-drafted zero-depth vent is closed at ventTop and has no visible edge in this option state." });
-          } else if (heldRoleReason) {
+          if (heldRoleReason) {
             heldEdges.push({ edgeId: edge.name, reason: heldRoleReason });
           } else if (axisEdge?.name === edge.name) {
             faceExcludedEdges.push({ edgeId: edge.name,

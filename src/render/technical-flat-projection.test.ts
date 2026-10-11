@@ -515,7 +515,7 @@ describe("validateTechnicalFlatProjectionMap", () => {
       const role = face.roles.find((candidate) => candidate.roleId === roleId);
       if (!role) continue;
       expect(role.runs.some((run) => run.edgeId === "vent")).toBe(false);
-      expect(role.faceExcludedEdges).toContainEqual(expect.objectContaining({ edgeId: "vent", reason: expect.stringContaining("zero-depth") }));
+      expect(role.faceExcludedEdges?.some((edge) => edge.edgeId === "vent") ?? false).toBe(false);
       expect(role.heldEdges.some((held) => held.edgeId === "vent")).toBe(false);
     }
     const open = createG04TechnicalFlatProjectionMap("woven-shirt", block, REVISION)!;
@@ -622,8 +622,9 @@ describe("validateTechnicalFlatProjectionMap", () => {
       .filter((role) => ["outerStand", "upperCollar", "underCollar"].includes(role.roleId))
       .every((role) => role.runs.length === 0 && role.heldEdges.length > 0)).toBe(true);
 
-    const front = block.roles.front!;
-    const badVentAdjacency = { ...block, roles: { ...block.roles,
+    const { block: openBlock } = draft("woven-shirt");
+    const front = openBlock.roles.front!;
+    const badVentAdjacency = { ...openBlock, roles: { ...openBlock.roles,
       front: { ...front, edges: front.edges.map((edge) => edge.name === "hem" && edge.kind === "curve"
         ? { ...edge, curve: { ...edge.curve, start: { ...edge.curve.start, x: edge.curve.start.x + 0.25 } } } : edge) },
     } };
@@ -948,6 +949,21 @@ describe("validateTechnicalFlatProjectionMap", () => {
     sleeve.viewPairReflection!.edgeId = "side";
     expect(validateTechnicalFlatProjectionMap("tee", block, REVISION, invalid).map((issue) => issue.code))
       .toContain("INVALID_VIEW_PAIR_REFLECTION");
+  });
+
+  it("requires an explicit paired-view decision for Tee and Fitted sleeves", () => {
+    for (const recipeId of ["tee", "fitted"] as const) {
+      const { block } = draft(recipeId);
+      const map = createG04TechnicalFlatProjectionMap(recipeId, block, REVISION)!;
+      const mutable = structuredClone(map) as unknown as {
+        faces: { kind: string; roles: { roleId: string; viewPairReflection?: unknown }[] }[];
+      };
+      const sleeve = mutable.faces.find((face) => face.kind === "FRONT_FLAT")!
+        .roles.find((role) => role.roleId === "sleeve")!;
+      sleeve.viewPairReflection = undefined;
+      expect(validateTechnicalFlatProjectionMap(recipeId, block, REVISION, mutable)
+        .map((issue) => issue.code)).toContain("INVALID_VIEW_PAIR_REFLECTION");
+    }
   });
 
   it("resolves only interior fractions on the exact straight hem edge", () => {

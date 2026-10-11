@@ -33,6 +33,19 @@ describe("technicalFlatPanelMarkup", () => {
     expect(markup).not.toContain("Affected source edges:");
   });
 
+  it("groups repeated edge diagnostics from one source role into a readable row", () => {
+    const markup = technicalFlatIssueList([
+      { stage: "geometry", sourceId: "pattern:sample:role:panel:edge:waist",
+        message: "Visible FRONT_FLAT is withheld because edge “panel.waist” is unresolved: add its source map." },
+      { stage: "geometry", sourceId: "pattern:sample:role:panel:edge:side",
+        message: "Visible FRONT_FLAT is withheld because edge “panel.side” is unresolved: add its source map." },
+    ]);
+    expect(markup.match(/Affected source edges:/gu)).toHaveLength(1);
+    expect(markup).toContain("edge “one of the listed source edges”");
+    expect(markup).toContain("pattern:sample:role:panel:edge:waist");
+    expect(markup).toContain("pattern:sample:role:panel:edge:side");
+  });
+
   it("renders a measured front or back face with a revision-bound status", () => {
     for (const kind of ["FRONT_FLAT", "BACK_FLAT"] as const) {
       const markup = technicalFlatPanelMarkup({ ...base, kind });
@@ -69,30 +82,27 @@ describe("technicalFlatPanelMarkup", () => {
     expect(markup).toContain("absent from the exact drafted block");
   });
 
-  it("groups identical Woven edge holds while retaining every source edge and distinct POM blocker", () => {
+  it("renders the accepted Woven projection and its detached band detail", () => {
     const woven = GARMENTS.find((candidate) => candidate.name === "woven-shirt")!;
     const markup = technicalFlatPanelMarkup({ ...base, recipe: woven,
       rawOptions: defaultGarmentOptions(woven.options ?? []), block: woven.draft(STANDARD_M, defaultGarmentOptions(woven.options ?? [])),
       kind: "FRONT_FLAT" });
-    const repeatedReason = "Woven source still lacks a front/back sleeve-cap boundary";
-    expect(markup.split(repeatedReason).length - 1).toBe(1);
-    expect(markup).toContain("Affected source edges:");
-    for (const edge of ["neckline", "shoulder", "armhole", "sideUpper", "sideMiddle", "sideLower", "vent", "hem", "centerFront"]) {
-      expect(markup).toContain(`pattern:woven-shirt:role:front:edge:${edge}`);
-    }
-    expect(markup).toContain("POM callouts need the mapped role outline");
-    expect(markup).toContain("no partial face is shown");
+    expect(markup).toContain("data-technical-flat-svg");
+    expect(markup).toContain("pattern:woven-shirt:role:front");
+    expect(markup).not.toContain("Technical flat withheld");
+    expect(markup).not.toContain("Woven source still lacks a front/back sleeve-cap boundary");
   });
 
-  it("does not group different source blockers or different mapped roles", () => {
+  it("renders the accepted Polo stand and collar projections", () => {
     const polo = GARMENTS.find((candidate) => candidate.name === "polo")!;
     const markup = technicalFlatPanelMarkup({ ...base, recipe: polo,
       rawOptions: defaultGarmentOptions(polo.options ?? []), block: polo.draft(STANDARD_M, defaultGarmentOptions(polo.options ?? [])),
       kind: "FRONT_FLAT" });
+    expect(markup).toContain("data-technical-flat-svg");
     expect(markup).toContain("pattern:polo:role:outerStand");
     expect(markup).toContain("pattern:polo:role:upperCollar");
-    expect(markup).toContain("stand&#39;s exterior contour has no authored front/back split landmark");
-    expect(markup).toContain("collar&#39;s exterior contour has no authored front/back split landmark");
+    expect(markup).not.toContain("Technical flat withheld");
+    expect(markup).not.toContain("has no authored front/back split landmark");
   });
 
   it("withholds geometry when browser measured text overlaps", () => {

@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 V03 boundary — S727 active; S726 acceptance complete
+## Current EPIC-17 / G04 boundary — S728 closed; final release work next
 
 S726 completes V03's technical acceptance under the maintainer-directed
 exchange-structure sampling definition. All 365 option × grade packages are
@@ -10,12 +10,18 @@ were visually reviewed. The 365 packages contain 315 exact normalized shape
 signatures; the receiver claim does not say all 315 were round-tripped. It is
 limited to the exact 11 returns inspected and audited. No new application or
 format was introduced, and no standards, industrial, fit, factory, or
-production-readiness claim is made. V03 acceptance is complete; S727 is
-executing EPIC-17's integrated final gate, necessary-file cleanup, PR,
-safe merge, ancestry, deployment, and production E2E. Read `PROJECT-STATE.md`,
+production-readiness claim is made. S727's integrated-gate failure and S728's
+correction are closed in linked packets. The final 158-file/2,366-test gate
+passes at 100% coverage, as do build, Control Center/web release, the 73-option
+and 146-face Chromium replay, all-layer label audit and packaged Electron
+verification. No V03 criterion changed and no other CAD application was
+tested. Read `PROJECT-STATE.md`,
 `docs/research/epic17/S726-source-class-and-profile-evidence/`,
-`docs/research/epic17/S727-integrated-epic-release/`, and the validated
-board. S727 does not reopen receiver or construction research.
+`docs/research/epic17/S727-integrated-epic-release/`,
+`docs/research/epic17/S728-integrated-gate-corrections/`, and the validated
+board. The remaining work is necessary-file cleanup, PR, safe merge, fresh
+ancestry, required deployment and production E2E; S728 does not reopen receiver
+or construction research.
 
 ## Prior boundary — S725 closed
 

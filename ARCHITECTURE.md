@@ -59,6 +59,9 @@ not exist, and the side-vent POM has no geometry anchor. Positive vent depths
 retain the explicit vent edge and marker. The zero-depth case is represented
 as a closed construction rather than a zero-length open seam, preventing the
 seam-allowance offset from generating non-finite cut coordinates.
+The live view also fails closed at positive depth if its authored open-vent
+edge no longer meets the source-adjacent edges; it does not project a broken
+seam by guessing replacement endpoints.
 
 ### Live technical flats (EPIC-17/G04)
 

@@ -1,6 +1,6 @@
 # InfiniDrip — Confirmed project decisions
 
-## EPIC-17/G04 — S726 accepted V03 sampling correction; S727 release gate
+## EPIC-17/G04 — S726 accepted V03 sampling correction; S728 gate passed
 
 The maintainer directed Codex to correct V03's acceptance logic and finish
 using already installed tools, without another paid receiver. S726 replaces
@@ -20,8 +20,17 @@ apparel certification. Keep identity, units, CUT/SEW, typed marks, readable
 output, repeat evidence, product-side malformed-input rejection, legacy DXF,
 protected export identities, and every release gate unchanged. The detailed
 evidence is in the S726 exit packet. No software purchase/install or further
-receiver trial is in scope. S727 runs the settled integrated gate through
-cleanup, PR/merge, ancestry, required deployment, and production E2E.
+receiver trial is in scope. S727's integrated coverage attempt failed on a
+Node/Vitest discovery mismatch, an omitted Trouser measurement inventory row,
+and tests carrying superseded pre-S459 expectations. S728 repairs those exact
+items and checks Woven open-vent topology fail-closed. Its settled integrated
+gate passes: 158 files/2,366 tests at 100% global coverage, production and
+Electron builds, Control Center/web release checks, all 73 options/146 faces,
+zero named-layer text overlaps, and packaged Electron output parity and
+fail-closed cases. The S728 packet links exact logs, hashes and rendered
+evidence. V03 acceptance and the receiver claim remain exactly as approved.
+The goal and Epic remain In Progress through necessary-file cleanup, PR/merge,
+ancestry, required deployment, and production E2E.
 
 ## EPIC-17/G04 — S725 package layout and remaining empirical evidence
 

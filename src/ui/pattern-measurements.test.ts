@@ -24,8 +24,8 @@ describe("pattern block measurement inventory", () => {
         totalPieces += 1;
       }
     }
-    expect(totalPieces).toBe(40);
-    expect(optionOnlyPieces).toBe(4);
+    expect(totalPieces).toBe(41);
+    expect(optionOnlyPieces).toBe(5);
   });
 
   it("normalizes piece-name case but does not mistake an unknown block for an intentional no-link", () => {

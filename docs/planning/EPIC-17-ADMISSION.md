@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 boundary — S726 V03 technical acceptance complete
+## Current EPIC-17 / G04 boundary — S728 closed; release candidate gates next
 
 S726 closes V03 technical acceptance under the maintainer-directed criterion
 that separates complete product-side option/grade output verification from
@@ -14,10 +14,17 @@ returns. No standards or industrial-apparel conformance claim is made. The
 durable matrix, license, fixture, and grade-boundary evidence is in
 `docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`.
 
-S727 is the active integrated release candidate gate: full repository
-coverage, build/browser/Electron checks, final output review, necessary-file
-cleanup, PR, safe merge, origin ancestry, required deployment, and production
-E2E. S727 start packet: `docs/research/epic17/S727-integrated-epic-release/S727-start-packet.md`.
+S727's integrated coverage attempt found the exact test-runner, source-inventory,
+and superseded historical assertion failures recorded in its exit packet.
+S728 corrected those findings and vent-adjacency validation without new
+software or a change to S726's accepted V03 contract. The settled integrated
+gate, build, Control Center/web release checks, current 73-option/146-face
+browser replay, named-layer text audit, visual review and packaged Electron
+checks pass. See
+`docs/research/epic17/S728-integrated-gate-corrections/S728-exit-packet.md`.
+The remaining gates are necessary-file cleanup, PR, safe merge, refreshed
+ancestry, required deployment and production E2E. Keep the goal active until
+these are verified.
 
 No new receiver or software trial is queued; preserve legacy DXF behavior,
 protected export identities, and every final gate.

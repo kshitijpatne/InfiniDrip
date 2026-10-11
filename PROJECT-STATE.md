@@ -1,4 +1,4 @@
-## Current EPIC-17 / G04 V03 boundary — S727 active; S726 technical acceptance complete
+## Current EPIC-17 / G04 boundary — S728 closed; final release work next
 
 S726 records the maintainer-directed V03 acceptance correction and closes its
 technical evidence gates. The 365 supported option × grade source packages
@@ -15,15 +15,19 @@ ANSI/AAMA/ASTM, universal DXF, physical-fit, factory-acceptance, or
 production-readiness claim is made. S726 packet:
 `docs/research/epic17/S726-source-class-and-profile-evidence/S726-exit-packet.md`.
 
-EPIC-17 remains In Progress. S727 is the active integrated candidate
-boundary for
-the full repository 100% coverage gate, build/browser/Electron checks, final
-output review, necessary-file cleanup, PR, safe merge, refreshed origin
-ancestry, required automatic deployment, and production end-to-end check.
-Keep the goal active through that verified completion. Read the S727 start
-packet and S726 packet,
-this state, `docs/PROJECT-DECISIONS.md`, `docs/planning/EPIC-17-ADMISSION.md`,
-and the validated Control Center board before continuing.
+EPIC-17 remains In Progress. S727's integrated gate failures are recorded in
+its exit packet. S728 corrected the runner/inventory/test issues and vent
+adjacency validation without changing V03 acceptance or testing another CAD
+application. The settled full gate, builds, Control Center/web checks, current
+73-option/146-face Chromium replay, text-overlap audit, visual review and
+packaged Electron export/lifecycle checks pass; evidence and hashes are in
+`docs/research/epic17/S728-integrated-gate-corrections/S728-exit-packet.md`.
+Next: preserve and relocate the two untracked S700 diagnostic files and
+generated build/junction artifacts outside the repository, verify the staged
+candidate contains only necessary tracked project and durable acceptance
+evidence, then open/review/merge the PR, refresh origin ancestry, verify the
+required deployment, and run production E2E. EPIC-17 and its goal remain In
+Progress until all those gates pass.
 
 ## Prior boundary — S724 closed; V03 evidence model corrected
 

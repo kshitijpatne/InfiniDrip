@@ -47,11 +47,14 @@ is authoritative for maintainer decisions that are not derivable from code.
   under the maintainer-directed empirical sampling correction: all 365
   option/grade source packages, ten exchange-structure classes across seven
   recipes, and one Trouser XL return; compatibility is limited to the 11
-  audited/reviewed LibreCAD 2.2.1.5 / DXF 2000 fixtures. Read
-  `docs/planning/EPIC-17-ADMISSION.md`, `PROJECT-STATE.md`, S726 evidence and
-  the validated board. S727 owns the integrated full gate, final output review,
-  necessary-file cleanup, PR, safe merge, ancestry, required deployment and
-  production E2E. No new receiver/software trial is planned. Preserve the
+  audited/reviewed LibreCAD 2.2.1.5 / DXF 2000 fixtures. S727 records a failed
+  full gate with exact runner, inventory and stale-test findings; V03 remains
+  technically accepted and no Epic/goal status was changed. S728 repairs those
+  findings without changing acceptance or testing new software. Read
+  `docs/planning/EPIC-17-ADMISSION.md`, `PROJECT-STATE.md`, S726–S728 evidence
+  and the validated board. After S728, resume integrated coverage/build,
+  browser/Electron/output review, necessary-file cleanup, PR, safe merge,
+  ancestry, required deployment and production E2E. Preserve the
   approved UI overlay `docs/planning/UI-ENHANCEMENT-SEQUENCE.md` outside the
   G04 critical path. Keep the goal active until all release evidence passes.
 

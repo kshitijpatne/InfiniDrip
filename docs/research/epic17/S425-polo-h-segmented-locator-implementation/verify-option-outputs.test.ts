@@ -203,5 +203,5 @@ describe("S425 Polo live H marker all-option rendered review", () => {
       maxRetainedCoverage: Math.max(...rows.map((row) => row.retainedCoverage)), browserErrors: errors, rows };
     expect(rows).toHaveLength(17); expect(errors).toEqual([]);
     await writeFile(matrixPath, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
-  });
+  }, 30_000);
 });
