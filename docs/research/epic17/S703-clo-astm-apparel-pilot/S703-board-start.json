@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S703-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S703-clo-astm-apparel-pilot/S703-start-packet.md",
+    "verified": true,
+    "note": "One controlled test of the already-installed CLO 2026.1.310 DXF-ASTM apparel import/export mode documented by CLO; exact existing Polo M candidate, fixed units/tolerance, no curve optimization or other app/format variation."
+  },
+  "expectedRevision": 4141
+}

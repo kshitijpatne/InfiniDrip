@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4141,
-  "updatedAt": "2026-10-11T00:04:32.860Z",
+  "revision": 4144,
+  "updatedAt": "2026-10-11T00:16:49.274Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13289,6 +13289,11 @@
           "at": "2026-10-11T00:04:32.860Z",
           "actor": "Codex",
           "text": "S702 checked current CLO first-party documentation and found the concrete distinction missed by the earlier test plan: CLO exposes DXF-ASTM and DXF-AAMA apparel import/export modes in addition to Standard DXF. S700 used Standard, so it did not test the documented apparel profile. This finding justifies one bounded DXF-ASTM import/export of the same hash-pinned Polo M package in S703, with curve optimization off and unchanged units/tolerances. This is not a standards-conformance claim; stop at the first import, geometry, mark, or identity failure. No new app or other format is queued; all V03 acceptance stays unchanged."
+        },
+        {
+          "at": "2026-10-11T00:16:49.274Z",
+          "actor": "Codex",
+          "text": "S703 ran the one predeclared CLO DXF-ASTM apparel-mode pilot on the exact S700 Polo M fixture. It retains nine named pieces, but the saved return definitively fails the unchanged 0.001 cm geometry gate on the back, both stands, both collar leaves, and all three checked buttonhole marks. Numeric layer names replace semantic layers and neither file has an explicit units header. The one-sided report proves those failures but does not prove passes for below-threshold contours. The returned-render gate was not reached after the stop condition. No code, acceptance or threshold changed; do not repeat CLO modes/settings/encodings or start another CAD app for these failures. Next: reconcile exact returns against current source and the fixed V03 matrix, then identify only code-side corrections supported by inspection."
         }
       ],
       "evidenceRefs": [
@@ -13823,7 +13828,9 @@
         "E-G04-S701-START",
         "E-G04-S701-EXIT",
         "E-G04-S702-START",
-        "E-G04-S702-EXIT"
+        "E-G04-S702-EXIT",
+        "E-G04-S703-START",
+        "E-G04-S703-EXIT"
       ],
       "flagKey": null
     },
@@ -27085,6 +27092,24 @@
       "sha256": null,
       "verified": true,
       "note": "CLO first-party docs distinguish its apparel DXF-ASTM/AAMA profiles from Standard DXF. S700 used Standard; one bounded ASTM-profile pilot is specifically justified and does not claim standards conformance."
+    },
+    {
+      "id": "E-G04-S703-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S703-clo-astm-apparel-pilot/S703-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One controlled test of the already-installed CLO 2026.1.310 DXF-ASTM apparel import/export mode documented by CLO; exact existing Polo M candidate, fixed units/tolerance, no curve optimization or other app/format variation."
+    },
+    {
+      "id": "E-G04-S703-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S703-clo-astm-apparel-pilot/S703-exit-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "One CLO 2026.1.310 DXF-ASTM round trip retains nine named pieces but fails the fixed 0.001 cm limit on five CUT contours and all three checked buttonhole points. One-sided metrics, hashes and gate limits are recorded; no conformance or returned-render pass claimed."
     }
   ]
 }
