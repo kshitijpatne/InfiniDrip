@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "expectedRevision": 4180,
+  "text": "S713 is a source-backed identity check: S711's CLO return adds exactly the selected M grade suffix to all nine original hashed piece names. Test strict acceptance of the exact source name or exact manifest-grade suffix, with collisions and all other altered identities rejected. No receiver rerun or gate relaxation; units, geometry, layers, marks, breadth, and profile remain separately held."
+}

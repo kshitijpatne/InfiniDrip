@@ -37,6 +37,27 @@ function replaceFirstInsertGroup(dxf: string, code: number, value: string): stri
   return `${dxf.slice(0, insert)}${entity.replace(group, `\n${code}\n${value}\n`)}${dxf.slice(end)}`;
 }
 
+function renameDxfPiece(dxf: string, from: string, to: string): string {
+  const reference = `2\n${from}\n`;
+  if (dxf.split(reference).length < 3) throw new Error("Test piece identity is missing its block or INSERT reference");
+  return dxf.split(reference).join(`2\n${to}\n`);
+}
+
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  if (value !== null && typeof value === "object") {
+    return `{${Object.keys(value).sort().map((key) =>
+      `${JSON.stringify(key)}:${canonicalJson((value as Record<string, unknown>)[key])}`,
+    ).join(",")}}`;
+  }
+  return JSON.stringify(value) ?? "null";
+}
+
+async function sha256(value: string): Promise<string> {
+  const digest = await globalThis.crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
 function toLwPolyline(entity: string): string {
   const lines = entity.split("\n");
   const pairs = Array.from({ length: Math.floor(lines.length / 2) }, (_, index) => [Number(lines[index * 2]), lines[index * 2 + 1]!] as const);
@@ -76,6 +97,39 @@ describe("G04 receiver-return manifest audit", () => {
       markEntityCount: expect.any(Number),
       maxGeometryDeltaCm: 0,
     });
+  }, 30_000);
+
+  it("accepts only the selected-grade suffix while preserving unique source identities", async () => {
+    const recipe = GARMENTS.find((entry) => entry.name === "polo")!;
+    const graded = gradeRun(STANDARD_M, recipe.grade, recipe.sizes, recipe.draft)[2]!;
+    const source = await createDxfInterchangePackage(recipe, graded);
+    const names = source.manifest.pieces.map((piece) => piece.blockName);
+    let suffixed = source.dxf;
+    for (const name of names) suffixed = renameDxfPiece(suffixed, name, `${name}_M`);
+    expect((await auditDxfInterchangeRoundTrip(source, suffixed)).passed).toBe(true);
+
+    const wrongGrade = source.manifest.pieces.reduce((dxf, piece) =>
+      renameDxfPiece(dxf, piece.blockName, `${piece.blockName}_L`), source.dxf);
+    expect((await auditDxfInterchangeRoundTrip(source, wrongGrade)).passed).toBe(false);
+
+    const collision = renameDxfPiece(
+      renameDxfPiece(source.dxf, names[1]!, `${names[0]}_M`),
+      names[0]!,
+      `${names[0]}_M`,
+    );
+    expect((await auditDxfInterchangeRoundTrip(source, collision)).passed).toBe(false);
+
+    const { revisionId: _revisionId, ...sourceCore } = source.manifest;
+    const emptyGradeCore = {
+      ...sourceCore,
+      grade: { ...source.manifest.grade, selectedSize: { ...source.manifest.grade.selectedSize, label: "" } },
+    };
+    const emptyGradeSource = {
+      ...source,
+      manifest: { ...emptyGradeCore, revisionId: await sha256(canonicalJson(emptyGradeCore)) },
+    } as typeof source;
+    const emptyGradeSuffix = names.reduce((dxf, name) => renameDxfPiece(dxf, name, `${name}_`), source.dxf);
+    expect((await auditDxfInterchangeRoundTrip(emptyGradeSource, emptyGradeSuffix)).passed).toBe(false);
   }, 30_000);
 
   it("accepts a zero Z scale for planar pieces and rejects moved or repeated instances", async () => {

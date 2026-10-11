@@ -56,6 +56,17 @@ function hasIdentityPlanarInserts(inserts: ReturnType<typeof readNamedDxfDrawing
   });
 }
 
+function sourceIdentityForReturnedName(
+  returnedName: string,
+  expectedNames: readonly string[],
+  gradeSuffix: string,
+): string | undefined {
+  if (expectedNames.includes(returnedName)) return returnedName;
+  if (!gradeSuffix) return undefined;
+  const candidate = expectedNames.find((name) => `${name}_${gradeSuffix}` === returnedName);
+  return candidate;
+}
+
 function coordinates(entity: string): XY[] | undefined {
   const pairs = parsePairs(entity);
   const result: XY[] = [];
@@ -248,16 +259,25 @@ export async function auditDxfInterchangeRoundTrip(
     const manifest = sourcePackage.manifest;
     const expectedNames = manifest.pieces.map((piece) => piece.blockName).sort();
     const sourceNames = sourceDrawing.blocks.map((block) => block.name).sort();
-    const returnedNames = returnedDrawing.blocks.map((block) => block.name).sort();
-    const insertNames = returnedDrawing.inserts.map((insert) => insert.name).sort();
-    if (new Set(returnedNames).size !== returnedNames.length ||
+    const gradeSuffix = manifest.grade.selectedSize.label.normalize("NFKD")
+      .replace(/[^A-Za-z0-9]+/gu, "_").replace(/^_|_$/gu, "").toUpperCase();
+    const returnedNamePairs = returnedDrawing.blocks.map((block) => ({
+      returnedName: block.name,
+      sourceName: sourceIdentityForReturnedName(block.name, expectedNames, gradeSuffix),
+    }));
+    const insertNames = returnedDrawing.inserts.map((insert) =>
+      sourceIdentityForReturnedName(insert.name, expectedNames, gradeSuffix));
+    const returnedNames = returnedNamePairs.map(({ sourceName }) => sourceName).sort();
+    const normalizedInsertNames = insertNames.slice().sort();
+    if (returnedNamePairs.some(({ sourceName }) => !sourceName) || insertNames.some((name) => !name) ||
+        new Set(returnedNames).size !== returnedNames.length ||
         expectedNames.join("\n") !== sourceNames.join("\n") ||
         expectedNames.join("\n") !== returnedNames.join("\n") ||
         !hasIdentityPlanarInserts(returnedDrawing.inserts) ||
-        expectedNames.join("\n") !== insertNames.join("\n")) return fail("Returned piece names or INSERT identities do not match the source manifest");
+        expectedNames.join("\n") !== normalizedInsertNames.join("\n")) return fail("Returned piece names or INSERT identities do not match the source manifest");
 
     const sourceByName = new Map(sourceDrawing.blocks.map((block) => [block.name, block.entities]));
-    const returnedByName = new Map(returnedDrawing.blocks.map((block) => [block.name, block.entities]));
+    const returnedByName = new Map(returnedDrawing.blocks.map((block, index) => [returnedNamePairs[index]!.sourceName!, block.entities]));
     let maxGeometryDeltaCm = 0;
     let outlineCount = 0;
     let markEntityCount = 0;

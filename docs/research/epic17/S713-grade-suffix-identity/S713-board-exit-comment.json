@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "G04-V03",
+  "actor": "Codex",
+  "expectedRevision": 4182,
+  "text": "S713 closed: the returned-file audit now normalizes only the source identity plus exact selected-grade suffix, preserving the source revision token and one-to-one INSERT binding. It rejects wrong-grade suffixes, duplicates/collisions, and empty labels. Changed verifier coverage is 100% across all four measures; focused tests 27/27, TypeScript, Control Center 42/42, and diff check pass. S711 unit and mark/layer failures and unmeasured geometry remain; no receiver/profile gate or V03 criterion is cleared by this naming fix."
+}
