@@ -1,3 +1,23 @@
+## Current EPIC-17 / G04 V03 boundary — S709 closed
+
+S709 reconciles the fixed gates against S640/S700/S704/S708 and a bounded
+Sol high review. The S708 R2000 source correction passes one exact LibreCAD
+Polo M fixture, but LibreCAD remains generic CAD; the admitted industrial
+apparel receiver/profile gate is still unproven. The review identified an
+independent source task: compare rewritten receiver DXF against the unchanged
+sidecar without weakening original-byte integrity, and run existing negative
+fixtures through the product fail-closed boundary. Do not run the 73-option
+receiver matrix until an eligible profile passes a representative pilot.
+GetonAgain was installed based on official free-edition/DXF claims, but the
+exact installed workflow should have been verified before install; S667/S670
+record the tested-route failures. S708 also corrected a demonstrated writer
+defect. See the S709 gate matrix and completion plan plus `PROJECT-STATE.md`.
+
+Next: S710 returned-file identity verification and malformed/unsupported
+fail-closed fixtures; no new application or receiver variant. Acceptance,
+thresholds, all-seven scope, protected bytes, cleanup and merge gates remain
+fixed. Keep the goal active to production end-to-end completion.
+
 ## Prior EPIC-17 / G04 V03 boundary — S706 closed
 
 ## Current EPIC-17 / G04 V03 boundary — S708 closed
@@ -12,13 +32,8 @@ isolate causality, establish formal DXF conformance or qualify LibreCAD as an
 industrial apparel receiver/profile. See `PROJECT-STATE.md` and
 `docs/research/epic17/S708-cut-layer-source-audit/S708-exit-packet.md`.
 
-Before S709, reconcile the fixed V03 gate matrix against this new evidence and
-select only proof that can clear admitted gates. Keep thresholds,
-all-seven/options/grades, protected identities and industrial-profile
-acceptance fixed. No new application or setting variation is authorized by
-this result. Continue through V03 completion, necessary-file cleanup, full
-gates, final output review, PR/merge, ancestry, deployment and production
-end-to-end verification; keep the goal active until all are complete.
+S709 supersedes this next-action text. Its current gate matrix and completion
+plan are linked above; acceptance and final production gates remain fixed.
 
 S706's one LibreCAD 2.2.1.5 DXF 2000 round trip retained 9 named pieces,
 18/18 closed CUT/SEW paths at 0.000 cm XY residual, 111/111 typed marks within

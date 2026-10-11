@@ -1,4 +1,37 @@
-## EPIC-17/G04 — S708 closed; named-block structure preserves semantic CUT
+## EPIC-17/G04 — S709 closed; fixed V03 gates and next source-side work recorded
+
+S709 reconciles the S640, S700, S704 and S708 evidence and obtains one bounded
+read-only Sol high review. The ranked gate matrix and completion plan are
+`docs/research/epic17/S709-v03-reconcile-and-stop-churn/V03-GATE-MATRIX-S709.md`
+and `V03-COMPLETION-PLAN-S709.md`. S708 is a real source-side R2000 structure
+correction that now preserves 9/9 CUT layers, 18/18 outline paths, 111/111
+marks, nine block identities and centimeters through one LibreCAD Polo M
+round trip. LibreCAD remains generic CAD and does not pass the admitted
+industrial-apparel profile gate. CLO's tested route fails measured contours;
+GetonAgain/DGS's tested modes fail usable identity/geometry. No further
+application/format/setting trial is planned.
+
+The review found a source-side task: exact source-hash validation is correct
+for the original package but cannot bind a receiver-rewritten drawing to its
+unchanged sidecar. S710 will add a separate returned-file audit and exercise
+the existing malformed/unsupported fixtures at the product fail-closed
+boundary. Do not run all-seven receiver breadth until an already-authorized
+industrial profile is eligible and its current-source representative pilot
+passes. All V03 gates, thresholds, all-seven/options/grades, export identities
+and holds remain unchanged. The next action requires no maintainer input.
+
+The GetonAgain candidate was chosen from first-party free-edition/DXF claims,
+but its exact installed workflow should have been verified before install.
+S667/S670 show observed mode failures; they do not establish that the
+software alone caused them. S708 separately corrected a demonstrated writer
+defect. The goal remains active through implementation, final cleanup, full
+gates, PR/merge, ancestry, deployment and production end-to-end.
+
+S709 started 2026-10-11 01:56 UTC from S708 `17ffedd2`; refreshed
+`origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` remained an ancestor.
+Board start revisions 4163→4165; exit replay and timing are in the S709 packet.
+
+## Historical EPIC-17/G04 — S708 closed; named-block structure preserves semantic CUT
 
 S708 corrected the opt-in R2000 named-piece writer's missing block records,
 owner links, model/paper-space definitions, referenced continuous linetype,
@@ -20,15 +53,9 @@ coverage requirements are unchanged. The protected legacy DXF regression,
 TypeScript check, and remaining focused coverage results are in the S708
 packet. No global gate ran.
 
-Next: reconcile the fixed V03 matrix against S708 before reserving S709. Reuse
-the passing source writer and this exact LibreCAD route only for gates it can
-meaningfully evidence. LibreCAD is generic CAD and cannot satisfy the admitted
-industrial-apparel receiver/profile gate by itself; do not claim V03 complete
-or introduce another application or setting sweep. Keep V01/V02 Done and
-EPIC-17 active through all V03 gates, necessary-file cleanup, the integrated
-global gate, final output review, PR/merge, refreshed `origin/main` ancestry,
-and required production end-to-end verification. No physical-fit, factory-
-acceptance, conformance, or production-readiness claim.
+S709 supersedes this next-action text. Its gate matrix and plan are the current
+handoff; see the S709 section above. No physical-fit, factory-acceptance,
+conformance, or production-readiness claim.
 
 Slice 708 started 2026-10-11 01:26 UTC from S707 `913a2b718c218e541a657c9ac4d684f30e88db05`; `origin/main=a5af5e13c2e967946b3f6035fcea66ff03a5e0e0` was an ancestor. Board start revision 4158→4160; validated exit, commit and separate timing are in the packet.
 

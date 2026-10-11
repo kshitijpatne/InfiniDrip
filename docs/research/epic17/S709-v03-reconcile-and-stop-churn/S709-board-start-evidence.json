@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "G04-V03",
+  "evidence": {
+    "id": "E-G04-S709-START",
+    "kind": "document",
+    "uri": "docs/research/epic17/S709-v03-reconcile-and-stop-churn/S709-start-packet.md",
+    "verified": true,
+    "note": "S709 reconciles fixed V03 gates against S640, S700, S704 and the S708 source correction, then records a bounded Sol high review and prioritized stop-churn plan; no acceptance change or receiver trial."
+  },
+  "expectedRevision": 4163
+}

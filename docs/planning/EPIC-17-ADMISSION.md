@@ -1,4 +1,34 @@
-## Current EPIC-17 / G04 V03 boundary — S708 closed; CUT layer survives one exact return
+## Current EPIC-17 / G04 V03 boundary — S709 closed; source-side identity audit next
+
+S709 reconciles every V03 gate against S640, S700, S704 and the exact S708
+return, then records one bounded read-only Sol high review. The current matrix
+and ranked completion plan are in
+`docs/research/epic17/S709-v03-reconcile-and-stop-churn/`. S708 corrects the
+opt-in R2000 writer's missing block ownership/space/linetype records and
+preserves CUT layers, all 18 outlines, 111 marks, nine names and cm units on
+one LibreCAD Polo M fixture. This is not industrial-apparel profile evidence.
+
+The reviewed order is: (1) implement a separate returned-DXF versus unchanged
+sidecar identity audit and exercise existing negative fixtures through the
+product's fail-closed boundary; (2) do not run a 73-option receiver matrix
+until an already-authorized industrial profile is supported by exact-build
+documentation and a current-source representative pilot; (3) after those
+gates pass, complete all-seven/options/grades, repeatability and rendered
+review; (4) finish full integrated gates, necessary-file cleanup, PR/merge,
+ancestry, deployment and production verification. Older slice forecasts are
+stale. CLO failures, DGS failures and LibreCAD's generic profile remain
+explicit in the matrix; no new app, format, setting, scope or acceptance
+variation is planned.
+
+The GetonAgain install was based on official free desktop and DXF claims, but
+the exact installed workflow should have been verified before install. S667
+and S670 record actual mode failures; they do not prove every issue was solely
+the software or solely our source. S708 independently found and fixed a
+writer structure defect. The goal remains active. S709 started 2026-10-11
+01:56 UTC from S708 `17ffedd2`; refreshed `origin/main` remained an ancestor;
+board start revisions 4163→4165.
+
+## Historical EPIC-17 / G04 V03 boundary — S708 closed; CUT layer survives one exact return
 
 S708 fixes the opt-in named-block writer's incomplete R2000 object structure:
 it now emits block records/owners, model and paper spaces, a referenced

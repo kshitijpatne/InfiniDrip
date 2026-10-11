@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4163,
-  "updatedAt": "2026-10-11T01:55:14.687Z",
+  "revision": 4167,
+  "updatedAt": "2026-10-11T02:03:13.284Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -13344,6 +13344,16 @@
           "at": "2026-10-11T01:55:14.441Z",
           "actor": "Codex",
           "text": "S708 closes the same-fixture layer-preservation failure: the opt-in R2000 writer now emits block records/owners and space definitions, and LibreCAD 2.2.1.5 DXF 2000 preserves all 9 CUT outlines as CUT. Exact piece identities, 18 outline paths, 111 typed marks and centimeters are retained in the Polo M return. This is one empirical fixture, not industrial-apparel profile qualification or V03 acceptance. Continue active V03 work by reconciling the full fixed gate matrix before reserving S709; no new application/format/setting sweep and no acceptance change."
+        },
+        {
+          "at": "2026-10-11T02:01:37.864Z",
+          "actor": "Codex",
+          "text": "S709 reconciles the exact S640/S704/S708 evidence and obtains one bounded read-only Sol high review. It will decide the shortest fixed-gate path before spending time on receiver breadth; no app, format, setting or acceptance variation. S708's source repair passes one LibreCAD fixture, while the board still requires a rights-reviewed industrial CAD receiver/profile. All fixed thresholds, seven-recipe/options/grade scope, protected exports, and final cleanup/merge/production checks remain unchanged."
+        },
+        {
+          "at": "2026-10-11T02:03:13.284Z",
+          "actor": "Codex",
+          "text": "S709 closes the S640/S700/S704/S708 gate reconciliation and bounded Sol high review. S708's R2000 writer correction passes one LibreCAD Polo M fixture; LibreCAD is generic and cannot pass the admitted industrial-apparel profile gate. Do not spend a 73-row run on it. Next S710 advances source-side return identity and fail-closed checks against the existing evidence; no new app/mode/acceptance change. CLO/DGS tested failures, fixed thresholds, all-seven/options/grades, protected exports, final cleanup/merge/production gates remain recorded. G04-V03 and Epic stay In Progress; no gate is declared Done."
         }
       ],
       "evidenceRefs": [
@@ -13890,7 +13900,9 @@
         "E-G04-S707-START",
         "E-G04-S707-EXIT",
         "E-G04-S708-START",
-        "E-G04-S708-EXIT"
+        "E-G04-S708-EXIT",
+        "E-G04-S709-START",
+        "E-G04-S709-EXIT"
       ],
       "flagKey": null
     },
@@ -27260,6 +27272,24 @@
       "sha256": null,
       "verified": true,
       "note": "S708's combined R2000 block ownership/space/linetype correction preserves 9/9 CUT layers in one same-profile LibreCAD Polo M round trip; 9/9 piece names and INSERTs, 18/18 outlines, 111/111 marks and centimeters match. Industrial-apparel profile, all-seven breadth and remaining V03 gates remain unpassed."
+    },
+    {
+      "id": "E-G04-S709-START",
+      "kind": "document",
+      "uri": "docs/research/epic17/S709-v03-reconcile-and-stop-churn/S709-start-packet.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S709 reconciles fixed V03 gates against S640, S700, S704 and the S708 source correction, then records a bounded Sol high review and prioritized stop-churn plan; no acceptance change or receiver trial."
+    },
+    {
+      "id": "E-G04-S709-EXIT",
+      "kind": "document",
+      "uri": "docs/research/epic17/S709-v03-reconcile-and-stop-churn/V03-GATE-MATRIX-S709.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "S709 reconciles every fixed V03 gate after S708 and records one Sol high read-only review plus a prioritized no-churn plan. Profile remains unproven; next is a source-side returned-file/manifest audit and fail-closed fixture verification, not another receiver trial."
     }
   ]
 }
