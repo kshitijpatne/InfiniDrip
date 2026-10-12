@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-05",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "reason": "Final review passed; PR #28 is merged, main deployment 38190492228 succeeded, and stable plus immutable public URLs passed live browser acceptance at 1280/640/320 with no overflow, off-origin requests or browser errors.",
+  "evidenceRefs": ["E-UIQ05-S742"],
+  "expectedRevision": 4402
+}

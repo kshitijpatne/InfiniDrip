@@ -187,9 +187,12 @@ only through an explicitly admitted, linked Epic packet.
   from `origin/main` `f4cbfc45` as the next ordered presentation redesign;
   exact action preservation, flag/fallback, files and gates are in
   `docs/planning/UIQ-05-INTEGRATION-ADMISSION.md`, with live gates in
-  `docs/planning/UIQ-05-GOAL.md`; S741 pre-merge evidence is in
-  `docs/release/UIQ-05-INTEGRATION-S741-EXIT.md` and
-  `docs/research/uiq05/evidence/S741-verification.json`. UIQ-07 remains
+  `docs/planning/UIQ-05-GOAL.md`; S741 merged by PR #28 at `7f5e6263`.
+  S741 evidence is in `docs/release/UIQ-05-INTEGRATION-S741-EXIT.md` and
+  `docs/research/uiq05/evidence/S741-verification.json`. S742 deployment run
+  38190492228 succeeded, and stable plus immutable URLs passed live browser
+  checks. The validated board records UIQ-05 Done at revision 4404 with
+  `E-UIQ05-S742`; its durable closeout PR remains active. UIQ-07 remains
   Backlog and unadmitted.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-05",
+  "actor": "Codex",
+  "text": "Slice 741 merged via PR #28 at 7f5e6263 on 2026-10-12. Slice 742 is verifying main deployment workflow 38190492228 and will run live browser acceptance before closure. UIQ-05 remains Review until deployment and live evidence pass.",
+  "expectedRevision": 4400
+}

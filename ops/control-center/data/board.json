@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4400,
-  "updatedAt": "2026-10-12T01:02:04.493Z",
+  "revision": 4404,
+  "updatedAt": "2026-10-12T01:13:16.469Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14677,10 +14677,10 @@
       "title": "Artwork catalog presentation integration",
       "epicId": null,
       "releaseId": null,
-      "status": "Review",
+      "status": "Done",
       "openedAt": "2026-10-02",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-12",
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
@@ -14734,6 +14734,16 @@
           "evidenceRefs": [
             "E-UIQ05-S741"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T01:13:13.340Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Final review passed; PR #28 is merged, main deployment 38190492228 succeeded, and stable plus immutable public URLs passed live browser acceptance at 1280/640/320 with no overflow, off-origin requests or browser errors.",
+          "evidenceRefs": [
+            "E-UIQ05-S742"
+          ]
         }
       ],
       "comments": [
@@ -14751,11 +14761,22 @@
           "at": "2026-10-12T01:02:04.493Z",
           "actor": "Codex",
           "text": "Slice 741 is ready for review. The scoped presentation is wired into the existing local artwork catalog; independent filter/assessment controls, stage/apply actions, local-only assets and exact flag-off fallback are preserved. Full 100% coverage, rendered browser/no-egress pressure, build/operational gates, packaged Electron and export byte-identity proofs are linked in E-UIQ05-S741. Not merged or deployed; Slice 742 remains post-merge closeout."
+        },
+        {
+          "at": "2026-10-12T01:09:14.784Z",
+          "actor": "Codex",
+          "text": "Slice 741 merged via PR #28 at 7f5e6263 on 2026-10-12. Slice 742 is verifying main deployment workflow 38190492228 and will run live browser acceptance before closure. UIQ-05 remains Review until deployment and live evidence pass."
+        },
+        {
+          "at": "2026-10-12T01:13:16.469Z",
+          "actor": "Codex",
+          "text": "UIQ-05 closed Done after Slice 742 post-merge verification. PR #28 merge 7f5e6263 deployed successfully (workflow 38190492228); stable and immutable Pages URLs returned HTTP 200 and passed live pressure tests. Closeout report and machine evidence are linked via E-UIQ05-S742. UIQ-07 remains Backlog and unadmitted."
         }
       ],
       "evidenceRefs": [
         "E-UIQ-APPROVAL",
-        "E-UIQ05-S741"
+        "E-UIQ05-S741",
+        "E-UIQ05-S742"
       ],
       "flagKey": "uiq_artwork"
     },
@@ -29091,6 +29112,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 741 implementation and pre-merge gates passed: 164 test files/2,657 tests with 100% global coverage, browser pressure/no-egress, production and packaged Electron verification, operational gates and export byte identity. Merge/deployment remain pending Slice 742."
+    },
+    {
+      "id": "E-UIQ05-S742",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-05-INTEGRATION-S742-CLOSEOUT.md",
+      "commit": "7f5e62635d96ccd792244388ff848fd2e75d8c00",
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 742 proves PR #28 merge, successful main deployment 38190492228, stable and immutable Pages URLs at HTTP 200, and public browser pressure acceptance on both URLs at 1280/640/320 with no overflow, off-origin requests or browser errors; actions, keyboard, forced colors and reduced motion passed. S741 full 100% coverage and output identity are linked in its verified evidence."
     }
   ]
 }
