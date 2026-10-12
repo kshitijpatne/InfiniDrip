@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-05",
+  "actor": "Codex",
+  "text": "Slice 741 started from origin/main f4cbfc45. Current app already implements the planned catalog data/functions plus explicit placement-stage/apply actions; the admitted change is one presentation replacement, not a duplicate library. The candidate remains immutable; selection stays non-mutating; flag-off/unknown/stale preserves the exact existing surface. See docs/planning/UIQ-05-INTEGRATION-ADMISSION.md and UIQ-05-GOAL.md. UIQ-07 remains Backlog/unadmitted.",
+  "expectedRevision": 4396
+}

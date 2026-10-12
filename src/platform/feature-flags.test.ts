@@ -101,6 +101,35 @@ describe("embedded feature-flag contract", () => {
       .toMatchObject({ enabled: false, status: "unknown", source: "diagnostic" });
   });
 
+  it("enables the bounded artwork presentation and retains the existing library fallback", () => {
+    expect(FEATURE_FLAGS.uiq_artwork).toMatchObject({
+      key: "uiq_artwork",
+      owner: "Codex",
+      audience: "public",
+      defaultValue: true,
+      expiresOn: "2027-01-12",
+      rollout: "embedded",
+      fallback: "compatible-v1",
+      offBehavior: "Keep the exact existing local Surface catalog presentation and behavior.",
+    });
+    expect(evaluateFeatureFlag("uiq_artwork", CURRENT)).toMatchObject({
+      enabled: true,
+      status: "enabled",
+      source: "embedded-default",
+      diagnostic: FEATURE_FLAGS.uiq_artwork.onBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_artwork", CURRENT, false)).toMatchObject({
+      enabled: false,
+      status: "disabled",
+      source: "local-override",
+      diagnostic: FEATURE_FLAGS.uiq_artwork.offBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_artwork", new Date("2027-01-13T00:00:00.000Z"), true))
+      .toMatchObject({ enabled: false, status: "stale", source: "diagnostic" });
+    expect(evaluateFeatureFlag("unknown-uiq-artwork", CURRENT))
+      .toMatchObject({ enabled: false, status: "unknown", source: "diagnostic" });
+  });
+
   it("records Polo V2 as readiness-only because no V1 fallback exists", () => {
     const result = evaluateFeatureFlag("polo_v2", CURRENT, true);
 

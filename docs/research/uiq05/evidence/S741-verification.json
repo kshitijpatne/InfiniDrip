@@ -1,0 +1,78 @@
+{
+  "slice": 741,
+  "status": "pre-merge gates passed; in Review; PR pending",
+  "base": "f4cbfc45ca3bf2237b226a159ebe78e738ea3016",
+  "branch": "codex/uiq05-integration",
+  "globalCoverage": {
+    "testFilesPassed": 164,
+    "testFilesFailed": 0,
+    "testsPassed": 2657,
+    "testsFailed": 0,
+    "statementsPercent": 100,
+    "branchesPercent": 100,
+    "functionsPercent": 100,
+    "linesPercent": 100,
+    "workerCount": 1,
+    "durationSeconds": 979.26,
+    "coverageFinalSha256": "f39f6828857239a4be8038db2d2efc7a9fd1f423cff7e5847ab9169e40e4cb4a",
+    "exportByteIdentityTests": "passed"
+  },
+  "focused": {
+    "selectedTestsPassed": 79,
+    "changedProductionCoverage": "100% global and all changed app/flag/view code included",
+    "flagFallbackAndActions": "passed"
+  },
+  "build": {
+    "production": "passed",
+    "electronTypescript": "passed",
+    "chunkSizeAdvisory": "existing >500 kB warning; no dependency change"
+  },
+  "operationalGates": {
+    "controlCenter": { "passed": 42, "failed": 0 },
+    "webRelease": { "passed": 10, "failed": 0 },
+    "readinessDrill": { "passed": 5, "failed": 0 }
+  },
+  "browser": {
+    "target": "built production dist at local preview in a fresh isolated Playwright profile",
+    "viewportsCssPx": [1280, 640, 320],
+    "horizontalOverflow": false,
+    "minimumCtaHeightPx": 44,
+    "keyboardClearFocusAndTab": "passed",
+    "separateFilterAndAssessment": true,
+    "stageAndAttachSemantics": "passed; stage alone is non-mutating and attach preserves placement values",
+    "forcedColorsAndReducedMotion": "passed",
+    "sameOriginImages": true,
+    "offOriginRequests": [],
+    "pageErrors": [],
+    "consoleErrors": [],
+    "pressureEvidence": "docs/research/uiq05/evidence/browser-pressure-test.json",
+    "screenshots": [
+      "docs/research/uiq05/evidence/artwork-desktop-1280.png",
+      "docs/research/uiq05/evidence/artwork-mobile-320.png",
+      "docs/research/uiq05/evidence/artwork-explicit-actions.png"
+    ]
+  },
+  "candidateIdentity": {
+    "method": "SHA-256 after canonical LF normalization; working tree uses Windows CRLF",
+    "src/ui/enhancements/artwork/artwork-panel.ts": "cb07c959e2b3f32c4df8004dc8a3c275d415b225e93404cd4c233ed954a2b60f",
+    "src/ui/enhancements/artwork/artwork-panel.css": "bcb9052b921e5676e7c96ab1d49d5cd60d18fe3f1f77b951a151c6f71858e7ec",
+    "manifestMatch": true,
+    "candidateFilesModified": false
+  },
+  "packagedElectron": {
+    "platform": "win32-x64",
+    "electron": "44.1.0",
+    "result": "passed",
+    "inventoryFiles": 72,
+    "inventorySha256": "fccb60ec28f8de692b9a76ec843fa3ffe8da9878eb7c40fbe8d491ecf19de08c",
+    "executableBytes": 245289984,
+    "buttonMenuByteIdentity": true,
+    "freshProfileAndOfflineReload": true,
+    "failureAndLifecyclePaths": "passed",
+    "noAbsoluteDevPath": true,
+    "errors": []
+  },
+  "baselinesChanged": false,
+  "dependenciesChanged": false,
+  "deployment": "not performed; Slice 742 is post-merge only"
+}

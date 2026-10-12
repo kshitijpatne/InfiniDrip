@@ -108,8 +108,28 @@ renderer, global restyle, or physical claim is admitted. PR #26 merged at
 passed, both stable and immutable public URLs passed browser checks, and UIQ-04
 is Done at board revision 4394. Reports:
 `docs/release/UIQ-04-INTEGRATION-S739-EXIT.md` and
-`docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md`. UIQ-05 and UIQ-07 remain
-backlog and require separate authorization/admission.
+`docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md`. UIQ-05 was subsequently
+admitted as the next serial package on 2026-10-11; UIQ-07 remains Backlog and
+unadmitted.
+
+### UIQ-05 admission — 2026-10-11
+
+The maintainer authorized the next ordered goal after UIQ-04. UIQ-05 is
+admitted from `origin/main` `f4cbfc45` as Slice 741 (bounded Surface artwork
+catalog presentation redesign) and Slice 742 (post-merge deployment and board
+closeout). The current artwork screen already contains catalog search,
+filters, local previews, provenance/rights, print suitability/resolution and
+no-match states; it additionally has explicit stage/apply placement actions
+that the isolated candidate lacks; it also couples the current independent
+curated-use filter and assessment selector. Accordingly, reuse only the
+accepted scoped visual treatment on the app's existing catalog markup and
+logic; do not mount a duplicate component, and preserve both actions and the
+separate filter/assessment controls. `uiq_artwork` is embedded/default-on for local rollback testing;
+OFF/unknown/stale must retain the exact legacy screen. Candidate source remains
+immutable. No artwork, storage, rights, acquisition, placement schema, math,
+exports, baseline or other UIQ scope is included. Full boundaries and gates:
+`docs/planning/UIQ-05-INTEGRATION-ADMISSION.md` and
+`docs/planning/UIQ-05-GOAL.md`. UIQ-07 remains Backlog/unadmitted.
 
 ## Parallel boundaries
 

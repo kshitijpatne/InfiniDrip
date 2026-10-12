@@ -951,6 +951,28 @@ describe("surfaceMarkup — artwork sets per style", () => {
     expect(html).not.toContain(`src="${record.source.originalImageUrl}"`);
     expect(html).toContain("the app does not fetch them");
   });
+  it("adds only scoped UIQ artwork classes and a recovery control when enabled", () => {
+    const data: Parameters<typeof surfaceMarkup>[0] = {
+      style: "Scoop", placements: [], errors: new Map<number, string>(), preview: "",
+      artworkLibrary: {
+        query: "birds", category: "", garmentFamily: "", pieceRoleGroup: "",
+        printUseFilter: "", assessmentUse: "placement" as const, selectedPlacementIndex: "",
+        actionMessage: "Choose a reference.", isOpen: true, totalCount: ARTWORK_CATALOG.length,
+        items: [{ record: ARTWORK_CATALOG[0]!, assessment: assessArtworkUse(ARTWORK_CATALOG[0]!, "placement") }],
+      },
+    };
+    const legacy = surfaceMarkup(data);
+    const enhanced = surfaceMarkup({ ...data, uiqArtworkEnabled: true });
+
+    expect(legacy).not.toContain("uiq-artwork");
+    expect(legacy).not.toContain("surface-library-clear");
+    expect(enhanced).toContain('class="artwork-library uiq-artwork"');
+    expect(enhanced).toContain('class="uiq-artwork-clear" type="button" id="surface-library-clear"');
+    expect(enhanced).toContain('id="surface-library-use-filter"');
+    expect(enhanced).toContain('id="surface-library-assess-use"');
+    expect(enhanced).toContain(`data-artwork-stage-id="${ARTWORK_CATALOG[0]!.assetId}"`);
+    expect(enhanced).toContain(`data-artwork-apply-id="${ARTWORK_CATALOG[0]!.assetId}" disabled`);
+  });
   it("renders CMA source identity and CC0 API evidence without Met-only labels", () => {
     const record = ARTWORK_CATALOG.find((item) => item.assetId === "builtin-cma-109638")!;
     const html = surfaceMarkup({

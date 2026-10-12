@@ -1,0 +1,12 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-05",
+  "expectedRevision": 4397,
+  "evidence": {
+    "id": "E-UIQ05-S741",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-05-INTEGRATION-S741-EXIT.md",
+    "verified": true,
+    "note": "Slice 741 implementation and pre-merge gates passed: 164 test files/2,657 tests with 100% global coverage, browser pressure/no-egress, production and packaged Electron verification, operational gates and export byte identity. Merge/deployment remain pending Slice 742."
+  }
+}

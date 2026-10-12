@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4394,
-  "updatedAt": "2026-10-12T00:01:42.857Z",
+  "revision": 4400,
+  "updatedAt": "2026-10-12T01:02:04.493Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14674,19 +14674,22 @@
     {
       "id": "UIQ-05",
       "type": "task",
-      "title": "Existing artwork-library presentation candidate",
+      "title": "Artwork catalog presentation integration",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "Review",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
-      "contributor": "OpenCode",
+      "contributor": "Codex",
       "reviewer": "Codex",
-      "dependencies": [],
+      "dependencies": [
+        "UIQ-GATE",
+        "UIQ05-CANDIDATE"
+      ],
       "protectedSurfaces": [
         "active Epic17 file ownership",
         "local-first/no-cost boundary",
@@ -14694,13 +14697,16 @@
         "export byte identity",
         "source/revision identity"
       ],
-      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Existing local catalog preview/search/filter/rights/suitability/resolution/no-match polish, independent of UIQ-02 prototype.",
-      "expectation": "Only existing catalog and local fixtures; no new production-art acquisition or storage schema.",
+      "description": "Maintainer-admitted current-main presentation redesign. Packet: docs/planning/UIQ-05-INTEGRATION-ADMISSION.md; live gates: docs/planning/UIQ-05-GOAL.md. Replace only the existing Surface artwork catalog presentation with the accepted candidate; do not add a duplicate catalog.",
+      "expectation": "Keep all existing catalog facts and local assets, with an improved native presentation and the existing explicit stage-new / use-for-selected-placement operations preserved. Selection and browsing are non-mutating.",
       "acceptanceCriteria": [
-        "Adopt accepted UIQ-02 visual contract at integration; runtime import/asset store remains untouched; integration through UIQ-GATE.",
-        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
-        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
-        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+        "Accepted UIQ-05 candidate files match immutable candidate evidence exactly; no candidate source/CSS/test/preview edits.",
+        "Embedded uiq_artwork is default-on with deterministic local test override; flag off, unknown or stale restores the exact pre-integration library UI.",
+        "Existing catalog, search/filter/assessment and rights caveats remain authoritative; only local bundled images are shown and provenance URLs are never fetched.",
+        "Selection is ephemeral and does not apply, save or alter design state; separate stage-new and attach-to-valid-placement actions remain explicit and tested.",
+        "100% changed production coverage and 100% settled global coverage; build/typecheck, operational, protected output and export-byte-identity gates pass with no baseline changes.",
+        "Actual browser/electron presentation checks pass at desktop and narrow sizes, with keyboard/focus, forced colors, reduced motion, safe local images and no-egress evidence.",
+        "Codex independently reviews, corrects if needed, and controls merge; Slice 742 verifies deployment/live behavior and evidence-gated board closeout."
       ],
       "statusHistory": [
         {
@@ -14710,6 +14716,24 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T00:18:42.106Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer authorized the next ordered UIQ goal after UIQ-04 completed. Current-main UIQ-05 integration admission, unique S741/S742 boundaries, exact catalog/action scope, embedded flag/fallback and acceptance gates are recorded in docs/planning/UIQ-05-INTEGRATION-ADMISSION.md and UIQ-05-GOAL.md.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-12T01:02:03.588Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 741 implementation and all pre-merge acceptance gates passed. The complete exit report and machine evidence are linked; final actual-diff review and PR remain pending.",
+          "evidenceRefs": [
+            "E-UIQ05-S741"
+          ]
         }
       ],
       "comments": [
@@ -14717,12 +14741,23 @@
           "at": "2026-10-11T14:22:54.000Z",
           "actor": "Codex",
           "text": "S733 reconciled the accepted isolated candidate child and its immutable exit proof on current main. This parent remains Backlog/unshipped; production integration requires its own package admission and verification."
+        },
+        {
+          "at": "2026-10-12T00:18:43.174Z",
+          "actor": "Codex",
+          "text": "Slice 741 started from origin/main f4cbfc45. Current app already implements the planned catalog data/functions plus explicit placement-stage/apply actions; the admitted change is one presentation replacement, not a duplicate library. The candidate remains immutable; selection stays non-mutating; flag-off/unknown/stale preserves the exact existing surface. See docs/planning/UIQ-05-INTEGRATION-ADMISSION.md and UIQ-05-GOAL.md. UIQ-07 remains Backlog/unadmitted."
+        },
+        {
+          "at": "2026-10-12T01:02:04.493Z",
+          "actor": "Codex",
+          "text": "Slice 741 is ready for review. The scoped presentation is wired into the existing local artwork catalog; independent filter/assessment controls, stage/apply actions, local-only assets and exact flag-off fallback are preserved. Full 100% coverage, rendered browser/no-egress pressure, build/operational gates, packaged Electron and export byte-identity proofs are linked in E-UIQ05-S741. Not merged or deployed; Slice 742 remains post-merge closeout."
         }
       ],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ05-S741"
       ],
-      "flagKey": null
+      "flagKey": "uiq_artwork"
     },
     {
       "id": "UIQ-GATE",
@@ -29047,6 +29082,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 740 proves PR #26 merge to main, successful GitHub Pages deployment run 38185891574, stable preview HTTP 200, and deployed browser pressure tests on the stable and immutable deployment URLs, including 1280/640/320 widths, keyboard, read-only action behavior, forced colors, reduced motion, no errors and no off-origin requests."
+    },
+    {
+      "id": "E-UIQ05-S741",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-05-INTEGRATION-S741-EXIT.md",
+      "commit": null,
+      "sha256": null,
+      "verified": true,
+      "note": "Slice 741 implementation and pre-merge gates passed: 164 test files/2,657 tests with 100% global coverage, browser pressure/no-egress, production and packaged Electron verification, operational gates and export byte identity. Merge/deployment remain pending Slice 742."
     }
   ]
 }

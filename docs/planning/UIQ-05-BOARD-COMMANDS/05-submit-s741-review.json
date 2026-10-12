@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-05",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "Slice 741 implementation and all pre-merge acceptance gates passed. The complete exit report and machine evidence are linked; final actual-diff review and PR remain pending.",
+  "evidenceRefs": ["E-UIQ05-S741"],
+  "expectedRevision": 4398
+}

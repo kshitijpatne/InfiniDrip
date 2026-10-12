@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-05",
+  "actor": "Codex",
+  "text": "Slice 741 is ready for review. The scoped presentation is wired into the existing local artwork catalog; independent filter/assessment controls, stage/apply actions, local-only assets and exact flag-off fallback are preserved. Full 100% coverage, rendered browser/no-egress pressure, build/operational gates, packaged Electron and export byte-identity proofs are linked in E-UIQ05-S741. Not merged or deployed; Slice 742 remains post-merge closeout.",
+  "expectedRevision": 4399
+}
