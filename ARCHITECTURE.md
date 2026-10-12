@@ -13,10 +13,14 @@ reviewed code-default change and redeployment. The exact legacy toolbar remains
 the OFF/unknown/stale fallback. The full candidate repository gate passed with 100% global
 coverage using two command-scoped workers after the default parallel run showed
 three contention-sensitive failures. No repository worker setting changed.
-Slice 759 now integrates that solid-only treatment behind the embedded flag;
-its complete pre-merge verification is recorded in
-`docs/release/UIQ-08-INTEGRATION-S759-EXIT.md`. It is not live until the
-reviewed PR merges and Slice 760 verifies deployment. See
+Slice 759 integrates that solid-only treatment behind the embedded flag and
+merged through PR #40 at `bb0bfd22`; Slice 760 verified the automatic workflow
+and actual stable/immutable public outputs. UIQ-08 is Done at board revision
+4512. Evidence is in `docs/release/UIQ-08-INTEGRATION-S759-EXIT.md`,
+`docs/release/UIQ-08-INTEGRATION-S760-CLOSEOUT.md`, and
+`docs/research/uiq08-integration/evidence/`. The flag has no remote switch.
+The deploy runner reported a transient Wrangler npm audit advisory (tracked
+separately in `PROJECT-STATE.md`). See
 `docs/planning/UIQ-08-INTEGRATION-ADMISSION.md`,
 `docs/planning/UIQ-08-INTEGRATION-GOAL.md`, the candidate packet, and
 `docs/research/uiq08/CODEX-REVIEW.md`.

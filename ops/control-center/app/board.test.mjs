@@ -53,15 +53,14 @@ test("UIQ integration status follows its release evidence", () => {
     if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
     else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
     else if (card.id === "UIQ-06") assert.equal(card.status, "Done");
-    else if (card.id === "UIQ-07") assert.equal(card.status, "Done");
-    else if (card.id === "UIQ-08") assert.equal(card.status, "In Progress");
+    else if (["UIQ-07", "UIQ-08"].includes(card.id)) assert.equal(card.status, "Done");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
     const expectedDeliveredAt = ["UIQ-02", "UIQ-03"].includes(card.id)
       ? "2026-10-11"
-      : ["UIQ-04", "UIQ-05", "UIQ-06", "UIQ-07"].includes(card.id) ? "2026-10-12" : null;
+      : ["UIQ-04", "UIQ-05", "UIQ-06", "UIQ-07", "UIQ-08"].includes(card.id) ? "2026-10-12" : null;
     assert.equal(card.deliveredAt, expectedDeliveredAt);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
@@ -137,6 +136,11 @@ test("UIQ integration status follows its release evidence", () => {
   const uiq07Admission = board.evidence.find((entry) => entry.id === "E-UIQ07-INTEGRATION-ADMISSION");
   const uiq07PublicCloseout = board.evidence.find((entry) => entry.id === "E-UIQ07-S756-PUBLIC");
   const uiq07FinalExit = board.evidence.find((entry) => entry.id === "E-UIQ07-S756-EXIT");
+  const uiq08Admission = board.evidence.find((entry) => entry.id === "E-UIQ08-INTEGRATION-ADMISSION");
+  const uiq08S759 = board.workItems.find((item) => item.id === "UIQ08-S759-INTEGRATION");
+  const uiq08S760 = board.workItems.find((item) => item.id === "UIQ08-S760-CLOSEOUT");
+  const uiq08LiveEvidence = board.evidence.find((entry) => entry.id === "E-UIQ08-S760-LIVE");
+  const uiq08ExitEvidence = board.evidence.find((entry) => entry.id === "E-UIQ08-S760-EXIT");
   assert.equal(cards[6].title, "Static native entry and original wordmark");
   assert.equal(cards[6].flagKey, "uiq_welcome");
   assert.equal(cards[6].releaseId, null);
@@ -157,6 +161,27 @@ test("UIQ integration status follows its release evidence", () => {
   assert.equal(uiq07FinalExit?.verified, true);
   assert.equal(uiq07FinalExit?.uri, "docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md");
   assert.equal(hashEvidenceArtifact(uiq07FinalExit.uri), uiq07FinalExit.sha256.toLowerCase());
+  assert.equal(cards[7].title, "Native inspection-toolbar presentation");
+  assert.equal(cards[7].status, "Done");
+  assert.equal(uiq08Admission?.verified, true);
+  assert.equal(uiq08Admission?.uri, "docs/planning/UIQ-08-INTEGRATION-ADMISSION.md");
+  assert.equal(hashEvidenceArtifact(uiq08Admission.uri), uiq08Admission.sha256.toLowerCase());
+  assert.equal(uiq08S759?.status, "Done");
+  assert.ok(uiq08S759?.evidenceRefs.includes("E-UIQ08-S759-MERGED"));
+  assert.equal(uiq08S760?.status, "Done");
+  assert.deepEqual(uiq08S760?.dependencies, ["UIQ08-S759-INTEGRATION"]);
+  assert.equal(uiq08LiveEvidence?.verified, true);
+  assert.equal(uiq08LiveEvidence?.kind, "browser");
+  assert.equal(hashEvidenceArtifact(uiq08LiveEvidence.uri), uiq08LiveEvidence.sha256.toLowerCase());
+  assert.equal(uiq08ExitEvidence?.verified, true);
+  assert.equal(uiq08ExitEvidence?.kind, "exit-report");
+  assert.equal(hashEvidenceArtifact(uiq08ExitEvidence.uri), uiq08ExitEvidence.sha256.toLowerCase());
+  const uiq08Live = JSON.parse(readFileSync(resolve(projectRoot, uiq08LiveEvidence.uri), "utf8"));
+  assert.equal(uiq08Live.workflow.runId, 38290776264);
+  assert.equal(uiq08Live.workflow.conclusion, "success");
+  assert.deepEqual(uiq08Live.targets.map((target) => target.kind), ["stable", "immutable"]);
+  assert.ok(uiq08Live.targets.every((target) => target.requests.length === 0 && target.pageErrors.length === 0 && target.consoleErrors.length === 0));
+  assert.ok(uiq08Live.targets.every((target) => target.assets.length >= 2 && target.assets.every((asset) => asset.matchesLocal)));
   const mobileToolbarBug = board.workItems.find((item) => item.id === "BUG-UI-048");
   assert.equal(mobileToolbarBug?.title, "More views and Assembled overlap on mobile");
   assert.equal(mobileToolbarBug?.type, "bug");

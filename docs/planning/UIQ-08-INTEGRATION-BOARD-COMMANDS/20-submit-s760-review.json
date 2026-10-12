@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4507,
+  "itemId": "UIQ08-S760-CLOSEOUT",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "The PR #40 deployment workflow and fresh stable/immutable browser checks passed, and hash-bound exit evidence is attached. Independent closeout review is requested.",
+  "evidenceRefs": ["E-UIQ08-S760-LIVE", "E-UIQ08-S760-EXIT"]
+}

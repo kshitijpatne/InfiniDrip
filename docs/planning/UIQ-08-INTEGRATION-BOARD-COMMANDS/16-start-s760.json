@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4503,
+  "itemId": "UIQ08-S760-CLOSEOUT",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "PR #40 merged successfully; Slice 760 begins the admitted deployment verification and closeout while the main workflow runs."
+}

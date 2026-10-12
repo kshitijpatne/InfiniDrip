@@ -98,13 +98,16 @@ only through an explicitly admitted, linked Epic packet.
 
 - `docs/planning/UIQ-08-INTEGRATION-ADMISSION.md` and
   `UIQ-08-INTEGRATION-GOAL.md` — current maintainer-admitted integration of
-  the accepted solid, opaque inspection-toolbar grouping. Slice 759 passed
-  pre-merge gates and entered Review at board revision 4499 (latest board
-  revision 4500); its evidence is
+  the accepted solid, opaque inspection-toolbar grouping. UIQ-08 and Slices
+  759/760 are Done at board revision 4512; PR #40 merged at `bb0bfd22`, the
+  workflow passed, and stable/immutable production assets and browser behavior
+  were verified. Closeout is
   `docs/release/UIQ-08-INTEGRATION-S759-EXIT.md` and
-  `docs/research/uiq08-integration/evidence/S759-verification-summary.json`.
-  Slice 760 handles post-merge deployment/live verification. Glass is rejected,
-  and the embedded flag has no remote switch.
+  `docs/research/uiq08-integration/evidence/S759-verification-summary.json`,
+  plus `docs/release/UIQ-08-INTEGRATION-S760-CLOSEOUT.md` and
+  `docs/research/uiq08-integration/evidence/S760-live/`. Glass is rejected,
+  and the embedded flag has no remote switch. A transient Wrangler npm audit
+  advisory is documented separately in `PROJECT-STATE.md`.
 - `docs/planning/UIQ-08-ADMISSION.md` and `UIQ-08-GOAL.md` — Slice 757 isolated
   inspection-toolbar candidate complete. Full two-worker repository coverage
   passed 165 files/2,672 tests at 100%; no repository worker default changed.

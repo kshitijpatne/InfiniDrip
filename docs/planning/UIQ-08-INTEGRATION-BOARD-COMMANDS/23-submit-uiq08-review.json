@@ -1,0 +1,17 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4509,
+  "itemId": "UIQ-08",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "Both integration slices are accepted and their complete pre-merge, merge, deployment and live-browser evidence is linked. Independent parent closeout review is requested.",
+  "evidenceRefs": [
+    "E-UIQ08-INTEGRATION-ADMISSION",
+    "E-UIQ08-S759-EXIT",
+    "E-UIQ08-S759-VERIFICATION",
+    "E-UIQ08-S759-MERGED",
+    "E-UIQ08-S760-LIVE",
+    "E-UIQ08-S760-EXIT"
+  ]
+}
