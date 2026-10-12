@@ -1,4 +1,35 @@
-## Current boundary — UIQ-05 complete (Slices 741–743)
+## Current boundary — UIQ-06 admitted (Slice 744 complete; S745 next)
+
+On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
+`origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
+“proceed with next goal.” This explicitly admits the next ordered package,
+UIQ-06, for evidence-gated, presentation-only improvements to existing
+operational readouts. The clean task worktree is
+`C:\Users\kshit\.codex\worktrees\uiq06-controls\designApp`, branch
+`codex/uiq06-admission`; the shared `F:\designApp` checkout is preserved.
+
+Slice 744 records the fresh rendered baseline and exact scope in
+`docs/planning/UIQ-06-ADMISSION.md`, `docs/planning/UIQ-06-GOAL.md`, and
+`docs/research/uiq06/S744-ADMISSION-BASELINE.md`. The UIQ-06 dependency
+UIQ-GATE is Done. The Nesting readout has one demonstrated scanability defect:
+estimate, verdict and directional caveat collide in a single 12px run. Check
+already truthfully distinguishes digital checks from physical validation;
+measurement provenance and local project/recovery/import/export features
+remain evidence-gated. No estimate, garment, grading, validation, state,
+persistence, import/export, or baseline changes are authorized. UIQ-07 and
+later work remain unadmitted and untouched.
+
+**Immediate next action: Slice 745**, restructure only the Nesting readout
+presentation using values already produced by the existing readout. Preserve
+its controls, IDs, validation, all known/unknown/invalid/short/unavailable
+states and exact flag-off/unknown/stale fallback. Then perform the focused
+coverage and rendered review before marking the boundary complete. Canonical
+board admission and protection-surface correction are recorded at revision
+4408 through the validated command layer. Recheck current branch, board, slice
+history and usage before the next boundary. The durable goal remains active
+through full review, merge, deployment, live verification and board closeout.
+
+## Previous boundary — UIQ-05 complete (Slices 741–743)
 
 UIQ-04 completed and deployed through Slice 740 at `origin/main`
 `f4cbfc45ca3bf2237b226a159ebe78e738ea3016`; canonical board revision 4394

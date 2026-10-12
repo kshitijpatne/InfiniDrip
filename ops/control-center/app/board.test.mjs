@@ -52,6 +52,7 @@ test("UIQ integration status follows its release evidence", () => {
     assert.ok(card);
     if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
     else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
+    else if (card.id === "UIQ-06") assert.equal(card.status, "In Progress");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
@@ -95,6 +96,13 @@ test("UIQ integration status follows its release evidence", () => {
   assert.ok(cards[4].evidenceRefs.includes("E-UIQ05-S742"));
   assert.ok(cards[4].statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes("E-UIQ05-S742")));
   assert.ok(cards[4].comments.some((comment) => comment.text.includes("UIQ-05 closed Done after Slice 742")));
+  assert.equal(cards[5].title, "Operational controls and critical-state readability");
+  assert.equal(cards[5].contributor, "Codex");
+  assert.equal(cards[5].flagKey, "uiq_operational_clarity");
+  assert.deepEqual(cards[5].dependencies, ["UIQ-GATE"]);
+  assert.ok(cards[5].description.includes("docs/planning/UIQ-06-ADMISSION.md"));
+  assert.ok(cards[5].statusHistory.some((entry) => entry.status === "In Progress"));
+  assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 744 admitted")));
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));

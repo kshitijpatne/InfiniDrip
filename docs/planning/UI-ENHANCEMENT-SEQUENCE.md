@@ -134,6 +134,29 @@ deployment and stable/immutable live verification passed. UIQ-05 is Done at
 board revision 4404 with verified S742 evidence; final durable current-state
 reconciliation is complete. UIQ-07 remains Backlog/unadmitted.
 
+### UIQ-06 admission — 2026-10-12
+
+After UIQ-05 completed through Slice 743 and PR #30 merged at
+`7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer admitted UIQ-06 as
+the next ordered package. It is an evidence-gated presentation-only pass over
+existing Nesting/Check, measurement provenance/history, grade exceptions, and
+local project/recovery/import/export-scope screens. The fresh audit shows a
+real scanability defect in the Nesting estimate/verdict/directional-warning
+readout; Check already states that digital checks do not establish physical
+validation. Measurement and project/recovery surfaces remain audit-gated.
+
+The exact slice boundaries, flag fallback, acceptance gates and ownership are
+in `docs/planning/UIQ-06-ADMISSION.md`; the live ledger is
+`docs/planning/UIQ-06-GOAL.md`; rendered before evidence is in
+`docs/research/uiq06/evidence/`. Slice 744 admits only UIQ-06 and records the
+baseline; Slice 745 may restructure the Nesting readout without changing any
+estimate or validation logic. Slices 746–748 proceed only where rendered
+edge-state evidence demonstrates a concrete communication defect. Slice 749
+is the settled full-gate/review/PR boundary; Slice 750 owns merge, deployment,
+live verification and validated board closeout. UIQ-07 and later work remain
+Backlog/unadmitted. No database, account, network, garment, physics, export,
+or other feature scope is added.
+
 ## Parallel boundaries
 
 - Track A: current Codex Epic17 scope and source/render/CAD contracts.

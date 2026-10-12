@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4404,
-  "updatedAt": "2026-10-12T01:13:16.469Z",
+  "revision": 4408,
+  "updatedAt": "2026-10-12T01:52:04.036Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14868,32 +14868,34 @@
       "title": "Operational controls and critical-state readability",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
       "priority": "P1",
       "risk": "medium",
       "owner": "Codex",
-      "contributor": "Claude Code / OpenCode",
+      "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
         "UIQ-GATE"
       ],
       "protectedSurfaces": [
-        "active Epic17 file ownership",
         "local-first/no-cost boundary",
         "100% coverage",
         "export byte identity",
-        "source/revision identity"
+        "source/revision identity",
+        "measurement, grade, nesting and project behavior"
       ],
-      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Presentation-only measurement/history, grade exceptions, nesting/Check, project/recovery/import/export-scope readability.",
-      "expectation": "Preserve validation, persistence, approvals, semantic edits and export contracts.",
+      "description": "Maintainer-admitted current-main, presentation-only readability wave. Packet: docs/planning/UIQ-06-ADMISSION.md; live gates: docs/planning/UIQ-06-GOAL.md. Improve only demonstrated issues across Nesting/Check, measurement provenance/history, grade exceptions and local project/recovery/import/export scope. Preserve all computations and operations.",
+      "expectation": "Operational estimates, digital-only checks, exceptions, local data state and output scope are clearly scannable without changing any math, validation, persistence, recovery, package or export behavior.",
       "acceptanceCriteria": [
-        "Bounded subpackages, no wholesale rewrite; invalid/stale/conflict/error states tested; Codex controls critical logic.",
-        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
-        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
-        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+        "Record a keep/change decision and rendered evidence for all four listed surface groups; make no speculative redesign.",
+        "Embedded uiq_operational_clarity has an exact current-UI fallback when OFF, unknown or stale; no remote switch or new service.",
+        "Nesting layout preserves every existing value, scope, estimator result, validation message and direction warning for fit/short/unknown/invalid/unavailable states.",
+        "Measurement provenance, grade exceptions, project/recovery/import/export retain source identity, raw inputs, reasons, approval/conflict gates, local-only scope and exact file behavior.",
+        "100% changed-code and settled global coverage, type/build, operational and packaged Electron gates, rendered 1280/640/320 accessibility/no-egress pressure checks, and export-byte-identity all pass with no baseline change.",
+        "Codex reviews and owns corrections, merge and deployment; UIQ-06 closes only after live production verification and validated board evidence."
       ],
       "statusHistory": [
         {
@@ -14903,13 +14905,27 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T01:50:28.233Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer authorized the next ordered UIQ goal after UIQ-05 completed. The current-main UIQ-06 admission, evidence-gated subpackages, exact presentation-only boundaries, reserved slices 744–750, flag/fallback and exit checks are recorded in docs/planning/UIQ-06-ADMISSION.md and UIQ-06-GOAL.md.",
+          "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-10-12T01:50:29.057Z",
+          "actor": "Codex",
+          "text": "Slice 744 admitted from clean origin/main 7923a7f. Fresh rendered review confirms the Nesting values/verdict/direction caveat merge into one 12px text run; Check is already explicit about digital-only validation. Measurement provenance and local project/recovery/import/export functions exist and remain separately evidence-gated before any UI change. See docs/planning/UIQ-06-ADMISSION.md, UIQ-06-GOAL.md and docs/research/uiq06/S744-ADMISSION-BASELINE.md. No geometry, estimates, approval logic, persistence or export behavior changes are admitted."
+        }
+      ],
       "evidenceRefs": [
         "E-UIQ-APPROVAL"
       ],
-      "flagKey": null
+      "flagKey": "uiq_operational_clarity"
     },
     {
       "id": "UIQ-07",

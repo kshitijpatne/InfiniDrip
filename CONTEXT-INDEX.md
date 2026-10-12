@@ -39,9 +39,10 @@ only through an explicitly admitted, linked Epic packet.
 
 ## Current status documents
 
-- `docs/coordination/TEAM-CONTEXT-REGISTRY.md` — shared engineering/business
-  lane discovery, authority and freshness contract; discover active worktrees
-  before using a main-based snapshot. Each lane retains its scope/approval gates.
+- `docs/coordination/TEAM-CONTEXT-REGISTRY.md` — referenced by older context
+  snapshots but absent from current `origin/main`; do not rely on it. Discover
+  active worktrees, refs, open PRs and the canonical board before using a
+  main-based snapshot. Each lane retains its own scope/approval gates.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
@@ -193,8 +194,15 @@ only through an explicitly admitted, linked Epic packet.
   38190492228 succeeded, and stable plus immutable URLs passed live browser
   checks. The validated board records UIQ-05 Done at revision 4404 with
   `E-UIQ05-S742`; final current-state reconciliation is in
-  `docs/release/UIQ-05-INTEGRATION-S743-CLOSEOUT.md`. UIQ-05 is complete and
-  UIQ-07 remains Backlog and unadmitted.
+  `docs/release/UIQ-05-INTEGRATION-S743-CLOSEOUT.md`. UIQ-05 is complete.
+  The maintainer admitted UIQ-06 after PR #30; its active execution packet,
+  goal ledger and baseline are `docs/planning/UIQ-06-ADMISSION.md`,
+  `docs/planning/UIQ-06-GOAL.md`, and `docs/research/uiq06/`. Slice 744
+  establishes the evidence-led presentation-only contract on clean
+  `origin/main` `7923a7f`; S745 targets the demonstrated Nesting-readout
+  collision. The canonical board tracks UIQ-06 In Progress. UIQ-07 remains
+  Backlog and unadmitted. The former team-context registry is absent; use
+  current Git/worktree/PR and board evidence for ownership.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped
