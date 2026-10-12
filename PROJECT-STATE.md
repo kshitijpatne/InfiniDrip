@@ -1,4 +1,37 @@
-## Current boundary — EPIC-18/G05 Slice 764 complete
+## Current boundary — EPIC-18/G05 Slice 765 complete; S766 next
+
+Slice 765 started at 2026-10-12 21:18:07 UTC from S764 commit
+`238c29f1f71bf3e74ee3d74ba5d97766e07d9f2a` on `codex/epic-18-g05`; a fresh
+fetch confirmed `origin/main`
+`e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor. Its validated
+start and resequencing records carried the canonical board to revision 4549
+without changing work-item statuses.
+
+S765 remaps T01 `inheritedFrom.revisionId` references during project copy when
+the source revision is included in the copied package history. Coverage spans
+cover, material, BOM and colorway assignment fields; references outside the
+map retain external provenance. Copy still remaps direct style/revision
+identity, resets approval to DRAFT, rejects an unmappable direct revision and
+leaves the source package unchanged. Focused package tests pass 56/56, focused
+coverage is 100% across all four metrics for `src/ui/project-package.ts`,
+TypeScript passes, protected export identity passes 9/9, and the Control Center
+suite passes 42/42. The exit packet is
+`docs/research/epic18/S765-T01-package-copy-reference-remap/exit-packet.md`.
+Digest-verified evidence is attached to G05-T01 and EPIC-18 at board revisions
+4550–4551 by the validated replay files
+`docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json` and
+`docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`.
+
+The landed subject is `Slice 765: remap nested T01 provenance on copy`; the
+full SHA is captured in the S766 start packet. EPIC-18 and G05-T01 remain In
+Progress; T02–T05, G05-EXIT and UIQ-10 remain Backlog; UIQ-09 remains Backlog
+pending EPIC-19. The hash-bound S762 admission and historical S764 exit packet
+remain unchanged. The current conditional plan is S762–S781, with UIQ-10
+admission at S774. The single next action is S766: integrate T01 revision
+payloads/digests with concurrency-safe saves and preserve historical payload-v1
+verification.
+
+## Previous boundary — EPIC-18/G05 Slice 764 complete
 
 Slice 764 began at 2026-10-12 20:42:34 UTC from verified S763 commit
 `1443affb51847f179bcc352bac47fad2d9b28ef8` on `codex/epic-18-g05`. A fresh

@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 764 complete
+## Current capability boundary — EPIC-18/G05 Slice 765 complete; S766 next
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
@@ -13,7 +13,13 @@ package/reload/copy proof. Regular/custom style records now use schemas 6/7;
 the IndexedDB v8→v9 upgrade adds the child transactionally. The required empty
 legacy record keeps cover fields explicitly unresolved and uses `unversioned`
 only as an absence marker because recipe source versions are not recorded.
-G02 revision payload/digest integration is the next authorized boundary, S765.
+S765 completed the package-copy correction: field-level
+`inheritedFrom.revisionId` values are remapped when their revisions are in the
+copied package history, while external provenance remains unchanged. Focused
+copy tests cover cover, material, BOM and colorway assignment fields; package
+copy leaves the validated source archive unchanged. T01 revision-payload and
+digest integration is the next action at S766. Historical v1 revision digests
+remain immutable.
 G05 covers
 local editable source records, predicted-versus-actual POMs, sourced
 construction facts, generated digital output and immutable local sharing
@@ -22,10 +28,17 @@ share is not a supplier handoff, physical-fit result, production approval or
 factory acceptance. UIQ-10 remains a linked Backlog child until its separate
 bounded admission after T01–T03; UIQ-09/EPIC-19 and all launch, supplier,
 physical and paid-service gates remain outside this admission. Details and the
-current verified checkpoint are in `docs/planning/EPIC-18-ADMISSION.md`,
+current verified checkpoint are in `docs/planning/EPIC-18-ADMISSION.md`, the
+active sequence addendum `docs/planning/EPIC-18-S765-RESEQUENCING.md`,
 `docs/planning/EPIC-18-GOAL.md`, `PROJECT-STATE.md`, the S763 exit packet
-under `docs/research/epic18/S763-T01-record-contract/`, and the S764 start and
-exit packets under `docs/research/epic18/S764-T01-persistence-migration/`.
+under `docs/research/epic18/S763-T01-record-contract/`, the S764 start and
+exit packets under `docs/research/epic18/S764-T01-persistence-migration/`, and
+the S765 start/exit packet under
+`docs/research/epic18/S765-T01-package-copy-reference-remap/`. Validated S765
+exit replays are linked in `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json`
+and `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`; board revision
+4551 records G05-T01 and EPIC-18 as In Progress. S766 is the next authorized
+slice.
 
 ## UI roadmap checkpoint — Slice 761
 

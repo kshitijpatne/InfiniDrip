@@ -1267,6 +1267,22 @@ function remapSavedDesign(design: StyleRecord["design"], assets: ReadonlyMap<str
   return { ...design, surface };
 }
 
+function remapTechPackFields<T extends object>(fields: T, revisionIds: ReadonlyMap<string, string>): T {
+  const remapped = { ...fields } as Record<string, unknown>;
+  for (const [key, value] of Object.entries(fields)) {
+    if (typeof value !== "object" || value === null || !("inheritedFrom" in value)) continue;
+    const field = value as { readonly inheritedFrom: { readonly revisionId: string } | null };
+    if (field.inheritedFrom === null) continue;
+    const revisionId = revisionIds.get(field.inheritedFrom.revisionId);
+    if (revisionId === undefined) continue;
+    remapped[key] = {
+      ...(value as object),
+      inheritedFrom: { ...field.inheritedFrom, revisionId },
+    };
+  }
+  return remapped as T;
+}
+
 function remapTechPackForCopy(
   techPack: TechPackRecord,
   styleId: string,
@@ -1282,6 +1298,13 @@ function remapTechPackForCopy(
   }
   return {
     ...techPack,
+    cover: remapTechPackFields(techPack.cover, revisionIds),
+    materials: techPack.materials.map((material) => remapTechPackFields(material, revisionIds)),
+    bomRows: techPack.bomRows.map((row) => remapTechPackFields(row, revisionIds)),
+    colorways: techPack.colorways.map((colorway) => ({
+      ...remapTechPackFields(colorway, revisionIds),
+      assignments: colorway.assignments.map((assignment) => remapTechPackFields(assignment, revisionIds)),
+    })),
     styleId,
     revisionId,
     approval: {

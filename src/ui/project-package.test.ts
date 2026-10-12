@@ -30,6 +30,7 @@ import {
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import type { TechPackField, TechPackFieldValue, TechPackSemanticKind } from "./tech-pack-records";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import {
   approveGradePlan,
@@ -1234,9 +1235,43 @@ describe("portable local project package", () => {
     expect(await reloaded.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
   });
 
-  it("preserves T01 revision, child data and review on restore, then remaps identity and resets review on copy", async () => {
+  it("preserves T01 data and review on restore, then remaps packaged provenance and resets review on copy", async () => {
     const source = await createFrozenSourcePackage();
     const revision = source.revision;
+    const makeField = <T extends TechPackFieldValue>(
+      fieldId: string,
+      semanticKind: TechPackSemanticKind,
+      value: T,
+      inheritedRevisionId: string | null = null,
+    ): TechPackField<T> => ({
+      fieldId,
+      semanticKind,
+      value,
+      unit: null,
+      provenance: inheritedRevisionId === null ? "UNRESOLVED" : "INHERITED",
+      evidenceStatus: "UNCONFIRMED",
+      validationStatus: inheritedRevisionId === null ? "INVALID" : "VALID",
+      sourceRef: null,
+      method: null,
+      capturedBy: null,
+      capturedAt: null,
+      inputRefs: [],
+      ruleId: null,
+      ruleVersion: null,
+      inheritedFrom: inheritedRevisionId === null ? null : {
+        revisionId: inheritedRevisionId,
+        provenance: "USER_CAPTURED",
+        sourceRef: "prior style revision",
+      },
+      unresolvedReason: inheritedRevisionId === null ? "No source exists in this fixture." : null,
+      nextAction: inheritedRevisionId === null ? "Enter a sourced value." : null,
+      evidenceRefs: [],
+      confidence: "NOT_ASSESSED",
+    });
+    const externalRevisionId = "99999999-9999-4999-8999-999999999999";
+    const unresolved = (fieldId: string, semanticKind: TechPackSemanticKind) => makeField(fieldId, semanticKind, null);
+    const inherited = (fieldId: string, semanticKind: TechPackSemanticKind, value: string, revisionId: string) =>
+      makeField(fieldId, semanticKind, value, revisionId);
     const styleCode = {
       ...source.style.techPack.cover.styleCode,
       value: "TP-001",
@@ -1253,7 +1288,49 @@ describe("portable local project package", () => {
       ...source.style.techPack,
       revisionId: revision.revisionId,
       revisionNumber: revision.revisionNumber,
-      cover: { ...source.style.techPack.cover, styleCode },
+      cover: {
+        ...source.style.techPack.cover,
+        styleCode,
+        styleName: inherited("cover.styleName.inherited", "STYLE_CONTROL", "Inherited name", revision.revisionId),
+        ownerLabel: inherited("cover.ownerLabel.external", "STYLE_CONTROL", "External owner", externalRevisionId),
+      },
+      materials: [{
+        id: "33333333-3333-4333-8333-333333333333",
+        category: "fabric",
+        name: inherited("material.name.inherited", "MATERIAL_PROPERTY", "Cotton", revision.revisionId),
+        supplier: unresolved("material.supplier", "MATERIAL_PROPERTY"),
+        articleId: unresolved("material.articleId", "MATERIAL_PROPERTY"),
+        lotId: unresolved("material.lotId", "MATERIAL_PROPERTY"),
+        composition: unresolved("material.composition", "MATERIAL_PROPERTY"),
+        construction: unresolved("material.construction", "MATERIAL_PROPERTY"),
+        weight: unresolved("material.weight", "MATERIAL_PROPERTY"),
+        usableWidth: unresolved("material.usableWidth", "MATERIAL_PROPERTY"),
+        finish: unresolved("material.finish", "MATERIAL_PROPERTY"),
+        color: unresolved("material.color", "MATERIAL_PROPERTY"),
+        directionalBehavior: unresolved("material.directionalBehavior", "MATERIAL_PROPERTY"),
+        unitCost: unresolved("material.unitCost", "MATERIAL_PROPERTY"),
+        currency: unresolved("material.currency", "MATERIAL_PROPERTY"),
+        costBasis: unresolved("material.costBasis", "MATERIAL_PROPERTY"),
+      }],
+      bomRows: [{
+        id: "44444444-4444-4444-8444-444444444444",
+        componentRef: inherited("bom.componentRef.inherited", "PANEL_GEOMETRY", "body-front", revision.revisionId),
+        placement: unresolved("bom.placement", "STYLE_CONTROL"),
+        materialId: "33333333-3333-4333-8333-333333333333",
+        quantity: unresolved("bom.quantity", "MATERIAL_PROPERTY"),
+        quantityBasis: unresolved("bom.quantityBasis", "MATERIAL_PROPERTY"),
+        requiredness: unresolved("bom.requiredness", "STYLE_CONTROL"),
+      }],
+      colorways: [{
+        id: "55555555-5555-4555-8555-555555555555",
+        name: unresolved("colorway.name", "STYLE_CONTROL"),
+        assignments: [{
+          id: "66666666-6666-4666-8666-666666666666",
+          bomRowId: "44444444-4444-4444-8444-444444444444",
+          materialId: "33333333-3333-4333-8333-333333333333",
+          color: inherited("colorway.color.inherited", "MATERIAL_PROPERTY", "Navy", revision.revisionId),
+        }],
+      }],
       approval: {
         state: "REVIEW",
         revisionId: revision.revisionId,
@@ -1325,10 +1402,33 @@ describe("portable local project package", () => {
     const copiedRevision = copiedBundle?.styleRevisions?.[0];
     expect(copiedStyle).toBeDefined();
     expect(copiedRevision).toBeDefined();
+    const remapFixtureField = <T extends TechPackFieldValue>(field: TechPackField<T>): TechPackField<T> =>
+      field.inheritedFrom?.revisionId === revision.revisionId
+        ? { ...field, inheritedFrom: { ...field.inheritedFrom, revisionId: copiedRevision!.revisionId } }
+        : field;
     expect(copiedStyle!.techPack).toEqual({
       ...reviewedTechPack,
       styleId: copiedStyle!.id,
       revisionId: copiedRevision!.revisionId,
+      cover: {
+        ...reviewedTechPack.cover,
+        styleName: remapFixtureField(reviewedTechPack.cover.styleName),
+      },
+      materials: reviewedTechPack.materials.map((material) => ({
+        ...material,
+        name: remapFixtureField(material.name),
+      })),
+      bomRows: reviewedTechPack.bomRows.map((row) => ({
+        ...row,
+        componentRef: remapFixtureField(row.componentRef),
+      })),
+      colorways: reviewedTechPack.colorways.map((colorway) => ({
+        ...colorway,
+        assignments: colorway.assignments.map((assignment) => ({
+          ...assignment,
+          color: remapFixtureField(assignment.color),
+        })),
+      })),
       approval: {
         state: "DRAFT",
         revisionId: null,
@@ -1338,6 +1438,7 @@ describe("portable local project package", () => {
         manifestId: null,
       },
     });
+    expect(archive.manifest.styles[0]?.techPack).toEqual(reviewedTechPack);
     expect(copiedStyle!.techPack.revisionId).toBe(copiedStyle!.revisionHeadId);
   });
 
