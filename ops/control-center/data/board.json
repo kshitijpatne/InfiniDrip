@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4500,
-  "updatedAt": "2026-10-12T18:24:01.325Z",
+  "revision": 4513,
+  "updatedAt": "2026-10-12T18:37:32.012Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -15170,10 +15170,10 @@
       "title": "Native inspection-toolbar presentation",
       "epicId": null,
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-02",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-12",
       "priority": "P2",
       "risk": "medium",
       "owner": "Codex",
@@ -15215,6 +15215,36 @@
           "role": "maintainer",
           "note": "The maintainer admitted the next goal after completing the isolated UIQ-08 candidate. The separate solid-only app integration, embedded fallback, exact scope and release gates are frozen in docs/planning/UIQ-08-INTEGRATION-ADMISSION.md and UIQ-08-INTEGRATION-GOAL.md.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-12T18:34:25.556Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Both integration slices are accepted and their complete pre-merge, merge, deployment and live-browser evidence is linked. Independent parent closeout review is requested.",
+          "evidenceRefs": [
+            "E-UIQ08-INTEGRATION-ADMISSION",
+            "E-UIQ08-S759-EXIT",
+            "E-UIQ08-S759-VERIFICATION",
+            "E-UIQ08-S759-MERGED",
+            "E-UIQ08-S760-LIVE",
+            "E-UIQ08-S760-EXIT"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T18:34:25.802Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Independent closeout review confirms both UIQ-08 integration slices are accepted, PR #40 is merged, the production workflow succeeded, and the stable and immutable live deployments match the accepted assets with all toolbar and no-egress gates passing.",
+          "evidenceRefs": [
+            "E-UIQ08-INTEGRATION-ADMISSION",
+            "E-UIQ08-S759-EXIT",
+            "E-UIQ08-S759-VERIFICATION",
+            "E-UIQ08-S759-MERGED",
+            "E-UIQ08-S760-LIVE",
+            "E-UIQ08-S760-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -15227,11 +15257,21 @@
           "at": "2026-10-12T17:08:49.479Z",
           "actor": "Codex",
           "text": "UIQ-08 is now separately admitted for solid, opaque inspection-toolbar integration after the candidate-only Slice 758 closeout. Slice 759 is In Progress under uiq_inspection_toolbar; the accepted candidate source stays immutable, glass is rejected, and all control behavior plus exact OFF fallback remain protected. The embedded flag cannot be remotely switched; rollback requires code-default change and redeployment. Admission and live gates: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md and UIQ-08-INTEGRATION-GOAL.md."
+        },
+        {
+          "at": "2026-10-12T18:26:26.003Z",
+          "actor": "Codex",
+          "text": "Slice 759 passed independent Codex review and merged via PR #40 at bb0bfd220a89f9b6beaecfcc06f1e08338d0ae8f. Slice 760 is now In Progress; workflow 38290776264 and fresh stable/immutable live verification are the remaining gates."
         }
       ],
       "evidenceRefs": [
         "E-UIQ-APPROVAL",
-        "E-UIQ08-INTEGRATION-ADMISSION"
+        "E-UIQ08-INTEGRATION-ADMISSION",
+        "E-UIQ08-S759-EXIT",
+        "E-UIQ08-S759-VERIFICATION",
+        "E-UIQ08-S759-MERGED",
+        "E-UIQ08-S760-LIVE",
+        "E-UIQ08-S760-EXIT"
       ],
       "flagKey": "uiq_inspection_toolbar"
     },
@@ -16221,10 +16261,10 @@
       "title": "Slice 759: integrate solid inspection-toolbar presentation",
       "epicId": null,
       "releaseId": null,
-      "status": "Review",
+      "status": "Done",
       "openedAt": "2026-10-12",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-12",
       "priority": "P2",
       "risk": "medium",
       "owner": "Codex",
@@ -16276,13 +16316,106 @@
             "E-UIQ08-S759-EXIT",
             "E-UIQ08-S759-VERIFICATION"
           ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T18:26:25.188Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "The complete Slice 759 diff and digest-bound evidence passed Codex review and merged through PR #40. The separate deployment and parent closeout remain assigned to Slice 760.",
+          "evidenceRefs": [
+            "E-UIQ08-S759-EXIT",
+            "E-UIQ08-S759-VERIFICATION",
+            "E-UIQ08-S759-MERGED"
+          ]
         }
       ],
       "comments": [],
       "evidenceRefs": [
         "E-UIQ08-S759-ADMISSION",
         "E-UIQ08-S759-EXIT",
-        "E-UIQ08-S759-VERIFICATION"
+        "E-UIQ08-S759-VERIFICATION",
+        "E-UIQ08-S759-MERGED"
+      ],
+      "flagKey": "uiq_inspection_toolbar"
+    },
+    {
+      "id": "UIQ08-S760-CLOSEOUT",
+      "type": "slice",
+      "title": "Slice 760: verify deployment and close UIQ-08",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-10-12",
+      "targetAt": null,
+      "deliveredAt": "2026-10-12",
+      "priority": "P2",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ08-S759-INTEGRATION"
+      ],
+      "protectedSurfaces": [
+        "main deployment for PR #40 and stable public Pages URL",
+        "immutable deployment identity and actual deployed toolbar feature",
+        "canonical UIQ-08 parent/child board state and digest-bound evidence",
+        "dirty shared F:\\designApp checkout and unrelated worktrees"
+      ],
+      "description": "Post-merge workflow, stable/immutable live-browser verification, digest-bound deployment evidence, and validated board/context closeout. Full scope: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md.",
+      "expectation": "The merged UIQ-08 behavior is present and usable on both stable and immutable production URLs with no regressions; canonical board and project context accurately show the completed integration.",
+      "acceptanceCriteria": [
+        "GitHub main deployment workflow for the exact merge SHA completes successfully.",
+        "Fresh browser checks verify stable and immutable deployment URLs show the solid opaque toolbar and working controls at desktop and narrow widths with no overflow, runtime errors, or off-origin requests.",
+        "Hash-bound deployment/verification evidence is attached to Slice 760 and UIQ-08 through the validated command layer.",
+        "Codex verifies S759 is accepted, S760 is independently reviewed, UIQ-08 and both slices are closed with evidence, and durable context matches origin/main.",
+        "Shared checkout remains untouched; no baseline movement or provider/launch changes."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-12T18:26:25.445Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Create the admitted post-merge deployment verification and durable closeout slice reserved by the UIQ-08 integration packet.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T18:26:25.724Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "PR #40 merged successfully; Slice 760 begins the admitted deployment verification and closeout while the main workflow runs.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-12T18:34:13.595Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "The PR #40 deployment workflow and fresh stable/immutable browser checks passed, and hash-bound exit evidence is attached. Independent closeout review is requested.",
+          "evidenceRefs": [
+            "E-UIQ08-S760-LIVE",
+            "E-UIQ08-S760-EXIT"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T18:34:13.872Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Codex independently reviewed the successful merge workflow, actual stable and immutable production assets, responsive browser checks, and hash-bound closeout records. The separate Wrangler audit note remains recorded without changing UIQ-08 acceptance.",
+          "evidenceRefs": [
+            "E-UIQ08-S760-LIVE",
+            "E-UIQ08-S760-EXIT"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ08-S760-LIVE",
+        "E-UIQ08-S760-EXIT"
       ],
       "flagKey": "uiq_inspection_toolbar"
     }
@@ -29937,9 +30070,9 @@
       "kind": "decision",
       "uri": "docs/planning/UIQ-08-INTEGRATION-ADMISSION.md",
       "commit": null,
-      "sha256": "eefa1c135386f3eb9c71084e5c2f2473afe16dbf994a61ea11bedb185d1f55ed",
+      "sha256": "22d13047d96f75d5a04a4950adeaf6fc54592ea6f6c91b8755277a5d3881785a",
       "verified": true,
-      "note": "Verified exact SHA-256 of the final immutable UIQ-08 integration admission packet."
+      "note": "Verified SHA-256 of the final admitted UIQ-08 integration packet at Slice 760 closeout."
     },
     {
       "id": "E-UIQ08-S759-ADMISSION",
@@ -29967,6 +30100,33 @@
       "sha256": "238d5d2743554bd87cf3c3508a5f57fc1d60645b043d826504eceba05a8c87e5",
       "verified": true,
       "note": "Digest-bound machine summary of global coverage counters, focused/operational/package checks, candidate hashes, rendered browser report and no-egress results."
+    },
+    {
+      "id": "E-UIQ08-S759-MERGED",
+      "kind": "commit",
+      "uri": "docs/release/UIQ-08-INTEGRATION-S759-EXIT.md",
+      "commit": "bb0bfd220a89f9b6beaecfcc06f1e08338d0ae8f",
+      "sha256": null,
+      "verified": true,
+      "note": "Reviewed Slice 759 merged through PR #40 into origin/main at bb0bfd220a89f9b6beaecfcc06f1e08338d0ae8f; deployment workflow 38290776264 is the remaining Slice 760 gate."
+    },
+    {
+      "id": "E-UIQ08-S760-LIVE",
+      "kind": "browser",
+      "uri": "docs/research/uiq08-integration/evidence/S760-live/S760-live-deployment-report.json",
+      "commit": null,
+      "sha256": "61abcc7710ea45197b1ec10fd5d294168ed7ee01035c1c2f42c7810449f682f1",
+      "verified": true,
+      "note": "Fresh Chromium verified stable and immutable Cloudflare Pages deployment URLs, exact production JS/CSS hashes, opaque toolbar and controls, 320–1440 responsive widths, and zero overflow, egress, page or console errors."
+    },
+    {
+      "id": "E-UIQ08-S760-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-08-INTEGRATION-S760-CLOSEOUT.md",
+      "commit": null,
+      "sha256": "d8b95472c247b51c64cfdd12ded76d2f49216e2d1f5589f7acca9d8266189492",
+      "verified": true,
+      "note": "Verified SHA-256 of the final Slice 760 closeout report recording accepted Done status and production evidence."
     }
   ]
 }

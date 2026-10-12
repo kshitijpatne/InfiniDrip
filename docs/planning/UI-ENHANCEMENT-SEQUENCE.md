@@ -23,8 +23,10 @@ inspection-toolbar grouping. Slice 759 is the flag-gated integration; Slice
 rendered evidence. The embedded flag has no remote switch; code-default change
 and redeployment are required for rollback. See
 `docs/planning/UIQ-08-INTEGRATION-ADMISSION.md` and
-`UIQ-08-INTEGRATION-GOAL.md`. UIQ-08 is In Progress; later UIQ cards remain
-subject to their own admission and dependency gates.
+`UIQ-08-INTEGRATION-GOAL.md`. UIQ-08 and Slices 759/760 are Done at board
+revision 4512. PR #40 merged; workflow `38290776264` and stable/immutable
+production asset/browser checks passed. See the S760 closeout. Later UIQ cards
+remain subject to their own admission and dependency gates.
 
 | Order / board ID | Outcome | Roadmap owner | Predecessor / production gate | Safe parallel work and contributor |
 |---|---|---|---|---|

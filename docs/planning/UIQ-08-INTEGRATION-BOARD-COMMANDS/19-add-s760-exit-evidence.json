@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4506,
+  "itemId": "UIQ08-S760-CLOSEOUT",
+  "evidence": {
+    "id": "E-UIQ08-S760-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-08-INTEGRATION-S760-CLOSEOUT.md",
+    "sha256": "0c194a70daaf7b165911dd8910b68ee22bca3f8097a6408a2675053b9000b506",
+    "verified": true,
+    "note": "Records the verified PR #40 main deployment, workflow result, stable/immutable public URLs, exact asset identity, responsive live browser evidence, and remaining security tooling advisory."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-S759-INTEGRATION",
+  "expectedRevision": 4500,
+  "evidence": {
+    "id": "E-UIQ08-S759-MERGED",
+    "kind": "commit",
+    "uri": "docs/release/UIQ-08-INTEGRATION-S759-EXIT.md",
+    "commit": "bb0bfd220a89f9b6beaecfcc06f1e08338d0ae8f",
+    "verified": true,
+    "note": "Reviewed Slice 759 merged through PR #40 into origin/main at bb0bfd220a89f9b6beaecfcc06f1e08338d0ae8f; deployment workflow 38290776264 is the remaining Slice 760 gate."
+  }
+}

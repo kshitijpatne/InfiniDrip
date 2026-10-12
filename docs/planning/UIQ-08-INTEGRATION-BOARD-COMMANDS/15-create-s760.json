@@ -1,0 +1,37 @@
+{
+  "type": "createItem",
+  "expectedRevision": 4502,
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Create the admitted post-merge deployment verification and durable closeout slice reserved by the UIQ-08 integration packet.",
+  "workItem": {
+    "id": "UIQ08-S760-CLOSEOUT",
+    "type": "slice",
+    "title": "Slice 760: verify deployment and close UIQ-08",
+    "epicId": null,
+    "releaseId": null,
+    "priority": "P2",
+    "risk": "medium",
+    "owner": "Codex",
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "targetAt": null,
+    "dependencies": ["UIQ08-S759-INTEGRATION"],
+    "protectedSurfaces": [
+      "main deployment for PR #40 and stable public Pages URL",
+      "immutable deployment identity and actual deployed toolbar feature",
+      "canonical UIQ-08 parent/child board state and digest-bound evidence",
+      "dirty shared F:\\designApp checkout and unrelated worktrees"
+    ],
+    "description": "Post-merge workflow, stable/immutable live-browser verification, digest-bound deployment evidence, and validated board/context closeout. Full scope: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md.",
+    "expectation": "The merged UIQ-08 behavior is present and usable on both stable and immutable production URLs with no regressions; canonical board and project context accurately show the completed integration.",
+    "acceptanceCriteria": [
+      "GitHub main deployment workflow for the exact merge SHA completes successfully.",
+      "Fresh browser checks verify stable and immutable deployment URLs show the solid opaque toolbar and working controls at desktop and narrow widths with no overflow, runtime errors, or off-origin requests.",
+      "Hash-bound deployment/verification evidence is attached to Slice 760 and UIQ-08 through the validated command layer.",
+      "Codex verifies S759 is accepted, S760 is independently reviewed, UIQ-08 and both slices are closed with evidence, and durable context matches origin/main.",
+      "Shared checkout remains untouched; no baseline movement or provider/launch changes."
+    ],
+    "flagKey": "uiq_inspection_toolbar"
+  }
+}

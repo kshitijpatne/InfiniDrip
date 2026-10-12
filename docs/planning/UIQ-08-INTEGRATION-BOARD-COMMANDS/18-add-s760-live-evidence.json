@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4505,
+  "itemId": "UIQ08-S760-CLOSEOUT",
+  "evidence": {
+    "id": "E-UIQ08-S760-LIVE",
+    "kind": "browser",
+    "uri": "docs/research/uiq08-integration/evidence/S760-live/S760-live-deployment-report.json",
+    "sha256": "61abcc7710ea45197b1ec10fd5d294168ed7ee01035c1c2f42c7810449f682f1",
+    "verified": true,
+    "note": "Fresh Chromium verified stable and immutable Cloudflare Pages deployment URLs, exact production JS/CSS hashes, opaque toolbar and controls, 320–1440 responsive widths, and zero overflow, egress, page or console errors."
+  }
+}

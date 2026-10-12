@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4501,
+  "itemId": "UIQ08-S759-INTEGRATION",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "reason": "The complete Slice 759 diff and digest-bound evidence passed Codex review and merged through PR #40. The separate deployment and parent closeout remain assigned to Slice 760.",
+  "evidenceRefs": ["E-UIQ08-S759-EXIT", "E-UIQ08-S759-VERIFICATION", "E-UIQ08-S759-MERGED"]
+}

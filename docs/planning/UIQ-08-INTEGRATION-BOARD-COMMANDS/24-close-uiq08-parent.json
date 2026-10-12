@@ -1,0 +1,17 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4510,
+  "itemId": "UIQ-08",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "reason": "Independent closeout review confirms both UIQ-08 integration slices are accepted, PR #40 is merged, the production workflow succeeded, and the stable and immutable live deployments match the accepted assets with all toolbar and no-egress gates passing.",
+  "evidenceRefs": [
+    "E-UIQ08-INTEGRATION-ADMISSION",
+    "E-UIQ08-S759-EXIT",
+    "E-UIQ08-S759-VERIFICATION",
+    "E-UIQ08-S759-MERGED",
+    "E-UIQ08-S760-LIVE",
+    "E-UIQ08-S760-EXIT"
+  ]
+}

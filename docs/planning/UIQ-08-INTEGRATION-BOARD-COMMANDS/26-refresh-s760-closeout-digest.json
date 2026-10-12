@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4512,
+  "facts": [
+    {
+      "evidenceId": "E-UIQ08-S760-EXIT",
+      "uri": "docs/release/UIQ-08-INTEGRATION-S760-CLOSEOUT.md",
+      "kind": "exit-report",
+      "commit": null,
+      "sha256": "d8b95472c247b51c64cfdd12ded76d2f49216e2d1f5589f7acca9d8266189492",
+      "verified": true,
+      "note": "Verified SHA-256 of the final Slice 760 closeout report recording accepted Done status and production evidence."
+    }
+  ]
+}

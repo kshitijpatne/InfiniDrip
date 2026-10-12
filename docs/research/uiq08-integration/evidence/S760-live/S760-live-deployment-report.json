@@ -1,0 +1,140 @@
+{
+  "verifiedAt": "2026-10-12T18:33:07.356Z",
+  "mergeCommit": "bb0bfd220a89f9b6beaecfcc06f1e08338d0ae8f",
+  "workflow": {
+    "runId": 38290776264,
+    "url": "https://github.com/kshitijpatne/InfiniDrip/actions/runs/38290776264",
+    "conclusion": "success",
+    "fullTestSuite": "passed",
+    "productionBuild": "passed",
+    "deterministicArtifactCheck": "passed",
+    "cloudflarePagesDeploy": "passed",
+    "immutableDeploymentUrl": "https://ae2896e6.infinidrip-preview.pages.dev"
+  },
+  "stableDeploymentUrl": "https://infinidrip-preview.pages.dev",
+  "acceptedAssets": {
+    "js": "c0f4c5075bd3ffe3042bef566a222938dd4cafd5262822c142b346dafdf87da2",
+    "css": "c3ac8683810f5be0e982868baf66d41305a3f820fd603c962116ffb282473bb2"
+  },
+  "targets": [
+    {
+      "kind": "stable",
+      "url": "https://infinidrip-preview.pages.dev",
+      "assets": [
+        {
+          "name": "index-D4OY9zfR.css",
+          "sha256": "c3ac8683810f5be0e982868baf66d41305a3f820fd603c962116ffb282473bb2",
+          "localSha256": "c3ac8683810f5be0e982868baf66d41305a3f820fd603c962116ffb282473bb2",
+          "matchesLocal": true
+        },
+        {
+          "name": "index-BG_MF5be.js",
+          "sha256": "c0f4c5075bd3ffe3042bef566a222938dd4cafd5262822c142b346dafdf87da2",
+          "localSha256": "c0f4c5075bd3ffe3042bef566a222938dd4cafd5262822c142b346dafdf87da2",
+          "matchesLocal": true
+        }
+      ],
+      "widths": [
+        {
+          "width": 320,
+          "viewport": 320,
+          "document": 320,
+          "toolbar": 290,
+          "toolbarScroll": 288,
+          "toolbarClient": 288
+        },
+        {
+          "width": 390,
+          "viewport": 390,
+          "document": 390,
+          "toolbar": 360,
+          "toolbarScroll": 358,
+          "toolbarClient": 358
+        },
+        {
+          "width": 768,
+          "viewport": 768,
+          "document": 768,
+          "toolbar": 408,
+          "toolbarScroll": 406,
+          "toolbarClient": 406
+        },
+        {
+          "width": 1440,
+          "viewport": 1440,
+          "document": 1440,
+          "toolbar": 1022,
+          "toolbarScroll": 1020,
+          "toolbarClient": 1020
+        }
+      ],
+      "requests": [],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "screenshots": [
+        "docs/research/uiq08-integration/evidence/S760-live/S760-stable-1440.png",
+        "docs/research/uiq08-integration/evidence/S760-live/S760-stable-320.png"
+      ]
+    },
+    {
+      "kind": "immutable",
+      "url": "https://ae2896e6.infinidrip-preview.pages.dev",
+      "assets": [
+        {
+          "name": "index-D4OY9zfR.css",
+          "sha256": "c3ac8683810f5be0e982868baf66d41305a3f820fd603c962116ffb282473bb2",
+          "localSha256": "c3ac8683810f5be0e982868baf66d41305a3f820fd603c962116ffb282473bb2",
+          "matchesLocal": true
+        },
+        {
+          "name": "index-BG_MF5be.js",
+          "sha256": "c0f4c5075bd3ffe3042bef566a222938dd4cafd5262822c142b346dafdf87da2",
+          "localSha256": "c0f4c5075bd3ffe3042bef566a222938dd4cafd5262822c142b346dafdf87da2",
+          "matchesLocal": true
+        }
+      ],
+      "widths": [
+        {
+          "width": 320,
+          "viewport": 320,
+          "document": 320,
+          "toolbar": 290,
+          "toolbarScroll": 288,
+          "toolbarClient": 288
+        },
+        {
+          "width": 390,
+          "viewport": 390,
+          "document": 390,
+          "toolbar": 360,
+          "toolbarScroll": 358,
+          "toolbarClient": 358
+        },
+        {
+          "width": 768,
+          "viewport": 768,
+          "document": 768,
+          "toolbar": 408,
+          "toolbarScroll": 406,
+          "toolbarClient": 406
+        },
+        {
+          "width": 1440,
+          "viewport": 1440,
+          "document": 1440,
+          "toolbar": 1022,
+          "toolbarScroll": 1020,
+          "toolbarClient": 1020
+        }
+      ],
+      "requests": [],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "screenshots": [
+        "docs/research/uiq08-integration/evidence/S760-live/S760-immutable-1440.png",
+        "docs/research/uiq08-integration/evidence/S760-live/S760-immutable-320.png"
+      ]
+    }
+  ],
+  "failures": []
+}

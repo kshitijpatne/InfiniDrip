@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4508,
+  "itemId": "UIQ08-S760-CLOSEOUT",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "reason": "Codex independently reviewed the successful merge workflow, actual stable and immutable production assets, responsive browser checks, and hash-bound closeout records. The separate Wrangler audit note remains recorded without changing UIQ-08 acceptance.",
+  "evidenceRefs": ["E-UIQ08-S760-LIVE", "E-UIQ08-S760-EXIT"]
+}

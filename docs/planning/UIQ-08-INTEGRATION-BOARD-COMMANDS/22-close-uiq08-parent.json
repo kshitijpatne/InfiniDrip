@@ -1,0 +1,17 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4509,
+  "itemId": "UIQ-08",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "reason": "Both admitted UIQ-08 integration slices are accepted: Slice 759 is merged, and Slice 760 verified the successful main deployment and actual stable/immutable live outputs. All scope, fallback and no-egress criteria pass; close the parent with linked pre-merge and deployment evidence.",
+  "evidenceRefs": [
+    "E-UIQ08-INTEGRATION-ADMISSION",
+    "E-UIQ08-S759-EXIT",
+    "E-UIQ08-S759-VERIFICATION",
+    "E-UIQ08-S759-MERGED",
+    "E-UIQ08-S760-LIVE",
+    "E-UIQ08-S760-EXIT"
+  ]
+}
