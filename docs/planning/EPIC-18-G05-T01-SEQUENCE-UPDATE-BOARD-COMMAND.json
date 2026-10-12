@@ -1,0 +1,10 @@
+{
+  "type": "editItem",
+  "itemId": "G05-T01",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "patch": {
+    "description": "Slices 763–767. Freeze the strict typed style/material/BOM/provenance contract, then add backward-safe persistence, immutable revision integration, editable fields and all-recipe propagation. S765 added the package-copy provenance correction; S766 integrates payload-v2 T01 snapshots while preserving strict v1; S767 owns the editor and all-seven-recipe rendered proof. Full acceptance: docs/planning/EPIC-18-ADMISSION.md; active ordered boundaries: docs/planning/EPIC-18-S765-RESEQUENCING.md."
+  },
+  "expectedRevision": 4555
+}

@@ -46,6 +46,7 @@ import {
   type FrozenOutputManifestRecord,
   type StyleRevisionRecord,
 } from "./style-revisions";
+import { techPackRevisionContent } from "./tech-pack-records";
 
 export const PROJECT_DATABASE_NAME = "infinidrip-projects";
 export const PROJECT_DATABASE_VERSION = 9;
@@ -882,8 +883,16 @@ async function verifyLoadedHistory(loaded: LoadedProject, crypto?: Crypto): Prom
       }
     }
     const head = revisions[revisions.length - 1]!;
-    if (head.revisionId !== style.revisionHeadId || canonicalizeJcs(head.payload.design) !== canonicalizeJcs(style.design)) {
+    if (head.revisionId !== style.revisionHeadId || canonicalizeJcs(head.payload.design) !== canonicalizeJcs(style.design)
+      || (head.payload.payloadVersion === 2
+        && canonicalizeJcs(techPackRevisionContent(head.payload.techPack))
+          !== canonicalizeJcs(techPackRevisionContent(style.techPack)))) {
       throw new ProjectRepositoryError("invalid-data", "The saved style does not match its immutable revision head.");
+    }
+    if (style.techPack.revisionId !== null
+      && (style.techPack.revisionId !== style.revisionHeadId
+        || style.techPack.revisionNumber !== head.revisionNumber)) {
+      throw new ProjectRepositoryError("invalid-data", "The saved T01 record references a missing or mismatched style revision.");
     }
   }
   for (const manifest of loaded.exportManifests) {
@@ -1483,8 +1492,10 @@ export class ProjectRepository {
         if (appended.length > 1) throw new ProjectRepositoryError("invalid-data", "A single style save may append at most one child revision.");
         if (existing) {
           const designChanged = canonicalizeJcs(existing.design) !== canonicalizeJcs(style.design);
-          if (designChanged && appended.length !== 1) {
-            throw new ProjectRepositoryError("invalid-data", "A changed saved design must append one immutable revision.");
+          const techPackChanged = canonicalizeJcs(techPackRevisionContent(existing.techPack))
+            !== canonicalizeJcs(techPackRevisionContent(style.techPack));
+          if ((designChanged || techPackChanged) && appended.length !== 1) {
+            throw new ProjectRepositoryError("invalid-data", "A changed saved design or T01 record must append one immutable revision.");
           }
           if (appended.length === 0 && style.revisionHeadId !== existing.revisionHeadId) {
             throw new ProjectRepositoryError("invalid-data", "A style revision head cannot move without an appended revision row.");
@@ -1493,8 +1504,11 @@ export class ProjectRepository {
             const next = appended[0]!;
             if (next.styleId !== style.id || next.parentRevisionId !== existing.revisionHeadId
               || style.revisionHeadId !== next.revisionId
-              || canonicalizeJcs(next.payload.design) !== canonicalizeJcs(style.design)) {
-              throw new ProjectRepositoryError("invalid-data", "A new revision must snapshot this style and extend its current head.");
+              || next.payload.payloadVersion !== 2
+              || canonicalizeJcs(next.payload.design) !== canonicalizeJcs(style.design)
+              || canonicalizeJcs(techPackRevisionContent(next.payload.techPack))
+                !== canonicalizeJcs(techPackRevisionContent(style.techPack))) {
+              throw new ProjectRepositoryError("invalid-data", "A new revision must snapshot this style's design and T01 and extend its current head.");
             }
             const priorRows = await requestValue<unknown[]>(revisionStore.index("styleId").getAll(style.id));
             if (existing.revisionHeadId === null) {
@@ -1507,6 +1521,12 @@ export class ProjectRepository {
               if (!head || head.revisionNumber + 1 !== next.revisionNumber || next.parentRevisionId !== head.revisionId) {
                 throw new ProjectRepositoryError("conflict", "The immutable style revision head changed; reload before saving.");
               }
+              if (canonicalizeJcs(head.payload.design) !== canonicalizeJcs(existing.design)
+                || (head.payload.payloadVersion === 2
+                  && canonicalizeJcs(techPackRevisionContent(head.payload.techPack))
+                    !== canonicalizeJcs(techPackRevisionContent(existing.techPack)))) {
+                throw new ProjectRepositoryError("conflict", "The stored style revision head no longer matches the saved style; reload before saving.");
+              }
             }
             const nextObservations = incomingObservations.get(style.id);
             if (!nextObservations || canonicalizeJcs(next.payload.fieldObservations) !== canonicalizeJcs(nextObservations)) {
@@ -1517,7 +1537,10 @@ export class ProjectRepository {
           const initial = appended[0]!;
           if (appended.length !== 1 || initial.parentRevisionId !== null || initial.revisionNumber !== 1
             || style.revisionHeadId !== initial.revisionId
-            || canonicalizeJcs(initial.payload.design) !== canonicalizeJcs(style.design)) {
+            || initial.payload.payloadVersion !== 2
+            || canonicalizeJcs(initial.payload.design) !== canonicalizeJcs(style.design)
+            || canonicalizeJcs(techPackRevisionContent(initial.payload.techPack))
+              !== canonicalizeJcs(techPackRevisionContent(style.techPack))) {
             throw new ProjectRepositoryError("invalid-data", "A newly created style must start with exactly one parentless revision.");
           }
           const initialObservations = incomingObservations.get(style.id);

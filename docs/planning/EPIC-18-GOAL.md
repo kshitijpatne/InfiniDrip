@@ -21,7 +21,7 @@ execution sequence is in
 | 763 | Done | T01: freeze the schema-v1 typed record, strict parser and provenance envelope with 100% focused coverage; no persistence or UI. Exit: `docs/research/epic18/S763-T01-record-contract/exit-packet.md`. |
 | 764 | Done | T01: backward-safe style persistence, transactional migration and legacy package compatibility plus save/reload/copy proof. Exit: `docs/research/epic18/S764-T01-persistence-migration/exit-packet.md`; validated exit replay: `docs/planning/EPIC-18-S764-EXIT-BOARD-COMMANDS.json`. |
 | 765 | Done | S764 follow-up: remap packaged `inheritedFrom.revisionId` references during project copy, preserve external provenance and source data. Exit: `docs/research/epic18/S765-T01-package-copy-reference-remap/exit-packet.md`; validated T01/Epic replays: `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json` and `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. |
-| 766 | Backlog | T01: integrate immutable revision-payload identity and concurrency-safe saves while retaining historical payload-v1 verification. |
+| 766 | Done | T01: immutable payload-v2 snapshots/digests, strict historical-v1 verification, exact workflow/package/repository head binding and stale-write rejection. Exit: `docs/research/epic18/S766-T01-revision-payload/exit-packet.md`; validated start/exit evidence is recorded by the S766 board commands. |
 | 767 | Backlog | T01: editing and all-recipe propagation, explicit unknowns, cost/view updates, stale/frozen behavior and rendered proof; close T01. |
 | 768–770 | Backlog | T02: POM definitions, grade/source boundaries, sample/QA separation and all-recipe checks. |
 | 771–773 | Backlog | T03: sourced operation records, explicit unknowns, component/BOM integrity and all-recipe review. |
@@ -35,7 +35,39 @@ same-slice fixup commit. Each boundary updates this ledger, `PROJECT-STATE.md`,
 the admission/exit evidence, and the canonical board through the validated
 command layer.
 
-## Latest verified execution boundary — Slice 765 complete
+## Current execution boundary — Slice 766 complete
+
+S766 started at 2026-10-12 21:33:39 UTC from committed S765
+`af6191ed8bb465a59da089ec8362ca5741c28d0a` on `codex/epic-18-g05`. The fresh
+fetch confirms `origin/main=e9221ea5033ccfdd91bf1ebb353926f189477d75` remains
+an ancestor and no files were dirty at start. The canonical board advanced
+4551→4553 with digest-verified start evidence on G05-T01 and EPIC-18; statuses
+are unchanged. The exact S766 payload-v2 / strict-v1 compatibility, workflow,
+repository, package and concurrency boundary is recorded in
+`docs/research/epic18/S766-T01-revision-payload/start-packet.md`. Validated
+start replays are `docs/planning/EPIC-18-S766-START-T01-BOARD-COMMAND.json`
+and `docs/planning/EPIC-18-S766-START-EPIC-BOARD-COMMAND.json`.
+
+S766 is complete at the single landed subject `Slice 766: snapshot T01 in
+immutable style revisions`. The full landed SHA is captured at the S767 start
+boundary. The exit packet records payload-v2 T01 identity, strict v1
+compatibility, mutable scoped-review overlay semantics, package copy behavior
+and repository CAS/head checks. All five changed production modules pass
+100% statement, branch, function and line coverage across 316 focused tests;
+TypeScript, Control Center 42/42, export identity 9/9 and `git diff --check`
+pass. Validated exit evidence advances the board 4553→4555; EPIC-18/G05-T01
+remain In Progress and all other work-item statuses remain unchanged. A
+validated sequence-description correction updates the canonical G05-T01 card
+through board revision 4556; command:
+`docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`.
+
+The single next action is to start S767 from the landed S766 commit and board
+revision 4556. S767 implements T01 editing, all-seven-recipe propagation,
+explicit unknowns, cost/view changes, stale/frozen behavior and rendered proof
+before closing G05-T01. UIQ-10 remains Backlog for its separately admitted S774
+scope; UIQ-09 remains Backlog pending EPIC-19.
+
+## Previous verified boundary — Slice 765 complete
 
 Slice 765 started at 2026-10-12 21:18:07 UTC from S764 commit
 `238c29f1f71bf3e74ee3d74ba5d97766e07d9f2a`; fresh verification retained the

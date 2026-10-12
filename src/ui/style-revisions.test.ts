@@ -4,6 +4,7 @@ import { STANDARD_M } from "../drafting";
 import { createFieldObservationRecord } from "./field-provenance";
 import { migrateLegacySaveFile } from "./project-records";
 import { serialize } from "./persist";
+import { bindTechPackToRevision } from "./tech-pack-records";
 import {
   CanonicalJsonError,
   canonicalizeJcs,
@@ -14,12 +15,18 @@ import {
   jcsSha256Hex,
   parseFrozenOutputManifestRecord,
   parseStyleRevisionRecord,
+  reidentifyStyleRevisionForCopy,
   sha256Hex,
+  STYLE_REVISION_LEGACY_PAYLOAD_VERSION,
+  STYLE_REVISION_PAYLOAD_VERSION,
   verifyFrozenOutputManifest,
   verifyFrozenOutputManifestMetadata,
   verifyStyleRevision,
   type FrozenArtifactInput,
   type FrozenOutputManifestRecord,
+  type CurrentStyleRevisionPayload,
+  type LegacyStyleRevisionPayload,
+  type StyleRevisionRecord,
 } from "./style-revisions";
 
 const crypto = webcrypto as unknown as Crypto;
@@ -28,6 +35,10 @@ const PROJECT_ID = "a02b8322-8f57-46bb-9d16-16ac1fcf6811";
 const STYLE_ID = "b53a1a03-ea2e-4c4f-82dc-14ac86a29895";
 const REVISION_ID = "11111111-1111-4111-8111-111111111111";
 const MANIFEST_ID = "22222222-2222-4222-8222-222222222222";
+
+function revisionPack(style: ReturnType<typeof fixture>["style"], revisionId: string, revisionNumber: number) {
+  return bindTechPackToRevision(style.techPack, revisionId, revisionNumber, TIME);
+}
 
 function fixture(assetIds: readonly string[] = []) {
   const surface = assetIds.length ? {
@@ -61,6 +72,7 @@ async function revisionFixture() {
     design: style.design,
     fieldObservations,
     artwork: [],
+    techPack: revisionPack(style, REVISION_ID, 1),
   }, crypto);
 }
 
@@ -139,6 +151,132 @@ describe("RFC 8785 canonical JSON for immutable style records", () => {
 });
 
 describe("immutable revision and frozen output records", () => {
+  it("retains historical v1 payload identity and binds v2 T01 content into the digest", async () => {
+    const current = await revisionFixture();
+    expect(current.payload.payloadVersion).toBe(STYLE_REVISION_PAYLOAD_VERSION);
+    const v2Payload = current.payload as CurrentStyleRevisionPayload;
+    expect(v2Payload).toHaveProperty("techPack");
+
+    const { techPack: _techPack, ...v1Fields } = v2Payload;
+    const legacyPayload: LegacyStyleRevisionPayload = {
+      ...v1Fields,
+      payloadVersion: STYLE_REVISION_LEGACY_PAYLOAD_VERSION,
+    };
+    const legacy: StyleRevisionRecord = {
+      ...current,
+      payload: legacyPayload,
+      revisionContentDigest: await jcsSha256Hex(legacyPayload, crypto),
+    };
+    expect(Object.keys(legacyPayload)).toEqual([
+      "payloadVersion", "styleId", "revisionId", "parentRevisionId", "revisionNumber",
+      "ruleVersions", "design", "fieldObservations", "artwork",
+    ]);
+    expect(parseStyleRevisionRecord(legacy)).toEqual(legacy);
+    expect(await verifyStyleRevision(legacy, crypto)).toBe(true);
+    expect(legacyPayload).not.toHaveProperty("techPack");
+    expect(legacy.revisionContentDigest).toBe("d904fb60a5c6050c2820ffa1a99236e3eea5b19dbe1623471789698192606087");
+
+    const nextUpdatedAt = "2026-09-24T16:00:01.000Z";
+    const changedTechPack = { ...v2Payload.techPack, updatedAt: nextUpdatedAt };
+    const changed = await createStyleRevision({
+      styleId: current.styleId,
+      revisionId: current.revisionId,
+      parentRevisionId: current.parentRevisionId,
+      revisionNumber: current.revisionNumber,
+      createdAt: current.createdAt,
+      design: v2Payload.design,
+      fieldObservations: v2Payload.fieldObservations,
+      artwork: v2Payload.artwork,
+      techPack: changedTechPack,
+    }, crypto);
+    expect(changed.revisionContentDigest).not.toBe(current.revisionContentDigest);
+    expect(parseStyleRevisionRecord({
+      ...current,
+      payload: { ...v2Payload, techPack: { ...v2Payload.techPack, revisionNumber: 2 } },
+    })).toBeNull();
+    expect(parseStyleRevisionRecord({ ...current, payload: { ...v2Payload, payloadVersion: 3 } })).toBeNull();
+    expect(parseStyleRevisionRecord({
+      ...current,
+      payload: { ...v2Payload, techPack: { ...v2Payload.techPack, styleId: PROJECT_ID } },
+    })).toBeNull();
+    expect(parseStyleRevisionRecord({
+      ...current,
+      payload: { ...v2Payload, techPack: { ...v2Payload.techPack, recipeId: "skirt" } },
+    })).toBeNull();
+    expect(parseStyleRevisionRecord({
+      ...current,
+      payload: { ...v2Payload, techPack: { ...v2Payload.techPack, revisionId: "33333333-3333-4333-8333-333333333333" } },
+    })).toBeNull();
+    expect(parseStyleRevisionRecord({
+      ...current,
+      payload: {
+        ...v2Payload,
+        techPack: {
+          ...v2Payload.techPack,
+          approval: {
+            state: "REVIEW",
+            revisionId: current.revisionId,
+            scopeFieldIds: [v2Payload.techPack.cover.styleCode.fieldId],
+            changedBy: "fixture reviewer",
+            changedAt: TIME,
+            manifestId: null,
+          },
+        },
+      },
+    })).toBeNull();
+    expect(parseStyleRevisionRecord({
+      ...current,
+      payload: { ...v2Payload, techPack: { ...v2Payload.techPack, unexpected: true } },
+    })).toBeNull();
+    expect(parseStyleRevisionRecord({ ...current, payload: { ...v2Payload, techPack: undefined } })).toBeNull();
+    expect(await verifyStyleRevision({
+      ...current,
+      payload: { ...v2Payload, techPack: changedTechPack },
+    } as StyleRevisionRecord, crypto)).toBe(false);
+
+    const legacyManifest = await createFrozenOutputManifest({
+      manifestId: MANIFEST_ID,
+      styleId: STYLE_ID,
+      revision: legacy,
+      capturedAt: TIME,
+      selectedSizes: [{ sizeId: "tee-step-1", label: "M" }],
+      unresolved: ["Physical fit and factory acceptance have not been verified."],
+      artifacts: frozenInputs(),
+    }, crypto);
+    expect(legacyManifest.payload.revisionContentDigest).toBe(legacy.revisionContentDigest);
+    expect(await verifyFrozenOutputManifest(legacyManifest, crypto)).toBe(true);
+
+    const reidentifyInput = {
+      source: current,
+      styleId: STYLE_ID,
+      revisionId: "33333333-3333-4333-8333-333333333333",
+      parentRevisionId: REVISION_ID,
+      design: v2Payload.design,
+      fieldObservations: v2Payload.fieldObservations,
+      artwork: v2Payload.artwork,
+      createdAt: TIME,
+    };
+    await expect(reidentifyStyleRevisionForCopy(reidentifyInput, crypto))
+      .rejects.toThrow("requires its remapped T01 snapshot");
+    await expect(reidentifyStyleRevisionForCopy({
+      ...reidentifyInput,
+      source: legacy,
+      techPack: v2Payload.techPack,
+    }, crypto)).rejects.toThrow("must retain its legacy payload shape");
+    await expect(reidentifyStyleRevisionForCopy({
+      ...reidentifyInput,
+      source: legacy,
+      styleId: PROJECT_ID,
+      revisionId: "44444444-4444-4444-8444-444444444444",
+      parentRevisionId: null,
+    }, crypto)).rejects.toThrow("Copied legacy style revision failed strict validation");
+    await expect(reidentifyStyleRevisionForCopy({
+      ...reidentifyInput,
+      source: { ...current, revisionContentDigest: "0".repeat(64) },
+      techPack: v2Payload.techPack,
+    }, crypto)).rejects.toThrow("Only an integrity-verified source revision");
+  });
+
   it("hashes a parentless baseline, sorts source artwork, and verifies the strict record", async () => {
     const { style, fieldObservations } = fixture(["a", "b"]);
     const assetA = { assetId: "b", mimeType: "image/png", byteLength: 2, sha256: "a".repeat(64) };
@@ -147,6 +285,7 @@ describe("immutable revision and frozen output records", () => {
       styleId: STYLE_ID, revisionId: REVISION_ID, parentRevisionId: null, revisionNumber: 1,
       createdAt: TIME, design: style.design, fieldObservations,
       artwork: [assetA, assetB],
+      techPack: revisionPack(style, REVISION_ID, 1),
     }, crypto);
     expect(record.payload.artwork.map((asset) => asset.assetId)).toEqual(["a", "b"]);
     expect(parseStyleRevisionRecord(record)).toEqual(record);
@@ -176,12 +315,14 @@ describe("immutable revision and frozen output records", () => {
       styleId: STYLE_ID, revisionId: "33333333-3333-4333-8333-333333333333", parentRevisionId: REVISION_ID, revisionNumber: 2,
       createdAt: TIME, design: style.design, fieldObservations,
       artwork: [assetB, assetA],
+      techPack: revisionPack(style, "33333333-3333-4333-8333-333333333333", 2),
     }, crypto);
     expect(oppositeOrder.payload.artwork.map((asset) => asset.assetId)).toEqual(["a", "b"]);
     await expect(createStyleRevision({
       styleId: STYLE_ID, revisionId: "44444444-4444-4444-8444-444444444444", parentRevisionId: REVISION_ID, revisionNumber: 2,
       createdAt: TIME, design: style.design, fieldObservations,
       artwork: [assetA, { ...assetA }],
+      techPack: revisionPack(style, "44444444-4444-4444-8444-444444444444", 2),
     }, crypto)).rejects.toThrow("strict validation");
   });
 

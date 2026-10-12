@@ -56,8 +56,16 @@ is authoritative for maintainer decisions that are not derivable from code.
   is linked by
   `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json` and
   `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. The S762 admission
-  stays hash-stable. T01 revision-payload integration is the single next
-  action at S766.
+  stays hash-stable. Slice 766 is complete: payload-v2 includes T01 in
+  immutable revision identity; strict payload-v1 compatibility and
+  concurrency-safe saves are verified. Its start/exit packets and board
+  evidence are in `docs/research/epic18/S766-T01-revision-payload/` and the
+  validated start/exit commands under `docs/planning/EPIC-18-S766-*`.
+  G05-T01 and EPIC-18 remain In Progress at board revision 4556 after the
+  validated card-sequence correction
+  `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`. Slice 767
+  is next for T01 editing, all-recipe propagation and rendered proof; start it
+  from the landed S766 commit recorded in the next start packet.
   UIQ-08 is Done through Slice 760 and UIQ-01 is Done as a review-only
   checkpoint through Slice 761. UIQ-09 remains Backlog pending EPIC-19/G06
   admission. UIQ-10 is linked to EPIC-18 but remains Backlog until its bounded

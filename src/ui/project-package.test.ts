@@ -30,7 +30,7 @@ import {
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
-import type { TechPackField, TechPackFieldValue, TechPackSemanticKind } from "./tech-pack-records";
+import { bindTechPackToRevision, type TechPackField, type TechPackFieldValue, type TechPackSemanticKind } from "./tech-pack-records";
 import { addCaptureReadingForField, createMeasurementCaptureSession } from "./measurement-capture";
 import {
   approveGradePlan,
@@ -58,7 +58,17 @@ import {
   readProjectPackage,
   type ProjectPackageArchive,
 } from "./project-package";
-import { createFrozenOutputManifest, createStyleRevision, FROZEN_ARTIFACT_IDS, jcsSha256Hex, sha256Hex, verifyFrozenOutputManifest } from "./style-revisions";
+import {
+  createFrozenOutputManifest,
+  createStyleRevision,
+  FROZEN_ARTIFACT_IDS,
+  jcsSha256Hex,
+  sha256Hex,
+  verifyFrozenOutputManifest,
+  type CurrentStyleRevisionPayload,
+  type LegacyStyleRevisionPayload,
+  type StyleRevisionRecord,
+} from "./style-revisions";
 
 const crypto = webcrypto as unknown as Crypto;
 const TIME = "2026-09-24T16:00:00.000Z";
@@ -70,6 +80,27 @@ const ASSET_ID = "local-1234567890abcdef1234567890abcdef-png";
 const PNG = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 1, 2, 3, 4]);
 let sequence = 0;
 const repositories: ProjectRepository[] = [];
+
+function revisionPack(style: StyleRecord, revisionId: string, revisionNumber: number, time = TIME) {
+  return bindTechPackToRevision(style.techPack, revisionId, revisionNumber, time);
+}
+
+async function legacyV1Revision(source: StyleRevisionRecord): Promise<StyleRevisionRecord> {
+  if (source.payload.payloadVersion !== 2) return source;
+  const current = source.payload as CurrentStyleRevisionPayload;
+  const payload: LegacyStyleRevisionPayload = {
+    payloadVersion: 1,
+    styleId: current.styleId,
+    revisionId: current.revisionId,
+    parentRevisionId: current.parentRevisionId,
+    revisionNumber: current.revisionNumber,
+    ruleVersions: current.ruleVersions,
+    design: current.design,
+    fieldObservations: current.fieldObservations,
+    artwork: current.artwork,
+  };
+  return { ...source, payload, revisionContentDigest: await jcsSha256Hex(payload, crypto) };
+}
 
 function bundle(name = "Tee project", projectId = PROJECT_ID, styleId = STYLE_ID): { project: ProjectRecord; style: StyleRecord } {
   const surface = {
@@ -175,6 +206,7 @@ async function createFrozenSourcePackage(): Promise<{
     },
   };
   const observations = createFieldObservationRecord(style, TIME, "existing-local-style");
+  const techPack = revisionPack(style, "11111111-1111-4111-8111-111111111111", 1);
   const revision = await createStyleRevision({
     styleId: style.id,
     revisionId: "11111111-1111-4111-8111-111111111111",
@@ -184,8 +216,9 @@ async function createFrozenSourcePackage(): Promise<{
     design: style.design,
     fieldObservations: observations,
     artwork: [],
+    techPack,
   }, crypto);
-  const currentStyle = { ...style, revisionHeadId: revision.revisionId };
+  const currentStyle = { ...style, revisionHeadId: revision.revisionId, techPack };
   const outputText = "<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0\"/></svg>";
   const manifest = await createFrozenOutputManifest({
     manifestId: "22222222-2222-4222-8222-222222222222",
@@ -648,6 +681,7 @@ describe("portable local project package", () => {
 
     const historicalAssetStyle = withAsset(ASSET_ID);
     const historicalObservations = createFieldObservationRecord(historicalAssetStyle, TIME, "existing-local-style");
+    const historicalTechPack = revisionPack(historicalAssetStyle, "33333333-3333-4333-8333-333333333333", 1);
     const first = await createStyleRevision({
       styleId: historicalAssetStyle.id,
       revisionId: "33333333-3333-4333-8333-333333333333",
@@ -657,7 +691,9 @@ describe("portable local project package", () => {
       design: historicalAssetStyle.design,
       fieldObservations: historicalObservations,
       artwork: [{ assetId: ASSET_ID, mimeType: "image/png", byteLength: PNG.byteLength, sha256: await sha256Hex(PNG, crypto) }],
+      techPack: historicalTechPack,
     }, crypto);
+    const latestTechPack = revisionPack(source.style, "44444444-4444-4444-8444-444444444444", 2);
     const latest = await createStyleRevision({
       styleId: source.style.id,
       revisionId: "44444444-4444-4444-8444-444444444444",
@@ -667,6 +703,7 @@ describe("portable local project package", () => {
       design: source.style.design,
       fieldObservations: source.observations,
       artwork: [],
+      techPack: latestTechPack,
     }, crypto);
     const historicalOnlyAsset = memoryAssets();
     historicalOnlyAsset.records.set(ASSET_ID, {
@@ -677,7 +714,7 @@ describe("portable local project package", () => {
     });
     const historicalPackage = await createProjectPackage({
       project: source.project,
-      styles: [{ ...source.style, revisionHeadId: latest.revisionId }],
+      styles: [{ ...source.style, revisionHeadId: latest.revisionId, techPack: latestTechPack }],
       recoveries: [],
       fieldObservations: [source.observations],
       styleRevisions: [first, latest],
@@ -729,6 +766,7 @@ describe("portable local project package", () => {
       design: source.style.design,
       fieldObservations: source.observations,
       artwork: [],
+      techPack: revisionPack(source.style, "88888888-8888-4888-8888-888888888888", 2),
     }, crypto);
     const absentManifest = await createFrozenOutputManifest({
       manifestId: "99999999-9999-4999-8999-999999999999",
@@ -1054,6 +1092,7 @@ describe("portable local project package", () => {
       design: foreign.style.design,
       fieldObservations: foreignObservations,
       artwork: [{ assetId: ASSET_ID, mimeType: "image/png", byteLength: PNG.byteLength, sha256: await sha256Hex(PNG, crypto) }],
+      techPack: revisionPack(foreign.style, "55555555-5555-4555-8555-555555555555", 1),
     }, crypto);
     await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
       manifest.styleRevisions = [foreignRevision];
@@ -1077,6 +1116,7 @@ describe("portable local project package", () => {
       design: source.style.design,
       fieldObservations: source.observations,
       artwork: [],
+      techPack: revisionPack(source.style, "66666666-6666-4666-8666-666666666666", 2),
     }, crypto);
     await expect(readProjectPackage(await replacePackageManifest(source.blob, (manifest) => {
       const styles = manifest.styles as Array<Record<string, unknown>>;
@@ -1111,6 +1151,7 @@ describe("portable local project package", () => {
       },
       fieldObservations: source.observations,
       artwork: [],
+      techPack: revisionPack(source.style, source.revision.revisionId, 1),
     }, crypto);
     const alternateManifest = await createFrozenOutputManifest({
       manifestId: source.manifest.manifestId,
@@ -1150,6 +1191,56 @@ describe("portable local project package", () => {
     expect(artifactEntry.uncompressedSize).toBeGreaterThan(0);
   }, 20_000);
 
+  it("copies historical v1 revision chains without inventing T01 snapshot content", async () => {
+    const source = bundle("Historical v1", SECOND_PROJECT_ID, SECOND_STYLE_ID);
+    const observations = createFieldObservationRecord(source.style, TIME, "existing-local-style");
+    const revisionId = "11111111-1111-4111-8111-111111111111";
+    const techPack = revisionPack(source.style, revisionId, 1);
+    const currentRevision = await createStyleRevision({
+      styleId: source.style.id,
+      revisionId,
+      parentRevisionId: null,
+      revisionNumber: 1,
+      createdAt: TIME,
+      design: source.style.design,
+      fieldObservations: observations,
+      artwork: [{ assetId: ASSET_ID, mimeType: "image/png", byteLength: PNG.byteLength, sha256: await sha256Hex(PNG, crypto) }],
+      techPack,
+    }, crypto);
+    const legacyRevision = await legacyV1Revision(currentRevision);
+    const style = { ...source.style, revisionHeadId: revisionId, techPack };
+    const assets = memoryAssets();
+    assets.records.set(ASSET_ID, {
+      assetId: ASSET_ID,
+      name: "front.png",
+      mimeType: "image/png",
+      blob: new Blob([PNG], { type: "image/png" }),
+    });
+    const archiveBlob = await createProjectPackage({
+      project: source.project,
+      styles: [style],
+      recoveries: [],
+      fieldObservations: [observations],
+      styleRevisions: [legacyRevision],
+    }, assets, { crypto });
+    const archive = await readProjectPackage(archiveBlob, { crypto });
+    const target = await repository();
+    const imported = await importProjectPackage(target, memoryAssets(), archive, true, {
+      crypto,
+      now: () => TIME,
+      idFactory: deterministicUuidFactory(),
+      inspectAsset: inspector,
+    });
+    if (imported.status !== "imported") throw new Error("Historical v1 package copy did not complete.");
+    const copied = await target.readProjectBundle(imported.projectId);
+    const copiedRevision = copied?.styleRevisions?.[0];
+    expect(copiedRevision?.payload.payloadVersion).toBe(1);
+    expect(copiedRevision?.payload).not.toHaveProperty("techPack");
+    expect(copiedRevision?.revisionContentDigest).not.toBe(legacyRevision.revisionContentDigest);
+    expect(copied?.styles[0]?.techPack.revisionId).toBe(copiedRevision?.revisionId);
+    expect(copied?.styles[0]?.revisionHeadId).toBe(copiedRevision?.revisionId);
+  });
+
   it("round-trips immutable revision history and exact frozen artifacts through v3 and copy remapping", async () => {
     const source = bundle("Frozen archive", SECOND_PROJECT_ID, SECOND_STYLE_ID);
     const { assetId: _assetId, ...placement } = source.style.design.surface["tee/Untitled tee"]!.placements[0] as import("../surface/placement").ArtworkPlacement;
@@ -1162,6 +1253,7 @@ describe("portable local project package", () => {
       },
     };
     const observations = createFieldObservationRecord(style, TIME, "existing-local-style");
+    const techPack = revisionPack(style, "11111111-1111-4111-8111-111111111111", 1);
     const revision = await createStyleRevision({
       styleId: style.id,
       revisionId: "11111111-1111-4111-8111-111111111111",
@@ -1171,8 +1263,9 @@ describe("portable local project package", () => {
       design: style.design,
       fieldObservations: observations,
       artwork: [],
+      techPack,
     }, crypto);
-    const currentStyle = { ...style, revisionHeadId: revision.revisionId };
+    const currentStyle = { ...style, revisionHeadId: revision.revisionId, techPack };
     const outputText = "<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0\"/></svg>";
     const frozen = await createFrozenOutputManifest({
       manifestId: "22222222-2222-4222-8222-222222222222",
@@ -1286,8 +1379,8 @@ describe("portable local project package", () => {
     };
     const reviewedTechPack: StyleRecord["techPack"] = {
       ...source.style.techPack,
-      revisionId: revision.revisionId,
-      revisionNumber: revision.revisionNumber,
+      revisionId: "abcdefab-cdef-4abc-8def-abcdefabcdef",
+      revisionNumber: 2,
       cover: {
         ...source.style.techPack.cover,
         styleCode,
@@ -1333,16 +1426,30 @@ describe("portable local project package", () => {
       }],
       approval: {
         state: "REVIEW",
-        revisionId: revision.revisionId,
+        revisionId: "abcdefab-cdef-4abc-8def-abcdefabcdef",
         scopeFieldIds: [styleCode.fieldId],
         changedBy: "fixture reviewer",
         changedAt: TIME,
         manifestId: null,
       },
     };
+    const reviewedRevisionTechPack = bindTechPackToRevision(
+      reviewedTechPack, "abcdefab-cdef-4abc-8def-abcdefabcdef", 2, TIME,
+    );
+    const reviewedRevision = await createStyleRevision({
+      styleId: source.style.id,
+      revisionId: "abcdefab-cdef-4abc-8def-abcdefabcdef",
+      parentRevisionId: revision.revisionId,
+      revisionNumber: 2,
+      createdAt: TIME,
+      design: source.style.design,
+      fieldObservations: source.observations,
+      artwork: revision.payload.artwork,
+      techPack: reviewedRevisionTechPack,
+    }, crypto);
     const reviewedStyle: StyleRecord = {
       ...source.style,
-      revisionHeadId: revision.revisionId,
+      revisionHeadId: reviewedRevision.revisionId,
       techPack: reviewedTechPack,
     };
     const packed = await createProjectPackage({
@@ -1350,7 +1457,7 @@ describe("portable local project package", () => {
       styles: [reviewedStyle],
       recoveries: [],
       fieldObservations: [source.observations],
-      styleRevisions: [revision],
+      styleRevisions: [revision, reviewedRevision],
     }, memoryAssets(), { crypto });
     const archive = await readProjectPackage(packed, { crypto });
 
@@ -1362,7 +1469,7 @@ describe("portable local project package", () => {
     const invalidLink = await replacePackageManifest(packed, (manifest) => {
       const styles = manifest.styles as Array<Record<string, unknown>>;
       const techPack = styles[0]!.techPack as Record<string, unknown>;
-      techPack.revisionNumber = 2;
+      techPack.revisionNumber = 3;
     });
     await expect(readProjectPackage(invalidLink, { crypto })).rejects.toMatchObject({
       code: "invalid-package",
@@ -1399,12 +1506,14 @@ describe("portable local project package", () => {
     if (copied.status !== "imported") throw new Error("T01 package copy import did not complete.");
     const copiedBundle = await copyTarget.readProjectBundle(copied.projectId);
     const copiedStyle = copiedBundle?.styles[0];
-    const copiedRevision = copiedBundle?.styleRevisions?.[0];
+    const copiedBaseRevision = copiedBundle?.styleRevisions?.[0];
+    const copiedRevision = copiedBundle?.styleRevisions?.find((candidate) => candidate.revisionId === copiedStyle?.revisionHeadId);
     expect(copiedStyle).toBeDefined();
+    expect(copiedBaseRevision).toBeDefined();
     expect(copiedRevision).toBeDefined();
     const remapFixtureField = <T extends TechPackFieldValue>(field: TechPackField<T>): TechPackField<T> =>
       field.inheritedFrom?.revisionId === revision.revisionId
-        ? { ...field, inheritedFrom: { ...field.inheritedFrom, revisionId: copiedRevision!.revisionId } }
+        ? { ...field, inheritedFrom: { ...field.inheritedFrom, revisionId: copiedBaseRevision!.revisionId } }
         : field;
     expect(copiedStyle!.techPack).toEqual({
       ...reviewedTechPack,
@@ -1452,6 +1561,7 @@ describe("portable local project package", () => {
       byteLength: PNG.byteLength,
       sha256: await sha256Hex(PNG, crypto),
     };
+    const firstTechPack = revisionPack(initialStyle, "11111111-1111-4111-8111-111111111111", 1);
     const first = await createStyleRevision({
       styleId: initialStyle.id,
       revisionId: "11111111-1111-4111-8111-111111111111",
@@ -1461,6 +1571,7 @@ describe("portable local project package", () => {
       design: initialStyle.design,
       fieldObservations: initialObservations,
       artwork: [sourceArtwork],
+      techPack: firstTechPack,
     }, crypto);
     const currentDesign = {
       ...initialStyle.design,
@@ -1468,6 +1579,7 @@ describe("portable local project package", () => {
     };
     const currentStyle = { ...initialStyle, design: currentDesign, revisionHeadId: "22222222-2222-4222-8222-222222222222" };
     const currentObservations = createFieldObservationRecord(currentStyle, TIME, "existing-local-style");
+    const secondTechPack = revisionPack(initialStyle, currentStyle.revisionHeadId, 2);
     const second = await createStyleRevision({
       styleId: initialStyle.id,
       revisionId: currentStyle.revisionHeadId,
@@ -1477,7 +1589,9 @@ describe("portable local project package", () => {
       design: currentDesign,
       fieldObservations: currentObservations,
       artwork: [sourceArtwork],
+      techPack: secondTechPack,
     }, crypto);
+    const versionedCurrentStyle = { ...currentStyle, techPack: secondTechPack };
     const sourceAssets = memoryAssets();
     sourceAssets.records.set(ASSET_ID, {
       assetId: ASSET_ID,
@@ -1487,7 +1601,7 @@ describe("portable local project package", () => {
     });
     const packageBlob = await createProjectPackage({
       project: source.project,
-      styles: [currentStyle],
+      styles: [versionedCurrentStyle],
       recoveries: [],
       fieldObservations: [currentObservations],
       styleRevisions: [first, second],
@@ -3064,7 +3178,12 @@ describe("G03 capture sessions in project backups", () => {
       const archive = await readProjectPackage(customOnly, { crypto });
       expect(archive.manifest.packageVersion).toBe(PROJECT_PACKAGE_CUSTOM_STYLE_VERSION);
       expect(archive.manifest.measurementCaptures).toEqual([capture]);
-      expect(archive.manifest.styles).toEqual([{ ...style, revisionHeadId: archive.manifest.styleRevisions[0]!.revisionId }]);
+      const baselineRevision = archive.manifest.styleRevisions[0]!;
+      expect(archive.manifest.styles).toEqual([{
+        ...style,
+        revisionHeadId: baselineRevision.revisionId,
+        techPack: bindTechPackToRevision(style.techPack, baselineRevision.revisionId, 1, style.updatedAt),
+      }]);
 
       const withCapture = await readProjectPackage(await createProjectPackage({
         ...snapshot, styles: [style], measurementCaptures: [capture],

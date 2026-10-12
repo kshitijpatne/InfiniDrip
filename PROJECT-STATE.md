@@ -1,35 +1,52 @@
-## Current boundary — EPIC-18/G05 Slice 765 complete; S766 next
+## Current boundary — EPIC-18/G05 Slice 766 complete
 
-Slice 765 started at 2026-10-12 21:18:07 UTC from S764 commit
-`238c29f1f71bf3e74ee3d74ba5d97766e07d9f2a` on `codex/epic-18-g05`; a fresh
-fetch confirmed `origin/main`
-`e9221ea5033ccfdd91bf1ebb353926f189477d75` remains an ancestor. Its validated
-start and resequencing records carried the canonical board to revision 4549
-without changing work-item statuses.
+S766 started at 2026-10-12 21:33:39 UTC from clean committed S765
+`af6191ed8bb465a59da089ec8362ca5741c28d0a` on `codex/epic-18-g05`. Fresh
+verification confirmed `origin/main`
+`e9221ea5033ccfdd91bf1ebb353926f189477d75` is an ancestor. Its single landed
+commit subject is `Slice 766: snapshot T01 in immutable style revisions`; the
+full SHA is captured by the S767 start packet. Validated exit evidence
+advanced the board from revision 4553 to 4555. A validated G05-T01 card
+description update at revision 4556 now reflects the S767 editor boundary.
+EPIC-18 and G05-T01 remain In Progress; G05-T02–T05, G05-EXIT and UIQ-10
+remain Backlog; UIQ-09 remains Backlog pending EPIC-19.
 
-S765 remaps T01 `inheritedFrom.revisionId` references during project copy when
-the source revision is included in the copied package history. Coverage spans
-cover, material, BOM and colorway assignment fields; references outside the
-map retain external provenance. Copy still remaps direct style/revision
-identity, resets approval to DRAFT, rejects an unmappable direct revision and
-leaves the source package unchanged. Focused package tests pass 56/56, focused
-coverage is 100% across all four metrics for `src/ui/project-package.ts`,
-TypeScript passes, protected export identity passes 9/9, and the Control Center
-suite passes 42/42. The exit packet is
-`docs/research/epic18/S765-T01-package-copy-reference-remap/exit-packet.md`.
-Digest-verified evidence is attached to G05-T01 and EPIC-18 at board revisions
-4550–4551 by the validated replay files
-`docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json` and
-`docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`.
+S766 adds strict payload-v2 T01 snapshots and digest identity while retaining
+exact historical payload-v1 parsing/digests. Workflow, package, and atomic
+repository load/save paths bind the authored T01 content to the immutable
+head and fail closed on stale or mismatched writes. Scoped review approval and
+its activity timestamp remain live overlays; authored T01 fields remain
+revision-bound. The exit packet is
+`docs/research/epic18/S766-T01-revision-payload/exit-packet.md`; its validated
+exit commands are
+`docs/planning/EPIC-18-S766-EXIT-T01-BOARD-COMMAND.json` and
+`docs/planning/EPIC-18-S766-EXIT-EPIC-BOARD-COMMAND.json`.
+The canonical board is now revision 4556; its sequence correction is recorded
+by `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`.
 
-The landed subject is `Slice 765: remap nested T01 provenance on copy`; the
-full SHA is captured in the S766 start packet. EPIC-18 and G05-T01 remain In
-Progress; T02–T05, G05-EXIT and UIQ-10 remain Backlog; UIQ-09 remains Backlog
-pending EPIC-19. The hash-bound S762 admission and historical S764 exit packet
-remain unchanged. The current conditional plan is S762–S781, with UIQ-10
-admission at S774. The single next action is S766: integrate T01 revision
-payloads/digests with concurrency-safe saves and preserve historical payload-v1
-verification.
+Final S766 verification: 316 focused tests across five test files; all five
+changed production modules pass 100% statement, branch, function and line
+coverage; `npx tsc --noEmit` passes; protected export identity is 9/9;
+Control Center is 42/42; and `git diff --check` passes. The S780 integrated
+global/browser/Electron/output gates remain pending by plan. The hash-bound
+S762 admission and prior slice evidence are unchanged.
+
+The single next action is to start S767 from the landed S766 commit and board
+revision 4556. S767 implements T01 editing and all-seven-recipe propagation,
+unknowns, cost/view behavior, stale/frozen handling and rendered proof; it
+remains the boundary that closes G05-T01.
+
+The previous boundary, S765, completed copy-time remapping of in-package
+`inheritedFrom.revisionId` references and preservation of external provenance.
+Focused package tests passed 56/56, changed-module coverage was 100% across
+all four metrics, TypeScript passed, protected export identity passed 9/9, and
+Control Center passed 42/42. The digest-bound S765 exit packet is
+`docs/research/epic18/S765-T01-package-copy-reference-remap/exit-packet.md`;
+the landed commit subject is `Slice 765: remap nested T01 provenance on copy`.
+
+The hash-bound S762 admission and historical S764 exit packet remain
+unchanged. The current conditional plan is S762–S781 with UIQ-10 admission at
+S774.
 
 ## Previous boundary — EPIC-18/G05 Slice 764 complete
 

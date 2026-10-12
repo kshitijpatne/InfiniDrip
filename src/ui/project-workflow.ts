@@ -46,7 +46,7 @@ import {
   type RevisionArtworkDigest,
   type StyleRevisionRecord,
 } from "./style-revisions";
-import { createEmptyTechPackRecord } from "./tech-pack-records";
+import { bindTechPackToRevision, createEmptyTechPackRecord, techPackRevisionContent } from "./tech-pack-records";
 
 export interface ProjectWorkflowOptions {
   readonly repositoryOptions?: ProjectRepositoryOptions;
@@ -197,7 +197,14 @@ async function seedRevisionHeadsForProject(
     if (style.revisionHeadId !== null) return style;
     const observations = loaded.fieldObservations.find((record) => record.styleId === style.id);
     if (!observations) throw new ProjectRepositoryError("invalid-data", `Style ${style.id} has no field-history record to seed its first immutable revision.`);
-    return { ...style, revision: style.revision + 1, updatedAt: time, revisionHeadId: seedIds.get(style.id)! };
+    const revisionId = seedIds.get(style.id)!;
+    return {
+      ...style,
+      revision: style.revision + 1,
+      updatedAt: time,
+      revisionHeadId: revisionId,
+      techPack: bindTechPackToRevision(style.techPack, revisionId, 1, time),
+    };
   });
   for (const style of updatedStyles) {
     const old = loaded.styles.find((candidate) => candidate.id === style.id)!;
@@ -211,6 +218,7 @@ async function seedRevisionHeadsForProject(
       design: style.design,
       fieldObservations: observations,
       artwork: await revisionArtworkDigests(style.design, artworkStore, crypto),
+      techPack: style.techPack,
       createdAt: time,
     }, crypto));
   }
@@ -425,13 +433,22 @@ export class ProjectWorkflow {
       if (isCustomOneSizeStyle(current.activeStyle) && design.workspace.exportStep !== 0) {
         throw new ProjectRepositoryError("invalid-data", "A custom one-size style must stay on export step 0.");
       }
-      const time = monotonicTimestamp(this.now(), current.project.updatedAt, current.activeStyle.updatedAt);
+      const time = monotonicTimestamp(this.now(), current.project.updatedAt, current.activeStyle.updatedAt,
+        current.activeStyle.techPack.updatedAt);
       let techPack = current.activeStyle.techPack;
       if (techPack.recipeId !== design.workspace.garment) {
         const emptyPrior = createEmptyTechPackRecord(
-          techPack.styleId, techPack.recipeId, techPack.createdAt, techPack.updatedAt,
+          techPack.styleId, techPack.recipeId, techPack.createdAt, techPack.createdAt,
         );
-        if (canonicalizeJcs(techPack) !== canonicalizeJcs(emptyPrior)) {
+        const unboundForRecipeCheck = {
+          ...techPack,
+          revisionId: null,
+          revisionNumber: 0,
+          updatedAt: techPack.createdAt,
+          approval: { state: "DRAFT" as const, revisionId: null, scopeFieldIds: [], changedBy: null, changedAt: null, manifestId: null },
+        };
+        if (canonicalizeJcs(techPackRevisionContent(unboundForRecipeCheck))
+          !== canonicalizeJcs(techPackRevisionContent(emptyPrior))) {
           throw new ProjectRepositoryError(
             "invalid-data",
             "This style has T01 data for its current recipe. Create a separate style instead of moving pack facts across recipes.",
@@ -454,19 +471,28 @@ export class ProjectWorkflow {
       const head = current.styleRevisions.find((record) => record.revisionId === current.activeStyle.revisionHeadId);
       if (!head) throw new ProjectRepositoryError("invalid-data", "The active style has no verified immutable revision head.");
       const designChanged = canonicalizeJcs(head.payload.design) !== canonicalizeJcs(design);
-      const newRevision = forceRevision || designChanged
+      const techPackChanged = head.payload.payloadVersion === 2
+        && canonicalizeJcs(techPackRevisionContent(head.payload.techPack))
+          !== canonicalizeJcs(techPackRevisionContent(techPack));
+      const shouldCreateRevision = forceRevision || designChanged || techPackChanged;
+      const revisionId = shouldCreateRevision ? this.revisionIdFactory() : null;
+      const nextTechPack = revisionId
+        ? bindTechPackToRevision(techPack, revisionId, head.revisionNumber + 1, time)
+        : techPack;
+      const newRevision = revisionId
         ? await createStyleRevision({
           styleId: style.id,
-          revisionId: this.revisionIdFactory(),
+          revisionId,
           parentRevisionId: head.revisionId,
           revisionNumber: head.revisionNumber + 1,
           design,
           fieldObservations: observations,
           artwork: await revisionArtworkDigests(design, this.artworkStore, this.cryptoProvider),
+          techPack: nextTechPack,
           createdAt: time,
         }, this.cryptoProvider)
         : null;
-      const updatedStyle = newRevision ? { ...style, revisionHeadId: newRevision.revisionId } : style;
+      const updatedStyle = newRevision ? { ...style, techPack: nextTechPack, revisionHeadId: newRevision.revisionId } : style;
       const project = {
         ...current.project,
         revision: current.project.revision + 1,
@@ -625,17 +651,20 @@ export class ProjectWorkflow {
         techPack: createEmptyTechPackRecord(id, design.workspace.garment, time, time),
       };
       const observations = createFieldObservationRecord(style, time, origin);
+      const revisionId = this.revisionIdFactory();
+      const techPack = bindTechPackToRevision(style.techPack, revisionId, 1, time);
       const revision = await createStyleRevision({
         styleId: style.id,
-        revisionId: this.revisionIdFactory(),
+        revisionId,
         parentRevisionId: null,
         revisionNumber: 1,
         design,
         fieldObservations: observations,
         artwork: await revisionArtworkDigests(design, this.artworkStore, this.cryptoProvider),
+        techPack,
         createdAt: time,
       }, this.cryptoProvider);
-      const versionedStyle = { ...style, revisionHeadId: revision.revisionId };
+      const versionedStyle = { ...style, techPack, revisionHeadId: revision.revisionId };
       const project = {
         ...current.project,
         styleIds: [...current.project.styleIds, id],
@@ -747,17 +776,20 @@ export class ProjectWorkflow {
         drafts: cachedCapture.drafts.map((draft) => ({ ...draft })),
       };
       const observations = createFieldObservationRecordFromCapture(observationsSeed, time, session);
+      const revisionId = this.revisionIdFactory();
+      const techPack = bindTechPackToRevision(observationsSeed.techPack, revisionId, 1, time);
       const revision = await createStyleRevision({
         styleId: id,
-        revisionId: this.revisionIdFactory(),
+        revisionId,
         parentRevisionId: null,
         revisionNumber: 1,
         design,
         fieldObservations: observations,
         artwork: await revisionArtworkDigests(design, this.artworkStore, this.cryptoProvider),
+        techPack,
         createdAt: time,
       }, this.cryptoProvider);
-      const style: StyleRecord = { ...observationsSeed, revisionHeadId: revision.revisionId };
+      const style: StyleRecord = { ...observationsSeed, techPack, revisionHeadId: revision.revisionId };
       const project = {
         ...current.project,
         styleIds: [...current.project.styleIds, id],

@@ -18,8 +18,29 @@ missed nested package-copy revision link. S765 is complete: package copies
 remap inherited-source links that point into copied history and preserve
 external provenance; its focused coverage and export-identity gates passed.
 The current conditional sequence is 762–781 and preserves all acceptance
-gates. S766 is the next action: T01 revision-payload integration with
-concurrency-safe saves and historical payload-v1 verification.
+gates. S766 started In Progress from S765 commit
+`af6191ed8bb465a59da089ec8362ca5741c28d0a`. Its bounded T01 revision-payload,
+strict historical payload-v1, and concurrency-safe save contract is in
+`docs/research/epic18/S766-T01-revision-payload/start-packet.md`; validated
+start evidence is recorded at board revision 4553.
+
+S766's compatibility tests confirm that immutable v2 revision identity covers
+all authored T01 content while scoped review approval and its activity
+timestamp remain mutable overlays on the live style record. A content/design
+revision binds a new T01 child and resets review to DRAFT. The overlay is
+excluded only from equality checks against the immutable authored snapshot;
+the v2 payload itself still digests the complete T01 record captured when the
+revision was created. This preserves the existing review/restore contract
+without making authored T01 facts mutable.
+
+S766 completed with five changed production modules at 100% statement,
+branch, function and line coverage across 316 focused tests; TypeScript,
+Control Center 42/42, protected export identity 9/9 and diff hygiene passed.
+Validated exit evidence records board revision 4555. The validated G05-T01
+sequence-description correction is recorded by
+`docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json` at current
+board revision 4556. S767 is next for T01 editing and all-recipe rendered
+proof; the full landed S766 SHA is recorded in the S767 start packet.
 
 UIQ-09 remains Backlog pending its EPIC-19/G06 admission and accepted
 starter/source contracts; it is not this next goal. UIQ-10 is already linked

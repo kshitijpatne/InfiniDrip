@@ -56,10 +56,27 @@ local/no-cost scope, seven-recipe breadth, supplier/physical/production holds,
 PR review and deployment gates remain unchanged. Reforecast only if a later
 verified boundary changes the plan; dates remain conditional.
 
-## Current S765 packet
+## S765 packet — completed
 
 The exact package-copy correction, file ownership, acceptance tests and exit
 gates are in
 `docs/research/epic18/S765-T01-package-copy-reference-remap/start-packet.md`.
 Its validated board start record is
 `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`.
+
+## Current checkpoint — S766 complete; S767 next
+
+S766 completed payload-v2 immutable T01 snapshots/digests, strict payload-v1
+compatibility, workflow/package/repository head binding, and fail-closed stale
+saves. Its start/exit packets are in
+`docs/research/epic18/S766-T01-revision-payload/`; validated start and exit
+board replays are the four `EPIC-18-S766-*-BOARD-COMMAND.json` files under
+`docs/planning/`. Five changed production modules pass all four 100% coverage
+metrics across 316 focused tests; TypeScript, Control Center 42/42, protected
+export identity 9/9 and diff hygiene pass. Board revision 4555 records exit
+evidence while EPIC-18 and G05-T01 remain In Progress. A validated sequence
+description correction at revision 4556 updates the canonical G05-T01 card;
+its command is `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`.
+The S766 full commit SHA is captured by the S767 start packet. S767 is the next bounded T01 editor,
+all-recipe propagation and rendered-proof boundary; the original S762
+admission and its acceptance gates remain unchanged.

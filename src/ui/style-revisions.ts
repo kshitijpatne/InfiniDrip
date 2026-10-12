@@ -1,9 +1,11 @@
 import type { FieldObservationRecord } from "./field-provenance";
 import { parseFieldObservationRecord } from "./field-provenance";
 import { parseSavedDesignRecord, type SavedDesign } from "./project-records";
+import { parseTechPackRecord, type TechPackRecord } from "./tech-pack-records";
 
 export const STYLE_REVISION_SCHEMA_VERSION = 1;
-export const STYLE_REVISION_PAYLOAD_VERSION = 1;
+export const STYLE_REVISION_LEGACY_PAYLOAD_VERSION = 1;
+export const STYLE_REVISION_PAYLOAD_VERSION = 2;
 export const EXPORT_MANIFEST_SCHEMA_VERSION = 1;
 export const GRADE_PLAN_EXPORT_MANIFEST_SCHEMA_VERSION = 2;
 export const EXPORTER_CONTRACT_VERSION = "infinidrip-exporters-v1";
@@ -21,8 +23,7 @@ export interface RevisionArtworkDigest {
   readonly sha256: string;
 }
 
-export interface StyleRevisionPayload {
-  readonly payloadVersion: typeof STYLE_REVISION_PAYLOAD_VERSION;
+interface StyleRevisionPayloadBase {
   readonly styleId: string;
   readonly revisionId: string;
   readonly parentRevisionId: string | null;
@@ -32,6 +33,17 @@ export interface StyleRevisionPayload {
   readonly fieldObservations: FieldObservationRecord;
   readonly artwork: readonly RevisionArtworkDigest[];
 }
+
+export interface LegacyStyleRevisionPayload extends StyleRevisionPayloadBase {
+  readonly payloadVersion: typeof STYLE_REVISION_LEGACY_PAYLOAD_VERSION;
+}
+
+export interface CurrentStyleRevisionPayload extends StyleRevisionPayloadBase {
+  readonly payloadVersion: typeof STYLE_REVISION_PAYLOAD_VERSION;
+  readonly techPack: TechPackRecord;
+}
+
+export type StyleRevisionPayload = LegacyStyleRevisionPayload | CurrentStyleRevisionPayload;
 
 export interface StyleRevisionRecord {
   readonly schemaVersion: typeof STYLE_REVISION_SCHEMA_VERSION;
@@ -125,7 +137,8 @@ function isDigest(value: unknown): value is string {
 
 export function parseStyleRevisionRecord(value: unknown): StyleRevisionRecord | null {
   const recordKeys = ["schemaVersion", "revisionId", "styleId", "revisionNumber", "parentRevisionId", "createdAt", "canonicalization", "digestAlgorithm", "revisionContentDigest", "payload"];
-  const payloadKeys = ["payloadVersion", "styleId", "revisionId", "parentRevisionId", "revisionNumber", "ruleVersions", "design", "fieldObservations", "artwork"];
+  const legacyPayloadKeys = ["payloadVersion", "styleId", "revisionId", "parentRevisionId", "revisionNumber", "ruleVersions", "design", "fieldObservations", "artwork"];
+  const currentPayloadKeys = [...legacyPayloadKeys, "techPack"];
   const ruleKeys = Object.keys(STYLE_REVISION_RULE_VERSIONS);
   if (!exactKeys(value, recordKeys) || value.schemaVersion !== STYLE_REVISION_SCHEMA_VERSION
     || !UUID.test(String(value.revisionId)) || !UUID.test(String(value.styleId))
@@ -133,12 +146,16 @@ export function parseStyleRevisionRecord(value: unknown): StyleRevisionRecord | 
     || (value.parentRevisionId !== null && !UUID.test(String(value.parentRevisionId)))
     || !canonicalTimestamp(value.createdAt) || value.canonicalization !== "RFC8785"
     || value.digestAlgorithm !== "SHA-256" || !isDigest(value.revisionContentDigest)
-    || !exactKeys(value.payload, payloadKeys)) return null;
+    || typeof value.payload !== "object" || value.payload === null || Array.isArray(value.payload)) return null;
   const payload = value.payload as Record<string, unknown>;
+  const payloadKeys = payload.payloadVersion === STYLE_REVISION_LEGACY_PAYLOAD_VERSION
+    ? legacyPayloadKeys
+    : payload.payloadVersion === STYLE_REVISION_PAYLOAD_VERSION ? currentPayloadKeys : null;
+  if (!payloadKeys || !exactKeys(payload, payloadKeys)) return null;
   const payloadRules = payload.ruleVersions as Record<string, unknown>;
   const parsedDesign = parseSavedDesignRecord(payload.design);
   const parsedObservations = parseFieldObservationRecord(payload.fieldObservations);
-  if (payload.payloadVersion !== STYLE_REVISION_PAYLOAD_VERSION || payload.styleId !== value.styleId
+  if (payload.styleId !== value.styleId
     || payload.revisionId !== value.revisionId || payload.parentRevisionId !== value.parentRevisionId
     || payload.revisionNumber !== value.revisionNumber || !exactKeys(payload.ruleVersions, ruleKeys)
     || ruleKeys.some((key) => payloadRules[key] !== (STYLE_REVISION_RULE_VERSIONS as Record<string, string>)[key])
@@ -160,6 +177,15 @@ export function parseStyleRevisionRecord(value: unknown): StyleRevisionRecord | 
     artworkIds.add(asset.assetId);
   }
   if (artworkIds.size !== references.size || [...references].some((assetId) => !artworkIds.has(assetId))) return null;
+  if (payload.payloadVersion === STYLE_REVISION_PAYLOAD_VERSION) {
+    const parsedTechPack = parseTechPackRecord(payload.techPack);
+    if (!parsedTechPack.ok || parsedTechPack.value.styleId !== payload.styleId
+      || parsedTechPack.value.recipeId !== parsedDesign.value.workspace.garment
+      || parsedTechPack.value.revisionId !== payload.revisionId
+      || parsedTechPack.value.revisionNumber !== payload.revisionNumber
+      || parsedTechPack.value.approval.state !== "DRAFT"
+      || parsedTechPack.value.approval.revisionId !== null) return null;
+  }
   return value as unknown as StyleRevisionRecord;
 }
 
@@ -406,10 +432,10 @@ export async function createFrozenOutputManifest(input: {
 }
 
 export async function createStyleRevision(
-  input: Omit<StyleRevisionPayload, "payloadVersion" | "ruleVersions"> & { readonly createdAt: string },
+  input: Omit<CurrentStyleRevisionPayload, "payloadVersion" | "ruleVersions"> & { readonly createdAt: string },
   provider?: Crypto,
 ): Promise<StyleRevisionRecord> {
-  const payload: StyleRevisionPayload = {
+  const payload: CurrentStyleRevisionPayload = {
     payloadVersion: STYLE_REVISION_PAYLOAD_VERSION,
     styleId: input.styleId,
     revisionId: input.revisionId,
@@ -419,6 +445,7 @@ export async function createStyleRevision(
     design: input.design,
     fieldObservations: input.fieldObservations,
     artwork: [...input.artwork].sort((left, right) => left.assetId < right.assetId ? -1 : left.assetId > right.assetId ? 1 : 0),
+    techPack: input.techPack,
   };
   const revisionContentDigest = await jcsSha256Hex(payload, provider);
   const record: StyleRevisionRecord = {
@@ -437,8 +464,67 @@ export async function createStyleRevision(
   return record;
 }
 
+/** Re-identifies an already verified historical revision for a project copy.
+ * Legacy payloads keep their exact v1 shape and do not gain retroactive T01 facts.
+ */
+export async function reidentifyStyleRevisionForCopy(input: {
+  readonly source: StyleRevisionRecord;
+  readonly styleId: string;
+  readonly revisionId: string;
+  readonly parentRevisionId: string | null;
+  readonly design: SavedDesign;
+  readonly fieldObservations: FieldObservationRecord;
+  readonly artwork: readonly RevisionArtworkDigest[];
+  readonly techPack?: TechPackRecord;
+  readonly createdAt: string;
+}, provider?: Crypto): Promise<StyleRevisionRecord> {
+  if (!parseStyleRevisionRecord(input.source) || !await verifyStyleRevision(input.source, provider)) {
+    throw new Error("Only an integrity-verified source revision can be re-identified for a project copy.");
+  }
+  if (input.source.payload.payloadVersion === STYLE_REVISION_PAYLOAD_VERSION) {
+    if (!input.techPack) throw new Error("A copied v2 style revision requires its remapped T01 snapshot.");
+    return createStyleRevision({
+      styleId: input.styleId,
+      revisionId: input.revisionId,
+      parentRevisionId: input.parentRevisionId,
+      revisionNumber: input.source.revisionNumber,
+      createdAt: input.createdAt,
+      design: input.design,
+      fieldObservations: input.fieldObservations,
+      artwork: input.artwork,
+      techPack: input.techPack,
+    }, provider);
+  }
+  if (input.techPack !== undefined) throw new Error("A copied v1 style revision must retain its legacy payload shape.");
+  const payload: LegacyStyleRevisionPayload = {
+    payloadVersion: STYLE_REVISION_LEGACY_PAYLOAD_VERSION,
+    styleId: input.styleId,
+    revisionId: input.revisionId,
+    parentRevisionId: input.parentRevisionId,
+    revisionNumber: input.source.revisionNumber,
+    ruleVersions: STYLE_REVISION_RULE_VERSIONS,
+    design: input.design,
+    fieldObservations: input.fieldObservations,
+    artwork: [...input.artwork].sort((left, right) => left.assetId < right.assetId ? -1 : left.assetId > right.assetId ? 1 : 0),
+  };
+  const record: StyleRevisionRecord = {
+    schemaVersion: STYLE_REVISION_SCHEMA_VERSION,
+    revisionId: input.revisionId,
+    styleId: input.styleId,
+    revisionNumber: input.source.revisionNumber,
+    parentRevisionId: input.parentRevisionId,
+    createdAt: input.createdAt,
+    canonicalization: "RFC8785",
+    digestAlgorithm: "SHA-256",
+    revisionContentDigest: await jcsSha256Hex(payload, provider),
+    payload,
+  };
+  if (!parseStyleRevisionRecord(record)) throw new Error("Copied legacy style revision failed strict validation.");
+  return record;
+}
+
 export async function verifyStyleRevision(record: StyleRevisionRecord, provider?: Crypto): Promise<boolean> {
-  if (record.schemaVersion !== STYLE_REVISION_SCHEMA_VERSION || record.canonicalization !== "RFC8785"
+  if (!parseStyleRevisionRecord(record) || record.schemaVersion !== STYLE_REVISION_SCHEMA_VERSION || record.canonicalization !== "RFC8785"
     || record.digestAlgorithm !== "SHA-256" || record.payload.revisionId !== record.revisionId
     || record.payload.styleId !== record.styleId || record.payload.parentRevisionId !== record.parentRevisionId
     || record.payload.revisionNumber !== record.revisionNumber) return false;

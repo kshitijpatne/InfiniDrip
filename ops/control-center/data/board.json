@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4551,
-  "updatedAt": "2026-10-12T21:31:15.779Z",
+  "revision": 4556,
+  "updatedAt": "2026-10-12T22:26:13.790Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -795,7 +795,9 @@
         "E-G05-S763-EXIT",
         "E-G05-S764-EXIT",
         "E-EPIC18-S765-RESEQUENCE",
-        "E-G05-S765-EXIT"
+        "E-G05-S765-EXIT",
+        "E-G05-S766-START",
+        "E-G05-S766-EXIT"
       ]
     },
     {
@@ -16538,7 +16540,7 @@
         "eight protected legacy export hashes",
         "local/no-cost and no-physical-claim boundary"
       ],
-      "description": "Slices 763–766. Freeze the strict typed style/material/BOM/provenance contract, then add backward-safe persistence/revision integration, editable fields and all-recipe propagation. Full boundary and gates: docs/planning/EPIC-18-ADMISSION.md.",
+      "description": "Slices 763–767. Freeze the strict typed style/material/BOM/provenance contract, then add backward-safe persistence, immutable revision integration, editable fields and all-recipe propagation. S765 added the package-copy provenance correction; S766 integrates payload-v2 T01 snapshots while preserving strict v1; S767 owns the editor and all-seven-recipe rendered proof. Full acceptance: docs/planning/EPIC-18-ADMISSION.md; active ordered boundaries: docs/planning/EPIC-18-S765-RESEQUENCING.md.",
       "expectation": "Editable revision-bound cover, BOM, material/trim and colorway records retain field-level sources and explicit unknowns across save, reload, outputs and cost inputs.",
       "acceptanceCriteria": [
         "Slice 763 freezes a strict typed schema, parser/validator, provenance rules, invalid-combination behavior and 100% focused coverage before persistence work.",
@@ -16583,7 +16585,9 @@
         "E-G05-S764-RECIPE-TRANSITION",
         "E-G05-S764-EXIT",
         "E-G05-S765-START",
-        "E-G05-S765-EXIT"
+        "E-G05-S765-EXIT",
+        "E-G05-S766-START",
+        "E-G05-S766-EXIT"
       ],
       "flagKey": null
     },
@@ -30636,6 +30640,24 @@
       "sha256": "32f398a533d884cab1843d21486a0ef4bf6fb8baad60138483269dbe8b0a7b3c",
       "verified": true,
       "note": "S765 remaps T01 inherited-source revision references on copy across cover, material, BOM and colorway fields; preserves external lineage and source package data. Focused package coverage is 100% and protected export identity passes 9/9."
+    },
+    {
+      "id": "E-G05-S766-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S766-T01-revision-payload/start-packet.md",
+      "commit": null,
+      "sha256": "f367dba60f68571a9f201ae4c741f1ccd5f3a311faf4ac6b96e0d0566dcd9c04",
+      "verified": true,
+      "note": "Slice 766 adds T01 to new immutable style-revision payload identity while retaining exact historical payload-v1 verification and concurrency-safe saves."
+    },
+    {
+      "id": "E-G05-S766-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S766-T01-revision-payload/exit-packet.md",
+      "commit": null,
+      "sha256": "021993138e45d7e99a74199bfe542acf516462491089895b9f8034615961d4d6",
+      "verified": true,
+      "note": "S766 adds strict payload-v2 T01 snapshots/digests, preserves exact payload-v1 compatibility, and enforces workflow/package/repository head integrity; five changed modules pass 100% four-metric coverage."
     }
   ]
 }
