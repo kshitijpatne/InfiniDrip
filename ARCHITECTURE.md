@@ -1187,11 +1187,13 @@ unknown, or stale retains the exact existing app shell. The panel reuses the
 current selected fabric, existing ease guidance, color, and appearance values;
 compatibility remains explicitly unknown. Review buttons focus existing
 controls without changing them. This is not drape simulation, compatibility
-validation, or physical-fit evidence. Slice 739's gates are recorded in
-`docs/release/UIQ-04-INTEGRATION-S739-EXIT.md`; UIQ-04 is in Review at board
-revision 4390. Final coverage passed; final diff review, unique-slice recheck,
-commit/PR and merge remain pending before Slice 740 deployment closeout.
-UIQ-05/07 remain unadmitted.
+validation, or physical-fit evidence. UIQ-04 is complete: PR #26 merged as
+`956c5c5dd1eee83aca9153f759c21c693843b095`, main deployment run 38185891574
+passed, both public preview URLs passed live browser checks, and the canonical
+board is Done at revision 4394. Full S739 and S740 proof is in
+`docs/release/UIQ-04-INTEGRATION-S739-EXIT.md`,
+`docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md`, and the linked scoped
+evidence. UIQ-05/07 remain unadmitted.
 
 ## Where to find current project information
 

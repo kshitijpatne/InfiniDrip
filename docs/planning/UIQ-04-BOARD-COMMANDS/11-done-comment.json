@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-04",
+  "actor": "Codex",
+  "text": "UIQ-04 is closed Done after Slice 740 post-merge verification. Board closure evidence: docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md and docs/research/uiq04-integration/evidence/S740-verification.json; deployed screenshots for the stable and immutable Pages URLs are attached in their respective evidence folders. UIQ-05/07 remain Backlog and unadmitted.",
+  "expectedRevision": 4393
+}

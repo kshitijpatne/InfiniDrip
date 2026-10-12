@@ -48,13 +48,15 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
   for (const card of cards) {
     assert.ok(card);
-    if (card.id === "UIQ-02" || card.id === "UIQ-03") assert.equal(card.status, "Done");
-    else if (card.id === "UIQ-04") assert.equal(card.status, "Review");
+    if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
-    assert.equal(card.deliveredAt, ["UIQ-02", "UIQ-03"].includes(card.id) ? "2026-10-11" : null);
+    const expectedDeliveredAt = ["UIQ-02", "UIQ-03"].includes(card.id)
+      ? "2026-10-11"
+      : card.id === "UIQ-04" ? "2026-10-12" : null;
+    assert.equal(card.deliveredAt, expectedDeliveredAt);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
     assert.ok(card.evidenceRefs.includes(approval.id));
@@ -71,7 +73,9 @@ test("UIQ-02 and UIQ-03 integration status follows their release evidence", () =
   assert.ok(cards[3].description.includes("docs/planning/UIQ-04-INTEGRATION-ADMISSION.md"));
   assert.ok(cards[3].comments.some((comment) => comment.text.includes("Slice 739 work started")));
   assert.ok(cards[3].comments.some((comment) => comment.text.includes("Slice 739 is ready for review")));
+  assert.ok(cards[3].comments.some((comment) => comment.text.includes("Slice 740 verified main deployment")));
   assert.ok(cards[3].evidenceRefs.includes("E-UIQ04-S739"));
+  assert.ok(cards[3].evidenceRefs.includes("E-UIQ04-S740"));
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));

@@ -91,22 +91,24 @@ Backlog at this historical UIQ-03 closeout boundary. Final closeout PR #24 and m
 workflow `38176394059` succeeded, and the existing public URL passed a fresh
 post-deployment browser check; see `docs/release/UIQ-03-S738-FINAL-CLOSEOUT.md`.
 
-### Current integration status — 2026-10-11, UIQ-04 admitted
+### Current integration status — 2026-10-12, UIQ-04 shipped
 
 After UIQ-03's complete merge, deployment and board closeout, the maintainer
-authorized the next ordered package: UIQ-04 material clarity. Its fresh
-current-main contract is `docs/planning/UIQ-04-INTEGRATION-ADMISSION.md` and
-the active goal ledger is `docs/planning/UIQ-04-GOAL.md`. Slice 739 is the
-bounded, flag-gated additive integration and complete pre-merge gate; Slice
-740 is deployment and board closeout after merge. The accepted component is
+authorized UIQ-04 material clarity. Its contract is
+`docs/planning/UIQ-04-INTEGRATION-ADMISSION.md`; the completed goal ledger is
+`docs/planning/UIQ-04-GOAL.md`. Slices 739–740 completed the bounded,
+flag-gated integration, full pre-merge gate, merge, deployment and board
+closeout. The accepted component is
 collapsed by default next to existing material/appearance controls and appears
 only during Fit, when those existing controls are available. All old controls
 remain unchanged, and flag-off/unknown/stale renders the exact legacy shell.
 Compatibility remains explicitly unknown; no material math, saved state,
-renderer, global restyle, or physical claim is admitted. Slice 739 gates are
-recorded in `docs/release/UIQ-04-INTEGRATION-S739-EXIT.md`; UIQ-04 is Review at
-board revision 4390. The final full gate passed; final diff review,
-unique-slice recheck and commit/PR remain pending. UIQ-05 and UIQ-07 remain
+renderer, global restyle, or physical claim is admitted. PR #26 merged at
+`956c5c5dd1eee83aca9153f759c21c693843b095`; main deployment run 38185891574
+passed, both stable and immutable public URLs passed browser checks, and UIQ-04
+is Done at board revision 4394. Reports:
+`docs/release/UIQ-04-INTEGRATION-S739-EXIT.md` and
+`docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md`. UIQ-05 and UIQ-07 remain
 backlog and require separate authorization/admission.
 
 ## Parallel boundaries
