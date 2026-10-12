@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-08",
+  "expectedRevision": 4494,
+  "actor": "Codex",
+  "text": "UIQ-08 is now separately admitted for solid, opaque inspection-toolbar integration after the candidate-only Slice 758 closeout. Slice 759 is In Progress under uiq_inspection_toolbar; the accepted candidate source stays immutable, glass is rejected, and all control behavior plus exact OFF fallback remain protected. The embedded flag cannot be remotely switched; rollback requires code-default change and redeployment. Admission and live gates: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md and UIQ-08-INTEGRATION-GOAL.md."
+}

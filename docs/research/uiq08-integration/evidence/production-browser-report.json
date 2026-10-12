@@ -1,0 +1,135 @@
+{
+  "origin": "http://127.0.0.1:4189",
+  "checks": [
+    "production-assets-hashed-and-candidate-css-has-no-remote-resources",
+    "default-on-solid-opaque-style-normal-flow-aa-contrast",
+    "existing-app-keyboard-focus-ring-and-candidate-shadow-remain-visible",
+    "pointer-and-keyboard-zoom-boundaries-fit-and-viewbox-identity",
+    "toolbar-axe-check-zero-violations",
+    "responsive-no-document-or-toolbar-overflow-320-through-1440",
+    "forced-colors-and-reduced-motion",
+    "candidate-css-inert-without-classes-and-controls-remain-functional",
+    "zero-egress-page-errors-or-console-errors"
+  ],
+  "widths": [
+    {
+      "width": 320,
+      "documentWidth": 320,
+      "clientWidth": 320,
+      "toolbarWidth": 288,
+      "toolbarScrollWidth": 288,
+      "toolbarLeft": 15,
+      "toolbarRight": 305
+    },
+    {
+      "width": 360,
+      "documentWidth": 360,
+      "clientWidth": 360,
+      "toolbarWidth": 328,
+      "toolbarScrollWidth": 328,
+      "toolbarLeft": 15,
+      "toolbarRight": 345
+    },
+    {
+      "width": 390,
+      "documentWidth": 390,
+      "clientWidth": 390,
+      "toolbarWidth": 358,
+      "toolbarScrollWidth": 358,
+      "toolbarLeft": 15,
+      "toolbarRight": 375
+    },
+    {
+      "width": 480,
+      "documentWidth": 480,
+      "clientWidth": 480,
+      "toolbarWidth": 448,
+      "toolbarScrollWidth": 448,
+      "toolbarLeft": 15,
+      "toolbarRight": 465
+    },
+    {
+      "width": 768,
+      "documentWidth": 768,
+      "clientWidth": 768,
+      "toolbarWidth": 406,
+      "toolbarScrollWidth": 406,
+      "toolbarLeft": 339,
+      "toolbarRight": 747
+    },
+    {
+      "width": 1280,
+      "documentWidth": 1280,
+      "clientWidth": 1280,
+      "toolbarWidth": 860,
+      "toolbarScrollWidth": 860,
+      "toolbarLeft": 391,
+      "toolbarRight": 1253
+    },
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "clientWidth": 1440,
+      "toolbarWidth": 1020,
+      "toolbarScrollWidth": 1020,
+      "toolbarLeft": 391,
+      "toolbarRight": 1413
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "screenshots": [
+    "docs/research/uiq08-integration/evidence/uiq08-integration-320.png",
+    "docs/research/uiq08-integration/evidence/uiq08-integration-1440.png",
+    "docs/research/uiq08-integration/evidence/uiq08-integration-forced-colors.png"
+  ],
+  "productionAssets": [
+    {
+      "path": "dist/assets/index-BG_MF5be.js",
+      "sha256": "c0f4c5075bd3ffe3042bef566a222938dd4cafd5262822c142b346dafdf87da2"
+    },
+    {
+      "path": "dist/assets/index-D4OY9zfR.css",
+      "sha256": "c3ac8683810f5be0e982868baf66d41305a3f820fd603c962116ffb282473bb2"
+    }
+  ],
+  "computedOpaqueStyle": {
+    "toolbarTop": 415.484375,
+    "toolbarBottom": 473.484375,
+    "viewportTop": 481.484375,
+    "viewBox": "0 0 126 92",
+    "toolbarBackground": "rgb(17, 34, 55)",
+    "toolbarBackdrop": "none",
+    "toolbarColor": "rgb(237, 245, 250)",
+    "toolbarBorder": "rgb(145, 178, 198)",
+    "buttonBackground": "rgb(229, 243, 248)",
+    "buttonColor": "rgb(16, 44, 61)",
+    "fitBackground": "rgb(169, 234, 223)",
+    "fitColor": "rgb(16, 45, 53)"
+  },
+  "keyboardFocus": {
+    "outlineStyle": "solid",
+    "outlineWidth": "2px",
+    "outlineOffset": "3px",
+    "boxShadow": "rgb(23, 107, 129) 0px 0px 0px 5px"
+  },
+  "toolbarAxe": {
+    "violations": 0,
+    "passes": 15
+  },
+  "forcedColors": {
+    "backdrop": "none",
+    "background": "rgb(255, 255, 255)",
+    "text": "rgb(0, 0, 0)",
+    "buttonBackground": "rgb(255, 255, 255)",
+    "buttonText": "rgb(0, 0, 0)"
+  },
+  "disabledStylesheetFallback": {
+    "className": "",
+    "background": "rgba(0, 0, 0, 0)",
+    "backdrop": "none",
+    "buttonBackground": "rgb(14, 26, 43)"
+  },
+  "verifiedAt": "2026-10-12T17:26:14.178Z"
+}

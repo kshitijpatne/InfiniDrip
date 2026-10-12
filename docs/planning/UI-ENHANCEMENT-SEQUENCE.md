@@ -16,6 +16,16 @@ This planning update has no landed slice assignment or commit. Epic17 is allocat
 
 All new cards start Backlog. Codex owns scope, review, required fixes, integrated gates and merge. Contributor ownership means delivery of a bounded candidate with tests and actual output evidence, not permission to merge or redefine the product.
 
+2026-10-12: after accepted candidate-only UIQ-08 and Slice 758 closeout, the
+maintainer admitted a separate production integration of the solid, opaque
+inspection-toolbar grouping. Slice 759 is the flag-gated integration; Slice
+760 is deployment/live verification and closeout. Translucency was rejected by
+rendered evidence. The embedded flag has no remote switch; code-default change
+and redeployment are required for rollback. See
+`docs/planning/UIQ-08-INTEGRATION-ADMISSION.md` and
+`UIQ-08-INTEGRATION-GOAL.md`. UIQ-08 is In Progress; later UIQ cards remain
+subject to their own admission and dependency gates.
+
 | Order / board ID | Outcome | Roadmap owner | Predecessor / production gate | Safe parallel work and contributor |
 |---|---|---|---|---|
 | 1 UIQ-01 | G04 recommendation reconciliation: exact geometry/piece identity, construction fidelity, readable source-bound POM callouts, existing artwork overlay contract | Existing EPIC-17 / G04 V02 then V03 | Current slice finishes first; existing all-seven/options V02 gate stays intact | No duplicate renderer/task. Codex retains core; independent output QA can be delegated. This external checkpoint does not add a new Epic17 closure dependency. |
@@ -25,7 +35,7 @@ All new cards start Backlog. Codex owns scope, review, required fixes, integrate
 | 5 UIQ-05 | Existing artwork catalog presentation: previews, rights/suitability/resolution, search/filter/no-match | Existing artwork V1 UI; not EPIC-30/G17 expansion | May build isolated candidate alongside UIQ-02; adopt accepted visual contract before integration through UIQ-GATE | OpenCode owns panel/tests with read-only existing catalog fixtures. No new artwork acquisition/store/schema. |
 | 6 UIQ-06 | Legible measurement/provenance, grading exceptions, nesting/Check readouts, project/history/recovery/import and export-scope messages | UI follow-up lane; G05 pack-specific presentation stays EPIC-18 | UIQ-GATE; bounded subpackages, not a wholesale rewrite | CLI presentation/tests; Codex retains schemas, persistence, validation, approvals and exports. |
 | 7 UIQ-07 | Static native welcome backdrop and original metal-inspired wordmark | UI lane; reuse later within EPIC-21/G08 A01, without starting brand-profile logic | UIQ-02; UIQ-GATE before entry-flow wiring | Claude owns isolated visuals/assets; no login, hosted service or Shield code. |
-| 8 UIQ-08 | Restrained native inspection toolbar glass with solid buttons and opaque fallback | UI lane against settled inspection surface | UIQ-02 and UIQ-GATE | Claude owns treatment/QA; preserve pointer/keyboard/zoom behavior. No page-sampling implementation. |
+| 8 UIQ-08 | Restrained, solid opaque native inspection-toolbar grouping | UI lane against settled inspection surface | UIQ-02 and UIQ-GATE | Codex-owned integration reuses accepted isolated candidate; translucency rejected. Preserve exact fallback and pointer/keyboard/zoom behavior. |
 | 9 UIQ-09 | Truthful recipe/starter thumbnails and construction summaries | EPIC-19/G06 L02 | EPIC-19 admission and accepted relevant G04 source-to-view contracts; existing starter gates remain | Claude visual assets and OpenCode evidence audit; Codex binds recipe/size/revision. No independent polished sewn-design redraw. |
 | 10 UIQ-10 | Readable production-pack forms/tables, revision/approval visibility and selected sections | EPIC-18/G05 T01–T05 | Epic18 admission and accepted data contracts; later outputs consume G03/G04 | CLI forms/document QA; Codex schema, numeric/POM reconciliation, freeze and export logic. |
 | 11 UIQ-11 | Bounded R3F versus direct Three renderer proof: lazy stable host, cleanup, local assets, SVG fallback, revision identity | EPIC-22/G09 proof boundary supporting D01/D03 | Separate Epic22 admission; production snapshot bridge after required upstream contracts | Claude may own isolated renderer/asset/notice harness. Codex chooses architecture and owns state bridge. A flat-mesh demo is not Epic22 completion. |

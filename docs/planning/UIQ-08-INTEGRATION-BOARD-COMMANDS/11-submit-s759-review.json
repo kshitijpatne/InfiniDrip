@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4498,
+  "itemId": "UIQ08-S759-INTEGRATION",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "Slice 759 implementation, focused and global acceptance, package/release checks, and rendered/no-egress evidence are complete and linked. Independent review is requested before PR creation and merge.",
+  "evidenceRefs": ["E-UIQ08-S759-EXIT", "E-UIQ08-S759-VERIFICATION"]
+}

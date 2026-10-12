@@ -73,6 +73,37 @@ describe("embedded feature-flag contract", () => {
       .toMatchObject({ enabled: false, status: "stale", source: "diagnostic" });
   });
 
+  it("enables the opaque inspection-toolbar presentation with a safe legacy fallback", () => {
+    expect(FEATURE_FLAGS.uiq_inspection_toolbar).toMatchObject({
+      key: "uiq_inspection_toolbar",
+      owner: "Codex",
+      audience: "public",
+      defaultValue: true,
+      expiresOn: "2027-01-13",
+      removalRelease: "UIQ-08 inspection-toolbar cleanup; no later than expiry",
+      rollout: "embedded",
+      fallback: "compatible-v1",
+      onBehavior: "Use the solid, opaque native grouping on the existing inspection toolbar without changing its controls.",
+      offBehavior: "Keep the exact existing inspection-toolbar markup and appearance.",
+    });
+    expect(evaluateFeatureFlag("uiq_inspection_toolbar", CURRENT)).toMatchObject({
+      enabled: true,
+      status: "enabled",
+      source: "embedded-default",
+      diagnostic: FEATURE_FLAGS.uiq_inspection_toolbar.onBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_inspection_toolbar", CURRENT, false)).toMatchObject({
+      enabled: false,
+      status: "disabled",
+      source: "local-override",
+      diagnostic: FEATURE_FLAGS.uiq_inspection_toolbar.offBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_inspection_toolbar", new Date("2027-01-14T00:00:00.000Z"), true))
+      .toMatchObject({ enabled: false, status: "stale", source: "diagnostic" });
+    expect(evaluateFeatureFlag("unknown-uiq-inspection-toolbar", CURRENT))
+      .toMatchObject({ enabled: false, status: "unknown", source: "diagnostic" });
+  });
+
   it("enables UIQ guidance by default and preserves the readiness checklist fallback", () => {
     expect(FEATURE_FLAGS.uiq_guidance).toMatchObject({
       key: "uiq_guidance",

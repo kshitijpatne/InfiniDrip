@@ -1,0 +1,36 @@
+{
+  "type": "createItem",
+  "expectedRevision": 4491,
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Create the admitted, uniquely numbered UIQ-08 integration slice after verifying Slice 758 is the latest assignment across fetched refs and local worktree histories.",
+  "workItem": {
+    "id": "UIQ08-S759-INTEGRATION",
+    "type": "slice",
+    "title": "Slice 759: integrate solid inspection-toolbar presentation",
+    "epicId": null,
+    "releaseId": null,
+    "priority": "P2",
+    "risk": "medium",
+    "owner": "Codex",
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "targetAt": null,
+    "dependencies": ["UIQ08-CANDIDATE", "UIQ-GATE", "UIQ-02"],
+    "protectedSurfaces": [
+      "existing inspection control behavior and exact flag-off fallback",
+      "accepted UIQ08 candidate source/evidence and output export hashes",
+      "local-first/no-cost boundary and no-egress behavior"
+    ],
+    "description": "Production integration of the accepted solid, opaque inspection-toolbar grouping only. Full contract: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md.",
+    "expectation": "A clearer inspection control group ships behind an embedded feature flag while all current controls and disabled fallback remain unchanged.",
+    "acceptanceCriteria": [
+      "Register uiq_inspection_toolbar with ON/OFF/unknown/stale behavior and no remote toggle.",
+      "Reuse existing candidate adapter and CSS, with an opaque modifier; preserve immutable candidate files and source hashes.",
+      "Exercise normal and paused inspection renders, all zoom controls and mode transitions; no geometry, persistence, export or baseline changes.",
+      "Achieve 100% four-metric changed production coverage and 100% settled global coverage; build, operational, package, export identity and rendered responsive/a11y/no-egress gates pass.",
+      "Codex independently reviews complete diff/evidence and approves PR only after all checks."
+    ],
+    "flagKey": "uiq_inspection_toolbar"
+  }
+}

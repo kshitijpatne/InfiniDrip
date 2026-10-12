@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4488,
-  "updatedAt": "2026-10-12T15:38:18.666Z",
+  "revision": 4500,
+  "updatedAt": "2026-10-12T18:24:01.325Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -15167,36 +15167,37 @@
     {
       "id": "UIQ-08",
       "type": "task",
-      "title": "Native inspection-toolbar glass candidate",
+      "title": "Native inspection-toolbar presentation",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
       "priority": "P2",
-      "risk": "low",
+      "risk": "medium",
       "owner": "Codex",
-      "contributor": "Claude Code",
+      "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
         "UIQ-02",
         "UIQ-GATE"
       ],
       "protectedSurfaces": [
-        "active Epic17 file ownership",
-        "local-first/no-cost boundary",
-        "100% coverage",
-        "export byte identity",
-        "source/revision identity"
+        "exact existing inspection toolbar fallback and all zoom controls/actions",
+        "pointer/keyboard/focus/scroll/viewport/artwork behavior across inspection modes",
+        "accepted UIQ08 candidate source and digest-bound evidence",
+        "local-first/no-cost boundary; no new service, network, data or dependency",
+        "100% changed/global coverage and existing export byte-identity"
       ],
-      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Bounded CSS translucency, solid native controls and opaque fallback on settled inspection surface.",
-      "expectation": "Zoom, keyboard, pointer and data stay unchanged; no page sampling.",
+      "description": "Maintainer-admitted current-main integration of the accepted solid, opaque inspection-toolbar grouping only. Packet: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md; live gates: docs/planning/UIQ-08-INTEGRATION-GOAL.md.",
+      "expectation": "The existing inspection controls gain a clearer, accessible native grouping without changing any control behavior or the exact flag-off presentation.",
       "acceptanceCriteria": [
-        "Readable on dense artwork, reduced-motion/high-contrast/narrow checks; original CSS only.",
-        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
-        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
-        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+        "Reuse the accepted candidate adapter and scoped stylesheet without changing candidate source/proof; force its opaque treatment and do not ship glass/translucency.",
+        "Embedded uiq_inspection_toolbar defaults on for the accepted release; local override is deterministic; off/unknown/stale preserves exact legacy markup and appearance.",
+        "Preserve heading, names, IDs, control order, pointer/keyboard actions, zoom 50%-250%, Fit, focus, scroll, viewport, artwork identity and paused/error inspection output.",
+        "Changed production and settled global statements/branches/functions/lines coverage are 100%; type/build, operational, packaged, export identity and rendered responsive/accessibility/no-egress gates pass without baseline changes.",
+        "Codex reviews actual diff and evidence; close only after successful main deployment, fresh stable/immutable live verification and validated board closeout."
       ],
       "statusHistory": [
         {
@@ -15206,6 +15207,14 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T17:08:48.154Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "The maintainer admitted the next goal after completing the isolated UIQ-08 candidate. The separate solid-only app integration, embedded fallback, exact scope and release gates are frozen in docs/planning/UIQ-08-INTEGRATION-ADMISSION.md and UIQ-08-INTEGRATION-GOAL.md.",
+          "evidenceRefs": []
         }
       ],
       "comments": [
@@ -15213,12 +15222,18 @@
           "at": "2026-10-12T14:25:19.162Z",
           "actor": "Codex",
           "text": "Maintainer admitted UIQ08-CANDIDATE on 2026-10-12 as an isolated, unshipped native toolbar treatment only. The parent remains Backlog/unshipped; production app integration/deployment requires a separate admission. See docs/planning/UIQ-08-ADMISSION.md."
+        },
+        {
+          "at": "2026-10-12T17:08:49.479Z",
+          "actor": "Codex",
+          "text": "UIQ-08 is now separately admitted for solid, opaque inspection-toolbar integration after the candidate-only Slice 758 closeout. Slice 759 is In Progress under uiq_inspection_toolbar; the accepted candidate source stays immutable, glass is rejected, and all control behavior plus exact OFF fallback remain protected. The embedded flag cannot be remotely switched; rollback requires code-default change and redeployment. Admission and live gates: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md and UIQ-08-INTEGRATION-GOAL.md."
         }
       ],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ08-INTEGRATION-ADMISSION"
       ],
-      "flagKey": null
+      "flagKey": "uiq_inspection_toolbar"
     },
     {
       "id": "UIQ-09",
@@ -16199,6 +16214,77 @@
         "E-UIQ08-S758-PUBLIC"
       ],
       "flagKey": null
+    },
+    {
+      "id": "UIQ08-S759-INTEGRATION",
+      "type": "slice",
+      "title": "Slice 759: integrate solid inspection-toolbar presentation",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Review",
+      "openedAt": "2026-10-12",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "medium",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ08-CANDIDATE",
+        "UIQ-GATE",
+        "UIQ-02"
+      ],
+      "protectedSurfaces": [
+        "existing inspection control behavior and exact flag-off fallback",
+        "accepted UIQ08 candidate source/evidence and output export hashes",
+        "local-first/no-cost boundary and no-egress behavior"
+      ],
+      "description": "Production integration of the accepted solid, opaque inspection-toolbar grouping only. Full contract: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md.",
+      "expectation": "A clearer inspection control group ships behind an embedded feature flag while all current controls and disabled fallback remain unchanged.",
+      "acceptanceCriteria": [
+        "Register uiq_inspection_toolbar with ON/OFF/unknown/stale behavior and no remote toggle.",
+        "Reuse existing candidate adapter and CSS, with an opaque modifier; preserve immutable candidate files and source hashes.",
+        "Exercise normal and paused inspection renders, all zoom controls and mode transitions; no geometry, persistence, export or baseline changes.",
+        "Achieve 100% four-metric changed production coverage and 100% settled global coverage; build, operational, package, export identity and rendered responsive/a11y/no-egress gates pass.",
+        "Codex independently reviews complete diff/evidence and approves PR only after all checks."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-12T17:08:48.428Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Create the admitted, uniquely numbered UIQ-08 integration slice after verifying Slice 758 is the latest assignment across fetched refs and local worktree histories.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T17:08:48.722Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Slice 759 has an admitted, bounded file/scope contract and reserved acceptance gates. Codex begins the isolated implementation.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-12T18:22:29.177Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 759 implementation, focused and global acceptance, package/release checks, and rendered/no-egress evidence are complete and linked. Independent review is requested before PR creation and merge.",
+          "evidenceRefs": [
+            "E-UIQ08-S759-EXIT",
+            "E-UIQ08-S759-VERIFICATION"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ08-S759-ADMISSION",
+        "E-UIQ08-S759-EXIT",
+        "E-UIQ08-S759-VERIFICATION"
+      ],
+      "flagKey": "uiq_inspection_toolbar"
     }
   ],
   "evidence": [
@@ -29845,6 +29931,42 @@
       "sha256": "51232a1ed9e0ad74b7427f4c0776dd887db4c558e57afc95c8408ae99b7cb349",
       "verified": true,
       "note": "Successful main workflow 38270483820; stable Pages URL HTTP 200; deployed JS/CSS hashes and asset names match the pre-merge build; no candidate leakage."
+    },
+    {
+      "id": "E-UIQ08-INTEGRATION-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-08-INTEGRATION-ADMISSION.md",
+      "commit": null,
+      "sha256": "eefa1c135386f3eb9c71084e5c2f2473afe16dbf994a61ea11bedb185d1f55ed",
+      "verified": true,
+      "note": "Verified exact SHA-256 of the final immutable UIQ-08 integration admission packet."
+    },
+    {
+      "id": "E-UIQ08-S759-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-08-INTEGRATION-ADMISSION.md",
+      "commit": null,
+      "sha256": "22d13047d96f75d5a04a4950adeaf6fc54592ea6f6c91b8755277a5d3881785a",
+      "verified": true,
+      "note": "Verified SHA-256 of the finalized admission and current verified boundary packet for the UIQ-08 integration."
+    },
+    {
+      "id": "E-UIQ08-S759-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-08-INTEGRATION-S759-EXIT.md",
+      "commit": null,
+      "sha256": "caa72bbf1699e5e963685d36773c375d66a664e89f53e546f597212ba6452be5",
+      "verified": true,
+      "note": "Slice 759 implementation and pre-merge acceptance passed; this exit report records the exact scope, full gates and remaining review/deployment boundary."
+    },
+    {
+      "id": "E-UIQ08-S759-VERIFICATION",
+      "kind": "rendered-output",
+      "uri": "docs/research/uiq08-integration/evidence/S759-verification-summary.json",
+      "commit": null,
+      "sha256": "238d5d2743554bd87cf3c3508a5f57fc1d60645b043d826504eceba05a8c87e5",
+      "verified": true,
+      "note": "Digest-bound machine summary of global coverage counters, focused/operational/package checks, candidate hashes, rendered browser report and no-egress results."
     }
   ]
 }

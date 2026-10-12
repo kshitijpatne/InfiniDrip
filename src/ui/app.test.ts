@@ -25,6 +25,7 @@ import {
   withSemanticEditorPiece,
 } from "./app";
 import { openProjectWorkflow } from "./project-workflow";
+import { inspectionMarkup } from "./view";
 import { isCustomOneSizeStyle } from "./project-records";
 import { materializeCustomSizeDesign } from "./custom-size-materialization";
 import * as gradePlanContext from "./grade-plan-context";
@@ -1141,6 +1142,50 @@ describe("mountApp", () => {
     root.querySelector<HTMLButtonElement>('button[data-inspection-zoom="out"]')!
       .dispatchEvent(new Event("click", { bubbles: true }));
     expect(root.querySelector("#inspection-zoom")!.textContent).toBe("75%");
+  });
+
+  it("uses the solid inspection-toolbar grouping by default and preserves exact flag-off markup", () => {
+    localStorage.clear();
+    const enabled = mount();
+    const enabledToolbar = enabled.querySelector<HTMLElement>("#inspection-toolbar")!;
+    expect(enabledToolbar.classList.contains("uiq-inspection-toolbar")).toBe(true);
+    expect(enabledToolbar.classList.contains("uiq-inspection-toolbar--opaque")).toBe(true);
+    expect(enabledToolbar.querySelectorAll("button[data-inspection-zoom]")).toHaveLength(3);
+    expect(enabledToolbar.querySelectorAll(".uiq-inspection-toolbar__button")).toHaveLength(3);
+    enabled.querySelector<HTMLButtonElement>('button[data-inspection-zoom="out"]')!.click();
+    expect(enabled.querySelector("#inspection-zoom")!.textContent).toBe("75%");
+    enabled.querySelector<HTMLButtonElement>('button[data-inspection-zoom="fit"]')!.click();
+    expect(enabled.querySelector("#inspection-zoom")!.textContent).toBe("100%");
+
+    const disabled = mount({ uiqInspectionToolbarEnabled: false });
+    const expected = document.createElement("div");
+    expected.innerHTML = inspectionMarkup("<p>fixture</p>", "pattern");
+    const disabledToolbar = disabled.querySelector<HTMLElement>("#inspection-toolbar")!;
+    expect(disabledToolbar.outerHTML).toBe(expected.querySelector<HTMLElement>("#inspection-toolbar")!.outerHTML);
+    expect(disabledToolbar.classList.contains("uiq-inspection-toolbar")).toBe(false);
+    expect(disabledToolbar.querySelectorAll(".uiq-inspection-toolbar__button")).toHaveLength(0);
+    disabled.querySelector<HTMLButtonElement>('button[data-inspection-zoom="out"]')!.click();
+    expect(disabled.querySelector("#inspection-zoom")!.textContent).toBe("75%");
+  });
+
+  it("keeps solid-only toolbar classes on paused renders and exact legacy fallback when disabled", () => {
+    localStorage.clear();
+    const enabled = mount({ uiqInspectionToolbarEnabled: true });
+    const enabledChest = enabled.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    enabledChest.value = "";
+    enabledChest.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(enabled.querySelector("#canvas-host [role='status']")?.textContent).toContain("Draft paused");
+    expect(enabled.querySelector<HTMLElement>("#inspection-toolbar")!.classList.contains("uiq-inspection-toolbar--opaque")).toBe(true);
+
+    const disabled = mount({ uiqInspectionToolbarEnabled: false });
+    const disabledChest = disabled.querySelector<HTMLInputElement>('input[data-field="chest"]')!;
+    disabledChest.value = "";
+    disabledChest.dispatchEvent(new Event("input", { bubbles: true }));
+    expect(disabled.querySelector("#canvas-host [role='status']")?.textContent).toContain("Draft paused");
+    const expected = document.createElement("div");
+    expected.innerHTML = inspectionMarkup("<p>fixture</p>", "pattern");
+    const disabledToolbar = disabled.querySelector<HTMLElement>("#inspection-toolbar")!;
+    expect(disabledToolbar.outerHTML).toBe(expected.querySelector<HTMLElement>("#inspection-toolbar")!.outerHTML);
   });
 
   it("keeps the back body figure named and fits a wide inspection SVG", () => {

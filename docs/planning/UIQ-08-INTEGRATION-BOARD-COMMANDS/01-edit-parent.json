@@ -1,0 +1,29 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-08",
+  "expectedRevision": 4488,
+  "patch": {
+    "title": "Native inspection-toolbar presentation",
+    "risk": "medium",
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "dependencies": ["UIQ-02", "UIQ-GATE"],
+    "protectedSurfaces": [
+      "exact existing inspection toolbar fallback and all zoom controls/actions",
+      "pointer/keyboard/focus/scroll/viewport/artwork behavior across inspection modes",
+      "accepted UIQ08 candidate source and digest-bound evidence",
+      "local-first/no-cost boundary; no new service, network, data or dependency",
+      "100% changed/global coverage and existing export byte-identity"
+    ],
+    "description": "Maintainer-admitted current-main integration of the accepted solid, opaque inspection-toolbar grouping only. Packet: docs/planning/UIQ-08-INTEGRATION-ADMISSION.md; live gates: docs/planning/UIQ-08-INTEGRATION-GOAL.md.",
+    "expectation": "The existing inspection controls gain a clearer, accessible native grouping without changing any control behavior or the exact flag-off presentation.",
+    "acceptanceCriteria": [
+      "Reuse the accepted candidate adapter and scoped stylesheet without changing candidate source/proof; force its opaque treatment and do not ship glass/translucency.",
+      "Embedded uiq_inspection_toolbar defaults on for the accepted release; local override is deterministic; off/unknown/stale preserves exact legacy markup and appearance.",
+      "Preserve heading, names, IDs, control order, pointer/keyboard actions, zoom 50%-250%, Fit, focus, scroll, viewport, artwork identity and paused/error inspection output.",
+      "Changed production and settled global statements/branches/functions/lines coverage are 100%; type/build, operational, packaged, export identity and rendered responsive/accessibility/no-egress gates pass without baseline changes.",
+      "Codex reviews actual diff and evidence; close only after successful main deployment, fresh stable/immutable live verification and validated board closeout."
+    ],
+    "flagKey": "uiq_inspection_toolbar"
+  }
+}

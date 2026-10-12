@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-S759-INTEGRATION",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Slice 759 has an admitted, bounded file/scope contract and reserved acceptance gates. Codex begins the isolated implementation.",
+  "expectedRevision": 4492
+}

@@ -1,16 +1,24 @@
 # InfiniDrip architecture guide
 
-## UIQ-08 candidate boundary
+## UIQ-08 inspection-toolbar integration boundary
 
 The isolated Slice 757 candidate and rendered evidence are complete. Comparison
 shows improved grouping from solid controls, but translucency has no meaningful
 effect because the real toolbar is not layered over artwork. Keep translucency
-out of any future integration absent new evidence. The candidate preview is not
-shipped app behavior. UIQ-08 parent remains Backlog/unshipped until a separately
-admitted integration. The full repository gate passed with 100% global
+out of production absent new evidence. The candidate-only deployment did not
+ship app behavior. The maintainer has now separately admitted a bounded
+integration of the solid, opaque grouping behind embedded `uiq_inspection_toolbar`.
+That flag is not remotely switchable; disabling it in production requires a
+reviewed code-default change and redeployment. The exact legacy toolbar remains
+the OFF/unknown/stale fallback. The full candidate repository gate passed with 100% global
 coverage using two command-scoped workers after the default parallel run showed
 three contention-sensitive failures. No repository worker setting changed.
-See `docs/planning/UIQ-08-ADMISSION.md`, `docs/planning/UIQ-08-GOAL.md` and
+Slice 759 now integrates that solid-only treatment behind the embedded flag;
+its complete pre-merge verification is recorded in
+`docs/release/UIQ-08-INTEGRATION-S759-EXIT.md`. It is not live until the
+reviewed PR merges and Slice 760 verifies deployment. See
+`docs/planning/UIQ-08-INTEGRATION-ADMISSION.md`,
+`docs/planning/UIQ-08-INTEGRATION-GOAL.md`, the candidate packet, and
 `docs/research/uiq08/CODEX-REVIEW.md`.
 
 This guide explains how measurements and choices move through InfiniDrip and

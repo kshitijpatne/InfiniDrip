@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-S759-INTEGRATION",
+  "expectedRevision": 4496,
+  "evidence": {
+    "id": "E-UIQ08-S759-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-08-INTEGRATION-S759-EXIT.md",
+    "sha256": "caa72bbf1699e5e963685d36773c375d66a664e89f53e546f597212ba6452be5",
+    "verified": true,
+    "note": "Slice 759 implementation and pre-merge acceptance passed; this exit report records the exact scope, full gates and remaining review/deployment boundary."
+  }
+}
