@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-S758-CLOSEOUT",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "expectedRevision": 4486,
+  "reason": "Deployment verification and durable closeout evidence are complete; submitting the release proof for acceptance."
+}

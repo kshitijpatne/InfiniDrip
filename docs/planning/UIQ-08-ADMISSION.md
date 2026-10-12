@@ -135,9 +135,10 @@ promise. No recurring or one-time service cost is introduced.
 
 Slice 757 candidate implementation and rendered review are complete in the
 isolated worktree. `UIQ08-CANDIDATE` is Done with digest-bound exit, browser,
-coverage and review evidence at canonical board revision 4481; UIQ-08 parent
-remains Backlog/unshipped. Production app integration and deployment still
-require separate maintainer admission. The first default-worker coverage run
+coverage and review evidence; Slice 758 records post-merge verification.
+Candidate-only PR #38 merged and the automatic deployment served identical app
+assets. UIQ-08 parent remains Backlog/unshipped. Production app integration
+requires separate maintainer admission. The first default-worker coverage run
 had three contention-sensitive failures; the full two-worker rerun passed all
 165 files/2,672 tests with 100% global coverage. See
 `docs/research/uiq08/CODEX-REVIEW.md` and `CANDIDATE-EXIT.json` for details and

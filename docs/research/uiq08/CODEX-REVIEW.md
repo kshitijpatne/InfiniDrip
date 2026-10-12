@@ -42,14 +42,17 @@ toolbar over the artwork to manufacture that effect.
   functions). The worker default/configuration was not changed. This confirms
   the failures were contention-sensitive, not candidate regressions.
 - No app source, app entry, feature flag, dependency, release configuration or
-  export baseline was changed. No production integration or deployment occurs.
+  export baseline was changed. Candidate PR #38 later merged and triggered the
+  ordinary Pages workflow; Slice 758 verified successful deployment and
+  identical production bundle hashes. No production UI integration occurred.
 
 Machine report and screenshots are under `docs/research/uiq08/evidence/`;
 their hashes and the candidate source hashes are in `CANDIDATE-EXIT.json`.
 
 ## Boundary after acceptance
 
-The candidate child may be closed Done after attaching this review and exit
-evidence. The parent UIQ-08 remains Backlog/unshipped. The next product action is
-a separate maintainer-approved admission for app integration (solid treatment
-only, unless new rendered evidence establishes a reason for translucency).
+The candidate child is Done with attached review/exit evidence and post-merge
+deployment proof. The parent UIQ-08 remains Backlog/unshipped. The next product
+action is a separate maintainer-approved admission for app integration (solid
+treatment only, unless new rendered evidence establishes a reason for
+translucency).

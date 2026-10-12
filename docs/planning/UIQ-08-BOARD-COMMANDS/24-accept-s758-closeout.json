@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-S758-CLOSEOUT",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "expectedRevision": 4487,
+  "reason": "Accepted: automatic Pages deployment passed and stable production assets exactly match the pre-merge hashes; no new UI behavior shipped.",
+  "evidenceRefs": ["E-UIQ08-S758-PUBLIC"]
+}

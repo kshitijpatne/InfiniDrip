@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-S758-CLOSEOUT",
+  "status": "In Progress",
+  "actor": "Codex",
+  "role": "contributor",
+  "expectedRevision": 4484,
+  "reason": "Slice 758 verifies the completed candidate-only merge and automatic production deployment without changing app behavior."
+}

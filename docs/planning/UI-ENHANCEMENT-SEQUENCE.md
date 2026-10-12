@@ -230,8 +230,10 @@ full two-worker repository coverage gate passed 165 files/2,672 tests with
 100% global coverage; the command-only worker override did not change defaults.
 The visual comparison found no meaningful glass benefit in the real normal-flow
 layout; only solid control grouping is a plausible future integration. The
-candidate child is Done; parent UIQ-08 remains Backlog until separate
-maintainer admission. See `docs/research/uiq08/CODEX-REVIEW.md` and
-`CANDIDATE-EXIT.json`.
+candidate child is Done. Candidate-only PR #38 merged and its automatic Pages
+deployment passed; Slice 758 verified HTTP 200 and identical JS/CSS hashes, so
+no toolbar behavior shipped. Parent UIQ-08 remains Backlog until separate
+maintainer admission. See `docs/research/uiq08/CODEX-REVIEW.md`,
+`CANDIDATE-EXIT.json` and `docs/release/UIQ-08-S758-CLOSEOUT.md`.
 
 Historical planning boundary: this roadmap/board update began local and uncommitted; its subsequent durability is tracked through the admitted UIQ integration branch, PR and release records below. The original planning task did not directly push to main or deploy.

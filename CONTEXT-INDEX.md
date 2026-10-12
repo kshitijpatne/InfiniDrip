@@ -101,8 +101,11 @@ only through an explicitly admitted, linked Epic packet.
   passed 165 files/2,672 tests at 100%; no repository worker default changed.
   Codex review recommends solid controls only: translucency has no meaningful
   effect in the real normal-flow layout. Parent UIQ-08 remains Backlog/unshipped;
-  app integration still requires separate maintainer admission. Review, exit
-  metrics and hash-bound evidence are in `docs/research/uiq08/`.
+  app integration still requires separate maintainer admission. Candidate-only
+  PR #38 merged and Pages deployment succeeded with unchanged JS/CSS hashes;
+  Slice 758 proof is `docs/release/UIQ-08-S758-CLOSEOUT.md` and
+  `docs/research/uiq08/evidence/S758-public-deployment.json`. Review, exit
+  metrics and rendered evidence are in `docs/research/uiq08/`.
 
 - `docs/planning/UIQ-CLARITY-ADMISSION.md` — maintainer-admitted 2026-10-02
   UIQ03 guidance and UIQ04 material clarity isolated candidates, frozen read-only

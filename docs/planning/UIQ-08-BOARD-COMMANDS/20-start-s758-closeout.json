@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-S758-CLOSEOUT",
+  "status": "Ready",
+  "actor": "Codex",
+  "role": "maintainer",
+  "expectedRevision": 4483,
+  "reason": "The deployment closeout has a bounded scope and evidence plan; it is ready for Codex execution."
+}

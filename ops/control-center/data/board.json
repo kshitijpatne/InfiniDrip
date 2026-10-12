@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4482,
-  "updatedAt": "2026-10-12T15:26:41.916Z",
+  "revision": 4488,
+  "updatedAt": "2026-10-12T15:38:18.666Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -16118,6 +16118,87 @@
         "E-UIQ08-CANDIDATE-EXIT-ACCEPTED"
       ],
       "flagKey": null
+    },
+    {
+      "id": "UIQ08-S758-CLOSEOUT",
+      "type": "slice",
+      "title": "Slice 758: verify candidate-only Pages deployment and closeout",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-10-12",
+      "targetAt": null,
+      "deliveredAt": "2026-10-12",
+      "priority": "P2",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ08-CANDIDATE"
+      ],
+      "protectedSurfaces": [
+        "production UI remains unintegrated",
+        "deployed JS/CSS identity",
+        "UIQ-08 parent status and admission boundary"
+      ],
+      "description": "Post-merge verification for UIQ-08's isolated candidate-only PR #38; no production app integration.",
+      "expectation": "Record that the automatic Pages deployment succeeded and served byte-identical production JS/CSS, proving no toolbar feature reached users.",
+      "acceptanceCriteria": [
+        "PR #38 merge commit 77330885 is confirmed on origin/main and Pages workflow 38270483820 completes successfully.",
+        "Stable public URL returns HTTP 200 and deployed JS/CSS filenames and SHA-256 hashes equal the pre-merge build.",
+        "Neither deployed asset contains the isolated candidate class; UIQ-08 remains Backlog/unshipped and requires separate maintainer admission for integration.",
+        "Hash-bound closeout evidence is linked through the validated board command layer and durable current-state docs agree."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-12T15:38:12.718Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Assign Slice 758 to close out the already merged isolated candidate by checking its automatic public deployment and proving no app assets changed.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Ready",
+          "at": "2026-10-12T15:38:13.807Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "The deployment closeout has a bounded scope and evidence plan; it is ready for Codex execution.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T15:38:15.034Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 758 verifies the completed candidate-only merge and automatic production deployment without changing app behavior.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-12T15:38:17.473Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Deployment verification and durable closeout evidence are complete; submitting the release proof for acceptance.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T15:38:18.666Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted: automatic Pages deployment passed and stable production assets exactly match the pre-merge hashes; no new UI behavior shipped.",
+          "evidenceRefs": [
+            "E-UIQ08-S758-PUBLIC"
+          ]
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-UIQ08-S758-PUBLIC"
+      ],
+      "flagKey": null
     }
   ],
   "evidence": [
@@ -29755,6 +29836,15 @@
       "sha256": "17bb9340520229d852715c2db52d30444e6bb27543992375d52426f3de090255",
       "verified": true,
       "note": "Accepted final Slice 757 exit evidence after recording the successful two-worker global coverage rerun and board closeout."
+    },
+    {
+      "id": "E-UIQ08-S758-PUBLIC",
+      "kind": "browser",
+      "uri": "docs/research/uiq08/evidence/S758-public-deployment.json",
+      "commit": null,
+      "sha256": "51232a1ed9e0ad74b7427f4c0776dd887db4c558e57afc95c8408ae99b7cb349",
+      "verified": true,
+      "note": "Successful main workflow 38270483820; stable Pages URL HTTP 200; deployed JS/CSS hashes and asset names match the pre-merge build; no candidate leakage."
     }
   ]
 }
