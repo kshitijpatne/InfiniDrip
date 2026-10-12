@@ -1,0 +1,25 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G05-T01",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidence": {
+      "id": "E-G05-S765-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S765-T01-package-copy-reference-remap/exit-packet.md",
+      "sha256": "32f398a533d884cab1843d21486a0ef4bf6fb8baad60138483269dbe8b0a7b3c",
+      "verified": true,
+      "note": "S765 remaps T01 inherited-source revision references on copy across cover, material, BOM and colorway fields; preserves external lineage and source package data. Focused package coverage is 100% and protected export identity passes 9/9."
+    },
+    "expectedRevision": 4549
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-18",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidenceId": "E-G05-S765-EXIT",
+    "expectedRevision": 4550
+  }
+]

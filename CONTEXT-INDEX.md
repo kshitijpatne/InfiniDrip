@@ -44,9 +44,11 @@ only through an explicitly admitted, linked Epic packet.
   active worktrees, refs, open PRs and the canonical board before using a
   main-based snapshot. Each lane retains its own scope/approval gates.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
-- `docs/planning/EPIC-18-ADMISSION.md` and `EPIC-18-GOAL.md` — current
-  maintainer-admitted G05 scope, ordered Slice 762–780 boundaries, acceptance
-  gates, non-goals and current stopping point. Slice 763's T01 schema/validator
+- `docs/planning/EPIC-18-ADMISSION.md`, `EPIC-18-S765-RESEQUENCING.md` and
+  `EPIC-18-GOAL.md` — maintainer-admitted G05 scope, active ordered Slice
+  762–781 boundaries, acceptance gates, non-goals and current stopping point.
+  The hash-bound S762 admission remains unchanged; the S765 addendum records
+  the package-copy correction and current sequence. Slice 763's T01 schema/validator
   is complete; its start and exit evidence are in
   `docs/research/epic18/S763-T01-record-contract/`, with the validated board
   replays in `docs/planning/EPIC-18-S763-START-BOARD-COMMANDS.json` and
@@ -58,10 +60,17 @@ only through an explicitly admitted, linked Epic packet.
   replays are `docs/planning/EPIC-18-S764-START-BOARD-COMMANDS.json` and
   `EPIC-18-S764-EXIT-BOARD-COMMANDS.json`; the recipe-transition replay is
   `docs/planning/EPIC-18-S764-RECIPE-TRANSITION-BOARD-COMMANDS.json` and its
-  decision is in that packet directory. Slice 765 is next for revision-payload
-  integration. UIQ-10 remains a linked
-  Backlog child until its bounded S773 admission, and UIQ-09 remains blocked on
-  EPIC-19.
+  decision is in that packet directory. S765 completed the correction for
+  nested `inheritedFrom.revisionId` package-copy links, remapping sources in
+  copied history and preserving external provenance. Its start/exit packets
+  are in `docs/research/epic18/S765-T01-package-copy-reference-remap/`;
+  validated replays are `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`,
+  `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json`, and
+  `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. G05-T01 and
+  EPIC-18 remain In Progress at board revision 4551. T01 revision-payload
+  integration is next at S766. UIQ-10 remains a
+  linked Backlog child until its bounded S774 admission; UIQ-09 remains blocked
+  on EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

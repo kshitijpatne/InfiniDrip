@@ -43,20 +43,26 @@ is authoritative for maintainer decisions that are not derivable from code.
 - EPIC-16/G03 and EPIC-17/G04 are closed and verified on `origin/main`.
   EPIC-18/G05 Living production tech pack is maintainer-admitted from
   `e9221ea5033ccfdd91bf1ebb353926f189477d75` on 2026-10-12 at Slice 762;
-  admission, ordered Slice 762–780 boundaries, acceptance, non-goals, risks,
-  and gates are in `docs/planning/EPIC-18-ADMISSION.md` and
+  admission, acceptance, non-goals, risks and gates are in
+  `docs/planning/EPIC-18-ADMISSION.md`; the active 762–781 execution sequence
+  is in `docs/planning/EPIC-18-S765-RESEQUENCING.md` and
   `docs/planning/EPIC-18-GOAL.md`. Slice 763 froze the additive schema-v1 T01
   typed record, strict parser and C03/C04 provenance rules with 100% focused
-  coverage. Slice 764 completed backward-safe style persistence, non-destructive
-  migration, and package/reload/copy proof; its digest-bound exit evidence and
-  validated board replay are in `docs/research/epic18/S764-T01-persistence-migration/exit-packet.md`
-  and `docs/planning/EPIC-18-S764-EXIT-BOARD-COMMANDS.json`. Slice 765 is the
-  sole next action for T01 revision-payload integration; preserve the
-  historical digest and export gates.
+  coverage. Slice 764 completed backward-safe style persistence and migration.
+  Slice 765 completed package-copy remapping for nested T01 inherited-source
+  links, preserving external provenance and source data; its start/exit packets
+  and validated board replays are in
+  `docs/research/epic18/S765-T01-package-copy-reference-remap/`; exit evidence
+  is linked by
+  `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json` and
+  `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. The S762 admission
+  stays hash-stable. T01 revision-payload integration is the single next
+  action at S766.
   UIQ-08 is Done through Slice 760 and UIQ-01 is Done as a review-only
   checkpoint through Slice 761. UIQ-09 remains Backlog pending EPIC-19/G06
   admission. UIQ-10 is linked to EPIC-18 but remains Backlog until its bounded
-  admission after T01–T03, planned for Slice 773. Preserve the approved UI
+  admission after T01–T03, planned for Slice 774 after the S765 correction.
+  Preserve the approved UI
   overlay `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`; sequence position alone
   is not implementation authority. Launch, physical, and supplier gates remain
   closed; no physical-fit or production-readiness claim is authorized.

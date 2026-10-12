@@ -9,18 +9,25 @@ production tech pack is the next numbered capability Epic: EPIC-17 is closed,
 EPIC-18's EPIC-15 prerequisite is Done, and the roadmap requires a separate
 admission. Start from verified `origin/main`
 `e9221ea5033ccfdd91bf1ebb353926f189477d75` in isolated Slice 762. The exact
-scope, T01–T05 ordering, 19-slice conditional baseline, acceptance evidence,
-non-goals, holds and gates are in `docs/planning/EPIC-18-ADMISSION.md`; the
-resumable ledger is `docs/planning/EPIC-18-GOAL.md`. Slice 763 begins only the
-strict typed T01 record/provenance contract; persistence follows after it is
-frozen.
+scope, T01–T05 ordering, acceptance evidence, non-goals, holds and gates are
+in `docs/planning/EPIC-18-ADMISSION.md`; the active S765 execution addendum is
+`docs/planning/EPIC-18-S765-RESEQUENCING.md`, and the resumable ledger is
+`docs/planning/EPIC-18-GOAL.md`. The original 19-slice conditional baseline
+was extended by a separately numbered S765 correction after review found a
+missed nested package-copy revision link. S765 is complete: package copies
+remap inherited-source links that point into copied history and preserve
+external provenance; its focused coverage and export-identity gates passed.
+The current conditional sequence is 762–781 and preserves all acceptance
+gates. S766 is the next action: T01 revision-payload integration with
+concurrency-safe saves and historical payload-v1 verification.
 
 UIQ-09 remains Backlog pending its EPIC-19/G06 admission and accepted
 starter/source contracts; it is not this next goal. UIQ-10 is already linked
 to EPIC-18 on the board and therefore must be Done before Epic closure. It
-remains Backlog until a separate bounded admission after T01–T03, reserved at
-Slice 773; do not unlink it or treat general G05 admission as its presentation
-authorization. No new garment, physical sample/fit, supplier contact, paid
+remains Backlog until a separate bounded admission after T01–T03, originally
+planned at S773 and moved to S774 by the S765 correction; do not unlink it or
+treat general G05 admission as its presentation authorization. No new garment,
+physical sample/fit, supplier contact, paid
 tool/service, production release, or production-readiness claim is admitted.
 
 ## UIQ-01 — close the fulfilled G04 review checkpoint (2026-10-12)
