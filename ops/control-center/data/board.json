@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4459,
-  "updatedAt": "2026-10-12T13:55:50.477Z",
+  "revision": 4464,
+  "updatedAt": "2026-10-12T14:09:24.175Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -15071,10 +15071,10 @@
       "title": "Static native entry and original wordmark",
       "epicId": null,
       "releaseId": null,
-      "status": "In Progress",
+      "status": "Done",
       "openedAt": "2026-10-02",
       "targetAt": null,
-      "deliveredAt": null,
+      "deliveredAt": "2026-10-12",
       "priority": "P2",
       "risk": "medium",
       "owner": "Codex",
@@ -15118,6 +15118,29 @@
           "role": "maintainer",
           "note": "The maintainer admitted the next ordered UIQ goal after UIQ-06 completion. The exact UIQ-07 first-run welcome integration, no-login boundary, embedded flag/fallback, S755/S756 gates and ownership are frozen in docs/planning/UIQ-07-INTEGRATION-ADMISSION.md and UIQ-07-INTEGRATION-GOAL.md.",
           "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-12T14:09:15.031Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 756 post-merge deployment, stable/immutable live verification, and complete durable closeout evidence are attached. Independent acceptance is recorded before closing the UIQ-07 parent.",
+          "evidenceRefs": [
+            "E-UIQ07-S756-PUBLIC",
+            "E-UIQ07-S756-EXIT"
+          ]
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T14:09:18.900Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted Slice 755 after reviewed PR #36 merged and its full main deployment succeeded; Slice 756 verified both stable and immutable public URLs and reconciled project context. All admitted gates passed; no launch, physical-fit, account, or future-UIQ scope is implied.",
+          "evidenceRefs": [
+            "E-UIQ07-S755-EXIT",
+            "E-UIQ07-S756-PUBLIC",
+            "E-UIQ07-S756-EXIT"
+          ]
         }
       ],
       "comments": [
@@ -15135,7 +15158,9 @@
       "evidenceRefs": [
         "E-UIQ-APPROVAL",
         "E-UIQ07-INTEGRATION-ADMISSION",
-        "E-UIQ07-S755-EXIT"
+        "E-UIQ07-S755-EXIT",
+        "E-UIQ07-S756-PUBLIC",
+        "E-UIQ07-S756-EXIT"
       ],
       "flagKey": "uiq_welcome"
     },
@@ -29509,9 +29534,9 @@
       "kind": "decision",
       "uri": "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md",
       "commit": null,
-      "sha256": "0df04f1f21a40fd7f70771771d15c54806f787b213106ff13f6576fc2b3f2b2a",
+      "sha256": "8708d51c06fc98013689c074ebabd42bd119bb85f0da9015070befe9ed1f8052",
       "verified": true,
-      "note": "Verified canonical SHA-256 of the final UIQ-07 integration admission packet after recording the accepted Slice 755 boundary and precise Slice 756 closeout gate."
+      "note": "Verified SHA-256 of the finalized admission packet recording the accepted S755 integration and completed S756 deployment/board closeout boundary."
     },
     {
       "id": "E-UIQ07-S755-EXIT",
@@ -29521,6 +29546,24 @@
       "sha256": "539b96984b6d8784c135cdd1133fc957dbcf6f5ce5a3c6d15309de8a1f328bb8",
       "verified": true,
       "note": "Updated the digest-bound S755 verification record after clarifying its board-revision field; all gate results and source evidence are unchanged."
+    },
+    {
+      "id": "E-UIQ07-S756-PUBLIC",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq07-integration/evidence/S756-public-verification.json",
+      "commit": null,
+      "sha256": "1264cf50d004a9a5f66f5becdb1d5d4cbff471b1eeb6cc08d0442eb6aaeb7c1c",
+      "verified": true,
+      "note": "Slice 756 live Chromium proof for stable and immutable production URLs after PR #36 and successful main workflow 38259487661: both HTTP 200, welcome/actions/caveat verified, Start advances, no overflow, errors or off-origin requests."
+    },
+    {
+      "id": "E-UIQ07-S756-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md",
+      "commit": null,
+      "sha256": "c01da80f916a80f960a56baf60d86421be1238aaf94c2141ea608facf1c79559",
+      "verified": true,
+      "note": "Slice 756 closeout: PR #36 merged; successful main deployment and fresh stable/immutable browser verification; reviewer accepted and UIQ-07 closed with no additional app-code changes."
     }
   ]
 }

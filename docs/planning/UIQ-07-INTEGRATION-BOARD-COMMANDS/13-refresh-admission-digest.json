@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4463,
+  "facts": [
+    {
+      "evidenceId": "E-UIQ07-INTEGRATION-ADMISSION",
+      "uri": "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md",
+      "kind": "decision",
+      "commit": null,
+      "sha256": "8708d51c06fc98013689c074ebabd42bd119bb85f0da9015070befe9ed1f8052",
+      "verified": true,
+      "note": "Verified SHA-256 of the finalized admission packet recording the accepted S755 integration and completed S756 deployment/board closeout boundary."
+    }
+  ]
+}

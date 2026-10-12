@@ -53,14 +53,14 @@ test("UIQ integration status follows its release evidence", () => {
     if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
     else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
     else if (card.id === "UIQ-06") assert.equal(card.status, "Done");
-    else if (card.id === "UIQ-07") assert.equal(card.status, "In Progress");
+    else if (card.id === "UIQ-07") assert.equal(card.status, "Done");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
     const expectedDeliveredAt = ["UIQ-02", "UIQ-03"].includes(card.id)
       ? "2026-10-11"
-      : ["UIQ-04", "UIQ-05", "UIQ-06"].includes(card.id) ? "2026-10-12" : null;
+      : ["UIQ-04", "UIQ-05", "UIQ-06", "UIQ-07"].includes(card.id) ? "2026-10-12" : null;
     assert.equal(card.deliveredAt, expectedDeliveredAt);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
@@ -134,10 +134,12 @@ test("UIQ integration status follows its release evidence", () => {
   assert.equal(hashEvidenceArtifact(uiq06S754MachineEvidence.uri), uiq06S754MachineEvidence.sha256.toLowerCase());
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 754 verified PR #34 merge")));
   const uiq07Admission = board.evidence.find((entry) => entry.id === "E-UIQ07-INTEGRATION-ADMISSION");
+  const uiq07PublicCloseout = board.evidence.find((entry) => entry.id === "E-UIQ07-S756-PUBLIC");
+  const uiq07FinalExit = board.evidence.find((entry) => entry.id === "E-UIQ07-S756-EXIT");
   assert.equal(cards[6].title, "Static native entry and original wordmark");
   assert.equal(cards[6].flagKey, "uiq_welcome");
   assert.equal(cards[6].releaseId, null);
-  assert.equal(cards[6].deliveredAt, null);
+  assert.equal(cards[6].deliveredAt, "2026-10-12");
   assert.deepEqual(cards[6].dependencies, ["UIQ-02", "UIQ-GATE"]);
   assert.ok(cards[6].description.includes("docs/planning/UIQ-07-INTEGRATION-ADMISSION.md"));
   assert.ok(cards[6].statusHistory.some((entry) => entry.status === "In Progress"));
@@ -146,6 +148,14 @@ test("UIQ integration status follows its release evidence", () => {
   assert.equal(uiq07Admission?.verified, true);
   assert.equal(uiq07Admission?.uri, "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md");
   assert.equal(hashEvidenceArtifact(uiq07Admission.uri), uiq07Admission.sha256.toLowerCase());
+  assert.equal(uiq07PublicCloseout?.kind, "exit-report");
+  assert.equal(uiq07PublicCloseout?.verified, true);
+  assert.equal(uiq07PublicCloseout?.uri, "docs/research/uiq07-integration/evidence/S756-public-verification.json");
+  assert.equal(hashEvidenceArtifact(uiq07PublicCloseout.uri), uiq07PublicCloseout.sha256.toLowerCase());
+  assert.equal(uiq07FinalExit?.kind, "exit-report");
+  assert.equal(uiq07FinalExit?.verified, true);
+  assert.equal(uiq07FinalExit?.uri, "docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md");
+  assert.equal(hashEvidenceArtifact(uiq07FinalExit.uri), uiq07FinalExit.sha256.toLowerCase());
   const mobileToolbarBug = board.workItems.find((item) => item.id === "BUG-UI-048");
   assert.equal(mobileToolbarBug?.title, "More views and Assembled overlap on mobile");
   assert.equal(mobileToolbarBug?.type, "bug");

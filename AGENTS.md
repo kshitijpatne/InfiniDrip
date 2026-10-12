@@ -42,12 +42,12 @@ is authoritative for maintainer decisions that are not derivable from code.
 - Code signing has not started.
 - EPIC-16/G03 and EPIC-17/G04 are closed on `origin/main`; do not resume their
   historical worktrees or S726–S728 handoffs. UIQ-05 is complete through
-  Slice 743, UIQ-06 through Slice 754, and the maintainer admitted UIQ-07 as
-  the next ordered integration from `origin/main` `5daa614f`. Its current
-  worktree, exact welcome-only scope, evidence gates, and S755/S756 boundaries
-  are recorded in `PROJECT-STATE.md`, `docs/planning/UIQ-07-INTEGRATION-ADMISSION.md`,
-  `docs/planning/UIQ-07-INTEGRATION-GOAL.md`, and the canonical Control Center
-  board. UIQ-08 and later packages remain unadmitted. Preserve the approved UI
+  Slice 743, UIQ-06 through Slice 754, and UIQ-07 through Slices 755–756 are
+  complete; PR #36 merged at `8282ad4c` and workflow `38259487661` deployed
+  successfully. UIQ-07 is Done at board revision 4464 with stable/immutable
+  browser proof in `docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md` and
+  `docs/research/uiq07-integration/evidence/S756-public-verification.json`.
+  UIQ-08 and later packages remain unadmitted. Preserve the approved UI
   overlay `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`; never infer admission
   from sequence position alone.
 

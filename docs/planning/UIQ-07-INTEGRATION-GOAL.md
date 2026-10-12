@@ -1,6 +1,6 @@
 # UIQ-07 integration — durable goal
 
-Status: In Progress. Admission: `docs/planning/UIQ-07-INTEGRATION-ADMISSION.md`.
+Status: Complete. Admission: `docs/planning/UIQ-07-INTEGRATION-ADMISSION.md`.
 
 Objective: integrate the already accepted native welcome/wordmark visual into
 the existing first-run tutorial welcome only; preserve current tutorial
@@ -35,12 +35,12 @@ profiles, cloud storage or a new app entry flow.
 |---|---|---|
 | Current main, board, clean worktree, ownership and slice reservation | Passed | `origin/main` 5daa614f; board revision 4451; highest assigned slice 754; no open PR/current UIQ integration owner |
 | UIQ-GATE and dependencies | Passed | UIQ-GATE, UIQ-02 and UIQ-06 Done; accepted UIQ07 candidate immutable on main |
-| Admission packet and board | Passed | Board revision 4459 links admission and S755 machine evidence; parent remains In Progress |
+| Admission packet and board | Passed | Board revision 4464 links the verified admission and S755/S756 evidence; UIQ-07 Done |
 | Candidate integration, flag and exact fallback | Passed | Tests cover default, Start, exact flag-off markup, later steps and replay; immutable candidate hashes match |
 | Focused changed-code coverage and rendered pressure | Passed | Global 100% coverage; 13 production-built Chromium checks at 1280/640/390/320, forced colors, reduced motion, keyboard, storage fail-closed, axe and no-egress |
 | Full settled gates and review | Passed for pre-merge acceptance | 2,669 tests, 100% four metrics; build/type, Control Center, web-release/readiness, packaged Electron, byte-identity and diff review pass; report: `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` |
-| Merge and deployment/live verification | Pending | Slice 756; only after Codex PR review/merge and successful main deployment |
-| Canonical board and project context closeout | Pending | Slice 756; UIQ-07 Done only after validated evidence and deployment proof |
+| Merge and deployment/live verification | Passed | PR #36 merged at `8282ad4c`; main workflow 38259487661 passed and stable/immutable URLs were verified in a fresh browser |
+| Canonical board and project context closeout | Passed | Slice 756 validated commands closed UIQ-07 Done at revision 4464; S756 report and machine evidence linked |
 
 ## Scope and controls
 
@@ -62,9 +62,9 @@ deployment decision. No safe disjoint contributor work was identified.
 
 | Boundary | Implementation | Focused verification | External-agent waits | Maintainer decisions | Result |
 |---|---:|---:|---:|---:|---|
-| Start / admission | In progress | baseline complete | 0 | 0 | Slice 755 active |
+| Start / admission | Passed | baseline complete | 0 | 0 | Slice 755 admitted and implemented |
 | Slice 755 pre-merge acceptance | Passed | Passed | 0 | 0 | 2,669 tests/100% coverage, production browser and package gates passed; board evidence refreshed and Control Center 42/42 |
-| Slice 756 post-merge | Pending | Pending | 0 | 0 | Deploy, close board, reconcile |
+| Slice 756 post-merge | Passed | Passed | 0 | 0 | Workflow 38259487661 succeeded; both public URLs verified; board closed and context reconciled |
 
 At each boundary record elapsed time separately, exact commit/evidence, passing
 and pending criteria, risks, and one next action. If primary usage is exhausted,
@@ -95,5 +95,28 @@ closeout, not merely a candidate, commit or PR.
   rendered review: approximately 6 minutes; first coverage attempt: 23m44s;
   final coverage pass: 23m13s; operational/package gates: approximately 3
   minutes. External-agent waits: 0. Maintainer decisions: 0.
-- Next action: fresh origin/ownership/slice check, one Slice 755 commit, PR and
-  Codex review. Slice 756 remains gated on merge.
+- Next action: Slice 756 post-merge deployment/live verification and validated
+  board closure.
+
+## Slice 756 post-merge closeout — 2026-10-12
+
+- PR #36 merged to `origin/main` at `8282ad4c687d4daa033a61c66e8ba43c63481acf`.
+- Main workflow `38259487661` completed successfully, including full test
+  suite, production build, deterministic web artifact verification, and Pages
+  deployment. The immutable URL was
+  `https://9269df8c.infinidrip-preview.pages.dev`; the stable URL is
+  `https://infinidrip-preview.pages.dev`.
+- Fresh Chromium verified both URLs: HTTP 200, correct document title, welcome
+  visual/heading/caveat/Start/Skip, one H1, working Start transition, no
+  overflow, no off-origin requests, and no page/console errors. Screenshots and
+  machine report are in `docs/research/uiq07-integration/evidence/`.
+- Validated board commands attach public and closeout evidence, move UIQ-07
+  through Review to Done, and refresh the admission digest. Canonical board
+  revision 4464; status Done. `npm run control-center:test` passes 42/42.
+- No app code changed after Slice 755. UIQ-08+, BUG-UI-048, EPIC-17 files,
+  export baselines, launch services and personal data remain untouched.
+- Slice 756 took approximately 10 minutes from successful merge workflow
+  completion to live verification and validated board closeout; focused live
+  browser verification took under 1 minute. External-agent waits: 0;
+  maintainer decisions: 0.
+- Goal exit: passed. No remaining task action within this admitted scope.

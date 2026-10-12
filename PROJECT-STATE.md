@@ -1,4 +1,4 @@
-## Current boundary — UIQ-07 Slice 755 pre-merge acceptance complete
+## Current boundary — UIQ-07 complete through Slice 756
 
 After UIQ-06 completed and its Slice 754 current-state reconciliation merged to
 `origin/main` `5daa614fa9305be68ddfdd5c8e3f1c2f04a26351`, the maintainer said
@@ -9,41 +9,43 @@ new route, or new onboarding action is admitted. The durable packet and ledger
 are `docs/planning/UIQ-07-INTEGRATION-ADMISSION.md` and
 `docs/planning/UIQ-07-INTEGRATION-GOAL.md`.
 
-The task is isolated at
+The S755 integration was isolated at
 `C:\Users\kshit\.codex\worktrees\uiq07-integration\designApp`, branch
-`codex/uiq07-integration`, based cleanly on `origin/main` `5daa614f`. The
-shared `F:\designApp` checkout is dirty and preserved. The canonical board
-started at revision 4451; UIQ-GATE, UIQ-02, UIQ-06 and the isolated
+`codex/uiq07-integration`, based cleanly on `origin/main` `5daa614f`, and merged
+through PR #36. Slice 756 closeout records are on branch `codex/uiq07-closeout`,
+based on merged main `8282ad4c`. The shared `F:\designApp` checkout is dirty
+and preserved. The canonical board started at revision 4451; UIQ-GATE, UIQ-02,
+UIQ-06 and the isolated
 UIQ07-CANDIDATE are Done; UIQ-07 is admitted and transitions through the
 validated board commands. UIQ-08+ and BUG-UI-048 remain backlog.
 
-Slice 755 implements the bounded flag/host integration and is pre-merge
-accepted. The full gate passed 164 files/2,669 tests with 100% global statement,
-branch, function, and line coverage; production build, Control Center, web
-release, readiness, packaged Electron, candidate identity/export baselines,
-and 13 rendered browser checks passed. The complete evidence is
-`docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
-`docs/research/uiq07-integration/evidence/S755-verification.json`; browser
-screenshots/report are adjacent. Canonical board revision 4459 links the
-digest-verified admission and pre-merge result; UIQ-07 remains
-In Progress/unshipped. Slice
-756 owns only post-merge automatic deployment/live verification, validated
-UIQ-07 board closure, and durable context reconciliation.
+Slice 755 integrated the accepted static welcome visual behind the embedded
+`uiq_welcome` flag, preserving the existing tutorial and exact flag-off
+fallback. Its full gate passed 164 files/2,669 tests with 100% global
+statement, branch, function, and line coverage; production build, Control
+Center, web release, readiness, packaged Electron, candidate identity/export
+baselines, and 13 rendered browser checks passed. PR #36 merged at
+`8282ad4c687d4daa033a61c66e8ba43c63481acf`; main deployment workflow
+`38259487661` succeeded. Slice 756 freshly verified both the stable URL and
+immutable deployment URL in Chromium: HTTP 200, welcome visual and current
+tutorial controls/caveat present, Start works, one H1, no overflow, page or
+console errors, and no off-origin requests. The canonical board is Done at
+revision 4464 with digest-bound admission and S755/S756 evidence. The complete
+records are `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md`,
+`docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md`, and the corresponding
+machine evidence in `docs/research/uiq07-integration/evidence/`.
 
-The admitted worktree/branch remains
-`C:\Users\kshit\.codex\worktrees\uiq07-integration\designApp`,
-`codex/uiq07-integration`, based on `origin/main` `5daa614f`. The dirty shared
-`F:\designApp` checkout and EPIC-17 worktree are preserved. No safe disjoint
-implementation delegation was identified; Codex owns the shared app/flag/
-tutorial integration. Goal-start usage was primary 0%, weekly 32%, no reset
-credits; current usage is ordinary-allowed (primary 10%, weekly 34%).
+The S755 and S756 worktrees preserved the dirty shared `F:\designApp` checkout
+and independently active EPIC-17 worktree. No safe disjoint implementation
+delegation was identified; Codex owned the coupled app/flag/tutorial
+integration. Usage at this boundary is ordinary-allowed (primary 14%, weekly
+34%); no reset credits are available.
 
-Current next action: make the single reserved Slice 755 commit and open the
-Codex-owned PR for final review. Preserve the existing UIQ-02
-foundation, page-level H1, tutorial actions/copy and digital-only physical-fit
-caveat. The embedded `uiq_welcome` code flag has a local test override; it
-cannot remotely roll back the public release. After merge, run only Slice 756
-deployment and closeout; do not start UIQ-08+ or BUG-UI-048.
+UIQ-07 is complete and deployed. Preserve the existing UIQ-02 foundation,
+page-level H1, tutorial actions/copy and digital-only physical-fit caveat. The
+embedded `uiq_welcome` code flag has a local test override; it cannot remotely
+roll back the public release. UIQ-08+ and BUG-UI-048 remain unadmitted; do not
+begin another package without its explicit admission.
 
 ## Previous boundary — UIQ-06 complete through Slice 754
 
