@@ -1,0 +1,70 @@
+{
+  "slice": 755,
+  "status": "pre-merge-acceptance-passed",
+  "base": "5daa614fa9305be68ddfdd5c8e3f1c2f04a26351",
+  "boardRevisionAtAcceptance": 4455,
+  "featureFlag": {
+    "key": "uiq_welcome",
+    "default": true,
+    "rollout": "embedded",
+    "fallback": "exact-current-tutorial-welcome",
+    "remoteKillSwitch": false
+  },
+  "candidateIntegrity": {
+    "manifest": "docs/research/uiq07/CANDIDATE-EXIT.json",
+    "sourceAndEvidenceFiles": 11,
+    "hashMismatches": 0,
+    "exportBaselineMoved": false
+  },
+  "globalCoverageGate": {
+    "command": "npm run coverage -- --maxWorkers=1 --minWorkers=1 --reporter=dot",
+    "result": "passed",
+    "testFiles": 164,
+    "testsPassed": 2669,
+    "durationSeconds": 1392.94,
+    "coverage": {
+      "statements": { "covered": 33114, "total": 33114, "percent": 100 },
+      "branches": { "covered": 17300, "total": 17300, "percent": 100 },
+      "functions": { "covered": 1898, "total": 1898, "percent": 100 },
+      "lines": { "covered": 33114, "total": 33114, "percent": 100 }
+    },
+    "instrumentedFiles": 146
+  },
+  "otherGates": {
+    "build": "passed",
+    "controlCenter": { "passed": 42, "total": 42 },
+    "webRelease": { "passed": 10, "total": 10 },
+    "readinessDrill": { "passed": 5, "total": 5 },
+    "electronPackage": "passed",
+    "electronPackagedReleaseVerification": {
+      "passed": true,
+      "inventoryFiles": 72,
+      "absoluteDevPathFound": false,
+      "errors": []
+    },
+    "browserPressure": {
+      "report": "docs/research/uiq07-integration/evidence/browser-pressure-report.json",
+      "checksPassed": 13,
+      "viewports": [1280, 640, 390, 320],
+      "axeWcag21AaViolations": 0,
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "documentOverflow": false,
+      "decorativeRing": "clipped by panel overflow:hidden; text bounds remain inside panel"
+    },
+    "gitDiffCheck": "passed"
+  },
+  "protectedBehavior": {
+    "tutorialStartSkipReplay": "passed",
+    "singlePageH1": "passed",
+    "physicalFitCaveatVisible": "passed",
+    "unavailableStorage": "existing fail-closed message retained; no data replacement or onboarding bypass",
+    "flagOffFallback": "exact markup asserted in app test",
+    "epic17FilesIntentionallyChanged": false,
+    "uiq08OrBugUi048Changed": false,
+    "newDependencies": false,
+    "loginProfilesCloudSyncOrHostedBehaviorAdded": false
+  },
+  "nextAction": "Recheck origin/main and unique slice reservation, commit Slice 755 once, open/review PR, then wait for merge before Slice 756."
+}

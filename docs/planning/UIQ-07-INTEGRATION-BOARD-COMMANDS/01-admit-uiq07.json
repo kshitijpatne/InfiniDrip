@@ -1,0 +1,30 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-07",
+  "expectedRevision": 4451,
+  "patch": {
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "risk": "medium",
+    "dependencies": ["UIQ-02", "UIQ-GATE"],
+    "protectedSurfaces": [
+      "existing first-run tutorial state, actions, copy and physical-fit caveat",
+      "existing UIQ-02 foundation and page-level H1 hierarchy",
+      "local-first/no-cost boundary; no login, account, profile or hosted service",
+      "exact UIQ-07 flag-off presentation",
+      "100% changed/global coverage and export byte identity",
+      "all UIQ packages except UIQ-07 and BUG-UI-048"
+    ],
+    "description": "Maintainer-admitted current-main integration of the accepted static welcome visual around only the existing first-run tutorial welcome. Packet: docs/planning/UIQ-07-INTEGRATION-ADMISSION.md; live gates: docs/planning/UIQ-07-INTEGRATION-GOAL.md. No login or new entry flow.",
+    "expectation": "The existing tutorial welcome gains the accepted native branded visual without changing tutorial actions, local progress, truthfulness, accessibility, or its exact fallback.",
+    "acceptanceCriteria": [
+      "Use the immutable accepted candidate source and proof hashes; limit the display to unseen/welcome tutorial state.",
+      "Embedded uiq_welcome defaults on for accepted release; local test override; OFF/unknown/stale restores the exact pre-UIQ-07 welcome and keeps uiq_foundation behavior.",
+      "Preserve existing app H1, tutorial copy and digital-only physical-fit caveat, Start/Skip controls, IDs, event handling, persistence, replay and every non-welcome step.",
+      "No login, account/profile, hosted service, database, new route/step/CTA, network, dependency, state or export behavior.",
+      "Changed production and settled global coverage 100% for statements/branches/functions/lines; build/type, operational, packaged, export-byte-identity and rendered accessibility/responsive/no-egress gates pass without moving baselines.",
+      "Codex reviews complete diff/evidence and controls PR/merge; mark Done only after successful automatic deployment, live verification and validated board closeout."
+    ],
+    "flagKey": "uiq_welcome"
+  }
+}

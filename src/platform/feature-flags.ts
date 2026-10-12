@@ -44,6 +44,18 @@ export const FEATURE_FLAGS = Object.freeze({
     onBehavior: "Use the scoped native foundation on active guided-tour panels and the storage warning.",
     offBehavior: "Keep the existing guided-tour markup and legacy panel styling.",
   } satisfies FeatureFlagDefinition),
+  uiq_welcome: Object.freeze({
+    key: "uiq_welcome",
+    owner: "Codex",
+    audience: "public",
+    defaultValue: true,
+    expiresOn: "2027-01-12",
+    removalRelease: "UIQ-07 welcome-visual cleanup; no later than expiry",
+    rollout: "embedded",
+    fallback: "compatible-v1",
+    onBehavior: "Compose the accepted native welcome visual around the existing first-run tutorial welcome only.",
+    offBehavior: "Keep the current tutorial welcome presentation and all existing tutorial behavior.",
+  } satisfies FeatureFlagDefinition),
   uiq_guidance: Object.freeze({
     key: "uiq_guidance",
     owner: "Codex",

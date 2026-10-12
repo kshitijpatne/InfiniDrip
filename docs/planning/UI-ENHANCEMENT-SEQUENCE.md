@@ -192,4 +192,25 @@ On a newer board, skip a createItem if its ID already exists, skip an evidence c
 
 At the next ordinary Epic17 boundary, the user-pasted instruction in `UI-ENHANCEMENT-EPIC17-NOTE.md` asks that task to read this packet, absorb the new research/planning files and relevant additive context sections, and replay the additive commands against its latest board. Do not copy this checkout's board, PROJECT-STATE, AGENTS or full older roadmap over its newer versions. Retain that task's exact slice/commit and current packet. Inspect duplicate work before adding anything; keep the current G04 fixes and QA, queue unrelated UI packages outside its critical path.
 
+### UIQ-07 integration admission — 2026-10-12
+
+After UIQ-06 completed through Slice 754, the maintainer authorized the next
+ordered package. UIQ-07 is admitted from current `origin/main`
+`5daa614f` for the accepted native visual around the existing first-run
+tutorial welcome only. It retains existing tutorial copy, Start/Skip actions,
+local progress, digital-only caveat and UIQ-02 foundation; the candidate
+wordmark is rendered as an H2 under the app's existing page H1. Embedded
+`uiq_welcome` has an exact legacy fallback and no remote switch. No login,
+account/profile, hosted service, database, new route/step/CTA or persistence
+change. Slice 755 is implementation and the settled pre-merge gate; Slice 756
+is post-merge deployment/live verification and validated board/context
+closeout. Slice 755's pre-merge exit is
+`docs/release/UIQ-07-INTEGRATION-S755-EXIT.md`; its digest-bound machine record
+and rendered evidence are under `docs/research/uiq07-integration/evidence/`.
+The full 100% gate passed; PR/merge/deploy and Slice 756 closeout remain. The
+active packet and evidence ledger are
+`docs/planning/UIQ-07-INTEGRATION-ADMISSION.md` and
+`docs/planning/UIQ-07-INTEGRATION-GOAL.md`. UIQ-08+ and BUG-UI-048 remain
+unadmitted and outside this work.
+
 Historical planning boundary: this roadmap/board update began local and uncommitted; its subsequent durability is tracked through the admitted UIQ integration branch, PR and release records below. The original planning task did not directly push to main or deploy.

@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4458,
+  "facts": [
+    {
+      "evidenceId": "E-UIQ07-INTEGRATION-ADMISSION",
+      "uri": "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md",
+      "kind": "decision",
+      "commit": null,
+      "sha256": "0df04f1f21a40fd7f70771771d15c54806f787b213106ff13f6576fc2b3f2b2a",
+      "verified": true,
+      "note": "Verified canonical SHA-256 of the final UIQ-07 integration admission packet after recording the accepted Slice 755 boundary and precise Slice 756 closeout gate."
+    }
+  ]
+}

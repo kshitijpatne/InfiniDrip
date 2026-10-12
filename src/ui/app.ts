@@ -92,6 +92,7 @@ import {
 import { ProjectManager } from "./project-manager";
 import { evaluateFeatureFlag } from "../platform/feature-flags";
 import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
+import { mountWelcomePanel } from "./enhancements/entry/welcome-panel";
 import type { LoadedProject } from "./project-repository";
 import { isCustomOneSizeStyle, type MeasurementCaptureDraft, type RecoveryPayload, type SavedDesign } from "./project-records";
 import {
@@ -268,6 +269,8 @@ export interface MountAppOptions {
   readonly uiqArtworkEnabled?: boolean;
   /** Local-only override for deterministic UIQ-06 readout fallback verification. */
   readonly uiqOperationalClarityEnabled?: boolean;
+  /** Local-only override for deterministic UIQ-07 welcome presentation fallback verification. */
+  readonly uiqWelcomeEnabled?: boolean;
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
@@ -497,6 +500,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   ).enabled;
   const uiqOperationalClarityEnabled = evaluateFeatureFlag(
     "uiq_operational_clarity", new Date(), options.uiqOperationalClarityEnabled,
+  ).enabled;
+  const uiqWelcomeEnabled = evaluateFeatureFlag(
+    "uiq_welcome", new Date(), options.uiqWelcomeEnabled,
   ).enabled;
   const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
@@ -1791,6 +1797,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     export: ["#export-host", "#readiness-details", "#readiness-host"],
   };
   let renderedTutorialMarkup = "";
+  let renderedTutorialWelcomeVisual = false;
+  let welcomePanelController: ReturnType<typeof mountWelcomePanel> | null = null;
   const syncTutorialTargets = (): void => {
     root.querySelectorAll<HTMLElement>(".tutorial-target").forEach((target) => target.classList.remove("tutorial-target"));
     if (journey.tutorial.status !== "in_progress") return;
@@ -1803,13 +1811,33 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       ? (document.activeElement as HTMLElement).id
       : "";
     const markup = tutorialMarkup(journey.tutorial, tutorialStorageUnavailable);
-    if (renderedTutorialMarkup !== markup) {
-      tutorialHost.innerHTML = markup;
+    const showWelcomeVisual = uiqWelcomeEnabled && (
+      journey.tutorial.status === "unseen"
+      || (journey.tutorial.status === "in_progress" && journey.tutorial.step === "welcome")
+    );
+    if (renderedTutorialMarkup !== markup || renderedTutorialWelcomeVisual !== showWelcomeVisual) {
+      welcomePanelController?.dispose();
+      welcomePanelController = null;
+      tutorialHost.replaceChildren();
+      if (showWelcomeVisual) {
+        welcomePanelController = mountWelcomePanel(tutorialHost);
+        const candidateWordmark = welcomePanelController.root.querySelector<HTMLHeadingElement>(".uiq-entry__wordmark")!;
+        const appWordmark = document.createElement("h2");
+        appWordmark.className = candidateWordmark.className;
+        appWordmark.textContent = candidateWordmark.textContent;
+        candidateWordmark.replaceWith(appWordmark);
+        const template = document.createElement("template");
+        template.innerHTML = markup;
+        welcomePanelController.root.querySelector<HTMLElement>(".uiq-entry__content")!.append(template.content);
+      } else {
+        tutorialHost.innerHTML = markup;
+      }
       applyTutorialFoundation(
         tutorialHost,
         evaluateFeatureFlag("uiq_foundation", new Date(), options.uiqFoundationEnabled).enabled,
       );
       renderedTutorialMarkup = markup;
+      renderedTutorialWelcomeVisual = showWelcomeVisual;
     }
     syncTutorialTargets();
     if (announce) {

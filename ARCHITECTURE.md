@@ -65,8 +65,10 @@ Backlog; UIQ-04 later completed through Slices 739–740, and UIQ-05 was admitte
 on 2026-10-11 as the next serial integration. S741 merged in PR #28 at
 `7f5e6263`; S742 deployment and stable/immutable live browser checks passed.
 UIQ-05 is Done at canonical board revision 4404 after the closeout evidence;
-its durable closeout and current-state reconciliation are complete. UIQ-07
-remains Backlog and unadmitted.
+its durable closeout and current-state reconciliation are complete. UIQ-07 is
+the next ordered package, separately admitted for integration into the existing
+first-run welcome only; its S755 pre-merge acceptance passed and its PR/deploy
+closeout remains. UIQ-08+ stay unadmitted.
 
 UIQ-06 is complete through Slice 751 and deployed. Slice 745 changes only presentation of the
 existing Nesting readout: precomputed scope/required/planned/waste/on-hand
@@ -1244,7 +1246,17 @@ presentation. The active admission and gates are
 Review; its exit report and machine evidence are
 `docs/release/UIQ-05-INTEGRATION-S741-EXIT.md` and
 `docs/research/uiq05/evidence/S741-verification.json`. No other UIQ package or
-artwork expansion is admitted; UIQ-07 remains Backlog.
+artwork expansion is admitted. UIQ-07's isolated welcome visual is now
+separately admitted for current-main integration into only the existing
+first-run tutorial welcome. Its embedded `uiq_welcome` flag preserves the exact
+pre-integration view when disabled; existing tutorial actions, local progress,
+page heading hierarchy, physical-fit caveat and UIQ-02 foundation remain
+authoritative. It is not a login/account-entry flow. The integration is not
+shipped until its reviewed merge, deployment, live verification and board
+closeout. Slice 755 pre-merge gates passed with 100% global coverage; its exact
+scope and evidence are `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
+`docs/research/uiq07-integration/evidence/S755-verification.json`. Slice 756 is
+still required; see `docs/planning/UIQ-07-INTEGRATION-ADMISSION.md`.
 
 ## Where to find current project information
 
