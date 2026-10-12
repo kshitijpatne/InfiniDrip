@@ -1,5 +1,28 @@
 # InfiniDrip — Confirmed project decisions
 
+## EPIC-18/G05 — next capability Epic admitted (2026-10-12)
+
+After reconciling the completed EPIC-17/G04 work and the latest UIQ-08/UIQ-01
+checkpoint, the maintainer asked to identify the next completed-work boundary,
+choose the next goal from current facts, and proceed. EPIC-18/G05 Living
+production tech pack is the next numbered capability Epic: EPIC-17 is closed,
+EPIC-18's EPIC-15 prerequisite is Done, and the roadmap requires a separate
+admission. Start from verified `origin/main`
+`e9221ea5033ccfdd91bf1ebb353926f189477d75` in isolated Slice 762. The exact
+scope, T01–T05 ordering, 19-slice conditional baseline, acceptance evidence,
+non-goals, holds and gates are in `docs/planning/EPIC-18-ADMISSION.md`; the
+resumable ledger is `docs/planning/EPIC-18-GOAL.md`. Slice 763 begins only the
+strict typed T01 record/provenance contract; persistence follows after it is
+frozen.
+
+UIQ-09 remains Backlog pending its EPIC-19/G06 admission and accepted
+starter/source contracts; it is not this next goal. UIQ-10 is already linked
+to EPIC-18 on the board and therefore must be Done before Epic closure. It
+remains Backlog until a separate bounded admission after T01–T03, reserved at
+Slice 773; do not unlink it or treat general G05 admission as its presentation
+authorization. No new garment, physical sample/fit, supplier contact, paid
+tool/service, production release, or production-readiness claim is admitted.
+
 ## UIQ-01 — close the fulfilled G04 review checkpoint (2026-10-12)
 
 Slice 354 recorded the approved recommendation dispositions against G04; Slices

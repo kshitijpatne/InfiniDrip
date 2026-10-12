@@ -1,0 +1,289 @@
+[
+  {
+    "type": "editItem",
+    "itemId": "EPIC-18",
+    "expectedRevision": 4521,
+    "patch": {
+      "dependencies": ["EPIC-15", "EPIC-16", "EPIC-17"],
+      "targetAt": null,
+      "description": "Maintainer-admitted 2026-10-12 at Slice 762 from origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. EPIC-18/G05 Living production tech pack execution contract: docs/planning/EPIC-18-ADMISSION.md; live ledger: docs/planning/EPIC-18-GOAL.md. Exact conditional slices 762–780; reforecast after T01. UIQ-10 remains a linked child and requires its own bounded admission after T01–T03, planned for Slice 773.",
+      "expectation": "Deliver an editable, provenance-aware, revision-bound local tech pack for all seven supported recipes, with explicit unknowns, predicted-versus-actual separation, scoped review/freeze, and deterministic digital outputs.",
+      "protectedSurfaces": [
+        "local-first/no-cost product boundary; no provider-backed behavior",
+        "all seven supported recipes and existing saved design semantics",
+        "100% statement, branch, function, and line coverage",
+        "all eight protected legacy export byte identities; no baseline movement",
+        "predicted POMs separate from editable sample actuals",
+        "unknown supplier/construction/standard facts stay visible and actionable",
+        "no physical-fit, factory-acceptance, supplier-acceptance, or production-release claims"
+      ],
+      "acceptanceCriteria": [
+        "Complete G05 T01–T05 in order across all seven supported recipes using the exact bounded packets in docs/planning/EPIC-18-ADMISSION.md.",
+        "Complete linked UIQ-10 under its separate bounded Slice 773 admission after T01–T03 contracts; do not unlink or close the Epic while UIQ-10 is unfinished.",
+        "Preserve backward-readable style/project/revision records, existing design behavior, the legacy Tech Pack, and all eight protected export SHA identities.",
+        "Require 100% focused coverage for changed production code and one settled full suite at 100% global statement/branch/function/line coverage before merge; verify rendered and actual generated output.",
+        "Keep local sharing distinct from a supplier handoff, physical sample/fit, factory acceptance, production release, or production-readiness claim; close only after review, merge, required main CI/deployment, and validated board evidence."
+      ]
+    }
+  },
+  {
+    "type": "editEpic",
+    "epicId": "EPIC-18",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "The maintainer requested fact-based selection and admission of the next goal after the verified EPIC-17/UIQ-08/UIQ-01 checkpoint.",
+    "expectedRevision": 4522,
+    "patch": {
+      "description": "Admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. G05 T01–T05 and linked UIQ-10 work follow docs/planning/EPIC-18-ADMISSION.md and EPIC-18-GOAL.md; Slice 763 begins T01's strict typed record/provenance contract. All local/no-cost, legacy-byte, coverage, physical, supplier and production-claim gates remain explicit."
+    }
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Create the admitted G05 T01 record/provenance work packet as a linked child; it is Ready for Slice 763 after the Slice 762 admission boundary.",
+    "expectedRevision": 4523,
+    "workItem": {
+      "id": "G05-T01",
+      "type": "task",
+      "title": "G05 T01 — Style and material record",
+      "epicId": "EPIC-18",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["EPIC-15"],
+      "protectedSurfaces": ["style/project persistence", "immutable style revisions", "all seven recipes", "100% coverage", "eight protected legacy export hashes", "local/no-cost and no-physical-claim boundary"],
+      "description": "Slices 763–766. Freeze the strict typed style/material/BOM/provenance contract, then add backward-safe persistence/revision integration, editable fields and all-recipe propagation. Full boundary and gates: docs/planning/EPIC-18-ADMISSION.md.",
+      "expectation": "Editable revision-bound cover, BOM, material/trim and colorway records retain field-level sources and explicit unknowns across save, reload, outputs and cost inputs.",
+      "acceptanceCriteria": [
+        "Slice 763 freezes a strict typed schema, parser/validator, provenance rules, invalid-combination behavior and 100% focused coverage before persistence work.",
+        "Legacy style/project saves and historical revision payloads remain readable and verifiable through non-destructive migration.",
+        "G05 records participate in exact-revision identity/digest without invalidating historical payload identity.",
+        "All seven recipes permit meaningful pack edits; dependent pack/cost views update and affected frozen states invalidate visibly.",
+        "Unknown supplier/article/lot/spec/color facts remain visible with actionable next steps; no facts are invented."
+      ]
+    }
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Track admitted G05 T02 as the ordered follow-on packet; keep Backlog until T01 and upstream measurement/flat contracts are accepted.",
+    "expectedRevision": 4524,
+    "workItem": {
+      "id": "G05-T02",
+      "type": "task",
+      "title": "G05 T02 — POM and sample/QA records",
+      "epicId": "EPIC-18",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["G05-T01", "EPIC-16", "EPIC-17"],
+      "protectedSurfaces": ["predicted POM values", "sample actuals", "grade-rule/tolerance sources", "all seven recipes", "100% coverage", "legacy export hashes"],
+      "description": "Slices 767–769. Add sourced POM methods/landmarks/units/tolerances, size and grade sources, revision-bound sample/QA rounds, callout and size-run checks, with all-recipe rendered evidence.",
+      "expectation": "Predictions remain distinct from measured sample readings, and missing measurement/tolerance authority is an actionable unresolved state.",
+      "acceptanceCriteria": [
+        "Every POM defines its method, target/landmark, unit and tolerance source/status or stays explicitly unresolved.",
+        "Each sample/QA reading is editable and bound to one style revision; actual readings cannot overwrite predicted values.",
+        "All required callouts and grade/size-run checks are validated without inventing a grade rule.",
+        "Rendered review covers all seven recipes and preserves invalid/missing source facts as visible blockers."
+      ]
+    }
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Track admitted G05 T03 after the style/material and POM/QA contracts; unknown source facts remain held.",
+    "expectedRevision": 4525,
+    "workItem": {
+      "id": "G05-T03",
+      "type": "task",
+      "title": "G05 T03 — Construction operations",
+      "epicId": "EPIC-18",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["G05-T02", "EPIC-16", "EPIC-17"],
+      "protectedSurfaces": ["source/pattern component inventory", "BOM reconciliation", "seam construction facts", "all seven recipes", "no invented stitch/machine/compliance data"],
+      "description": "Slices 770–772. Define and implement component/seam-linked construction operations with provenance; source-backed facts only, explicit unknowns, BOM-to-pattern/component reconciliation and all-recipe review.",
+      "expectation": "Construction facts can be edited and traced to sources or marked unresolved without presenting estimates or unsupported defaults as verified manufacturing facts.",
+      "acceptanceCriteria": [
+        "Operations link to revision-bound components/seams and preserve source/provenance for supported construction fields.",
+        "Unsupported machine settings, stitch/thread/needle/SPI, finish, compliance, packaging or test facts remain unresolved unless sourced or explicitly labeled as decisions/estimates.",
+        "BOM, pattern-piece/component inventory and operations reconcile across all seven recipes, with actionable conflict guidance.",
+        "Rendered output and source review confirm unknowns are not silently omitted or clamped."
+      ]
+    }
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Track admitted G05 T04 after source records and construction facts settle; output format remains a blocking decision until Slice 773.",
+    "expectedRevision": 4526,
+    "workItem": {
+      "id": "G05-T04",
+      "type": "task",
+      "title": "G05 T04 — Route-specific pack output",
+      "epicId": "EPIC-18",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["G05-T03"],
+      "protectedSurfaces": ["legacy Tech Pack output/bytes", "structured export/import semantics", "revision binding", "two representative styles", "all seven recipes"],
+      "description": "Slices 773–776. Resolve format/template matrix before writing, admit and complete linked UIQ-10 under its separate bounded packet, add revision-bound PDF/structured output/attachments, then review diffs, approval scope, rendering and numeric reconciliation.",
+      "expectation": "Readable route-specific digital packs reproduce the authoritative revision and import/round-trip without altering legacy output behavior.",
+      "acceptanceCriteria": [
+        "Slice 773 decides and records format, import/round-trip rules, sections/templates and simple/difficult example styles before writer code.",
+        "PDF and chosen structured output are additive, revision-bound, deterministic where specified and validated from actual generated files.",
+        "UIQ-10 receives its own bounded admission after T01–T03 and completes its forms/tables/revision/approval presentation acceptance before this packet closes.",
+        "Two selected styles pass parsed and rendered review, numeric reconciliation, field-level diff and scoped-approval checks.",
+        "Legacy Tech Pack output and protected export bytes remain unchanged unless a separately approved exact change is proven."
+      ]
+    }
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Track admitted G05 T05 after route-specific output and linked UIQ-10 acceptance.",
+    "expectedRevision": 4527,
+    "workItem": {
+      "id": "G05-T05",
+      "type": "task",
+      "title": "G05 T05 — Freeze and change control",
+      "epicId": "EPIC-18",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["G05-T04"],
+      "protectedSurfaces": ["immutable style revisions", "frozen local-share artifact manifest", "approval binding", "dependency invalidation", "legacy compatibility"],
+      "description": "Slices 777–778. Freeze one approved exact revision for local digital sharing with deterministic artifact manifests/digests; invalidate dependent checks and approvals on edits, preserve prior bytes and legacy compatibility.",
+      "expectation": "A frozen local-share package identifies its exact source revision and immutable files; later edits visibly stale dependent checks without rewriting the prior frozen bytes.",
+      "acceptanceCriteria": [
+        "Scoped approval and freeze are bound to the exact revision and approved artifact set.",
+        "Manifest and digests are deterministic and validated against actual files.",
+        "Upstream edits invalidate dependent QA/checks/approval/frozen-current-state and retain old artifact bytes.",
+        "All eight protected legacy export identities and historical imports pass unchanged."
+      ]
+    }
+  },
+  {
+    "type": "createItem",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Create the integrated G05 exit gate; it cannot close until all linked G05 and UIQ-10 work items pass evidence review.",
+    "expectedRevision": 4528,
+    "workItem": {
+      "id": "G05-EXIT",
+      "type": "task",
+      "title": "G05 integrated review, merge and deployment closeout",
+      "epicId": "EPIC-18",
+      "priority": "P0",
+      "risk": "high",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": ["G05-T05", "UIQ-10"],
+      "protectedSurfaces": ["all G05 acceptance and non-goals", "all seven recipes", "100% global coverage", "eight protected export hashes", "deployment and claim accuracy"],
+      "description": "Slices 779–780. Run the settled integrated Epic gate and review before PR; then verify merge ancestry, main CI/deployment, live output where applicable, complete board closure and downstream reforecast.",
+      "expectation": "The full G05/UIQ-10 candidate is proven at 100% coverage and integrated behavior, safely merged/deployed, and closed with durable evidence and explicit remaining external/physical gates.",
+      "acceptanceCriteria": [
+        "All seven recipes and every G05/UIQ-10 criterion pass, with actual parsed/rendered output review.",
+        "The single settled pre-merge full gate passes 100% global statement/branch/function/line coverage, build, Control Center, release/readiness, browser/Electron/package and all eight export identities.",
+        "Codex reviews the full diff and evidence; fixes use new unique slices; merge occurs only after all gates pass.",
+        "Required main CI and deployment pass, board closure uses the validated command layer, and durable state records exact residual limits and downstream reforecast."
+      ]
+    }
+  },
+  {
+    "type": "editItem",
+    "itemId": "UIQ-10",
+    "expectedRevision": 4529,
+    "patch": {
+      "dependencies": ["EPIC-17", "G05-T01", "G05-T02", "G05-T03"],
+      "description": "Linked EPIC-18/G05 child, still Backlog until the separate bounded UIQ-10 packet at Slice 773 after T01–T03 contracts. Scope: readable production-pack forms/tables, revision/approval visibility and selected sections. Packet and boundaries: docs/planning/EPIC-18-ADMISSION.md and docs/planning/UI-ENHANCEMENT-SEQUENCE.md.",
+      "expectation": "The admitted production-pack presentation makes current section, revision, scoped approval and unresolved/readiness status readable without changing technical data, numeric methods, freeze rules or exports.",
+      "acceptanceCriteria": [
+        "A separate bounded admission names G05 data contract inputs, exact UI/file ownership, fallback, preserved behavior, rendered acceptance and exclusion of schema/POM/freeze/export decisions.",
+        "Readable production-pack forms/tables and selected sections are verified on actual generated output, including two representative styles at supported viewport sizes.",
+        "Revision identity, approval scope and unresolved facts remain accurate; presentation cannot imply supplier or production acceptance.",
+        "Changed production and settled global coverage remain 100%; eight protected export byte identities and local/no-cost boundaries remain intact.",
+        "The candidate and integration are reviewed and merged only under the bounded packet's evidence gates."
+      ]
+    }
+  },
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-18",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidence": {
+      "id": "E-EPIC18-S762-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/EPIC-18-ADMISSION.md",
+      "sha256": "728f9092a844f382acc78b743cc20ac57715d827ffaea5e83154902a59750d23",
+      "verified": true,
+      "note": "Maintainer-admitted from verified current main after reconciling EPIC-17/UIQ-08/UIQ-01 completion, G05 dependencies, all T01–T05 gates, and the linked UIQ-10 closure requirement. T01 starts only after Slice 762."
+    },
+    "expectedRevision": 4530
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-18",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC18-S762-ADMISSION",
+    "expectedRevision": 4531
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "EPIC-18",
+    "status": "Ready",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "The explicit Slice 762 admission contract and linked T01–T05/UIQ-10 gates are recorded and supported by verified admission evidence.",
+    "evidenceRefs": ["E-EPIC18-S762-ADMISSION"],
+    "expectedRevision": 4532
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "EPIC-18",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Admission is complete. Slice 762 establishes the current-state and board boundary; Slice 763 is the sole next implementation packet.",
+    "evidenceRefs": ["E-EPIC18-S762-ADMISSION"],
+    "expectedRevision": 4533
+  },
+  {
+    "type": "updateEpicStatus",
+    "epicId": "EPIC-18",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "The maintainer admitted G05 after the verified G04/UIQ checkpoint; the exact scope and evidence are linked.",
+    "evidenceRefs": ["E-EPIC18-S762-ADMISSION"],
+    "expectedRevision": 4534
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "G05-T01",
+    "status": "Ready",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "T01 is admitted and its contract-first Slice 763 gate is ready. Persistence remains held until the strict typed record/provenance model is frozen.",
+    "expectedRevision": 4535
+  }
+]

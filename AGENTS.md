@@ -40,16 +40,20 @@ is authoritative for maintainer decisions that are not derivable from code.
   detect invalid combinations and provide actionable corrections; do not hide
   invalid combinations by silently clamping inputs.
 - Code signing has not started.
-- EPIC-16/G03 and EPIC-17/G04 are closed on `origin/main`; do not resume their
-  historical worktrees or S726–S728 handoffs. UIQ-05 is complete through
-  Slice 743, UIQ-06 through Slice 754, and UIQ-07 through Slices 755–756 are
-  complete; PR #36 merged at `8282ad4c` and workflow `38259487661` deployed
-  successfully. UIQ-07 is Done at board revision 4464 with stable/immutable
-  browser proof in `docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md` and
-  `docs/research/uiq07-integration/evidence/S756-public-verification.json`.
-  UIQ-08 and later packages remain unadmitted. Preserve the approved UI
-  overlay `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`; never infer admission
-  from sequence position alone.
+- EPIC-16/G03 and EPIC-17/G04 are closed and verified on `origin/main`.
+  EPIC-18/G05 Living production tech pack is maintainer-admitted from
+  `e9221ea5033ccfdd91bf1ebb353926f189477d75` on 2026-10-12 at Slice 762;
+  admission, ordered Slice 762–780 boundaries, acceptance, non-goals, risks,
+  and gates are in `docs/planning/EPIC-18-ADMISSION.md` and
+  `docs/planning/EPIC-18-GOAL.md`. Slice 763 is T01's typed, provenance-aware
+  record contract; do not begin persistence before that contract is frozen.
+  UIQ-08 is Done through Slice 760 and UIQ-01 is Done as a review-only
+  checkpoint through Slice 761. UIQ-09 remains Backlog pending EPIC-19/G06
+  admission. UIQ-10 is linked to EPIC-18 but remains Backlog until its bounded
+  admission after T01–T03, planned for Slice 773. Preserve the approved UI
+  overlay `docs/planning/UI-ENHANCEMENT-SEQUENCE.md`; sequence position alone
+  is not implementation authority. Launch, physical, and supplier gates remain
+  closed; no physical-fit or production-readiness claim is authorized.
 
 ## Durable workflow rules
 

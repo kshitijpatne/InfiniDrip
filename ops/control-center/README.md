@@ -75,10 +75,14 @@ evidence, including the production-built Tee/Woven-shirt revision, frozen-
 output and restart replay. Slice 240's digital final-review evidence is in
 `docs/release/EPIC-15-G02-FINAL-REVIEW-S240.md`; the merge and closure record is
 `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. The final-review work item and
-EPIC-15 summary item are Done; the Epic record is Closed. EPIC-16 through
-EPIC-30 remain Backlog, including G17. Lane E under Epic 20 remains held for
-explicit garment-direction approval. Backlog registration alone is not work
-admission.
+EPIC-15 summary item are Done; the Epic record is Closed. EPIC-16/G03 and
+EPIC-17/G04 are also Closed on verified merges. EPIC-18/G05 is admitted and
+In Progress under `docs/planning/EPIC-18-ADMISSION.md`; its G05-T01 through
+G05-T05 and exit work are tracked as linked children in the canonical board.
+UIQ-10 remains Backlog until its separate bounded admission after T01–T03
+contracts. EPIC-19 through EPIC-30 remain Backlog, including G17. Lane E under
+Epic 20 remains held for explicit garment-direction approval. Backlog
+registration alone is not work admission.
 
 ## Historical import rule
 

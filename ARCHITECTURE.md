@@ -1,9 +1,28 @@
 # InfiniDrip architecture guide
 
-## Current UI roadmap boundary — Slice 761
+## Current capability boundary — EPIC-18/G05 admitted at Slice 762
 
-UIQ-01 is Done as an evidence-backed G04 review checkpoint only; it adds no
-runtime behavior. The accepted G04 contracts remain in force. UIQ-09 is next
+EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
+force. EPIC-18/G05 Living production tech pack is admitted from
+`origin/main` `e9221ea5033ccfdd91bf1ebb353926f189477d75`; Slice 762 reconciles
+the project packet and canonical board without changing application behavior.
+Slice 763 begins with the strict typed style/material/provenance record;
+persistence, revision hashing and UI work wait for that contract. G05 covers
+local editable source records, predicted-versus-actual POMs, sourced
+construction facts, generated digital output and immutable local sharing
+across the seven supported recipes. Unknowns remain visible. A frozen local
+share is not a supplier handoff, physical-fit result, production approval or
+factory acceptance. UIQ-10 remains a linked Backlog child until its separate
+bounded admission after T01–T03; UIQ-09/EPIC-19 and all launch, supplier,
+physical and paid-service gates remain outside this admission. Details and the
+current verified checkpoint are in `docs/planning/EPIC-18-ADMISSION.md`,
+`docs/planning/EPIC-18-GOAL.md`, and `PROJECT-STATE.md`.
+
+## UI roadmap checkpoint — Slice 761
+
+At the Slice 761 checkpoint, UIQ-01 was Done as an evidence-backed G04 review
+checkpoint only; it adds no runtime behavior. The accepted G04 contracts
+remain in force. UIQ-09 is next
 in the approved UI order, but its required EPIC-19 admission and starter/source
 scope are not present, so no UIQ-09 implementation is authorized. This is
 recorded at board revision 4521, with evidence in `PROJECT-STATE.md`,
