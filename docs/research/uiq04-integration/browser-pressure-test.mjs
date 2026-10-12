@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
 const origin = process.argv[2] ?? "http://127.0.0.1:4179";
-const evidenceDir = new URL("./rendered/", import.meta.url);
+const evidenceDir = resolve(process.argv[3] ?? fileURLToPath(new URL("./rendered/", import.meta.url)));
 await mkdir(evidenceDir, { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
@@ -27,7 +28,7 @@ try {
   await disclosure.waitFor({ state: "attached" });
   assert.equal(await disclosure.isVisible(), true, "material panel appears with the existing material controls");
   assert.equal(await disclosure.evaluate((node) => node.open), false, "disclosure starts collapsed");
-  await page.screenshot({ path: fileURLToPath(new URL("./rendered/desktop-collapsed.png", import.meta.url)), fullPage: true });
+  await page.screenshot({ path: join(evidenceDir, "desktop-collapsed.png"), fullPage: true });
 
   await disclosure.locator("summary").focus();
   assert.equal(await disclosure.locator("summary").evaluate((node) => node === document.activeElement), true,
@@ -38,7 +39,7 @@ try {
   await panel.waitFor({ state: "visible" });
   assert.match(await panel.innerText(), /UNKNOWN/);
   assert.match(await panel.innerText(), /no separate fabric\/material compatibility assessment/i);
-  await page.screenshot({ path: fileURLToPath(new URL("./rendered/desktop-expanded.png", import.meta.url)), fullPage: true });
+  await page.screenshot({ path: join(evidenceDir, "desktop-expanded.png"), fullPage: true });
 
   const fabricBefore = await page.locator("#stretch-select").inputValue();
   const colorBefore = await page.locator("#appearance-hex").inputValue();
@@ -77,7 +78,7 @@ try {
   assert.ok(narrow.document <= narrow.viewport, `320px reflow has no horizontal page overflow: ${JSON.stringify(narrow)}`);
   assert.ok(narrow.touchTargets.every(({ width, height }) => width >= 44 && height >= 44),
     `material review buttons meet 44px touch target minimum: ${JSON.stringify(narrow.touchTargets)}`);
-  await page.screenshot({ path: fileURLToPath(new URL("./rendered/narrow-320.png", import.meta.url)), fullPage: true });
+  await page.screenshot({ path: join(evidenceDir, "narrow-320.png"), fullPage: true });
 
   await page.emulateMedia({ reducedMotion: "reduce", forcedColors: "active" });
   assert.equal(await disclosure.isVisible(), true, "disclosure remains available in forced colors");

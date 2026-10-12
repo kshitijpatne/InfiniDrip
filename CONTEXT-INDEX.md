@@ -175,14 +175,16 @@ only through an explicitly admitted, linked Epic packet.
   maintainer subsequently admitted UIQ-04 on current main. Its exact host,
   value mapping, `uiq_material` fallback, file boundaries and two-slice gates
   are in `docs/planning/UIQ-04-INTEGRATION-ADMISSION.md`; live goal and
-  verification ledger are in `docs/planning/UIQ-04-GOAL.md`. Slice 739 is
-  integration/pre-merge review; Slice 740 is post-merge release closeout.
-  Slice 739 gates and browser/package evidence are in
+  verification ledger are in `docs/planning/UIQ-04-GOAL.md`. UIQ-04 completed
+  through Slice 740: PR #26 merged to `main` at
+  `956c5c5dd1eee83aca9153f759c21c693843b095`, deployment run 38185891574
+  succeeded, the stable preview returned HTTP 200, and live browser checks
+  passed on both stable and commit-specific URLs. The canonical board is Done
+  at revision 4394. Pre-merge and release reports are
   `docs/release/UIQ-04-INTEGRATION-S739-EXIT.md` and
-  `docs/research/uiq04-integration/evidence/S739-verification.json`. UIQ-04 is
-  currently Review at board revision 4390; the final full gate passed; final
-  diff review, unique-slice recheck, commit/PR and merge remain pending.
-  UIQ-05/07 remain Backlog and unadmitted.
+  `docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md`; machine evidence is under
+  `docs/research/uiq04-integration/evidence/`. UIQ-05/07 remain Backlog and
+  unadmitted.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped

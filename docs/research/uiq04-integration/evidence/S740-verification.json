@@ -1,0 +1,79 @@
+{
+  "slice": 740,
+  "status": "merged, deployed, live browser verification passed, and UIQ-04 closed Done",
+  "pr": {
+    "number": 26,
+    "url": "https://github.com/kshitijpatne/InfiniDrip/pull/26",
+    "mergedAt": "2026-10-11T23:52:19Z",
+    "mergeCommit": "956c5c5dd1eee83aca9153f759c21c693843b095",
+    "slice739Commit": "e4fc31a4ced7adb09510e00bcf8c51dadc886e9a"
+  },
+  "deployment": {
+    "workflowRunId": 38185891574,
+    "workflowUrl": "https://github.com/kshitijpatne/InfiniDrip/actions/runs/38185891574",
+    "conclusion": "success",
+    "completedAt": "2026-10-11T23:59:06Z",
+    "steps": {
+      "fullTestSuite": "passed",
+      "productionBuild": "passed",
+      "deterministicWebArtifact": "passed",
+      "cloudflarePagesDeploy": "passed"
+    },
+    "stableUrl": "https://infinidrip-preview.pages.dev",
+    "stableUrlHttpStatus": 200,
+    "stableUrlContentType": "text/html; charset=utf-8",
+    "deploymentUrl": "https://28ba1879.infinidrip-preview.pages.dev"
+  },
+  "browserRuns": [
+    {
+      "url": "https://infinidrip-preview.pages.dev",
+      "result": "passed",
+      "viewportsCssPx": [1280, 640, 320],
+      "documentWidth320": 320,
+      "horizontalOverflow": false,
+      "reviewButtonMinHeight": 44,
+      "keyboardDisclosure": "passed",
+      "reviewActionsPreserveValues": true,
+      "fitOnlyCollapsedDisclosure": "passed",
+      "compatibility": "explicitly unknown",
+      "reducedMotionAndForcedColors": "passed",
+      "offOriginRequests": [],
+      "pageErrors": [],
+      "screenshots": [
+        "docs/research/uiq04-integration/deployed-rendered/desktop-collapsed.png",
+        "docs/research/uiq04-integration/deployed-rendered/desktop-expanded.png",
+        "docs/research/uiq04-integration/deployed-rendered/narrow-320.png"
+      ]
+    },
+    {
+      "url": "https://28ba1879.infinidrip-preview.pages.dev",
+      "result": "passed",
+      "viewportsCssPx": [1280, 640, 320],
+      "documentWidth320": 320,
+      "horizontalOverflow": false,
+      "reviewButtonMinHeight": 44,
+      "keyboardDisclosure": "passed",
+      "reviewActionsPreserveValues": true,
+      "fitOnlyCollapsedDisclosure": "passed",
+      "compatibility": "explicitly unknown",
+      "reducedMotionAndForcedColors": "passed",
+      "offOriginRequests": [],
+      "pageErrors": [],
+      "screenshots": [
+        "docs/research/uiq04-integration/deployed-rendered-28ba1879/desktop-collapsed.png",
+        "docs/research/uiq04-integration/deployed-rendered-28ba1879/desktop-expanded.png",
+        "docs/research/uiq04-integration/deployed-rendered-28ba1879/narrow-320.png"
+      ]
+    }
+  ],
+  "flagFallback": "The embedded flag-off/unknown/stale exact-shell fallback is covered by Slice 739 unit tests and global coverage; public rollback requires a reviewed deployment.",
+  "board": {
+    "beforeRevision": 4390,
+    "statusBefore": "Review",
+    "evidenceId": "E-UIQ04-S740",
+    "statusAfter": "Done",
+    "afterRevision": 4394,
+    "deliveredAt": "2026-10-12"
+  },
+  "boundary": "UIQ-05 and UIQ-07 remain Backlog and unadmitted; no subsequent package is authorized."
+}

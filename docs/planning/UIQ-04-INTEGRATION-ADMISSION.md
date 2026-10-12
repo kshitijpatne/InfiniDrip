@@ -1,9 +1,10 @@
 # UIQ-04 — material clarity integration admission
 
-Status: admitted by the maintainer's 2026-10-11 instruction, “proceed with next
-goal,” after UIQ-03 was merged, deployed, and closed. This authorizes only the
-bounded integration below; it does not admit another UIQ package or a broader
-redesign.
+Status: completed under the maintainer's 2026-10-11 instruction, “proceed with
+next goal,” after UIQ-03 was merged, deployed, and closed. The bounded
+integration below is complete through Slices 739–740; this packet does not
+admit another UIQ package or a broader redesign. Final proof is
+`docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md`.
 
 ## Verified start and ownership
 

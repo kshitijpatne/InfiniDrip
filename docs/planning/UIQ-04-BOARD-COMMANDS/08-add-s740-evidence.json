@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-04",
+  "expectedRevision": 4390,
+  "evidence": {
+    "id": "E-UIQ04-S740",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-04-INTEGRATION-S740-CLOSEOUT.md",
+    "commit": "956c5c5dd1eee83aca9153f759c21c693843b095",
+    "sha256": null,
+    "verified": true,
+    "note": "Slice 740 proves PR #26 merge to main, successful GitHub Pages deployment run 38185891574, stable preview HTTP 200, and deployed browser pressure tests on the stable and immutable deployment URLs, including 1280/640/320 widths, keyboard, read-only action behavior, forced colors, reduced motion, no errors and no off-origin requests."
+  }
+}
