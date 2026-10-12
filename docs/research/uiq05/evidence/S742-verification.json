@@ -1,0 +1,53 @@
+{
+  "slice": 742,
+  "status": "post-merge deployment and live acceptance passed",
+  "merge": {
+    "pullRequest": 28,
+    "mergedAt": "2026-10-12T01:04:54Z",
+    "commit": "7f5e62635d96ccd792244388ff848fd2e75d8c00"
+  },
+  "deployment": {
+    "workflowRun": 38190492228,
+    "result": "success",
+    "duration": "7m8s",
+    "fullTests": "passed",
+    "productionBuild": "passed",
+    "deterministicWebArtifact": "passed",
+    "cloudflarePagesDeploy": "passed",
+    "stableUrl": "https://infinidrip-preview.pages.dev",
+    "stableHttpStatus": 200,
+    "immutableUrl": "https://6d37578c.infinidrip-preview.pages.dev",
+    "immutableHttpStatus": 200
+  },
+  "liveBrowserAcceptance": {
+    "stable": {
+      "result": "passed",
+      "evidence": "docs/research/uiq05/evidence/S742-live/browser-pressure-test.json"
+    },
+    "immutable": {
+      "result": "passed",
+      "evidence": "docs/research/uiq05/evidence/S742-immutable/browser-pressure-test.json"
+    },
+    "viewportsCssPx": [1280, 640, 320],
+    "horizontalOverflow": false,
+    "minimumTargetPx": 44,
+    "keyboardFocus": "passed",
+    "filterAssessmentSeparation": true,
+    "stageAndAttachSemantics": "passed",
+    "forcedColorsAndReducedMotion": "passed",
+    "sameOriginImages": true,
+    "offOriginRequests": [],
+    "pageErrors": [],
+    "consoleErrors": []
+  },
+  "board": {
+    "startRevision": 4401,
+    "evidenceId": "E-UIQ05-S742",
+    "finalStatus": "Done",
+    "statusRevision": 4403,
+    "closeoutCommentRevision": 4404,
+    "controlCenterTest": "42 passed"
+  },
+  "codeChanges": false,
+  "physicalFitOrPrintClaim": false
+}

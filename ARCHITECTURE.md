@@ -62,8 +62,11 @@ is in `docs/release/UIQ-03-INTEGRATION-S737-CLOSEOUT.md`. Closeout PR #24 and
 main workflow `38176394059` also passed, and the same public URL was verified
 again. UIQ-03's goal is complete. At that closeout boundary UIQ-04/05/07 were
 Backlog; UIQ-04 later completed through Slices 739–740, and UIQ-05 was admitted
-on 2026-10-11 as the next serial integration. Its S741 presentation work is
-pre-merge; UIQ-07 remains Backlog and unadmitted.
+on 2026-10-11 as the next serial integration. S741 merged in PR #28 at
+`7f5e6263`; S742 deployment and stable/immutable live browser checks passed.
+UIQ-05 is Done at canonical board revision 4404 after the closeout evidence;
+the durable board/context closeout is in its final PR. UIQ-07 remains Backlog
+and unadmitted.
 
 ## How measurements become pattern shapes
 

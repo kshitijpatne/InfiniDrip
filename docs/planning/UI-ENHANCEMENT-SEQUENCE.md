@@ -129,7 +129,10 @@ OFF/unknown/stale must retain the exact legacy screen. Candidate source remains
 immutable. No artwork, storage, rights, acquisition, placement schema, math,
 exports, baseline or other UIQ scope is included. Full boundaries and gates:
 `docs/planning/UIQ-05-INTEGRATION-ADMISSION.md` and
-`docs/planning/UIQ-05-GOAL.md`. UIQ-07 remains Backlog/unadmitted.
+`docs/planning/UIQ-05-GOAL.md`. S741 merged via PR #28 at `7f5e6263`; S742
+deployment and stable/immutable live verification passed. UIQ-05 is Done at
+board revision 4404 with verified S742 evidence; final durable closeout PR is
+pending. UIQ-07 remains Backlog/unadmitted.
 
 ## Parallel boundaries
 

@@ -44,20 +44,21 @@ test("UIQ integration status follows its release evidence", () => {
   const packageBlock = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-BLOCK");
   const packagePass = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-VERIFIED");
   const uiq05Exit = board.evidence.find((entry) => entry.id === "E-UIQ05-S741");
+  const uiq05Closeout = board.evidence.find((entry) => entry.id === "E-UIQ05-S742");
   assert.equal(approval?.kind, "decision");
   assert.equal(approval?.verified, true);
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
   for (const card of cards) {
     assert.ok(card);
     if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
-    else if (card.id === "UIQ-05") assert.equal(card.status, "Review");
+    else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
     const expectedDeliveredAt = ["UIQ-02", "UIQ-03"].includes(card.id)
       ? "2026-10-11"
-      : card.id === "UIQ-04" ? "2026-10-12" : null;
+      : ["UIQ-04", "UIQ-05"].includes(card.id) ? "2026-10-12" : null;
     assert.equal(card.deliveredAt, expectedDeliveredAt);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
@@ -83,12 +84,17 @@ test("UIQ integration status follows its release evidence", () => {
   assert.equal(cards[4].flagKey, "uiq_artwork");
   assert.deepEqual(cards[4].dependencies, ["UIQ-GATE", "UIQ05-CANDIDATE"]);
   assert.ok(cards[4].description.includes("docs/planning/UIQ-05-INTEGRATION-ADMISSION.md"));
-  assert.equal(cards[4].deliveredAt, null);
+  assert.equal(cards[4].deliveredAt, "2026-10-12");
   assert.equal(uiq05Exit?.verified, true);
   assert.equal(uiq05Exit?.uri, "docs/release/UIQ-05-INTEGRATION-S741-EXIT.md");
   assert.ok(cards[4].evidenceRefs.includes("E-UIQ05-S741"));
   assert.ok(cards[4].statusHistory.some((entry) => entry.status === "Review" && entry.evidenceRefs.includes("E-UIQ05-S741")));
   assert.ok(cards[4].comments.some((comment) => comment.text.includes("Slice 741 is ready for review")));
+  assert.equal(uiq05Closeout?.verified, true);
+  assert.equal(uiq05Closeout?.uri, "docs/release/UIQ-05-INTEGRATION-S742-CLOSEOUT.md");
+  assert.ok(cards[4].evidenceRefs.includes("E-UIQ05-S742"));
+  assert.ok(cards[4].statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes("E-UIQ05-S742")));
+  assert.ok(cards[4].comments.some((comment) => comment.text.includes("UIQ-05 closed Done after Slice 742")));
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));

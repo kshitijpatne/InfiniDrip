@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-05",
+  "actor": "Codex",
+  "text": "UIQ-05 closed Done after Slice 742 post-merge verification. PR #28 merge 7f5e6263 deployed successfully (workflow 38190492228); stable and immutable Pages URLs returned HTTP 200 and passed live pressure tests. Closeout report and machine evidence are linked via E-UIQ05-S742. UIQ-07 remains Backlog and unadmitted.",
+  "expectedRevision": 4403
+}

@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-05",
+  "expectedRevision": 4401,
+  "evidence": {
+    "id": "E-UIQ05-S742",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-05-INTEGRATION-S742-CLOSEOUT.md",
+    "commit": "7f5e62635d96ccd792244388ff848fd2e75d8c00",
+    "sha256": null,
+    "verified": true,
+    "note": "Slice 742 proves PR #28 merge, successful main deployment 38190492228, stable and immutable Pages URLs at HTTP 200, and public browser pressure acceptance on both URLs at 1280/640/320 with no overflow, off-origin requests or browser errors; actions, keyboard, forced colors and reduced motion passed. S741 full 100% coverage and output identity are linked in its verified evidence."
+  }
+}
