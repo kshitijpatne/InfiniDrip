@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "expectedRevision": 4478,
+  "evidence": {
+    "id": "E-UIQ08-FULL-COVERAGE",
+    "kind": "test",
+    "uri": "docs/research/uiq08/evidence/full-coverage-summary.json",
+    "commit": null,
+    "sha256": "1b3a9ce7360630e8bf4a8a0c298ac49c8800597a712f44ce31f5813ba30097ec",
+    "verified": true,
+    "note": "Full 165-file/2,672-test coverage gate passed at 100% global statements, branches, functions and lines using a command-only two-worker override."
+  }
+}

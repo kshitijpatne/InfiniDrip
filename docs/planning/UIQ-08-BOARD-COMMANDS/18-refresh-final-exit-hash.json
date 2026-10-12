@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "expectedRevision": 4481,
+  "evidence": {
+    "id": "E-UIQ08-CANDIDATE-EXIT-ACCEPTED",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq08/CANDIDATE-EXIT.json",
+    "commit": null,
+    "sha256": "17bb9340520229d852715c2db52d30444e6bb27543992375d52426f3de090255",
+    "verified": true,
+    "note": "Accepted final Slice 757 exit evidence after recording the successful two-worker global coverage rerun and board closeout."
+  }
+}

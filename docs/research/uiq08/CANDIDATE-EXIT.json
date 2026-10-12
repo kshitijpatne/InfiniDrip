@@ -1,0 +1,60 @@
+{
+  "slice": 757,
+  "candidate": "UIQ08-CANDIDATE",
+  "status": "accepted-isolated-candidate",
+  "productionIntegration": "not-admitted",
+  "startingCommit": "5c4fa650ea9fc5c6bdb1c70c5c458b7e61081210",
+  "branch": "codex/uiq08-candidate",
+  "verifiedAt": "2026-10-12T15:26:00.000Z",
+  "renderedBrowserVerifiedAt": "2026-10-12T15:01:23.004Z",
+  "acceptance": {
+    "focusedCoverage": { "statements": 100, "branches": 100, "functions": 100, "lines": 100, "testsPassed": 3 },
+    "previewStrictTypecheck": "passed",
+    "productionBuild": "passed",
+    "productionBundleIdentity": {
+      "css": { "path": "dist/assets/index-7fWzbHIR.css", "sha256": "752fb53ef255be0c14950286850e3a542f2f51958c5b7df2ce7803ba0c2e642c" },
+      "js": { "path": "dist/assets/index-BYhhnKjO.js", "sha256": "52549576cc2ae8c775e95088392224ee13eae456995d09ef73b2e5195249ae4e" },
+      "candidateLeak": false
+    },
+    "browserChecks": 17,
+    "responsiveWidths": [320, 360, 390, 480, 768, 1280, 1440],
+    "contrast": "all measured text >= 4.5:1 and non-text border >= 3:1 across dark, light and accent backdrops; forced-colors fallback verified",
+    "zoom": "pointer and keyboard; 50%-250% bounds; Fit returns to 100%; scroll and artwork geometry preserved",
+    "accessibility": "axe WCAG 2.1 A/AA: zero violations; forced-colors and reduced-motion verified",
+    "externalRequests": 0,
+    "pageErrors": 0,
+    "fullRepositoryGate": {
+      "command": "npm run coverage -- --pool=forks --poolOptions.forks.minForks=2 --poolOptions.forks.maxForks=2",
+      "result": "passed",
+      "files": { "passed": 165, "failed": 0 },
+      "tests": { "passed": 2672, "failed": 0 },
+      "globalCoverage": { "statements": 100, "branches": 100, "functions": 100, "lines": 100 },
+      "reportedCounters": { "statements": "33129/33129", "branches": "17302/17302", "functions": "1899/1899", "lines": "33129/33129" },
+      "boundedWorkerSetting": "2 fork workers for this command only; repository defaults were not changed",
+      "priorDefaultWorkerRun": { "filesPassed": 162, "filesFailed": 3, "testsPassed": 2669, "testsFailed": 3 },
+      "diagnosis": "All three earlier parallel-load failures passed in the bounded two-worker rerun; no source or default worker setting was changed."
+    }
+  },
+  "visualDecision": "The existing inspection toolbar is a normal-flow sibling above the artwork viewport, so glass adds no meaningful effect in the actual layout. Keep only the restrained solid native grouping as a future integration candidate; do not carry translucency into production absent a later evidence-backed layout decision.",
+  "protectedFilesUnchanged": ["src/ui/app.ts", "src/ui/view.ts", "src/ui/studio.css", "src/main.ts", "package.json", "package-lock.json"],
+  "exportBaselineMoved": false,
+  "evidence": {
+    "browserReport": { "path": "docs/research/uiq08/evidence/browser-report.json", "sha256": "6f2532b7c156e2d947578aa60627a8abff68b5ea5ecf1248b5a7e8a604efb969" },
+    "screenshots": {
+      "320": { "path": "docs/research/uiq08/evidence/toolbar-320.png", "sha256": "ab38a583d06cb97da46391f8909674d2f512dacedea67fc495c20c2918d03393" },
+      "desktop": { "path": "docs/research/uiq08/evidence/toolbar-desktop.png", "sha256": "ad14cce1c610d22864fa34b72815698aaadf6f168670f8aff8132a10e59007a7" },
+      "denseBackdrop": { "path": "docs/research/uiq08/evidence/toolbar-dense-backdrop.png", "sha256": "cd43ae869c1cb013860f0e6bad832fdce86e973aa4ce0c0363c6f49daab9c967" },
+      "opaqueFallback": { "path": "docs/research/uiq08/evidence/toolbar-opaque-fallback.png", "sha256": "159ef85451c9fed9adde09197965035f0c884f05c831292a6c714053d30ea66b" },
+      "forcedColors": { "path": "docs/research/uiq08/evidence/toolbar-forced-colors.png", "sha256": "1b2f3d1af628d6cfacabd2badcbf763fec58f7f825e270089e1daf9f2d503bb0" }
+    },
+    "candidateSource": {
+      "adapter": "577d09505a6df8e9af929a1c3fd2c90097e30fc99b4d14764a559c055c7bc16a",
+      "css": "9e46006a8cd817ab66d500593828debd2e7917995f6ca8a4b3afe4d32c215ed5",
+      "tests": "0a5e6adcc577ee7005766e8f508aa0c35f68857e3937ee4ceaa04d363283bd87",
+      "previewHtml": "757efa095971175f50eccf0db84f85f892ff438fd39d806484ea8cc28181f0b9",
+      "previewTs": "72912ebf26e56a10de373ac59caad38d66bc541a7f02805b2d778f68373e7494",
+      "browserVerifier": "c483dd8670a692ecf5ec5f70ee72e37401c71e12c0ee8ffd25d964b1455118db"
+    }
+  },
+  "remainingHold": "UIQ-08 parent remains Backlog/unshipped. A later explicit maintainer admission is required to integrate the solid native treatment into the app; no UI feature was deployed."
+}

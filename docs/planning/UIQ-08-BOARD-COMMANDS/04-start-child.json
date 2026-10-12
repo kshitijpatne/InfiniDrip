@@ -1,0 +1,8 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-CANDIDATE",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Bounded admission, prerequisites, protected files and acceptance evidence are recorded; isolated Slice 757 begins."
+}

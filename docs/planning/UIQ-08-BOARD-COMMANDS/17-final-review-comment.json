@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "expectedRevision": 4480,
+  "text": "Gate resolution: full two-worker coverage run passed all 165 files/2,672 tests and global 100% statements/branches/functions/lines. The two-worker setting was command-only; repository defaults are unchanged. Final hash-bound exit and review supersede the earlier diagnostic snapshots. Candidate remains isolated/unshipped; UIQ-08 parent remains Backlog pending separate integration admission."
+}

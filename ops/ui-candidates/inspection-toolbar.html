@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <title>UIQ-08 isolated toolbar candidate</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #071321; color: #edf5fa; }
+      body { box-sizing: border-box; max-width: 1120px; margin: 0 auto; padding: 24px; }
+      .candidate-banner { margin: 0 0 20px; padding: 10px 12px; color: #102c3d; background: #f5cc79; border-radius: 8px; font-size: 14px; font-weight: 800; }
+      h1 { margin: 0 0 6px; font-size: clamp(22px, 4vw, 34px); }
+      .intro { margin: 0 0 20px; color: #bdd1df; line-height: 1.55; }
+      .candidate-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+      .candidate-card { min-width: 0; padding: 14px; background: #112237; border: 1px solid #526b81; border-radius: 12px; }
+      .candidate-card h2 { margin: 0 0 12px; font-size: 15px; }
+      .stage { min-height: 270px; padding: 12px; overflow: hidden; border: 1px solid #6e8395; border-radius: 10px; background-color: #112237; }
+      .stage[data-backdrop="dense"] { background-color: #172a3b; background-image: repeating-linear-gradient(0deg, transparent 0 16px, rgb(136 215 239 / 25%) 16px 17px), repeating-linear-gradient(90deg, transparent 0 21px, rgb(241 195 129 / 24%) 21px 22px), repeating-linear-gradient(135deg, #13243a 0 8px, #1c3448 8px 10px); }
+      #inspection-toolbar { display: flex; gap: 6px; align-items: center; margin: 0 0 8px; }
+      #inspection-title { flex: 1; min-width: 0; margin: 0; font-size: 12px; font-weight: 600; }
+      #inspection-viewport { height: 214px; overflow: auto; border-radius: 8px; padding: 8px; box-sizing: border-box; background: #0a1422; }
+      #inspection-content { min-width: 0; min-height: 100%; }
+      #zoom-status { margin: 10px 0 0; color: #c2d4df; font-size: 13px; }
+      #pattern-art { display: block; width: 700px; max-width: none; height: 184px; }
+      .opaque-mode { margin-top: 12px; min-height: 40px; padding: 7px 11px; color: #edf5fa; background: #112237; border: 1px solid #7ca4bd; border-radius: 7px; cursor: pointer; }
+      @media (max-width: 740px) { body { padding: 16px; } .candidate-grid { grid-template-columns: minmax(0,1fr); } }
+    </style>
+  </head>
+  <body>
+    <p class="candidate-banner">UIQ-08 isolated visual candidate — not the live app. No project data is loaded or saved.</p>
+    <h1>Inspection toolbar</h1>
+    <p class="intro">A candidate-only visual treatment for the existing inspection controls. The pattern below is a local synthetic contrast test, not a product output.</p>
+    <main class="candidate-grid">
+      <section class="candidate-card" aria-labelledby="candidate-heading">
+        <h2 id="candidate-heading">Candidate treatment</h2>
+        <div class="stage" id="candidate-stage">
+          <div id="inspection-toolbar" role="group" aria-label="Pattern inspection controls">
+            <h3 id="inspection-title">Pattern inspection</h3>
+            <button type="button" data-inspection-zoom="out" aria-label="Zoom out" style="padding:3px 8px;cursor:pointer;background:#112237;color:#edf5fa;border:1px solid #7ca4bd;border-radius:5px">−</button>
+            <button type="button" data-inspection-zoom="fit" aria-label="Fit inspection" style="padding:3px 8px;cursor:pointer;background:#112237;color:#edf5fa;border:1px solid #7ca4bd;border-radius:5px">Fit</button>
+            <button type="button" data-inspection-zoom="in" aria-label="Zoom in" style="padding:3px 8px;cursor:pointer;background:#112237;color:#edf5fa;border:1px solid #7ca4bd;border-radius:5px">+</button>
+            <output id="inspection-zoom" aria-live="polite" style="min-width:38px;text-align:right;font-size:11px;color:#bdd1df">100%</output>
+          </div>
+          <div id="inspection-viewport" role="region" aria-label="Scrollable Pattern inspection" tabindex="0">
+            <div id="inspection-content">
+              <svg id="pattern-art" role="img" aria-label="Synthetic dense pattern-line artwork for contrast testing" viewBox="0 0 700 184" xmlns="http://www.w3.org/2000/svg">
+                <title>Locally generated synthetic pattern-line contrast test</title>
+                <rect width="700" height="184" fill="#112337" />
+                <path d="M22 160 40 24 245 10 280 43 260 167Z M302 166 330 18 490 25 530 166Z M552 165 568 30 679 17 688 159Z" fill="none" stroke="#f2c88b" stroke-width="2" />
+                <path d="M25 149 266 149 M30 133 270 133 M32 117 272 117 M34 101 274 101 M36 85 276 85 M38 69 278 69 M40 53 280 53 M42 37 282 37 M310 150 522 150 M312 134 524 134 M314 118 526 118 M316 102 528 102 M318 86 530 86 M320 70 532 70 M322 54 534 54 M324 38 536 38 M558 147 686 147 M560 131 688 131 M562 115 690 115 M564 99 692 99 M566 83 694 83 M568 67 696 67 M570 51 698 51" fill="none" stroke="#88d7ef" stroke-width="1" opacity=".85" />
+                <path d="M80 25 218 162 M104 23 242 160 M125 20 262 155 M337 21 474 162 M362 20 498 164 M586 28 672 160 M607 25 682 147" fill="none" stroke="#d5e3ec" stroke-width="1" opacity=".72" />
+                <circle cx="245" cy="10" r="4" fill="#fff" /><circle cx="490" cy="25" r="4" fill="#fff" /><circle cx="679" cy="17" r="4" fill="#fff" />
+              </svg>
+            </div>
+          </div>
+          <p id="zoom-status" role="status" aria-live="polite">Zoom 100% · scroll position retained.</p>
+          <button class="opaque-mode" type="button" id="opaque-toggle" aria-pressed="false">Use opaque fallback</button>
+        </div>
+      </section>
+      <section class="candidate-card" aria-labelledby="legacy-heading">
+        <h2 id="legacy-heading">Current surface reference</h2>
+        <div class="stage" id="legacy-stage">
+          <div role="group" aria-label="Pattern inspection controls">
+            <h3>Pattern inspection</h3>
+            <button type="button" aria-label="Zoom out">−</button>
+            <button type="button" aria-label="Fit inspection">Fit</button>
+            <button type="button" aria-label="Zoom in">+</button>
+            <output>100%</output>
+          </div>
+          <div role="region" aria-label="Scrollable Pattern inspection" tabindex="0"><svg role="img" aria-label="Synthetic dense pattern-line artwork reference" viewBox="0 0 700 184" width="700" height="184" xmlns="http://www.w3.org/2000/svg"><rect width="700" height="184" fill="#112337"/><path d="M22 160 40 24 245 10 280 43 260 167Z M302 166 330 18 490 25 530 166Z M552 165 568 30 679 17 688 159Z" fill="none" stroke="#f2c88b"/><path d="M25 149 266 149 M30 133 270 133 M32 117 272 117 M34 101 274 101 M36 85 276 85 M38 69 278 69 M310 150 522 150 M314 118 526 118 M318 86 530 86 M322 54 534 54 M558 147 686 147 M564 99 692 99" stroke="#88d7ef"/></svg></div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/ops/ui-candidates/inspection-toolbar-preview.ts"></script>
+  </body>
+</html>

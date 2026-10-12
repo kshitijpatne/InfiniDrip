@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-UIQ08-ADMISSION",
+    "kind": "decision",
+    "uri": "docs/planning/UIQ-08-ADMISSION.md",
+    "commit": null,
+    "sha256": "116998c0639a6beac92b08ad96a7d6542397b0f15cb49bb9bc5de63f41a481ce",
+    "verified": true,
+    "note": "Maintainer authorization on 2026-10-12 admits only Slice 757's isolated candidate; production wiring, flag, app release and deployment remain held."
+  }
+}

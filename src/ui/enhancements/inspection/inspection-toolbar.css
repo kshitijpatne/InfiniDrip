@@ -1,0 +1,127 @@
+/* UIQ-08 candidate: presentation stays scoped to its adapter-owned class. */
+.uiq-inspection-toolbar#inspection-toolbar {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 0 8px;
+  padding: 8px;
+  color: #edf5fa;
+  background-color: #112237;
+  border: 1px solid #91b2c6;
+  border-radius: 10px;
+  box-shadow: 0 5px 16px rgb(0 0 0 / 24%);
+}
+
+.uiq-inspection-toolbar#inspection-toolbar > #inspection-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #edf5fa;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.uiq-inspection-toolbar .uiq-inspection-toolbar__button {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 6px 10px !important;
+  color: #102c3d !important;
+  background-color: #e5f3f8 !important;
+  border: 1px solid #a6c7d5 !important;
+  border-radius: 7px !important;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.uiq-inspection-toolbar .uiq-inspection-toolbar__button[data-inspection-zoom="fit"] {
+  color: #102d35 !important;
+  background-color: #a9eadf !important;
+  border-color: #c3f6ed !important;
+}
+
+.uiq-inspection-toolbar .uiq-inspection-toolbar__button:hover {
+  filter: brightness(1.06);
+}
+
+.uiq-inspection-toolbar .uiq-inspection-toolbar__button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #176b81;
+}
+
+.uiq-inspection-toolbar .uiq-inspection-toolbar__zoom {
+  box-sizing: border-box;
+  min-width: 46px !important;
+  padding: 4px 2px !important;
+  color: #edf5fa !important;
+  font-size: 12px !important;
+  font-variant-numeric: tabular-nums;
+  text-align: right !important;
+}
+
+/* Enhance only where both translucent colors and backdrop filtering exist. */
+@supports (backdrop-filter: blur(1px)) and (background-color: color-mix(in srgb, #112237 78%, transparent)) {
+  .uiq-inspection-toolbar#inspection-toolbar:not(.uiq-inspection-toolbar--opaque) {
+    background-color: color-mix(in srgb, #112237 78%, transparent);
+    -webkit-backdrop-filter: blur(12px) saturate(125%);
+    backdrop-filter: blur(12px) saturate(125%);
+  }
+}
+
+.uiq-inspection-toolbar#inspection-toolbar.uiq-inspection-toolbar--opaque {
+  background-color: #112237;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+@media (max-width: 420px) {
+  .uiq-inspection-toolbar#inspection-toolbar {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .uiq-inspection-toolbar#inspection-toolbar > #inspection-title {
+    flex-basis: 100%;
+  }
+
+  .uiq-inspection-toolbar .uiq-inspection-toolbar__button {
+    min-width: 42px;
+    min-height: 42px;
+  }
+}
+
+@media (forced-colors: active) {
+  .uiq-inspection-toolbar#inspection-toolbar,
+  .uiq-inspection-toolbar#inspection-toolbar.uiq-inspection-toolbar--opaque {
+    color: CanvasText;
+    background: Canvas;
+    border: 1px solid CanvasText;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    forced-color-adjust: auto;
+  }
+
+  .uiq-inspection-toolbar .uiq-inspection-toolbar__button,
+  .uiq-inspection-toolbar .uiq-inspection-toolbar__button[data-inspection-zoom="fit"] {
+    color: ButtonText !important;
+    background: ButtonFace !important;
+    border-color: ButtonText !important;
+    filter: none;
+  }
+
+  .uiq-inspection-toolbar .uiq-inspection-toolbar__button:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}

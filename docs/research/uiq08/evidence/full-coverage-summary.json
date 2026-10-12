@@ -1,0 +1,14 @@
+{
+  "command": "npm run coverage -- --pool=forks --poolOptions.forks.minForks=2 --poolOptions.forks.maxForks=2",
+  "result": "passed",
+  "repositoryDefaultsChanged": false,
+  "files": { "passed": 165, "failed": 0 },
+  "tests": { "passed": 2672, "failed": 0 },
+  "coverage": {
+    "statements": { "covered": 33129, "total": 33129, "percent": 100 },
+    "branches": { "covered": 17302, "total": 17302, "percent": 100 },
+    "functions": { "covered": 1899, "total": 1899, "percent": 100 },
+    "lines": { "covered": 33129, "total": 33129, "percent": 100 }
+  },
+  "diagnosticHistory": "The first run with default parallel workers had three contention-sensitive failures. The bounded two-worker full rerun passed those suites; the three first-run failures also passed in isolation."
+}

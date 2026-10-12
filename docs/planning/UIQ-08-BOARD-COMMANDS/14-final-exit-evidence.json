@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "expectedRevision": 4477,
+  "evidence": {
+    "id": "E-UIQ08-CANDIDATE-EXIT-FINAL",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq08/CANDIDATE-EXIT.json",
+    "commit": null,
+    "sha256": "2c7e9f151784f731795188a4b7d2a873c8bb6877dbace874a462398f0f72db42",
+    "verified": true,
+    "note": "Final Slice 757 exit record, updated after the successful full two-worker coverage gate; supersedes the earlier diagnostic snapshot."
+  }
+}

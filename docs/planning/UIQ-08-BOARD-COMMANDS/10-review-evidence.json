@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "expectedRevision": 4473,
+  "evidence": {
+    "id": "E-UIQ08-CODEX-REVIEW",
+    "kind": "document",
+    "uri": "docs/research/uiq08/CODEX-REVIEW.md",
+    "commit": null,
+    "sha256": "1ccd6f421786675f565eb77d7a77449f5152f94319dda0eff1e0d80117715fac",
+    "verified": true,
+    "note": "Independent Codex review of actual candidate diff and rendered evidence; accepts isolated candidate, rejects translucency for current normal-flow layout, and documents repository gate exception."
+  }
+}

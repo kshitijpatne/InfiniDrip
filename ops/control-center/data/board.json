@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4464,
-  "updatedAt": "2026-10-12T14:09:24.175Z",
+  "revision": 4482,
+  "updatedAt": "2026-10-12T15:26:41.916Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -15208,7 +15208,13 @@
           "evidenceRefs": []
         }
       ],
-      "comments": [],
+      "comments": [
+        {
+          "at": "2026-10-12T14:25:19.162Z",
+          "actor": "Codex",
+          "text": "Maintainer admitted UIQ08-CANDIDATE on 2026-10-12 as an isolated, unshipped native toolbar treatment only. The parent remains Backlog/unshipped; production app integration/deployment requires a separate admission. See docs/planning/UIQ-08-ADMISSION.md."
+        }
+      ],
       "evidenceRefs": [
         "E-UIQ-APPROVAL"
       ],
@@ -16006,6 +16012,110 @@
       "comments": [],
       "evidenceRefs": [
         "E-BUG-UI-048-REPRO"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "UIQ08-CANDIDATE",
+      "type": "task",
+      "title": "UIQ-08 isolated inspection-toolbar visual candidate",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Done",
+      "openedAt": "2026-10-12",
+      "targetAt": null,
+      "deliveredAt": "2026-10-12",
+      "priority": "P2",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [
+        "UIQ-08"
+      ],
+      "protectedSurfaces": [
+        "production inspection markup and app behavior",
+        "zoom, focus, keyboard, pointer, viewport, scroll and artwork identity",
+        "app entry, feature flags, package/lock/config and release workflows",
+        "local-first/no-cost boundary",
+        "100% changed-code coverage and export byte identity",
+        "accepted UIQ candidate proofs"
+      ],
+      "description": "Slice 757 candidate only: restrained native translucent toolbar surface with solid controls and opaque fallback. Packet: docs/planning/UIQ-08-ADMISSION.md.",
+      "expectation": "An isolated, locally previewable toolbar treatment improves control grouping without changing shipped app behavior or obscuring artwork.",
+      "acceptanceCriteria": [
+        "Candidate source and preview remain unreferenced by production app entry and shipped bundle.",
+        "Native scoped CSS only; opaque readable baseline, solid controls, no external assets, URL, dependency or page/canvas sampling.",
+        "Existing toolbar DOM semantics, control order/actions, zoom limits/Fit behavior, keyboard/pointer interaction, viewport, scroll and artwork identity are preserved.",
+        "Focused component coverage is 100% statements/branches/functions/lines; preview typecheck and production build pass.",
+        "Rendered checks at 320/360/390/480/768/1280/1440 widths cover dense local artwork, contrast, fallback, forced colors, reduced motion and zoom-equivalent reflow with zero overflow/errors/egress.",
+        "Codex independently reviews actual diff and hash-bound evidence; child may close Done, while parent UIQ-08 remains Backlog/unshipped until a separately admitted integration."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-12T14:25:18.945Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Maintainer said proceed with next goal on 2026-10-12; admits only the isolated UIQ-08 toolbar candidate, not app integration or deployment.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T14:25:19.260Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Bounded admission, prerequisites, protected files and acceptance evidence are recorded; isolated Slice 757 begins.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Review",
+          "at": "2026-10-12T15:06:35.711Z",
+          "actor": "Codex",
+          "role": "contributor",
+          "note": "Slice 757 implementation and evidence are complete; submitting the isolated candidate for independent acceptance.",
+          "evidenceRefs": []
+        },
+        {
+          "status": "Done",
+          "at": "2026-10-12T15:06:36.890Z",
+          "actor": "Codex",
+          "role": "reviewer",
+          "note": "Accepted as a completed isolated visual candidate with explicit no-translucency integration recommendation; production integration and merge remain held by the separate full-gate/admission requirements.",
+          "evidenceRefs": [
+            "E-UIQ08-CANDIDATE-EXIT",
+            "E-UIQ08-CANDIDATE-BROWSER",
+            "E-UIQ08-CODEX-REVIEW"
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "at": "2026-10-12T14:26:43.004Z",
+          "actor": "Codex",
+          "text": "Contributor reassigned to Codex for Slice 757: the planned Claude Code CLI is installed but claude auth status reports loggedIn=false. No external agent was launched and no alternate model/owner was substituted; Codex owns implementation, verification and review in the isolated worktree."
+        },
+        {
+          "at": "2026-10-12T15:06:34.496Z",
+          "actor": "Codex",
+          "text": "Codex review accepts Slice 757 only as an isolated candidate. Solid control grouping is useful; translucency adds no meaningful value in the real normal-flow inspection layout. Focused coverage/build/type/rendered gates passed. Full repository coverage had three failures under parallel workers; all three passed in isolation, but global coverage is not certified. No merge/deployment until full gate is green; parent UIQ-08 remains Backlog and production integration needs separate maintainer admission."
+        },
+        {
+          "at": "2026-10-12T15:26:01.906Z",
+          "actor": "Codex",
+          "text": "Gate resolution: full two-worker coverage run passed all 165 files/2,672 tests and global 100% statements/branches/functions/lines. The two-worker setting was command-only; repository defaults are unchanged. Final hash-bound exit and review supersede the earlier diagnostic snapshots. Candidate remains isolated/unshipped; UIQ-08 parent remains Backlog pending separate integration admission."
+        }
+      ],
+      "evidenceRefs": [
+        "E-UIQ08-ADMISSION",
+        "E-UIQ08-ADMISSION-CODEX-OWNER",
+        "E-UIQ08-CANDIDATE-EXIT",
+        "E-UIQ08-CANDIDATE-BROWSER",
+        "E-UIQ08-CODEX-REVIEW",
+        "E-UIQ08-CANDIDATE-EXIT-FINAL",
+        "E-UIQ08-FULL-COVERAGE",
+        "E-UIQ08-CODEX-REVIEW-FINAL",
+        "E-UIQ08-CANDIDATE-EXIT-ACCEPTED"
       ],
       "flagKey": null
     }
@@ -29564,6 +29674,87 @@
       "sha256": "c01da80f916a80f960a56baf60d86421be1238aaf94c2141ea608facf1c79559",
       "verified": true,
       "note": "Slice 756 closeout: PR #36 merged; successful main deployment and fresh stable/immutable browser verification; reviewer accepted and UIQ-07 closed with no additional app-code changes."
+    },
+    {
+      "id": "E-UIQ08-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-08-ADMISSION.md",
+      "commit": null,
+      "sha256": "116998c0639a6beac92b08ad96a7d6542397b0f15cb49bb9bc5de63f41a481ce",
+      "verified": true,
+      "note": "Maintainer authorization on 2026-10-12 admits only Slice 757's isolated candidate; production wiring, flag, app release and deployment remain held."
+    },
+    {
+      "id": "E-UIQ08-ADMISSION-CODEX-OWNER",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-08-ADMISSION.md",
+      "commit": null,
+      "sha256": "ee96aaa0b0d32e882dc0ec8034f6af13b9bf062c7acf7b3017329296a7e5195f",
+      "verified": true,
+      "note": "Revised admission: Claude Code CLI is not authenticated, so Codex owns Slice 757; no alternate contributor/model was substituted. Supersedes the earlier admission snapshot E-UIQ08-ADMISSION while preserving its history."
+    },
+    {
+      "id": "E-UIQ08-CANDIDATE-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq08/CANDIDATE-EXIT.json",
+      "commit": null,
+      "sha256": "a4a31f82a5265af1ffb39b0e5fe85df6acfcc69d708d301ab5c54cd91c1416c1",
+      "verified": true,
+      "note": "Slice 757 candidate exit: focused coverage 100%, build/typecheck/rendered checks pass; full repo coverage has a diagnosed parallel-worker exception; production integration remains held."
+    },
+    {
+      "id": "E-UIQ08-CANDIDATE-BROWSER",
+      "kind": "browser",
+      "uri": "docs/research/uiq08/evidence/browser-report.json",
+      "commit": null,
+      "sha256": "6f2532b7c156e2d947578aa60627a8abff68b5ea5ecf1248b5a7e8a604efb969",
+      "verified": true,
+      "note": "17 local browser checks: seven widths, zoom/pointer/keyboard, artwork and scroll identity, contrast, axe, opaque, forced-colors, reduced-motion and zero egress/errors."
+    },
+    {
+      "id": "E-UIQ08-CODEX-REVIEW",
+      "kind": "document",
+      "uri": "docs/research/uiq08/CODEX-REVIEW.md",
+      "commit": null,
+      "sha256": "1ccd6f421786675f565eb77d7a77449f5152f94319dda0eff1e0d80117715fac",
+      "verified": true,
+      "note": "Independent Codex review of actual candidate diff and rendered evidence; accepts isolated candidate, rejects translucency for current normal-flow layout, and documents repository gate exception."
+    },
+    {
+      "id": "E-UIQ08-CANDIDATE-EXIT-FINAL",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq08/CANDIDATE-EXIT.json",
+      "commit": null,
+      "sha256": "2c7e9f151784f731795188a4b7d2a873c8bb6877dbace874a462398f0f72db42",
+      "verified": true,
+      "note": "Final Slice 757 exit record, updated after the successful full two-worker coverage gate; supersedes the earlier diagnostic snapshot."
+    },
+    {
+      "id": "E-UIQ08-FULL-COVERAGE",
+      "kind": "test",
+      "uri": "docs/research/uiq08/evidence/full-coverage-summary.json",
+      "commit": null,
+      "sha256": "1b3a9ce7360630e8bf4a8a0c298ac49c8800597a712f44ce31f5813ba30097ec",
+      "verified": true,
+      "note": "Full 165-file/2,672-test coverage gate passed at 100% global statements, branches, functions and lines using a command-only two-worker override."
+    },
+    {
+      "id": "E-UIQ08-CODEX-REVIEW-FINAL",
+      "kind": "document",
+      "uri": "docs/research/uiq08/CODEX-REVIEW.md",
+      "commit": null,
+      "sha256": "32c87b948599b2b60d3f8ecdab464443a376d05e064c6837148844e9341f1743",
+      "verified": true,
+      "note": "Final independent review includes successful global gate and visual recommendation; supersedes earlier review snapshot."
+    },
+    {
+      "id": "E-UIQ08-CANDIDATE-EXIT-ACCEPTED",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq08/CANDIDATE-EXIT.json",
+      "commit": null,
+      "sha256": "17bb9340520229d852715c2db52d30444e6bb27543992375d52426f3de090255",
+      "verified": true,
+      "note": "Accepted final Slice 757 exit evidence after recording the successful two-worker global coverage rerun and board closeout."
     }
   ]
 }

@@ -1,0 +1,6 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "text": "Contributor reassigned to Codex for Slice 757: the planned Claude Code CLI is installed but claude auth status reports loggedIn=false. No external agent was launched and no alternate model/owner was substituted; Codex owns implementation, verification and review in the isolated worktree."
+}

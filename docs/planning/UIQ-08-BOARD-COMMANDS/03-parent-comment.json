@@ -1,0 +1,6 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-08",
+  "actor": "Codex",
+  "text": "Maintainer admitted UIQ08-CANDIDATE on 2026-10-12 as an isolated, unshipped native toolbar treatment only. The parent remains Backlog/unshipped; production app integration/deployment requires a separate admission. See docs/planning/UIQ-08-ADMISSION.md."
+}

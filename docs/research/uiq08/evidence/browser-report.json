@@ -1,0 +1,72 @@
+{
+  "origin": "http://127.0.0.1:4187",
+  "checks": [
+    "no-remote-css-resources-and-no-production-bundle-leak",
+    "measured-aa-contrast-over-dark-light-and-accent-backdrops",
+    "candidate-banner-and-existing-control-semantics",
+    "pointer-keyboard-zoom-bounds-fit-scroll-and-artwork-identity",
+    "axe-wcag-2.1-aa",
+    "responsive-no-overflow-320px",
+    "responsive-no-overflow-360px",
+    "responsive-no-overflow-390px",
+    "responsive-no-overflow-480px",
+    "responsive-no-overflow-768px",
+    "responsive-no-overflow-1280px",
+    "responsive-no-overflow-1440px",
+    "dense-local-backdrop-with-real-flow-position",
+    "translucent-enhancement-and-opaque-fallback",
+    "forced-colors-high-contrast-fallback",
+    "reduced-motion-static-treatment",
+    "no-external-requests-or-page-errors"
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "screenshots": [
+    "docs/research/uiq08/evidence/toolbar-320.png",
+    "docs/research/uiq08/evidence/toolbar-desktop.png",
+    "docs/research/uiq08/evidence/toolbar-dense-backdrop.png",
+    "docs/research/uiq08/evidence/toolbar-opaque-fallback.png",
+    "docs/research/uiq08/evidence/toolbar-forced-colors.png"
+  ],
+  "contrastPressure": [
+    {
+      "backdrop": "#071321",
+      "toolbarText": 15.08,
+      "buttonText": 12.77,
+      "fitText": 10.71,
+      "toolbarBorder": 7.44
+    },
+    {
+      "backdrop": "#ffffff",
+      "toolbarText": 7.13,
+      "buttonText": 12.77,
+      "fitText": 10.71,
+      "toolbarBorder": 3.52
+    },
+    {
+      "backdrop": "#f2c88b",
+      "toolbarText": 8.52,
+      "buttonText": 12.77,
+      "fitText": 10.71,
+      "toolbarBorder": 4.2
+    },
+    {
+      "backdrop": "#88d7ef",
+      "toolbarText": 8.47,
+      "buttonText": 12.77,
+      "fitText": 10.71,
+      "toolbarBorder": 4.18
+    }
+  ],
+  "computedCandidateStyle": {
+    "background": "color(srgb 0.0666667 0.133333 0.215686 / 0.78)",
+    "backdrop": "blur(12px) saturate(1.25)",
+    "buttonBackground": "rgb(229, 243, 248)"
+  },
+  "forcedColors": {
+    "background": "rgb(255, 255, 255)",
+    "backdrop": "none",
+    "buttonColor": "rgb(0, 0, 0)"
+  },
+  "verifiedAt": "2026-10-12T15:01:23.004Z"
+}
