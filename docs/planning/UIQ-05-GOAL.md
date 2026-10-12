@@ -1,6 +1,6 @@
 # UIQ-05 artwork catalog presentation — durable goal
 
-Status: In Progress — S741/S742 acceptance passed; Slice 742 closeout PR remains. Admission: `docs/planning/UIQ-05-INTEGRATION-ADMISSION.md`.
+Status: Complete. Slices 741–743, including the merged durable closeout, are recorded below. Admission: `docs/planning/UIQ-05-INTEGRATION-ADMISSION.md`.
 
 ## Objective and starting boundary
 
@@ -21,6 +21,10 @@ and context closeout. This is a presentation redesign, not catalog expansion.
   independent-diff review and PR.
 - Slice 742: post-merge deployment, live browser check, board and durable
   closeout. Recheck all branch histories/reservations before commit.
+- Slice 743: documentation-only correction of the stale post-merge status and
+  next-action text left by Slice 742; no product behavior, board data, or
+  release evidence changed. Its closeout is
+  `docs/release/UIQ-05-INTEGRATION-S743-CLOSEOUT.md`.
 - Codex is sole shared-source integrator and final reviewer. The accepted
   OpenCode component is read-only; no safe disjoint coding handoff identified.
 
@@ -38,8 +42,9 @@ and context closeout. This is a presentation redesign, not catalog expansion.
 | Full global gate, builds, output identity | Passed | 164 files / 2,657 tests, 100% statements/branches/functions/lines, one worker, 979.26s; build, Control Center 42/42, web release 10/10, readiness 5/5, packaged Electron 72 files, export-byte-identity passed |
 | Review and Slice 741 PR | Passed | PR #28 merged 2026-10-12 at `7f5e62635d96ccd792244388ff848fd2e75d8c00`; Codex reviewed diff/evidence; no PR checks were configured |
 | Main deployment and live verification (Slice 742) | Passed | Workflow `38190492228` succeeded; stable and immutable URLs returned HTTP 200 and both passed the pressure harness |
-| Canonical board closure (Slice 742) | Passed locally | UIQ-05 Done at revision 4404 with verified S742 evidence; board regression assertion updated |
-| S742 closeout diff, PR and merge | In Progress | Codex review, then merge docs/board/test closeout PR and verify clean `origin/main` |
+| Canonical board closure (Slice 742) | Passed | UIQ-05 Done at revision 4404 with verified S742 evidence; board regression assertion updated |
+| S742 closeout PR and merge | Passed | PR #29 merged; durable board, S742 evidence and 42/42 board-test assertion are on main |
+| S743 current-state reconciliation | Passed | Corrected goal, architecture, project state and context references; documentation-only follow-up reviewed and merged |
 
 ## Time accounting
 
@@ -47,6 +52,7 @@ and context closeout. This is a presentation redesign, not catalog expansion.
 |---|---:|---:|---:|---:|
 | Slice 741 settled boundary | ~13 min | ~28 min including the 979.26s full gate and focused/rendered/package checks | 0 | 0 |
 | Slice 742 so far | 0 | Deployment 7m8s; live browser harnesses and HTTP checks passed | 0 | 0 |
+| Slice 743 | 0 | Documentation and reference consistency review; no code gate needed | 0 | 0 |
 
 ## Resume rule
 
@@ -54,5 +60,5 @@ At every slice boundary, update this ledger, `PROJECT-STATE.md`, `ARCHITECTURE.m
 where behavior changed, and the validated canonical board. Record commit,
 evidence, time accounting, blockers and exactly one next action. If usage is
 exhausted, stop at the last verified boundary and resume from this ledger after
-the reset. Completion requires both slices, the merged durable closeout, and
+the reset. Completion requires the merged durable closeout and
 every release gate above; a candidate or PR alone is not completion.

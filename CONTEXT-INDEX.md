@@ -192,8 +192,9 @@ only through an explicitly admitted, linked Epic packet.
   `docs/research/uiq05/evidence/S741-verification.json`. S742 deployment run
   38190492228 succeeded, and stable plus immutable URLs passed live browser
   checks. The validated board records UIQ-05 Done at revision 4404 with
-  `E-UIQ05-S742`; its durable closeout PR remains active. UIQ-07 remains
-  Backlog and unadmitted.
+  `E-UIQ05-S742`; final current-state reconciliation is in
+  `docs/release/UIQ-05-INTEGRATION-S743-CLOSEOUT.md`. UIQ-05 is complete and
+  UIQ-07 remains Backlog and unadmitted.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped

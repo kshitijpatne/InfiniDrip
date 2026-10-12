@@ -1,4 +1,4 @@
-## Current boundary — UIQ-05 release closeout (Slice 742)
+## Current boundary — UIQ-05 complete (Slices 741–743)
 
 UIQ-04 completed and deployed through Slice 740 at `origin/main`
 `f4cbfc45ca3bf2237b226a159ebe78e738ea3016`; canonical board revision 4394
@@ -21,12 +21,14 @@ merged on 2026-10-12 at `7f5e62635d96ccd792244388ff848fd2e75d8c00`. Its exit rec
 164 files / 2,657 tests at 100% for statements, branches, functions and lines;
 production and Electron builds, operational gates, rendered/no-egress pressure
 test, packaged Electron verification, and export byte identity passed. Slice
-742 owns post-merge deployment, live verification, board Done transition, and
-context closeout. Main deployment workflow `38190492228` succeeded in 7m8s.
+742 completed post-merge deployment, live verification, board Done transition,
+and context closeout. Main deployment workflow `38190492228` succeeded in 7m8s.
 The stable `https://infinidrip-preview.pages.dev` and immutable
 `https://6d37578c.infinidrip-preview.pages.dev` URLs both returned HTTP 200 and
 passed the full live browser pressure harness at 1280/640/320. The validated
-board records UIQ-05 Done at revision 4404 with S742 evidence. Goal-start
+board records UIQ-05 Done at revision 4404 with S742 evidence. Slice 743
+corrected stale completion/next-action language left in the previous goal
+record; it changed no product behavior, board state or release evidence. Goal-start
 usage was ordinary allowed, primary 2% used, weekly 24% used, no reset
 credits; at S741 close ordinary usage remained allowed.
 
@@ -42,11 +44,11 @@ the context index is absent from this checkout; `git worktree list`, current
 main and the canonical board were used to establish ownership instead. The
 older root checkout and historical/closed worktrees are preserved.
 
-Immediate next action: review and merge the S742 docs/board/test closeout PR;
-then verify `origin/main` contains the closure. UIQ-05 is not fully complete
-until this durable closeout is merged. No external agent was dispatched
-because S741 required one shared action adapter and no safe disjoint
-implementation remained.
+UIQ-05 is complete, including the merged board and project-context records.
+No further UIQ package is admitted. UIQ-07 remains Backlog; begin it only with
+a new maintainer admission. No external agent was dispatched because S741
+required one shared action adapter and no safe disjoint implementation
+remained.
 
 ## Prior boundary — UIQ-04 material clarity complete (Slices 739–740)
 

@@ -131,8 +131,8 @@ exports, baseline or other UIQ scope is included. Full boundaries and gates:
 `docs/planning/UIQ-05-INTEGRATION-ADMISSION.md` and
 `docs/planning/UIQ-05-GOAL.md`. S741 merged via PR #28 at `7f5e6263`; S742
 deployment and stable/immutable live verification passed. UIQ-05 is Done at
-board revision 4404 with verified S742 evidence; final durable closeout PR is
-pending. UIQ-07 remains Backlog/unadmitted.
+board revision 4404 with verified S742 evidence; final durable current-state
+reconciliation is complete. UIQ-07 remains Backlog/unadmitted.
 
 ## Parallel boundaries
 
