@@ -1,0 +1,16 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-01",
+  "expectedRevision": 4515,
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "reason": "Slice 761 reconciles the fulfilled review-only acceptance: S354 recorded satisfied/in-scope/out-of-scope dispositions, S368 and S418 revalidated without changing gates, and S732 verified G04 closure. This closes a review checkpoint only; it does not claim a new product feature or relax any G04 hold/gate.",
+  "evidenceRefs": [
+    "E-UIQ01-S761-EXIT",
+    "E-G04-S354-EXIT",
+    "E-G04-S368-EXIT",
+    "E-G04-S418-EXIT",
+    "E-G04-S732-EXIT"
+  ]
+}

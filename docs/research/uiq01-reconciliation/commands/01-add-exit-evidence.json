@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-01",
+  "expectedRevision": 4513,
+  "evidence": {
+    "id": "E-UIQ01-S761-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq01-reconciliation/S761-exit-packet.md",
+    "commit": null,
+    "sha256": "0e44087bb36bf85726acebbf01d0bace3291afb0ce59bfc638d210db92d5ac1b",
+    "verified": true,
+    "note": "Slice 761 reconciles UIQ-01 as a completed G04 review checkpoint only; S354 dispositions, S368/S418 revalidation, and S732 G04 closeout preserve all gates and holds. UIQ-09 remains blocked pending explicit EPIC-19 admission."
+  }
+}

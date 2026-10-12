@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-09",
+  "expectedRevision": 4518,
+  "actor": "Codex",
+  "text": "EPIC-19 admission remains required before UIQ-09 implementation. EPIC-17/G04 is complete and its relevant source-to-view evidence is retained; EPIC-19/G06 is still Backlog. Keep UIQ-09 in Backlog until EPIC-19 is explicitly admitted and the bounded starter/source contract is accepted."
+}

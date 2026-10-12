@@ -1,5 +1,16 @@
 # InfiniDrip — Confirmed project decisions
 
+## UIQ-01 — close the fulfilled G04 review checkpoint (2026-10-12)
+
+Slice 354 recorded the approved recommendation dispositions against G04; Slices
+368 and 418 revalidated those dispositions without changing G04 acceptance,
+holds, V02/V03 ordering, or UIQ dependencies. After the S732 G04 closeout, the
+maintainer authorized reconciling the stale UIQ-01 Backlog card. Close it as
+Done with the existing verified G04 evidence plus the Slice 761 reconciliation
+record. This is review/admin closeout only, not a new shipped UI feature. UIQ-09
+remains the next ordered package but cannot start until EPIC-19 is explicitly
+admitted and the required starter/data scope is accepted.
+
 ## UIQ-08 — solid inspection-toolbar integration admitted (2026-10-12)
 
 After the isolated UIQ-08 candidate and candidate-only deployment closeout,
