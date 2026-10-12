@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4451,
-  "updatedAt": "2026-10-12T05:29:54.245Z",
+  "revision": 4459,
+  "updatedAt": "2026-10-12T13:55:50.477Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -15071,32 +15071,36 @@
       "title": "Static native entry and original wordmark",
       "epicId": null,
       "releaseId": null,
-      "status": "Backlog",
+      "status": "In Progress",
       "openedAt": "2026-10-02",
       "targetAt": null,
       "deliveredAt": null,
       "priority": "P2",
-      "risk": "low",
+      "risk": "medium",
       "owner": "Codex",
-      "contributor": "Claude Code",
+      "contributor": "Codex",
       "reviewer": "Codex",
       "dependencies": [
-        "UIQ-02"
+        "UIQ-02",
+        "UIQ-GATE"
       ],
       "protectedSurfaces": [
-        "active Epic17 file ownership",
-        "local-first/no-cost boundary",
-        "100% coverage",
-        "export byte identity",
-        "source/revision identity"
+        "existing first-run tutorial state, actions, copy and physical-fit caveat",
+        "existing UIQ-02 foundation and page-level H1 hierarchy",
+        "local-first/no-cost boundary; no login, account, profile or hosted service",
+        "exact UIQ-07 flag-off presentation",
+        "100% changed/global coverage and export byte identity",
+        "all UIQ packages except UIQ-07 and BUG-UI-048"
       ],
-      "description": "Packet: docs/planning/UI-ENHANCEMENT-SEQUENCE.md. Native welcome background and independently authored metal-inspired wordmark; reusable later under G08.",
-      "expectation": "No login, cloud, upload, analytics, React or Shield copied implementation.",
+      "description": "Maintainer-admitted current-main integration of the accepted static welcome visual around only the existing first-run tutorial welcome. Packet: docs/planning/UIQ-07-INTEGRATION-ADMISSION.md; live gates: docs/planning/UIQ-07-INTEGRATION-GOAL.md. No login or new entry flow.",
+      "expectation": "The existing tutorial welcome gains the accepted native branded visual without changing tutorial actions, local progress, truthfulness, accessibility, or its exact fallback.",
       "acceptanceCriteria": [
-        "Clear local-first/physical limitations and solid contrast fallback; entry wiring through UIQ-GATE.",
-        "Follow docs/planning/UI-ENHANCEMENT-SEQUENCE.md and the package's own admission/handoff before implementation.",
-        "Preserve 100% coverage, protected export bytes, local-first/no-cost boundaries and actual rendered evidence; no physical claims.",
-        "Codex reviews the candidate and controls wiring/merge; distinguish isolated candidate completion from shipped app behavior."
+        "Use the immutable accepted candidate source and proof hashes; limit the display to unseen/welcome tutorial state.",
+        "Embedded uiq_welcome defaults on for accepted release; local test override; OFF/unknown/stale restores the exact pre-UIQ-07 welcome and keeps uiq_foundation behavior.",
+        "Preserve existing app H1, tutorial copy and digital-only physical-fit caveat, Start/Skip controls, IDs, event handling, persistence, replay and every non-welcome step.",
+        "No login, account/profile, hosted service, database, new route/step/CTA, network, dependency, state or export behavior.",
+        "Changed production and settled global coverage 100% for statements/branches/functions/lines; build/type, operational, packaged, export-byte-identity and rendered accessibility/responsive/no-egress gates pass without moving baselines.",
+        "Codex reviews complete diff/evidence and controls PR/merge; mark Done only after successful automatic deployment, live verification and validated board closeout."
       ],
       "statusHistory": [
         {
@@ -15106,6 +15110,14 @@
           "role": "maintainer",
           "note": "Maintainer approved the UI recommendation sequence on 2026-10-01 New York; register Backlog without starting implementation.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T12:12:44.539Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "The maintainer admitted the next ordered UIQ goal after UIQ-06 completion. The exact UIQ-07 first-run welcome integration, no-login boundary, embedded flag/fallback, S755/S756 gates and ownership are frozen in docs/planning/UIQ-07-INTEGRATION-ADMISSION.md and UIQ-07-INTEGRATION-GOAL.md.",
+          "evidenceRefs": []
         }
       ],
       "comments": [
@@ -15113,12 +15125,19 @@
           "at": "2026-10-11T14:22:54.000Z",
           "actor": "Codex",
           "text": "S733 reconciled the accepted isolated candidate child and its immutable exit proof on current main. This parent remains Backlog/unshipped; production integration requires its own package admission and verification."
+        },
+        {
+          "at": "2026-10-12T13:49:16.167Z",
+          "actor": "Codex",
+          "text": "Slice 755 passed pre-merge acceptance. See docs/release/UIQ-07-INTEGRATION-S755-EXIT.md and digest-bound E-UIQ07-S755-EXIT for the full gate, rendered evidence, preserved boundaries and current holds. Parent remains In Progress/unshipped until reviewed PR merge and Slice 756 deployment/board closeout."
         }
       ],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ07-INTEGRATION-ADMISSION",
+        "E-UIQ07-S755-EXIT"
       ],
-      "flagKey": null
+      "flagKey": "uiq_welcome"
     },
     {
       "id": "UIQ-08",
@@ -29484,6 +29503,24 @@
       "sha256": "171ef71ec5329c9b0dc31eca2451b99b01d58e9884c484169d19bf2bb64a0d14",
       "verified": true,
       "note": "Machine record of PR #34 merge, full successful workflow 38207414640, zero uploaded files and HTTP 200 for stable and immutable public URLs."
+    },
+    {
+      "id": "E-UIQ07-INTEGRATION-ADMISSION",
+      "kind": "decision",
+      "uri": "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md",
+      "commit": null,
+      "sha256": "0df04f1f21a40fd7f70771771d15c54806f787b213106ff13f6576fc2b3f2b2a",
+      "verified": true,
+      "note": "Verified canonical SHA-256 of the final UIQ-07 integration admission packet after recording the accepted Slice 755 boundary and precise Slice 756 closeout gate."
+    },
+    {
+      "id": "E-UIQ07-S755-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq07-integration/evidence/S755-verification.json",
+      "commit": null,
+      "sha256": "539b96984b6d8784c135cdd1133fc957dbcf6f5ce5a3c6d15309de8a1f328bb8",
+      "verified": true,
+      "note": "Updated the digest-bound S755 verification record after clarifying its board-revision field; all gate results and source evidence are unchanged."
     }
   ]
 }

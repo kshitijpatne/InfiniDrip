@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-07",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "The maintainer admitted the next ordered UIQ goal after UIQ-06 completion. The exact UIQ-07 first-run welcome integration, no-login boundary, embedded flag/fallback, S755/S756 gates and ownership are frozen in docs/planning/UIQ-07-INTEGRATION-ADMISSION.md and UIQ-07-INTEGRATION-GOAL.md.",
+  "expectedRevision": 4453
+}

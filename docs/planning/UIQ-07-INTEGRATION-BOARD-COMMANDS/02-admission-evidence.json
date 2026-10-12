@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-07",
+  "expectedRevision": 4452,
+  "evidence": {
+    "id": "E-UIQ07-INTEGRATION-ADMISSION",
+    "kind": "decision",
+    "uri": "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md",
+    "sha256": "47b4c46de7dc67f8f896701a3f0b8e87a6ace53ac68ab5ee3620f94fd9a764c2",
+    "verified": true,
+    "note": "Direct maintainer instruction on 2026-10-12 to proceed with the next ordered UIQ goal after UIQ-06 Slice 754; admits only the first-run tutorial welcome integration, not login or a new entry flow."
+  }
+}

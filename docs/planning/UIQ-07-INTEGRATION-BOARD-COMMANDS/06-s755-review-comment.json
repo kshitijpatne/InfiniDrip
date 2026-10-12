@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-07",
+  "expectedRevision": 4456,
+  "actor": "Codex",
+  "text": "Slice 755 passed pre-merge acceptance. See docs/release/UIQ-07-INTEGRATION-S755-EXIT.md and digest-bound E-UIQ07-S755-EXIT for the full gate, rendered evidence, preserved boundaries and current holds. Parent remains In Progress/unshipped until reviewed PR merge and Slice 756 deployment/board closeout."
+}

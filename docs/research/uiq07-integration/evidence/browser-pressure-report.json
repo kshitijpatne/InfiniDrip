@@ -1,0 +1,87 @@
+{
+  "verifiedAt": "2026-10-12T12:50:39.117Z",
+  "origin": "http://127.0.0.1:4176",
+  "checks": [
+    "default-first-run-visual-copy-actions-single-h1-and-fit-caveat",
+    "axe-wcag-2.1-aa",
+    "responsive-no-overflow-1280px",
+    "responsive-no-overflow-640px",
+    "responsive-no-overflow-390px",
+    "responsive-no-overflow-320px",
+    "keyboard-focus-visible-on-existing-welcome-action",
+    "forced-colors-readable-wordmark",
+    "reduced-motion-respected",
+    "existing-start-action-advances-to-existing-tour",
+    "existing-skip-and-replay-lifecycle",
+    "unavailable-local-storage-fails-closed-without-replacing-data",
+    "no-egress-runtime-errors-or-console-errors"
+  ],
+  "viewports": [
+    {
+      "width": 1280,
+      "viewportWidth": 1280,
+      "documentWidth": 1280,
+      "panelScrollWidth": 1336,
+      "panelClientWidth": 1246,
+      "overflow": "hidden",
+      "contentWithinPanel": true
+    },
+    {
+      "width": 640,
+      "viewportWidth": 640,
+      "documentWidth": 640,
+      "panelScrollWidth": 684,
+      "panelClientWidth": 622,
+      "overflow": "hidden",
+      "contentWithinPanel": true
+    },
+    {
+      "width": 390,
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "panelScrollWidth": 468,
+      "panelClientWidth": 372,
+      "overflow": "hidden",
+      "contentWithinPanel": true
+    },
+    {
+      "width": 320,
+      "viewportWidth": 320,
+      "documentWidth": 320,
+      "panelScrollWidth": 398,
+      "panelClientWidth": 302,
+      "overflow": "hidden",
+      "contentWithinPanel": true
+    }
+  ],
+  "screenshots": [
+    "welcome-integrated-1280.png",
+    "welcome-integrated-320.png",
+    "welcome-integrated-forced-colors.png"
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "accessibility": {
+    "engine": "axe-core",
+    "wcag21aaViolations": 0,
+    "passes": 24,
+    "incomplete": 1
+  },
+  "keyboardFocus": {
+    "id": "welcome-start",
+    "tag": "BUTTON",
+    "outlineStyle": "solid",
+    "outlineWidth": "2px"
+  },
+  "forcedColors": {
+    "color": "rgb(0, 0, 0)",
+    "fill": "rgb(0, 0, 0)",
+    "backgroundImage": "none"
+  },
+  "reducedMotion": {
+    "animation": "0s",
+    "transition": "0s"
+  },
+  "storageUnavailable": "Fail-closed message shown; no saved data replacement and no welcome overlay bypass."
+}

@@ -53,6 +53,7 @@ test("UIQ integration status follows its release evidence", () => {
     if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
     else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
     else if (card.id === "UIQ-06") assert.equal(card.status, "Done");
+    else if (card.id === "UIQ-07") assert.equal(card.status, "In Progress");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
@@ -132,6 +133,19 @@ test("UIQ integration status follows its release evidence", () => {
   assert.equal(uiq06S754MachineEvidence?.verified, true);
   assert.equal(hashEvidenceArtifact(uiq06S754MachineEvidence.uri), uiq06S754MachineEvidence.sha256.toLowerCase());
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 754 verified PR #34 merge")));
+  const uiq07Admission = board.evidence.find((entry) => entry.id === "E-UIQ07-INTEGRATION-ADMISSION");
+  assert.equal(cards[6].title, "Static native entry and original wordmark");
+  assert.equal(cards[6].flagKey, "uiq_welcome");
+  assert.equal(cards[6].releaseId, null);
+  assert.equal(cards[6].deliveredAt, null);
+  assert.deepEqual(cards[6].dependencies, ["UIQ-02", "UIQ-GATE"]);
+  assert.ok(cards[6].description.includes("docs/planning/UIQ-07-INTEGRATION-ADMISSION.md"));
+  assert.ok(cards[6].statusHistory.some((entry) => entry.status === "In Progress"));
+  assert.ok(cards[6].evidenceRefs.includes("E-UIQ07-INTEGRATION-ADMISSION"));
+  assert.equal(uiq07Admission?.kind, "decision");
+  assert.equal(uiq07Admission?.verified, true);
+  assert.equal(uiq07Admission?.uri, "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md");
+  assert.equal(hashEvidenceArtifact(uiq07Admission.uri), uiq07Admission.sha256.toLowerCase());
   const mobileToolbarBug = board.workItems.find((item) => item.id === "BUG-UI-048");
   assert.equal(mobileToolbarBug?.title, "More views and Assembled overlap on mobile");
   assert.equal(mobileToolbarBug?.type, "bug");

@@ -49,6 +49,7 @@ import "./enhancements/guidance/guidance-panel.css";
 import "./enhancements/material/material-panel.css";
 import "./enhancements/artwork/artwork-panel.css";
 import "./enhancements/artwork/artwork-integration.css";
+import "./enhancements/entry/welcome-panel.css";
 
 const PANEL = "#13233A";
 const BORDER = "#1E3450";

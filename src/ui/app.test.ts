@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Blob as NodeBlob } from "node:buffer";
 import { webcrypto } from "node:crypto";
 import { IDBFactory } from "fake-indexeddb";
@@ -36,7 +36,8 @@ import { GARMENTS, STANDARD_M, STRETCH_FABRICS, draftTshirt, gradeRun, rolePiece
 import * as editEngine from "../edit";
 import * as semanticEditEngine from "../edit/semantic-edit";
 import { pieceHandles, editorViewBox } from "../edit";
-import { loadJourney } from "./journey";
+import { loadJourney, tutorialMarkup } from "./journey";
+import { applyTutorialFoundation } from "./enhancements/foundation/tutorial-foundation";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { currentFieldObservation, getFieldDefinitions } from "./field-provenance";
 import { createDxfInterchangePackage } from "../export/dxf-interchange-package";
@@ -54,8 +55,40 @@ const mutablePatternMeasurementMap = PATTERN_MEASUREMENT_MAP as unknown as
 function mount(options: Parameters<typeof mountApp>[1] = {}): HTMLDivElement {
   const root = document.createElement("div");
   mountApp(root, options);
+  mountedRoots.add(root);
   return root;
 }
+
+type TrackedWindowListener = {
+  readonly type: string;
+  readonly listener: EventListenerOrEventListenerObject;
+  readonly options?: boolean | AddEventListenerOptions;
+};
+
+const mountedRoots = new Set<HTMLDivElement>();
+const trackedWindowListeners: TrackedWindowListener[] = [];
+const addNativeWindowListener = window.addEventListener.bind(window);
+const removeNativeWindowListener = window.removeEventListener.bind(window);
+
+beforeEach(() => {
+  trackedWindowListeners.length = 0;
+  vi.spyOn(window, "addEventListener").mockImplementation((type, listener, options) => {
+    trackedWindowListeners.push({ type, listener, options });
+    addNativeWindowListener(type, listener, options);
+  });
+});
+
+afterEach(() => {
+  for (const { type, listener, options } of trackedWindowListeners) {
+    removeNativeWindowListener(type, listener, options);
+  }
+  trackedWindowListeners.length = 0;
+  for (const root of mountedRoots) root.remove();
+  mountedRoots.clear();
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
 const viewBox = (root: HTMLElement): string =>
   root.querySelector("#canvas-host svg")!.getAttribute("viewBox")!;
 const clickId = (root: HTMLElement, id: string): void => {
@@ -3732,6 +3765,62 @@ describe("guided journey", () => {
     expect(hidden(root, "#style-host")).toBe(true);
   });
 
+  it("integrates the branded visual into only the existing first-run welcome", () => {
+    const root = mount();
+    const welcome = root.querySelector<HTMLElement>(".uiq-entry");
+    expect(welcome).not.toBeNull();
+    expect(welcome?.querySelector(".uiq-entry__wordmark")?.tagName).toBe("H2");
+    expect(root.querySelectorAll("#infini-shell h1")).toHaveLength(1);
+    expect(welcome?.querySelector("#tutorial-title")?.textContent).toBe("Welcome");
+    expect(welcome?.querySelector("#tutorial-panel")?.textContent)
+      .toContain("Nothing has been sewn or fit-tested");
+    expect(welcome?.querySelector<HTMLButtonElement>("#welcome-start")?.textContent)
+      .toBe("Start the tour");
+    expect(welcome?.querySelector<HTMLButtonElement>("#welcome-skip")?.textContent)
+      .toBe("Skip for now");
+
+    jclick(root, "welcome-start");
+    expect(root.querySelector(".uiq-entry")).toBeNull();
+    expect(root.querySelector("#tutorial-title")?.textContent).toContain("Choose what to design");
+    root.remove();
+  });
+
+  it("retains the exact legacy tutorial welcome when UIQ welcome is disabled", () => {
+    const root = mount({ uiqWelcomeEnabled: false });
+    const expectedHost = document.createElement("div");
+    expectedHost.innerHTML = tutorialMarkup(loadJourney().tutorial, false);
+    applyTutorialFoundation(expectedHost, true);
+    expect(root.querySelector(".uiq-entry")).toBeNull();
+    expect(root.querySelector<HTMLElement>("#tutorial-host")?.innerHTML)
+      .toBe(expectedHost.innerHTML);
+    expect(root.querySelector("#welcome-start")?.textContent).toBe("Start the tour");
+    expect(root.querySelector("#welcome-skip")?.textContent).toBe("Skip for now");
+    root.remove();
+  });
+
+  it("ignores a resize after the inspection content host is detached", () => {
+    const root = mount();
+    root.querySelector("#garment-host")?.remove();
+    root.querySelector("#analysis-host")?.remove();
+    expect(() => window.dispatchEvent(new Event("resize"))).not.toThrow();
+  });
+
+  it("ignores global shortcuts from an app mount that has been replaced", () => {
+    mount();
+    mount();
+    const shortcut = new KeyboardEvent("keydown", { key: "q", ctrlKey: true, cancelable: true });
+    expect(() => window.dispatchEvent(shortcut)).not.toThrow();
+    expect(shortcut.defaultPrevented).toBe(false);
+  });
+
+  it("does not let a replaced app mount block before-unload", () => {
+    mount();
+    mount();
+    const beforeUnload = new Event("beforeunload", { cancelable: true });
+    expect(() => window.dispatchEvent(beforeUnload)).not.toThrow();
+    expect(beforeUnload.defaultPrevented).toBe(false);
+  });
+
   it("starts on Garment, then advances to Measure without choosing a garment", () => {
     const root = mount();
     jclick(root, "welcome-start");
@@ -3844,9 +3933,11 @@ describe("guided journey", () => {
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!).tutorial.status).toBe("skipped");
     expect(root.querySelector("#journey-host")!.textContent).not.toContain("Tour complete");
     expect(root.querySelector("#readiness-host")!.textContent).not.toContain("5 of 5");
+    expect(root.querySelector(".uiq-entry")).toBeNull();
     clickId(root, "save-pattern");
     clickId(root, "tutorial-replay");
     expect(root.querySelector("#tutorial-title")!.textContent).toBe("Welcome");
+    expect(root.querySelector(".uiq-entry")).not.toBeNull();
     expect(JSON.parse(localStorage.getItem("patternworks_journey_v1")!).tutorial).toEqual({
       status: "in_progress", step: "welcome",
     });

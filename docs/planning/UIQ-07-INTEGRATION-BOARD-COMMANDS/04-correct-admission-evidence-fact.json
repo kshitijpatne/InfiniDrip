@@ -1,0 +1,14 @@
+{
+  "type": "importFacts",
+  "facts": [
+    {
+      "evidenceId": "E-UIQ07-INTEGRATION-ADMISSION",
+      "uri": "docs/planning/UIQ-07-INTEGRATION-ADMISSION.md",
+      "kind": "decision",
+      "commit": null,
+      "sha256": "47b4c46de7dc67f8f896701a3f0b8e87a6ace53ac68ab5ee3620f94fd9a764c2",
+      "verified": true,
+      "note": "Verified canonical LF-normalized SHA-256 of the final admission packet after its exact file boundary was recorded."
+    }
+  ]
+}

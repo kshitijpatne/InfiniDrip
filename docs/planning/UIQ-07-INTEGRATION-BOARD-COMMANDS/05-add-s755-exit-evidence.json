@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-07",
+  "expectedRevision": 4455,
+  "evidence": {
+    "id": "E-UIQ07-S755-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq07-integration/evidence/S755-verification.json",
+    "commit": null,
+    "sha256": "016ac7f2777e6284c38ca318da9043a564f1a41e97f94090ec4e12aeba7cf717",
+    "verified": true,
+    "note": "Slice 755 pre-merge acceptance: 2,669/2,669 tests, 100% global four-metric coverage, build/operational/packaged gates passed, 13 rendered browser checks and immutable candidate hashes pass. UIQ-07 remains unshipped pending PR review, merge, deployment and Slice 756 closeout."
+  }
+}

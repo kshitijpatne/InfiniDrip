@@ -1,0 +1,14 @@
+{
+  "type": "importFacts",
+  "facts": [
+    {
+      "evidenceId": "E-UIQ07-S755-EXIT",
+      "uri": "docs/research/uiq07-integration/evidence/S755-verification.json",
+      "kind": "exit-report",
+      "commit": null,
+      "sha256": "539b96984b6d8784c135cdd1133fc957dbcf6f5ce5a3c6d15309de8a1f328bb8",
+      "verified": true,
+      "note": "Updated the digest-bound S755 verification record after clarifying its board-revision field; all gate results and source evidence are unchanged."
+    }
+  ]
+}

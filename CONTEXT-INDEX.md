@@ -127,8 +127,16 @@ only through an explicitly admitted, linked Epic packet.
   Exit proof and reviewer audit are `docs/research/uiq07/CANDIDATE-EXIT.json`
   and `CODEX-REVIEW.md`; `BOARD-CLOSEOUT.json` confirms board456 and its verified
   evidence hash. `UIQ-07-BOARD-COMMANDS.json` is its additive replay. Candidate
-  child is Done; UIQ-07 parent remains Backlog/unshipped pending its separately
-  admitted integration.
+  child is Done. The separately admitted current-main integration is
+  `docs/planning/UIQ-07-INTEGRATION-ADMISSION.md`, with live gates in
+  `docs/planning/UIQ-07-INTEGRATION-GOAL.md`; it wraps only the existing
+  first-run tutorial welcome and retains its current actions/caveat. UIQ-07
+  passed Slice 755 pre-merge acceptance (2,669 tests and 100% global coverage,
+  build/operational/packaged gates, 13 rendered checks); see
+  `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
+  `docs/research/uiq07-integration/evidence/S755-verification.json`. The
+  canonical board is revision 4459 and the parent remains In Progress/unshipped
+  until merged deployment and validated Slice 756 closeout.
 - `docs/planning/UIQ-GATE-ADMISSION.md`, `UIQ-GATE-GOAL.md`,
   `UIQ-GATE-BOARD-COMMANDS.json`, and
   `docs/release/UIQ-GATE-S733-EXIT.md` / `UIQ-GATE-S733-VERIFICATION.json` —
@@ -239,8 +247,8 @@ only through an explicitly admitted, linked Epic packet.
   BUG-UI-048 remains Backlog-only with no fix admitted. S753 and S754 closeout
   evidence is linked at `docs/research/uiq06/S753-FINAL-CLOSEOUT.md`,
   `docs/research/uiq06/S754-POSTMERGE-STATE.md` and
-  `docs/research/uiq06/evidence/S754-postmerge-state/`. UIQ-07 remains Backlog
-  and unadmitted; do not infer admission of a later package.
+  `docs/research/uiq06/evidence/S754-postmerge-state/`. UIQ-07 was separately
+  admitted by the maintainer on 2026-10-12; UIQ-08 and later remain unadmitted.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped

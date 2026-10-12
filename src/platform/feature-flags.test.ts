@@ -45,6 +45,34 @@ describe("embedded feature-flag contract", () => {
     });
   });
 
+  it("enables the bounded UIQ welcome visual and retains its tutorial fallback", () => {
+    expect(FEATURE_FLAGS.uiq_welcome).toMatchObject({
+      key: "uiq_welcome",
+      owner: "Codex",
+      audience: "public",
+      defaultValue: true,
+      expiresOn: "2027-01-12",
+      removalRelease: "UIQ-07 welcome-visual cleanup; no later than expiry",
+      rollout: "embedded",
+      fallback: "compatible-v1",
+      offBehavior: "Keep the current tutorial welcome presentation and all existing tutorial behavior.",
+    });
+    expect(evaluateFeatureFlag("uiq_welcome", CURRENT)).toMatchObject({
+      enabled: true,
+      status: "enabled",
+      source: "embedded-default",
+      diagnostic: FEATURE_FLAGS.uiq_welcome.onBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_welcome", CURRENT, false)).toMatchObject({
+      enabled: false,
+      status: "disabled",
+      source: "local-override",
+      diagnostic: FEATURE_FLAGS.uiq_welcome.offBehavior,
+    });
+    expect(evaluateFeatureFlag("uiq_welcome", new Date("2027-01-13T00:00:00.000Z"), true))
+      .toMatchObject({ enabled: false, status: "stale", source: "diagnostic" });
+  });
+
   it("enables UIQ guidance by default and preserves the readiness checklist fallback", () => {
     expect(FEATURE_FLAGS.uiq_guidance).toMatchObject({
       key: "uiq_guidance",
