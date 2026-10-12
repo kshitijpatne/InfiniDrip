@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "BUG-UI-048",
+  "evidence": {
+    "id": "E-BUG-UI-048-REPRO",
+    "kind": "browser",
+    "uri": "docs/research/uiq06/evidence/S752-postdeploy/toolbar-overlap-320.json",
+    "sha256": "b1cb02c00792d69efc6282306ed15e99b6b0d15edc85c612f2fd1eaa21a054fc",
+    "verified": true,
+    "note": "Measured on both stable and immutable live URLs at 320x900 CSS px. The controls intersect by 7.65625px horizontally and 32px vertically; identical bounds on both deployed URLs establish this is present in the same shipped app bundle."
+  },
+  "expectedRevision": 4443
+}

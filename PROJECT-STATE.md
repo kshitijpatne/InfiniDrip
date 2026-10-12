@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 release live; S751 durable closeout PR pending
+## Current boundary — UIQ-06 release live; S752 final reconciliation in progress
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -86,16 +86,30 @@ The UIQ-06 live smoke confirmed the Nesting readout and local-project messaging.
 Final report and machine evidence are in
 `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md` and
 `docs/research/uiq06/evidence/S751-live/`. The validated closeout branch board
-revision 4440 records UIQ-06 Done with S750/S751 evidence and final note. The
-post-closeout Control Center suite passes 42/42; its regression now asserts the
-completed state and both evidence links. A full local coverage refresh was
-attempted after that test change: default workers hit the unrelated EPIC-17
-S425 rendered replay's 60-second timeout, and the one-worker retry stalled at
-about 1.7 GB RSS. No code/configuration default was changed. The closeout PR
-must pass the repository's full CI test/coverage/build gates before merge; do
-not mark the durable goal Complete until its main deployment is verified.
-UIQ-07 remains Backlog/unadmitted; no further work is admitted. Full history
-and S751 limits are in `docs/planning/UIQ-06-GOAL.md`.
+revision 4445 records UIQ-06 Done with S750–S752 evidence. PR #32 merged to
+`origin/main` at `34a2592a55ba79d589ab8a5eaf63d9f770a4ed4d`; main Pages run
+`38203805432` passed full tests, build, deterministic artifact checks and
+deployment. Cloudflare uploaded zero changed files. Stable
+`https://infinidrip-preview.pages.dev` and immutable
+`https://d8c1c03e.infinidrip-preview.pages.dev` both returned HTTP 200 and
+passed the 1280/640/320 live browser/no-egress checks. S752 is reconciling this
+deployment and the durable goal. Its pressure check separately found and
+registered BUG-UI-048: a 7.65625px overlap between “More views” and “Assembled”
+at 320px. This pre-existing UI bug is Backlog-only, has no fix assignment, and
+does not change the deployed app or block UIQ-06. UIQ-07 remains Backlog and
+unadmitted; no further work is admitted. Full history is in
+`docs/planning/UIQ-06-GOAL.md`.
+
+Slice 752 is on `codex/uiq06-s752-final-reconciliation`, based on clean
+`origin/main` `34a2592a`. It adds no app source or deployment configuration.
+The stable and immutable post-PR-#32 URLs passed the existing 1280/640/320
+browser harness; targeted live bounds confirmed BUG-UI-048 identically on both
+URLs. The issue is documented and evidence-linked to the canonical board as
+Backlog; no fix is authorized. The focused Control Center suite passed 42/42,
+including digest checks for the report and bug reproduction. S752's own PR,
+main workflow and final current-state report remain the next gates. The issue
+title was refined through the validated command layer to identify the exact
+controls; current board revision is 4445.
 
 ## Previous boundary — UIQ-05 complete (Slices 741–743)
 

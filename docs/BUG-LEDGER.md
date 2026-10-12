@@ -64,6 +64,28 @@ because jsdom has no layout engine.
 The closure is digital UX and output-contract evidence only. No sewn sample,
 physical fit, drape, manufacturing, or production-readiness claim is made.
 
+### BUG-UI-048 — “More views” and “Assembled” overlap on mobile
+
+- Severity: S3. Priority: P2. Epic: unassigned. Status: Open / Backlog.
+- Evidence: on the shipped Fit screen at 320 CSS px, opening “More views” makes
+  its disclosure summary overlap the “Assembled” toggle. On both stable and
+  immutable public URLs, “More views” spans x=126.296875–224.53125 and
+  “Assembled” spans x=216.875–312; the controls overlap horizontally by
+  7.65625px and vertically by 32px. The page itself does not overflow.
+- Reproduction: fresh browser profile → Start → Fit → open “More views”; capture
+  bounding boxes at 320px. Machine evidence and screenshots:
+  `docs/research/uiq06/evidence/S752-postdeploy/toolbar-overlap-320.json` and
+  the stable/immutable `artwork-mobile-320.png` files.
+- Root cause: unconfirmed. Insufficient flex gap or item sizing is an initial
+  hypothesis only; inspect actual responsive layout before choosing a fix.
+- Done when: at 320px and neighboring narrow widths both controls have
+  distinct, non-overlapping visible and operable hit regions; keyboard focus,
+  disclosure/toggle behavior, artwork actions, and page overflow checks pass
+  in actual rendered output.
+- Fix slice: unassigned. No fix is authorized by S752; this record is backlog
+  tracking only.
+- Commit/PR: detection recorded in Slice 752 report; no behavior change.
+
 ## Historical bounded evidence — Slice 118
 
 The following records remain `In progress`; this evidence is bounded to the

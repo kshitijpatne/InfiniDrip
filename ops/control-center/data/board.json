@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4440,
-  "updatedAt": "2026-10-12T04:08:55.231Z",
+  "revision": 4445,
+  "updatedAt": "2026-10-12T04:53:35.249Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -15026,6 +15026,11 @@
           "at": "2026-10-12T04:08:55.231Z",
           "actor": "Codex",
           "text": "UIQ-06 is Done at board revision 4439. PR #31 merged to main as caa1c751; main deployment run 38201698605 passed and stable/immutable Pages URLs were live-verified with responsive, accessibility, keyboard and no-egress checks. S750's settled global 100% coverage, packaged Electron and export-identity gates remain passed; no baseline moved. S751 evidence is E-UIQ06-S751-LIVE-EXIT and final report docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md. UIQ-07 remains Backlog and unadmitted; no subsequent package is admitted by this closeout."
+        },
+        {
+          "at": "2026-10-12T04:49:10.795Z",
+          "actor": "Codex",
+          "text": "Slice 752 verified the post-PR #32 main workflow 38203805432 and both live URLs; Cloudflare uploaded zero changed files. UIQ-06 remains Done at revision 4440 with S750–S752 digest-bound evidence. The 320px pressure check separately registered BUG-UI-048 (7.65625px overlap between More views and Assembled) as Backlog only, with no fix authorized and no effect on UIQ-06 completion. Full evidence: docs/research/uiq06/S752-FINAL-DEPLOYMENT-EXIT.md. UIQ-07 remains Backlog/unadmitted; no next package is admitted."
         }
       ],
       "evidenceRefs": [
@@ -15041,7 +15046,8 @@
         "E-UIQ06-S749-VERIFIED",
         "E-UIQ06-S749-FINAL-COVERAGE",
         "E-UIQ06-S750-SETTLED-RELEASE",
-        "E-UIQ06-S751-LIVE-EXIT"
+        "E-UIQ06-S751-LIVE-EXIT",
+        "E-UIQ06-S752-FINAL-DEPLOYMENT"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -15895,6 +15901,53 @@
       "evidenceRefs": [
         "E-UIQ07-ADMISSION",
         "E-UIQ07-EXIT"
+      ],
+      "flagKey": null
+    },
+    {
+      "id": "BUG-UI-048",
+      "type": "bug",
+      "title": "More views and Assembled overlap on mobile",
+      "epicId": null,
+      "releaseId": null,
+      "status": "Backlog",
+      "openedAt": "2026-10-12",
+      "targetAt": null,
+      "deliveredAt": null,
+      "priority": "P2",
+      "risk": "low",
+      "owner": "Codex",
+      "contributor": "Codex",
+      "reviewer": "Codex",
+      "dependencies": [],
+      "protectedSurfaces": [
+        "Fit view toolbar",
+        "More views disclosure",
+        "Assembled preview toggle",
+        "existing artwork actions",
+        "responsive keyboard accessibility"
+      ],
+      "description": "On the shipped Fit screen at 320 CSS px, opening More views makes its disclosure summary overlap the Assembled toggle. Machine reproduction and bounds: docs/research/uiq06/evidence/S752-postdeploy/toolbar-overlap-320.json. This was found on byte-identical stable and immutable deployments and is not caused by S752.",
+      "expectation": "The More views disclosure and Assembled toggle have separate, visibly distinct, keyboard-operable hit regions at narrow widths without changing artwork actions or assembled-view behavior.",
+      "acceptanceCriteria": [
+        "Confirm cause and reproduce bounds in an admitted task before changing code.",
+        "At 320px and neighboring narrow widths, actual rendered controls have no intersection or page overflow.",
+        "Keyboard focus, disclosure/toggle behavior, artwork staging/apply actions and existing feature behavior remain correct.",
+        "Run focused tests and rendered browser pressure checks; keep this item Backlog until separately admitted."
+      ],
+      "statusHistory": [
+        {
+          "status": "Backlog",
+          "at": "2026-10-12T04:49:08.811Z",
+          "actor": "Codex",
+          "role": "maintainer",
+          "note": "Track the measured live 320px toolbar overlap as a separate unassigned backlog issue; S752 records it only and authorizes no fix.",
+          "evidenceRefs": []
+        }
+      ],
+      "comments": [],
+      "evidenceRefs": [
+        "E-BUG-UI-048-REPRO"
       ],
       "flagKey": null
     }
@@ -29363,6 +29416,24 @@
       "sha256": "092a9b4440f438135464616838bf1eaeaa5ee2f4369f9facdbdd98882ca9f85c",
       "verified": true,
       "note": "PR #31 merged as caa1c751; main deployment run 38201698605 passed full tests/build/artifact checks and Cloudflare deploy. Stable and immutable Pages URLs returned HTTP 200 and passed 1280/640/320 live Chromium/no-egress/accessibility checks; targeted UIQ-06 Nesting/local-project smoke passed with no overflow/errors/egress. Links retained screenshots and machine evidence."
+    },
+    {
+      "id": "E-UIQ06-S752-FINAL-DEPLOYMENT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq06/S752-FINAL-DEPLOYMENT-EXIT.md",
+      "commit": null,
+      "sha256": "5ddf65867fb57b2074926bb1a28b7c727fa9f7875b5aa1d7ad3fccbfb33a44b9",
+      "verified": true,
+      "note": "PR #32 main workflow 38203805432 passed full tests/build/artifact/deploy; stable and immutable URLs passed post-deploy browser checks. Report includes the separately reproduced and backlog-tracked BUG-UI-048; no S752 app changes or fix authorization."
+    },
+    {
+      "id": "E-BUG-UI-048-REPRO",
+      "kind": "browser",
+      "uri": "docs/research/uiq06/evidence/S752-postdeploy/toolbar-overlap-320.json",
+      "commit": null,
+      "sha256": "b1cb02c00792d69efc6282306ed15e99b6b0d15edc85c612f2fd1eaa21a054fc",
+      "verified": true,
+      "note": "Measured on both stable and immutable live URLs at 320x900 CSS px. The controls intersect by 7.65625px horizontally and 32px vertically; identical bounds on both deployed URLs establish this is present in the same shipped app bundle."
     }
   ]
 }

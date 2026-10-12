@@ -1,6 +1,6 @@
 # UIQ-06 — durable execution goal
 
-Status: In Progress — S751 product release is live; durable closeout PR pending. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
+Status: In Progress — product release and PR #32 deployment are live; S752 durable final reconciliation is in progress. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## Objective and start
 
@@ -47,9 +47,9 @@ closeout.
 | S748 grade exception readability | Passed | `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`; mobile/keyboard discoverability, per-size reason labels and stable POM columns; no grade logic changes |
 | S749 project/recovery/import/export messages | Passed | `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; 33 focused project tests, recovery test, flag-off fallback, 100% changed-module coverage, build, 42 operational tests, clean browser/Electron replay and rendered desktop/320 evidence; no persistence/file behavior changes |
 | Settled release gate | Passed | S750 report and packaged evidence; 164 files/2,663 tests, global 100% statements/branches/functions/lines, build/type, operational/web/readiness and packaged Electron offline/recovery/export-parity gates passed |
-| Codex diff review and PR | Passed | PR #31 open, `codex/uiq06-admission` → `main`, mergeable, no configured PR checks; scoped S750 commit only; unrelated EPIC-17 S425 artifacts excluded |
+| Codex diff review and PR | Passed | PR #31 merged from `codex/uiq06-admission` to `main` as `caa1c751`; scoped S750 commit only; unrelated EPIC-17 S425 artifacts excluded |
 | Merge/deployment/live verification | Passed | PR #31 merged as `caa1c751`; Actions run `38201698605` deployed successfully; stable and immutable URLs passed live rendered/no-egress pressure; board UIQ-06 Done at revision 4439 with S750/S751 evidence |
-| Durable closeout replay and merge | Pending | Board closeout candidate revision 4440 and context/docs/test are in the S751 closeout branch; focused Control Center 42/42 passes. Standard full coverage rerun timed out on unrelated EPIC-17 S425 replay; single-worker retry stalled at ~1.7 GB RSS. PR #32's main CI must pass full tests/coverage/build before merge. |
+| Durable closeout replay and merge | Passed | PR #32 merged at `34a2592a`; main workflow `38203805432` passed tests/build/artifact/deployment. S752 reconciles final current state and records live evidence. |
 
 ## Evidence inventory and decision policy
 
@@ -78,8 +78,9 @@ is recorded as such.
 Slice 744 completed on branch `codex/uiq06-admission`, based on
 `7923a7f4323d713b069817adfd7626f19c7b48f5`. The admission, baseline, screenshots
 and command-layer replay are durable; canonical board revision is 4408 and
-UIQ-06 is In Progress. The four baseline image hashes are recorded beside the
-images in `docs/research/uiq06/S744-ADMISSION-BASELINE.md`. Focused baseline
+UIQ-06 remains In Progress only through S752 durable reconciliation. The four
+baseline image hashes are recorded beside the images in
+`docs/research/uiq06/S744-ADMISSION-BASELINE.md`. Focused baseline
 view tests passed 92/92; Control Center board suite passed 42/42 after its
 UIQ status regression was updated. No production behavior changed. Usage remains
 ordinary-allowed (primary 16% used, weekly 26% used, no reset credits, checked
@@ -192,17 +193,17 @@ and exact-flag-fallback evidence is linked per S745–S749 because no applicatio
 source changed after those final renders. The unrelated uncommitted EPIC-17
 S425 rendered-output files were preserved and excluded.
 
-The closeout branch's validated board revision 4440 records UIQ-06 Done, with S750 and S751 release
-evidence attached and the final closeout note recorded. PR #31 merged to
-`origin/main` as `caa1c75111c55d75e8e6a495aa9c85e8d487aea9`; main deployment
-run `38201698605` passed. Stable `https://infinidrip-preview.pages.dev` and
-immutable `https://309f484d.infinidrip-preview.pages.dev` both returned HTTP
-200 and passed responsive browser/no-egress checks. Final live evidence and
-limitations are recorded in `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`.
-UIQ-07 remains Backlog and unadmitted. No later UIQ or numbered Epic is
-admitted by this closeout. The closeout docs, board and regression expectation
-are pending PR #32; keep this goal In Progress until its CI, merge, and
-post-merge deployment verification pass.
+The S751 validated closeout board revision 4440 recorded UIQ-06 Done with
+S750/S751 evidence. PR #31 merged as `caa1c751`; deployment run `38201698605`
+passed, and both stable and immutable URLs passed responsive browser/no-egress
+checks. The live report is `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`.
+PR #32 later merged at `34a2592a`; main run `38203805432` passed full tests,
+build, deterministic artifact checks and deployment. The post-PR-#32 URLs
+returned HTTP 200 and passed browser pressure checks. S752 found a pre-existing
+320px toolbar overlap and registered it as BUG-UI-048, P2/S3, Backlog only; no
+fix is admitted. The updated board is revision 4445 and its S752 evidence is
+digest-bound. S752 remains in progress until its own PR, main workflow and
+post-merge reconciliation are complete. UIQ-07 remains Backlog/unadmitted.
 
 ## Resume and completion contract
 
@@ -210,6 +211,37 @@ At each numbered slice boundary record commit, exact tests/results, rendered
 evidence, elapsed time by implementation/focused verification/external waits/
 maintainer decisions, blockers and exactly one next action. Update this ledger,
 `PROJECT-STATE.md`, `ARCHITECTURE.md` if behavior changes, context index, and
-the validated board. Completion required the S751 merge, deployment, live
-acceptance, and board/context closeout. S751 product release is live; this goal
-remains active until the updated durable closeout records pass PR CI and merge.
+the validated board. Completion requires the S751 product release, final
+post-merge deployment evidence, a merged S752 durable reconciliation, and
+verified current-state docs/board. UIQ-07 remains Backlog/unadmitted.
+
+## Slice 752 — final deployment reconciliation (pre-PR boundary)
+
+Started 2026-10-12 04:36 UTC on `codex/uiq06-s752-final-reconciliation` from
+fresh `origin/main` `34a2592a55ba79d589ab8a5eaf63d9f770a4ed4d`; no other branch or
+worktree was changed. PR #32 was confirmed merged at 04:26:40Z and main workflow
+`38203805432` passed at 04:33:31Z. Its Pages deploy uploaded zero changed
+files. Stable and immutable URLs returned HTTP 200 and both existing live
+pressure runs passed at 1280/640/320 with no document overflow, off-origin
+requests, browser/console errors, or accessibility/keyboard/action regressions.
+S751's targeted Nesting/project smoke remains applicable because the app
+bundle is byte-identical.
+
+The additional 320px rendered-boundary check found the same pre-existing
+7.65625px horizontal overlap (32px vertical intersection) between “More views”
+and “Assembled” on both URLs. Machine bounds are in
+`docs/research/uiq06/evidence/S752-postdeploy/toolbar-overlap-320.json`; the
+issue is recorded as BUG-UI-048, P2/S3, Backlog with its own verified browser
+evidence. The existing no-overflow assertion does not detect control-to-control
+overlap. No app code, dependencies or deployed behavior changed, and S752 does
+not authorize a correction.
+
+Canonical board revision 4445 keeps UIQ-06 Done and links digest-bound S752
+report evidence; BUG-UI-048 remains Backlog and unassigned. The Control Center
+suite passed 42/42, including board validity, issue status, report hash and
+reproduction-evidence hash. Timing from 04:36 to 04:55 UTC (~19m): deployment/
+history inspection ~2m; pressure run/geometry proof ~5m; report and board
+replay ~7m; context, regression and diff checks ~5m; external waits 0m;
+maintainer decisions 0m. The
+remaining action is the single Slice 752 commit and Codex-owned PR, followed by
+its successful main workflow and final repository closeout.
