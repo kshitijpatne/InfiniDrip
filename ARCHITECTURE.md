@@ -65,8 +65,8 @@ Backlog; UIQ-04 later completed through Slices 739–740, and UIQ-05 was admitte
 on 2026-10-11 as the next serial integration. S741 merged in PR #28 at
 `7f5e6263`; S742 deployment and stable/immutable live browser checks passed.
 UIQ-05 is Done at canonical board revision 4404 after the closeout evidence;
-the durable board/context closeout is in its final PR. UIQ-07 remains Backlog
-and unadmitted.
+its durable closeout and current-state reconciliation are complete. UIQ-07
+remains Backlog and unadmitted.
 
 ## How measurements become pattern shapes
 

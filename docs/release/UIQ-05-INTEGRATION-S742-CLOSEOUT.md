@@ -1,7 +1,7 @@
 # UIQ-05 artwork catalog presentation — Slice 742 release closeout
 
-Status: post-merge release acceptance passed. UIQ-05 is ready for canonical
-board closure after this report and the linked machine evidence are applied.
+Status: post-merge release acceptance passed. UIQ-05 is Done on the canonical
+board at revision 4404 with the linked verified S742 evidence.
 
 ## Release identity
 
