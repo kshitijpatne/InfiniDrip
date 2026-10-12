@@ -45,6 +45,7 @@ import {
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
+import type { TechPackRecord } from "./tech-pack-records";
 import {
   type ImportProjectBundleOutcome,
   type ProjectBundleSnapshot,
@@ -1070,6 +1071,13 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
       throw new ProjectPackageError("invalid-package", `Style ${style.id} revision history is not a complete parent-linked chain.`);
     }
   }
+  for (const style of styles) {
+    if (style.techPack.revisionId === null) continue;
+    const revision = styleRevisions.find((candidate) => candidate.revisionId === style.techPack.revisionId);
+    if (!revision || revision.styleId !== style.id || revision.revisionNumber !== style.techPack.revisionNumber) {
+      throw new ProjectPackageError("invalid-package", `Style ${style.id} T01 record references a missing or mismatched style revision.`);
+    }
+  }
   const suppliedManifests = Array.isArray(value.exportManifests) ? value.exportManifests : [];
   const exportManifests: ProjectPackageFrozenManifest[] = value.packageVersion < 3 ? [] : suppliedManifests.map(parsePackageFrozenManifest);
   if (exportManifests.length > PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS) {
@@ -1259,6 +1267,34 @@ function remapSavedDesign(design: StyleRecord["design"], assets: ReadonlyMap<str
   return { ...design, surface };
 }
 
+function remapTechPackForCopy(
+  techPack: TechPackRecord,
+  styleId: string,
+  revisionIds: ReadonlyMap<string, string>,
+): TechPackRecord {
+  let revisionId: string | null = null;
+  if (techPack.revisionId !== null) {
+    const remappedRevision = revisionIds.get(techPack.revisionId);
+    if (!remappedRevision) {
+      throw new ProjectPackageError("invalid-package", "A copied tech pack references a revision outside the copied style history.");
+    }
+    revisionId = remappedRevision;
+  }
+  return {
+    ...techPack,
+    styleId,
+    revisionId,
+    approval: {
+      state: "DRAFT",
+      revisionId: null,
+      scopeFieldIds: [],
+      changedBy: null,
+      changedAt: null,
+      manifestId: null,
+    },
+  };
+}
+
 async function verifiedAssetBlob(
   archive: ProjectPackageArchive,
   asset: ProjectPackageAssetRecord,
@@ -1337,6 +1373,7 @@ async function makeCopy(
     revisionHeadId: style.revisionHeadId === null ? null : revisionIds.get(style.revisionHeadId)!,
     archivedAt: style.archivedAt === null ? null : now,
     design: remapDesign(style, assetMap),
+    techPack: remapTechPackForCopy(style.techPack, styleIds.get(style.id)!, revisionIds),
   }));
   const recoveries = manifest.recoveries.map((recovery) => ({
     ...recovery,

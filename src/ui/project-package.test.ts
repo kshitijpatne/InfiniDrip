@@ -395,6 +395,7 @@ async function makeVersionOnePackage(source: Blob): Promise<Blob> {
   manifest.styles = (manifest.styles as Array<Record<string, unknown>>).map((style) => {
     const legacy: Record<string, unknown> = { ...style, schemaVersion: 3 };
     delete legacy.revisionHeadId;
+    delete legacy.techPack;
     if (typeof legacy.design === "object" && legacy.design !== null) {
       const { semanticEdits: _semanticEdits, ...legacyDesign } = legacy.design as Record<string, unknown>;
       legacy.design = legacyDesign;
@@ -433,6 +434,7 @@ async function makeVersionTwoPackage(source: Blob): Promise<Blob> {
     manifest.styles = (manifest.styles as Array<Record<string, unknown>>).map((style) => {
       const legacy: Record<string, unknown> = { ...style, schemaVersion: 3 };
       delete legacy.revisionHeadId;
+      delete legacy.techPack;
       return legacy;
     });
     manifest.assets = (manifest.assets as Array<Record<string, unknown>>).map((asset) => ({
@@ -1230,6 +1232,113 @@ describe("portable local project package", () => {
     }, memoryAssets(), { crypto });
     const reloaded = await readProjectPackage(reExported, { crypto });
     expect(await reloaded.frozenManifests[0]?.artifacts[0]?.bytes.text()).toBe(outputText);
+  });
+
+  it("preserves T01 revision, child data and review on restore, then remaps identity and resets review on copy", async () => {
+    const source = await createFrozenSourcePackage();
+    const revision = source.revision;
+    const styleCode = {
+      ...source.style.techPack.cover.styleCode,
+      value: "TP-001",
+      provenance: "USER_CAPTURED" as const,
+      evidenceStatus: "USER_CONFIRMED" as const,
+      validationStatus: "VALID" as const,
+      method: "entered from an identified source",
+      capturedBy: "fixture reviewer",
+      capturedAt: TIME,
+      unresolvedReason: null,
+      nextAction: null,
+    };
+    const reviewedTechPack: StyleRecord["techPack"] = {
+      ...source.style.techPack,
+      revisionId: revision.revisionId,
+      revisionNumber: revision.revisionNumber,
+      cover: { ...source.style.techPack.cover, styleCode },
+      approval: {
+        state: "REVIEW",
+        revisionId: revision.revisionId,
+        scopeFieldIds: [styleCode.fieldId],
+        changedBy: "fixture reviewer",
+        changedAt: TIME,
+        manifestId: null,
+      },
+    };
+    const reviewedStyle: StyleRecord = {
+      ...source.style,
+      revisionHeadId: revision.revisionId,
+      techPack: reviewedTechPack,
+    };
+    const packed = await createProjectPackage({
+      project: source.project,
+      styles: [reviewedStyle],
+      recoveries: [],
+      fieldObservations: [source.observations],
+      styleRevisions: [revision],
+    }, memoryAssets(), { crypto });
+    const archive = await readProjectPackage(packed, { crypto });
+
+    const nonCopyTarget = await repository();
+    await expect(importProjectPackage(nonCopyTarget, memoryAssets(), archive, false, { crypto, now: () => TIME }))
+      .resolves.toMatchObject({ status: "imported", projectId: source.project.id, importedAsCopy: false });
+    expect((await nonCopyTarget.readProjectBundle(source.project.id))?.styles[0]?.techPack).toEqual(reviewedTechPack);
+
+    const invalidLink = await replacePackageManifest(packed, (manifest) => {
+      const styles = manifest.styles as Array<Record<string, unknown>>;
+      const techPack = styles[0]!.techPack as Record<string, unknown>;
+      techPack.revisionNumber = 2;
+    });
+    await expect(readProjectPackage(invalidLink, { crypto })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("T01 record references a missing or mismatched style revision"),
+    });
+
+    const missingCopyRevision = "99999999-9999-4999-8999-999999999999";
+    const inconsistentArchive = {
+      ...archive,
+      manifest: {
+        ...archive.manifest,
+        styles: archive.manifest.styles.map((candidate) => candidate.id === reviewedStyle.id
+          ? { ...candidate, techPack: { ...reviewedTechPack, revisionId: missingCopyRevision } }
+          : candidate),
+      },
+    } as ProjectPackageArchive;
+    const rejectedCopyTarget = await repository();
+    await expect(importProjectPackage(rejectedCopyTarget, memoryAssets(), inconsistentArchive, true, {
+      crypto,
+      now: () => "2026-09-24T16:00:01.000Z",
+      idFactory: deterministicUuidFactory(),
+    })).rejects.toMatchObject({
+      code: "invalid-package",
+      message: expect.stringContaining("references a revision outside the copied style history"),
+    });
+    await expect(rejectedCopyTarget.readActiveProject()).resolves.toBeNull();
+
+    const copyTarget = await repository();
+    const copied = await importProjectPackage(copyTarget, memoryAssets(), archive, true, {
+      crypto,
+      now: () => "2026-09-24T16:00:01.000Z",
+      idFactory: deterministicUuidFactory(),
+    });
+    if (copied.status !== "imported") throw new Error("T01 package copy import did not complete.");
+    const copiedBundle = await copyTarget.readProjectBundle(copied.projectId);
+    const copiedStyle = copiedBundle?.styles[0];
+    const copiedRevision = copiedBundle?.styleRevisions?.[0];
+    expect(copiedStyle).toBeDefined();
+    expect(copiedRevision).toBeDefined();
+    expect(copiedStyle!.techPack).toEqual({
+      ...reviewedTechPack,
+      styleId: copiedStyle!.id,
+      revisionId: copiedRevision!.revisionId,
+      approval: {
+        state: "DRAFT",
+        revisionId: null,
+        scopeFieldIds: [],
+        changedBy: null,
+        changedAt: null,
+        manifestId: null,
+      },
+    });
+    expect(copiedStyle!.techPack.revisionId).toBe(copiedStyle!.revisionHeadId);
   });
 
   it("remaps a multi-revision chain and its local artwork when copying a v3 package", async () => {
@@ -2226,6 +2335,7 @@ describe("portable local project package", () => {
       id: SECOND_STYLE_ID,
       name: "Archived style",
       archivedAt: TIME,
+      techPack: { ...initial.style.techPack, styleId: SECOND_STYLE_ID },
     };
     const project = {
       ...initial.project,
@@ -2797,7 +2907,7 @@ describe("G03 capture sessions in project backups", () => {
   describe("custom one-size styles (package v5)", () => {
     const STYLE_KEYS = [
       "schemaVersion", "id", "projectId", "name", "recipeId", "recipePresetId",
-      "createdAt", "updatedAt", "revision", "archivedAt", "revisionHeadId", "design",
+      "createdAt", "updatedAt", "revision", "archivedAt", "revisionHeadId", "design", "techPack",
     ];
     const CAPTURE_KEYS = [...V3_KEYS.slice(0, -1), "measurementCaptures", "packageSha256"];
 
@@ -2863,7 +2973,7 @@ describe("G03 capture sessions in project backups", () => {
       expect(withCapture.manifest.styles).toEqual(archive.manifest.styles);
       expect(withCapture.manifest.styles[0]).toMatchObject({ id: STYLE_ID, projectId: PROJECT_ID, sizeMode: CUSTOM_ONE_SIZE_MODE });
 
-      // A mixed project stays v5 while its legacy style keeps the v4 shape.
+      // A mixed project stays package v5 while regular and custom style children keep their own schemas.
       const legacy = bundle("Tee project", PROJECT_ID, SECOND_STYLE_ID).style;
       const mixed = await readProjectPackage(await createProjectPackage({
         project: { ...snapshot.project, styleIds: [STYLE_ID, SECOND_STYLE_ID] },

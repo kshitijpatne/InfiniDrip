@@ -5,7 +5,9 @@ import { GARMENTS, STANDARD_M, defaultGarmentOptions } from "../drafting";
 import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, serialize, serializeRecovery } from "./persist";
 import {
+  CUSTOM_STYLE_RECORD_VERSION,
   MEASUREMENT_CAPTURE_RECORD_VERSION,
+  STYLE_RECORD_VERSION,
   isCustomOneSizeStyle,
   migrateLegacyRecovery,
   migrateLegacySaveFile,
@@ -86,7 +88,7 @@ function newRecipeBundle(recipeId: string, projectId = PROJECT_ID, styleId = STY
 }
 
 function customOneSizeStyle(style: StyleRecord): CustomOneSizeStyleRecord {
-  const parsed = parseStyleRecord({ ...style, schemaVersion: 5, sizeMode: "custom-one-size" });
+  const parsed = parseStyleRecord({ ...style, schemaVersion: CUSTOM_STYLE_RECORD_VERSION, sizeMode: "custom-one-size" });
   if (!parsed.ok || !isCustomOneSizeStyle(parsed.value)) throw new Error("Custom style fixture is invalid.");
   return parsed.value;
 }
@@ -1402,6 +1404,7 @@ describe("transactional project repository", () => {
     const legacyStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 1 };
     delete legacyStyle.archivedAt;
     delete legacyStyle.revisionHeadId;
+    delete legacyStyle.techPack;
     const legacyDesign = { ...bundle.style.design } as Record<string, unknown>;
     delete legacyDesign.semanticEdits;
     legacyStyle.design = legacyDesign;
@@ -1431,7 +1434,8 @@ describe("transactional project repository", () => {
     versionOne.close();
     const upgraded = await openProjectRepository({ name, factory, crypto: webcrypto });
     expect((await upgraded.readActiveProject())?.activeStyle).toMatchObject({
-      id: STYLE_ID, schemaVersion: 4, archivedAt: null, revisionHeadId: null,
+      id: STYLE_ID, schemaVersion: STYLE_RECORD_VERSION, archivedAt: null, revisionHeadId: null,
+      techPack: { styleId: STYLE_ID, recipeId: "tee", recipeVersion: "unversioned", revisionId: null, revisionNumber: 0 },
       design: { ...bundle.style.design, semanticEdits: null },
     });
     expect((await upgraded.readActiveProject())?.project).toMatchObject({ schemaVersion: 2, importedFrom: null });
@@ -1478,6 +1482,9 @@ describe("transactional project repository", () => {
     delete oldDesign.semanticEdits;
     const oldStyle = { ...legacy.style, schemaVersion: 2, design: oldDesign };
     delete (oldStyle as { revisionHeadId?: string | null }).revisionHeadId;
+    delete (oldStyle as { techPack?: StyleRecord["techPack"] }).techPack;
+    const oldCurrentStyle = { ...current.style, schemaVersion: 4 };
+    delete (oldCurrentStyle as { techPack?: StyleRecord["techPack"] }).techPack;
     const oldRecoveryBase = recovery(STYLE_ID);
     const oldRecoveryPayload = { ...oldRecoveryBase.payload } as Record<string, unknown>;
     delete oldRecoveryPayload.semanticEdits;
@@ -1486,7 +1493,7 @@ describe("transactional project repository", () => {
     await createVersionFourDatabase(factory, name, [
       { store: "projects", value: project },
       { store: "styles", value: oldStyle },
-      { store: "styles", value: current.style },
+      { store: "styles", value: oldCurrentStyle },
       { store: "recoveries", value: oldRecovery },
       { store: "recoveries", value: currentRecovery },
       { store: "meta", value: { key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID } },
@@ -1497,10 +1504,12 @@ describe("transactional project repository", () => {
     const upgraded = await openProjectRepository({ name, factory, crypto: webcrypto });
     const loaded = await upgraded.readActiveProject();
     expect(loaded?.project).toEqual(project);
-    expect(loaded?.styles).toEqual([
-      { ...legacy.style, schemaVersion: 4, archivedAt: null, revisionHeadId: null, design: { ...legacy.style.design, semanticEdits: null } },
-      current.style,
-    ]);
+    const expectedLegacy = parseStyleRecord({ ...oldStyle, schemaVersion: 2, design: oldDesign });
+    const expectedCurrent = parseStyleRecord(oldCurrentStyle);
+    expect(expectedLegacy.ok && expectedCurrent.ok).toBe(true);
+    expect(loaded?.styles).toEqual(expectedLegacy.ok && expectedCurrent.ok
+      ? [expectedLegacy.value, expectedCurrent.value]
+      : []);
     expect(loaded?.activeRecovery).toEqual({
       ...oldRecoveryBase, schemaVersion: 2, payload: { ...oldRecoveryBase.payload, semanticEdits: null },
     });
@@ -1562,6 +1571,7 @@ describe("transactional project repository", () => {
     const bundle = newBundle();
     const legacyStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 3 };
     delete legacyStyle.revisionHeadId;
+    delete legacyStyle.techPack;
     expect(parseStyleRecord(legacyStyle).ok).toBe(true);
     const observations = fieldHistory(bundle.style);
     await createVersionFiveDatabase(factory, name, [
@@ -1576,8 +1586,9 @@ describe("transactional project repository", () => {
       const loaded = await repository.readActiveProject();
       expect(loaded?.activeStyle).toMatchObject({
         id: STYLE_ID,
-        schemaVersion: 4,
+        schemaVersion: STYLE_RECORD_VERSION,
         revisionHeadId: null,
+        techPack: { styleId: STYLE_ID, recipeId: "tee", recipeVersion: "unversioned" },
         design: bundle.style.design,
       });
       expect(loaded?.project).toEqual(bundle.project);
@@ -1595,6 +1606,7 @@ describe("transactional project repository", () => {
     const malformedName = databaseName();
     const malformedFutureStyle: Record<string, unknown> = { ...bundle.style, schemaVersion: 4 };
     delete malformedFutureStyle.revisionHeadId;
+    delete malformedFutureStyle.techPack;
     await createVersionFiveDatabase(factory, malformedName, [
       { store: "meta", value: { key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID } },
       { store: "projects", value: bundle.project },
@@ -1612,6 +1624,7 @@ describe("transactional project repository", () => {
   it("aborts every v5 revision-head cursor failure and tolerates a completed or absent upgrade cursor", async () => {
     const style = { ...newBundle().style, schemaVersion: 3 } as Record<string, unknown>;
     delete style.revisionHeadId;
+    delete style.techPack;
     const exercise = async (
       failure: "missing-transaction" | "open" | "request-error" | "invalid-record" | "update" | "continue" | "empty" | "valid",
     ): Promise<void> => {
@@ -2559,6 +2572,7 @@ describe("transactional project repository", () => {
     const legacyStyle: Record<string, unknown> = { ...newBundle().style, schemaVersion: 1 };
     delete legacyStyle.archivedAt;
     delete legacyStyle.revisionHeadId;
+    delete legacyStyle.techPack;
     const legacyStyleDesign = { ...newBundle().style.design } as Record<string, unknown>;
     delete legacyStyleDesign.semanticEdits;
     legacyStyle.design = legacyStyleDesign;
@@ -3123,6 +3137,7 @@ describe("G03 measurement capture persistence", () => {
         recipeId: alternate.style.recipeId,
         recipePresetId: alternate.style.recipePresetId,
         design: alternate.style.design,
+        techPack: { ...customStyle.techPack, recipeId: alternate.style.recipeId },
       };
       const changedRecipeCapture = captureRecord({
         recipeId: "skirt",
@@ -3348,9 +3363,10 @@ async function createVersionEightDatabase(
   factory: IDBFactory,
   name: string,
   gradePlans: "full" | "styleId-only" | "projectId-only" | "missing",
+  rows: Readonly<Partial<Record<keyof typeof PROJECT_STORES, readonly unknown[]>>> = {},
 ): Promise<void> {
   const database = await new Promise<IDBDatabase>((resolve, reject) => {
-    const request = factory.open(name, PROJECT_DATABASE_VERSION);
+    const request = factory.open(name, 8);
     request.onupgradeneeded = () => {
       const created = request.result;
       for (const [store, keyPath] of Object.entries({
@@ -3370,6 +3386,9 @@ async function createVersionEightDatabase(
         const plans = created.createObjectStore(PROJECT_STORES.gradePlans, { keyPath: ["styleId", "recipeId"] });
         if (gradePlans === "full" || gradePlans === "styleId-only") plans.createIndex("styleId", "styleId", { unique: false });
         if (gradePlans === "full" || gradePlans === "projectId-only") plans.createIndex("projectId", "projectId", { unique: false });
+      }
+      for (const [store, values] of Object.entries(rows)) {
+        for (const value of values!) request.transaction!.objectStore(store).put(value);
       }
     };
     request.onerror = () => reject(request.error ?? new Error("Version-eight fixture open failed."));
@@ -3965,7 +3984,160 @@ describe("G03 grade-plan persistence", () => {
     for (const gradePlans of ["missing", "styleId-only", "projectId-only"] as const) {
       const name = databaseName();
       await createVersionEightDatabase(factory, name, gradePlans);
-      await rejectionCode(openProjectRepository({ name, factory, crypto: webcrypto }), "unsupported-version");
+      await rejectionCode(openProjectRepository({ name, factory, crypto: webcrypto }), "unavailable");
+      const preserved = await rawDatabase(factory, name);
+      expect(preserved.version).toBe(8);
+      preserved.close();
+    }
+  });
+
+  it("upgrades a valid v8 style row atomically and rolls back malformed rows", async () => {
+    const factory = newFactory();
+    const legacy = newBundle();
+    const observations = fieldHistory(legacy.style);
+    const revision = await testRevision(legacy.style, observations, testUuid(764));
+    const oldStyle: Record<string, unknown> = {
+      ...legacy.style,
+      schemaVersion: 4,
+      revisionHeadId: revision.revisionId,
+    };
+    delete oldStyle.techPack;
+    const rows = {
+      projects: [legacy.project],
+      styles: [oldStyle],
+      meta: [{ key: "activeSelection", projectId: PROJECT_ID, styleId: STYLE_ID }],
+      fieldObservations: [observations],
+      styleRevisions: [revision],
+    };
+    const name = databaseName();
+    await createVersionEightDatabase(factory, name, "full", rows);
+    const repository = await openProjectRepository({ name, factory, crypto: webcrypto });
+    try {
+      const loaded = await repository.readActiveProject();
+      expect(loaded?.activeStyle).toMatchObject({
+        ...legacy.style,
+        schemaVersion: STYLE_RECORD_VERSION,
+        revisionHeadId: revision.revisionId,
+        techPack: { styleId: STYLE_ID, recipeId: "tee", recipeVersion: "unversioned", revisionId: null, revisionNumber: 0 },
+      });
+      expect(loaded?.activeStyle.design).toEqual(legacy.style.design);
+      expect(loaded?.project).toEqual(legacy.project);
+      expect(loaded?.styleRevisions).toEqual([revision]);
+    } finally {
+      repository.close();
+    }
+    const upgraded = await rawDatabase(factory, name);
+    expect(upgraded.version).toBe(9);
+    const savedStyle = await new Promise<unknown>((resolve, reject) => {
+      const request = upgraded.transaction(PROJECT_STORES.styles, "readonly")
+        .objectStore(PROJECT_STORES.styles).get(STYLE_ID);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    expect(savedStyle).toMatchObject({
+      schemaVersion: STYLE_RECORD_VERSION,
+      revisionHeadId: revision.revisionId,
+      techPack: { styleId: STYLE_ID },
+    });
+    expect(savedStyle).not.toHaveProperty("design.techPack");
+    upgraded.close();
+
+    const malformedName = databaseName();
+    const malformedStyle = { ...oldStyle, schemaVersion: 99 };
+    await createVersionEightDatabase(factory, malformedName, "full", { ...rows, styles: [malformedStyle] });
+    await rejectionCode(openProjectRepository({ name: malformedName, factory, crypto: webcrypto }), "unavailable");
+    const preserved = await rawDatabase(factory, malformedName);
+    expect(preserved.version).toBe(8);
+    const preservedStyle = await new Promise<unknown>((resolve, reject) => {
+      const request = preserved.transaction(PROJECT_STORES.styles, "readonly")
+        .objectStore(PROJECT_STORES.styles).get(STYLE_ID);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    expect(preservedStyle).toEqual(malformedStyle);
+    preserved.close();
+  });
+
+  it("fails closed on an invalid v8 schema and handles missing, errored, or throwing T01 migration cursors", async () => {
+    const storeNames = Object.values(PROJECT_STORES);
+    const keyPaths: Record<string, string | readonly string[]> = {
+      [PROJECT_STORES.meta]: "key",
+      [PROJECT_STORES.projects]: "id",
+      [PROJECT_STORES.styles]: "id",
+      [PROJECT_STORES.recoveries]: "styleId",
+      [PROJECT_STORES.migrations]: "sourceSha256",
+      [PROJECT_STORES.imports]: "packageSha256",
+      [PROJECT_STORES.fieldObservations]: "styleId",
+      [PROJECT_STORES.styleRevisions]: "revisionId",
+      [PROJECT_STORES.exportManifests]: "manifestId",
+      [PROJECT_STORES.measurementCaptures]: ["styleId", "recipeId"],
+      [PROJECT_STORES.gradePlans]: ["styleId", "recipeId"],
+    };
+    const indexNames: Record<string, readonly string[]> = {
+      [PROJECT_STORES.styleRevisions]: ["styleId", "styleIdAndNumber"],
+      [PROJECT_STORES.exportManifests]: ["styleId", "styleIdAndCapturedAt"],
+      [PROJECT_STORES.measurementCaptures]: ["styleId"],
+      [PROJECT_STORES.gradePlans]: ["styleId", "projectId"],
+    };
+    const oldStyle: Record<string, unknown> = { ...newBundle().style, schemaVersion: 4 };
+    delete oldStyle.techPack;
+    const exercise = async (
+      mode: "missing-transaction" | "wrong-keypath" | "schema-read-throws" | "request-error" | "open-cursor-throws" | "cursor-update-throws" | "empty",
+    ): Promise<void> => {
+      const abort = vi.fn();
+      const cursorRequest = {
+        result: mode === "empty" ? null : {
+          value: oldStyle,
+          update: () => { if (mode === "cursor-update-throws") throw new Error("T01 cursor update failed"); },
+          continue: vi.fn(),
+        },
+        onsuccess: null as ((event: Event) => void) | null,
+        onerror: null as ((event: Event) => void) | null,
+      };
+      const transaction = {
+        abort,
+        objectStore: (name: string) => {
+          if (mode === "schema-read-throws") throw new Error("v8 schema read failed");
+          if (mode === "wrong-keypath" && name === PROJECT_STORES.meta) return { keyPath: "wrong" };
+          return {
+            keyPath: keyPaths[name],
+            indexNames: { contains: (index: string) => (indexNames[name] ?? []).includes(index) },
+            openCursor: () => {
+              if (mode === "open-cursor-throws" && name === PROJECT_STORES.styles) throw new Error("T01 style cursor unavailable");
+              return cursorRequest;
+            },
+          };
+        },
+      };
+      const factory = controlledFactory((request) => {
+        request.result = {
+          version: PROJECT_DATABASE_VERSION,
+          objectStoreNames: { length: storeNames.length, contains: (name: string) => storeNames.some((store) => store === name) },
+          createObjectStore: vi.fn(),
+        } as unknown as IDBDatabase;
+        request.transaction = mode === "missing-transaction" ? null : transaction as unknown as IDBTransaction;
+        request.onupgradeneeded?.({
+          oldVersion: mode === "missing-transaction" ? 6 : 8,
+          newVersion: PROJECT_DATABASE_VERSION,
+        } as IDBVersionChangeEvent);
+        if (mode === "request-error") cursorRequest.onerror?.(new Event("error"));
+        else if (mode !== "missing-transaction" && mode !== "wrong-keypath" && mode !== "schema-read-throws") {
+          cursorRequest.onsuccess?.(new Event("success"));
+        }
+        expect(abort).toHaveBeenCalledTimes(
+          ["missing-transaction", "empty"].includes(mode) ? 0 : 1,
+        );
+        Object.defineProperty(request, "error", { value: { name: "AbortError" } });
+        request.onerror?.(new Event("error"));
+      });
+      await rejectionCode(openProjectRepository({ name: databaseName(), factory }), "unavailable");
+    };
+
+    for (const mode of [
+      "missing-transaction", "wrong-keypath", "schema-read-throws", "request-error",
+      "open-cursor-throws", "cursor-update-throws", "empty",
+    ] as const) {
+      await exercise(mode);
     }
   });
 });

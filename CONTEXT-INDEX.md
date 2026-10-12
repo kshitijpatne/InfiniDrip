@@ -52,9 +52,16 @@ only through an explicitly admitted, linked Epic packet.
   replays in `docs/planning/EPIC-18-S763-START-BOARD-COMMANDS.json` and
   `EPIC-18-S763-EXIT-BOARD-COMMANDS.json`. Slice 762's exit packet under
   `docs/research/epic18/S762-admission/` records the reconciled checkpoint.
-  The next admitted boundary is S764 backward-safe persistence and migration;
-  revision hashing remains held until S765. UIQ-10 remains a linked Backlog
-  child until its bounded S773 admission, and UIQ-09 remains blocked on EPIC-19.
+  Slice 764 completed backward-safe style persistence, non-destructive
+  migration, and package/reload/copy proof. Its start/exit packets are in
+  `docs/research/epic18/S764-T01-persistence-migration/`; validated board
+  replays are `docs/planning/EPIC-18-S764-START-BOARD-COMMANDS.json` and
+  `EPIC-18-S764-EXIT-BOARD-COMMANDS.json`; the recipe-transition replay is
+  `docs/planning/EPIC-18-S764-RECIPE-TRANSITION-BOARD-COMMANDS.json` and its
+  decision is in that packet directory. Slice 765 is next for revision-payload
+  integration. UIQ-10 remains a linked
+  Backlog child until its bounded S773 admission, and UIQ-09 remains blocked on
+  EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

@@ -47,9 +47,12 @@ is authoritative for maintainer decisions that are not derivable from code.
   and gates are in `docs/planning/EPIC-18-ADMISSION.md` and
   `docs/planning/EPIC-18-GOAL.md`. Slice 763 froze the additive schema-v1 T01
   typed record, strict parser and C03/C04 provenance rules with 100% focused
-  coverage. Slice 764 is the next authorized boundary: backward-safe local
-  style/project persistence and non-destructive migration. Do not integrate
-  records into revision hashing before Slice 765.
+  coverage. Slice 764 completed backward-safe style persistence, non-destructive
+  migration, and package/reload/copy proof; its digest-bound exit evidence and
+  validated board replay are in `docs/research/epic18/S764-T01-persistence-migration/exit-packet.md`
+  and `docs/planning/EPIC-18-S764-EXIT-BOARD-COMMANDS.json`. Slice 765 is the
+  sole next action for T01 revision-payload integration; preserve the
+  historical digest and export gates.
   UIQ-08 is Done through Slice 760 and UIQ-01 is Done as a review-only
   checkpoint through Slice 761. UIQ-09 remains Backlog pending EPIC-19/G06
   admission. UIQ-10 is linked to EPIC-18 but remains Backlog until its bounded

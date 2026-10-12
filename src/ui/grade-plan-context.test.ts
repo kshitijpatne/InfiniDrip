@@ -3,8 +3,9 @@ import { DEFAULT_APPEARANCE } from "./appearance";
 import { DEFAULT_WORKSPACE, defaultStretchFabricForGarment, deserialize, serialize } from "./persist";
 import { createMeasurementCaptureSession } from "./measurement-capture";
 import { FIELDS } from "./controls";
-import type { MeasurementCaptureRecord, SavedDesign, StyleRecord } from "./project-records";
+import { CUSTOM_STYLE_RECORD_VERSION, STYLE_RECORD_VERSION, type MeasurementCaptureRecord, type SavedDesign, type StyleRecord } from "./project-records";
 import { createGradePlanContext } from "./grade-plan-context";
+import { createEmptyTechPackRecord } from "./tech-pack-records";
 import { describe, expect, it, vi } from "vitest";
 
 const PROJECT_ID = "0f8b8e2a-7c1d-4a5e-9b3f-2d6c8a1e4f70";
@@ -29,7 +30,7 @@ function designFor(recipeId: string, options = defaultGarmentOptions(GARMENTS.fi
 
 function styleFor(recipeId = "tee", design = designFor(recipeId)): StyleRecord {
   return {
-    schemaVersion: 5,
+    schemaVersion: CUSTOM_STYLE_RECORD_VERSION,
     id: STYLE_ID,
     projectId: PROJECT_ID,
     name: "Custom base",
@@ -42,6 +43,7 @@ function styleFor(recipeId = "tee", design = designFor(recipeId)): StyleRecord {
     revisionHeadId: HEAD_ID,
     sizeMode: "custom-one-size",
     design,
+    techPack: createEmptyTechPackRecord(STYLE_ID, recipeId, TIME, TIME),
   };
 }
 
@@ -99,7 +101,7 @@ describe("explicit grade-plan base context", () => {
 
   it("fails closed for legacy styles, mismatched captures, missing revision heads, and missing explicit recipe controls", async () => {
     const custom = styleFor("polo");
-    expect(await createGradePlanContext(PROJECT_ID, { ...custom, schemaVersion: 4 } as StyleRecord, captureFor("polo")))
+    expect(await createGradePlanContext(PROJECT_ID, { ...custom, schemaVersion: STYLE_RECORD_VERSION } as StyleRecord, captureFor("polo")))
       .toMatchObject({ ok: false, errors: ["Grade plans are available only for a custom one-size style."] });
     expect(await createGradePlanContext(PROJECT_ID, custom, { ...captureFor("polo"), styleId: HEAD_ID }))
       .toMatchObject({ ok: false, errors: ["The grade plan needs the matching saved capture for this project, style and recipe."] });

@@ -1,15 +1,20 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 763 complete
+## Current capability boundary — EPIC-18/G05 Slice 764 complete
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
 `origin/main` `e9221ea5033ccfdd91bf1ebb353926f189477d75`; Slice 762 reconciled
 the project packet and canonical board without changing application behavior.
 Slice 763 froze the additive schema-v1 style/material/BOM/colorway record and
-strict provenance-aware parser in `src/ui/tech-pack-records.ts`. The parser is
-pure and is not yet integrated into persistence or revision hashing. Slice
-764 covers backward-safe local style/project persistence. G05 covers
+strict provenance-aware parser in `src/ui/tech-pack-records.ts`. Slice 764
+completed style-scoped local persistence, strict legacy migration, and
+package/reload/copy proof. Regular/custom style records now use schemas 6/7;
+the IndexedDB v8→v9 upgrade adds the child transactionally. The required empty
+legacy record keeps cover fields explicitly unresolved and uses `unversioned`
+only as an absence marker because recipe source versions are not recorded.
+G02 revision payload/digest integration is the next authorized boundary, S765.
+G05 covers
 local editable source records, predicted-versus-actual POMs, sourced
 construction facts, generated digital output and immutable local sharing
 across the seven supported recipes. Unknowns remain visible. A frozen local
@@ -18,8 +23,9 @@ factory acceptance. UIQ-10 remains a linked Backlog child until its separate
 bounded admission after T01–T03; UIQ-09/EPIC-19 and all launch, supplier,
 physical and paid-service gates remain outside this admission. Details and the
 current verified checkpoint are in `docs/planning/EPIC-18-ADMISSION.md`,
-`docs/planning/EPIC-18-GOAL.md`, `PROJECT-STATE.md`, and the S763 exit packet
-under `docs/research/epic18/S763-T01-record-contract/`.
+`docs/planning/EPIC-18-GOAL.md`, `PROJECT-STATE.md`, the S763 exit packet
+under `docs/research/epic18/S763-T01-record-contract/`, and the S764 start and
+exit packets under `docs/research/epic18/S764-T01-persistence-migration/`.
 
 ## UI roadmap checkpoint — Slice 761
 
