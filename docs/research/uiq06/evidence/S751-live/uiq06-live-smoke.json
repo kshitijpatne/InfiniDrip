@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "origin": "https://infinidrip-preview.pages.dev",
+  "httpStatus": 200,
+  "featureFlag": "uiq_operational_clarity default-on",
+  "readout": "Nesting estimate\nSingle size\nRequires 75.2 cm of cloth\nPlanned with buffer: 82.7 cm\nWaste: 56.3% of cloth\nOn hand: not entered\n\nFit: unknown — enter fabric on hand for a fits/short verdict.\n\nDirectional print assumed: grain stays upright and pieces never rotate, so directional yardage is honest.",
+  "projectStatus": "Project data is stored locally on this device.",
+  "viewports": [
+    {
+      "requestedWidth": 1280,
+      "viewport": 1280,
+      "document": 1280,
+      "readoutWidth": 884,
+      "left": 380,
+      "right": 1264,
+      "scrollWidth": 882,
+      "clientWidth": 882
+    },
+    {
+      "requestedWidth": 640,
+      "viewport": 640,
+      "document": 640,
+      "readoutWidth": 624,
+      "left": 8,
+      "right": 632,
+      "scrollWidth": 622,
+      "clientWidth": 622
+    },
+    {
+      "requestedWidth": 320,
+      "viewport": 320,
+      "document": 320,
+      "readoutWidth": 304,
+      "left": 8,
+      "right": 312,
+      "scrollWidth": 302,
+      "clientWidth": 302
+    }
+  ],
+  "keyboardFocus": {
+    "id": "",
+    "tag": "BUTTON",
+    "ariaLabel": "Increase Cutting buffer by 1 %",
+    "visible": true
+  },
+  "media": {
+    "forcedColors": true,
+    "reducedMotion": true,
+    "readoutVisible": true
+  },
+  "offOriginRequests": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "screenshots": [
+    "nesting-1280.png",
+    "nesting-320.png"
+  ]
+}

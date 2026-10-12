@@ -68,7 +68,7 @@ UIQ-05 is Done at canonical board revision 4404 after the closeout evidence;
 its durable closeout and current-state reconciliation are complete. UIQ-07
 remains Backlog and unadmitted.
 
-UIQ-06 is admitted and in progress. Slice 745 changes only presentation of the
+UIQ-06 is complete through Slice 751 and deployed. Slice 745 changes only presentation of the
 existing Nesting readout: precomputed scope/required/planned/waste/on-hand
 values are separated from the fit estimate and directional-print caveat. No
 nesting result, validation, physical-fit claim, control or persisted value
@@ -89,9 +89,14 @@ unchanged until explicit Save. Recover/Discard actions, persistence, history,
 package import/export and frozen output behavior are unchanged. Desktop/mobile
 render and clean-profile browser/Electron evidence is in
 `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; the S750
-settled local release gate passed. PR merge, deployment, and live verification
-remain pending S751. UIQ-06 boundaries and the
-exact flag-off fallback remain in `docs/planning/UIQ-06-ADMISSION.md`.
+settled local release gate passed, and Codex-owned PR #31 merged to
+`origin/main` as `caa1c751`. Main deployment run `38201698605` passed; stable
+and immutable public URLs passed live responsive/no-egress verification. The
+S751 closeout branch's validated board records UIQ-06 Done at revision 4440;
+PR #32 carries this board/context closeout and is pending full CI and merge.
+S751 evidence and limits are in
+`docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`; UIQ-06 boundaries
+and exact flag-off fallback remain in `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## How measurements become pattern shapes
 

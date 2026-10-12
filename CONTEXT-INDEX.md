@@ -221,12 +221,19 @@ only through an explicitly admitted, linked Epic packet.
   coverage, export identities, operational/web/readiness tests, packaged
   Electron offline/export/recovery verification, and Codex candidate review;
   see `docs/research/uiq06/S750-SETTLED-RELEASE-EXIT.md` and
-  `docs/research/uiq06/evidence/S750-packaged-verification.json`. Canonical
-  board revision 4436 remains In Progress pending the S750 PR. S751 is now the
-  sole action: Codex-owned PR checks/review, merge, automatic deployment, live
-  verification and board/context closeout. UIQ-07 remains
-  Backlog and unadmitted. The former team-context registry is absent; use
-  current Git/worktree/PR and board evidence for ownership.
+  `docs/research/uiq06/evidence/S750-packaged-verification.json`. S751 merged
+  Codex-owned PR #31 to `origin/main` at
+  `caa1c75111c55d75e8e6a495aa9c85e8d487aea9`; main-only Pages run
+  `38201698605` passed. Stable and immutable URLs passed live 1280/640/320
+  rendered, keyboard/accessibility and no-egress checks; UIQ-06 Nesting and
+  local-project smoke passed. Final report:
+  `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`. Board revision 4440 in
+  the S751 closeout branch records UIQ-06 Done with digest-bound S750/S751
+  evidence; PR #32 carries the validated board/context closeout and is pending
+  full CI test/coverage/build gates and merge. Keep the durable goal In Progress
+  until post-merge deployment is verified. UIQ-07 remains Backlog and
+  unadmitted; no later package is admitted. Use current Git/worktree/PR and
+  board evidence for ownership.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped

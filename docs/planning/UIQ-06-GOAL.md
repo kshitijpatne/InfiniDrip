@@ -1,6 +1,6 @@
 # UIQ-06 — durable execution goal
 
-Status: In Progress. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
+Status: In Progress — S751 product release is live; durable closeout PR pending. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## Objective and start
 
@@ -47,8 +47,9 @@ closeout.
 | S748 grade exception readability | Passed | `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`; mobile/keyboard discoverability, per-size reason labels and stable POM columns; no grade logic changes |
 | S749 project/recovery/import/export messages | Passed | `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; 33 focused project tests, recovery test, flag-off fallback, 100% changed-module coverage, build, 42 operational tests, clean browser/Electron replay and rendered desktop/320 evidence; no persistence/file behavior changes |
 | Settled release gate | Passed | S750 report and packaged evidence; 164 files/2,663 tests, global 100% statements/branches/functions/lines, build/type, operational/web/readiness and packaged Electron offline/recovery/export-parity gates passed |
-| Codex diff review and PR | Next | Open one Codex-owned PR with scoped S750 changes only; preserve/exclude unrelated EPIC-17 S425 rendered artifacts; no merge in S750 |
-| Merge/deployment/live verification | Pending S751 | Review/check PR, merge to `main`, verify automatic Actions deployment and stable URL with live rendered/no-egress pressure, then validated board Done and context closeout |
+| Codex diff review and PR | Passed | PR #31 open, `codex/uiq06-admission` → `main`, mergeable, no configured PR checks; scoped S750 commit only; unrelated EPIC-17 S425 artifacts excluded |
+| Merge/deployment/live verification | Passed | PR #31 merged as `caa1c751`; Actions run `38201698605` deployed successfully; stable and immutable URLs passed live rendered/no-egress pressure; board UIQ-06 Done at revision 4439 with S750/S751 evidence |
+| Durable closeout replay and merge | Pending | Board closeout candidate revision 4440 and context/docs/test are in the S751 closeout branch; focused Control Center 42/42 passes. Standard full coverage rerun timed out on unrelated EPIC-17 S425 replay; single-worker retry stalled at ~1.7 GB RSS. PR #32's main CI must pass full tests/coverage/build before merge. |
 
 ## Evidence inventory and decision policy
 
@@ -70,6 +71,7 @@ is recorded as such.
 | S747 measurement history | ~20m | 5 name-filtered history flows; 93/93 view; changed lines 100%; build passed | Actual app 1280/320; synthetic valid/invalid/long-label history at 320; visual review, no overflow/error/egress | 0 | 0 |
 | S748 grade exceptions | ~14m | 6 panel + 7 run-panel; 4 app lifecycle; each changed panel module 100% | Approved plan at 1280/320; blocked POM/long exception at 1280/320; keyboard scroll and state replay | 0 | 0 |
 | S750 settled release gate | ~33m elapsed at evidence freeze | 164 files / 2,663 tests; four global coverage metrics 100%; build/type, 42 Control Center, 10 web-release and 5 readiness tests | Packaged Electron offline fresh-profile/output-stage screenshots; reusable S745/747/748/749 responsive/no-egress/flag evidence; all rendered evidence visually reviewed | 0 | 0 |
+| S751 deployment/closeout | ~16m Codex review/board/docs; ~7m03s Actions; live verification completed | Full CI deployment 38201698605 passed; final board suite 42/42; local coverage refresh diagnosed environment-load timeout; PR #32 CI is final gate | Stable + immutable live pressure harness and targeted UIQ-06 smoke passed at 1280/640/320 | 0 | 0 |
 
 ## Slice 744 close boundary
 
@@ -190,12 +192,17 @@ and exact-flag-fallback evidence is linked per S745–S749 because no applicatio
 source changed after those final renders. The unrelated uncommitted EPIC-17
 S425 rendered-output files were preserved and excluded.
 
-S750 exits locally accepted; canonical board revision 4436 keeps UIQ-06 In
-Progress pending its PR. The single next action is opening the Codex-owned
-S750 PR. S751 alone
-handles PR checks/review resolution, merge, automatic deployment, stable URL
-and live rendered verification, and final validated board/context closeout.
-No UIQ-07 or later item is admitted.
+The closeout branch's validated board revision 4440 records UIQ-06 Done, with S750 and S751 release
+evidence attached and the final closeout note recorded. PR #31 merged to
+`origin/main` as `caa1c75111c55d75e8e6a495aa9c85e8d487aea9`; main deployment
+run `38201698605` passed. Stable `https://infinidrip-preview.pages.dev` and
+immutable `https://309f484d.infinidrip-preview.pages.dev` both returned HTTP
+200 and passed responsive browser/no-egress checks. Final live evidence and
+limitations are recorded in `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`.
+UIQ-07 remains Backlog and unadmitted. No later UIQ or numbered Epic is
+admitted by this closeout. The closeout docs, board and regression expectation
+are pending PR #32; keep this goal In Progress until its CI, merge, and
+post-merge deployment verification pass.
 
 ## Resume and completion contract
 
@@ -203,5 +210,6 @@ At each numbered slice boundary record commit, exact tests/results, rendered
 evidence, elapsed time by implementation/focused verification/external waits/
 maintainer decisions, blockers and exactly one next action. Update this ledger,
 `PROJECT-STATE.md`, `ARCHITECTURE.md` if behavior changes, context index, and
-the validated board. Keep the active goal until S751 passes; a candidate, PR,
-merge or deployment alone is not completion.
+the validated board. Completion required the S751 merge, deployment, live
+acceptance, and board/context closeout. S751 product release is live; this goal
+remains active until the updated durable closeout records pass PR CI and merge.
