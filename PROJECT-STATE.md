@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 complete; Slice 753 final durable record
+## Current boundary — UIQ-06 complete through Slice 754
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -86,7 +86,7 @@ The UIQ-06 live smoke confirmed the Nesting readout and local-project messaging.
 Final report and machine evidence are in
 `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md` and
 `docs/research/uiq06/evidence/S751-live/`.
-The canonical board is revision 4448: UIQ-06 remains Done with S750–S753
+The canonical board is revision 4451: UIQ-06 remains Done with S750–S754
 digest-bound evidence. PR #32 merged at `34a2592a`; run `38203805432` passed
 tests/build/artifact/deploy. PR #33 merged as
 `c8f39c7650880cdd3eb6f7a5ec0990c09b2700b0`; main run `38205969649` passed full
@@ -96,14 +96,17 @@ tests, production build, deterministic artifact checks and Pages deploy in
 `https://3e215c02.infinidrip-preview.pages.dev` both returned HTTP 200. S752's
 responsive/keyboard/accessibility/no-egress browser evidence applies to this
 identical bundle. S753 records final evidence; no application source or
-deployment configuration changed in S752/S753.
+deployment configuration changed in S752–S754.
 
-Slice 753 is on `codex/uiq06-s753-final-closeout`, based on current
-`origin/main` `c8f39c7650880cdd3eb6f7a5ec0990c09b2700b0`. It only publishes the
-already-verified S752 deployment and UIQ-06 closeout records; no app source or
-deployment behavior changes. The canonical board is revision 4448 and the
-focused Control Center suite passes 42/42. Next: Codex review and merge of the
-S753 record, then verify its main-branch workflow before closing the goal.
+Slice 753's durable final record merged in PR #34 at
+`5929c8c69094f05f215d0e328663e7febe68f791`; main workflow `38207414640`
+passed full tests, production build, deterministic artifact verification and
+Cloudflare Pages deployment in 6m43s. Cloudflare uploaded zero files and reused
+15; stable `https://infinidrip-preview.pages.dev` and immutable
+`https://c6629cac.infinidrip-preview.pages.dev` returned HTTP 200. Slice 754
+reconciles this verified final state into the handoff documents and canonical
+board; it changes no app behavior. UIQ-06's durable goal is complete. The
+focused Control Center suite passed 42/42.
 
 Pressure testing separately found BUG-UI-048, a 7.65625px overlap between
 “More views” and “Assembled” at 320px. It is measured and linked to the board as

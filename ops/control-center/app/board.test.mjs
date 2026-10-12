@@ -108,6 +108,8 @@ test("UIQ integration status follows its release evidence", () => {
   assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S752-FINAL-DEPLOYMENT"));
   assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S753-FINAL-CLOSEOUT"));
   assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S753-DEPLOYMENT-VERIFICATION"));
+  assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S754-POSTMERGE-STATE"));
+  assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S754-DEPLOYMENT-VERIFICATION"));
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("UIQ-06 is Done at board revision 4439")));
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 752 verified the post-PR #32 main workflow")));
   const uiq06S752Exit = board.evidence.find((entry) => entry.id === "E-UIQ06-S752-FINAL-DEPLOYMENT");
@@ -122,6 +124,14 @@ test("UIQ integration status follows its release evidence", () => {
   assert.equal(uiq06S753MachineEvidence?.verified, true);
   assert.equal(hashEvidenceArtifact(uiq06S753MachineEvidence.uri), uiq06S753MachineEvidence.sha256.toLowerCase());
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 753 verified PR #33 merged")));
+  const uiq06S754Exit = board.evidence.find((entry) => entry.id === "E-UIQ06-S754-POSTMERGE-STATE");
+  assert.equal(uiq06S754Exit?.verified, true);
+  assert.equal(uiq06S754Exit?.uri, "docs/research/uiq06/S754-POSTMERGE-STATE.md");
+  assert.equal(hashEvidenceArtifact(uiq06S754Exit.uri), uiq06S754Exit.sha256.toLowerCase());
+  const uiq06S754MachineEvidence = board.evidence.find((entry) => entry.id === "E-UIQ06-S754-DEPLOYMENT-VERIFICATION");
+  assert.equal(uiq06S754MachineEvidence?.verified, true);
+  assert.equal(hashEvidenceArtifact(uiq06S754MachineEvidence.uri), uiq06S754MachineEvidence.sha256.toLowerCase());
+  assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 754 verified PR #34 merge")));
   const mobileToolbarBug = board.workItems.find((item) => item.id === "BUG-UI-048");
   assert.equal(mobileToolbarBug?.title, "More views and Assembled overlap on mobile");
   assert.equal(mobileToolbarBug?.type, "bug");

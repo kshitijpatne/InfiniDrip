@@ -1,6 +1,6 @@
 # UIQ-06 — durable execution goal
 
-Status: In Progress — product and deployment acceptance passed; the Slice 753 durable closeout is pending Codex review, merge, and its main-branch workflow. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
+Status: Complete — product acceptance, deployment, and durable post-merge records are verified through Slice 754. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## Objective and start
 
@@ -215,7 +215,7 @@ maintainer decisions, blockers and exactly one next action. Update this ledger,
 `PROJECT-STATE.md`, `ARCHITECTURE.md` if behavior changes, context index, and
 the validated board. Completion required the S751 product release, final
 post-merge deployment evidence, merged S752 reconciliation, and verified
-docs/board. These gates passed through S753; UIQ-07 remains Backlog/unadmitted.
+docs/board. These gates passed through S754; UIQ-07 remains Backlog/unadmitted.
 
 ## Slice 752 — final deployment reconciliation (pre-PR boundary)
 
@@ -259,6 +259,20 @@ The validated board replay keeps UIQ-06 Done, links both records, and appends a
 completion note at revision 4448. Control Center passed 42/42 after replay,
 including both digest assertions. Timing from 05:06 to 05:12 UTC (~6m):
 workflow/live review ~1m; report and board replay ~3m; docs and focused checks
-~2m; external waits 0m; maintainer decisions 0m. The remaining task is to
-publish this final durable record through Codex review/merge and verify its
-main-branch workflow; no UIQ-06 product acceptance gate remains open.
+~2m; external waits 0m; maintainer decisions 0m. At this pre-PR boundary, the
+remaining task was to publish the final record; PR #34 and workflow
+`38207414640` completed that action. No UIQ-06 product acceptance gate remains
+open.
+
+## Slice 754 — post-merge durable state reconciliation (pre-PR boundary)
+
+Started 2026-10-12 05:28 UTC on `codex/uiq06-s754-state-sync` from clean
+`origin/main` `5929c8c69094f05f215d0e328663e7febe68f791`. Slice 753's PR #34
+merged and main workflow `38207414640` passed full tests, build, deterministic
+artifact checks and Pages deployment. Stable and immutable URLs both returned
+HTTP 200; the deploy uploaded zero files. Slice 754 corrects the now-obsolete
+S753 pending-merge handoff, records this verified state in the current context
+and board, and makes no product change. The board's UIQ-06 card remains Done;
+BUG-UI-048 remains Backlog/unassigned; UIQ-07 remains Backlog/unadmitted. The
+focused Control Center suite passes 42/42. Next: Codex review/merge of this
+administrative state synchronization; no feature or product gate is reopened.
