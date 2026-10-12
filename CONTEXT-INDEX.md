@@ -46,11 +46,15 @@ only through an explicitly admitted, linked Epic packet.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
 - `docs/planning/EPIC-18-ADMISSION.md` and `EPIC-18-GOAL.md` — current
   maintainer-admitted G05 scope, ordered Slice 762–780 boundaries, acceptance
-  gates, non-goals and stopping point. The Slice 762 exit packet under
-  `docs/research/epic18/S762-admission/` records the reconciled checkpoint and
-  validated board replay. EPIC-18 is active; T01 starts at Slice 763. UIQ-10
-  remains a linked Backlog child until its bounded S773 admission, and UIQ-09
-  remains blocked on EPIC-19.
+  gates, non-goals and current stopping point. Slice 763's T01 schema/validator
+  is complete; its start and exit evidence are in
+  `docs/research/epic18/S763-T01-record-contract/`, with the validated board
+  replays in `docs/planning/EPIC-18-S763-START-BOARD-COMMANDS.json` and
+  `EPIC-18-S763-EXIT-BOARD-COMMANDS.json`. Slice 762's exit packet under
+  `docs/research/epic18/S762-admission/` records the reconciled checkpoint.
+  The next admitted boundary is S764 backward-safe persistence and migration;
+  revision hashing remains held until S765. UIQ-10 remains a linked Backlog
+  child until its bounded S773 admission, and UIQ-09 remains blocked on EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.

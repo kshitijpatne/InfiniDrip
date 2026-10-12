@@ -1,0 +1,27 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "G05-T01",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidence": {
+      "id": "E-G05-S763-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S763-T01-record-contract/start-packet.md",
+      "sha256": "649def26fe64ad38044c39385ee464d20c1da1c7cec8a1585f330fed31aa4c44",
+      "verified": true,
+      "note": "Slice 763 T01 strict typed record/provenance contract start packet; persistence, revision integration and UI remain out of scope."
+    },
+    "expectedRevision": 4538
+  },
+  {
+    "type": "updateStatus",
+    "itemId": "G05-T01",
+    "status": "In Progress",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "reason": "Begin the admitted contract-first T01 slice from verified Slice 762; implementation is limited to the typed T01 schema/parser and focused tests.",
+    "evidenceRefs": ["E-G05-S763-START"],
+    "expectedRevision": 4539
+  }
+]

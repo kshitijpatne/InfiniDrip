@@ -1,4 +1,51 @@
-## Current boundary — EPIC-18/G05 admitted; Slice 762 complete
+## Current boundary — EPIC-18/G05 Slice 763 complete; Slice 764 next
+
+Slice 763 started at 2026-10-12 20:09:15 UTC from the verified Slice 762 commit
+`2264e20a37b13929ad9be996c173417bb1ef6ac4` on `codex/epic-18-g05`. A fresh
+fetch confirmed `origin/main` remains
+`e9221ea5033ccfdd91bf1ebb353926f189477d75` and an ancestor. Slice 762 admitted
+EPIC-18/G05 after reconciling the referenced chats and current repository; its
+decision and digest-bound exit remain in the next section and
+`docs/research/epic18/S762-admission/exit-packet.md`.
+
+Slice 763 froze the additive schema-v1 T01 style/material/BOM/colorway record,
+strict parser and C03/C04 provenance envelope in
+`src/ui/tech-pack-records.ts`. It enforces strict typed fields, actionable
+unresolved/invalid states, revision binding, unique stable identities,
+bounded nested entities, non-dangling BOM/colorway references, scoped approval
+rules and defensive parsed copies. Persistence, legacy migration, G02 revision
+digest, UI, export, recipe defaults, supplier facts and physical/production
+claims were excluded. The contract, acceptance and troubleshooting evidence
+are in `docs/research/epic18/S763-T01-record-contract/exit-packet.md`.
+
+Final verification: 137/137 focused Vitest cases pass with 100% statement,
+branch, function and line coverage for the changed production module;
+`npx tsc --noEmit --pretty false` passes; `npm run control-center:test` passes
+42/42 including the S763 exit-evidence assertion; `git diff --check` passes.
+The add-only module is not imported into app/export paths, so the protected
+export identity and integrated runtime gates remain scheduled for S779. The
+canonical board retains EPIC-18 and G05-T01 In Progress and records the S763
+exit packet as digest-verified evidence. The validated command replay advanced
+the board from revision 4540 to 4542; the exact exit commands are in
+`docs/planning/EPIC-18-S763-EXIT-BOARD-COMMANDS.json`. G05-T02–T05, G05-EXIT
+and UIQ-10 remain Backlog; UIQ-09 remains blocked on EPIC-19.
+
+The next action is Slice 764: inspect current style/project repositories,
+SaveFile v6 and project-package persistence, then add the admitted additive
+record storage/migration with reload and package compatibility proof. Keep
+revision digest integration for S765. No safe disjoint delegate is identified
+for migration because serializers, legacy conversions and reload evidence
+must be reviewed together.
+
+Elapsed time for S763 (2026-10-12 20:09:15–20:36:00 UTC; about 26m45s):
+approximately 16m for contract design, implementation and review; 7m for
+focused test/type diagnosis and final verification; 3m45s for exit
+documentation, board replay and reconciliation; external-agent wait 0m;
+maintainer-decision wait 0m. The landed slice commit subject is
+`Slice 763: define T01 tech-pack record contract`; its full SHA is recorded in
+the S764 start packet.
+
+## Previous boundary — EPIC-18/G05 admitted; Slice 762 complete
 
 Slice 762 starts from verified `origin/main` commit
 `e9221ea5033ccfdd91bf1ebb353926f189477d75`, in isolated worktree
