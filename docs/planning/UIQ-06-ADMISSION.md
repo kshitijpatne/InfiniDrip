@@ -17,7 +17,7 @@ high-risk behavior is not redesigned merely to fill scope.
   commands advanced it to revision 4408 at admission. UIQ-GATE was Done and
   UIQ-06 entered In Progress with its dependency satisfied. PR #31 merged and
   deployed; PR #32 merged at `34a2592a` and main workflow `38203805432` passed.
-  S752 updates the canonical board to revision 4445 while keeping UIQ-06 Done.
+  S752/S753 update the canonical board to revision 4448 while keeping UIQ-06 Done.
   No other active current-main UIQ implementation owner was found. The old EPIC-17 worktree
   is historical; EPIC-17 is closed on main. The referenced
   `docs/coordination/TEAM-CONTEXT-REGISTRY.md` is absent from current main;
@@ -153,8 +153,8 @@ Acceptance:
 6. Codex reviews the actual full diff and evidence before merge. S750 owns the
    settled local gate and PR. S751 required main ancestry, automatic deployment,
    stable URL health, live rendered smoke, validated board closure and durable
-   context; product acceptance is complete and the final durable closeout PR is
-   pending its CI gate and merge.
+   context; product acceptance is complete. PR #32 and its full main workflow
+   are complete; S752/S753 add the verified post-merge deployment records.
 
 ## S744–S745 results and current correction
 
@@ -201,5 +201,7 @@ immutable checks. S752's report and evidence are
 `docs/research/uiq06/evidence/S752-postdeploy/`. Its 320px check registered
 BUG-UI-048 as an unrelated Backlog issue (7.65625px mobile view-control
 overlap); no fix is admitted by this packet. The canonical board is revision
-4445 and the focused Control Center suite passed 42/42 with both S752 digest
-checks. UIQ-07 remains Backlog and unadmitted; no later work is admitted.
+4448 and the focused Control Center suite passed 42/42 with S752 and S753 digest
+checks. PR #33 main run `38205969649` passed full gates and stable/new immutable
+URLs returned HTTP 200; see `docs/research/uiq06/S753-FINAL-CLOSEOUT.md`.
+UIQ-07 remains Backlog and unadmitted; no later work is admitted.

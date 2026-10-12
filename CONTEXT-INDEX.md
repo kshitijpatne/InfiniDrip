@@ -227,17 +227,18 @@ only through an explicitly admitted, linked Epic packet.
   `38201698605` passed. Stable and immutable URLs passed live 1280/640/320
   rendered, keyboard/accessibility and no-egress checks; UIQ-06 Nesting and
   local-project smoke passed. Final report:
-  `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`. Board revision 4445
-  records UIQ-06 Done with digest-bound S750–S752 evidence. PR #32
-  merged at `34a2592a`; main workflow `38203805432` passed full
-  tests/build/artifact checks/deploy. Stable and immutable URLs passed live
-  responsive, keyboard/accessibility and no-egress checks. S752 reconciles this
-  deployment; its report and evidence are
-  `docs/research/uiq06/S752-FINAL-DEPLOYMENT-EXIT.md` and
-  `docs/research/uiq06/evidence/S752-postdeploy/`.
-  Pressure testing registered pre-existing BUG-UI-048 (mobile toolbar overlap)
-  as Backlog only; no fix is admitted. Keep UIQ-07 Backlog/unadmitted and do
-  not infer admission of any subsequent package.
+  `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`. Board revision 4448
+  records UIQ-06 Done with digest-bound S750–S753 evidence. PR #32 merged at
+  `34a2592a`; main run `38203805432` passed full tests/build/artifact/deploy.
+  PR #33 merged at `c8f39c76`; main run `38205969649` passed the full workflow
+  and Cloudflare deploy, uploading zero files. Stable
+  `https://infinidrip-preview.pages.dev` and latest immutable
+  `https://3e215c02.infinidrip-preview.pages.dev` returned HTTP 200. S752's
+  responsive/no-egress browser proof applies to the identical app bundle. Its
+  measured BUG-UI-048 remains Backlog-only with no fix admitted. S753 final
+  evidence is in `docs/research/uiq06/S753-FINAL-CLOSEOUT.md` and
+  `docs/research/uiq06/evidence/S753-final-closeout/`. UIQ-07 remains Backlog
+  and unadmitted; do not infer admission of a later package.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and
   `docs/research/uiq-clarity/CANDIDATE-EXIT.json` document the accepted,
   immutable UIQ-04 isolated candidate. Candidate completion is not shipped

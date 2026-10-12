@@ -1,6 +1,6 @@
 # UIQ-06 — durable execution goal
 
-Status: In Progress — product release and PR #32 deployment are live; S752 durable final reconciliation is in progress. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
+Status: In Progress — product and deployment acceptance passed; the Slice 753 durable closeout is pending Codex review, merge, and its main-branch workflow. Admission: `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## Objective and start
 
@@ -78,7 +78,7 @@ is recorded as such.
 Slice 744 completed on branch `codex/uiq06-admission`, based on
 `7923a7f4323d713b069817adfd7626f19c7b48f5`. The admission, baseline, screenshots
 and command-layer replay are durable; canonical board revision is 4408 and
-UIQ-06 remains In Progress only through S752 durable reconciliation. The four
+UIQ-06 was In Progress at this admission boundary. The four
 baseline image hashes are recorded beside the images in
 `docs/research/uiq06/S744-ADMISSION-BASELINE.md`. Focused baseline
 view tests passed 92/92; Control Center board suite passed 42/42 after its
@@ -198,12 +198,14 @@ S750/S751 evidence. PR #31 merged as `caa1c751`; deployment run `38201698605`
 passed, and both stable and immutable URLs passed responsive browser/no-egress
 checks. The live report is `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`.
 PR #32 later merged at `34a2592a`; main run `38203805432` passed full tests,
-build, deterministic artifact checks and deployment. The post-PR-#32 URLs
-returned HTTP 200 and passed browser pressure checks. S752 found a pre-existing
-320px toolbar overlap and registered it as BUG-UI-048, P2/S3, Backlog only; no
-fix is admitted. The updated board is revision 4445 and its S752 evidence is
-digest-bound. S752 remains in progress until its own PR, main workflow and
-post-merge reconciliation are complete. UIQ-07 remains Backlog/unadmitted.
+build, deterministic artifact checks and deployment. S752 found a pre-existing
+320px overlap, now registered as BUG-UI-048, P2/S3, Backlog only; no fix is
+admitted. PR #33 merged at `c8f39c76`; main run `38205969649` passed the full
+tests/build/artifact/Pages workflow in 6m44s. It uploaded zero changed files;
+stable and latest immutable URLs returned HTTP 200. S752's responsive/keyboard/
+accessibility/no-egress evidence applies to the identical bundle. S753's final
+report and machine record are linked on the canonical board at revision 4448.
+UIQ-06 is complete. UIQ-07 remains Backlog/unadmitted.
 
 ## Resume and completion contract
 
@@ -211,9 +213,9 @@ At each numbered slice boundary record commit, exact tests/results, rendered
 evidence, elapsed time by implementation/focused verification/external waits/
 maintainer decisions, blockers and exactly one next action. Update this ledger,
 `PROJECT-STATE.md`, `ARCHITECTURE.md` if behavior changes, context index, and
-the validated board. Completion requires the S751 product release, final
-post-merge deployment evidence, a merged S752 durable reconciliation, and
-verified current-state docs/board. UIQ-07 remains Backlog/unadmitted.
+the validated board. Completion required the S751 product release, final
+post-merge deployment evidence, merged S752 reconciliation, and verified
+docs/board. These gates passed through S753; UIQ-07 remains Backlog/unadmitted.
 
 ## Slice 752 — final deployment reconciliation (pre-PR boundary)
 
@@ -242,6 +244,21 @@ suite passed 42/42, including board validity, issue status, report hash and
 reproduction-evidence hash. Timing from 04:36 to 04:55 UTC (~19m): deployment/
 history inspection ~2m; pressure run/geometry proof ~5m; report and board
 replay ~7m; context, regression and diff checks ~5m; external waits 0m;
-maintainer decisions 0m. The
-remaining action is the single Slice 752 commit and Codex-owned PR, followed by
-its successful main workflow and final repository closeout.
+maintainer decisions 0m. PR #33 is merged; run `38205969649` passed all
+tests/build/artifact/deploy gates, and stable plus latest immutable URLs
+returned HTTP 200. Slice 753 records the final state and keeps UIQ-06 Done.
+
+## Slice 753 — final closeout (pre-PR boundary)
+
+Started 2026-10-12 05:06 UTC after PR #33 and workflow `38205969649` succeeded.
+The run uploaded zero files, so no app behavior changed. Stable and latest
+immutable URLs returned HTTP 200. Final report and machine evidence are
+`docs/research/uiq06/S753-FINAL-CLOSEOUT.md` and
+`docs/research/uiq06/evidence/S753-final-closeout/deployment-verification.json`.
+The validated board replay keeps UIQ-06 Done, links both records, and appends a
+completion note at revision 4448. Control Center passed 42/42 after replay,
+including both digest assertions. Timing from 05:06 to 05:12 UTC (~6m):
+workflow/live review ~1m; report and board replay ~3m; docs and focused checks
+~2m; external waits 0m; maintainer decisions 0m. The remaining task is to
+publish this final durable record through Codex review/merge and verify its
+main-branch workflow; no UIQ-06 product acceptance gate remains open.

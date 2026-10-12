@@ -92,14 +92,14 @@ render and clean-profile browser/Electron evidence is in
 settled local release gate passed, and Codex-owned PR #31 merged to
 `origin/main` as `caa1c751`. Main deployment run `38201698605` passed; stable
 and immutable public URLs passed live responsive/no-egress verification. The
-The validated board records UIQ-06 Done at revision 4445 with S750–S752
-evidence. PR #32 merged to
-`origin/main` at `34a2592a`; main Pages run `38203805432` passed the full
-workflow and deployment. Stable and immutable preview URLs passed live
-responsive/no-egress checks. S752's post-deploy pressure run also recorded
-BUG-UI-048, a separately tracked 7.65625px overlap between mobile “More views”
-and “Assembled” controls at 320px; it is pre-existing and Backlog-only, with no
-fix admitted. S751 evidence and limits are in
+The validated board records UIQ-06 Done at revision 4448 with S750–S753
+evidence. PR #32/run `38203805432` and PR #33/run `38205969649` passed the full
+main tests/build/artifact/Pages deployment workflow. The final run reused the
+existing bundle (zero files uploaded); stable and latest immutable preview
+URLs returned HTTP 200. S752's live pressure run recorded BUG-UI-048, a
+separately tracked 7.65625px overlap between mobile “More views” and “Assembled”
+controls at 320px; it is pre-existing and Backlog-only, with no fix admitted.
+S751 evidence and limits are in
 `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md`; UIQ-06 boundaries
 and exact flag-off fallback remain in `docs/planning/UIQ-06-ADMISSION.md`.
 

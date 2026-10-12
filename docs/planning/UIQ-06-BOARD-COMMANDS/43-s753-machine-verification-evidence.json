@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S753-DEPLOYMENT-VERIFICATION",
+    "kind": "browser",
+    "uri": "docs/research/uiq06/evidence/S753-final-closeout/deployment-verification.json",
+    "sha256": "c3b0d9d8e204c1a9e0efd18f7ec5066e930f0aace3ef57b166169cc2b93f8f8c",
+    "verified": true,
+    "note": "Machine record of PR #33 merge, full successful workflow 38205969649, zero uploaded bundle files and HTTP 200 for stable and immutable public URLs."
+  },
+  "expectedRevision": 4446
+}
