@@ -54,6 +54,7 @@ test("UIQ integration status follows its release evidence", () => {
     else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
     else if (card.id === "UIQ-06") assert.equal(card.status, "Done");
     else if (card.id === "UIQ-07") assert.equal(card.status, "Done");
+    else if (card.id === "UIQ-08") assert.equal(card.status, "In Progress");
     else assert.equal(card.status, "Backlog");
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");

@@ -38,6 +38,8 @@ import { availableLengthError, bufferError } from "../export/nesting-intelligenc
 import { matchStyle, styleNames } from "../style";
 import { FIELDS, applyChange, inputError, numericRangePosition, numericRangeState, stepNumericValue } from "./controls";
 import { appShellMarkup, controlsMarkup, fieldHistoryDialogContent, fieldObservationSummary, guidanceMarkup, styleMarkup, surfaceMarkup, artworkLibraryResultsMarkup, nestIntelReadout, specTableMarkup, customOneSizeSpecMarkup, checkMarkup, semanticEditorHintMarkup, editorHandleControlsMarkup, inspectionMarkup, patternAnnotationKeyMarkup, BodyCroquisView, type ArtworkLibraryPanelData } from "./view";
+import "./enhancements/inspection/inspection-toolbar.css";
+import { applyInspectionToolbarCandidate } from "./enhancements/inspection/inspection-toolbar";
 import { saveToStorage, loadFromStorage, readFromStorage, serialize, deserialize, DEFAULT_WORKSPACE, defaultStretchFabricForGarment, Workspace, SaveFile, RecoveryFile, readRecoveryFromStorage, saveRecoveryToStorage, clearRecoveryFromStorage } from "./persist";
 import { Appearance, APPEARANCE_TEXTURES, DEFAULT_APPEARANCE, applyAppearanceToSvg, hexToHsl, hslToHex, normalizeHex } from "./appearance";
 import { emptyHistory, recordHistory, redoHistory, undoHistory, HistoryState } from "./history";
@@ -271,6 +273,8 @@ export interface MountAppOptions {
   readonly uiqOperationalClarityEnabled?: boolean;
   /** Local-only override for deterministic UIQ-07 welcome presentation fallback verification. */
   readonly uiqWelcomeEnabled?: boolean;
+  /** Local-only override for deterministic UIQ-08 inspection-toolbar fallback verification. */
+  readonly uiqInspectionToolbarEnabled?: boolean;
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
@@ -503,6 +507,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   ).enabled;
   const uiqWelcomeEnabled = evaluateFeatureFlag(
     "uiq_welcome", new Date(), options.uiqWelcomeEnabled,
+  ).enabled;
+  const uiqInspectionToolbarEnabled = evaluateFeatureFlag(
+    "uiq_inspection_toolbar", new Date(), options.uiqInspectionToolbarEnabled,
   ).enabled;
   const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
@@ -2370,6 +2377,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
         ? "Draft paused — correct the flagged inputs before the Edit preview or its geometry checks can be evaluated. Pattern output and exports are paused."
         : "Draft paused — correct the flagged inputs to render your current design.";
       canvasHost.innerHTML = inspectionMarkup(`<p role="status">${pausedMessage}</p>`, previewActive ? "assembled" : view);
+      if (uiqInspectionToolbarEnabled) {
+        applyInspectionToolbarCandidate(canvasHost);
+        canvasHost.querySelector<HTMLElement>("#inspection-toolbar")!.classList.add("uiq-inspection-toolbar--opaque");
+      }
       renderGuidance([...errors.entries()].map(([field, text]) => ({ level: "warn", field, text })));
       styleHost.innerHTML = styleMarkup(targetStyle, matchStyle(measurements, targetStyle, recipe.styles), styleNames(recipe.styles), false) + gradePlanPanel() + renderSurface();
       syncSurfaceValidity();
@@ -2604,6 +2615,10 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       `<div id="garment-host"${previewActive ? "" : " hidden"}>${assembledEditNotice}${assembledPreview}</div>`,
       previewActive ? "assembled" : view,
     );
+    if (uiqInspectionToolbarEnabled) {
+      applyInspectionToolbarCandidate(canvasHost);
+      canvasHost.querySelector<HTMLElement>("#inspection-toolbar")!.classList.add("uiq-inspection-toolbar--opaque");
+    }
     syncRangeIndicators();
     applyInspectionPresentation();
     syncPatternMeasurementNavigation();

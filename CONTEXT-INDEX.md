@@ -96,12 +96,20 @@ only through an explicitly admitted, linked Epic packet.
 
 ## Planning documents
 
+- `docs/planning/UIQ-08-INTEGRATION-ADMISSION.md` and
+  `UIQ-08-INTEGRATION-GOAL.md` — current maintainer-admitted integration of
+  the accepted solid, opaque inspection-toolbar grouping. Slice 759 passed
+  pre-merge gates and entered Review at board revision 4499 (latest board
+  revision 4500); its evidence is
+  `docs/release/UIQ-08-INTEGRATION-S759-EXIT.md` and
+  `docs/research/uiq08-integration/evidence/S759-verification-summary.json`.
+  Slice 760 handles post-merge deployment/live verification. Glass is rejected,
+  and the embedded flag has no remote switch.
 - `docs/planning/UIQ-08-ADMISSION.md` and `UIQ-08-GOAL.md` — Slice 757 isolated
   inspection-toolbar candidate complete. Full two-worker repository coverage
   passed 165 files/2,672 tests at 100%; no repository worker default changed.
   Codex review recommends solid controls only: translucency has no meaningful
-  effect in the real normal-flow layout. Parent UIQ-08 remains Backlog/unshipped;
-  app integration still requires separate maintainer admission. Candidate-only
+  effect in the real normal-flow layout. Candidate-only
   PR #38 merged and Pages deployment succeeded with unchanged JS/CSS hashes;
   Slice 758 proof is `docs/release/UIQ-08-S758-CLOSEOUT.md` and
   `docs/research/uiq08/evidence/S758-public-deployment.json`. Review, exit

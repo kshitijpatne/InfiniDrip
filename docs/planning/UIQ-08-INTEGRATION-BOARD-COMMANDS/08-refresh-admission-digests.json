@@ -1,0 +1,23 @@
+{
+  "type": "importFacts",
+  "facts": [
+    {
+      "evidenceId": "E-UIQ08-INTEGRATION-ADMISSION",
+      "uri": "docs/planning/UIQ-08-INTEGRATION-ADMISSION.md",
+      "kind": "decision",
+      "commit": null,
+      "sha256": "eefa1c135386f3eb9c71084e5c2f2473afe16dbf994a61ea11bedb185d1f55ed",
+      "verified": true,
+      "note": "Verified exact SHA-256 of the final immutable UIQ-08 integration admission packet."
+    },
+    {
+      "evidenceId": "E-UIQ08-S759-ADMISSION",
+      "uri": "docs/planning/UIQ-08-INTEGRATION-ADMISSION.md",
+      "kind": "decision",
+      "commit": null,
+      "sha256": "eefa1c135386f3eb9c71084e5c2f2473afe16dbf994a61ea11bedb185d1f55ed",
+      "verified": true,
+      "note": "Verified exact SHA-256 of the final UIQ-08 integration contract linked to Slice 759."
+    }
+  ]
+}

@@ -1,4 +1,50 @@
-## Current boundary — UIQ-08 candidate complete; production integration held
+## Current boundary — UIQ-08 solid toolbar integration; Slice 759 submitted for review
+
+After the isolated UIQ-08 candidate and Slice 758 closeout were merged, the
+maintainer said “proceed with next goal” on 2026-10-12. This separately admits
+the candidate's evidence-backed solid, opaque toolbar grouping into the
+existing inspection UI. Glass/translucency remains rejected. The exact
+integration contract, slice boundaries, dependencies, fallback, risks and
+gates are `docs/planning/UIQ-08-INTEGRATION-ADMISSION.md`; the live ledger is
+`docs/planning/UIQ-08-INTEGRATION-GOAL.md`.
+
+The clean start is `origin/main` `b71a59336fa8d41a1663ef3bb7dd687b200288ba`,
+board revision 4488, in isolated worktree
+`C:\Users\kshit\.codex\worktrees\uiq-next\designApp`, branch
+`codex/uiq08-integration`. Highest assigned slice was 758; Slice 759 is reserved
+for integrated implementation/review/PR and Slice 760 for deployment and
+closeout. There is no open PR or competing UI integrator. The existing dirty
+`F:\designApp` checkout and all other worktrees are preserved.
+
+EPIC-17/G04, UIQ-GATE, UIQ-02, the accepted `UIQ08-CANDIDATE`, and Slice 758
+closeout are Done. The UIQ-08 parent is admitted/In Progress; the integration
+child has the linked packet and feature flag `uiq_inspection_toolbar`. That
+embedded flag defaults ON for the accepted release and offers a deterministic
+local test override, not a remote/live switch. Rollback requires a reviewed
+code-default change and redeployment. Slice 759 is implemented and all
+pre-merge gates pass. The embedded flag, opaque-only candidate adapter
+integration, and exact legacy fallback are covered across normal and paused
+renders. Global coverage is 100% across all four metrics; production build,
+packaged Electron, operational checks, and rendered browser pressure evidence
+pass. The precise results are in
+`docs/release/UIQ-08-INTEGRATION-S759-EXIT.md` and
+`docs/research/uiq08-integration/evidence/`. Slice 759 is submitted for
+independent review; Slice 759 entered Review at canonical board revision 4499
+(latest board revision 4500 after the admission-digest refresh). No PR has yet
+been merged and the public app is unchanged.
+
+The candidate-only PR #38 deployed the same production JS/CSS as before and
+shipped no toolbar UI. Slice 759 must use the immutable candidate's scoped
+adapter/styles with the opaque modifier, add only UIQ flag and app integration,
+and retain exact flag-off markup/appearance and all zoom, focus, keyboard,
+pointer, scroll, artwork and export behavior. Require changed-code/global 100%
+coverage, full build/release/package/export checks, responsive rendered ON/OFF
+browser evidence and zero egress before Codex review/PR/merge. Slice 760 is not
+complete until the main workflow and live stable/immutable UI are verified and
+the board is closed through validated commands. No baseline moves or launch
+costs are admitted.
+
+## Previous boundary — UIQ-08 candidate complete; production integration held
 
 On 2026-10-12, after UIQ-07 completed through Slice 756, the maintainer said
 “proceed with next goal.” This admits only the next ordered package, UIQ-08's

@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-S759-INTEGRATION",
+  "expectedRevision": 4497,
+  "evidence": {
+    "id": "E-UIQ08-S759-VERIFICATION",
+    "kind": "rendered-output",
+    "uri": "docs/research/uiq08-integration/evidence/S759-verification-summary.json",
+    "sha256": "238d5d2743554bd87cf3c3508a5f57fc1d60645b043d826504eceba05a8c87e5",
+    "verified": true,
+    "note": "Digest-bound machine summary of global coverage counters, focused/operational/package checks, candidate hashes, rendered browser report and no-egress results."
+  }
+}

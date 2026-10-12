@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-08",
+  "status": "In Progress",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "The maintainer admitted the next goal after completing the isolated UIQ-08 candidate. The separate solid-only app integration, embedded fallback, exact scope and release gates are frozen in docs/planning/UIQ-08-INTEGRATION-ADMISSION.md and UIQ-08-INTEGRATION-GOAL.md.",
+  "expectedRevision": 4490
+}

@@ -1,5 +1,17 @@
 # InfiniDrip — Confirmed project decisions
 
+## UIQ-08 — solid inspection-toolbar integration admitted (2026-10-12)
+
+After the isolated UIQ-08 candidate and candidate-only deployment closeout,
+the maintainer said “proceed with next goal,” separately authorizing integration
+of the Codex-reviewed solid, opaque grouping into the existing inspection
+toolbar. Do not carry glass/translucency into the app: rendered review found no
+benefit in its normal-flow position. Use embedded `uiq_inspection_toolbar` with
+an exact legacy fallback; it has no remote switch, so rollback requires a code
+default change and redeployment. The exact boundary and gates are in
+`docs/planning/UIQ-08-INTEGRATION-ADMISSION.md`. No other UIQ, geometry, export,
+data, network, baseline or launch-cost scope is admitted.
+
 ## EPIC-17/G04 — S732 closeout verified; no additional CAD software
 
 The maintainer-approved S726 V03 evidence definition remains unchanged and

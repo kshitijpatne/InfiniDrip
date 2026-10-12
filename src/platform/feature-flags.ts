@@ -56,6 +56,18 @@ export const FEATURE_FLAGS = Object.freeze({
     onBehavior: "Compose the accepted native welcome visual around the existing first-run tutorial welcome only.",
     offBehavior: "Keep the current tutorial welcome presentation and all existing tutorial behavior.",
   } satisfies FeatureFlagDefinition),
+  uiq_inspection_toolbar: Object.freeze({
+    key: "uiq_inspection_toolbar",
+    owner: "Codex",
+    audience: "public",
+    defaultValue: true,
+    expiresOn: "2027-01-13",
+    removalRelease: "UIQ-08 inspection-toolbar cleanup; no later than expiry",
+    rollout: "embedded",
+    fallback: "compatible-v1",
+    onBehavior: "Use the solid, opaque native grouping on the existing inspection toolbar without changing its controls.",
+    offBehavior: "Keep the exact existing inspection-toolbar markup and appearance.",
+  } satisfies FeatureFlagDefinition),
   uiq_guidance: Object.freeze({
     key: "uiq_guidance",
     owner: "Codex",

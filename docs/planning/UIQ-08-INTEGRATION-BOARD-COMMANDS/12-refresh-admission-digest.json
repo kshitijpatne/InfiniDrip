@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4499,
+  "facts": [
+    {
+      "evidenceId": "E-UIQ08-S759-ADMISSION",
+      "uri": "docs/planning/UIQ-08-INTEGRATION-ADMISSION.md",
+      "kind": "decision",
+      "commit": null,
+      "sha256": "22d13047d96f75d5a04a4950adeaf6fc54592ea6f6c91b8755277a5d3881785a",
+      "verified": true,
+      "note": "Verified SHA-256 of the finalized admission and current verified boundary packet for the UIQ-08 integration."
+    }
+  ]
+}

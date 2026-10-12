@@ -1,0 +1,62 @@
+{
+  "slice": 759,
+  "status": "pre-merge-acceptance-passed",
+  "branch": "codex/uiq08-integration",
+  "baseCommit": "b71a59336fa8d41a1663ef3bb7dd687b200288ba",
+  "boardRevision": 4496,
+  "verifiedAt": "2026-10-12T18:20:40Z",
+  "featureFlag": {
+    "key": "uiq_inspection_toolbar",
+    "default": true,
+    "rollout": "embedded",
+    "expiresOn": "2027-01-13",
+    "remoteSwitch": false
+  },
+  "coverage": {
+    "command": "npm run coverage -- --pool=forks --poolOptions.forks.minForks=2 --poolOptions.forks.maxForks=2",
+    "exitCode": 0,
+    "globalPercent": {
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100
+    },
+    "covered": {
+      "statements": 33152,
+      "branches": 17308,
+      "functions": 1899
+    },
+    "uncovered": {
+      "statements": 0,
+      "branches": 0,
+      "functions": 0
+    }
+  },
+  "tests": {
+    "focusedAppAndFlagPassed": 306,
+    "focusedAppAndFlagFailed": 0,
+    "controlCenterPassed": 42,
+    "webReleasePassed": 10,
+    "readinessPassed": 5,
+    "packagedRelease": "passed",
+    "packagedSave": "passed",
+    "packagedMenuAndWindow": "passed",
+    "exportIdentitySuite": "passed"
+  },
+  "candidateSourceSha256": {
+    "adapter": "577d09505a6df8e9af929a1c3fd2c90097e30fc99b4d14764a559c055c7bc16a",
+    "css": "9e46006a8cd817ab66d500593828debd2e7917995f6ca8a4b3afe4d32c215ed5"
+  },
+  "browserEvidence": {
+    "path": "docs/research/uiq08-integration/evidence/production-browser-report.json",
+    "sha256": "f33c5216202f4d8c9e81186c0cffed39a8af2ef2f8729c86d171960f280ce292",
+    "responsiveWidths": [320, 360, 390, 480, 768, 1280, 1440],
+    "axeViolations": 0,
+    "externalRequests": 0,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "flagOffFallback": "exact legacy toolbar markup; candidate CSS inert"
+  },
+  "deployment": "not-yet-merged; Slice 760 required",
+  "exportBaselineMoved": false
+}
