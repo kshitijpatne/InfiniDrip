@@ -868,9 +868,12 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
       recoveryHost.replaceChildren();
       return;
     }
+    const recoveryMessage = uiqOperationalClarityEnabled
+      ? "Your last saved version stays unchanged until you choose Save. Recover the latest local draft? It may contain incomplete values, so drafting and export stay paused until they are corrected."
+      : "Recover the last local edit? It may contain incomplete values; drafting and export stay paused until they are corrected.";
     recoveryHost.innerHTML = `<div class="workspace-recovery-card" role="dialog" aria-modal="true" aria-labelledby="workspace-recovery-title">` +
       `<h2 id="workspace-recovery-title">Unfinished draft found</h2>` +
-      `<p>Recover the last local edit? It may contain incomplete values; drafting and export stay paused until they are corrected.</p>` +
+      `<p>${recoveryMessage}</p>` +
       `<div class="workspace-recovery-actions"><button id="recovery-discard" type="button">Discard draft</button>` +
       `<button id="recovery-accept" type="button">Recover draft</button></div></div>`;
     recoveryHost.querySelector<HTMLButtonElement>("#recovery-discard")!.addEventListener("click", () => {
@@ -5133,6 +5136,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     projectManager = new ProjectManager({
       host: projectManagerHost,
       workflow: projectWorkflow,
+      initialStatusMessage: uiqOperationalClarityEnabled
+        ? "Project data is stored locally on this device."
+        : "Saved project is ready on this device.",
       getCurrentDesign: currentSavedDesign,
       getBlankDesign: blankSavedDesign,
       hasUnsavedChanges: () => persistentOutputRevision !== savedPersistentOutputRevision,

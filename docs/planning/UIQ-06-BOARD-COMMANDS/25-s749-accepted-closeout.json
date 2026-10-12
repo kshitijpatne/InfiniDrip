@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Accepted S749 final boundary at 03:06:12 UTC, 32m30s from start. The existing uiq_operational_clarity flag selects the new copy; a pressure test caught and corrected an off-path regression, and explicit flag-OFF tests now preserve the exact old project/recovery wording. Final focused project/app tests passed 32/32, recovery case 1/1, build and clean browser/Electron workflow pass; Control Center is rerun at the final S750 boundary. Digest-bound final report E-UIQ06-S749-ACCEPTED supersedes the earlier interim S749 report snapshots. UIQ-06 remains In Progress; S750 is the sole next gate/PR action, S751 remains merge/deploy/live closeout.",
+  "expectedRevision": 4428
+}

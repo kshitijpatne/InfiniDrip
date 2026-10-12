@@ -1,0 +1,89 @@
+{
+  "slice": 749,
+  "status": "passed",
+  "scope": "presentation-only local project/recovery wording, gated by the existing UIQ-06 flag",
+  "changedFiles": [
+    "src/ui/project-manager.ts",
+    "src/ui/project-manager.test.ts",
+    "src/ui/app.ts",
+    "src/ui/project-app.test.ts",
+    "electron/verify-project-workflow.cjs"
+  ],
+  "rendered": {
+    "environment": "Electron 44.1.0, Chromium 152.0.7977.65; clean disposable profile",
+    "dialogTitle": "Unfinished draft found",
+    "savedVersionBoundary": "Your last saved version stays unchanged until you choose Save.",
+    "draftWarning": "Recover the latest local draft? It may contain incomplete values, so drafting and export stay paused until they are corrected.",
+    "viewports": [
+      {
+        "requestedWidth": 1280,
+        "height": 720,
+        "windowInnerWidth": 1280,
+        "documentClientWidth": 1280,
+        "documentScrollWidth": 1280,
+        "dialog": { "left": 390, "right": 890, "top": 271.125, "bottom": 448.875 },
+        "screenshot": "docs/research/uiq06/evidence/S749-recovery-1280.png",
+        "sha256": "7d8f89d7e57e008288a81f9bbc51eb8376d51b2af0f9e8f908134af5762e4c96"
+      },
+      {
+        "requestedWidth": 320,
+        "height": 720,
+        "windowInnerWidth": 320,
+        "documentClientWidth": 305,
+        "documentScrollWidth": 305,
+        "dialog": { "left": 18, "right": 286.8000183105469, "top": 219.85000610351562, "bottom": 500.1500244140625 },
+        "screenshot": "docs/research/uiq06/evidence/S749-recovery-320.png",
+        "sha256": "ab7e503c9cf8e4778b673fedb574e66f92ad9fcbfc04de49fd4c4ae0eacbe5d1"
+      }
+    ]
+  },
+  "workflowReplay": {
+    "browser": "PASS",
+    "electron": "PASS",
+    "activeStyleSurvivedRestart": true,
+    "styleScopedRecoveryRestored": true,
+    "savedMeasurementSurvivedRestart": 104,
+    "sourceAwareHistorySurvivedRestart": true,
+    "explicitSaveClearedStaleRecovery": true,
+    "renderedMeasurement": 104
+  },
+  "tests": {
+    "projectManagerAndProjectApp": { "passed": 33, "failed": 0 },
+    "recoverySpecificAppCase": { "passed": 1, "filtered": 285, "failed": 0 },
+    "appFlagPathTests": {
+      "passed": 19,
+      "failed": 0,
+      "selectedModuleCoverage": { "statements": 47.06, "branches": 66.73, "functions": 58.44, "lines": 47.06 },
+      "interpretation": "Targeted branch evidence only; both new flag-on/off message branches executed. Not a full module/global coverage pass."
+    },
+    "controlCenter": { "passed": 42, "failed": 0 },
+    "projectManagerModuleCoverage": {
+      "statements": 100,
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "branchNote": "All project-manager module branches passed, including existing blocker absent/present and exact legacy/clarity status messages."
+    },
+    "changedRecoveryRenderStatementExecuted": true,
+    "recoveryAndInitialStatusFlagBranches": "both enabled and disabled paths observed",
+    "flagOnAndFlagOffCopyPaths": "PASS; flag-off restores exact legacy project and recovery wording",
+    "globalCoverage": "pending S750"
+  },
+  "build": { "typescript": "PASS", "production": "PASS", "existingBundleAdvisory": true },
+  "preserved": {
+    "storageAndPersistence": true,
+    "projectIdentityAndHistory": true,
+    "packageAndExportBehavior": true,
+    "exportBytesAndBaselines": true,
+    "featureFlagCatalogAndDefaultsUnchanged": true,
+    "exactFlagOffFallback": true,
+    "explicitConfirmationAndSaveBoundary": true,
+    "userProfileDataModified": false
+  },
+  "knownLimitations": [
+    "One earlier broad app-test attempt was stopped at approximately 2.9GB worker RSS; it is not a pass. The bounded focused reruns passed.",
+    "The historical S240 package verifier was not rerun because it writes its result to a tracked historical report path; its import/export behavior is covered by the current focused tests.",
+    "A separate uncontrolled existing browser profile displayed a fail-closed legacy recovery-version message. It was not changed or used as a clean fixture; no saved data was intentionally replaced."
+  ],
+  "next": "S750 settled full gate and PR; S751 merge/deployment/live closeout."
+}

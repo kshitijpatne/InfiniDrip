@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "S749 durable closeout is complete. Final digest-bound exit report is E-UIQ06-S749-FINAL-EXIT; the earlier S749 snapshot is retained as historical board evidence. S749 implementation/verification evidence is in docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md and docs/research/uiq06/evidence/S749-project-recovery-pressure.json. UIQ-06 remains In Progress; S750 is the sole next action for fresh main/history/ownership and settled full gates/PR. S751 remains merge, deployment, live verification and board closeout.",
+  "expectedRevision": 4424
+}

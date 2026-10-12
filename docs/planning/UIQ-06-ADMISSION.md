@@ -28,7 +28,7 @@ high-risk behavior is not redesigned merely to fill scope.
   test that board evidence resolves to a tracked file. This corrects an
   accidental ignore rule without rewriting history or changing production.
   Remaining boundaries after S748: S749 project/history/recovery/import/export-scope
-  messages; S750 settled review/full gates/PR; S751 post-merge deployment,
+  messages (now complete); S750 settled review/full gates/PR; S751 post-merge deployment,
   live verification and board/context closeout. Recheck and reserve each
   number at the boundary. A justified no-change result is recorded with
   evidence rather than replaced by speculative UI work.
@@ -88,7 +88,9 @@ show no material readability failure.
   presentation-only and must preserve the authored exception reason, exact
   POM values, stale-plan and readiness gates, and every export rule. No
   grading math or approval semantics.
-- S749 audits project switching, unsaved/stale/conflict states, recovery,
+- S749 started 2026-10-12 02:33:42 UTC at board revision 4421 after commit
+  `24c6bcb2` and a fresh fetch confirmed `origin/main` remains an ancestor.
+  S749 audits project switching, unsaved/stale/conflict states, recovery,
   revision history, package import/export, and frozen-output scope. Any change
   is presentation-only; preserve explicit confirmations, cancellation,
   atomicity, privacy/local-only behavior, object identities, and outputs. Do
@@ -170,6 +172,11 @@ grade-plan exception matrix and Check POM output: narrow tables now disclose
 horizontal scroll and support keyboard scrolling, reasons are labeled per
 size, and numeric POM columns remain legible beside long exceptions. All grade
 values, reasons, approval/readiness gates and exports are unchanged; evidence
-is in `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`. S749 is
-next for the project/recovery/import/export scope audit. Do not begin UIQ-07 or
-any numbered Epic.
+is in `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`. S749
+clarified local storage and explicit recovery/save messaging without changing
+persistence or file behavior; evidence is in
+`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md` and its
+machine pressure report. Canonical board revision 4433 retains the parent
+In Progress and links `E-UIQ06-S749-VERIFIED` as the digest-bound final report.
+S750 is the settled review/full-gate/PR boundary; S751 is merge/deployment/live
+closeout. Do not begin UIQ-07 or any numbered Epic.

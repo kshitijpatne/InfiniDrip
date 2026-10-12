@@ -82,8 +82,15 @@ Slice 748 made the existing grade-plan and Check POM matrices' horizontal
 overflow visible and keyboard-scrollable where needed, labels each exception
 reason with its size, and keeps numeric comparison columns readable beside long
 reasons. Grade calculations, exception records, review/approval/readiness and
-export behavior remain unchanged. Project/recovery/import/export screens
-remain audit-gated under `docs/planning/UIQ-06-ADMISSION.md`.
+export behavior remain unchanged. Slice 749 clarified two local-project
+messages: the project panel describes local storage without implying unsaved
+edits are saved, and recovery explains that the last saved version remains
+unchanged until explicit Save. Recover/Discard actions, persistence, history,
+package import/export and frozen output behavior are unchanged. Desktop/mobile
+render and clean-profile browser/Electron evidence is in
+`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; the current
+settled full gate and release are pending S750/S751. UIQ-06 boundaries and the
+exact flag-off fallback remain in `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## How measurements become pattern shapes
 

@@ -40,7 +40,7 @@ function loadedProject(): LoadedProject {
   };
 }
 
-function harness() {
+function harness(initialStatusMessage?: string, getFreezeBlocker?: () => string | null) {
   const initial = loadedProject();
   let snapshot = initial;
   const second = { ...initial.styles[1], archivedAt: null };
@@ -90,6 +90,8 @@ function harness() {
     hasUnsavedChanges: () => unsavedChanges,
     onStyleLoaded,
     setBusy,
+    initialStatusMessage,
+    getFreezeBlocker,
   });
   return {
     host, manager, workflow, setBusy, onStyleLoaded,
@@ -105,6 +107,21 @@ async function clickAndSettle(host: HTMLElement, selector: string): Promise<void
 }
 
 describe("accessible project and style manager", () => {
+  it("uses the exact legacy project message by default and the clearer local-storage message when enabled", () => {
+    const legacy = harness();
+    const clarity = harness("Project data is stored locally on this device.");
+    try {
+      expect(legacy.host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toBe("Saved project is ready on this device.");
+      expect(clarity.host.querySelector<HTMLElement>("#project-manager-status")?.textContent)
+        .toBe("Project data is stored locally on this device.");
+    } finally {
+      legacy.host.remove();
+      clarity.host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+    }
+  });
+
   it("maps absent and present style recovery to the runtime payload consistently", () => {
     const loaded = loadedProject();
     expect(recoveryPayloadOrNull(loaded)).toBeNull();
@@ -112,6 +129,20 @@ describe("accessible project and style manager", () => {
       ...loaded,
       activeRecovery: { schemaVersion: 2, styleId: STYLE_ID, payload: { fabric: "#123456" } } as NonNullable<LoadedProject["activeRecovery"]>,
     })).toEqual({ fabric: "#123456" });
+  });
+
+  it("shows an actionable existing freeze blocker without enabling output capture", () => {
+    const { host, manager, setUnsavedChanges } = harness(undefined, () => "Review the approved plan first.");
+    try {
+      setUnsavedChanges(false);
+      manager.refresh();
+      expect(host.querySelector("#project-freeze-guidance")?.textContent)
+        .toBe("Review the approved plan first.");
+      expect(host.querySelector<HTMLButtonElement>("[data-project-action='freeze-outputs']")?.disabled).toBe(true);
+    } finally {
+      host.remove();
+      document.querySelector("#project-operation-cancel")?.remove();
+    }
   });
 
   it("labels unmatched frozen revisions as historical and forwards restore recovery to the editor", async () => {

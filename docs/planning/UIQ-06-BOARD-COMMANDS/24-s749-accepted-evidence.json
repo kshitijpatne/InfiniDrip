@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S749-ACCEPTED",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+    "sha256": "f292fe5304f310afb75e0db0064981d09b93388231dc541024019863945879c9",
+    "verified": true,
+    "note": "Accepted final Slice 749 report, including the flag-off regression correction, final focused tests, build and rendered browser/Electron replay; supersedes prior S749 report snapshots."
+  },
+  "expectedRevision": 4427
+}

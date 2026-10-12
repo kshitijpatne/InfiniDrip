@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S749-CLOSEOUT",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+    "sha256": "4efcd4e22c75882e6271d014b8168b1b5cb37dea35dbc9fbfc352d6661ec461b",
+    "verified": true,
+    "note": "Final timed Slice 749 exit report with actual end time and evidence closeout; supersedes pre-closeout snapshots."
+  },
+  "expectedRevision": 4425
+}

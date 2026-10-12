@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 748 is committed as 24c6bcb2 (Slice 748: clarify grade exception tables); refreshed origin/main 7923a7f4323d713b069817adfd7626f19c7b48f5 remains an ancestor and the isolated branch is clean. Starting uniquely reserved Slice 749: rendered audit of local project switching, saved/unsaved/stale/conflict and recovery states, package import failures, export scope and frozen-output boundaries. Audit first; change presentation only if a concrete user-facing ambiguity is demonstrated. Preserve project state, privacy/local-only behavior, confirmations, cancellation, atomicity, identities, file bytes and export baselines. S750 remains the settled gate/PR; S751 post-merge deployment and closeout. Board revision 4420.",
+  "expectedRevision": 4420
+}

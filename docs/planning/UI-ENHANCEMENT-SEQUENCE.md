@@ -159,9 +159,10 @@ Its responsive real-app and synthetic edge evidence is in
 and keyboard-operable scrolling for grade-plan/Check tables, per-size exception
 labels, and stable comparison columns; it did not change grade logic or output
 gates (`docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`). S749
-audits the remaining project/recovery/import/export surfaces only where
-rendered edge-state evidence demonstrates a concrete communication defect. Slice 750
-is the settled full-gate/review/PR boundary; Slice 751 owns merge, deployment,
+clarified local-storage status and the recovery/explicit-save boundary without
+changing persistence or package behavior; see
+`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`. Slice 750 is
+the settled full-gate/review/PR boundary; Slice 751 owns merge, deployment,
 live verification and validated board closeout. UIQ-07 and later work remain
 Backlog/unadmitted. No database, account, network, garment, physics, export,
 or other feature scope is added.

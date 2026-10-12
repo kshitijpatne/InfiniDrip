@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S749-VERIFIED",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+    "sha256": "7fa69d46f6b03b07c71091213dc3d56631441accdf5012acadadfd539276d60b",
+    "verified": true,
+    "note": "Final verified S749 exit after exact feature-flag fallback pressure test and all-four-dimension project-manager coverage; supersedes prior interim report digests."
+  },
+  "expectedRevision": 4429
+}

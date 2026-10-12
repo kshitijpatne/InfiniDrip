@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S749-FINAL-EXIT",
+    "kind": "document",
+    "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+    "sha256": "bea2918d713ef6359efca451a728be47ed641501f62ee94ea8023dc976a04629",
+    "verified": true,
+    "note": "Final Slice 749 exit report; supersedes the earlier pre-board-closeout snapshot E-UIQ06-S749-EXIT."
+  },
+  "expectedRevision": 4423
+}

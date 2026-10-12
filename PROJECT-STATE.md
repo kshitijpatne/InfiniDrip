@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 admitted (Slices 744–748 complete; S749 next)
+## Current boundary — UIQ-06 admitted (Slices 744–749 complete; S750 next)
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -20,14 +20,15 @@ surfaces remain evidence-gated. No estimate, garment, grading, validation, state
 persistence, import/export, or baseline changes are authorized. UIQ-07 and
 later work remain unadmitted and untouched.
 
-Slices 744–747 are committed on `codex/uiq06-admission`; S745 keeps controls,
+Slices 744–749 are committed on `codex/uiq06-admission`; S745 keeps controls,
 IDs, estimates, validation and exact flag-off fallback, and separates estimate
 facts, fit verdict and directional caveat. Focused feature-flag/view tests and
 all 15 nesting app tests passed; rendered pressure checks at 1280/640/320 and
 fit/short/unknown/invalid states had no app errors or off-origin requests. The
 full machine evidence and screenshots are in `docs/research/uiq06/evidence/`.
-The focused Control Center suite passes 42/42. Canonical board is at revision
-4420 with UIQ-06 In Progress. No export baseline moved.
+The focused Control Center suite passes 42/42 after the final S749 evidence
+replay. Canonical board is at revision 4433 with UIQ-06 In Progress. S748
+commit is `24c6bcb2`; no export baseline moved.
 
 Slice 746 corrected the `.gitignore` omission without altering S745 commit
 `b948c942`. The exact board-referenced exit report is now tracked and its
@@ -56,12 +57,25 @@ off-origin requests. Evidence is in
 `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md` and
 `docs/research/uiq06/evidence/S748-grade-exception-pressure.json`.
 
-**Immediate next action: Slice 749**, audit local project/recovery/import/export
-messages and frozen-output scope at saved/unsaved/stale/conflict/recovery/
-import-failure states. Preserve storage, identity, privacy, file formats,
-confirmations, cancellation and byte-identity baselines. The remaining sequence
-is S750 settled gate/PR and S751 merge/deployment/live/board closeout. UIQ-07
-and later remain unadmitted.
+Slice 749 clarified local-storage and recovery/save wording behind the existing
+flag, preserving the exact legacy copy when off. Focused project/app tests
+passed 33/33 with 100% coverage in `project-manager.ts`; the recovery-specific
+app test passed 1/1; build, Control Center
+42/42, and clean-profile browser/Electron workflow passed. Real 1280px and
+320px recovery renders fit with no document overflow. Details and hashes are in
+`docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md` and
+`docs/research/uiq06/evidence/S749-project-recovery-pressure.json`. The
+historical S240 package verifier was not rerun because it writes its tracked
+report; current package flows remain covered by focused tests. A broad app-test
+attempt was stopped under high memory use and is not a pass. No export baseline
+moved.
+
+**Immediate next action: Slice 750**, refresh current main/branch/board and run
+the settled full-gate, verify all global coverage and export-byte identities,
+type/build, Control Center/readiness/web, Electron and rendered/no-egress/flag
+fallback pressure. Codex reviews the exact candidate and PR; do not merge or
+deploy until all gates pass. S751 alone handles merge, automatic deployment,
+live verification and board closeout. UIQ-07 and later remain unadmitted.
 
 ## Previous boundary — UIQ-05 complete (Slices 741–743)
 

@@ -2,6 +2,8 @@
 // Electron renderer. Every run uses a disposable profile and exercises the
 // same app entry point users receive, including restart persistence.
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const { chromium } = require("playwright");
 const {
   closeApp,
@@ -11,6 +13,8 @@ const {
   startPreviewServer,
 } = require("./verify-common.cjs");
 
+const EVIDENCE_DIR = path.join(__dirname, "..", "docs", "research", "uiq06", "evidence");
+
 async function waitForReady(app) {
   const window = await app.firstWindow();
   window.setDefaultTimeout(12000);
@@ -18,6 +22,8 @@ async function waitForReady(app) {
   await window.waitForSelector("#project-manager-host .project-manager-details", { state: "attached", timeout: 20000 });
   const skip = window.locator("#welcome-skip");
   if (await skip.count() && await skip.isVisible()) await skip.click();
+  const measure = window.locator("#journey-step-measure");
+  if (await measure.count() && await measure.getAttribute("aria-current") !== "step") await measure.click();
   return window;
 }
 
@@ -205,6 +211,9 @@ async function main() {
 
     const manager = window.locator("#project-manager-host");
     await manager.locator(".project-manager-details summary").click();
+    assert.equal(await manager.locator("#project-manager-status").textContent(),
+      "Project data is stored locally on this device.",
+      "the project panel describes local storage without implying unsaved edits are saved");
     await manager.locator("#project-style-name").fill("G02 runtime style");
     await manager.locator('[data-project-action="create"]').click();
     await window.waitForFunction(() => document.querySelector("#project-manager-status")?.textContent?.includes("Created G02 runtime style"));
@@ -228,6 +237,38 @@ async function main() {
     const switchBack = window.locator(`[data-project-action="switch"][data-style-id="${originalStyleId}"]`);
     await switchBack.click();
     await window.waitForSelector("#recovery-accept", { state: "visible", timeout: 10000 });
+    const recoveryText = await window.locator("#recovery-host").textContent();
+    assert.match(recoveryText ?? "", /Your last saved version stays unchanged until you choose Save\./);
+    assert.match(recoveryText ?? "", /Recover the latest local draft\?/);
+    fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+    const recoveryPromptViewports = [];
+    for (const viewport of [{ width: 1280, height: 720 }, { width: 320, height: 720 }]) {
+      await window.setViewportSize(viewport);
+      const metrics = await window.evaluate(() => {
+        const card = document.querySelector(".workspace-recovery-card");
+        if (!card) throw new Error("The recovery dialog is not rendered.");
+        const bounds = card.getBoundingClientRect();
+        return {
+          viewportWidth: window.innerWidth,
+          documentClientWidth: document.documentElement.clientWidth,
+          documentScrollWidth: document.documentElement.scrollWidth,
+          cardLeft: bounds.left,
+          cardRight: bounds.right,
+          cardTop: bounds.top,
+          cardBottom: bounds.bottom,
+        };
+      });
+      assert.equal(metrics.documentScrollWidth, metrics.documentClientWidth,
+        `recovery prompt must not create page overflow at ${viewport.width}px`);
+      assert.ok(metrics.cardLeft >= 0 && metrics.cardRight <= viewport.width,
+        `recovery card must fit the ${viewport.width}px viewport`);
+      assert.ok(metrics.cardTop >= 0 && metrics.cardBottom <= viewport.height,
+        `recovery card must fit the ${viewport.height}px viewport`);
+      const imageName = `S749-recovery-${viewport.width}.png`;
+      await window.screenshot({ path: path.join(EVIDENCE_DIR, imageName) });
+      recoveryPromptViewports.push({ ...metrics, screenshot: `docs/research/uiq06/evidence/${imageName}` });
+    }
+    await window.setViewportSize({ width: 1280, height: 720 });
     await window.locator("#recovery-accept").click();
     await waitForStatus(window, "recovery saved", "accepted recovery was not re-saved while editing");
     await window.locator("#save-pattern").click();
@@ -264,6 +305,7 @@ async function main() {
       sourceAwareChestHistorySurvivedRestart: true,
       staleRecoveryClearedOnSave: final.recoveries.length === 0,
       renderedMeasurement: Number(renderedChest),
+        recoveryPromptViewports,
       },
     }, null, 2));
     passed = true;

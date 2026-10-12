@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4420,
-  "updatedAt": "2026-10-12T02:32:13.492Z",
+  "revision": 4433,
+  "updatedAt": "2026-10-12T03:16:34.251Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14960,6 +14960,41 @@
           "at": "2026-10-12T02:32:13.492Z",
           "actor": "Codex",
           "text": "Slice 748 is complete. At narrow widths the grade-plan and Check POM tables now disclose horizontal scrolling and are named keyboard-focusable regions; POM columns remain legible with long reasons, and exception inputs name their size. Draft/review/approval/stale/unavailable gates, reasons, values, grade math and exports are unchanged. 6 panel + 7 run-panel tests, 4 app lifecycle tests, 100% coverage for both changed TypeScript modules, build and 1280/320 synthetic browser/keyboard/no-egress checks passed. See E-UIQ06-S748-EXIT and docs/research/uiq06/evidence/S748-grade-exception-pressure.json. UIQ-06 remains In Progress; next is S749 project/recovery/import/export scope audit."
+        },
+        {
+          "at": "2026-10-12T02:33:50.763Z",
+          "actor": "Codex",
+          "text": "Slice 748 is committed as 24c6bcb2 (Slice 748: clarify grade exception tables); refreshed origin/main 7923a7f4323d713b069817adfd7626f19c7b48f5 remains an ancestor and the isolated branch is clean. Starting uniquely reserved Slice 749: rendered audit of local project switching, saved/unsaved/stale/conflict and recovery states, package import failures, export scope and frozen-output boundaries. Audit first; change presentation only if a concrete user-facing ambiguity is demonstrated. Preserve project state, privacy/local-only behavior, confirmations, cancellation, atomicity, identities, file bytes and export baselines. S750 remains the settled gate/PR; S751 post-merge deployment and closeout. Board revision 4420."
+        },
+        {
+          "at": "2026-10-12T02:59:33.590Z",
+          "actor": "Codex",
+          "text": "Slice 749 is complete: project status now explains local storage without implying unsaved edits are saved, and recovery states that the saved version is unchanged until explicit Save. Persistence, project identity/history, package import/export, frozen outputs and export baselines are unchanged. Focused project/app tests passed 31/31; the recovery app case passed 1/1; build passed; Control Center passed 42/42; clean-profile browser/Electron workflow and rendered 1280/320 recovery evidence passed. See E-UIQ06-S749-EXIT. A broad app test attempt was stopped under memory pressure and is not a pass; full global coverage and settled release gates remain S750. S751 remains merge/deployment/live/board closeout. UIQ-06 remains In Progress."
+        },
+        {
+          "at": "2026-10-12T03:00:33.739Z",
+          "actor": "Codex",
+          "text": "S749 durable closeout is complete. Final digest-bound exit report is E-UIQ06-S749-FINAL-EXIT; the earlier S749 snapshot is retained as historical board evidence. S749 implementation/verification evidence is in docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md and docs/research/uiq06/evidence/S749-project-recovery-pressure.json. UIQ-06 remains In Progress; S750 is the sole next action for fresh main/history/ownership and settled full gates/PR. S751 remains merge, deployment, live verification and board closeout."
+        },
+        {
+          "at": "2026-10-12T03:01:20.751Z",
+          "actor": "Codex",
+          "text": "Final S749 closeout at 03:00:33 UTC (26m51s from start) is recorded in digest-bound E-UIQ06-S749-CLOSEOUT. The earlier E-UIQ06-S749-EXIT and E-UIQ06-S749-FINAL-EXIT snapshots are retained as historical evidence. UIQ-06 remains In Progress. S750 is the sole next action: refresh main/history/ownership and run the settled full gates/PR. S751 remains merge, deployment, live verification and validated board closeout."
+        },
+        {
+          "at": "2026-10-12T03:08:53.086Z",
+          "actor": "Codex",
+          "text": "Accepted S749 final boundary at 03:06:12 UTC, 32m30s from start. The existing uiq_operational_clarity flag selects the new copy; a pressure test caught and corrected an off-path regression, and explicit flag-OFF tests now preserve the exact old project/recovery wording. Final focused project/app tests passed 32/32, recovery case 1/1, build and clean browser/Electron workflow pass; Control Center is rerun at the final S750 boundary. Digest-bound final report E-UIQ06-S749-ACCEPTED supersedes the earlier interim S749 report snapshots. UIQ-06 remains In Progress; S750 is the sole next gate/PR action, S751 remains merge/deploy/live closeout."
+        },
+        {
+          "at": "2026-10-12T03:13:24.767Z",
+          "actor": "Codex",
+          "text": "S749 final verification accepted. The off-path UIQ flag check caught a regression before landing; both new messages now honor uiq_operational_clarity and explicit tests prove exact legacy copy when OFF. Final focused project/app tests pass 33/33; changed project-manager module coverage is 100% statements/branches/functions/lines; recovery app case, build, browser/Electron replay and desktop/narrow renders pass. Full global suite remains S750. Final digest-bound report is E-UIQ06-S749-VERIFIED. UIQ-06 stays In Progress; S750 is the only next action; S751 remains merge/deployment/live closeout."
+        },
+        {
+          "at": "2026-10-12T03:16:34.251Z",
+          "actor": "Codex",
+          "text": "S749 final evidence boundary completed at 03:15:47 UTC, 42m05s after start. Project/app focused tests pass 33/33, recovery app case 1/1, explicit UIQ flag-on/off messages are tested, project-manager module coverage is 100% in all dimensions, and app branch instrumentation proves both new copy paths. Production build and clean disposable browser/Electron persistence/render replay pass; Control Center is run after this final board replay. Final report E-UIQ06-S749-FINAL-COVERAGE supersedes earlier interim digests. UIQ-06 remains In Progress; S750 is the sole next action; S751 remains merge/deployment/live closeout."
         }
       ],
       "evidenceRefs": [
@@ -14967,7 +15002,13 @@
         "E-UIQ06-S745",
         "E-UIQ06-S746-EXIT",
         "E-UIQ06-S747-EXIT",
-        "E-UIQ06-S748-EXIT"
+        "E-UIQ06-S748-EXIT",
+        "E-UIQ06-S749-EXIT",
+        "E-UIQ06-S749-FINAL-EXIT",
+        "E-UIQ06-S749-CLOSEOUT",
+        "E-UIQ06-S749-ACCEPTED",
+        "E-UIQ06-S749-VERIFIED",
+        "E-UIQ06-S749-FINAL-COVERAGE"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29217,6 +29258,60 @@
       "sha256": "1199407B2B7C0CA1A55174AAC398648D63AD723339EF744E85DFE64937187499",
       "verified": true,
       "note": "S748 makes the existing grade plan/Check matrices easier to discover and keyboard-scroll on narrow screens, uniquely labels per-size exception reasons, and stabilizes POM comparison columns. All grade data and status/readiness/export gates remain unchanged. Coverage, tests, build and rendered evidence are in the report and pressure JSON."
+    },
+    {
+      "id": "E-UIQ06-S749-EXIT",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+      "commit": null,
+      "sha256": "0facfe834f2a72afa515e262669a7e69843ec6991f0caf611f6e24d167147f3f",
+      "verified": true,
+      "note": "Slice 749 project/recovery messaging exit; digest verified. Full settled repository gate remains S750."
+    },
+    {
+      "id": "E-UIQ06-S749-FINAL-EXIT",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+      "commit": null,
+      "sha256": "bea2918d713ef6359efca451a728be47ed641501f62ee94ea8023dc976a04629",
+      "verified": true,
+      "note": "Final Slice 749 exit report; supersedes the earlier pre-board-closeout snapshot E-UIQ06-S749-EXIT."
+    },
+    {
+      "id": "E-UIQ06-S749-CLOSEOUT",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+      "commit": null,
+      "sha256": "4efcd4e22c75882e6271d014b8168b1b5cb37dea35dbc9fbfc352d6661ec461b",
+      "verified": true,
+      "note": "Final timed Slice 749 exit report with actual end time and evidence closeout; supersedes pre-closeout snapshots."
+    },
+    {
+      "id": "E-UIQ06-S749-ACCEPTED",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+      "commit": null,
+      "sha256": "f292fe5304f310afb75e0db0064981d09b93388231dc541024019863945879c9",
+      "verified": true,
+      "note": "Accepted final Slice 749 report, including the flag-off regression correction, final focused tests, build and rendered browser/Electron replay; supersedes prior S749 report snapshots."
+    },
+    {
+      "id": "E-UIQ06-S749-VERIFIED",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+      "commit": null,
+      "sha256": "7fa69d46f6b03b07c71091213dc3d56631441accdf5012acadadfd539276d60b",
+      "verified": true,
+      "note": "Final verified S749 exit after exact feature-flag fallback pressure test and all-four-dimension project-manager coverage; supersedes prior interim report digests."
+    },
+    {
+      "id": "E-UIQ06-S749-FINAL-COVERAGE",
+      "kind": "document",
+      "uri": "docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md",
+      "commit": null,
+      "sha256": "c735f7864b908264f17fb225584f5fc118cc169a27b2afc938a7e1e13da593ae",
+      "verified": true,
+      "note": "Final timed S749 report with all-four-dimension project-manager coverage and explicit app flag-on/off branch measurements; supersedes earlier S749 snapshots."
     }
   ]
 }

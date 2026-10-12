@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "S749 final verification accepted. The off-path UIQ flag check caught a regression before landing; both new messages now honor uiq_operational_clarity and explicit tests prove exact legacy copy when OFF. Final focused project/app tests pass 33/33; changed project-manager module coverage is 100% statements/branches/functions/lines; recovery app case, build, browser/Electron replay and desktop/narrow renders pass. Full global suite remains S750. Final digest-bound report is E-UIQ06-S749-VERIFIED. UIQ-06 stays In Progress; S750 is the only next action; S751 remains merge/deployment/live closeout.",
+  "expectedRevision": 4430
+}

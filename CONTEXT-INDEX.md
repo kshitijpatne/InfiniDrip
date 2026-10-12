@@ -211,9 +211,14 @@ only through an explicitly admitted, linked Epic packet.
   S748 then clarified grade-plan/Check table scrolling, per-size exception
   labels, and stable POM comparison columns without changing grade behavior;
   see `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md` and
-  `docs/research/uiq06/evidence/S748-grade-exception-pressure.json`. The next
-  slice is S749 project/recovery/import/export scope. The canonical board tracks
-  UIQ-06 In Progress. UIQ-07 remains
+  `docs/research/uiq06/evidence/S748-grade-exception-pressure.json`. S749
+  clarified that project storage is local without implying current edits are
+  saved, and that recovery preserves the saved version until explicit Save.
+  Project/recovery/import/export behavior is unchanged; see
+  `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md` and
+  `docs/research/uiq06/evidence/S749-project-recovery-pressure.json`. UIQ-06
+  remains In Progress at board revision 4433; S750 is the next settled
+  full-gate/PR boundary and S751 the merge/deployment/live closeout. UIQ-07 remains
   Backlog and unadmitted. The former team-context registry is absent; use
   current Git/worktree/PR and board evidence for ownership.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and

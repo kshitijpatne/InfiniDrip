@@ -45,7 +45,7 @@ closeout.
 | S746 S745 report durability correction | Passed | Report is tracked at exact URI; SHA-256 is checked by the board regression suite; 42/42 Control Center tests; S745 history unchanged |
 | S747 measurement provenance/history | Passed | `docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`; UTC/history labels improve scanability only; 5 focused history flows, 93 view tests, changed production lines fully covered, build and 1280/320 rendered/no-egress checks passed |
 | S748 grade exception readability | Passed | `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`; mobile/keyboard discoverability, per-size reason labels and stable POM columns; no grade logic changes |
-| S749 project/recovery/import/export messages | Next | Audit saved/unsaved/stale/conflict/recovery/import failure/frozen and historical/current output; no persistence or file behavior changes |
+| S749 project/recovery/import/export messages | Passed | `docs/research/uiq06/S749-PROJECT-RECOVERY-READABILITY-EXIT.md`; 33 focused project tests, recovery test, flag-off fallback, 100% changed-module coverage, build, 42 operational tests, clean browser/Electron replay and rendered desktop/320 evidence; no persistence/file behavior changes |
 | Settled release gate | Pending | Full 100% coverage, build/typecheck, focused and operational tests, Electron, browser/no-egress, export identity; no baseline changes |
 | Review/merge/deployment/live verification | Pending | Codex-only final review/merge, Actions deployment, stable URL and live pressure; then board Done with validated evidence at S750–S751 |
 
@@ -145,6 +145,33 @@ maintainer decisions 0m. Usage at start was primary 22% used, weekly 27% used,
 ordinary usage allowed, checked 2026-10-12. No grade math, reason, status,
 approval, readiness, export behavior or baselines changed. S749 is the sole
 next action: audit existing project/recovery/import/export state communication.
+
+## Slice 749 close boundary
+
+Started 2026-10-12 02:33:42 UTC after S748 `24c6bcb2`; refreshed `origin/main`
+`7923a7f4323d713b069817adfd7626f19c7b48f5` remained an ancestor and the shared
+checkout stayed untouched. S749 clarified two misleading messages behind the
+existing flag, preserving exact legacy copy when disabled. Project/app tests
+passed 33/33, recovery-specific test 1/1, clean disposable
+browser/Electron workflow passed, build and Control Center 42/42 passed. Actual
+recovery-dialog renders at 1280x720 and 320x720 fit without document overflow;
+exact bounds/hashes are in the S749 machine evidence. Project-manager file
+coverage of the changed `project-manager.ts` module was 100% in all four
+dimensions; flag-on/flag-off recovery branches and the changed copy were
+exercised. The global app/full-repository
+coverage gate remains S750; one earlier broad app run stopped under memory
+pressure and is not claimed as a pass. No data, state, file behavior or export
+baseline changed. No separate disjoint delegation was warranted.
+
+Canonical board revision 4433 links digest-bound S749 verification and
+closeout evidence; UIQ-06 remains In Progress. Elapsed S749 work from 02:33:42
+to 03:16:40 UTC: 42m58s (implementation/source audit and flag correction ~13m;
+focused tests/coverage ~6m; build ~1m; browser/Electron pressure and visual
+review ~3m; durable evidence/board closeout ~20m; external waits 0; maintainer
+decisions 0). S750 is the sole next action: refresh ownership/main
+and execute the settled full-gate/review/PR boundary. S751 remains merge,
+deployment, live verification and board closeout. UIQ-06 stays active through
+S751.
 
 ## Resume and completion contract
 
