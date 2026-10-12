@@ -44,8 +44,8 @@ closeout.
 | S745 Nesting readout redesign | Passed | `docs/release/UIQ-06-S745-EXIT.md`; exact fallback, focused state tests, 1280/640/320 rendered/no-egress evidence |
 | S746 S745 report durability correction | Passed | Report is tracked at exact URI; SHA-256 is checked by the board regression suite; 42/42 Control Center tests; S745 history unchanged |
 | S747 measurement provenance/history | Passed | `docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`; UTC/history labels improve scanability only; 5 focused history flows, 93 view tests, changed production lines fully covered, build and 1280/320 rendered/no-egress checks passed |
-| S748 grade exception readability | Next | Audit draft/review/approved/stale/unavailable, exception reason, target/difference and blocking states; no grade logic changes |
-| S749 project/recovery/import/export messages | Pending | Audit saved/unsaved/stale/conflict/recovery/import failure/frozen and historical/current output; no persistence or file behavior changes |
+| S748 grade exception readability | Passed | `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`; mobile/keyboard discoverability, per-size reason labels and stable POM columns; no grade logic changes |
+| S749 project/recovery/import/export messages | Next | Audit saved/unsaved/stale/conflict/recovery/import failure/frozen and historical/current output; no persistence or file behavior changes |
 | Settled release gate | Pending | Full 100% coverage, build/typecheck, focused and operational tests, Electron, browser/no-egress, export identity; no baseline changes |
 | Review/merge/deployment/live verification | Pending | Codex-only final review/merge, Actions deployment, stable URL and live pressure; then board Done with validated evidence at S750–S751 |
 
@@ -67,6 +67,7 @@ is recorded as such.
 | S744 admission/start | 0 | baseline view tests 92/92 | baseline Chromium at 1280px; four screens captured | 0 | 0 |
 | S745 nesting readout | ~5m | 11 flag + 93 view + 15 app subset passed; app subset compared default/one worker | 1280/640/320 + five estimate/input states; 4 screenshots; no page error/egress | 0 | 0 |
 | S747 measurement history | ~20m | 5 name-filtered history flows; 93/93 view; changed lines 100%; build passed | Actual app 1280/320; synthetic valid/invalid/long-label history at 320; visual review, no overflow/error/egress | 0 | 0 |
+| S748 grade exceptions | ~14m | 6 panel + 7 run-panel; 4 app lifecycle; each changed panel module 100% | Approved plan at 1280/320; blocked POM/long exception at 1280/320; keyboard scroll and state replay | 0 | 0 |
 
 ## Slice 744 close boundary
 
@@ -122,6 +123,28 @@ visual review ~3m; external waits 0, maintainer decisions 0.
 Slice 746 correction elapsed approximately 8 minutes: inspection and
 documentation ~4m, board/test verification ~2m, waiting 0, maintainer
 decisions 0. Keep UIQ-06 active through S751; no merge or deployment yet.
+
+## Slice 748 close boundary
+
+S748 closes as a narrow presentation/accessibility enhancement. It adds
+discoverable horizontal-scroll instructions and keyboard-focusable named
+regions for the grade-plan matrix and graded-output tables, gives exception
+reasons per-size input labels, and stabilizes Check POM comparison columns
+against long exception text. Six grade-panel and seven run-panel tests plus
+four filtered app lifecycle tests passed; both changed TypeScript panel files
+report 100% statement, branch, function and line coverage. `npm run build`
+passed with the existing Vite bundle advisory. Synthetic 1280/320 browser
+output retained all values/reasons, had zero document overflow/errors/
+off-origin requests, and keyboard-scrolled hidden columns. Screenshots and
+exact metrics are recorded in
+`docs/research/uiq06/evidence/S748-grade-exception-pressure.json`.
+Canonical board revision 4420 remains UIQ-06 In Progress. Slice 748 used
+approximately 14 minutes: implementation ~4m, focused verification/build ~4m,
+rendered and keyboard review ~5m, durable docs/board ~1m; external waits 0m,
+maintainer decisions 0m. Usage at start was primary 22% used, weekly 27% used,
+ordinary usage allowed, checked 2026-10-12. No grade math, reason, status,
+approval, readiness, export behavior or baselines changed. S749 is the sole
+next action: audit existing project/recovery/import/export state communication.
 
 ## Resume and completion contract
 

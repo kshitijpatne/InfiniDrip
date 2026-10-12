@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4417,
-  "updatedAt": "2026-10-12T02:20:53.590Z",
+  "revision": 4420,
+  "updatedAt": "2026-10-12T02:32:13.492Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14950,13 +14950,24 @@
           "at": "2026-10-12T02:20:53.590Z",
           "actor": "Codex",
           "text": "Slice 747 completed: changed only measurement-history display separators/labels and human-readable UTC time; source data, canonical timestamp, confidence, status, history and measurement logic are unchanged. Five focused field-history app/workflow tests, all 93 view tests, changed-line coverage, production build, and actual/synthetic 1280/320 Chromium checks pass. No overflow, runtime errors or off-origin requests. See E-UIQ06-S747-EXIT and docs/research/uiq06/evidence/S747-measurement-history-pressure.json. UIQ-06 stays In Progress. Next is S748 grade-exception rendered audit; no grade logic changes."
+        },
+        {
+          "at": "2026-10-12T02:22:22.666Z",
+          "actor": "Codex",
+          "text": "Slice 747 landed as 72a23693 (Slice 747: improve measurement history timestamps). Starting uniquely reserved Slice 748: rendered audit of grade-plan exceptions in draft/review/approved/stale/unavailable states, including authored reason, target/difference and blocking copy. Audit first; change presentation only if a concrete readability defect is demonstrated. Do not alter grade math, approval/readiness gates, source identity or exports. origin/main remains an ancestor; board was revision 4417."
+        },
+        {
+          "at": "2026-10-12T02:32:13.492Z",
+          "actor": "Codex",
+          "text": "Slice 748 is complete. At narrow widths the grade-plan and Check POM tables now disclose horizontal scrolling and are named keyboard-focusable regions; POM columns remain legible with long reasons, and exception inputs name their size. Draft/review/approval/stale/unavailable gates, reasons, values, grade math and exports are unchanged. 6 panel + 7 run-panel tests, 4 app lifecycle tests, 100% coverage for both changed TypeScript modules, build and 1280/320 synthetic browser/keyboard/no-egress checks passed. See E-UIQ06-S748-EXIT and docs/research/uiq06/evidence/S748-grade-exception-pressure.json. UIQ-06 remains In Progress; next is S749 project/recovery/import/export scope audit."
         }
       ],
       "evidenceRefs": [
         "E-UIQ-APPROVAL",
         "E-UIQ06-S745",
         "E-UIQ06-S746-EXIT",
-        "E-UIQ06-S747-EXIT"
+        "E-UIQ06-S747-EXIT",
+        "E-UIQ06-S748-EXIT"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29197,6 +29208,15 @@
       "sha256": "10B08EBAD6364C11F2C47A1430142C4A9D2F8E1730BE31C701D6A53685B650D4",
       "verified": true,
       "note": "S747 corrects the measured timestamp/source-detail readability issue only. Measurement data and semantics remain unchanged. Focused UI tests, changed-line coverage, build, real/synthetic responsive Chromium, no-egress and screenshot hashes are recorded in the exit report and machine evidence."
+    },
+    {
+      "id": "E-UIQ06-S748-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md",
+      "commit": null,
+      "sha256": "1199407B2B7C0CA1A55174AAC398648D63AD723339EF744E85DFE64937187499",
+      "verified": true,
+      "note": "S748 makes the existing grade plan/Check matrices easier to discover and keyboard-scroll on narrow screens, uniquely labels per-size exception reasons, and stabilizes POM comparison columns. All grade data and status/readiness/export gates remain unchanged. Coverage, tests, build and rendered evidence are in the report and pressure JSON."
     }
   ]
 }

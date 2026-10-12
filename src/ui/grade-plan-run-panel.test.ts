@@ -64,6 +64,9 @@ describe("gradePlanRunMarkup", () => {
     expect(markup).toContain("extraNote</th><td>Measurement</td><td>5</td>");
     expect(markup).toContain("M &lt;&amp;&gt; · raw centimetre POM reconciliation");
     expect(markup).toContain("Chest &lt;circ&gt;");
+    expect(markup.match(/class="grade-plan-scroll-hint"/g)).toHaveLength(2);
+    expect(markup).toContain('aria-label="Generated inputs for M &lt;&amp;&gt;" tabindex="0"');
+    expect(markup).toContain('aria-label="Point-of-measure reconciliation for M &lt;&amp;&gt;" tabindex="0"');
   });
 
   it("lists supported polo design options with declared units and kinds", () => {

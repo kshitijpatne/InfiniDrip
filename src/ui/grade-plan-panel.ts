@@ -55,12 +55,13 @@ function targetRows(plan: GradePlanRecord): string {
         `<label class="grade-plan-exception"><input type="checkbox" data-grade-plan-exception data-target-id="${escapeHtml(target.targetId)}"` +
         ` data-size-label="${escapeHtml(size.label)}"${exception ? " checked" : ""}${isBase ? " disabled" : ""}>` +
         `Not applicable for this size</label>` +
-        `<label>Reason <textarea data-grade-plan-exception-reason data-target-id="${escapeHtml(target.targetId)}"` +
+        `<label>Reason for ${escapeHtml(size.label)} <textarea data-grade-plan-exception-reason data-target-id="${escapeHtml(target.targetId)}"` +
         ` data-size-label="${escapeHtml(size.label)}" maxlength="240"${isBase ? " disabled" : ""}>${escapeHtml(exception?.reason ?? "")}</textarea></label></td>`;
     }).join("");
     return `<tr><th scope="row"><strong>${escapeHtml(target.label)}</strong><span>${escapeHtml(target.kind)} · base ${target.baseValue} ${escapeHtml(target.unit)}</span></th>${cells}</tr>`;
   }).join("");
-  return `<div class="grade-plan-table-wrap"><table class="grade-plan-table"><thead><tr><th scope="col">Target and current base</th>${columns}</tr></thead>` +
+  return `<p class="grade-plan-scroll-hint">On narrow screens, scroll horizontally to review every size.</p>` +
+    `<div class="grade-plan-table-wrap" role="region" aria-label="Grade plan target and size matrix" tabindex="0"><table class="grade-plan-table"><thead><tr><th scope="col">Target and current base</th>${columns}</tr></thead>` +
     `<tbody>${rows}</tbody></table></div>`;
 }
 

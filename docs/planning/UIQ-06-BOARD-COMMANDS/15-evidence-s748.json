@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S748-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md",
+    "commit": null,
+    "sha256": "1199407B2B7C0CA1A55174AAC398648D63AD723339EF744E85DFE64937187499",
+    "verified": true,
+    "note": "S748 makes the existing grade plan/Check matrices easier to discover and keyboard-scroll on narrow screens, uniquely labels per-size exception reasons, and stabilizes POM comparison columns. All grade data and status/readiness/export gates remain unchanged. Coverage, tests, build and rendered evidence are in the report and pressure JSON."
+  },
+  "expectedRevision": 4418
+}

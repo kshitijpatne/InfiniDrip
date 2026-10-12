@@ -155,9 +155,12 @@ despite `.gitignore`, preserving its exact board-recorded hash and history.
 Slice 747 corrected the history timestamp/source-detail presentation only;
 measurement/provenance data, UTC value, persistence and math are unchanged.
 Its responsive real-app and synthetic edge evidence is in
-`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`. S748–749 audit the
-remaining surfaces only where rendered edge-state evidence demonstrates a
-concrete communication defect. Slice 750
+`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`. S748 added discoverable
+and keyboard-operable scrolling for grade-plan/Check tables, per-size exception
+labels, and stable comparison columns; it did not change grade logic or output
+gates (`docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`). S749
+audits the remaining project/recovery/import/export surfaces only where
+rendered edge-state evidence demonstrates a concrete communication defect. Slice 750
 is the settled full-gate/review/PR boundary; Slice 751 owns merge, deployment,
 live verification and validated board closeout. UIQ-07 and later work remain
 Backlog/unadmitted. No database, account, network, garment, physics, export,

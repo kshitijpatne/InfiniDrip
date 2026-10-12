@@ -58,7 +58,8 @@ function sizeInputsMarkup(recipeId: string, size: GradePlanRunSize): string {
   if (rows.length === 0) {
     return "<p>No generated inputs recorded for this size.</p>";
   }
-  return `<div class="grade-plan-inputs-table-wrap"><table><caption>${escapeHtml(size.label)} · generated drafting inputs</caption>` +
+  return `<p class="grade-plan-scroll-hint">On narrow screens, scroll horizontally to review every input.</p>` +
+    `<div class="grade-plan-inputs-table-wrap" role="region" aria-label="Generated inputs for ${escapeHtml(size.label)}" tabindex="0"><table><caption>${escapeHtml(size.label)} · generated drafting inputs</caption>` +
     `<thead><tr><th scope="col">Input</th><th scope="col">Kind</th><th scope="col">Value</th></tr></thead>` +
     `<tbody>${rows.join("")}</tbody></table></div>`;
 }
@@ -96,7 +97,8 @@ export function gradePlanRunMarkup(
           `<td>${pom.matches ? "Exact match" : "Blocked"}</td>`)
       + `</tr>`).join("");
     const table = rows
-      ? `<div class="grade-plan-pom-table-wrap"><table><caption>${escapeHtml(size.label)} · raw centimetre POM reconciliation</caption>` +
+      ? `<p class="grade-plan-scroll-hint">On narrow screens, scroll horizontally to review every measurement result.</p>` +
+        `<div class="grade-plan-pom-table-wrap" role="region" aria-label="Point-of-measure reconciliation for ${escapeHtml(size.label)}" tabindex="0"><table><caption>${escapeHtml(size.label)} · raw centimetre POM reconciliation</caption>` +
         `<thead><tr><th scope="col">Point of measure</th><th scope="col">Target</th><th scope="col">Generated</th><th scope="col">Difference</th><th scope="col">Result / exception</th></tr></thead>` +
         `<tbody>${rows}</tbody></table></div>`
       : "<p>No applicable POM rows.</p>";

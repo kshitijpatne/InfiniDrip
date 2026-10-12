@@ -78,8 +78,12 @@ markup and wording. This is a code-default rollback contract, not a remote
 switch. Slice 747 made one presentation-only correction in measurement history:
 it labels the recorded time as UTC and separates source detail; the original
 canonical timestamp and all provenance, values and persistence remain intact.
-Grade exceptions and project/recovery/import/export screens remain
-audit-gated under `docs/planning/UIQ-06-ADMISSION.md`.
+Slice 748 made the existing grade-plan and Check POM matrices' horizontal
+overflow visible and keyboard-scrollable where needed, labels each exception
+reason with its size, and keeps numeric comparison columns readable beside long
+reasons. Grade calculations, exception records, review/approval/readiness and
+export behavior remain unchanged. Project/recovery/import/export screens
+remain audit-gated under `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## How measurements become pattern shapes
 

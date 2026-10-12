@@ -1,21 +1,22 @@
-## Current boundary — UIQ-06 admitted (Slices 744–747 complete; S748 next)
+## Current boundary — UIQ-06 admitted (Slices 744–748 complete; S749 next)
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
 “proceed with next goal.” This explicitly admits the next ordered package,
 UIQ-06, for evidence-gated, presentation-only improvements to existing
-operational readouts. The clean task worktree is
+operational readouts. The isolated task worktree is
 `C:\Users\kshit\.codex\worktrees\uiq06-controls\designApp`, branch
 `codex/uiq06-admission`; the shared `F:\designApp` checkout is preserved.
 
 Slice 744 records the fresh rendered baseline and exact scope in
 `docs/planning/UIQ-06-ADMISSION.md`, `docs/planning/UIQ-06-GOAL.md`, and
 `docs/research/uiq06/S744-ADMISSION-BASELINE.md`. The UIQ-06 dependency
-UIQ-GATE is Done. The Nesting readout has one demonstrated scanability defect:
-estimate, verdict and directional caveat collide in a single 12px run. Check
-already truthfully distinguishes digital checks from physical validation;
-measurement provenance and local project/recovery/import/export features
-remain evidence-gated. No estimate, garment, grading, validation, state,
+UIQ-GATE is Done. The Nesting readout had one demonstrated scanability defect:
+estimate, verdict and directional caveat collided in a single 12px run. Check
+already truthfully distinguishes digital checks from physical validation.
+Nesting, measurement-history and grade-exception presentation corrections do
+not change calculation or approval behavior. Local project/recovery/import/export
+surfaces remain evidence-gated. No estimate, garment, grading, validation, state,
 persistence, import/export, or baseline changes are authorized. UIQ-07 and
 later work remain unadmitted and untouched.
 
@@ -26,7 +27,7 @@ all 15 nesting app tests passed; rendered pressure checks at 1280/640/320 and
 fit/short/unknown/invalid states had no app errors or off-origin requests. The
 full machine evidence and screenshots are in `docs/research/uiq06/evidence/`.
 The focused Control Center suite passes 42/42. Canonical board is at revision
-4417 with UIQ-06 In Progress. No export baseline moved.
+4420 with UIQ-06 In Progress. No export baseline moved.
 
 Slice 746 corrected the `.gitignore` omission without altering S745 commit
 `b948c942`. The exact board-referenced exit report is now tracked and its
@@ -44,11 +45,22 @@ errors or off-origin requests. S747 evidence and screenshot hashes are in
 `docs/research/uiq06/evidence/S747-measurement-history-pressure.json`.
 Canonical board remains In Progress; validated S747 closeout is recorded.
 
-**Immediate next action: Slice 748**, audit grade-plan exception presentations
-at rendered draft/review/approved/stale/unavailable boundaries. Preserve
-authored exception reasons, target values, readiness gates and all grade
-logic. The remaining sequence is S749 project/recovery/import/export scope,
-S750 settled gate/PR, and S751 merge/deployment/live/board closeout. UIQ-07
+Slice 748 corrected grade-exception presentation only: existing matrix and
+Check output tables now explain and permit keyboard horizontal scrolling,
+exception labels include their size, and long Check exceptions no longer
+collapse numeric columns. Six grade-panel and seven run-panel tests plus four
+app lifecycle tests passed; both changed TypeScript panel modules have 100%
+statement/branch/function/line coverage. Production build and 1280/320 browser
+and keyboard pressure checks passed with no page overflow, runtime errors or
+off-origin requests. Evidence is in
+`docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md` and
+`docs/research/uiq06/evidence/S748-grade-exception-pressure.json`.
+
+**Immediate next action: Slice 749**, audit local project/recovery/import/export
+messages and frozen-output scope at saved/unsaved/stale/conflict/recovery/
+import-failure states. Preserve storage, identity, privacy, file formats,
+confirmations, cancellation and byte-identity baselines. The remaining sequence
+is S750 settled gate/PR and S751 merge/deployment/live/board closeout. UIQ-07
 and later remain unadmitted.
 
 ## Previous boundary — UIQ-05 complete (Slices 741–743)

@@ -27,8 +27,7 @@ high-risk behavior is not redesigned merely to fill scope.
   S745 exit report at its board-recorded URI, verify the exact SHA-256, and
   test that board evidence resolves to a tracked file. This corrects an
   accidental ignore rule without rewriting history or changing production.
-  Remaining boundaries after S747: S748 grade-plan exception presentation;
-  S749 project/history/recovery/import/export-scope
+  Remaining boundaries after S748: S749 project/history/recovery/import/export-scope
   messages; S750 settled review/full gates/PR; S751 post-merge deployment,
   live verification and board/context closeout. Recheck and reserve each
   number at the boundary. A justified no-change result is recorded with
@@ -166,5 +165,11 @@ initially omitted from commit `b948c942` because `.gitignore` excludes
 suite confirms its recorded SHA-256 without rewriting history. S747 audited
 measurement provenance/history and corrected only the visible history-time
 separator/label; evidence is in
-`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`. S748 is next for the
-grade-exception presentation audit. Do not begin UIQ-07 or any numbered Epic.
+`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`. S748 audited the
+grade-plan exception matrix and Check POM output: narrow tables now disclose
+horizontal scroll and support keyboard scrolling, reasons are labeled per
+size, and numeric POM columns remain legible beside long exceptions. All grade
+values, reasons, approval/readiness gates and exports are unchanged; evidence
+is in `docs/research/uiq06/S748-GRADE-EXCEPTION-READABILITY-EXIT.md`. S749 is
+next for the project/recovery/import/export scope audit. Do not begin UIQ-07 or
+any numbered Epic.
