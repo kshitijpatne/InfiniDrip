@@ -1,4 +1,69 @@
-## Current boundary — UIQ-01 review reconciled; UIQ-09 awaits EPIC-19
+## Current boundary — EPIC-18/G05 admitted; Slice 762 complete
+
+Slice 762 starts from verified `origin/main` commit
+`e9221ea5033ccfdd91bf1ebb353926f189477d75`, in isolated worktree
+`C:\Users\kshit\.codex\worktrees\epic-18-g05\designApp` on branch
+`codex/epic-18-g05`. Start time was 2026-10-12 19:40:12 UTC. The shared
+`F:\designApp` checkout was dirty and 53 commits behind main at admission; its
+existing tracked and untracked files were left untouched.
+
+The latest completed capability Epic is EPIC-17/G04, closed at Slice 732 and
+verified on main. UIQ-08 is Done through Slice 760; Slice 761 closed UIQ-01 as
+a review-only checkpoint and kept UIQ-09 Backlog behind EPIC-19. The latest
+starting main checkpoint was `e9221ea5` with board revision 4521; PR #42's
+main workflow `38297266637` passed. The maintainer requested the next goal and
+authorized a fact-based decision, so EPIC-18/G05 Living production tech pack
+is admitted. Its formal scope and gates are in
+`docs/planning/EPIC-18-ADMISSION.md`; the active durable ledger is
+`docs/planning/EPIC-18-GOAL.md`.
+
+Admission identified a board-closure requirement: UIQ-10 is already linked as
+an EPIC-18 child, and the validated Epic close command requires every linked
+child to be Done. It therefore remains linked and Backlog until a separate,
+bounded admission after T01–T03 contracts at Slice 773. The prior 18-slice
+estimate omitted that child; the admitted conditional baseline is 19 slices
+(762–780), to be reforecast after T01. UIQ-09 remains untouched and blocked on
+EPIC-19/G06. EPIC-18's other prerequisites EPIC-15/G02, EPIC-16/G03 and
+EPIC-17/G04 are Done.
+
+Slice 762 is documentation/board administration only. Fifteen preflighted
+validated-command mutations advanced board revision 4521→4536; the exit report
+and digest evidence advance it to revision 4538. EPIC-18's summary card and
+Epic record are In Progress with digest-bound admission evidence; G05-T01 is
+Ready; T02–T05 and G05-EXIT remain Backlog. UIQ-10 remains linked and Backlog
+with explicit T01–T03 dependencies. Full command records are in
+`docs/planning/EPIC-18-S762-BOARD-COMMANDS.json` and
+`docs/planning/EPIC-18-S762-EXIT-BOARD-COMMANDS.json`; exit proof is
+`docs/research/epic18/S762-admission/exit-packet.md`.
+
+The first focused Control Center run exposed the old assertion that all
+post-G04 Epics remain Backlog. The current-state assertion was updated for
+EPIC-18's admission and checks the linked child states/evidence; the final
+`npm run control-center:test` passed 42/42. `git diff --check` passed. No
+production code or runtime behavior changed; the full application/global gate
+is reserved for the settled integrated Epic candidate. No independent safe
+delegation existed for this coupled admission boundary.
+
+Acceptance: authority and exact main base verified; EPIC-18 chosen over blocked
+UIQ-09; admission packet and exact ordered boundaries recorded; project
+context, architecture, decisions, roadmap, UI sequence, Control Center guidance,
+board and current-state test agree; board commands pass the shared validator;
+focused Control Center checks pass. Remaining decisions are staged: freeze the
+T01 schema before persistence; choose T04's structured output format at S773;
+admit UIQ-10 only after T01–T03; keep unverified supplier/construction facts
+visible. Physical sampling/fit, supplier contact, paid services, production
+approval and readiness remain explicitly outside scope.
+
+Elapsed time at the Slice 762 boundary (19:40:12–20:03:57 UTC; 23m45s total):
+approximately 18m for checkpoint reconciliation, admission/docs and validated
+board work; 5m45s for focused test diagnosis and final verification; external-
+agent wait 0m; maintainer-decision wait 0m. Next action: begin only Slice 763,
+T01 strict typed record/provenance contract and validator with 100% focused
+coverage, before persistence or UI work. The landed Slice 762 commit is the
+commit containing this state boundary; its exact SHA is captured as the
+verified start commit in Slice 763.
+
+## Previous boundary — Slice 761 UIQ-01 review reconciled; UIQ-09 awaits EPIC-19
 
 At refreshed `origin/main` `2064a325d07bbddcd97bcf6331b11f79d7b33a02`, the
 canonical board was revision 4513. The maintainer requested reconciliation of

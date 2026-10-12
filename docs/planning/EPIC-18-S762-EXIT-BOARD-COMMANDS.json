@@ -1,0 +1,25 @@
+[
+  {
+    "type": "addEvidence",
+    "itemId": "EPIC-18",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidence": {
+      "id": "E-EPIC18-S762-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S762-admission/exit-packet.md",
+      "sha256": "b06bd9cc8f46535ea4dd01a3c2a605051be456198cd96f0239b36deeb57d27e5",
+      "verified": true,
+      "note": "Slice 762 exit: EPIC-18/G05 admission, next-goal decision, board state and project context were reconciled; 42/42 focused Control Center checks pass. No product behavior changed."
+    },
+    "expectedRevision": 4536
+  },
+  {
+    "type": "addEpicEvidence",
+    "epicId": "EPIC-18",
+    "actor": "Maintainer (via Codex)",
+    "role": "maintainer",
+    "evidenceId": "E-EPIC18-S762-EXIT",
+    "expectedRevision": 4537
+  }
+]

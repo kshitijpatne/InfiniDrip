@@ -44,6 +44,13 @@ only through an explicitly admitted, linked Epic packet.
   active worktrees, refs, open PRs and the canonical board before using a
   main-based snapshot. Each lane retains its own scope/approval gates.
 - `PROJECT-STATE.md` — engineering status log and immediate roadmap.
+- `docs/planning/EPIC-18-ADMISSION.md` and `EPIC-18-GOAL.md` — current
+  maintainer-admitted G05 scope, ordered Slice 762–780 boundaries, acceptance
+  gates, non-goals and stopping point. The Slice 762 exit packet under
+  `docs/research/epic18/S762-admission/` records the reconciled checkpoint and
+  validated board replay. EPIC-18 is active; T01 starts at Slice 763. UIQ-10
+  remains a linked Backlog child until its bounded S773 admission, and UIQ-09
+  remains blocked on EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing
   principles. Its former mixed current/history narrative is preserved in
   `docs/archive/ARCHITECTURE-HISTORY.md`.
@@ -421,9 +428,10 @@ implementation work.
   `docs/research/epic15/evidence/S240-*`. Slice 241 records PR #11's merge,
   verified S204/S205/S240 ancestry, and the validated Control Center closure at
   revision 315 in `docs/release/EPIC-15-G02-MERGE-EXIT-S241.md`. EPIC-15/G02 is
-  Closed; EPIC-16/G03 and EPIC-17/G04 are also closed after their verified
-  merges. EPIC-18 through EPIC-30 remain Backlog. `PROJECT-STATE.md` and the
-  canonical Control Center carry the current status.
+Closed; EPIC-16/G03 and EPIC-17/G04 are also closed after their verified
+  merges. EPIC-18/G05 is admitted and active under its current packet; EPIC-19
+through EPIC-30 remain Backlog. `PROJECT-STATE.md` and the canonical Control
+Center carry the current status.
 - `docs/research/epic14/` — accepted evidence packets for C01 recipe baseline,
   C02 standards and tools, C05 3D feasibility, C06 starter/assortment/upcycling/
   supplier evidence, and C03 measurement/donor contract. C04's accepted
