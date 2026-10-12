@@ -1,5 +1,15 @@
 # InfiniDrip architecture guide
 
+## Current UI roadmap boundary — Slice 761
+
+UIQ-01 is Done as an evidence-backed G04 review checkpoint only; it adds no
+runtime behavior. The accepted G04 contracts remain in force. UIQ-09 is next
+in the approved UI order, but its required EPIC-19 admission and starter/source
+scope are not present, so no UIQ-09 implementation is authorized. This is
+recorded at board revision 4521, with evidence in `PROJECT-STATE.md`,
+`docs/planning/UI-ENHANCEMENT-SEQUENCE.md`, and
+`docs/research/uiq01-reconciliation/S761-exit-packet.md`.
+
 ## UIQ-08 inspection-toolbar integration boundary
 
 The isolated Slice 757 candidate and rendered evidence are complete. Comparison

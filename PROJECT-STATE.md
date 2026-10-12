@@ -1,46 +1,28 @@
-## Current boundary — UIQ-08 complete through Slice 760
+## Current boundary — UIQ-01 review reconciled; UIQ-09 awaits EPIC-19
 
-After the isolated UIQ-08 candidate and Slice 758 closeout were merged, the
-maintainer said “proceed with next goal” on 2026-10-12. This separately admits
-the candidate's evidence-backed solid, opaque toolbar grouping into the
-existing inspection UI. Glass/translucency remains rejected. The exact
-integration contract, slice boundaries, dependencies, fallback, risks and
-gates are `docs/planning/UIQ-08-INTEGRATION-ADMISSION.md`; the live ledger is
-`docs/planning/UIQ-08-INTEGRATION-GOAL.md`.
+At refreshed `origin/main` `2064a325d07bbddcd97bcf6331b11f79d7b33a02`, the
+canonical board was revision 4513. The maintainer requested reconciliation of
+the UIQ-01 status mismatch and continuation to the next goal. Slice 761 confirms
+that UIQ-01's review-checkpoint acceptance was already completed by G04 S354,
+revalidated in S368/S418, and bounded by the merged S732 G04 exit. It closes
+UIQ-01 as **Done (review checkpoint only)**; this does not claim a new runtime
+feature or weaken any G04 gate. The validated board transition and its linked
+evidence are the source of truth. At final board revision 4521, UIQ-01 is Done
+and UIQ-09 remains Backlog with EPIC-17 and EPIC-19 as explicit dependencies.
 
-The clean start was `origin/main` `b71a59336fa8d41a1663ef3bb7dd687b200288ba`,
-board revision 4488, in isolated worktree
-`C:\Users\kshit\.codex\worktrees\uiq-next\designApp`, branch
-`codex/uiq08-integration`. Highest assigned slice was 758; Slice 759 is reserved
-for integrated implementation/review/PR and Slice 760 for deployment and
-closeout. There is no open PR or competing UI integrator. The existing dirty
-`F:\designApp` checkout and all other worktrees are preserved.
+UIQ-09 is the next ordered UI package, but implementation is not admitted:
+its board acceptance criteria require EPIC-19 admission and starter/source
+contracts. EPIC-19 is still Backlog. G04 source-to-view evidence is complete;
+the missing gate is EPIC-19 authority/scope. Do not start UIQ-09 implementation,
+create visual assets, or change the starter register until EPIC-19 is explicitly
+admitted and UIQ-09 receives its own bounded admission packet and goal. The
+sequence and current blocker are in
+`docs/planning/UI-ENHANCEMENT-SEQUENCE.md` and the Slice 761 reconciliation
+packet at `docs/research/uiq01-reconciliation/S761-exit-packet.md`.
 
-EPIC-17/G04, UIQ-GATE, UIQ-02, the accepted `UIQ08-CANDIDATE`, Slice 758, and
-the UIQ-08 integration parent with Slices 759/760 are Done. The integration
-uses feature flag `uiq_inspection_toolbar`. That
-embedded flag defaults ON for the accepted release and offers a deterministic
-local test override, not a remote/live switch. Rollback requires a reviewed
-code-default change and redeployment. Slice 759 is implemented and all
-pre-merge gates pass. The embedded flag, opaque-only candidate adapter
-integration, and exact legacy fallback are covered across normal and paused
-renders. Global coverage is 100% across all four metrics; production build,
-packaged Electron, operational checks, and rendered browser pressure evidence
-pass. The precise results are in
-`docs/release/UIQ-08-INTEGRATION-S759-EXIT.md` and
-`docs/research/uiq08-integration/evidence/`. Slice 759 merged via PR #40 to
-`origin/main` at `bb0bfd220a89f9b6beaecfcc06f1e08338d0ae8f`; Slice 760 verified
-the successful Pages workflow and exact assets at both stable and immutable
-URLs. UIQ-08 and both integration slices are Done at board revision 4512.
-Closeout evidence is `docs/release/UIQ-08-INTEGRATION-S760-CLOSEOUT.md` and
-`docs/research/uiq08-integration/evidence/S760-live/`.
-
-The remaining follow-up is outside UIQ-08: the deployment log's transient
-`wrangler@4.149.0` install reported 22 npm audit findings (11 moderate, 8 high,
-3 critical). This tooling-only advisory did not affect the tested or deployed
-app assets. Triage it in a separate security/CI-maintenance task; do not alter
-the accepted UIQ-08 scope retroactively. UIQ-09 remains subject to its own
-admission and predecessor/dependency gates; no next package is admitted here.
+The preceding UIQ-08 integration remains Done. Its historical closeout was
+board revision 4512; the canonical board advanced to 4513 before this slice.
+The unrelated Wrangler audit advisory stays separate from this task.
 
 ## Slice 759 integration acceptance boundary — completed
 

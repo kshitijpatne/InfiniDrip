@@ -1,0 +1,16 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ-01",
+  "expectedRevision": 4514,
+  "status": "Review",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "The completed review-only acceptance is now linked to verified S354/S368/S418 disposition evidence and the final S732 G04 exit; submit the checkpoint for reviewer closeout without implying a runtime feature.",
+  "evidenceRefs": [
+    "E-UIQ01-S761-EXIT",
+    "E-G04-S354-EXIT",
+    "E-G04-S368-EXIT",
+    "E-G04-S418-EXIT",
+    "E-G04-S732-EXIT"
+  ]
+}

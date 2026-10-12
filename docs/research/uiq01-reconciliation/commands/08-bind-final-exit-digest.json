@@ -1,0 +1,15 @@
+{
+  "type": "importFacts",
+  "expectedRevision": 4520,
+  "facts": [
+    {
+      "evidenceId": "E-UIQ01-S761-EXIT",
+      "uri": "docs/research/uiq01-reconciliation/S761-exit-packet.md",
+      "kind": "exit-report",
+      "commit": null,
+      "sha256": "d652527590f5dd225314937867d0ec75e1fe37ccd47ccea1d16f84b35a8df769",
+      "verified": true,
+      "note": "Digest-bound final Slice 761 reconciliation and closeout packet; UIQ-01 is Done as a review checkpoint only, while UIQ-09 remains Backlog pending EPIC-19 admission."
+    }
+  ]
+}

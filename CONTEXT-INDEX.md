@@ -144,6 +144,11 @@ only through an explicitly admitted, linked Epic packet.
 - `docs/planning/UI-ENHANCEMENT-SEQUENCE.md` — approved 2026-10-01 native-first
   order, 13 stable UIQ packages plus integration gate, future Epic18/19/21/22
   routing, isolated CLI ownership, exclusions and boundary-only EPIC-17 work.
+  Slice 761 reconciles and closes UIQ-01 as a completed G04 review checkpoint
+  only; it adds no product feature. UIQ-09 is next in order but is blocked from
+  implementation until EPIC-19 is explicitly admitted and its starter/source
+  contracts are in scope. The canonical board is revision 4521. See
+  `docs/research/uiq01-reconciliation/S761-exit-packet.md`.
 - `docs/planning/UIQ-07-ADMISSION.md` and `UIQ-07-GOAL.md` — admitted and
   completed isolated native welcome/wordmark candidate while EPIC-17 was active.
   Exit proof and reviewer audit are `docs/research/uiq07/CANDIDATE-EXIT.json`

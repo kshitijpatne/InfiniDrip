@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-01",
+  "expectedRevision": 4517,
+  "actor": "Codex",
+  "text": "Slice 761 closed UIQ-01 as a completed review checkpoint only: S354 recorded the required satisfied/in-scope/out-of-scope dispositions; S368/S418 revalidated them; S732 confirms G04's final closeout. No product feature shipped and no G04 gate or hold changed. UIQ-09 remains Backlog pending explicit EPIC-19 admission."
+}

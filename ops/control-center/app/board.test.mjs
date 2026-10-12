@@ -43,6 +43,10 @@ test("UIQ integration status follows its release evidence", () => {
   const integrationAdmission = board.evidence.find((entry) => entry.id === "E-UIQ02-INTEGRATION-ADMISSION-S734");
   const packageBlock = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-BLOCK");
   const packagePass = board.evidence.find((entry) => entry.id === "E-UIQ02-S734-ELECTRON-VERIFIED");
+  const uiq01Reconciliation = board.evidence.find((entry) => entry.id === "E-UIQ01-S761-EXIT");
+  const g04UiReconciliation = board.evidence.find((entry) => entry.id === "E-G04-S354-EXIT");
+  const g04UiRevalidation = board.evidence.find((entry) => entry.id === "E-G04-S368-EXIT");
+  const g04FinalExit = board.evidence.find((entry) => entry.id === "E-G04-S732-EXIT");
   const uiq05Exit = board.evidence.find((entry) => entry.id === "E-UIQ05-S741");
   const uiq05Closeout = board.evidence.find((entry) => entry.id === "E-UIQ05-S742");
   assert.equal(approval?.kind, "decision");
@@ -50,7 +54,7 @@ test("UIQ integration status follows its release evidence", () => {
   assert.equal(approval?.uri, "docs/planning/UI-ENHANCEMENT-SEQUENCE.md");
   for (const card of cards) {
     assert.ok(card);
-    if (["UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
+    if (["UIQ-01", "UIQ-02", "UIQ-03", "UIQ-04"].includes(card.id)) assert.equal(card.status, "Done");
     else if (card.id === "UIQ-05") assert.equal(card.status, "Done");
     else if (card.id === "UIQ-06") assert.equal(card.status, "Done");
     else if (["UIQ-07", "UIQ-08"].includes(card.id)) assert.equal(card.status, "Done");
@@ -58,15 +62,33 @@ test("UIQ integration status follows its release evidence", () => {
     assert.equal(card.owner, "Codex");
     assert.equal(card.reviewer, "Codex");
     assert.equal(card.targetAt, null);
-    const expectedDeliveredAt = ["UIQ-02", "UIQ-03"].includes(card.id)
-      ? "2026-10-11"
-      : ["UIQ-04", "UIQ-05", "UIQ-06", "UIQ-07", "UIQ-08"].includes(card.id) ? "2026-10-12" : null;
+    const expectedDeliveredAt = card.id === "UIQ-01" ? "2026-10-12"
+      : ["UIQ-02", "UIQ-03"].includes(card.id) ? "2026-10-11"
+        : ["UIQ-04", "UIQ-05", "UIQ-06", "UIQ-07", "UIQ-08"].includes(card.id) ? "2026-10-12" : null;
     assert.equal(card.deliveredAt, expectedDeliveredAt);
     assert.equal(card.releaseId, null);
     assert.notEqual(card.epicId, "EPIC-17");
     assert.ok(card.evidenceRefs.includes(approval.id));
     assert.ok(card.acceptanceCriteria.length >= 4);
   }
+  assert.equal(uiq01Reconciliation?.verified, true);
+  assert.equal(uiq01Reconciliation?.uri, "docs/research/uiq01-reconciliation/S761-exit-packet.md");
+  assert.equal(hashEvidenceArtifact(uiq01Reconciliation.uri), uiq01Reconciliation.sha256.toLowerCase());
+  assert.equal(g04UiReconciliation?.verified, true);
+  assert.equal(g04UiRevalidation?.verified, true);
+  assert.equal(g04FinalExit?.verified, true);
+  assert.ok(cards[0].evidenceRefs.includes("E-UIQ01-S761-EXIT"));
+  assert.ok(cards[0].evidenceRefs.includes("E-G04-S354-EXIT"));
+  assert.ok(cards[0].evidenceRefs.includes("E-G04-S368-EXIT"));
+  assert.ok(cards[0].evidenceRefs.includes("E-G04-S418-EXIT"));
+  assert.ok(cards[0].evidenceRefs.includes("E-G04-S732-EXIT"));
+  assert.ok(cards[0].statusHistory.some((entry) => entry.status === "Done" && entry.evidenceRefs.includes("E-UIQ01-S761-EXIT")));
+  assert.ok(cards[0].comments.some((comment) => comment.text.includes("review checkpoint only")));
+  assert.equal(cards[8].status, "Backlog");
+  assert.ok(cards[8].acceptanceCriteria[0].includes("Epic19 admission"));
+  assert.deepEqual(cards[8].dependencies, ["EPIC-17", "EPIC-19"]);
+  assert.equal(board.epics.find((epic) => epic.id === "EPIC-19")?.status, "Backlog");
+  assert.ok(cards[8].comments.some((comment) => comment.text.includes("EPIC-19 admission remains required")));
   assert.equal(cards[1].contributor, "Codex");
   assert.equal(cards[1].flagKey, "uiq_foundation");
   assert.equal(cards[2].contributor, "Codex");

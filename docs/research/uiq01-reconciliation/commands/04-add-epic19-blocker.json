@@ -1,0 +1,8 @@
+{
+  "type": "editItem",
+  "itemId": "UIQ-09",
+  "expectedRevision": 4516,
+  "patch": {
+    "dependencies": ["EPIC-17", "EPIC-19"]
+  }
+}
