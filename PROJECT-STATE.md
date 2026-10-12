@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 admitted (Slices 744–746 complete; S747 next)
+## Current boundary — UIQ-06 admitted (Slices 744–747 complete; S748 next)
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -19,28 +19,35 @@ remain evidence-gated. No estimate, garment, grading, validation, state,
 persistence, import/export, or baseline changes are authorized. UIQ-07 and
 later work remain unadmitted and untouched.
 
-Slices 744–746 are committed on `codex/uiq06-admission`; S745 keeps controls,
+Slices 744–747 are committed on `codex/uiq06-admission`; S745 keeps controls,
 IDs, estimates, validation and exact flag-off fallback, and separates estimate
 facts, fit verdict and directional caveat. Focused feature-flag/view tests and
 all 15 nesting app tests passed; rendered pressure checks at 1280/640/320 and
 fit/short/unknown/invalid states had no app errors or off-origin requests. The
 full machine evidence and screenshots are in `docs/research/uiq06/evidence/`.
 The focused Control Center suite passes 42/42. Canonical board is at revision
-4414 with UIQ-06 In Progress. No export baseline moved.
+4417 with UIQ-06 In Progress. No export baseline moved.
 
 Slice 746 corrected the `.gitignore` omission without altering S745 commit
 `b948c942`. The exact board-referenced exit report is now tracked and its
 canonicalized SHA-256 matches `E-UIQ06-S745`; a regression test enforces the
-match. Control Center tests passed 42/42. Board revision 4414 links S746
-correction evidence and its completion comment; UIQ-06 remains In Progress.
+match. Control Center tests passed 42/42. Slice 747 then corrected only the
+history dialog's recorded-time scanability: it labels UTC and separates the
+source detail while preserving the canonical timestamp and every source,
+measurement, validation and persistence value. Five focused field-history
+flows and 93/93 view tests passed; every changed executable line and both time
+branches were exercised; `npm run build` passed with its existing chunk-size
+advisory. Actual app history rendered at 1280/320 and synthetic valid, invalid,
+missing-time and long-source history at 320 had no horizontal overflow, page
+errors or off-origin requests. S747 evidence and screenshot hashes are in
+`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md` and
+`docs/research/uiq06/evidence/S747-measurement-history-pressure.json`.
+Canonical board remains In Progress; validated S747 closeout is recorded.
 
-**Immediate next action: Slice 747**, audit existing measurement source,
-confidence, history and capture messages in rendered empty, multi-source,
-invalid, saved and long-label states. Record a keep/change decision; do not
-change measurement math, source identity, correction semantics or history
-behavior. If no material readability failure is demonstrated, make no UI
-change and close the slice with evidence. The shifted sequence continues:
-S748 grade-exception readability, S749 project/recovery/import/export scope,
+**Immediate next action: Slice 748**, audit grade-plan exception presentations
+at rendered draft/review/approved/stale/unavailable boundaries. Preserve
+authored exception reasons, target values, readiness gates and all grade
+logic. The remaining sequence is S749 project/recovery/import/export scope,
 S750 settled gate/PR, and S751 merge/deployment/live/board closeout. UIQ-07
 and later remain unadmitted.
 

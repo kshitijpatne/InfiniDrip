@@ -60,7 +60,7 @@ describe("controlsMarkup", () => {
         evidenceStatus: "UNCONFIRMED",
         validationStatus: "INVALID",
         sourceLabel: "<img src=x onerror=alert(1)>",
-        recordedAt: null,
+        recordedAt: revision === 1 ? "2026-09-24T16:00:00.000Z" : null,
         styleRevision: 1,
         confidence: "NOT_ASSESSED",
       })),
@@ -69,6 +69,9 @@ describe("controlsMarkup", () => {
     expect(html).toContain("Page 1 of 1 · 2 total records");
     expect(html).toContain("&lt;script&gt;alert(1)&lt;/script&gt;");
     expect(html).toContain("&lt;img src=x onerror=alert(1)&gt;");
+    expect(html).toContain('Recorded (UTC): <time datetime="2026-09-24T16:00:00.000Z">2026-09-24 16:00:00 UTC</time>');
+    expect(html).toContain("Recorded (UTC): capture/edit time not recorded");
+    expect(html).toContain("Source detail: &lt;img src=x onerror=alert(1)&gt;");
     expect(html).not.toContain("<script>");
     const laterPage = fieldHistoryDialogContent("tee", "measurement", "chest", record, 1, 1);
     expect(laterPage).toContain("Page 2 of 2 · 2 total records");

@@ -203,8 +203,13 @@ only through an explicitly admitted, linked Epic packet.
   collision behind its embedded rollback flag, with rendered state evidence
   in `docs/research/uiq06/evidence/S745-rendered-pressure.json`. S746 corrected
   the ignored S745 exit report: it is tracked at the board-recorded URI, its
-  digest is regression-tested, and S745 history is unchanged. S747 is the next
-  measurement-provenance/history audit. The canonical board tracks UIQ-06 In Progress. UIQ-07 remains
+  digest is regression-tested, and S745 history is unchanged. S747's bounded
+  measurement-history timestamp/source labels are accepted; details and
+  rendered/synthetic pressure evidence are in
+  `docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md` and
+  `docs/research/uiq06/evidence/S747-measurement-history-pressure.json`. The
+  next slice is S748 grade-exception readability. The canonical board tracks
+  UIQ-06 In Progress. UIQ-07 remains
   Backlog and unadmitted. The former team-context registry is absent; use
   current Git/worktree/PR and board evidence for ownership.
 - `docs/research/uiq04/CONTRIBUTOR-RETURN.md` and

@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 747 completed: changed only measurement-history display separators/labels and human-readable UTC time; source data, canonical timestamp, confidence, status, history and measurement logic are unchanged. Five focused field-history app/workflow tests, all 93 view tests, changed-line coverage, production build, and actual/synthetic 1280/320 Chromium checks pass. No overflow, runtime errors or off-origin requests. See E-UIQ06-S747-EXIT and docs/research/uiq06/evidence/S747-measurement-history-pressure.json. UIQ-06 stays In Progress. Next is S748 grade-exception rendered audit; no grade logic changes.",
+  "expectedRevision": 4416
+}

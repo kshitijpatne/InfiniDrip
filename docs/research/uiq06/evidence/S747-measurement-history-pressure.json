@@ -1,0 +1,51 @@
+{
+  "slice": 747,
+  "surface": "measurement provenance and history",
+  "decision": "targeted presentation correction",
+  "scope": "Render the existing timestamp with explicit UTC context and separators; do not change stored observations or measurement behavior.",
+  "syntheticPressure": {
+    "viewport": "320x900 CSS px",
+    "records": [
+      "valid user-entered synthetic reading with long source detail",
+      "invalid unresolved synthetic reading without a recorded timestamp"
+    ],
+    "clientWidth": 284,
+    "scrollWidth": 284,
+    "clientHeight": 851,
+    "scrollHeight": 851,
+    "pageErrors": [],
+    "offOriginRequests": []
+  },
+  "realAppRender": {
+    "route": "http://127.0.0.1:4175/app/",
+    "entry": "first-run built-in chest starting value; no personal or persisted user data",
+    "viewports": {
+      "1280x900": { "dialogClientWidth": 678, "dialogScrollWidth": 678, "pageErrors": [], "offOriginRequests": [] },
+      "320x900": { "dialogClientWidth": 284, "dialogScrollWidth": 284, "pageErrors": [], "offOriginRequests": [] }
+    }
+  },
+  "screenshots": {
+    "historyBefore1280": { "path": "S747-history-1280.png", "sha256": "0BA6C8FB1E44A3572F54D227830A675D56F020E0E45C14053CE23B26A60BEE15" },
+    "historyBefore320": { "path": "S747-history-320.png", "sha256": "481D818F6ED50C62DAB2783B2C38F68ADD897651EDE386D10E5CF00223605B0E" },
+    "measurementCapture1280": { "path": "S747-measure-1280.png", "sha256": "D9FA2DCF27D71AF7D50245936A8F657900CDFCC4208A37F9542EE0F45AC2E630" },
+    "capture1280": { "path": "S747-capture-1280.png", "sha256": "1284B6EEF9344A77523B5B89AB25E5D8C0B540295F1A30B7205F95D7AF96CA6F" },
+    "capture320": { "path": "S747-capture-320.png", "sha256": "4BAF7D0C1069417E75A6D4C6420C99E09FA72E3C8BFA9FE15C48A4C3137BFD71" },
+    "historyAfter1280": { "path": "S747-history-after-1280.png", "sha256": "00D40EE1696AB8E1D78A0C8656178C28F21CFD3E75056B9FFADC57CC019DA4E8" },
+    "historyAfter320": { "path": "S747-history-after-320.png", "sha256": "53368858EB647E5B64828BE228C2BD517ABED57FA8B38140F9E6E713325126CD" },
+    "historySyntheticPressure320": { "path": "S747-history-pressure-320.png", "sha256": "A952AB756CEF1F62E8F4F1FA8F59039F13EFA6D589DC443B4FB196056295D91B" }
+  },
+  "verification": {
+    "focusedTests": "5 field-history UI/app/repository workflow tests passed; 392 unrelated tests skipped by name filter",
+    "viewTests": "93/93 passed",
+    "changedProductionLines": "100% statement/line coverage for changed view.ts lines 206–209; recordedAt true/false branches both exercised (2 hits each)",
+    "build": "npm run build passed; Vite emitted its existing >500 kB chunk advisory",
+    "diffCheck": "passed",
+    "fullRepositoryCoverage": "reserved for settled S750 candidate per gate cadence"
+  },
+  "invariants": [
+    "canonical datetime attribute preserves the original timestamp byte-for-byte",
+    "UTC display formatting is presentation-only; no value, source, confidence, validity, correction, or persistence changes",
+    "untrusted source text remains escaped",
+    "no export baseline or behavior changed"
+  ]
+}

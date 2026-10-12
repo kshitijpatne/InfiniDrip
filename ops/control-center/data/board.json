@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4414,
-  "updatedAt": "2026-10-12T02:09:39.779Z",
+  "revision": 4417,
+  "updatedAt": "2026-10-12T02:20:53.590Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14940,12 +14940,23 @@
           "at": "2026-10-12T02:09:39.779Z",
           "actor": "Codex",
           "text": "Slice 746 completed as a documentation/board-evidence correction only. The S745 exit report is now tracked at its recorded URI and its SHA-256 exactly matches E-UIQ06-S745; the Control Center regression suite verifies that integrity. S745 history is preserved without amend/reset. The audit sequence is renumbered; S747 is the next feature-surface audit (measurement provenance/history)."
+        },
+        {
+          "at": "2026-10-12T02:11:28.529Z",
+          "actor": "Codex",
+          "text": "Slice 746 is committed as ee50185b; exact S745 exit report is tracked and its board digest is regression-tested. Starting S747 measurement provenance/history audit only: inspect rendered empty, multi-source, invalid, saved and long-label states. No UI change unless a specific material readability failure is demonstrated. Preserve measurement math, source/confidence identity, correction semantics and history behavior."
+        },
+        {
+          "at": "2026-10-12T02:20:53.590Z",
+          "actor": "Codex",
+          "text": "Slice 747 completed: changed only measurement-history display separators/labels and human-readable UTC time; source data, canonical timestamp, confidence, status, history and measurement logic are unchanged. Five focused field-history app/workflow tests, all 93 view tests, changed-line coverage, production build, and actual/synthetic 1280/320 Chromium checks pass. No overflow, runtime errors or off-origin requests. See E-UIQ06-S747-EXIT and docs/research/uiq06/evidence/S747-measurement-history-pressure.json. UIQ-06 stays In Progress. Next is S748 grade-exception rendered audit; no grade logic changes."
         }
       ],
       "evidenceRefs": [
         "E-UIQ-APPROVAL",
         "E-UIQ06-S745",
-        "E-UIQ06-S746-EXIT"
+        "E-UIQ06-S746-EXIT",
+        "E-UIQ06-S747-EXIT"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29177,6 +29188,15 @@
       "sha256": null,
       "verified": true,
       "note": "S746 makes the board-recorded S745 exit report durable with its exact digest, preserves S745 history, and adds a board regression assertion for evidence integrity. No production code or behavior changes."
+    },
+    {
+      "id": "E-UIQ06-S747-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md",
+      "commit": null,
+      "sha256": "10B08EBAD6364C11F2C47A1430142C4A9D2F8E1730BE31C701D6A53685B650D4",
+      "verified": true,
+      "note": "S747 corrects the measured timestamp/source-detail readability issue only. Measurement data and semantics remain unchanged. Focused UI tests, changed-line coverage, build, real/synthetic responsive Chromium, no-egress and screenshot hashes are recorded in the exit report and machine evidence."
     }
   ]
 }

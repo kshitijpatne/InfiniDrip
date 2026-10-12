@@ -43,8 +43,8 @@ closeout.
 | Admission and board In Progress | Passed | Slice 744 packet/goal/baseline linked by validated commands; board revision 4408 |
 | S745 Nesting readout redesign | Passed | `docs/release/UIQ-06-S745-EXIT.md`; exact fallback, focused state tests, 1280/640/320 rendered/no-egress evidence |
 | S746 S745 report durability correction | Passed | Report is tracked at exact URI; SHA-256 is checked by the board regression suite; 42/42 Control Center tests; S745 history unchanged |
-| S747 measurement provenance/history | In progress | Audit source/confidence/history/failed-save/long labels. Implement only if a specific rendered defect remains |
-| S748 grade exception readability | Pending | Audit draft/review/approved/stale/unavailable, exception reason, target/difference and blocking states; no grade logic changes |
+| S747 measurement provenance/history | Passed | `docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`; UTC/history labels improve scanability only; 5 focused history flows, 93 view tests, changed production lines fully covered, build and 1280/320 rendered/no-egress checks passed |
+| S748 grade exception readability | Next | Audit draft/review/approved/stale/unavailable, exception reason, target/difference and blocking states; no grade logic changes |
 | S749 project/recovery/import/export messages | Pending | Audit saved/unsaved/stale/conflict/recovery/import failure/frozen and historical/current output; no persistence or file behavior changes |
 | Settled release gate | Pending | Full 100% coverage, build/typecheck, focused and operational tests, Electron, browser/no-egress, export identity; no baseline changes |
 | Review/merge/deployment/live verification | Pending | Codex-only final review/merge, Actions deployment, stable URL and live pressure; then board Done with validated evidence at S750–S751 |
@@ -55,7 +55,7 @@ Slice 744 baseline screenshots are accompanied by a detailed source/render
 audit in `docs/research/uiq06/S744-ADMISSION-BASELINE.md`. The clearest defect
 is the unstructured Nesting estimate line. The Check screen is already
 truthful and readable at 1280px; do not restyle it without a concrete failed
-state/viewport. Measurement and project status remain under test at S747/S749;
+state/viewport. Project/recovery status remains under test at S749;
 present features alone are not proof of adequate readability. A no-change
 result is valid only with representative rendered and edge-state evidence, and
 is recorded as such.
@@ -66,6 +66,7 @@ is recorded as such.
 |---|---:|---:|---:|---:|---:|
 | S744 admission/start | 0 | baseline view tests 92/92 | baseline Chromium at 1280px; four screens captured | 0 | 0 |
 | S745 nesting readout | ~5m | 11 flag + 93 view + 15 app subset passed; app subset compared default/one worker | 1280/640/320 + five estimate/input states; 4 screenshots; no page error/egress | 0 | 0 |
+| S747 measurement history | ~20m | 5 name-filtered history flows; 93/93 view; changed lines 100%; build passed | Actual app 1280/320; synthetic valid/invalid/long-label history at 320; visual review, no overflow/error/egress | 0 | 0 |
 
 ## Slice 744 close boundary
 
@@ -98,14 +99,23 @@ no readout overflow, no page errors and no off-origin requests. An unrelated
 combined focused run was interrupted after one worker approached 3.0 GB; see
 the exit report; defaults were not changed. No export baseline moved.
 
-Canonical board remains UIQ-06 In Progress at revision 4414. S746 force-tracked
+At S746 close, canonical board revision 4414 remained UIQ-06 In Progress. S746 force-tracked
 the S745 exit report at its recorded URI, preserved its SHA-256, and added a
 regression assertion that verifies the report contents from the checked-out
 file. Control Center suite passes 42/42 after board evidence/comment replay.
-S745 commit history was not rewritten and no production files changed. S747 is
-the next action: render and pressure-test measurement provenance/history, and
-change UI only if a concrete readability defect is demonstrated. Estimated
-elapsed S745 work was
+S745 commit history was not rewritten and no production files changed. S747
+rendered the measurement capture and history surfaces. The defect and bounded
+display-only fix, edge states, focused test/coverage evidence and responsive
+screenshots are recorded in `docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`
+and `docs/research/uiq06/evidence/S747-measurement-history-pressure.json`.
+S747 used approximately 20 minutes: implementation ~3m, focused tests/build
+~7m, browser/rendered review ~10m; external waits 0m and maintainer decision
+time 0m. Primary usage was 20% used, weekly 27% used, ordinary usage allowed,
+checked 2026-10-12. Slice S747 changes only timestamp formatting and source-detail
+labels; canonical UTC timestamp, measurement/provenance data, math, confidence,
+history and persistence remain unchanged. S748 is the sole next action: audit
+grade-plan exception presentations without touching grade logic. UIQ-06 remains
+active through S751; no merge/deployment yet. Estimated elapsed S745 work was
 approximately 11 minutes: implementation ~5m, focused tests ~3m, browser and
 visual review ~3m; external waits 0, maintainer decisions 0.
 

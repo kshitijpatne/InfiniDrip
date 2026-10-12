@@ -203,8 +203,10 @@ export function fieldHistoryDialogContent(
     `<li><strong>Record ${observation.revision}</strong> · raw “${escapeAttr(observation.rawValue)}” · ` +
     `canonical ${observation.canonicalValue === null ? "unavailable" : `${observation.canonicalValue} ${escapeAttr(observation.unit)}`} · ` +
     `${escapeAttr(provenanceNames[observation.provenance])} · ${escapeAttr(observation.evidenceStatus)} · ` +
-    `${escapeAttr(observation.validationStatus)} · ${observation.recordedAt ? escapeAttr(observation.recordedAt) : "capture/edit time not recorded"}` +
-    `<br>${escapeAttr(observation.sourceLabel)}</li>`).join("");
+    `${escapeAttr(observation.validationStatus)}<br>Recorded (UTC): ${observation.recordedAt
+      ? `<time datetime="${escapeAttr(observation.recordedAt)}">${escapeAttr(observation.recordedAt.replace("T", " ").replace(/\.\d{3}Z$/, " UTC"))}</time>`
+      : "capture/edit time not recorded"}` +
+    `<br>Source detail: ${escapeAttr(observation.sourceLabel)}</li>`).join("");
   return `<h2 id="field-history-title" tabindex="-1">${escapeAttr(definition.label)} — value source and history</h2>` +
     `<p>${escapeAttr(definition.meaning)} ${escapeAttr(definition.captureBoundary)}</p>` +
     `<p>Semantic kind: ${escapeAttr(definition.semanticKind)} · unit: ${escapeAttr(definition.unit)} · ` +

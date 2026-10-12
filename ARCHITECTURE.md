@@ -75,8 +75,11 @@ nesting result, validation, physical-fit claim, control or persisted value
 changes. The embedded `uiq_operational_clarity` flag defaults on after this
 release is accepted; its local off/unknown/stale path retains the exact legacy
 markup and wording. This is a code-default rollback contract, not a remote
-switch. Measurement, grade-exception and project/recovery/import/export screens
-remain audit-gated under `docs/planning/UIQ-06-ADMISSION.md`.
+switch. Slice 747 made one presentation-only correction in measurement history:
+it labels the recorded time as UTC and separates source detail; the original
+canonical timestamp and all provenance, values and persistence remain intact.
+Grade exceptions and project/recovery/import/export screens remain
+audit-gated under `docs/planning/UIQ-06-ADMISSION.md`.
 
 ## How measurements become pattern shapes
 

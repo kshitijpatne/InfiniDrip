@@ -152,8 +152,12 @@ in `docs/planning/UIQ-06-ADMISSION.md`; the live ledger is
 baseline; Slice 745 restructured the Nesting readout without changing any
 estimate or validation logic. Slice 746 tracked the missing S745 exit report
 despite `.gitignore`, preserving its exact board-recorded hash and history.
-Slices 747–749 audit remaining surfaces only where rendered
-edge-state evidence demonstrates a concrete communication defect. Slice 750
+Slice 747 corrected the history timestamp/source-detail presentation only;
+measurement/provenance data, UTC value, persistence and math are unchanged.
+Its responsive real-app and synthetic edge evidence is in
+`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`. S748–749 audit the
+remaining surfaces only where rendered edge-state evidence demonstrates a
+concrete communication defect. Slice 750
 is the settled full-gate/review/PR boundary; Slice 751 owns merge, deployment,
 live verification and validated board closeout. UIQ-07 and later work remain
 Backlog/unadmitted. No database, account, network, garment, physics, export,

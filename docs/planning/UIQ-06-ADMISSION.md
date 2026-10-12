@@ -27,8 +27,8 @@ high-risk behavior is not redesigned merely to fill scope.
   S745 exit report at its board-recorded URI, verify the exact SHA-256, and
   test that board evidence resolves to a tracked file. This corrects an
   accidental ignore rule without rewriting history or changing production.
-  Remaining boundaries: S747 measurement provenance/history; S748 grade-plan
-  exception presentation; S749 project/history/recovery/import/export-scope
+  Remaining boundaries after S747: S748 grade-plan exception presentation;
+  S749 project/history/recovery/import/export-scope
   messages; S750 settled review/full gates/PR; S751 post-merge deployment,
   live verification and board/context closeout. Recheck and reserve each
   number at the boundary. A justified no-change result is recorded with
@@ -63,7 +63,9 @@ The Check view already states “Digital checks pass — physical validation
 pending” and enumerates each check; do not change its verdict or appearance
 unless later pressure evidence demonstrates a specific defect. The
 measurement and Project Manager screens expose the expected features and
-state. They remain audit-gated for S746/S748: keep them unchanged if narrow,
+state. The measurement surface was audited and received the bounded S747
+history-time display correction; project/recovery remains audit-gated for
+S749. Keep those surfaces unchanged if narrow,
 keyboard, long-message, conflict, recovery, and stale-state pressure checks
 show no material readability failure.
 
@@ -161,5 +163,8 @@ Nesting presentation; focused tests and rendered states are in
 `docs/research/uiq06/evidence/S745-rendered-pressure.json`. The report was
 initially omitted from commit `b948c942` because `.gitignore` excludes
 `docs/release/`; S746 force-tracked the exact report and the board regression
-suite confirms its recorded SHA-256 without rewriting history. Then S747 is the
-measurement-provenance/history audit. Do not begin UIQ-07 or any numbered Epic.
+suite confirms its recorded SHA-256 without rewriting history. S747 audited
+measurement provenance/history and corrected only the visible history-time
+separator/label; evidence is in
+`docs/research/uiq06/S747-MEASUREMENT-HISTORY-EXIT.md`. S748 is next for the
+grade-exception presentation audit. Do not begin UIQ-07 or any numbered Epic.
