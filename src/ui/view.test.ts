@@ -1119,6 +1119,21 @@ describe("nestIntelMarkup — planning controls", () => {
     const filled = nestIntelMarkup("10", "150", false);
     expect(filled).toContain('value="150"');
   });
+  it("uses a structured readability layout only when explicitly enabled", () => {
+    const legacy = nestIntelMarkup("10", "", true);
+    const explicitlyDisabled = nestIntelMarkup("10", "", true, false);
+    const clarity = nestIntelMarkup("10", "", true, true);
+    expect(explicitlyDisabled).toBe(legacy);
+    expect(legacy).toContain('<div id="nest-readout" role="status" aria-label="Nesting estimate"');
+    expect(legacy).not.toContain("nest-readout--clarity");
+    expect(clarity).toContain('<section id="nest-readout" class="nest-readout nest-readout--clarity"');
+    expect(clarity).toContain('<div class="nest-readout-facts">');
+    expect(clarity).toContain('id="nest-verdict" class="nest-readout-verdict"');
+    expect(clarity).toContain('id="nest-nap-notice" class="nest-readout-caveat"');
+    for (const id of ["nest-intel-scope", "nest-required", "nest-planned", "nest-waste", "nest-available-state", "nest-verdict", "nest-nap-notice"]) {
+      expect(clarity).toContain(`id="${id}"`);
+    }
+  });
 });
 
 describe("nestIntelReadout — planning lines", () => {

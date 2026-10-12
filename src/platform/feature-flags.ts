@@ -80,6 +80,18 @@ export const FEATURE_FLAGS = Object.freeze({
     onBehavior: "Apply the accepted native artwork presentation styling to the existing local Surface catalog and app-owned controls.",
     offBehavior: "Keep the exact existing local Surface catalog presentation and behavior.",
   } satisfies FeatureFlagDefinition),
+  uiq_operational_clarity: Object.freeze({
+    key: "uiq_operational_clarity",
+    owner: "Codex",
+    audience: "public",
+    defaultValue: true,
+    expiresOn: "2027-01-12",
+    removalRelease: "UIQ-06 operational-clarity cleanup; no later than expiry",
+    rollout: "embedded",
+    fallback: "compatible-v1",
+    onBehavior: "Show the bounded, scannable Nesting operational readout using the existing computed values.",
+    offBehavior: "Keep the exact current Nesting readout markup, wording, and behavior.",
+  } satisfies FeatureFlagDefinition),
   polo_v2: Object.freeze({
     key: "polo_v2",
     owner: "Codex",

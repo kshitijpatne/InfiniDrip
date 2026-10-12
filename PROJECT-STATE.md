@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 admitted (Slice 744 complete; S745 next)
+## Current boundary — UIQ-06 admitted (Slices 744–745 complete; S746 next)
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -19,15 +19,23 @@ remain evidence-gated. No estimate, garment, grading, validation, state,
 persistence, import/export, or baseline changes are authorized. UIQ-07 and
 later work remain unadmitted and untouched.
 
-**Immediate next action: Slice 745**, restructure only the Nesting readout
-presentation using values already produced by the existing readout. Preserve
-its controls, IDs, validation, all known/unknown/invalid/short/unavailable
-states and exact flag-off/unknown/stale fallback. Then perform the focused
-coverage and rendered review before marking the boundary complete. Canonical
-board admission and protection-surface correction are recorded at revision
-4408 through the validated command layer. Recheck current branch, board, slice
-history and usage before the next boundary. The durable goal remains active
-through full review, merge, deployment, live verification and board closeout.
+Slices 744–745 are committed on `codex/uiq06-admission`; S745 keeps controls,
+IDs, estimates, validation and exact flag-off fallback, and separates estimate
+facts, fit verdict and directional caveat. Focused feature-flag/view tests and
+all 15 nesting app tests passed; rendered pressure checks at 1280/640/320 and
+fit/short/unknown/invalid states had no app errors or off-origin requests. The
+full machine evidence and screenshots are in `docs/research/uiq06/evidence/`.
+The focused Control Center suite passes 42/42. Canonical board is at revision
+4409 with UIQ-06 In Progress. No export baseline moved.
+
+**Immediate next action: Slice 746**, audit existing measurement source,
+confidence, history and capture messages in rendered empty, multi-source,
+invalid, saved and long-label states. Record a keep/change decision; do not
+change measurement math, source identity, correction semantics or history
+behavior. If no material readability failure is demonstrated, make no UI
+change and close the slice with evidence. Recheck branch, current `origin/main`,
+board, unique slice history and usage first. UIQ-07 and all later packages
+remain unadmitted.
 
 ## Previous boundary — UIQ-05 complete (Slices 741–743)
 

@@ -40,8 +40,8 @@ closeout.
 | UIQ-06 dependency | Passed | UIQ-GATE Done; UIQ-06 is next ordered row; maintainer's “proceed with next goal” admits this package |
 | Real rendered baseline | Passed | `docs/research/uiq06/evidence/S744-*-baseline.png`; nesting values merge into a 12px line; Check calls out physical validation; measurement and project management functions are present |
 | Admission and board In Progress | Passed | Slice 744 packet/goal/baseline linked by validated commands; board revision 4408 |
-| S745 Nesting readout redesign | In progress | Focused 100% coverage; all numeric/state edges; rendered estimate/fit/direction hierarchy and exact legacy fallback |
-| S746 measurement provenance/history | Pending | Audit source/confidence/history/failed-save/long labels. Implement only if a specific rendered defect remains |
+| S745 Nesting readout redesign | Passed | `docs/release/UIQ-06-S745-EXIT.md`; exact fallback, focused state tests, 1280/640/320 rendered/no-egress evidence |
+| S746 measurement provenance/history | In progress | Audit source/confidence/history/failed-save/long labels. Implement only if a specific rendered defect remains |
 | S747 grade exception readability | Pending | Audit draft/review/approved/stale/unavailable, exception reason, target/difference and blocking states; no grade logic changes |
 | S748 project/recovery/import/export messages | Pending | Audit saved/unsaved/stale/conflict/recovery/import failure/frozen and historical/current output; no persistence or file behavior changes |
 | Settled release gate | Pending | Full 100% coverage, build/typecheck, focused and operational tests, Electron, browser/no-egress, export identity; no baseline changes |
@@ -63,6 +63,7 @@ is recorded as such.
 | Boundary | Implementation | Focused verification | Browser/output review | External waits | Maintainer decisions |
 |---|---:|---:|---:|---:|---:|
 | S744 admission/start | 0 | baseline view tests 92/92 | baseline Chromium at 1280px; four screens captured | 0 | 0 |
+| S745 nesting readout | ~5m | 11 flag + 93 view + 15 app subset passed; app subset compared default/one worker | 1280/640/320 + five estimate/input states; 4 screenshots; no page error/egress | 0 | 0 |
 
 ## Slice 744 close boundary
 
@@ -79,6 +80,28 @@ presentation hierarchy described in the admission, then focused coverage and
 rendered review. Slice 744 elapsed time was approximately 12 minutes from
 goal creation through board/context completion; external waits 0 and
 maintainer decisions 0.
+
+## Slice 745 close boundary
+
+S745 is complete and committed with this record on branch
+`codex/uiq06-admission`; base remains `7923a7f4323d713b069817adfd7626f19c7b48f5`.
+It adds only the structured Nesting readout presentation, the `uiq_operational_clarity`
+embedded flag, and exact off-path fallback. Detailed exit evidence is
+`docs/release/UIQ-06-S745-EXIT.md`; machine evidence and screenshot hashes are
+in `docs/research/uiq06/evidence/S745-rendered-pressure.json`. Focused flag and
+view tests passed 11/11 and 93/93; the app nesting subset passed 15/15 both
+under default and one-worker settings. The browser pressure check passed at
+1280/640/320 with unknown, fit, short, zero-on-hand and invalid-buffer states,
+no readout overflow, no page errors and no off-origin requests. An unrelated
+combined focused run was interrupted after one worker approached 3.0 GB; see
+the exit report; defaults were not changed. No export baseline moved.
+
+Canonical board remains UIQ-06 In Progress at revision 4411, with S745 exit
+evidence and comment applied through the validated command layer. Control
+Center tests passed 42/42 after that replay. Next: begin S746's measurement
+provenance/history audit only. Estimated elapsed S745 work was
+approximately 11 minutes: implementation ~5m, focused tests ~3m, browser and
+visual review ~3m; external waits 0, maintainer decisions 0.
 
 ## Resume and completion contract
 

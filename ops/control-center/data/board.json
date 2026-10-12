@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4408,
-  "updatedAt": "2026-10-12T01:52:04.036Z",
+  "revision": 4411,
+  "updatedAt": "2026-10-12T02:03:17.579Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -14920,10 +14920,21 @@
           "at": "2026-10-12T01:50:29.057Z",
           "actor": "Codex",
           "text": "Slice 744 admitted from clean origin/main 7923a7f. Fresh rendered review confirms the Nesting values/verdict/direction caveat merge into one 12px text run; Check is already explicit about digital-only validation. Measurement provenance and local project/recovery/import/export functions exist and remain separately evidence-gated before any UI change. See docs/planning/UIQ-06-ADMISSION.md, UIQ-06-GOAL.md and docs/research/uiq06/S744-ADMISSION-BASELINE.md. No geometry, estimates, approval logic, persistence or export behavior changes are admitted."
+        },
+        {
+          "at": "2026-10-12T01:53:26.186Z",
+          "actor": "Codex",
+          "text": "Slice 744 is committed as aec58313; admission is In Progress at board revision 4408. Starting S745 only: restructure existing Nesting readout presentation behind uiq_operational_clarity, preserving all computed values, control IDs, validation and exact legacy fallback. No other surface or logic is in scope."
+        },
+        {
+          "at": "2026-10-12T02:03:17.579Z",
+          "actor": "Codex",
+          "text": "Slice 745 is complete and independently verified; UIQ-06 remains In Progress. The structured Nesting estimate now separates scope, computed facts, fit verdict and directional-print caveat behind uiq_operational_clarity. Existing calculations, validation, controls, saved state, exports and byte baselines are unchanged. Focused tests passed; rendered 1280/640/320 and fit/short/unknown/invalid states passed without page errors or off-origin requests. See E-UIQ06-S745 and docs/research/uiq06/evidence/S745-rendered-pressure.json. Next is evidence-only S746 measurement provenance/history review; no change without demonstrated confusion."
         }
       ],
       "evidenceRefs": [
-        "E-UIQ-APPROVAL"
+        "E-UIQ-APPROVAL",
+        "E-UIQ06-S745"
       ],
       "flagKey": "uiq_operational_clarity"
     },
@@ -29137,6 +29148,15 @@
       "sha256": null,
       "verified": true,
       "note": "Slice 742 proves PR #28 merge, successful main deployment 38190492228, stable and immutable Pages URLs at HTTP 200, and public browser pressure acceptance on both URLs at 1280/640/320 with no overflow, off-origin requests or browser errors; actions, keyboard, forced colors and reduced motion passed. S741 full 100% coverage and output identity are linked in its verified evidence."
+    },
+    {
+      "id": "E-UIQ06-S745",
+      "kind": "exit-report",
+      "uri": "docs/release/UIQ-06-S745-EXIT.md",
+      "commit": null,
+      "sha256": "E5E1277AD66DA526D2BA343CE12FEF72DA557A2F48726BCDDB8C8EFCA19A3206",
+      "verified": true,
+      "note": "S745 presentation-only Nesting readout; focused coverage, rendered responsive/edge-state/no-egress evidence and exact flag-off fallback are recorded in the exit report and machine evidence. No estimator, validation, export or baseline changes."
     }
   ]
 }

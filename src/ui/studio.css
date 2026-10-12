@@ -855,6 +855,25 @@ label.pattern-measurement-match {
 .appearance-texture-card:focus-visible { outline: 2px solid #88d7ef; outline-offset: 2px; }
 .appearance-note { margin: 0; color: #6f96ad; font-size: 10px; line-height: 1.35; }
 
+/* UIQ-06: separate computed nesting facts from the decision and its caveat. */
+.nest-readout--clarity {
+  box-sizing: border-box; display: grid; flex: 1 0 100%; gap: 9px;
+  min-width: 0; padding: 12px; border: 1px solid #34506a; border-radius: 8px;
+  background: #101d30; color: #d9e6ef; font-size: 13px; line-height: 1.45;
+}
+.nest-readout-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; }
+.nest-readout-heading strong { font-size: 14px; }
+.nest-readout-heading span { color: #9bb8cc; font-size: 12px; }
+.nest-readout-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; }
+.nest-readout-facts > span { min-width: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.nest-readout-verdict, .nest-readout-caveat { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.nest-readout-verdict { padding: 8px 10px; border-inline-start: 3px solid #88d7ef; background: #14283a; font-weight: 600; }
+.nest-readout-caveat { color: #9bb8cc; font-size: 12px; }
+@media (max-width: 420px) {
+  .nest-readout--clarity { padding: 10px; }
+  .nest-readout-facts { grid-template-columns: minmax(0, 1fr); }
+}
+
 @media (max-width: 700px) {
   #canvas-tools { overflow: visible; }
   #view-toggle-host {

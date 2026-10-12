@@ -103,6 +103,9 @@ test("UIQ integration status follows its release evidence", () => {
   assert.ok(cards[5].description.includes("docs/planning/UIQ-06-ADMISSION.md"));
   assert.ok(cards[5].statusHistory.some((entry) => entry.status === "In Progress"));
   assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 744 admitted")));
+  assert.ok(cards[5].evidenceRefs.includes("E-UIQ06-S745"));
+  assert.ok(board.evidence.some((entry) => entry.id === "E-UIQ06-S745" && entry.verified && entry.uri === "docs/release/UIQ-06-S745-EXIT.md"));
+  assert.ok(cards[5].comments.some((comment) => comment.text.includes("Slice 745 is complete")));
   assert.equal(integrationAdmission?.verified, false);
   assert.equal(integrationAdmission?.uri, "docs/planning/UIQ-02-INTEGRATION-ADMISSION.md");
   assert.ok(cards[1].evidenceRefs.includes(integrationAdmission.id));

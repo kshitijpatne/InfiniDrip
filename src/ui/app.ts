@@ -266,6 +266,8 @@ export interface MountAppOptions {
   readonly uiqMaterialEnabled?: boolean;
   /** Local-only override for deterministic UIQ-05 presentation fallback verification. */
   readonly uiqArtworkEnabled?: boolean;
+  /** Local-only override for deterministic UIQ-06 readout fallback verification. */
+  readonly uiqOperationalClarityEnabled?: boolean;
   /** Injectable only to verify local asset behavior without a real browser DB. */
   readonly artworkAssetStore?: ArtworkAssetStore;
   readonly inspectArtworkFile?: (file: File) => Promise<InspectedArtworkFile>;
@@ -493,6 +495,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const uiqArtworkEnabled = evaluateFeatureFlag(
     "uiq_artwork", new Date(), options.uiqArtworkEnabled,
   ).enabled;
+  const uiqOperationalClarityEnabled = evaluateFeatureFlag(
+    "uiq_operational_clarity", new Date(), options.uiqOperationalClarityEnabled,
+  ).enabled;
   const isCurrentMount = (): boolean => activeMountRoot === root && activeMountGeneration === mountGeneration;
   const projectWorkflow = options.projectWorkflow;
   const saved = projectWorkflow?.snapshot.activeStyle.design ?? loadFromStorage();
@@ -520,7 +525,8 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
   const artworkInspector = options.inspectArtworkFile ?? inspectArtworkFile;
   let appearanceOpen = false;
   root.innerHTML = appShellMarkup(measurements, fabric, recipe.sizes, recipe.fields,
-    initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled);
+    initialWorkspace.stretchFabric, recipe.name, appearance, activeFieldObservations(), uiqMaterialEnabled,
+    uiqOperationalClarityEnabled);
   root.querySelector<HTMLElement>("#export-host")!.append(createDxfInterchangePanel({
     audit: (sourcePackage, returnedDxf) => auditDxfInterchangeRoundTrip(sourcePackage as never, returnedDxf),
     readFile: (file) => file.text(),
@@ -746,7 +752,9 @@ export function mountApp(root: HTMLElement, options: MountAppOptions = {}): void
     const readout = nestIntelReadout(requiredLengthCm, utilization, nestBufferRaw,
       nestAvailableRaw, nestNap, nestScope === "marker" ? "Graded marker" : "Single size");
     const set = (id: string, text: string): void => {
-      root.querySelector<HTMLElement>(`#${id}`)!.textContent = text;
+      root.querySelector<HTMLElement>(`#${id}`)!.textContent = uiqOperationalClarityEnabled
+        ? text.replace(/ · $/, "")
+        : text;
     };
     set("nest-intel-scope", readout.scope);
     set("nest-required", readout.required);

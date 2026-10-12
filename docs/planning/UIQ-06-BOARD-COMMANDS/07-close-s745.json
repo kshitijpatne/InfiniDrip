@@ -1,0 +1,7 @@
+{
+  "type": "addComment",
+  "itemId": "UIQ-06",
+  "actor": "Codex",
+  "text": "Slice 745 is complete and independently verified; UIQ-06 remains In Progress. The structured Nesting estimate now separates scope, computed facts, fit verdict and directional-print caveat behind uiq_operational_clarity. Existing calculations, validation, controls, saved state, exports and byte baselines are unchanged. Focused tests passed; rendered 1280/640/320 and fit/short/unknown/invalid states passed without page errors or off-origin requests. See E-UIQ06-S745 and docs/research/uiq06/evidence/S745-rendered-pressure.json. Next is evidence-only S746 measurement provenance/history review; no change without demonstrated confusion.",
+  "expectedRevision": 4410
+}

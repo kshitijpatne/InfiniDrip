@@ -68,6 +68,16 @@ UIQ-05 is Done at canonical board revision 4404 after the closeout evidence;
 its durable closeout and current-state reconciliation are complete. UIQ-07
 remains Backlog and unadmitted.
 
+UIQ-06 is admitted and in progress. Slice 745 changes only presentation of the
+existing Nesting readout: precomputed scope/required/planned/waste/on-hand
+values are separated from the fit estimate and directional-print caveat. No
+nesting result, validation, physical-fit claim, control or persisted value
+changes. The embedded `uiq_operational_clarity` flag defaults on after this
+release is accepted; its local off/unknown/stale path retains the exact legacy
+markup and wording. This is a code-default rollback contract, not a remote
+switch. Measurement, grade-exception and project/recovery/import/export screens
+remain audit-gated under `docs/planning/UIQ-06-ADMISSION.md`.
+
 ## How measurements become pattern shapes
 
 The current design is the common source for most views, checks, planning tools,
