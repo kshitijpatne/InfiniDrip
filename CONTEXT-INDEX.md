@@ -66,9 +66,20 @@ only through an explicitly admitted, linked Epic packet.
   are in `docs/research/epic18/S765-T01-package-copy-reference-remap/`;
   validated replays are `docs/planning/EPIC-18-S765-START-BOARD-COMMANDS.json`,
   `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json`, and
-  `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. G05-T01 and
-  EPIC-18 remain In Progress at board revision 4551. T01 revision-payload
-  integration is next at S766. UIQ-10 remains a
+  `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. Slice 766 is
+  complete: payload-v2 binds T01 in immutable revision identity while v1
+  parsing/digests remain unchanged, and workflow/package/repository paths
+  enforce head consistency. Its start/exit packets are in
+  `docs/research/epic18/S766-T01-revision-payload/`; validated commands are
+  `docs/planning/EPIC-18-S766-START-T01-BOARD-COMMAND.json`,
+  `docs/planning/EPIC-18-S766-START-EPIC-BOARD-COMMAND.json`,
+  `docs/planning/EPIC-18-S766-EXIT-T01-BOARD-COMMAND.json`, and
+  `docs/planning/EPIC-18-S766-EXIT-EPIC-BOARD-COMMAND.json`. The S766 exit
+  evidence advances the board through revision 4555; a validated G05-T01
+  sequence-description correction at revision 4556 is recorded by
+  `docs/planning/EPIC-18-G05-T01-SEQUENCE-UPDATE-BOARD-COMMAND.json`. G05-T01
+  and EPIC-18 remain In Progress. Slice 767 is the next
+  T01 editing/all-recipe/rendered-proof boundary. UIQ-10 remains a
   linked Backlog child until its bounded S774 admission; UIQ-09 remains blocked
   on EPIC-19.
 - `ARCHITECTURE.md` — newcomer-readable current architecture and standing

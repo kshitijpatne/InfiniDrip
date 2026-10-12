@@ -35,11 +35,14 @@ import {
   openProjectRepository,
 } from "./project-repository";
 import { createFieldObservationRecord, type FieldObservationRecord } from "./field-provenance";
+import { bindTechPackToRevision } from "./tech-pack-records";
 import {
   createFrozenOutputManifest,
   createStyleRevision,
   FROZEN_ARTIFACT_IDS,
+  jcsSha256Hex,
   type FrozenOutputManifestRecord,
+  type LegacyStyleRevisionPayload,
   type StyleRevisionRecord,
 } from "./style-revisions";
 
@@ -224,16 +227,21 @@ async function testRevision(
   revisionNumber = 1,
   parentRevisionId: string | null = null,
   design: StyleRecord["design"] = style.design,
+  createdAt = TIME,
 ): Promise<StyleRevisionRecord> {
+  const techPack = bindTechPackToRevision(style.techPack, revisionId, revisionNumber, createdAt);
+  // Repository fixtures pair each immutable revision with its persisted style snapshot.
+  Object.assign(style, { techPack });
   return createStyleRevision({
     styleId: style.id,
     revisionId,
     parentRevisionId,
     revisionNumber,
-    createdAt: TIME,
+    createdAt,
     design,
     fieldObservations: observations,
     artwork: [],
+    techPack,
   }, webcrypto);
 }
 
@@ -765,6 +773,7 @@ describe("transactional project repository", () => {
       if (!initial) throw new Error("First-run project was not persisted.");
       const initialStyle = initial.styles[0]!;
       const initialObservations = initial.fieldObservations![0]!;
+      const firstTechPack = bindTechPackToRevision(initialStyle.techPack, "11111111-1111-4111-8111-111111111111", 1, TIME);
       const firstRevision = await createStyleRevision({
         styleId: STYLE_ID,
         revisionId: "11111111-1111-4111-8111-111111111111",
@@ -774,8 +783,12 @@ describe("transactional project repository", () => {
         design: initialStyle.design,
         fieldObservations: initialObservations,
         artwork: [],
+        techPack: firstTechPack,
       }, webcrypto);
-      const seededStyle = { ...initialStyle, revision: 2, updatedAt: NEXT_TIME, revisionHeadId: firstRevision.revisionId };
+      const seededStyle = {
+        ...initialStyle, revision: 2, updatedAt: NEXT_TIME, revisionHeadId: firstRevision.revisionId,
+        techPack: firstTechPack,
+      };
       const seededProject = { ...initial.project, revision: 2, updatedAt: NEXT_TIME };
       await repository.saveProjectBundle({
         project: seededProject,
@@ -822,6 +835,7 @@ describe("transactional project repository", () => {
         measurements: { ...currentStyle.design.measurements, chest: currentStyle.design.measurements.chest + 1 },
       };
       const nextObservations = appendedFieldHistory(currentObservations);
+      const secondTechPack = bindTechPackToRevision(currentStyle.techPack, "33333333-3333-4333-8333-333333333333", 2, "2026-09-24T16:00:03.000Z");
       const secondRevision = await createStyleRevision({
         styleId: STYLE_ID,
         revisionId: "33333333-3333-4333-8333-333333333333",
@@ -831,10 +845,11 @@ describe("transactional project repository", () => {
         design: editedDesign,
         fieldObservations: nextObservations,
         artwork: [],
+        techPack: secondTechPack,
       }, webcrypto);
       await repository.saveProjectBundle({
         project: { ...current.project, revision: current.project.revision + 1, updatedAt: "2026-09-24T16:00:03.000Z" },
-        styles: [{ ...currentStyle, revision: currentStyle.revision + 1, updatedAt: "2026-09-24T16:00:03.000Z", design: editedDesign, revisionHeadId: secondRevision.revisionId }],
+        styles: [{ ...currentStyle, revision: currentStyle.revision + 1, updatedAt: "2026-09-24T16:00:03.000Z", design: editedDesign, revisionHeadId: secondRevision.revisionId, techPack: secondTechPack }],
         fieldObservations: [nextObservations],
         styleRevisions: [secondRevision],
         expectedProjectRevision: current.project.revision,
@@ -922,6 +937,255 @@ describe("transactional project repository", () => {
       expect(loaded?.styleRevisions).toEqual([revision]);
       expect(loaded?.exportManifests).toHaveLength(1);
       expect(await loaded?.exportManifests?.[0]?.artifacts[0]?.bytes.text()).toBe("stored:selected-size-a0-pdf");
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("requires one exact v2 child for a T01-only change and rejects an unversioned write atomically", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+      const style = initial.styles[0]!;
+      const observations = initial.fieldObservations![0]!;
+      const firstId = "11111111-1111-4111-8111-111111111111";
+      const first = await testRevision(style, observations, firstId);
+      const firstStyle = { ...style, revision: style.revision + 1, revisionHeadId: firstId, techPack: style.techPack };
+      const firstProject = { ...initial.project, revision: initial.project.revision + 1, updatedAt: NEXT_TIME };
+      await repository.saveProjectBundle({
+        project: firstProject,
+        styles: [firstStyle],
+        fieldObservations: [observations],
+        styleRevisions: [first],
+        expectedProjectRevision: initial.project.revision,
+      });
+
+      const current = await repository.readProjectBundle(PROJECT_ID);
+      if (!current) throw new Error("Seeded project was not readable.");
+      const currentStyle = current.styles[0]!;
+      const currentObservations = current.fieldObservations![0]!;
+      const oldField = currentStyle.techPack.cover.styleCode;
+      const changedField = {
+        ...oldField,
+        value: "TP-001",
+        provenance: "USER_CAPTURED" as const,
+        evidenceStatus: "USER_CONFIRMED" as const,
+        validationStatus: "VALID" as const,
+        method: "entered from an identified source",
+        capturedBy: "fixture maintainer",
+        capturedAt: NEXT_TIME,
+        unresolvedReason: null,
+        nextAction: null,
+      };
+      const changedStyle = {
+        ...currentStyle,
+        revision: currentStyle.revision + 1,
+        updatedAt: "2026-09-24T16:00:02.000Z",
+        techPack: {
+          ...currentStyle.techPack,
+          updatedAt: "2026-09-24T16:00:02.000Z",
+          cover: { ...currentStyle.techPack.cover, styleCode: changedField },
+        },
+      };
+      const secondId = "22222222-2222-4222-8222-222222222222";
+      const second = await testRevision(
+        changedStyle, currentObservations, secondId, 2, firstId, currentStyle.design, changedStyle.updatedAt,
+      );
+      const savedProject = { ...current.project, revision: current.project.revision + 1, updatedAt: changedStyle.updatedAt };
+      await repository.saveProjectBundle({
+        project: savedProject,
+        styles: [{ ...changedStyle, revisionHeadId: secondId, techPack: changedStyle.techPack }],
+        fieldObservations: [currentObservations],
+        styleRevisions: [second],
+        expectedProjectRevision: current.project.revision,
+      });
+
+      const committed = await repository.readProjectBundle(PROJECT_ID);
+      expect(committed?.styleRevisions).toHaveLength(2);
+      expect(committed?.styleRevisions?.[1]?.payload.payloadVersion).toBe(2);
+      expect(committed?.styles[0]?.techPack.cover.styleCode.value).toBe("TP-001");
+      expect(committed?.styles[0]?.revisionHeadId).toBe(secondId);
+
+      const invalidField = { ...changedField, value: "TP-UNVERSIONED" };
+      const unversionedStyle = {
+        ...committed!.styles[0]!,
+        revision: committed!.styles[0]!.revision + 1,
+        techPack: {
+          ...committed!.styles[0]!.techPack,
+          cover: { ...committed!.styles[0]!.techPack.cover, styleCode: invalidField },
+        },
+      };
+      await expect(repository.saveProjectBundle({
+        project: { ...committed!.project, revision: committed!.project.revision + 1, updatedAt: "2026-09-24T16:00:03.000Z" },
+        styles: [unversionedStyle],
+        fieldObservations: committed!.fieldObservations,
+        expectedProjectRevision: committed!.project.revision,
+      })).rejects.toMatchObject({ code: "invalid-data", message: expect.stringContaining("changed saved design or T01 record must append one immutable revision") });
+      const unchangedAfterReject = await repository.readProjectBundle(PROJECT_ID);
+      expect(unchangedAfterReject?.project.revision).toBe(committed!.project.revision);
+      expect(unchangedAfterReject?.styles[0]?.techPack.cover.styleCode.value).toBe("TP-001");
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("rejects a loaded v2 head whose T01 content no longer matches its style row", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+      const style = initial.styles[0]!;
+      const observations = initial.fieldObservations![0]!;
+      const revisionId = "11111111-1111-4111-8111-111111111111";
+      const revision = await testRevision(style, observations, revisionId);
+      await repository.saveProjectBundle({
+        project: { ...initial.project, revision: initial.project.revision + 1, updatedAt: NEXT_TIME },
+        styles: [{ ...style, revision: style.revision + 1, revisionHeadId: revisionId, techPack: style.techPack }],
+        fieldObservations: [observations],
+        styleRevisions: [revision],
+        expectedProjectRevision: initial.project.revision,
+      });
+      const saved = (await repository.readProjectBundle(PROJECT_ID))?.styles[0];
+      if (!saved) throw new Error("Seeded style was not readable.");
+      const styleCode = {
+        ...saved.techPack.cover.styleCode,
+        value: "TAMPERED",
+        provenance: "USER_CAPTURED" as const,
+        evidenceStatus: "USER_CONFIRMED" as const,
+        validationStatus: "VALID" as const,
+        method: "entered from an identified source",
+        capturedBy: "fixture maintainer",
+        capturedAt: NEXT_TIME,
+        unresolvedReason: null,
+        nextAction: null,
+      };
+      const tampered = {
+        ...saved,
+        techPack: { ...saved.techPack, cover: { ...saved.techPack.cover, styleCode } },
+      };
+      const database = (repository as unknown as { readonly database: IDBDatabase }).database;
+      await new Promise<void>((resolve, reject) => {
+        const transaction = database.transaction(PROJECT_STORES.styles, "readwrite");
+        transaction.objectStore(PROJECT_STORES.styles).put(tampered);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error ?? new Error("Style tamper fixture failed."));
+        transaction.onabort = () => reject(transaction.error ?? new Error("Style tamper fixture aborted."));
+      });
+      await expect(repository.loadProject(PROJECT_ID)).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("does not match its immutable revision head"),
+      });
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("rejects a legacy head whose persisted T01 points outside that style history", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+      const style = initial.styles[0]!;
+      const observations = initial.fieldObservations![0]!;
+      const revisionId = "11111111-1111-4111-8111-111111111111";
+      const currentRevision = await testRevision(style, observations, revisionId);
+      if (currentRevision.payload.payloadVersion !== 2) throw new Error("Fixture must begin as v2.");
+      const current = currentRevision.payload;
+      const legacyPayload: LegacyStyleRevisionPayload = {
+        payloadVersion: 1,
+        styleId: current.styleId,
+        revisionId: current.revisionId,
+        parentRevisionId: current.parentRevisionId,
+        revisionNumber: current.revisionNumber,
+        ruleVersions: current.ruleVersions,
+        design: current.design,
+        fieldObservations: current.fieldObservations,
+        artwork: current.artwork,
+      };
+      const legacyRevision: StyleRevisionRecord = {
+        ...currentRevision,
+        revisionContentDigest: await jcsSha256Hex(legacyPayload, webcrypto),
+        payload: legacyPayload,
+      };
+      const foreignPackReference = bindTechPackToRevision(
+        style.techPack, "22222222-2222-4222-8222-222222222222", 1, TIME,
+      );
+      const invalidStyle = { ...style, revisionHeadId: revisionId, techPack: foreignPackReference };
+      const database = (repository as unknown as { readonly database: IDBDatabase }).database;
+      await new Promise<void>((resolve, reject) => {
+        const transaction = database.transaction([PROJECT_STORES.styles, PROJECT_STORES.styleRevisions], "readwrite");
+        transaction.objectStore(PROJECT_STORES.styles).put(invalidStyle);
+        transaction.objectStore(PROJECT_STORES.styleRevisions).put(legacyRevision);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error ?? new Error("Legacy head fixture failed."));
+        transaction.onabort = () => reject(transaction.error ?? new Error("Legacy head fixture aborted."));
+      });
+      await expect(repository.loadProject(PROJECT_ID)).rejects.toMatchObject({
+        code: "invalid-data",
+        message: expect.stringContaining("T01 record references a missing or mismatched style revision"),
+      });
+    } finally {
+      repository.close();
+    }
+  });
+
+  it("rejects a child save when the stored immutable head no longer matches its saved style", async () => {
+    const repository = await openProjectRepository({ name: databaseName(), factory: newFactory(), crypto: webcrypto });
+    try {
+      await repository.initializeFirstRun(PROJECT_ID, STYLE_ID, TIME);
+      const initial = await repository.readProjectBundle(PROJECT_ID);
+      if (!initial) throw new Error("First-run project was not persisted.");
+      const style = initial.styles[0]!;
+      const observations = initial.fieldObservations![0]!;
+      const headId = "11111111-1111-4111-8111-111111111111";
+      const first = await testRevision(style, observations, headId);
+      const storedStyle = { ...style, revision: style.revision + 1, revisionHeadId: headId, techPack: style.techPack };
+      await repository.saveProjectBundle({
+        project: { ...initial.project, revision: initial.project.revision + 1, updatedAt: NEXT_TIME },
+        styles: [storedStyle],
+        fieldObservations: [observations],
+        styleRevisions: [first],
+        expectedProjectRevision: initial.project.revision,
+      });
+
+      const staleHeadDesign = { ...storedStyle.design, fabric: "#234567" };
+      const corruptedHead = await createStyleRevision({
+        styleId: storedStyle.id,
+        revisionId: headId,
+        parentRevisionId: null,
+        revisionNumber: 1,
+        createdAt: TIME,
+        design: staleHeadDesign,
+        fieldObservations: observations,
+        artwork: [],
+        techPack: storedStyle.techPack,
+      }, webcrypto);
+      const database = (repository as unknown as { readonly database: IDBDatabase }).database;
+      await new Promise<void>((resolve, reject) => {
+        const transaction = database.transaction(PROJECT_STORES.styleRevisions, "readwrite");
+        transaction.objectStore(PROJECT_STORES.styleRevisions).put(corruptedHead);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error ?? new Error("Corrupt head fixture failed."));
+        transaction.onabort = () => reject(transaction.error ?? new Error("Corrupt head fixture aborted."));
+      });
+
+      const childId = "33333333-3333-4333-8333-333333333333";
+      const childCandidate = { ...storedStyle, revision: storedStyle.revision + 1, updatedAt: "2026-09-24T16:00:02.000Z" };
+      const child = await testRevision(childCandidate, observations, childId, 2, headId, childCandidate.design, childCandidate.updatedAt);
+      await expect(repository.saveProjectBundle({
+        project: { ...initial.project, revision: initial.project.revision + 2, updatedAt: childCandidate.updatedAt },
+        styles: [{ ...childCandidate, revisionHeadId: childId, techPack: childCandidate.techPack }],
+        fieldObservations: [observations],
+        styleRevisions: [child],
+        expectedProjectRevision: initial.project.revision + 1,
+      })).rejects.toMatchObject({
+        code: "conflict",
+        message: expect.stringContaining("stored style revision head no longer matches"),
+      });
     } finally {
       repository.close();
     }
@@ -2733,6 +2997,7 @@ describe("transactional project repository", () => {
         design: incoming.style.design,
         fieldObservations: fieldHistory(incoming.style),
         artwork: [],
+        techPack: bindTechPackToRevision(incoming.style.techPack, "11111111-1111-4111-8111-111111111111", 1, TIME),
         createdAt: TIME,
       }, webcrypto);
       await rejectionCode(repository.importProjectBundle({
@@ -3995,7 +4260,23 @@ describe("G03 grade-plan persistence", () => {
     const factory = newFactory();
     const legacy = newBundle();
     const observations = fieldHistory(legacy.style);
-    const revision = await testRevision(legacy.style, observations, testUuid(764));
+    const currentRevision = await testRevision(legacy.style, observations, testUuid(764));
+    const legacyPayload: LegacyStyleRevisionPayload = {
+      payloadVersion: 1,
+      styleId: currentRevision.payload.styleId,
+      revisionId: currentRevision.payload.revisionId,
+      parentRevisionId: currentRevision.payload.parentRevisionId,
+      revisionNumber: currentRevision.payload.revisionNumber,
+      ruleVersions: currentRevision.payload.ruleVersions,
+      design: currentRevision.payload.design,
+      fieldObservations: currentRevision.payload.fieldObservations,
+      artwork: currentRevision.payload.artwork,
+    };
+    const revision: StyleRevisionRecord = {
+      ...currentRevision,
+      revisionContentDigest: await jcsSha256Hex(legacyPayload, webcrypto),
+      payload: legacyPayload,
+    };
     const oldStyle: Record<string, unknown> = {
       ...legacy.style,
       schemaVersion: 4,

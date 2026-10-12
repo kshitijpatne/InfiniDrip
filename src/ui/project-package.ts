@@ -19,6 +19,7 @@ import {
 } from "./grade-plan";
 import {
   createStyleRevision,
+  reidentifyStyleRevisionForCopy,
   FROZEN_ARTIFACT_LIMIT,
   FROZEN_ARTIFACT_IDS,
   jcsSha256Hex,
@@ -45,7 +46,7 @@ import {
   type RecoveryRecord,
   type StyleRecord,
 } from "./project-records";
-import type { TechPackRecord } from "./tech-pack-records";
+import { bindTechPackToRevision, techPackRevisionContent, type TechPackRecord } from "./tech-pack-records";
 import {
   type ImportProjectBundleOutcome,
   type ProjectBundleSnapshot,
@@ -324,11 +325,15 @@ async function normalizeSnapshotHistory(
     const style = styles[index]!;
     const history = revisions.filter((revision) => revision.styleId === style.id).sort((a, b) => a.revisionNumber - b.revisionNumber);
     if (history.length > 0) {
-      if (!style.revisionHeadId || history[history.length - 1]?.revisionId !== style.revisionHeadId
+      const head = history[history.length - 1]!;
+      if (!style.revisionHeadId || head.revisionId !== style.revisionHeadId
         || history[0]?.parentRevisionId !== null || history[0]?.revisionNumber !== 1
         || history.some((revision, at) => revision.revisionNumber !== at + 1
           || revision.parentRevisionId !== (at === 0 ? null : history[at - 1]!.revisionId))
-        || canonical(history[history.length - 1]!.payload.design) !== canonical(style.design)) {
+        || canonical(head.payload.design) !== canonical(style.design)
+        || (head.payload.payloadVersion === 2
+          && canonical(techPackRevisionContent(head.payload.techPack))
+            !== canonical(techPackRevisionContent(style.techPack)))) {
         throw new ProjectPackageError("invalid-package", `Style ${style.id} does not point to the latest immutable revision.`);
       }
       continue;
@@ -337,6 +342,7 @@ async function normalizeSnapshotHistory(
       throw new ProjectPackageError("invalid-package", `Style ${style.id} has a revision head but no included history.`);
     }
     const revisionId = uniqueUuid(idFactory, usedIds);
+    const techPack = bindTechPackToRevision(style.techPack, revisionId, 1, style.updatedAt);
     const fieldObservations = observations.get(style.id);
     if (!fieldObservations) throw new ProjectPackageError("invalid-package", `Style ${style.id} has no field-history baseline.`);
     const references = new Set<string>();
@@ -366,8 +372,9 @@ async function normalizeSnapshotHistory(
       design: style.design,
       fieldObservations,
       artwork,
+      techPack,
     }, options.crypto));
-    styles[index] = { ...style, revisionHeadId: revisionId };
+    styles[index] = { ...style, revisionHeadId: revisionId, techPack };
   }
   if (manifests.length > PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS) {
     throw new ProjectPackageError("limit-exceeded", `A package can include at most ${PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS} frozen output captures.`);
@@ -1078,6 +1085,17 @@ function validateManifestShape(value: unknown): ProjectPackageManifest {
       throw new ProjectPackageError("invalid-package", `Style ${style.id} T01 record references a missing or mismatched style revision.`);
     }
   }
+  for (const style of styles) {
+    const history = styleRevisions.filter((revision) => revision.styleId === style.id)
+      .sort((left, right) => left.revisionNumber - right.revisionNumber);
+    const head = history[history.length - 1];
+    if (head?.payload.payloadVersion === 2
+      && (canonical(head.payload.design) !== canonical(style.design)
+        || canonical(techPackRevisionContent(head.payload.techPack))
+          !== canonical(techPackRevisionContent(style.techPack)))) {
+      throw new ProjectPackageError("invalid-package", `Style ${style.id} does not match its payload-v2 revision head.`);
+    }
+  }
   const suppliedManifests = Array.isArray(value.exportManifests) ? value.exportManifests : [];
   const exportManifests: ProjectPackageFrozenManifest[] = value.packageVersion < 3 ? [] : suppliedManifests.map(parsePackageFrozenManifest);
   if (exportManifests.length > PROJECT_PACKAGE_MAX_FROZEN_MANIFESTS) {
@@ -1409,11 +1427,14 @@ async function makeCopy(
     const styleId = styleIds.get(revision.styleId)!;
     const revisionId = revisionIds.get(revision.revisionId)!;
     const parentRevisionId = revision.parentRevisionId === null ? null : revisionIds.get(revision.parentRevisionId)!;
-    styleRevisions.push(await createStyleRevision({
+    const techPack = revision.payload.payloadVersion === 2
+      ? remapTechPackForCopy(revision.payload.techPack, styleId, revisionIds)
+      : undefined;
+    styleRevisions.push(await reidentifyStyleRevisionForCopy({
+      source: revision,
       styleId,
       revisionId,
       parentRevisionId,
-      revisionNumber: revision.revisionNumber,
       createdAt: revision.createdAt,
       design: remapSavedDesign(revision.payload.design, assetMap),
       fieldObservations: remapFieldObservationStyleId(revision.payload.fieldObservations, styleId),
@@ -1421,6 +1442,7 @@ async function makeCopy(
         ...asset,
         assetId: assetMap.get(asset.assetId) ?? asset.assetId,
       })),
+      ...(techPack ? { techPack } : {}),
     }, crypto));
   }
   const revisionById = new Map(styleRevisions.map((revision) => [revision.revisionId, revision]));

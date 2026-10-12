@@ -1,6 +1,6 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 Slice 765 complete; S766 next
+## Current capability boundary — EPIC-18/G05 Slice 766 complete
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
@@ -17,9 +17,13 @@ S765 completed the package-copy correction: field-level
 `inheritedFrom.revisionId` values are remapped when their revisions are in the
 copied package history, while external provenance remains unchanged. Focused
 copy tests cover cover, material, BOM and colorway assignment fields; package
-copy leaves the validated source archive unchanged. T01 revision-payload and
-digest integration is the next action at S766. Historical v1 revision digests
-remain immutable.
+copy leaves the validated source archive unchanged. S766 is complete: new
+immutable style-revision payload v2 digests the complete T01 snapshot while
+strict payload-v1 parsing and historical digests remain unchanged. Workflow,
+package and concurrency-safe repository saves bind authored T01 content to
+the revision head. Scoped approval and its activity timestamp remain a mutable
+review overlay, so review does not rewrite authored revision history. S767 is
+the next boundary for editing, all-recipe propagation and rendered proof.
 G05 covers
 local editable source records, predicted-versus-actual POMs, sourced
 construction facts, generated digital output and immutable local sharing
@@ -36,9 +40,16 @@ exit packets under `docs/research/epic18/S764-T01-persistence-migration/`, and
 the S765 start/exit packet under
 `docs/research/epic18/S765-T01-package-copy-reference-remap/`. Validated S765
 exit replays are linked in `docs/planning/EPIC-18-S765-EXIT-T01-BOARD-COMMAND.json`
-and `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`; board revision
-4551 records G05-T01 and EPIC-18 as In Progress. S766 is the next authorized
-slice.
+and `docs/planning/EPIC-18-S765-EXIT-EPIC-BOARD-COMMAND.json`. The S766 start
+packet is `docs/research/epic18/S766-T01-revision-payload/start-packet.md`;
+its validated start commands are `docs/planning/EPIC-18-S766-START-T01-BOARD-COMMAND.json`
+and `docs/planning/EPIC-18-S766-START-EPIC-BOARD-COMMAND.json`. The S766 exit
+packet is `docs/research/epic18/S766-T01-revision-payload/exit-packet.md` and
+its validated exit commands are `docs/planning/EPIC-18-S766-EXIT-T01-BOARD-COMMAND.json`
+and `docs/planning/EPIC-18-S766-EXIT-EPIC-BOARD-COMMAND.json`. Board revision
+4555 records the S766 exit evidence with G05-T01 and EPIC-18 still In Progress.
+A validated sequence update at revision 4556 corrects the G05-T01 description
+to include its S767 editor boundary.
 
 ## UI roadmap checkpoint — Slice 761
 

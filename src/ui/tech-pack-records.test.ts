@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  bindTechPackToRevision,
   createEmptyTechPackRecord,
   parseTechPackRecord,
   TECH_PACK_MAX_RECORDS,
@@ -40,6 +41,44 @@ describe("empty legacy tech-pack record factory", () => {
     expect(Object.values(record.cover).every((entry) => entry.value === null
       && entry.validationStatus === "INVALID" && entry.unresolvedReason && entry.nextAction)).toBe(true);
     expect(parseTechPackRecord(record)).toEqual({ ok: true, value: record });
+  });
+});
+
+describe("immutable revision binding", () => {
+  it("returns a detached snapshot with the exact revision and a draft approval", () => {
+    const source = createEmptyTechPackRecord(STYLE_ID, "Tee", NOW, NOW);
+    const first = bindTechPackToRevision(source, REVISION_ID, 1, NOW);
+    const reviewed = {
+      ...first,
+      approval: {
+        state: "REVIEW" as const,
+        revisionId: REVISION_ID,
+        scopeFieldIds: [first.cover.styleCode.fieldId],
+        changedBy: "fixture reviewer",
+        changedAt: NOW,
+        manifestId: null,
+      },
+    };
+
+    const next = bindTechPackToRevision(reviewed, "10000000-0000-4000-8000-000000000008", 2, "2026-10-12T20:00:01.000Z");
+
+    expect(next).toMatchObject({
+      styleId: STYLE_ID,
+      recipeId: "Tee",
+      revisionId: "10000000-0000-4000-8000-000000000008",
+      revisionNumber: 2,
+      updatedAt: "2026-10-12T20:00:01.000Z",
+      approval: { state: "DRAFT", revisionId: null, scopeFieldIds: [], changedBy: null, changedAt: null, manifestId: null },
+    });
+    expect(source.revisionId).toBeNull();
+    expect(first.approval.state).toBe("DRAFT");
+    expect(next).not.toBe(reviewed);
+  });
+
+  it("rejects a revision binding that makes the record invalid", () => {
+    const source = createEmptyTechPackRecord(STYLE_ID, "Tee", NOW, NOW);
+    expect(() => bindTechPackToRevision(source, "invalid", 1, NOW))
+      .toThrow("T01 revision snapshot is invalid");
   });
 });
 

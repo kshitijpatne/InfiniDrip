@@ -143,6 +143,12 @@ export interface TechPackRecord {
   readonly approval: TechPackScopedApproval;
 }
 
+/** User review state and its activity timestamp overlay the immutable authored T01 content. */
+export function techPackRevisionContent(record: TechPackRecord): Omit<TechPackRecord, "approval" | "updatedAt"> {
+  const { approval: _approval, updatedAt: _updatedAt, ...content } = record;
+  return content;
+}
+
 /**
  * Creates a style-scoped, fact-free T01 record for a style that has no saved
  * pack yet. The recipe marker explicitly records that this application has no
@@ -205,6 +211,31 @@ export function createEmptyTechPackRecord(
       manifestId: null,
     },
   };
+}
+
+/** Returns a detached T01 snapshot bound to a new immutable style revision. */
+export function bindTechPackToRevision(
+  techPack: TechPackRecord,
+  revisionId: string,
+  revisionNumber: number,
+  updatedAt: string,
+): TechPackRecord {
+  const parsed = parseTechPackRecord({
+    ...techPack,
+    revisionId,
+    revisionNumber,
+    updatedAt,
+    approval: {
+      state: "DRAFT",
+      revisionId: null,
+      scopeFieldIds: [],
+      changedBy: null,
+      changedAt: null,
+      manifestId: null,
+    },
+  });
+  if (!parsed.ok) throw new Error(`T01 revision snapshot is invalid: ${parsed.error}`);
+  return parsed.value;
 }
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

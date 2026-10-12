@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "G05-T01",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "evidence": {
+    "id": "E-G05-S766-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/epic18/S766-T01-revision-payload/exit-packet.md",
+    "sha256": "021993138e45d7e99a74199bfe542acf516462491089895b9f8034615961d4d6",
+    "verified": true,
+    "note": "S766 adds strict payload-v2 T01 snapshots/digests, preserves exact payload-v1 compatibility, and enforces workflow/package/repository head integrity; five changed modules pass 100% four-metric coverage."
+  },
+  "expectedRevision": 4553
+}

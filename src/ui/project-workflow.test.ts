@@ -133,12 +133,81 @@ describe("local project/style workflow", () => {
     expect(saved.activeStyle.techPack).toEqual(originalTechPack);
 
     await workflow.saveActiveDesign({ ...originalDesign, fabric: "#204060" });
-    expect(workflow.snapshot.activeStyle.techPack).toEqual(originalTechPack);
+    const revisedTechPack = workflow.snapshot.activeStyle.techPack;
+    expect({ ...revisedTechPack, revisionId: originalTechPack.revisionId, revisionNumber: originalTechPack.revisionNumber })
+      .toEqual(originalTechPack);
+    expect(revisedTechPack.revisionId).toBe(workflow.snapshot.activeStyle.revisionHeadId);
+    expect(revisedTechPack.revisionNumber).toBe(2);
     const restored = await workflow.restoreStyleRevision(originalHead!);
     expect(restored.activeStyle.design).toEqual(originalDesign);
     expect(restored.styleRevisions).toHaveLength(3);
     expect(restored.styleRevisions[2]?.parentRevisionId).toBe(restored.styleRevisions[1]?.revisionId);
     expect(restored.activeStyle.revisionHeadId).toBe(restored.styleRevisions[2]?.revisionId);
+  });
+
+  it("commits a T01-only edit as one child revision and keeps same-revision review metadata", async () => {
+    const workflow = await open();
+    const initial = workflow.snapshot;
+    const initialStyle = initial.activeStyle;
+    const headId = initialStyle.revisionHeadId!;
+    const styleCode = {
+      ...initialStyle.techPack.cover.styleCode,
+      value: "TP-001",
+      provenance: "USER_CAPTURED" as const,
+      evidenceStatus: "USER_CONFIRMED" as const,
+      validationStatus: "VALID" as const,
+      method: "entered from an identified source",
+      capturedBy: "fixture maintainer",
+      capturedAt: TIME,
+      unresolvedReason: null,
+      nextAction: null,
+    };
+    const reviewedPack = {
+      ...initialStyle.techPack,
+      updatedAt: NEXT_TIME,
+      approval: {
+        state: "REVIEW" as const,
+        revisionId: headId,
+        scopeFieldIds: [styleCode.fieldId],
+        changedBy: "fixture reviewer",
+        changedAt: TIME,
+        manifestId: null,
+      },
+    };
+    const internals = workflow as unknown as { loaded: LoadedProject };
+    internals.loaded = {
+      ...initial,
+      activeStyle: { ...initialStyle, techPack: reviewedPack },
+      styles: initial.styles.map((style) => style.id === initialStyle.id
+        ? { ...style, techPack: reviewedPack }
+        : style),
+    };
+
+    const reviewed = await workflow.saveActiveDesign(initialStyle.design);
+    expect(reviewed.styleRevisions).toHaveLength(1);
+    expect(reviewed.activeStyle.revisionHeadId).toBe(headId);
+    expect(reviewed.activeStyle.techPack.approval).toEqual(reviewedPack.approval);
+    expect(reviewed.activeStyle.techPack.updatedAt).toBe(NEXT_TIME);
+
+    const authoredPack = { ...reviewed.activeStyle.techPack, cover: { ...reviewed.activeStyle.techPack.cover, styleCode } };
+    internals.loaded = {
+      ...reviewed,
+      activeStyle: { ...reviewed.activeStyle, techPack: authoredPack },
+      styles: reviewed.styles.map((style) => style.id === reviewed.activeStyle.id
+        ? { ...style, techPack: authoredPack }
+        : style),
+    };
+    const changed = await workflow.saveActiveDesign(initialStyle.design);
+    const newHead = changed.styleRevisions[1]!;
+    expect(changed.styleRevisions).toHaveLength(2);
+    expect(newHead.parentRevisionId).toBe(headId);
+    expect(newHead.payload.payloadVersion).toBe(2);
+    if (newHead.payload.payloadVersion !== 2) throw new Error("A new T01 revision must use payload v2.");
+    expect(newHead.payload.design).toEqual(initialStyle.design);
+    expect(newHead.payload.techPack.cover.styleCode.value).toBe("TP-001");
+    expect(changed.activeStyle.revisionHeadId).toBe(newHead.revisionId);
+    expect(changed.activeStyle.techPack.revisionId).toBe(newHead.revisionId);
+    expect(changed.activeStyle.techPack.approval.state).toBe("DRAFT");
   });
 
   it("skips an identical field-history event without rewriting its append-only row", async () => {
@@ -665,8 +734,8 @@ describe("local project/style workflow", () => {
         styleId: baseline.id,
         recipeId: "woven-shirt",
         recipeVersion: "unversioned",
-        revisionId: null,
-        revisionNumber: 0,
+        revisionId: changedRecipe.activeStyle.revisionHeadId,
+        revisionNumber: 2,
         approval: { state: "DRAFT", revisionId: null, scopeFieldIds: [] },
       });
       expect(changedRecipe.activeStyle.techPack.cover).toEqual(baseline.techPack.cover);
