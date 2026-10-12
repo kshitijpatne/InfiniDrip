@@ -135,8 +135,9 @@ only through an explicitly admitted, linked Epic packet.
   build/operational/packaged gates, 13 rendered checks); see
   `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
   `docs/research/uiq07-integration/evidence/S755-verification.json`. The
-  canonical board is revision 4459 and the parent remains In Progress/unshipped
-  until merged deployment and validated Slice 756 closeout.
+  canonical board is revision 4464 and UIQ-07 is Done after PR #36, successful
+  deployment run 38259487661, and stable/immutable public-browser verification;
+  see `docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md`.
 - `docs/planning/UIQ-GATE-ADMISSION.md`, `UIQ-GATE-GOAL.md`,
   `UIQ-GATE-BOARD-COMMANDS.json`, and
   `docs/release/UIQ-GATE-S733-EXIT.md` / `UIQ-GATE-S733-VERIFICATION.json` —

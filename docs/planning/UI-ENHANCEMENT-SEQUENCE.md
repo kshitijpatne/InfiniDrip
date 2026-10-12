@@ -202,15 +202,13 @@ local progress, digital-only caveat and UIQ-02 foundation; the candidate
 wordmark is rendered as an H2 under the app's existing page H1. Embedded
 `uiq_welcome` has an exact legacy fallback and no remote switch. No login,
 account/profile, hosted service, database, new route/step/CTA or persistence
-change. Slice 755 is implementation and the settled pre-merge gate; Slice 756
-is post-merge deployment/live verification and validated board/context
-closeout. Slice 755's pre-merge exit is
-`docs/release/UIQ-07-INTEGRATION-S755-EXIT.md`; its digest-bound machine record
-and rendered evidence are under `docs/research/uiq07-integration/evidence/`.
-The full 100% gate passed; PR/merge/deploy and Slice 756 closeout remain. The
-active packet and evidence ledger are
-`docs/planning/UIQ-07-INTEGRATION-ADMISSION.md` and
-`docs/planning/UIQ-07-INTEGRATION-GOAL.md`. UIQ-08+ and BUG-UI-048 remain
-unadmitted and outside this work.
+change. Slice 755 integrated the accepted visual and passed the full 100%
+pre-merge gate. PR #36 merged at `8282ad4c`; workflow `38259487661` deployed
+successfully, and Slice 756 verified both stable and immutable public URLs
+before closing UIQ-07 Done at board revision 4464. The implementation and
+closeout records are `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
+`docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md`, with digest-bound machine
+and rendered evidence under `docs/research/uiq07-integration/evidence/`.
+UIQ-08+ and BUG-UI-048 remain unadmitted and outside this work.
 
 Historical planning boundary: this roadmap/board update began local and uncommitted; its subsequent durability is tracked through the admitted UIQ integration branch, PR and release records below. The original planning task did not directly push to main or deploy.

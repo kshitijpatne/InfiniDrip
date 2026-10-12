@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "expectedRevision": 4461,
+  "itemId": "UIQ-07",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "reason": "Slice 756 post-merge deployment, stable/immutable live verification, and complete durable closeout evidence are attached. Independent acceptance is recorded before closing the UIQ-07 parent.",
+  "evidenceRefs": ["E-UIQ07-S756-PUBLIC", "E-UIQ07-S756-EXIT"]
+}

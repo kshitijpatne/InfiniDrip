@@ -1,0 +1,54 @@
+{
+  "slice": 756,
+  "verifiedAtUtc": "2026-10-12T14:06:28.462Z",
+  "status": "passed",
+  "pullRequest": "https://github.com/kshitijpatne/InfiniDrip/pull/36",
+  "mergeCommit": "8282ad4c687d4daa033a61c66e8ba43c63481acf",
+  "workflow": {
+    "runId": 38259487661,
+    "url": "https://github.com/kshitijpatne/InfiniDrip/actions/runs/38259487661",
+    "conclusion": "success"
+  },
+  "deployments": [
+    {
+      "deployment": "stable",
+      "url": "https://infinidrip-preview.pages.dev",
+      "httpStatus": 200,
+      "title": "InfiniDrip",
+      "h1Count": 1,
+      "entryVisible": true,
+      "wordmarkTag": "H2",
+      "tutorialTitle": "Welcome",
+      "physicalFitCaveat": true,
+      "startLabel": "Start the tour",
+      "skipLabel": "Skip for now",
+      "documentOverflow": false,
+      "startActionWorks": true,
+      "welcomeVisualExitsOnStart": true,
+      "screenshot": "S756-public-stable.png",
+      "externalRequests": [],
+      "pageErrors": [],
+      "consoleErrors": []
+    },
+    {
+      "deployment": "immutable",
+      "url": "https://9269df8c.infinidrip-preview.pages.dev",
+      "httpStatus": 200,
+      "title": "InfiniDrip",
+      "h1Count": 1,
+      "entryVisible": true,
+      "wordmarkTag": "H2",
+      "tutorialTitle": "Welcome",
+      "physicalFitCaveat": true,
+      "startLabel": "Start the tour",
+      "skipLabel": "Skip for now",
+      "documentOverflow": false,
+      "startActionWorks": true,
+      "welcomeVisualExitsOnStart": true,
+      "screenshot": "S756-public-immutable.png",
+      "externalRequests": [],
+      "pageErrors": [],
+      "consoleErrors": []
+    }
+  ]
+}

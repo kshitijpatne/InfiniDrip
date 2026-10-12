@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4460,
+  "itemId": "UIQ-07",
+  "evidence": {
+    "id": "E-UIQ07-S756-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md",
+    "commit": null,
+    "sha256": "c01da80f916a80f960a56baf60d86421be1238aaf94c2141ea608facf1c79559",
+    "verified": true,
+    "note": "Slice 756 closeout: PR #36 merged; successful main deployment and fresh stable/immutable browser verification; reviewer accepted and UIQ-07 closed with no additional app-code changes."
+  }
+}

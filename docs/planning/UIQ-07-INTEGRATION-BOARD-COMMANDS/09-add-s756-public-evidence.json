@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "expectedRevision": 4459,
+  "itemId": "UIQ-07",
+  "evidence": {
+    "id": "E-UIQ07-S756-PUBLIC",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq07-integration/evidence/S756-public-verification.json",
+    "commit": null,
+    "sha256": "1264cf50d004a9a5f66f5becdb1d5d4cbff471b1eeb6cc08d0442eb6aaeb7c1c",
+    "verified": true,
+    "note": "Slice 756 live Chromium proof for stable and immutable production URLs after PR #36 and successful main workflow 38259487661: both HTTP 200, welcome/actions/caveat verified, Start advances, no overflow, errors or off-origin requests."
+  }
+}

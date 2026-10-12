@@ -147,7 +147,10 @@ styling in the actual integrated build: 320px copy bounds, focus visibility,
 forced colors and reduced motion pass. The code flag cannot remotely roll back
 a live deployment. Slice 755 pre-merge acceptance completed on 2026-10-12; see
 `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
-`docs/research/uiq07-integration/evidence/S755-verification.json`. Current next
-action: refresh `origin/main`, recheck ownership and unique slice reservation,
-commit Slice 755 once, open its PR, and complete Codex review. Do not touch
-other UIQ packages or the separately tracked mobile bug.
+`docs/research/uiq07-integration/evidence/S755-verification.json`. Slice 756
+then verified PR #36's successful main deployment and fresh stable/immutable
+public browser behavior, attached hash-bound evidence, and closed UIQ-07 Done
+through the validated board command layer. See
+`docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md` and
+`docs/research/uiq07-integration/evidence/S756-public-verification.json`.
+UIQ-08+ and BUG-UI-048 remain unadmitted. Do not broaden this admission.

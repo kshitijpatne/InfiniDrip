@@ -65,10 +65,14 @@ Backlog; UIQ-04 later completed through Slices 739–740, and UIQ-05 was admitte
 on 2026-10-11 as the next serial integration. S741 merged in PR #28 at
 `7f5e6263`; S742 deployment and stable/immutable live browser checks passed.
 UIQ-05 is Done at canonical board revision 4404 after the closeout evidence;
-its durable closeout and current-state reconciliation are complete. UIQ-07 is
-the next ordered package, separately admitted for integration into the existing
-first-run welcome only; its S755 pre-merge acceptance passed and its PR/deploy
-closeout remains. UIQ-08+ stay unadmitted.
+its durable closeout and current-state reconciliation are complete. UIQ-07 was
+separately admitted for integration into the existing first-run welcome only.
+PR #36 merged Slice 755 at `8282ad4c`; workflow `38259487661` passed and Slice
+756 verified both stable and immutable public deployments with the welcome,
+existing actions and physical-fit caveat present, one H1, functional Start,
+zero overflow/errors/off-origin requests. UIQ-07 is Done at board revision
+4464. See `docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md`. UIQ-08+ stay
+unadmitted.
 
 UIQ-06 is complete through Slice 751 and deployed. Slice 745 changes only presentation of the
 existing Nesting readout: precomputed scope/required/planned/waste/on-hand
@@ -1251,12 +1255,14 @@ separately admitted for current-main integration into only the existing
 first-run tutorial welcome. Its embedded `uiq_welcome` flag preserves the exact
 pre-integration view when disabled; existing tutorial actions, local progress,
 page heading hierarchy, physical-fit caveat and UIQ-02 foundation remain
-authoritative. It is not a login/account-entry flow. The integration is not
-shipped until its reviewed merge, deployment, live verification and board
-closeout. Slice 755 pre-merge gates passed with 100% global coverage; its exact
-scope and evidence are `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
-`docs/research/uiq07-integration/evidence/S755-verification.json`. Slice 756 is
-still required; see `docs/planning/UIQ-07-INTEGRATION-ADMISSION.md`.
+authoritative. It is not a login/account-entry flow. The integration shipped
+through PR #36 and automatic deployment, with both stable and immutable public
+URLs verified and UIQ-07 closed Done at board revision 4464. Slice 755's exact
+scope and pre-merge evidence are `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md`
+and `docs/research/uiq07-integration/evidence/S755-verification.json`; Slice
+756's deployment, live-browser and board proof are in
+`docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md` and
+`docs/research/uiq07-integration/evidence/S756-public-verification.json`.
 
 ## Where to find current project information
 
