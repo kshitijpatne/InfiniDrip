@@ -1,4 +1,4 @@
-## Current boundary — UIQ-06 release live; S752 final reconciliation in progress
+## Current boundary — UIQ-06 complete; Slice 753 final durable record
 
 On 2026-10-12, after UIQ-05 completed through Slice 743 and PR #30 merged at
 `origin/main` `7923a7f4323d713b069817adfd7626f19c7b48f5`, the maintainer said
@@ -85,31 +85,31 @@ desktop/tablet/narrow rendered, accessibility, keyboard and no-egress checks.
 The UIQ-06 live smoke confirmed the Nesting readout and local-project messaging.
 Final report and machine evidence are in
 `docs/research/uiq06/S751-MERGE-DEPLOYMENT-EXIT.md` and
-`docs/research/uiq06/evidence/S751-live/`. The validated closeout branch board
-revision 4445 records UIQ-06 Done with S750–S752 evidence. PR #32 merged to
-`origin/main` at `34a2592a55ba79d589ab8a5eaf63d9f770a4ed4d`; main Pages run
-`38203805432` passed full tests, build, deterministic artifact checks and
-deployment. Cloudflare uploaded zero changed files. Stable
+`docs/research/uiq06/evidence/S751-live/`.
+The canonical board is revision 4448: UIQ-06 remains Done with S750–S753
+digest-bound evidence. PR #32 merged at `34a2592a`; run `38203805432` passed
+tests/build/artifact/deploy. PR #33 merged as
+`c8f39c7650880cdd3eb6f7a5ec0990c09b2700b0`; main run `38205969649` passed full
+tests, production build, deterministic artifact checks and Pages deploy in
+6m44s. Cloudflare uploaded zero changed files. Stable
 `https://infinidrip-preview.pages.dev` and immutable
-`https://d8c1c03e.infinidrip-preview.pages.dev` both returned HTTP 200 and
-passed the 1280/640/320 live browser/no-egress checks. S752 is reconciling this
-deployment and the durable goal. Its pressure check separately found and
-registered BUG-UI-048: a 7.65625px overlap between “More views” and “Assembled”
-at 320px. This pre-existing UI bug is Backlog-only, has no fix assignment, and
-does not change the deployed app or block UIQ-06. UIQ-07 remains Backlog and
-unadmitted; no further work is admitted. Full history is in
-`docs/planning/UIQ-06-GOAL.md`.
+`https://3e215c02.infinidrip-preview.pages.dev` both returned HTTP 200. S752's
+responsive/keyboard/accessibility/no-egress browser evidence applies to this
+identical bundle. S753 records final evidence; no application source or
+deployment configuration changed in S752/S753.
 
-Slice 752 is on `codex/uiq06-s752-final-reconciliation`, based on clean
-`origin/main` `34a2592a`. It adds no app source or deployment configuration.
-The stable and immutable post-PR-#32 URLs passed the existing 1280/640/320
-browser harness; targeted live bounds confirmed BUG-UI-048 identically on both
-URLs. The issue is documented and evidence-linked to the canonical board as
-Backlog; no fix is authorized. The focused Control Center suite passed 42/42,
-including digest checks for the report and bug reproduction. S752's own PR,
-main workflow and final current-state report remain the next gates. The issue
-title was refined through the validated command layer to identify the exact
-controls; current board revision is 4445.
+Slice 753 is on `codex/uiq06-s753-final-closeout`, based on current
+`origin/main` `c8f39c7650880cdd3eb6f7a5ec0990c09b2700b0`. It only publishes the
+already-verified S752 deployment and UIQ-06 closeout records; no app source or
+deployment behavior changes. The canonical board is revision 4448 and the
+focused Control Center suite passes 42/42. Next: Codex review and merge of the
+S753 record, then verify its main-branch workflow before closing the goal.
+
+Pressure testing separately found BUG-UI-048, a 7.65625px overlap between
+“More views” and “Assembled” at 320px. It is measured and linked to the board as
+Backlog/unassigned with no fix authorization; it does not block UIQ-06. UIQ-07
+remains Backlog/unadmitted; no later package is admitted. Full history is in
+`docs/planning/UIQ-06-GOAL.md`.
 
 ## Previous boundary — UIQ-05 complete (Slices 741–743)
 

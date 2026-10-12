@@ -1,0 +1,13 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ-06",
+  "evidence": {
+    "id": "E-UIQ06-S753-FINAL-CLOSEOUT",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq06/S753-FINAL-CLOSEOUT.md",
+    "sha256": "df09b080b99c640f623fd66addf3916fc11e10301cfc7d3bb78f3144f2da574c",
+    "verified": true,
+    "note": "PR #33 merged at c8f39c76; main workflow 38205969649 passed full tests/build/artifact/deploy. Stable and new immutable Pages URLs returned HTTP 200; deployment uploaded zero files. S752 responsive/no-egress evidence remains applicable to the identical app bundle."
+  },
+  "expectedRevision": 4445
+}
