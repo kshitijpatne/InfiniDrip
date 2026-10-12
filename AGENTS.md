@@ -45,8 +45,11 @@ is authoritative for maintainer decisions that are not derivable from code.
   `e9221ea5033ccfdd91bf1ebb353926f189477d75` on 2026-10-12 at Slice 762;
   admission, ordered Slice 762–780 boundaries, acceptance, non-goals, risks,
   and gates are in `docs/planning/EPIC-18-ADMISSION.md` and
-  `docs/planning/EPIC-18-GOAL.md`. Slice 763 is T01's typed, provenance-aware
-  record contract; do not begin persistence before that contract is frozen.
+  `docs/planning/EPIC-18-GOAL.md`. Slice 763 froze the additive schema-v1 T01
+  typed record, strict parser and C03/C04 provenance rules with 100% focused
+  coverage. Slice 764 is the next authorized boundary: backward-safe local
+  style/project persistence and non-destructive migration. Do not integrate
+  records into revision hashing before Slice 765.
   UIQ-08 is Done through Slice 760 and UIQ-01 is Done as a review-only
   checkpoint through Slice 761. UIQ-09 remains Backlog pending EPIC-19/G06
   admission. UIQ-10 is linked to EPIC-18 but remains Backlog until its bounded

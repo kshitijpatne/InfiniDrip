@@ -1,13 +1,15 @@
 # InfiniDrip architecture guide
 
-## Current capability boundary — EPIC-18/G05 admitted at Slice 762
+## Current capability boundary — EPIC-18/G05 Slice 763 complete
 
 EPIC-17/G04 is closed and its accepted technical-flat/CAD limits remain in
 force. EPIC-18/G05 Living production tech pack is admitted from
-`origin/main` `e9221ea5033ccfdd91bf1ebb353926f189477d75`; Slice 762 reconciles
+`origin/main` `e9221ea5033ccfdd91bf1ebb353926f189477d75`; Slice 762 reconciled
 the project packet and canonical board without changing application behavior.
-Slice 763 begins with the strict typed style/material/provenance record;
-persistence, revision hashing and UI work wait for that contract. G05 covers
+Slice 763 froze the additive schema-v1 style/material/BOM/colorway record and
+strict provenance-aware parser in `src/ui/tech-pack-records.ts`. The parser is
+pure and is not yet integrated into persistence or revision hashing. Slice
+764 covers backward-safe local style/project persistence. G05 covers
 local editable source records, predicted-versus-actual POMs, sourced
 construction facts, generated digital output and immutable local sharing
 across the seven supported recipes. Unknowns remain visible. A frozen local
@@ -16,7 +18,8 @@ factory acceptance. UIQ-10 remains a linked Backlog child until its separate
 bounded admission after T01–T03; UIQ-09/EPIC-19 and all launch, supplier,
 physical and paid-service gates remain outside this admission. Details and the
 current verified checkpoint are in `docs/planning/EPIC-18-ADMISSION.md`,
-`docs/planning/EPIC-18-GOAL.md`, and `PROJECT-STATE.md`.
+`docs/planning/EPIC-18-GOAL.md`, `PROJECT-STATE.md`, and the S763 exit packet
+under `docs/research/epic18/S763-T01-record-contract/`.
 
 ## UI roadmap checkpoint — Slice 761
 

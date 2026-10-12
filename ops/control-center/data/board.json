@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "revision": 4538,
-  "updatedAt": "2026-10-12T20:03:41.427Z",
+  "revision": 4542,
+  "updatedAt": "2026-10-12T20:34:51.215Z",
   "generatedFrom": "Codex-authored local Control Center v2 exit state through Slice 186; board.json remains canonical, local browser and CLI writes share one command layer, and launch-backed Epic 12 work remains deferred.",
   "epics": [
     {
@@ -791,7 +791,8 @@
       "description": "Admitted 2026-10-12 at Slice 762 from verified origin/main e9221ea5033ccfdd91bf1ebb353926f189477d75. G05 T01–T05 and linked UIQ-10 work follow docs/planning/EPIC-18-ADMISSION.md and EPIC-18-GOAL.md; Slice 763 begins T01's strict typed record/provenance contract. All local/no-cost, legacy-byte, coverage, physical, supplier and production-claim gates remain explicit.",
       "evidenceRefs": [
         "E-EPIC18-S762-ADMISSION",
-        "E-EPIC18-S762-EXIT"
+        "E-EPIC18-S762-EXIT",
+        "E-G05-S763-EXIT"
       ]
     },
     {
@@ -16513,7 +16514,7 @@
       "title": "G05 T01 — Style and material record",
       "epicId": "EPIC-18",
       "releaseId": null,
-      "status": "Ready",
+      "status": "In Progress",
       "openedAt": "2026-10-12",
       "targetAt": null,
       "deliveredAt": null,
@@ -16558,10 +16559,23 @@
           "role": "maintainer",
           "note": "T01 is admitted and its contract-first Slice 763 gate is ready. Persistence remains held until the strict typed record/provenance model is frozen.",
           "evidenceRefs": []
+        },
+        {
+          "status": "In Progress",
+          "at": "2026-10-12T20:10:54.496Z",
+          "actor": "Maintainer (via Codex)",
+          "role": "maintainer",
+          "note": "Begin the admitted contract-first T01 slice from verified Slice 762; implementation is limited to the typed T01 schema/parser and focused tests.",
+          "evidenceRefs": [
+            "E-G05-S763-START"
+          ]
         }
       ],
       "comments": [],
-      "evidenceRefs": [],
+      "evidenceRefs": [
+        "E-G05-S763-START",
+        "E-G05-S763-EXIT"
+      ],
       "flagKey": null
     },
     {
@@ -30541,6 +30555,24 @@
       "sha256": "b06bd9cc8f46535ea4dd01a3c2a605051be456198cd96f0239b36deeb57d27e5",
       "verified": true,
       "note": "Slice 762 exit: EPIC-18/G05 admission, next-goal decision, board state and project context were reconciled; 42/42 focused Control Center checks pass. No product behavior changed."
+    },
+    {
+      "id": "E-G05-S763-START",
+      "kind": "document",
+      "uri": "docs/research/epic18/S763-T01-record-contract/start-packet.md",
+      "commit": null,
+      "sha256": "649def26fe64ad38044c39385ee464d20c1da1c7cec8a1585f330fed31aa4c44",
+      "verified": true,
+      "note": "Slice 763 T01 strict typed record/provenance contract start packet; persistence, revision integration and UI remain out of scope."
+    },
+    {
+      "id": "E-G05-S763-EXIT",
+      "kind": "exit-report",
+      "uri": "docs/research/epic18/S763-T01-record-contract/exit-packet.md",
+      "commit": null,
+      "sha256": "72e005cae03220da0e0050ce1951e4c1d06e340424c0420c812c1efeed2ae5e6",
+      "verified": true,
+      "note": "Slice 763 freezes the T01 schema-v1 record and parser; 137 focused tests pass with 100% statement, branch, function and line coverage, and TypeScript typecheck passes."
     }
   ]
 }
