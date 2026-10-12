@@ -1,0 +1,28 @@
+{
+  "slice": 758,
+  "pullRequest": "https://github.com/kshitijpatne/InfiniDrip/pull/38",
+  "mergeCommit": "77330885412a5e3a5a85c7d7c4d0f3ac9509868c",
+  "workflow": {
+    "id": "38270483820",
+    "url": "https://github.com/kshitijpatne/InfiniDrip/actions/runs/38270483820",
+    "name": "Deploy web preview to Cloudflare Pages",
+    "conclusion": "success",
+    "steps": ["full test suite", "production build", "deterministic web artifact verification", "Cloudflare Pages deploy"]
+  },
+  "verifiedAt": "2026-10-12T15:35:00Z",
+  "stableUrl": {
+    "url": "https://infinidrip-preview.pages.dev",
+    "status": 200,
+    "assets": {
+      "/assets/index-BYhhnKjO.js": {
+        "sha256": "52549576cc2ae8c775e95088392224ee13eae456995d09ef73b2e5195249ae4e",
+        "candidateLeak": false
+      },
+      "/assets/index-7fWzbHIR.css": {
+        "sha256": "752fb53ef255be0c14950286850e3a542f2f51958c5b7df2ce7803ba0c2e642c",
+        "candidateLeak": false
+      }
+    }
+  },
+  "conclusion": "The candidate-only PR was merged and triggered the normal automatic Pages workflow. The stable URL returned HTTP 200 and both production asset names and SHA-256 hashes exactly match the pre-merge build. No inspection-toolbar UI or other app behavior was deployed; app integration remains unadmitted."
+}

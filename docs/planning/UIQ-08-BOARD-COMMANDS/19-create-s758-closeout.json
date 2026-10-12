@@ -1,0 +1,31 @@
+{
+  "type": "createItem",
+  "actor": "Codex",
+  "role": "maintainer",
+  "reason": "Assign Slice 758 to close out the already merged isolated candidate by checking its automatic public deployment and proving no app assets changed.",
+  "expectedRevision": 4482,
+  "workItem": {
+    "id": "UIQ08-S758-CLOSEOUT",
+    "type": "slice",
+    "title": "Slice 758: verify candidate-only Pages deployment and closeout",
+    "description": "Post-merge verification for UIQ-08's isolated candidate-only PR #38; no production app integration.",
+    "expectation": "Record that the automatic Pages deployment succeeded and served byte-identical production JS/CSS, proving no toolbar feature reached users.",
+    "acceptanceCriteria": [
+      "PR #38 merge commit 77330885 is confirmed on origin/main and Pages workflow 38270483820 completes successfully.",
+      "Stable public URL returns HTTP 200 and deployed JS/CSS filenames and SHA-256 hashes equal the pre-merge build.",
+      "Neither deployed asset contains the isolated candidate class; UIQ-08 remains Backlog/unshipped and requires separate maintainer admission for integration.",
+      "Hash-bound closeout evidence is linked through the validated board command layer and durable current-state docs agree."
+    ],
+    "epicId": null,
+    "releaseId": null,
+    "priority": "P2",
+    "risk": "low",
+    "owner": "Codex",
+    "contributor": "Codex",
+    "reviewer": "Codex",
+    "dependencies": ["UIQ08-CANDIDATE"],
+    "protectedSurfaces": ["production UI remains unintegrated", "deployed JS/CSS identity", "UIQ-08 parent status and admission boundary"],
+    "targetAt": null,
+    "flagKey": null
+  }
+}

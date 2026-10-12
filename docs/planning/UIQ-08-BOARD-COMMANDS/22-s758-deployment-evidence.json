@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-S758-CLOSEOUT",
+  "actor": "Codex",
+  "expectedRevision": 4485,
+  "evidence": {
+    "id": "E-UIQ08-S758-PUBLIC",
+    "kind": "browser",
+    "uri": "docs/research/uiq08/evidence/S758-public-deployment.json",
+    "commit": null,
+    "sha256": "51232a1ed9e0ad74b7427f4c0776dd887db4c558e57afc95c8408ae99b7cb349",
+    "verified": true,
+    "note": "Successful main workflow 38270483820; stable Pages URL HTTP 200; deployed JS/CSS hashes and asset names match the pre-merge build; no candidate leakage."
+  }
+}

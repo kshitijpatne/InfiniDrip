@@ -22,9 +22,16 @@ during the rerun. The worker override was command-only; repository defaults
 remain intact. Exact hashes and visual decision are in
 `docs/research/uiq08/CODEX-REVIEW.md` and `CANDIDATE-EXIT.json`. Claude CLI was
 not authenticated; Codex owned the bounded candidate. Child `UIQ08-CANDIDATE`
-is Done at board revision 4481; UIQ-08 parent remains Backlog/unshipped. Next:
-request separate maintainer admission before integrating the recommended solid
-control grouping. No merge or deployment occurred.
+is Done at board revision 4488; Slice 758 closeout is Done; UIQ-08 parent
+remains Backlog/unshipped. PR #38
+merged candidate-only commit `77330885412a5e3a5a85c7d7c4d0f3ac9509868c`.
+Automatic Pages workflow `38270483820` passed; the stable public URL returned
+HTTP 200 and production JS/CSS hashes exactly match the pre-merge build, so no
+new toolbar behavior shipped. Slice 758 closeout is
+`docs/release/UIQ-08-S758-CLOSEOUT.md`, with digest-bound evidence in
+`docs/research/uiq08/evidence/S758-public-deployment.json`. Next: request
+separate maintainer admission before integrating the recommended solid control
+grouping.
 
 ## Previous boundary — UIQ-07 complete through Slice 756
 
