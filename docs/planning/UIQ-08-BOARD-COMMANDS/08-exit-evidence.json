@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "expectedRevision": 4471,
+  "evidence": {
+    "id": "E-UIQ08-CANDIDATE-EXIT",
+    "kind": "exit-report",
+    "uri": "docs/research/uiq08/CANDIDATE-EXIT.json",
+    "commit": null,
+    "sha256": "a4a31f82a5265af1ffb39b0e5fe85df6acfcc69d708d301ab5c54cd91c1416c1",
+    "verified": true,
+    "note": "Slice 757 candidate exit: focused coverage 100%, build/typecheck/rendered checks pass; full repo coverage has a diagnosed parallel-worker exception; production integration remains held."
+  }
+}

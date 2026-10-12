@@ -209,6 +209,29 @@ before closing UIQ-07 Done at board revision 4464. The implementation and
 closeout records are `docs/release/UIQ-07-INTEGRATION-S755-EXIT.md` and
 `docs/release/UIQ-07-INTEGRATION-S756-CLOSEOUT.md`, with digest-bound machine
 and rendered evidence under `docs/research/uiq07-integration/evidence/`.
-UIQ-08+ and BUG-UI-048 remain unadmitted and outside this work.
+UIQ-08+ and BUG-UI-048 were unadmitted at this closeout boundary. UIQ-08 was
+subsequently admitted on 2026-10-12 as an isolated toolbar candidate only; its
+production integration remains unadmitted. See
+`docs/planning/UIQ-08-ADMISSION.md` and `docs/planning/UIQ-08-GOAL.md`.
+
+### UIQ-08 candidate admission — 2026-10-12
+
+The maintainer authorized the next ordered goal after UIQ-07. UIQ-08 is admitted
+as Slice 757's isolated, unshipped native inspection-toolbar candidate only.
+UIQ-02 and UIQ-GATE are Done. Preserve the existing toolbar's normal-flow
+location, semantics, pointer/keyboard behavior, zoom limits and output; use
+solid high-contrast controls and a fully readable opaque fallback. No overlay,
+page/canvas sampling, production app wiring, feature flag, deployment, or
+change to the UIQ-08 parent status is admitted. Codex owned the candidate and
+review because the planned Claude Code CLI was installed but unauthenticated;
+no alternate model or contributor was substituted. Slice 757's isolated
+candidate passed focused coverage, typecheck, build and 17 browser checks. The
+full two-worker repository coverage gate passed 165 files/2,672 tests with
+100% global coverage; the command-only worker override did not change defaults.
+The visual comparison found no meaningful glass benefit in the real normal-flow
+layout; only solid control grouping is a plausible future integration. The
+candidate child is Done; parent UIQ-08 remains Backlog until separate
+maintainer admission. See `docs/research/uiq08/CODEX-REVIEW.md` and
+`CANDIDATE-EXIT.json`.
 
 Historical planning boundary: this roadmap/board update began local and uncommitted; its subsequent durability is tracked through the admitted UIQ integration branch, PR and release records below. The original planning task did not directly push to main or deploy.

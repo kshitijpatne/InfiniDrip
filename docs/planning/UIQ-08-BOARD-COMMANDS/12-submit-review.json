@@ -1,0 +1,9 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-CANDIDATE",
+  "status": "Review",
+  "actor": "Codex",
+  "role": "contributor",
+  "expectedRevision": 4475,
+  "reason": "Slice 757 implementation and evidence are complete; submitting the isolated candidate for independent acceptance."
+}

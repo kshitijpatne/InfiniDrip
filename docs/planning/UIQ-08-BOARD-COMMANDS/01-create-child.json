@@ -1,0 +1,39 @@
+{
+  "type": "createItem",
+  "actor": "Maintainer (via Codex)",
+  "role": "maintainer",
+  "reason": "Maintainer said proceed with next goal on 2026-10-12; admits only the isolated UIQ-08 toolbar candidate, not app integration or deployment.",
+  "workItem": {
+    "type": "task",
+    "epicId": null,
+    "releaseId": null,
+    "priority": "P2",
+    "risk": "low",
+    "owner": "Codex",
+    "contributor": "Claude Code",
+    "reviewer": "Codex",
+    "targetAt": null,
+    "dependencies": ["UIQ-08"],
+    "protectedSurfaces": [
+      "production inspection markup and app behavior",
+      "zoom, focus, keyboard, pointer, viewport, scroll and artwork identity",
+      "app entry, feature flags, package/lock/config and release workflows",
+      "local-first/no-cost boundary",
+      "100% changed-code coverage and export byte identity",
+      "accepted UIQ candidate proofs"
+    ],
+    "flagKey": null,
+    "id": "UIQ08-CANDIDATE",
+    "title": "UIQ-08 isolated inspection-toolbar visual candidate",
+    "description": "Slice 757 candidate only: restrained native translucent toolbar surface with solid controls and opaque fallback. Packet: docs/planning/UIQ-08-ADMISSION.md.",
+    "expectation": "An isolated, locally previewable toolbar treatment improves control grouping without changing shipped app behavior or obscuring artwork.",
+    "acceptanceCriteria": [
+      "Candidate source and preview remain unreferenced by production app entry and shipped bundle.",
+      "Native scoped CSS only; opaque readable baseline, solid controls, no external assets, URL, dependency or page/canvas sampling.",
+      "Existing toolbar DOM semantics, control order/actions, zoom limits/Fit behavior, keyboard/pointer interaction, viewport, scroll and artwork identity are preserved.",
+      "Focused component coverage is 100% statements/branches/functions/lines; preview typecheck and production build pass.",
+      "Rendered checks at 320/360/390/480/768/1280/1440 widths cover dense local artwork, contrast, fallback, forced colors, reduced motion and zoom-equivalent reflow with zero overflow/errors/egress.",
+      "Codex independently reviews actual diff and hash-bound evidence; child may close Done, while parent UIQ-08 remains Backlog/unshipped until a separately admitted integration."
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "evidence": {
+    "id": "E-UIQ08-ADMISSION-CODEX-OWNER",
+    "kind": "decision",
+    "uri": "docs/planning/UIQ-08-ADMISSION.md",
+    "commit": null,
+    "sha256": "ee96aaa0b0d32e882dc0ec8034f6af13b9bf062c7acf7b3017329296a7e5195f",
+    "verified": true,
+    "note": "Revised admission: Claude Code CLI is not authenticated, so Codex owns Slice 757; no alternate contributor/model was substituted. Supersedes the earlier admission snapshot E-UIQ08-ADMISSION while preserving its history."
+  }
+}

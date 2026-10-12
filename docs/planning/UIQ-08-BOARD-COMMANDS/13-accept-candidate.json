@@ -1,0 +1,10 @@
+{
+  "type": "updateStatus",
+  "itemId": "UIQ08-CANDIDATE",
+  "status": "Done",
+  "actor": "Codex",
+  "role": "reviewer",
+  "expectedRevision": 4476,
+  "reason": "Accepted as a completed isolated visual candidate with explicit no-translucency integration recommendation; production integration and merge remain held by the separate full-gate/admission requirements.",
+  "evidenceRefs": ["E-UIQ08-CANDIDATE-EXIT", "E-UIQ08-CANDIDATE-BROWSER", "E-UIQ08-CODEX-REVIEW"]
+}

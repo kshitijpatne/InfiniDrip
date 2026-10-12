@@ -1,5 +1,18 @@
 # InfiniDrip architecture guide
 
+## UIQ-08 candidate boundary
+
+The isolated Slice 757 candidate and rendered evidence are complete. Comparison
+shows improved grouping from solid controls, but translucency has no meaningful
+effect because the real toolbar is not layered over artwork. Keep translucency
+out of any future integration absent new evidence. The candidate preview is not
+shipped app behavior. UIQ-08 parent remains Backlog/unshipped until a separately
+admitted integration. The full repository gate passed with 100% global
+coverage using two command-scoped workers after the default parallel run showed
+three contention-sensitive failures. No repository worker setting changed.
+See `docs/planning/UIQ-08-ADMISSION.md`, `docs/planning/UIQ-08-GOAL.md` and
+`docs/research/uiq08/CODEX-REVIEW.md`.
+
 This guide explains how measurements and choices move through InfiniDrip and
 become digital sewing-pattern files. You do not need coding or sewing
 experience to follow it.

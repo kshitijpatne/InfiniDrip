@@ -1,0 +1,15 @@
+{
+  "type": "addEvidence",
+  "itemId": "UIQ08-CANDIDATE",
+  "actor": "Codex",
+  "expectedRevision": 4472,
+  "evidence": {
+    "id": "E-UIQ08-CANDIDATE-BROWSER",
+    "kind": "browser",
+    "uri": "docs/research/uiq08/evidence/browser-report.json",
+    "commit": null,
+    "sha256": "6f2532b7c156e2d947578aa60627a8abff68b5ea5ecf1248b5a7e8a604efb969",
+    "verified": true,
+    "note": "17 local browser checks: seven widths, zoom/pointer/keyboard, artwork and scroll identity, contrast, axe, opaque, forced-colors, reduced-motion and zero egress/errors."
+  }
+}

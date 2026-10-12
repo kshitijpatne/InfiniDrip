@@ -96,6 +96,14 @@ only through an explicitly admitted, linked Epic packet.
 
 ## Planning documents
 
+- `docs/planning/UIQ-08-ADMISSION.md` and `UIQ-08-GOAL.md` — Slice 757 isolated
+  inspection-toolbar candidate complete. Full two-worker repository coverage
+  passed 165 files/2,672 tests at 100%; no repository worker default changed.
+  Codex review recommends solid controls only: translucency has no meaningful
+  effect in the real normal-flow layout. Parent UIQ-08 remains Backlog/unshipped;
+  app integration still requires separate maintainer admission. Review, exit
+  metrics and hash-bound evidence are in `docs/research/uiq08/`.
+
 - `docs/planning/UIQ-CLARITY-ADMISSION.md` — maintainer-admitted 2026-10-02
   UIQ03 guidance and UIQ04 material clarity isolated candidates, frozen read-only
   contracts, two Claude worktrees and exact-model OpenCode independent QA.

@@ -1,4 +1,32 @@
-## Current boundary — UIQ-07 complete through Slice 756
+## Current boundary — UIQ-08 candidate complete; production integration held
+
+On 2026-10-12, after UIQ-07 completed through Slice 756, the maintainer said
+“proceed with next goal.” This admits only the next ordered package, UIQ-08's
+isolated inspection-toolbar candidate. It does not authorize production app
+wiring, a public UI change, or deployment. UIQ-02 and UIQ-GATE prerequisites are
+Done; EPIC-17/G04 is closed on main. The exact target, file ownership, exclusions
+and gates are in `docs/planning/UIQ-08-ADMISSION.md`; the durable task ledger is
+`docs/planning/UIQ-08-GOAL.md`.
+
+Work starts from clean `origin/main` `5c4fa650ea9fc5c6bdb1c70c5c458b7e61081210`
+in isolated worktree `C:\Users\kshit\.codex\worktrees\uiq-next\designApp`,
+branch `codex/uiq08-candidate`; the pre-existing dirty `F:\designApp` checkout
+is preserved. UIQ-08 remains Backlog/unshipped; only a child candidate card may
+advance. Slice 757 is the standalone candidate and review evidence; no
+production feature flag, app mount, export, or baseline change is admitted. The
+candidate passes focused 100% coverage, strict typecheck, build and 17 rendered
+pressure checks. The full two-worker `npm run coverage` rerun passed 165 files /
+2,672 tests and 100% global statement, branch, function and line coverage after
+three contention-sensitive failures in the first default-worker run passed
+during the rerun. The worker override was command-only; repository defaults
+remain intact. Exact hashes and visual decision are in
+`docs/research/uiq08/CODEX-REVIEW.md` and `CANDIDATE-EXIT.json`. Claude CLI was
+not authenticated; Codex owned the bounded candidate. Child `UIQ08-CANDIDATE`
+is Done at board revision 4481; UIQ-08 parent remains Backlog/unshipped. Next:
+request separate maintainer admission before integrating the recommended solid
+control grouping. No merge or deployment occurred.
+
+## Previous boundary — UIQ-07 complete through Slice 756
 
 After UIQ-06 completed and its Slice 754 current-state reconciliation merged to
 `origin/main` `5daa614fa9305be68ddfdd5c8e3f1c2f04a26351`, the maintainer said
